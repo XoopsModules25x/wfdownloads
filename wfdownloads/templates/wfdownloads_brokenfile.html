@@ -1,0 +1,49 @@
+<{include file='db:wfdownloads_header.html'}>
+
+<h4 title="<{$smarty.const._MD_WFDOWNLOADS_TITLE}>"><{$download.title}></h4>
+<div title="<{$smarty.const._MD_WFDOWNLOADS_DESCRIPTION}>">
+    <{$download.description}>
+</div>
+
+<br />
+
+<{if ($brokenreportexists)}>
+<div>
+    <h4><{$smarty.const._MD_WFDOWNLOADS_RESOURCEREPORTED}></h4>
+    <p>
+        <{$smarty.const._MD_WFDOWNLOADS_RESOURCEREPORTED}>
+        <br />
+        <b><{$smarty.const._MD_WFDOWNLOADS_FILETITLE}></b><{$broken.title}>
+        <br />
+        <b><{$smarty.const._MD_WFDOWNLOADS_RESOURCEID}></b><{$broken.id}>
+        <br />
+        <b><{$smarty.const._MD_WFDOWNLOADS_REPORTER}></b> <{$broken.reporter}>
+        <br />
+        <b><{$smarty.const._MD_WFDOWNLOADS_DATEREPORTED}></b> <{$broken.date}>
+        <br />
+        <b><{$smarty.const._MD_WFDOWNLOADS_WEBMASTERACKNOW}></b> <{$broken.acknowledged}>
+        <br />
+        <b><{$smarty.const._MD_WFDOWNLOADS_WEBMASTERCONFIRM}></b> <{$broken.confirmed}>
+    </p>
+</div>
+<{else}>
+<div>
+    <h4><{$smarty.const._MD_WFDOWNLOADS_BROKENREPORT}></h4>
+    <ul>
+        <li><{$smarty.const._MD_WFDOWNLOADS_THANKSFORHELP}></li>
+        <li><{$smarty.const._MD_WFDOWNLOADS_FORSECURITY}></li>
+        <li><{$smarty.const._MD_WFDOWNLOADS_BEFORESUBMIT}></li>
+    </ul>
+    <p>
+        <b><{$smarty.const._MD_WFDOWNLOADS_HOMEPAGEC}></b><{$down.homepage}>
+        <br />
+        <b><{$smarty.const._MD_WFDOWNLOADS_FILETITLE}></b><{$down.title}>
+        <br />
+        <b><{$smarty.const._MD_WFDOWNLOADS_PUBLISHER}>:</b> <{$down.publisher}>
+        <br /><b><{$lang_subdate}>:</b> <{$down.updated}>
+    </p>
+    <{$reportform}>
+</div>
+<{/if}>
+
+<{include file='db:wfdownloads_footer.html'}>

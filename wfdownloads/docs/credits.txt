@@ -1,0 +1,26 @@
+Credits
+===============
+
+Wfdownloads is forked from the original XOOPS MyDownloads module and heavily rewritten with added features.
+
+As of version 3.21, Wfdownloads is maintained by the XOOPS Development Team
+
+Coding:
+ackbarr, catzwolf aka john_n, felix, gladiac, marcan, mercibe, mithrandir, m0nty, nboseret, phppp, smd, Jegelstaff
+
+Gfx:
+Xpider
+
+Testing, documentation & support:
+WF-Projects & The SmartFactory Team: ackbarr, amayer, bender, catzwolf, david, dqflyer, draven, felix, frankblack, gladiac, hervet, marcan, marco, mercibe, m0nty, phppp, predator, rectifier, reliableSol, tom, xpider, xtheme, Jegelstaff
+  Credits for original 'mydownloads':
+
+Original XOOPS Team
+Onokazu, Buennagel, The Wanderer and all the others
+
+We would also like to thank:
+- Kazumi Ono (onokazu) & Goghs Cheng (goghs) for creating Xoops in the first place
+- all the people that contributed to Xoops and its community in any form
+- all people reporting bugs and making suggestions for future versions of this software
+
+Version 3.21 was updated to XOOPS 2.5.0 Standard GUI by Michael Beck (Mamba)

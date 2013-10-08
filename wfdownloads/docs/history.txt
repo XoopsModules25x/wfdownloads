@@ -1,0 +1,115 @@
+Wfdownloads History
+====================
+This page will describe important feature changes based on versions.
+For a complete list of all bugs squashed and every single change please click on changelog.
+
+------------------------
+Version 3.20
+------------------------
+New Disclaimer Template Added
+
+The disclaimer text in the submission & visit/download pages is now templated for easier customisation..
+
+Extended Screenshot Submissions
+------------------------
+
+It is now possible via a select function in the modules preferences to select from 1 - 4 screenshots. This allows webmasters to select how many screenshots can be uploaded per download..
+
+Formulize 2.2 Integration
+------------------------
+
+It is now possible to create custom forms providing that you have the latest version (2.2) of Formulize module installed..
+
+With this new integration with Formulize, there are some UI changes in WFDownloads:
+
+Admin side:
+------------------------
+
+1. On the Categories Tab, the add/modify category form includes an option at the bottom to select a form to use instead of the standard form (the standard form can still be selected).
+Only forms which the user has view_form permission on are included in the list.
+2. On the Files Tab...instead of the form appearing immediately when you click this tab, you must first choose the category you want to submit a file to.
+Then the form appears, either the standard one or a customized one depending on the settings for the category you chose.
+3. Import scripts added to import data from pd-downloads and wmpdownloads aswell as mydownloads.
+
+User side:
+1. When submitting a file, instead of the form appearing immediately when you click Submit, you must first choose the category you want to submit a file to.
+Then the form appears, either the standard one or a customized one depending on the settings for the category you chose.
+2. When viewing a category that has a custom form, the "Price: Free | Platform: None | License: None | Limitations: None" line is turned off.
+3. When viewing all details for a file that has a custom form, the "Price: Free | Platform: None | License: None | Limitations: None" line is turned off, plus all fields from the custom form are displayed.
+4. When using the built in XOOPS search feature, all fields in the custom form are cross-referenced with the search term(s) to determine matches.
+
+RSS Feeds Added
+------------------------
+
+It is now possible to get RSS feeds for latest submissions or category based (depending on permissions)
+
+Usage:
+
+1. For feeds of all latest downloads (if allowed) call wfdownloads/rss.php
+2. For Category based feeds (if allowed) call wfdownloads/rss.php?cid=xx (where xx is the category id)
+
+------------------------
+Version 3.00rc1 & 3.10
+------------------------
+
+Performance and server utilisation improvements
+------------------------
+
+By rewriting a lot of those querries accessing the database the module should now perform significantly faster and cause much less load on your server.
+
+New mirror system
+------------------------
+
+A new way for mirror handling was introduced. Now you can have more than one mirror for every file. The mirrors are listed on a separate page and will if activated show if the server is up.
+It does also allow you to enter additional information for the mirror server like a title and location.
+
+Improved file security
+------------------------
+
+In the past your options to protect your files from being linked to were limited to the referrer check which caused problems for users that disabled referrers in their browser.
+With version 3.10 we introduce a new way of protection against other sites stealing your files. (actually two ways)
+
+1) Files are now stored under a different name internally if you upload them with the module. When sent back to the user the original name will be restored.
+
+The real link is not displayed to the user anywhere.
+
+2) Files can now be stored outside of your website root. So there is no way of pointing to that file from the outside even if anyone would know the filename.
+
+To explain this a bit: Assume this is your server structure:
+- ..
+- example directory
+- htmdocs (containing your Xoops installation)
+  -- uploads (containing your uploads)
+
+Now lets assume your domain www.sitexy.com is pointing to htmdocs. Now the first directory level accessible from the outside is htmdocs where your xoops installation is placed.
+No one is able to access the lower directories which are on the same or lower level as htmdocs. Beginning with version 3.10 you are now able to put Wfdownloads uploads directory anywhere on your server outside of htmdocs.
+Therefore it can only be accessed by the server now. Your folder structure could now look like this:
+- ..
+- example directory
+- htmdocs (containing your Xoops installation)
+- uploads (now outside of your Xoops installation)
+
+Please note that both features (if you are updating from a previous version) will only affect all new files from that moment in time forward. All currently existing files will still remain in the old uploads folder and be handled accordingly.
+
+Change in update routine
+------------------------
+
+Updating the module should now be aesier than in previous versions. Now you just upload the new module version and update the module in the Xoops module management and everything is done. If you want to convert from MyDownloads to Wfdownloads you install the module as usual and then click on Import data in the Wfdownloads admin area.
+
+Removal of some features
+------------------------
+
+In the process of the rewrite some features were removed from the module. This was done either to improve performance or because the features were relying on specific other module versions installed.
+
+Namely removed were: Add Discuss in this Forum? , Create News Story From Download and also file based permissions
+
+Change to only category based permissions
+------------------------
+
+In the past you could set group permissions for categories and then also for files. Now this has been reduced to only category permissions. If you used the file permissions in the past you will have to review your files and make sure the category permissions are set correct to determine access to the people you want. This decision was made mainly for performance reasons but also the fact that file permissions within an existing category based on permissions is somewhat overkill anyway and becomes rather confusing after some time.
+
+Bread crumb system added
+------------------------
+
+Similiar to the other Smart modules the bread crumb system was now added to Wfdownloads. For example if you browse through Wfdownloads you can now see your current path at the top. Example: Wfdownloads > Category 1 > Subcategory 3
+This will allow easier navigation within the module.
