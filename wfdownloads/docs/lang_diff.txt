@@ -1,0 +1,392 @@
+LANGUAGE DIFFERENCES
+=====================
+
+Below are language differences from a version to next version.
+
+Legend :
++ Added
+- Removed
+* Modified
+x renamed
+
+---------------------------------------
+3.23 Beta 1  2013-10-05
+---------------------------------------
+
+x _MD_WFDOWNLOADS__MD_WFDOWNLOADS_FILENOTOPEN
+
+FILE: \wfdownloads\language\english\main.php
+
+renamed:
+
+_MD_WFDOWNLOADS__MD_WFDOWNLOADS_FILENOTOPEN
+
+into:
+
+_MD_WFDOWNLOADS_FILENOTOPEN
+
+
+Orphan Define. Delete if not needed (Cesag).
+
+---------------------------------------
+3.21 Beta 1  2012-07-30
+---------------------------------------
+
+__modinfo.php__
++ _MI_WFDOWNLOADS_DB_IMPORT
++ _MI_WFDOWNLOADS_HELP
+
+Wfdownloads Language Changes
+=================================================================
+v. 3.2.0 RC2      23/04/2007
+=================================================================
+FILE: \wfdownloads\language\english\main.php
+
+Added:
+
+define("_MD_WFDOWNLOADS_FILENOTEXIST", "ERROR: File Does Not Exist or File Not Found!");
+define("_MD_WFDOWNLOADS__MD_WFDOWNLOADS_FILENOTOPEN", "ERROR: Unable To Open File!");
+define("_MD_WFDOWNLOADS_VERSIONTYPES", "Release Status:");
+
+FILE: \wfdownloads\language\english\admin.php
+
+Added:
+define("_AM_WFDOWNLOADS_MOD_VERSIONTYPES", "Release Status: ");
+define("_AM_WFDOWNLOADS_FILE_VERSIONTYPES", "Release Status: ");
+
+=================================================================
+v. 3.2.0 RC1      23/04/2007
+=================================================================
+FILE: \wfdownloads\language\english\modinfo.php
+
+Added:
+define('_MI_WFDOWNLOADS_MAXSHOTS', 'Select Max Number of screenshots:');
+define('_MI_WFDOWNLOADS_MAXSHOTSDSC', 'Sets the maximum number of allowed screenshot uploads.');
+define('_MI_WFDOWNLOADS_ALLOWUPLOADSGROUP','Uploads Submit:');
+define('_MI_WFDOWNLOADS_ALLOWUPLOADSGROUPDSC','Select groups that can upload files.<br />This includes both files & screenshots!');
+define('_MI_WFDOWNLOADS_ENABLERSS','Enable RSS Feeds:');
+define('_MI_WFDOWNLOADS_ENABLERSSDSC','Select yes to enable rss feeds');
+define('_MI_WFDOWNLOADS_CAT_IMGWIDTH', 'Category Image Display Width');
+define('_MI_WFDOWNLOADS_CAT_IMGWIDTHDSC', 'Display width for category image');
+define('_MI_WFDOWNLOADS_CAT_IMGHEIGHT', 'Category Image Display Height');
+define('_MI_WFDOWNLOADS_CAT_IMGHEIGHTDSC', 'Display height for category image');
+define('_MI_WFDOWNLOADS_FILE_FILEMODIFIED_NOTIFY', 'File Modified');
+define('_MI_WFDOWNLOADS_FILE_FILEMODIFIED_NOTIFYCAP', 'Notify me when this file is modified.');
+define('_MI_WFDOWNLOADS_FILE_FILEMODIFIED_NOTIFYDSC', 'Receive notification when this file is modified.');
+define('_MI_WFDOWNLOADS_FILE_FILEMODIFIED_NOTIFYSBJ', '[{X_SITENAME}] {X_MODULE} auto-notify : File Modified');
+define('_MI_WFDOWNLOADS_CATEGORY_FILEMODIFIED_NOTIFY', 'File Modified');
+define('_MI_WFDOWNLOADS_CATEGORY_FILEMODIFIED_NOTIFYCAP', 'Notify me when a file in this category is modified.');
+define('_MI_WFDOWNLOADS_CATEGORY_FILEMODIFIED_NOTIFYDSC', 'Receive notification when a file in this category is modified.');
+define('_MI_WFDOWNLOADS_CATEGORY_FILEMODIFIED_NOTIFYSBJ', '[{X_SITENAME}] {X_MODULE} auto-notify : File Modified');
+define('_MI_WFDOWNLOADS_GLOBAL_FILEMODIFIED_NOTIFY', 'File Modified');
+define('_MI_WFDOWNLOADS_GLOBAL_FILEMODIFIED_NOTIFYCAP', 'Notify me when any file is modified.');
+define('_MI_WFDOWNLOADS_GLOBAL_FILEMODIFIED_NOTIFYDSC', 'Receive notification when any file is modified.');
+define('_MI_WFDOWNLOADS_GLOBAL_FILEMODIFIED_NOTIFYSBJ', '[{X_SITENAME}] {X_MODULE} auto-notify : File Modified');
+
+Changed:
+define("_MI_WFDOWNLOADS_SUBMITARTDSC", "Select groups that can submit new downloads.");
+To: define("_MI_WFDOWNLOADS_SUBMITARTDSC", "Select groups that can submit new downloads.<br />Webmasters are automatically selected!");
+define('_MI_WFDOWNLOADS_ALLOWUPLOADSDSC','Allow Users to upload files directly to your website');
+To: define('_MI_WFDOWNLOADS_ALLOWUPLOADSDSC','Allow Users to upload files directly to your website.<br />This includes both files & screenshots!');
+define("_MI_WFDOWNLOADS_USETHUMBSDSC", "Supported file types: JPG, GIF, PNG.
+Wfdownloads will use thumb nails for images. Set to 'No' to use orginal image if the server does not support this option.
+");
+To: define("_MI_WFDOWNLOADS_USETHUMBSDSC", "Supported file types: JPG, GIF, PNG.
+Wfdownloads will use thumb nails for images (category & screenshots). Set to 'No' to use orginal image if the server does not support this option.
+");
+
+FILE: \wfdownloads\language\english\main.php
+
+Added:
+define("_MD_WFDOWNLOADS_FFS_SUBMITCATEGORYHEAD", "Which Category of file do you want to submit?");
+define("_MD_WFDOWNLOADS_FFS_DOWNLOADDETAILS", "Download details:");
+define("_MD_WFDOWNLOADS_FFS_DOWNLOADCUSTOMDETAILS", "Custom details:");
+define("_MD_WFDOWNLOADS_FFS_BACK", "Back");
+define("_MD_WFDOWNLOADS_FFS_DOWNLOADTITLE", "Submitting a '{category}' file.");
+define("_MD_WFDOWNLOADS_SCREENSHOT2", "Screenshot 2:");
+define("_MD_WFDOWNLOADS_SCREENSHOT3", "Screenshot 3:");
+define("_MD_WFDOWNLOADS_SCREENSHOT4", "Screenshot 4:");
+define("_MD_WFDOWNLOADS_LEGENDTEXTRSS", "RSS Feeds");
+define("_MD_WFDOWNLOADS_LEGENDTEXTCATRSS", "RSS Category Feed");
+define("_MD_WFDOWNLOADS_NEEDLOGINVIEW", "You Need To Login First!");
+define("_MD_WFDOWNLOADS_BYTES", " B");
+define("_MD_WFDOWNLOADS_KILOBYTES", " Kb");
+define("_MD_WFDOWNLOADS_MEGABYTES", " Mb");
+define("_MD_WFDOWNLOADS_GIGABYTES", " Gb");
+define("_MD_WFDOWNLOADS_TERRABYTES", " Tb");
+
+Changed:
+define("_MD_WFDOWNLOADS_SCREENSHOT", "Screenshot:");
+To: define("_MD_WFDOWNLOADS_SCREENSHOT", "Screenshot 1:");
+
+FILE: \wfdownloads\language\english\admin.php
+
+Added:
+define("_AM_WFDOWNLOADS_FFS_SUBMITBROKEN", "Submit");
+define("_AM_WFDOWNLOADS_FFS_STANDARD_FORM", "No, use the standard form");
+define("_AM_WFDOWNLOADS_FFS_CUSTOM_FORM", "Use a custom form for this category?");
+define("_AM_WFDOWNLOADS_FFS_DOWNLOADTITLE", "Submitting a '{category}' file.");
+define("_AM_WFDOWNLOADS_FFS_EDITDOWNLOADTITLE", "Editing a '{category}' file.");
+define("_AM_WFDOWNLOADS_FFS_BACK", "Back");
+define("_AM_WFDOWNLOADS_FFS_RELOAD", "Reload");
+define("_MD_WFDOWNLOADS_CATEGORYC", "Category: "); // _MD to reuse the category form
+define("_MD_WFDOWNLOADS_FFS_SUBMITCATEGORYHEAD", "Which Category of file do you want to submit?");
+define("_MD_WFDOWNLOADS_FFS_DOWNLOADDETAILS", "Download details:");
+define("_MD_WFDOWNLOADS_FFS_DOWNLOADCUSTOMDETAILS", "Custom details:");
+define("_MD_WFDOWNLOADS_FILETITLE", "Download Title: ");
+define("_MD_WFDOWNLOADS_DLURL", "Download URL: ");
+define("_MD_WFDOWNLOADS_UPLOAD_FILEC", "Upload File: ");
+define("_MD_WFDOWNLOADS_DESCRIPTION", "Description");
+define("_AM_WFDOWNLOADS_DOWN_METAVERSION", "<b>Wfdownloads Meta Version:<b> ");
+
+=================================================================
+v. 3.1.0 FINAL      25/05/2006
+=================================================================
+FILE: \wfdownloads\language\english\admin.php
+
+Added:
+define("_AM_WFDOWNLOADS_MOD_FILENAME", "Local Filename: ");
+define("_AM_WFDOWNLOADS_MOD_FILETYPE", "Local Filetype: ");
+define("_AM_WFDOWNLOADS_MOD_STATUS", "Status: ");
+define("_AM_WFDOWNLOADS_MOD_RATING", "Rating: ");
+define("_AM_WFDOWNLOADS_MOD_HITS", "Hits: ");
+define("_AM_WFDOWNLOADS_MOD_VOTES", "Votes: ");
+define("_AM_WFDOWNLOADS_MOD_COMMENTS", "Comments: ");
+define("_AM_WFDOWNLOADS_MOD_PUBLISHED", "Published: ");
+define("_AM_WFDOWNLOADS_MOD_EXPIRED", "Expired: ");
+define("_AM_WFDOWNLOADS_MOD_UPDATED", "Updated: ");
+define("_AM_WFDOWNLOADS_MOD_OFFLINE", "Offline: ");
+define("_AM_WFDOWNLOADS_MOD_REQUESTDATE", "Request Date: ");
+define("_AM_WFDOWNLOADS_MOD_IPADDRESS", "IP Address: ");
+define("_AM_WFDOWNLOADS_MOD_NOTIFYPUB", "Notify: ");
+define("_AM_WFDOWNLOADS_MOD_PAYPALEMAIL", "PayPal Email: ");
+define("_AM_WFDOWNLOADS_MOD_SUMMARY", "Summary: ");
+
+Changed:
+define("_AM_WFDOWNLOADS_MOD_DESCRIPTION", "Software limitations: ");
+To: define("_AM_WFDOWNLOADS_MOD_DESCRIPTION", "Description: ");
+define("_AM_WFDOWNLOADS_MOD_URL", "Download Url: ");
+To: define("_AM_WFDOWNLOADS_MOD_URL", "Remote Url: ");
+define("_AM_WFDOWNLOADS_DBERROR", "Database Access Error: Please report this error to the WFSection Website");
+To: define("_AM_WFDOWNLOADS_DBERROR", "Database Access Error: Please report this error to the SmartFactory Website");
+
+FILE: \wfdownloads\language\english\main.php
+
+Added:
+define("_MD_WFDOWNLOADS_NOTALLOWEDTOMOD","You are not allowed to modify this download");
+
+=================================================================
+v. 3.1.0 RC2      01/05/2006
+=================================================================
+FILE: \wfdownloads\language\english\admin.php
+
+Added:
+define("_AM_WFDOWNLOADS_CCATEGORY_CHILDASPARENT", "You cannot set a child category as the category's parent");
+define("_AM_WFDOWNLOADS_FILE_SUBMITTERID", "Submitter User Id:<br /><br />Leave this as it is, Unless you want to change who submitted the download");
+
+Changed:
+define("_AM_WFDOWNLOADS_FILE_FILENAME", "Local Filename: ");
+To: define("_AM_WFDOWNLOADS_FILE_FILENAME", "Local Filename:<br /><br /><span style='font-weight: normal;'>Note: If using local file as download, then you must also enter the correct filetype below!</span>");
+
+=================================================================
+v. 3.1.0 RC1      08/04/2006
+=================================================================
+FILE: \wfdownloads\language\english\admin.php
+
+Added:
+define("_AM_WFDOWNLOADS_SMIRRORS", "Mirrors: ");
+define("_AM_WFDOWNLOADS_AREVIEWS_APPROVED", "Review has been approved.");
+define("_AM_WFDOWNLOADS_DOWN_NOTSET", "Upload Path Not Set");
+define("_AM_WFDOWNLOADS_DOWN_SERVERPATH", "Server Path to XOOPS Root: ");
+define("_AM_WFDOWNLOADS_DOWN_UPLOADPATH", "Current Upload Path: ");
+define("_AM_WFDOWNLOADS_DOWN_UPLOADPATHDSC", "Note. Upload Path *MUST* contain the full server path of your upload folder.");
+define("_AM_WFDOWNLOADS_REV_REVIEWTITLE", "Review Title");
+define("_AM_WFDOWNLOADS_REVIEW_APPROVETHIS", "Approve Review");
+define("_AM_WFDOWNLOADS_REV_NOPUBLISHEDREVIEWS", "No Published Reviews Found");
+define("_AM_WFDOWNLOADS_REV_REVIEW_TOTAL", "Total Reviews:");
+define("_AM_WFDOWNLOADS_REV_REVIEW_WAITING", "Waiting Reviews");
+define("_AM_WFDOWNLOADS_REV_REVIEW_PUBLISHED", "Published Reviews");
+define("_AM_WFDOWNLOADS_FILE_FILENAME", "Local Filename: ");
+define("_AM_WFDOWNLOADS_FILE_FILETYPE", "File Type: ");
+define("_AM_WFDOWNLOADS_AMIRRORS", "Mirrors Management");
+define("_AM_WFDOWNLOADS_AMIRRORS_WAITING", "Mirrors Waiting Validation:");
+define("_AM_WFDOWNLOADS_AMIRRORS_INFO", "Mirrors Management Information");
+define("_AM_WFDOWNLOADS_AMIRRORS_APPROVE", "<b>Approve</b> new mirror without validation.");
+define("_AM_WFDOWNLOADS_AMIRRORS_EDIT", "<b>Edit</b> new mirror and then approve.");
+define("_AM_WFDOWNLOADS_AMIRRORS_DELETE", "<b>Delete</b> the new mirror information.");
+define("_AM_WFDOWNLOADS_MIRROR_MIRRORTITLE", "Mirror Host");
+define("_AM_WFDOWNLOADS_MIRROR_NOPUBLISHEDMIRRORS", "No Published Mirrors Found");
+define("_AM_WFDOWNLOADS_MIRROR_MIRROR_TOTAL", "Total Mirrors:");
+define("_AM_WFDOWNLOADS_MIRROR_MIRROR_WAITING", "Waiting Mirrors");
+define("_AM_WFDOWNLOADS_MIRROR_MIRROR_PUBLISHED", "Published Mirrors");
+define("_AM_WFDOWNLOADS_MIRROR_SNEWMNAMEDESC", "Approve Mirror: ");
+define("_AM_WFDOWNLOADS_MIRROR_ID", "ID");
+define("_AM_WFDOWNLOADS_MIRROR_TITLE", "Title");
+define("_AM_WFDOWNLOADS_MIRROR_MUSTBEVALID", "Home page logo must be a valid image file under %s directory (ex. shot.gif). Leave it blank if there is no image file.");
+define("_AM_WFDOWNLOADS_MIRROR_POSTER", "Submitter");
+define("_AM_WFDOWNLOADS_MIRROR_SUBMITDATE", "Submitted");
+define("_AM_WFDOWNLOADS_MIRROR_FHOMEURLTITLE", "Home Page Title: ");
+define("_AM_WFDOWNLOADS_MIRROR_FHOMEURL", "Home Page URL: ");
+define("_AM_WFDOWNLOADS_MIRROR_UPLOADIMAGE", "Upload Site Logo:<br /><br />A small logo representing your website.");
+define("_AM_WFDOWNLOADS_MIRROR_MIRRORIMAGE", "Site Logo:");
+define("_AM_WFDOWNLOADS_MIRROR_CONTINENT", "Continent:");
+define("_AM_WFDOWNLOADS_MIRROR_LOCATION", "Location:<br /><br />Example: London, UK");
+define("_AM_WFDOWNLOADS_MIRROR_DOWNURL", "Download URL:<br /><br />Enter the url to the file.");
+define("_AM_WFDOWNLOADS_MIRROR_FAPPROVE", "Mirror Approve: ");
+define("_AM_WFDOWNLOADS_MIRROR_ACTION", "Action");
+define("_AM_WFDOWNLOADS_MIRROR_NOWAITINGMIRRORS", "No Waiting Mirrors Found");
+define("_AM_WFDOWNLOADS_MIRROR_MIRROR_UPDATED", "Selected Mirror Modified and Database Updated Successfully");
+define("_AM_WFDOWNLOADS_MIRROR_APPROVETHIS", "Approve Mirror");
+define("_AM_WFDOWNLOADS_CONT1","Africa");
+define("_AM_WFDOWNLOADS_CONT2","Antarctica");
+define("_AM_WFDOWNLOADS_CONT3","Asia");
+define("_AM_WFDOWNLOADS_CONT4","Europe");
+define("_AM_WFDOWNLOADS_CONT5","North America");
+define("_AM_WFDOWNLOADS_CONT6","South America");
+define("_AM_WFDOWNLOADS_CONT7","Oceania");
+define("_AM_WFDOWNLOADS_HELP","Help");
+
+Changed:
+define("_AM_WFDOWNLOADS_FILE_DLURL", "File URL: ");
+To: define("_AM_WFDOWNLOADS_FILE_DLURL", "Remote URL: ");
+define("_AM_WFDOWNLOADS_DB_CHECKTABLES", "Check tables");
+To: define("_AM_WFDOWNLOADS_DB_IMPORT", "Import");
+
+FILE: \wfdownloads\language\english\main.php
+
+Added:
+define("_MD_WFDOWNLOADS_UPLOADMINPOSTS", "You need to increase you Post Count<br />Before you can Upload Files");
+define("_MD_WFDOWNLOADS_UPLOAD_FILENAME", "Local Filename: ");
+define("_MD_WFDOWNLOADS_UPLOAD_FILETYPE", "File Type: ");
+define("_MD_WFDOWNLOADS_ERROR_CREATEREVIEW", "Error when creating a review");
+define("_MD_WFDOWNLOADS_REVIEW_CATPATH", "Category Path:");
+define("_MD_WFDOWNLOADS_ADDREVIEW", "Add Review");
+define("_MD_WFDOWNLOADS_MIRROR_AVAILABLE", "Mirrors Available:");
+define("_MD_WFDOWNLOADS_MIRROR_CATPATH", "Category Path:");
+define("_MD_WFDOWNLOADS_MIRROR_FILENAME", "Filename:");
+define("_MD_WFDOWNLOADS_DOWNLOADMIRRORS", "Download Mirrors");
+define("_MD_WFDOWNLOADS_MIRROR_NOTALLOWESTOSUBMIT", "You are not allowed to submit mirrors");
+define("_MD_WFDOWNLOADS_MIRRORS", "Download Mirrors:");
+define("_MD_WFDOWNLOADS_USERMIRRORSTITLE", "Available Download Mirrors");
+define("_MD_WFDOWNLOADS_USERMIRRORS", "View Available Download Mirrors on %s");
+define("_MD_WFDOWNLOADS_NOUSERMIRRORS", "Add a new Download Mirror on %s.");
+define("_MD_WFDOWNLOADS_TOTALMIRRORS", "Total Mirrors:");
+define("_MD_WFDOWNLOADS_ADDMIRROR", "Add Mirror");
+define("_MD_WFDOWNLOADS_MIRROR_TOTAL", "<b>Total Mirrors:</b> %s");
+define("_MD_WFDOWNLOADS_MIRROR_HOMEURLTITLE", "Homepage Title:");
+define("_MD_WFDOWNLOADS_MIRROR_HOMEURL", "Homepage URL:<br /><br />Enter your Homepage url.");
+define("_MD_WFDOWNLOADS_MIRROR_UPLOADMIRRORIMAGE", "Upload Site Logo:<br /><br />A small logo representing your website.");
+define("_MD_WFDOWNLOADS_MIRROR_MIRRORIMAGE", "Site Logo:");
+define("_MD_WFDOWNLOADS_MIRROR_CONTINENT", "Continent:");
+define("_MD_WFDOWNLOADS_MIRROR_LOCATION", "Location:<br /><br />Example: London, UK");
+define("_MD_WFDOWNLOADS_MIRROR_DOWNURL", "Download URL:<br /><br />Enter the url to the file.");
+define("_MD_WFDOWNLOADS_MIRROR_SUBMITMIRROR", "Submit Mirror");
+define("_MD_WFDOWNLOADS_ERROR_CREATEMIRROR", "Error when creating mirror");
+define("_MD_WFDOWNLOADS_MIRROR_SNEWMNAMEDESC", "Please completely fill out the form below, and we'll add your mirror as soon as possible.<br /><br /> Thank you for your assistance in providing another location to download these files. We want to give our users a possibility to find quality software faster.<br /><br /> All mirror submissions will be reviewed by one of our webmasters before they are put up on the web site.");
+define("_MD_WFDOWNLOADS_MIRROR_HHOST", "Host");
+define("_MD_WFDOWNLOADS_MIRROR_HLOCATION", "Location");
+define("_MD_WFDOWNLOADS_MIRROR_HCONTINENT", "Continent");
+define("_MD_WFDOWNLOADS_MIRROR_HDOWNLOAD", "Download");
+define("_MD_WFDOWNLOADS_MIRROR_OFFLINE", "Server Host Is Offline.");
+define("_MD_WFDOWNLOADS_MIRROR_ONLINE", "Server Host Is Online.");
+define("_MD_WFDOWNLOADS_MIRROR_DISABLED", "Server Host Check Disabled.");
+define("_MD_WFDOWNLOADS_CONT1","Africa");
+define("_MD_WFDOWNLOADS_CONT2","Antarctica");
+define("_MD_WFDOWNLOADS_CONT3","Asia");
+define("_MD_WFDOWNLOADS_CONT4","Europe");
+define("_MD_WFDOWNLOADS_CONT5","North America");
+define("_MD_WFDOWNLOADS_CONT6","South America");
+define("_MD_WFDOWNLOADS_CONT7","Oceania");
+
+Changed:
+define("_MD_WFDOWNLOADS_MINPOSTS", "You need to increase you Post Count<br />Before you can Upload/Download Files");
+To: define("_MD_WFDOWNLOADS_DOWNLOADMINPOSTS", "You need to increase you Post Count<br />Before you can Download Files");
+define("_MD_WFDOWNLOADS_FILESIZE", "File Size (bytes)");
+To: define("_MD_WFDOWNLOADS_FILESIZE", "File Size");
+define("_MD_WFDOWNLOADS_DLURL", "Download URL: ");
+To: define("_MD_WFDOWNLOADS_DLURL", "Remote URL: ");
+define("_MD_WFDOWNLOADS_FILESIZEC", "File Size (bytes): ");
+To: define("_MD_WFDOWNLOADS_FILESIZEC", "File Size: ");
+
+FILE: \wfdownloads\language\english\modinfo.php
+
+Added:
+define("_MI_WFDOWNLOADS_REVIEWANONPOST","Anonymous User Reviews:");
+define("_MI_WFDOWNLOADS_REVIEWANONPOSTDSC","Allow Anonymous users to submit new Reviews to your website?");
+define("_MI_WFDOWNLOADS_MMIRRORS","Mirrors");
+define("_MI_WFDOWNLOADS_ANONPOST1","None");
+define("_MI_WFDOWNLOADS_ANONPOST2","Download Only");
+define("_MI_WFDOWNLOADS_ANONPOST3","Mirror Only");
+define("_MI_WFDOWNLOADS_ANONPOST4","Both");
+define('_MI_WFDOWNLOADS_AUTOAPPROVE1','None');
+define('_MI_WFDOWNLOADS_AUTOAPPROVE2','Download Only');
+define('_MI_WFDOWNLOADS_AUTOAPPROVE3','Mirror Only');
+define('_MI_WFDOWNLOADS_AUTOAPPROVE4','Both');
+define('_MI_WFDOWNLOADS_REVIEWAPPROVE','Auto Approve Submitted Reviews');
+define('_MI_WFDOWNLOADS_REVIEWAPPROVEDSC','Select to approve submitted reviews without moderation.');
+define('_MI_WFDOWNLOADS_UPLOADDIRDSC','Upload Directory *MUST* be an absolute path!');
+define('_MI_WFDOWNLOADS_ALLOWSUBMISS1','None');
+define('_MI_WFDOWNLOADS_ALLOWSUBMISS2','Download Only');
+define('_MI_WFDOWNLOADS_ALLOWSUBMISS3','Mirror Only');
+define('_MI_WFDOWNLOADS_ALLOWSUBMISS4','Both');
+define('_MI_WFDOWNLOADS_MIRROR_USEIMAGES', 'Display Mirror Logos?'); // not implemented yet
+define('_MI_WFDOWNLOADS_MIRROR_USEIMAGESDSC', 'Select yes to display logo for each mirror'); // not implemented yet
+define('_MI_WFDOWNLOADS_MIRROR_IMGWIDTH', 'Logo Display Width'); // not implemented yet
+define('_MI_WFDOWNLOADS_MIRROR_IMGWIDTHDSC', 'Display width for mirror logo'); // not implemented yet
+define('_MI_WFDOWNLOADS_MIRROR_IMGHEIGHT', 'Logo Display Height'); // not implemented yet
+define('_MI_WFDOWNLOADS_MIRROR_IMGHEIGHTDSC', 'Display height for mirror logo'); // not implemented yet
+define('_MI_WFDOWNLOADS_MIRROR_AUTOAPPROVE','Auto Approve Submitted Mirrors');
+define('_MI_WFDOWNLOADS_MIRROR_AUTOAPPROVEDSC','Select to approve submitted mirrors without moderation.');
+define('_MI_WFDOWNLOADS_MIRROR_MAXIMGWIDTH','Upload Logo width'); // not implemented yet
+define('_MI_WFDOWNLOADS_MIRROR_MAXIMGWIDTHDSC','Maximum logo width permitted when uploading logo files'); // not implemented yet
+define('_MI_WFDOWNLOADS_MIRROR_MAXIMGHEIGHT','Upload logo height'); // not implemented yet
+define('_MI_WFDOWNLOADS_MIRROR_MAXIMGHEIGHTDSC','Maximum logo height permitted when uploading logo files'); // not implemented yet
+define('_MI_WFDOWNLOADS_MIRROR_ENABLE','Enable Mirror System');
+define('_MI_WFDOWNLOADS_MIRROR_ENABLEDSC','');
+define('_MI_WFDOWNLOADS_MIRROR_ENABLEONCHK','Enable Server Online Check');
+define('_MI_WFDOWNLOADS_MIRROR_ENABLEONCHKDSC','Enables the host server check for the Mirrors<br />This can slow your page load down if<br />you have many mirrors');
+define('_MI_WFDOWNLOADS_MIRROR_ALLOWSUBMISS','User Mirror Submissions:');
+define('_MI_WFDOWNLOADS_MIRROR_ALLOWSUBMISSDSC','Allow Users to Submit new mirrors');
+define('_MI_WFDOWNLOADS_MIRROR_MIRRORIMAGES','Mirror Logo Upload Directory'); // not implemented yet
+define('_MI_WFDOWNLOADS_MIRROR_MIRRORIMAGESDSC','Mirror Logo Upload Directory'); // not implemented yet
+
+Changed:
+define("_MI_WFDOWNLOADS_ANONPOSTDSC","Allow Anonymous users to submit or upload to your website?");
+To: define("_MI_WFDOWNLOADS_ANONPOSTDSC","Allow Anonymous users to submit new Downloads/Mirrors to your website?");
+define('_MI_WFDOWNLOADS_AUTOAPPROVE','Auto Approve Submitted Downloads');
+To: define('_MI_WFDOWNLOADS_AUTOAPPROVE','Auto Approve Submitted Downloads/Mirrors');
+define('_MI_WFDOWNLOADS_AUTOAPPROVEDSC','Select to approve submitted downloads without moderation.');
+To: define('_MI_WFDOWNLOADS_AUTOAPPROVEDSC','Select to approve submitted downloads/mirrors without moderation.');
+define('_MI_WFDOWNLOADS_DOWNLOADMINPOSTS', "Minimum posts required");
+To: define('_MI_WFDOWNLOADS_DOWNLOADMINPOSTS', "Minimum posts required to download");
+define('_MI_WFDOWNLOADS_DOWNLOADMINPOSTS_DESC', "Enter the minimum number of posts required to upload/download a file");
+To: define('_MI_WFDOWNLOADS_DOWNLOADMINPOSTSDSC', "Enter the minimum number of posts required to download a file");
+define('_MI_WFDOWNLOADS_ALLOWSUBMISSDSC','Allow Users to Submit new downloads');
+To: define('_MI_WFDOWNLOADS_ALLOWSUBMISSDSC','Allow Users to Submit new Downloads/Mirrors');
+define("_MI_WFDOWNLOADS_USETHUMBSDSC", "Supported file types: JPG, GIF, PNG.<div style='padding-top: 8px;'>WF-Section will use thumb nails for images. Set to 'No' to use orginal image if the server does not support this option.</div>");
+To: define("_MI_WFDOWNLOADS_USETHUMBSDSC", "Supported file types: JPG, GIF, PNG.lt;div style='padding-top: 8px;'>Wfdownloads will use thumb nails for images. Set to 'No' to use orginal image if the server does not support this option.</div>");
+define("_MI_WFDOWNLOADS_BINDEX","Main Index");
+To: define("_MI_WFDOWNLOADS_BINDEX","Index");
+define("_MI_WFDOWNLOADS_INDEXPAGE","Index Page Management");
+To: define("_MI_WFDOWNLOADS_INDEXPAGE","Index Management");
+define("_MI_WFDOWNLOADS_MCATEGORY","Category Management");
+To: define("_MI_WFDOWNLOADS_MCATEGORY","Categories");
+define("_MI_WFDOWNLOADS_MDOWNLOADS","File Management");
+To: define("_MI_WFDOWNLOADS_MDOWNLOADS","Files");
+define("_MI_WFDOWNLOADS_MMIMETYPES","Mimetypes Management");
+To: define("_MI_WFDOWNLOADS_MMIMETYPES","Mimetypes");
+define("_MI_WFDOWNLOADS_PERMISSIONS","Permission Settings");
+To: define("_MI_WFDOWNLOADS_PERMISSIONS","Permissions");
+define('_MI_WFDOWNLOADS_MODULE_MAILLIST', "WF-Section Mailing Lists");
+To: define('_MI_WFDOWNLOADS_MODULE_MAILLIST', "SmartFactory Mailing Lists");
+define('_MI_WFDOWNLOADS_MODULE_MAILANNOUNCEMENTSDSC', "Get the latest announcements from WF-Section.");
+To: define('_MI_WFDOWNLOADS_MODULE_MAILANNOUNCEMENTSDSC', "Get the latest announcements from SmartFactory.");
+define('_MI_WFDOWNLOADS_WARNINGTEXT', "THE SOFTWARE IS PROVIDED BY WF-SECTIONS \"AS IS\" AND \"WITH ALL FAULTS.\" WF-SECTIONS MAKES NO REPRESENTATIONS OR WARRANTIES OF ANY KIND CONCERNING THE QUALITY, SAFETY OR SUITABILITY OF THE SOFTWARE, EITHER EXPRESS OR IMPLIED, INCLUDING WITHOUT LIMITATION ANY IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, OR NON-INFRINGEMENT. FURTHER, ABLEMEDIA MAKES NO REPRESENTATIONS OR WARRANTIES AS TO THE TRUTH, ACCURACY OR COMPLETENESS OF ANY STATEMENTS, INFORMATION OR MATERIALS CONCERNING THE SOFTWARE THAT IS CONTAINED IN WF-SECTIONS WEBSITE. IN NO EVENT WILL ABLEMEDIA BE LIABLE FOR ANY INDIRECT, PUNITIVE, SPECIAL, INCIDENTAL OR CONSEQUENTIAL DAMAGES HOWEVER THEY MAY ARISE AND EVEN IF WF-SECTIONS HAS BEEN PREVIOUSLY ADVISED OF THE POSSIBILITY OF SUCH DAMAGES..");
+To: define('_MI_WFDOWNLOADS_WARNINGTEXT', "THE SOFTWARE IS PROVIDED BY SMARTFACTORY \"AS IS\" AND \"WITH ALL FAULTS.\" SMARTFACTORY MAKES NO REPRESENTATIONS OR WARRANTIES OF ANY KIND CONCERNING THE QUALITY, SAFETY OR SUITABILITY OF THE SOFTWARE, EITHER EXPRESS OR IMPLIED, INCLUDING WITHOUT LIMITATION ANY IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, OR NON-INFRINGEMENT. FURTHER, SMARTFACTORY MAKES NO REPRESENTATIONS OR WARRANTIES AS TO THE TRUTH, ACCURACY OR COMPLETENESS OF ANY STATEMENTS, INFORMATION OR MATERIALS CONCERNING THE SOFTWARE THAT IS CONTAINED IN SMARTFACTORY WEBSITE. IN NO EVENT WILL SMARTFACTORY BE LIABLE FOR ANY INDIRECT, PUNITIVE, SPECIAL, INCIDENTAL OR CONSEQUENTIAL DAMAGES HOWEVER THEY MAY ARISE AND EVEN IF SMARTFACTORY HAS BEEN PREVIOUSLY ADVISED OF THE POSSIBILITY OF SUCH DAMAGES..");
+define('_MI_WFDOWNLOADS_AUTHOR_CREDITSTEXT',"The WF-Sections Team would like to thank the following people for their help and support during the development phase of this module:<br /><br />tom, mking, paco1969, mharoun, Talis, m0nty, steenlnielsen, Clubby, Geronimo, bd_csmc, herko, LANG, Stewdio, tedsmith, veggieryan, carnuke, MadFish.<br /><br />And on a personal note, I would like to thank the special girl in my life who I love dearly and who gives me the strength and support to do all of this.");
+To: define('_MI_WFDOWNLOADS_AUTHOR_CREDITSTEXT',"The SmartFactory Team would like to thank the following people for their help and support during the development phase of this module:<br /><br />tom, mking, paco1969, mharoun, Talis, m0nty, steenlnielsen, Clubby, Geronimo, bd_csmc, herko, LANG, Stewdio, tedsmith, veggieryan, carnuke, MadFish, Kiang<br />and anyone else who has contributed to either directly or indirectly.");
+define('_MI_WFDOWNLOADS_COPYRIGHTIMAGE', "Images copyright WF-Project and may only be used with permission");
+To: define('_MI_WFDOWNLOADS_COPYRIGHTIMAGE', "Images copyright WF-Project/SmartFactory and may only be used with permission");
+
+Removed:
+define("_MI_WFDOWNLOADS_BLOCKADMIN","Block Settings");

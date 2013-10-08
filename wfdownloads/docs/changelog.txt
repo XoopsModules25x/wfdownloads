@@ -1,0 +1,320 @@
+<b><u>=> Version 3.23 Beta (2013-10-05)</u></b>
+- standardization of English language files (cesag)
+- fixed: typos in english folder (cesag)
+- module standardization: header.php, admin/admin_header.php, xoops_version.php
+- module standardization: standardize directories/files names/structures
+- module standardization: standardize code headers
+- module standardization: use WfdownloadWfdownload object instead of $xoopsModule, $xoopsModuleConfig and xoops_getmodulehandler (luciorota)
+- refactorized admin menu (luciorota)
+- fixed: lack of variables in wfdownloads_viewcat.html template (luciorota)
+- fixed: update procedure now updates also permissions (luciorota)
+- fixed: language definition in modinfo.php (luciorota)
+- fixed: language definition in main.php (luciorota)
+- fixed: deprecated "XoopsTree" (luciorota)
+- fixed: html errors in templates (luciorota)
+- fixed: deprecated XoopsTree (mamba)
+- fixed: English translations (mamba)
+- added: updating to XOOPS 2.5.7 Multi-page help (mamba)
+- added: enable/disable reviews system (luciorota)
+- added: enable/disable ratings system (luciorota)
+- added: enable/disable brokens reports system (luciorota)
+- added: admin side downloads filter (luciorota)
+- added: breadcrumb class (luciorota)
+- added: new autosummary option: autosummary if summary field is empty (luciorota)
+- added: xoops/xlanguage/html tags compatible autosummary generator (luciorota)
+- added: sort subcategories by cid or title or weight (luciorota)
+- added: improved by letters choice bar (luciorota)
+- added: wfdownloads_submit.html template for submit.php (luciorota)
+- added: folder checker (mamba + luciorota)
+- added: file checker (luciorota)
+- added: module is clonable, built-in module clone function (trabis/luciorota)
+- added: cloned module can import data from wfdownloads (luciorota)
+- added: user links to downloaders/voters (mamba)
+- removed: unupgraded languages from repository (luciorota)
+- removed: unused templates (luciorota)
+- removed: unused images files (luciorota)
+
+<b><u>=> Version 3.22 RC3 (2013-05-19)</u></b>
+- added permission: upload by category (luciorota)
+- added language definitions in admin.php (luciorota)
+- fixed: language definitions in modinfo.php (luciorota)
+
+<b><u>=> Version 3.22 RC2 (2013-04-20)</u></b>
+- added dynamic Editor selection (mamba)
+- fixed few English translations (mamba)
+
+<b><u>=> Version 3.22 RC1 (2013-03-23)</u></b>
+- fixed minor bugs in update procedure (luciorota)
+- fixed calculations for file voting results view in admin  (mamba)
+- updated deprecated "xoops_getLinkedUnameFromId" (mamba)
+- added check for "category" in search (mamba)
+- added 'admin/permissions.php' to new XoopsGroupPermForm, as return URL (mamba)
+- fixed deprecated "mysql_list_tables"
+- fixed MIME permissions for Admin (it was submitting 0 as default, which is for user) (mamba)
+
+<b><u>=> Version 3.21 Final (2012-12-16)</u></b>
+
+- Final Release (mamba)
+
+<b><u>=> Version 3.21 Beta 1 (2012-07-30)</u></b>
+
+- Converted to XOOPS 2.5.5 Admin GUI (mamba)
+- Fixed delete issue (jcweb/zyspec)
+- Fixed RSS issue (jagibu/zyspec)
+
+<b><u>=> Version 3.2 RC2 (2007-04-23)</u></b>
+
+Fixed: Fixes in Formulize integration thanks to jegelstaff (malanciault)
+Fixed: issue causing invalid links in the RSS script (rss.php). (thanks to rasme)
+Fixed: issue with $xoopsUser->getGroups. replaced with $xoopsUser->getGroups() : array(0=>XOOPS_GROUP_ANONYMOUS); (thanks to Jegelstaff)
+Fixed: issue with getNicePath (ImpressCMS Only), XOOPS requires patching class/xoopstree.  (Skenow / m0nty)
+Fixed: bug when user modification of download. "formulize_idreq" field was not found in the mysql table for wfdownloads_mod. (m0nty)
+Fixed: Issue with filenames containing multiple periods(.), protector module disallows the upload.
+- option added to header.php to disable multiple dot protection if necessary (read important notes in docs folder). (m0nty)
+Fixed: user submissions were not being displayed on userinfo.php page, problem in search.inc.php. (marcan & jegelstaff)
+Fixed: Bug in submit.php (disclaimer now uses full url for button (agree) instead of a relative url. (thanks to xavhmn)
+Fixed: Bug which (under certain server & user browser configurations created 0byte downloads with large files (over 10mb).  (m0nty)
+Fixed: version types field was missing from forms (defined in preferences). (m0nty)
+Fixed: Screenshot thumbnails weren't displayed with correct aspect ratio. (m0nty & mithrandir)
+Fixed: #75 new files/recent files blocks not respecting group permissions. (m0nty)
+Added: Category Images now display in viewcat page for subcats (if image exists). (m0nty)
+Added: Making the category image and title available in the viewcat and singlefile templates (marcan)
+Added: wfdownloads_disclaimer.html template for download/submission disclaimer page. (m0nty)
+Added: $xoTheme->addStylesheet to allow templates to use module.css makes easier w3c validation. (m0nty)
+Added: JS effects & lightbox effects to templates. (m0nty, aphex & thanks to Kris_fr)
+Added: Automated Category Selection on submit process (RLankford)
+Added: Addition of a downloads by top category block (malanciault)
+Changed: submit & mirrors should now accept FTP:// uri's aswell as http://  (m0nty)
+
+
+<b><u>=> Version 3.2 RC1 (2007-04-23)</u></b>
+
+Fixed: line break logic on index page was inverted. (m0nty)
+Fixed: expired downloads not being displayed in admin index.  (thanks to skenow)
+Fixed: sql error on updating indexpage. MySQL 5 only issue.. removed extra space at end of '$indexheaderalign' update query  (thanks to xavhmn)
+Fixed: Global notifications were being sent with a 'cid' value which makes them not work correctly.  (Jegelstaff)
+Fixed: Download icon on index page was not showing correctly depending on downloads.. (Jegelstaff)
+Fixed: file count now counts subcats and subsubcats. (Jegelstaff)
+Fixed: .png image files were not being allowed for screenshots both userside & admin. (m0nty)
+Fixed: Users were still allowed to submit new downloads regardless of groups selected in preferences.  (m0nty)
+Fixed: Category description only allowed 255 chars. changed from varchar(255) to Text in SQL. (m0nty)
+Fixed: #39 Broken downloads not being removed when using xoops 2.2.x  (Mithrandir)
+Added: RSS feeds all feeds and category based (if permissions granted on that category) (Mithrandir)
+Added: Ability to select upto 4 screenshots to be uploaded. (m0nty)
+Added: You can now select which groups can upload files to the server aswell as submit downloads. (m0nty)
+Added: Ability to create custom forms providing you have formulize 2.2RC1 or later installed. (Jegelstaff)
+Added: Display of Wfdownloads Meta version in server stats section on admin/index page.  (m0nty)
+Added: Import scripts to import from pd-downloads 1.2 & wmpdownloads.  (m0nty)
+Added: filesize to header() in visit.php & changed method of download from fpassthru to print(), seems more stable with cross browser support.  (m0nty)
+Added: 3 new notification events - File Modified (file), File Modified (category) & File Modified (global). (thanks to RLankford)
+Changed: Category image display sizes can now be set in module preferences independantly of shot images. (m0nty)
+Changed: if user uploads is set to no (in preferences), you can now no longer submit files *and* screenshots.  (m0nty)
+Changed: #14 category title not long enough. (now 255 chars)  m0nty
+Changed: Download Title not long enough. (now 255 chars) m0nty
+Changed: redirect viewcat.php & singlefile.php redirects to user.php if anonymous permission not granted. (m0nty)
+
+<b><u>=> Version 3.1 FINAL (2006-05-25)</u></b>
+
+Fixed: blank page when ignoring a modification request.  (m0nty)
+Fixed: users can modify any download whether author or not by typing URL directly in browser (m0nty)
+Fixed: error code given (no file was uploaded) when modifying download (userside) (m0nty)
+Fixed: warnings about missing templates wfdownloads_modfile.html & viewlist.html on install. reference removed from xoops_version.php (m0nty)
+Fixed: Bug in admin/mirror.php, downurl was saving as location (m0nty)
+Fixed: typo in recent downloads block, donwload changed to download (m0nty)
+Fixed: #20 file remained on server when uploaded. denied by mimetype (if filename contained spaces) (m0nty)
+Fixed: #30 Downloads marked as offline were still being listed in the top/recent downloads blocks. (m0nty)
+Fixed: #3389: parent category did not count all files in the subcats. (Jegelstaff)
+Removed: subsubcat list if subcats deeper than 2 levels, display issues in viewcat template. (m0nty)
+
+<b><u>=> Version 3.1 RC 2 (2006-05-01)</u></b>
+
+Fixed: #4 can no longer modify a category and set it as a subcategory of itself (mithrandir)
+Fixed: approving reviews and mirrors approved all instead of just the selected. (m0nty, marcan)
+Fixed: Bug in Admin brokendownoads, unable to set confirmed and acknowledged status of broken download (m0nty)
+Fixed: #16 Allow HTML logic inverted on index management (m0nty)
+Fixed: #15 Sort order did not respect weight settings of the categories (mithrandir)
+Fixed: files submitted in admin couldn't be manually added if the file was uploaded via FTP due to filename not being editable. (m0nty)
+Fixed: Uploads from userside not submitting correct filename/filetype to db. (m0nty)
+Fixed: Screenshots not displaying when submitted from userside. (m0nty)
+Fixed: Submitters name changed to admin name when editing a download in admin.. uid element added to modify code, admins can now change user id of submitter if they wish. (m0nty)
+Fixed: Fatal error when reporting a broken link (marcan)
+Fixed: Download does not exists when reporting a broken link (marcan)
+Fixed: Download does not exists when rating a file (marcan)
+Fixed: Download does not exists when adding a review (marcan)
+Fixed: Download does not exists when adding a mirror (marcan)
+Fixed: When seeing downloads by Letter, the navigation bar was not working properly (marcan)
+Changed: New images pack thanks to Xpider (xpider)
+Removed: Sample category images removed (bender)
+
+<b><u>=> Version 3.1 RC1 (2006-04-11)</u></b>
+
+Fixed: When the Sub-categories config option was set to Yes, the Index page display was screwed up (marcan)
+Fixed: When wrong mimetype, the uploaded file was not deleted from the upload directory (mithrandir + marcan)
+Fixed: Notice [PHP]: Undefined variable: cid in in mirror.php line 18 when creating a new mirror (marcan + m0nty)
+Fixed: Notice [PHP]: Undefined variable: cid in file review.php line 18 when creating a new review (marcan)
+Fixed: The submit link under the alphabetical navigation was displayed for anonymous even if they did not have this permission (marcan)
+Fixed: Fatal error: Call to a member function on a non-object in mirror.php on line 134 (marcan)
+Fixed: Fatal error: On View Account - Call to undefined function: wfdownloads_getmoduleinfo() in class\download.php on line 572 (marcan)
+Fixed: #3640 File Doesn't get deleted on failed submission (M0nty)
+Fixed: #3269 category list in topten.php showing as object instead of category name. (Mithrandir)
+Fixed: #3270 Files not able to be filtered by date in newlist.php (thanks to kiang)
+Fixed: #3537 file list in admin now shows recent submissions 1st. (thanks to Kiang)
+Fixed: #3441 Newly added file has no date value, file list in admin now shows recent submissions 1st. (thanks to kiang)
+Fixed: #3269  Category title shown as object instead of title name.. (Mithrandir)
+Fixed: Sort Options on category pages now function correctly. (thanks to Kiang)
+Fixed: #3426 Download counter does not work (Marcan)
+Fixed: #3406 Review Approve in admin didn't work (m0nty)
+Fixed: #3408 Review list in admin section broken (m0nty)
+Fixed: #3407 Reviews cannot be displayed (Xoops 2.0.x only bug) (mithrandir/m0nty)
+Fixed: #3391 Search feature was not returning to correct amount of results + some problems were fixed in the search criterias  (marcan)
+Fixed: #3388 cant ignore a broken file. Button was missing (bender)
+Fixed: #3387 foreach ($_POST as $k => $v) in admin files.  not critical but could be possible security issue. now gone..  (mithrandir)
+Fixed: #3378 Search function does not work (marcan)
+Fixed: #3376 permissions bug, pasting direct address "http://localhost/modules/wfdownloads/viewcat.php?cid=1", can access the category and all the files stored in it. same with singlefile.php.  (m0nty, mithrandir)
+Fixed: #3374 Array Bug, when there were sub categories of subcategories then the category name displayed array and not the correct name.  (marcan)
+Fixed: #3441 Newly added file has no date value (marcan)
+Fixed: #3307 Be the first person to review (ackbarr)
+Fixed: Submitter/Author always anonymous on submitted reviews list. problem related to the uid not being passed on the submit form.  (m0nty)
+Fixed: When submitting a download - Notice [PHP]: Undefined variable: filename in file submit.php line 129 (marcan)
+Fixed: When submitting a download - Notice [PHP]: Undefined variable: filetype in file submit.php line 130 (marcan)
+Fixed: When submitting a download - Notice [PHP]: Undefined variable: screenshot in file submit.php line 134 (marcan)
+Fixed: When submitting a download - Notice [PHP]: Undefined index: mirror in file submit.php line 141 (marcan)
+Fixed: Wrong redirect message when user submitted a downloads without auto-approve (marcan)
+Added: New mirror system (mirror.php) multiple mirrors per download, users can also submit new mirrors. (language definitions added/edited) (m0nty)
+Added: Mirrors tab in the AdminMenu (marcan)
+Added: Module CSS file (marcan)
+Added: Header template (marcan)
+Added: Footer template (marcan)
+Added: Administrative Section link for admins in the footer of all pages (marcan)
+Added: Breadcrumb in the template header, like the other SmartModules (marcan)
+Added: Reviews Tab on admin section (marcan)
+Added: A new feature is now cloaking the download file path so undesired user cannot download files they don't have access to (m0nty)
+Added: Link to the Help docs on the admin menu (marcan)
+Changed: Updated the readme and instructions. (bender)
+Changed: review userside template cleaned up, now has cat path visible for easy navigation back to category without the need for browser back button.  (m0nty)
+Changed: Review list in admin now shows waiting reviews and also list of published reviews (it's easy to edit and delete reviews now)  (m0nty)
+Changed: DB storage of file name..  Only the filename is stored in the DB now along with the FileType also. URL field is now used for remote file locations only.  (M0nty)
+Changed: Permission system on reviews.php, can now view reviews, but only submit if permission granted. (m0nty)
+Changed: wf-sections reference to smartfactory site in update.php (m0nty)
+Changed: Now using a template for the adminMenu, like the other SmartModules (marcan)
+Changed: Some $HTTP_VARS were still in the code. They have been changed with the proper $_POST, $_GET, etc... (marcan)
+Changed: Removing the Check Tables link in admin and replacing it by Import (marcan)
+Changed: When failling to insert a mirror or a review, the TriggerError was changed for a simple redirect_header with a more comprehensive message (marcan)
+Changed: The "View Full Details" of a download in summary view has been reformated to be displayed after the description, aligned right (marcan)
+Changed: Formating changes in wfdownloads_mirrors.html template (marcan)
+Changed: Allowing HTML in visit.php disclaimer (marcan)
+Changed: Allowing HTML in submit.php disclaimer (marcan)
+Changed: New module logo, thanks to Xpider (marcan)
+Removed: Unnecessary files in folder update/ as well as admin/updrade.php (marcan)
+Removed: The Weight option in the Default download Order config option (marcan)
+Removed: The Modify category on the admin index (marcan)
+
+<b><u>=> Version 3.0 RC 1 (2005-12-24)</u></b>
+
+Fixed: #3293 Image upload now working   (m0nty)
+Fixed: #3306 Download description always cut off (ignoring orig. length) now working   (m0nty)
+Fixed: #3303 screenshot image not displayed now working  (m0nty)
+Fixed: #3308 Upgrade DB script now fully working  (m0nty)
+Fixed: #3353 Edited language file to say "files moved" instead of files moved and cat deleted (categories arent deleted when moving files.)  \wfdownloads\language\english\admin.php line 0076  _AM_WFDOWNLOADS_CCATEGORY_MODIFY_MOVED (m0nty)
+Fixed: #3304 screenshot image doesn't display when submitted from userside via submit.php. problem was in submit.php  the scrrenshot var was not passed to the sql query. (m0nty)
+Fixed: typo in uploader.php  line 164: $_FILES[$media_name]['error'][$index] instead of $_FILES[$media_name]['errir'][$index]  (m0nty)
+Fixed: bug in user submission submit.php  when users submitted, the file wasn't displayed in the cat list.. caused by the cat select (cid) variable not being submitted to the sql query on submission.  (m0nty)
+Fixed: #3322 changed layout of download now, mirror links. title now takes you to view full details, moved view full details link to end of summary, if mirror field is empty the icon and download mirror link will not be displayed. also other fields will not be displayed if empty (m0nty)
+Fixed: #3295: Uploading with a filename already used will overwrite the original file. The bug was in mediauploader class in the function _copyFile (ackbarr)
+Fixed: #3306 Summary data was not being displayed when auto summary disabled.  (m0nty)
+Fixed: Download history was never showing (thanks for this fix to machenzy)
+Fixed: Parse error in topten.php  (m0nty)
+Fixed: Language definitions in indexpage manager  (m0nty)
+Fixed: xoopstree missing in admin section for create causing errors  (m0nty)
+Fixed: Deleting a download in admin was buggy. In fact the download was not deleted at all (marcan)
+Fixed: Undefined $title when approving a download (marcan)
+Fixed: When a download is submitted, the cid is set to 0 when approving the file (marcan)
+Fixed: Code changes towards an OO structure   (Mithrandir)
+Fixed: Remove SQL queries from controller files (browser-accessed files) (Mithrandir)
+Added: Summary table to category listing of each download, so u don't get long pages of text. Auto summary enable/disable, ability to set character length (rounds to the nearest word instead of actually splitting a word)   (m0nty)
+Added: Ability to set downloads/uploads based on post count. (m0nty)
+Added: WfdownloadBaseObject to have a toarray() method to use in Category, Dowload, Mimetype, Rating, Report, Review. These classes are now extending WfdowloadBaseObject (marcan)
+Added: modules/wfdownloads/docs --> HTML readme for installing, updating and converting. (bender)
+Changed: in language file: in admin.php for _AM_WFDOWNLOADS_FILE_SHOTIMAGE added: 'Note that screenshots will only be displayed if activated in module preferences' (bender)
+Removed: outdated help link from admin section  (bender)
+Removed: Per-file permissions since they slowed down the module extensively   (Mithrandir)
+Removed: Forum links (since they were dependant on newbb/cbb).   (Mithrandir)
+Removed: News link (since it was depending on the news module)   (Mithrandir)
+
+
+<b><u>=> Version 2.0.5 b (2005-09-05)</u></b>
+
+Fixed bug that "Latest Listings" shows the latetest submitted files again    (gladiac)
+Sort licenses in the select box  (gladiac)
+Fixed select category bug in File Management  (Xoops 2.2.x compability)  (gladiac)
+Fixed bug in Category Management to get the right cid   (Xoops 2.2.x compability)   (gladiac)
+Fixed bug in Category Management to be able to modify a category   (gladiac)
+Fixed bug in Recent downloads block to really show the most recent downloaded files (karedokx)
+Removed languagefile fallback in two files (taken from mithrandirs 2.x modulepack)
+Fixed "Headers already sent" with different visit.php which has been around in the forum for a while (SMD)
+
+
+<b><u>=> Version 2.0.5 (2005-07-26)</u></b>
+
+Fixed New/update icon bug.
+Fixed $mtys must be $myts typo on reviews.
+Fixed upload issue both in admin and user submission.
+Fixed two missing language defines.
+Added file exists check on upload
+Changed version number to 2.0.5a to save confussion.
+
+
+<b><u>=> Version 2.0.5 (2004-07-12)</u></b>
+
+Fixed Bug: Fatal error: Call to undefined function: gd_info() when GD library not installed on server (MadFish).
+Fixed: Group Permission setting. Invalid default for file submission in xoops_version.php. (FrankBlack)
+Add: Added a check to update files, cannot access them directly now and can only be executed from the update script.
+Fixed bug: File spaces where not converted when uploading to server.
+Fixed bug: Fixed invalid path for forum link.
+Fixed bug: Review was not approved when editing and then clicking approve.
+Added broken information to broken files report.
+Fixed bug: Fixed icon bug in broken download reports.
+Many other small bug fixes or changes to the module
+
+
+<b><u>=> Version 2.0.4 (2004-07-4)</u></b>
+
+Fixed catgeory ordering in to show by title and not ID in admin main index category selection box.
+Removed duplicate Lang defines in module/wf-download/index.php
+Removed alt text defines on Legend images.
+Removed <p></p> tags from wfdownloads_index.html as it caused alignment problems in template.
+Fixed Bugs when user submits a broken file report.
+Fixed grouppermission bug when displaying sub categories in viewcat.php
+Fixed category count bug in main index listings.
+Fixed Bug where Xoops Sort bar would show even if no files where available.
+Fixed Bug where sub-categories would be displayed when viewing downloads by alphabetical listing.
+Fixed Bug where sub-categories listing would show incorrectly when listed.
+Fixed Bug in Wfdownloads block that would show incorrect path.
+Fixed Permissions form in admin for both Category and files.
+Fixed Bug where permission where not set of topten items
+Fixed Bug where category heading displayed the wrong category description for each category in viewcat.php.
+Fixed Bug categories are now ordered by their weight and not title.
+Fixed Bug PHP related issue, not all servers have PHP math functions enabled so we did a little workaround on this.
+Fixed Bug displaying logo in singlefile page.
+Fixed Bug where other files by would show incorrect and also show offline files.
+Fixed Bug: Any user could use the update script. A big NO NO! This has been restricted to admin users only.
+Fixed Bug: New submission to webmaster displayed the wrong link (Taken to the wrong link when clicking to view new
+submission.
+Fixed Bug: Duplicate code for image list array in image uploader.php.
+Fixed Bug: Group Permissions where not included within Wfdownloads search function.
+	Every file was shown whether a user had permission to see them or not.
+Fixed Bug: Change language Page Published/Expire Date to File Published/Expire date.
+Fixed Bug: Block Language define change _MB_MYDOWNLOADS_LENGTH to _MB_WFDOWNLOADS_LENGTH
+Fixed Bug: Filenames with spaces where broken, this has been corrected.
+Fixed Bug: Fixed allowed File URL Input size to 255 chars when entering File URL in admin.
+Fixed Bug: Fixed allowed File URL mirror input size to 255 chars when entering File mirror in admin.
+Fixed Bug: Fixed allowed File URL title input size to 255 chars when entering File title in admin.
+Fixed Bug: Server Uploads Status displayed incorrect php_ini setting. Should have been file_uploads and not enable_dl.
+
+Added: Alphabetical listing to top ten items.
+Added: The ability to create News Story from submitted download (admin only).
+Added: Recording user uploader IP address for security reasons.
+Added: Url/File check at download stage for broken files.  Will redirect user to state file is broken and not a
+404 The page cannot be found. Not fully tested yet but seems to be working.
+Temporary Removed Spotlight items from category form. Will add in a future version.
+Changed Category listing templates for more ordered look.
