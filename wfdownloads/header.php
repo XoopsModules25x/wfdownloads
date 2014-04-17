@@ -21,22 +21,6 @@
 include_once dirname(dirname(dirname(__FILE__))) . '/mainfile.php';
 include_once dirname(__FILE__) . '/include/common.php';
 
-$myts = MyTextSanitizer::getInstance();
-
-include_once XOOPS_ROOT_PATH . '/class/tree.php';
-include_once XOOPS_ROOT_PATH . "/modules/" . WFDOWNLOADS_DIRNAME . "/class/xoopstree.php";
-//include_once XOOPS_ROOT_PATH . '/class/xoopstree.php';
-xoops_load('XoopsUserUtility'); // MyTextSanitizer object
-
-//$module_handler =& xoops_gethandler('module');
-//$xoopsModule =& $module_handler->getByDirname($mydirname);
-
 // uncomment the below line only if you are using Protector 3.x module
 // and you trust your users when uploading files, it is recommended to not allow anonymous uploads if you do so!!
 //define('PROTECTOR_SKIP_FILESCHECKER', true);
-
-// Load Xoops handlers
-$module_handler = xoops_gethandler('module');
-$member_handler = xoops_gethandler('member');
-$notification_handler = &xoops_gethandler('notification');
-$gperm_handler = xoops_gethandler('groupperm');

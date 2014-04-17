@@ -33,13 +33,12 @@ if (empty($category)) {
 }
 
 // Download not published, expired or taken offline - redirect
-if ($download->getVar('published') == 0 || $download->getVar('published') > time() || $download->getVar('offline') == 1
-    || ($download->getVar(
-            'expired'
-        ) != 0
-        && $download->getVar('expired') < time())
-    || $download->getVar('status') == 0
-) {
+if (
+    $download->getVar('published') == 0 ||
+    $download->getVar('published') > time() ||
+    $download->getVar('offline') == true ||
+    ($download->getVar('expired') != 0 && $download->getVar('expired') < time()) ||
+    $download->getVar('status') == _WFDOWNLOADS_STATUS_WAITING) {
     redirect_header('index.php', 3, _MD_WFDOWNLOADS_NODOWNLOAD);
 }
 
@@ -69,11 +68,14 @@ switch ($op) {
     case "list" : // this case is not removed for backward compatibility issues
         $start = WfdownloadsRequest::getInt('start', 0);
 
-        $xoopsOption['template_main'] = 'wfdownloads_mirrors.html';
+        $xoopsOption['template_main'] = "{$wfdownloads->getModule()->dirname()}_mirrors.html";
         include XOOPS_ROOT_PATH . '/header.php';
 
-        $xoTheme->addStylesheet(WFDOWNLOADS_URL . '/module.css');
-        $xoTheme->addStylesheet(WFDOWNLOADS_URL . '/thickbox.css');
+        $xoTheme->addScript(XOOPS_URL . '/browse.php?Frameworks/jquery/jquery.js');
+        $xoTheme->addScript(WFDOWNLOADS_URL . '/assets/js/magnific/jquery.magnific-popup.min.js');
+        $xoTheme->addStylesheet(WFDOWNLOADS_URL . '/assets/js/magnific/magnific-popup.css');
+        $xoTheme->addStylesheet(WFDOWNLOADS_URL . '/assets/css/module.css');
+
         $xoopsTpl->assign('wfdownloads_url', WFDOWNLOADS_URL . '/');
 
         // Generate content header
@@ -165,7 +167,7 @@ switch ($op) {
         }
 
         // Get mirror poster 'uid'
-        $mirroruserUid = is_object($xoopsUser) ? (int)$xoopsUser->getVar('uid') : 0;
+        $mirroruserUid = is_object($xoopsUser) ? (int) $xoopsUser->getVar('uid') : 0;
 
         if (!empty($_POST['submit'])) {
             $mirror = $wfdownloads->getHandler('mirror')->create();
@@ -174,7 +176,7 @@ switch ($op) {
             $mirror->setVar('location', trim($_POST['location']));
             $mirror->setVar('continent', trim($_POST['continent']));
             $mirror->setVar('downurl', trim($_POST['downurl']));
-            $mirror->setVar('lid', (int)$_POST['lid']);
+            $mirror->setVar('lid', (int) $_POST['lid']);
             $mirror->setVar('uid', $mirroruserUid);
             $mirror->setVar('date', time());
             if (($wfdownloads->getConfig('autoapprove') == _WFDOWNLOADS_AUTOAPPROVE_NONE
@@ -197,8 +199,11 @@ switch ($op) {
         } else {
             include XOOPS_ROOT_PATH . '/header.php';
 
-            $xoTheme->addStylesheet(WFDOWNLOADS_URL . '/module.css');
-            $xoTheme->addStylesheet(WFDOWNLOADS_URL . '/thickbox.css');
+            $xoTheme->addScript(XOOPS_URL . '/browse.php?Frameworks/jquery/jquery.js');
+            $xoTheme->addScript(WFDOWNLOADS_URL . '/assets/js/magnific/jquery.magnific-popup.min.js');
+            $xoTheme->addStylesheet(WFDOWNLOADS_URL . '/assets/js/magnific/magnific-popup.css');
+            $xoTheme->addStylesheet(WFDOWNLOADS_URL . '/assets/css/module.css');
+
             $xoopsTpl->assign('wfdownloads_url', WFDOWNLOADS_URL . '/');
 
             // Breadcrumb

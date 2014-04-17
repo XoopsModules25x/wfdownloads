@@ -10,20 +10,20 @@
     <p>
         <img src="<{xoModuleIcons16 1.png}>" title="<{$smarty.const._AM_WFDOWNLOADS_BROKEN_IGNOREDESC}>"
              alt="<{$smarty.const._AM_WFDOWNLOADS_BROKEN_IGNOREDESC}>"/> <{$smarty.const._AM_WFDOWNLOADS_BROKEN_IGNOREDESC}>
-        <br/>
+        <br />
         <img src="<{xoModuleIcons16 edit.png}>" title="<{$smarty.const._AM_WFDOWNLOADS_BROKEN_EDITDESC}>"
              alt="<{$smarty.const._AM_WFDOWNLOADS_BROKEN_EDITDESC}>"/> <{$smarty.const._AM_WFDOWNLOADS_BROKEN_EDITDESC}>
-        <br/>
+        <br />
         <img src="<{xoModuleIcons16 delete.png}>" title="<{$smarty.const._AM_WFDOWNLOADS_BROKEN_DELETEDESC}>"
              alt="<{$smarty.const._AM_WFDOWNLOADS_BROKEN_DELETEDESC}>"/> <{$smarty.const._AM_WFDOWNLOADS_BROKEN_DELETEDESC}>
-        <br/>
+        <br />
         <img src="<{xoModuleIcons16 1.png}>"/> <{$smarty.const._AM_WFDOWNLOADS_BROKEN_ACKDESC}>
-        <br/>
+        <br />
         <img src="<{xoModuleIcons16 1.png}>"/> <{$smarty.const._AM_WFDOWNLOADS_BROKEN_CONFIRMDESC}>
     </p>
 </fieldset>
 
-<br/>
+<br />
 
 <fieldset>
     <legend style='font-weight: bold; color: #900;'><{$smarty.const._AM_WFDOWNLOADS_BROKEN_REPORTS}></legend>
@@ -101,12 +101,20 @@
     <{/if}>
 </fieldset>
 
-<br/>
+<br />
 
 <fieldset>
     <legend style='font-weight: bold;'><{$smarty.const._AM_WFDOWNLOADS_MOD_MODREQUESTSINFO}></legend>
     <p>
         <{$smarty.const._AM_WFDOWNLOADS_MOD_TOTMODREQUESTS}>:&nbsp;<{$modifications_count}>
+    </p>
+    
+    <p>
+        <img src="<{xoModuleIcons16 view.png}>" title="<{$smarty.const._AM_WFDOWNLOADS_MOD_VIEW}>"
+            alt="<{$smarty.const._AM_WFDOWNLOADS_MOD_VIEWDESC}>"/> <{$smarty.const._AM_WFDOWNLOADS_MOD_VIEWDESC}>
+        <br />
+        <img src="<{xoModuleIcons16 delete.png}>" title="<{$smarty.const._AM_WFDOWNLOADS_MOD_IGNORE}>"
+            alt="<{$smarty.const._AM_WFDOWNLOADS_MOD_IGNOREDESC}>"/> <{$smarty.const._AM_WFDOWNLOADS_MOD_IGNOREDESC}>
     </p>
 </fieldset>
 
@@ -124,12 +132,31 @@
             <th><{$smarty.const._AM_WFDOWNLOADS_MINDEX_ACTION}></th>
         </tr>
         <{foreach item=modification from=$modifications}>
-        <tr>
+        <tr class="<{cycle values='even, odd'}>">
             <td><{$modification.requestid}></td>
-            <td><{$modification.title}></td>
+            <td><{$modification.download.title}> -> <{$modification.title}></td>
             <td><{$modification.submitter_uname}></td>
             <td><{$modification.formatted_date}></td>
-            <td><a href='?op=modification.show&amp;requestid=<{$modification.requestid}>'><{$smarty.const._AM_WFDOWNLOADS_MOD_VIEW}></a></td>
+            <td align='center'>
+                <a href='?op=modification.change&amp;requestid=<{$modification.requestid}>'>
+                    <img
+                        src="<{xoModuleIcons16 1.png}>"
+                        title="<{$smarty.const._AM_WFDOWNLOADS_MOD_APPROVE}>"
+                        alt="<{$smarty.const._AM_WFDOWNLOADS_MOD_APPROVE}>"/>
+                </a>
+                <a href='?op=modification.show&amp;requestid=<{$modification.requestid}>'>
+                    <img
+                        src="<{xoModuleIcons16 view.png}>"
+                        title="<{$smarty.const._AM_WFDOWNLOADS_MOD_VIEW}>"
+                        alt="<{$smarty.const._AM_WFDOWNLOADS_MOD_VIEW}>"/>
+                </a>
+                <a href='?op=modification.ignore&amp;requestid=<{$modification.requestid}>'>
+                    <img
+                        src="<{xoModuleIcons16 delete.png}>"
+                        title="<{$smarty.const._AM_WFDOWNLOADS_MOD_IGNORE}>"
+                        alt="<{$smarty.const._AM_WFDOWNLOADS_MOD_IGNORE}>"/>
+                </a>
+            </td>
         </tr>
         <{/foreach}>
     </table>

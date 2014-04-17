@@ -48,22 +48,24 @@ if ($download->isNew()) {
 }
 
 // If Download not published, expired or taken offline - redirect
-if ($download->getVar('published') == 0 || $download->getVar('published') > time() || $download->getVar('offline') == true
-    || ($download->getVar(
-            'expired'
-        ) != 0
-        && $download->getVar('expired') < time())
-    || $download->getVar('status') == 0
-) {
+if (
+    $download->getVar('published') == 0 ||
+    $download->getVar('published') > time() ||
+    $download->getVar('offline') == true ||
+    ($download->getVar('expired') != 0 && $download->getVar('expired') < time()) ||
+    $download->getVar('status') == _WFDOWNLOADS_STATUS_WAITING) {
     redirect_header('index.php', 3, _MD_WFDOWNLOADS_NODOWNLOAD);
 }
 
 // Load Template
-$xoopsOption['template_main'] = 'wfdownloads_singlefile.html';
+$xoopsOption['template_main'] = "{$wfdownloads->getModule()->dirname()}_singlefile.html";
 include XOOPS_ROOT_PATH . '/header.php';
 
-$xoTheme->addStylesheet(WFDOWNLOADS_URL . '/module.css');
-$xoTheme->addStylesheet(WFDOWNLOADS_URL . '/thickbox.css');
+$xoTheme->addScript(XOOPS_URL . '/browse.php?Frameworks/jquery/jquery.js');
+$xoTheme->addScript(WFDOWNLOADS_URL . '/assets/js/magnific/jquery.magnific-popup.min.js');
+$xoTheme->addStylesheet(WFDOWNLOADS_URL . '/assets/js/magnific/magnific-popup.css');
+$xoTheme->addStylesheet(WFDOWNLOADS_URL . '/assets/css/module.css');
+
 $xoopsTpl->assign('wfdownloads_url', WFDOWNLOADS_URL . '/');
 
 // Making the category image and title available in the template
@@ -152,7 +154,7 @@ if (wfdownloads_checkModule('formulize') && $formulize_idreq) {
                 } else {
                     $formulize_download[$indexer]['values'][] = $data[0][$desc_form][$formulize_idreq][$captionarray['ele_id']][0];
                 }
-                $indexer++;
+                ++$indexer;
             }
             $xoopsTpl->assign('formulize_download', $formulize_download);
         }
@@ -193,6 +195,19 @@ if ($wfdownloads->getConfig('screenshot') == 1) {
     $xoopsTpl->assign('shotheight', $wfdownloads->getConfig('shotheight'));
     $xoopsTpl->assign('show_screenshot', true);
 }
+// Get file url
+$fullFilename = trim($downloadInfo['filename']);
+if ((!$downloadInfo['url'] == '' && !$downloadInfo['url'] == 'http://') || $fullFilename == '') {
+    $fileUrl = $myts->htmlSpecialChars(preg_replace('/javascript:/si', 'javascript:', $downloadInfo['url']), ENT_QUOTES);
+} else {
+    $mimeType     = $downloadInfo['filetype'];
+    $file         = strrev($fullFilename);
+    $tempFilename = strtolower(strrev(substr($file, 0, strpos($file, '--'))));
+    $filename     = ($tempFilename == '') ? $fullFilename : $tempFilename;
+    $fileUrl     = XOOPS_URL . str_replace(XOOPS_ROOT_PATH, '', $wfdownloads->getConfig('uploaddir')) . '/' . stripslashes(trim($fullFilename));
+
+}
+$xoopsTpl->assign('file_url', $fileUrl);
 
 // Breadcrumb
 include_once XOOPS_ROOT_PATH . '/class/tree.php';
@@ -215,15 +230,15 @@ $criteria->setOrder('DESC');
 $downloads = $wfdownloads->getHandler('download')->getActiveDownloads($criteria);
 foreach ($downloads as $download) {
     $downloadByUser['title']     = $download->getVar('title');
-    $downloadByUser['lid']       = (int)$download->getVar('lid');
-    $downloadByUser['cid']       = (int)$download->getVar('cid');
+    $downloadByUser['lid']       = (int) $download->getVar('lid');
+    $downloadByUser['cid']       = (int) $download->getVar('cid');
     $downloadByUser['published'] = formatTimestamp($download->getVar('published'), $wfdownloads->getConfig('dateformat'));
     $xoopsTpl->append('down_uid', $downloadByUser); // this definition is not removed for backward compatibility issues
     $xoopsTpl->append('downloads_by_user', $downloadByUser);
 }
 
-$cid = (int)$download->getVar('cid');
-$lid = (int)$download->getVar('lid');
+$cid = (int) $download->getVar('cid');
+$lid = (int) $download->getVar('lid');
 
 // User reviews
 $criteria = new CriteriaCompo(new Criteria("lid", $lid));
@@ -270,3 +285,51 @@ include XOOPS_ROOT_PATH . '/include/comment_view.php';
 $xoopsTpl->assign('com_rule', $wfdownloads->getConfig('com_rule'));
 $xoopsTpl->assign('module_home', wfdownloads_module_home(true));
 include 'footer.php';
+
+?>
+<script type="text/javascript">
+
+    $('.magnific_zoom').magnificPopup({
+        type               : 'image',
+        image              : {
+            cursor     : 'mfp-zoom-out-cur',
+            titleSrc   : "title",
+            verticalFit: true,
+            tError     : 'The image could not be loaded.' // Error message
+        },
+        gallery:{
+            enabled:true
+        },
+        iframe             : {
+            patterns: {
+                youtube : {
+                    index: 'youtube.com/',
+                    id   : 'v=',
+                    src  : '//www.youtube.com/embed/%id%?autoplay=1'
+                }, vimeo: {
+                    index: 'vimeo.com/',
+                    id   : '/',
+                    src  : '//player.vimeo.com/video/%id%?autoplay=1'
+                }, gmaps: {
+                    index: '//maps.google.',
+                    src  : '%id%&output=embed'
+                }
+            }
+        },
+        preloader          : true,
+        showCloseBtn       : true,
+        closeBtnInside     : false,
+        closeOnContentClick: true,
+        closeOnBgClick     : true,
+        enableEscapeKey    : true,
+        modal              : false,
+        alignTop           : false,
+        mainClass          : 'mfp-img-mobile mfp-fade',
+        zoom               : {
+            enabled : true,
+            duration: 300,
+            easing  : 'ease-in-out'
+        },
+        removalDelay       : 200
+    });
+</script>

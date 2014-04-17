@@ -21,7 +21,7 @@
 $currentFile = basename(__FILE__);
 include 'header.php';
 
-$xoopsOption['template_main'] = 'wfdownloads_topten.html';
+$xoopsOption['template_main'] = "{$wfdownloads->getModule()->dirname()}_topten.html";
 
 // Check permissions
 if (($_GET['list'] == 'rate') && $wfdownloads->getConfig('enable_ratings') == false && !wfdownloads_userIsAdmin()) {
@@ -31,8 +31,11 @@ $groups = is_object($xoopsUser) ? $xoopsUser->getGroups() : array(0 => XOOPS_GRO
 
 include XOOPS_ROOT_PATH . '/header.php';
 
-$xoTheme->addStylesheet(WFDOWNLOADS_URL . '/module.css');
-$xoTheme->addStylesheet(WFDOWNLOADS_URL . '/thickbox.css');
+$xoTheme->addScript(XOOPS_URL . '/browse.php?Frameworks/jquery/jquery.js');
+$xoTheme->addScript(WFDOWNLOADS_URL . '/assets/js/magnific/jquery.magnific-popup.min.js');
+$xoTheme->addStylesheet(WFDOWNLOADS_URL . '/assets/js/magnific/magnific-popup.css');
+$xoTheme->addStylesheet(WFDOWNLOADS_URL . '/assets/css/module.css');
+
 $xoopsTpl->assign('wfdownloads_url', WFDOWNLOADS_URL . '/');
 
 $action_array = array('hit' => 0, 'rate' => 1);
@@ -59,7 +62,7 @@ $allowedCategoriesIds = $gperm_handler->getItemIds('WFDownCatPerm', $groups, $wf
 $e        = 0;
 $rankings = array();
 foreach ($mainCategories as $mainCategory) {
-    $cid = (int)$mainCategory->getVar('cid');
+    $cid = (int) $mainCategory->getVar('cid');
     if (in_array($cid, $allowedCategoriesIds)) {
         $allSubCategories = $categoriesTree->getAllChild($cid);
         $cids             = array(); //initialise array
@@ -95,8 +98,8 @@ foreach ($mainCategories as $mainCategory) {
                 $catpath = implode('/', $parent_cat_titles);
 
                 $rankings[$e]['file'][] = array(
-                    'id'       => (int)$downloads[$k]->getVar('lid'),
-                    'cid'      => (int)$downloads[$k]->getVar('cid'),
+                    'id'       => (int) $downloads[$k]->getVar('lid'),
+                    'cid'      => (int) $downloads[$k]->getVar('cid'),
                     'rank'     => $rank,
                     'title'    => $downloads[$k]->getVar('title'),
                     'category' => $catpath,
@@ -104,9 +107,9 @@ foreach ($mainCategories as $mainCategory) {
                     'rating'   => number_format($downloads[$k]->getVar('rating'), 2),
                     'votes'    => $downloads[$k]->getVar('votes')
                 );
-                $rank++;
+                ++$rank;
             }
-            $e++;
+            ++$e;
         }
     }
 }

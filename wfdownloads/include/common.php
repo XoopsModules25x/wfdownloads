@@ -20,24 +20,34 @@
  */
 defined("XOOPS_ROOT_PATH") or die("XOOPS root path not defined");
 
-//$module_handler =& xoops_gethandler('module');
-//$xoopsModule = & $module_handler->getByDirname(basename(dirname(dirname(__FILE__))));
-
 // This must contain the name of the folder in which reside Wfdownloads
 define("WFDOWNLOADS_DIRNAME", basename(dirname(dirname(__FILE__))));
 define("WFDOWNLOADS_URL", XOOPS_URL . '/modules/' . WFDOWNLOADS_DIRNAME);
-define("WFDOWNLOADS_IMAGES_URL", WFDOWNLOADS_URL . '/images');
+define("WFDOWNLOADS_IMAGES_URL", WFDOWNLOADS_URL . '/assets/images');
 define("WFDOWNLOADS_ADMIN_URL", WFDOWNLOADS_URL . '/admin');
 define("WFDOWNLOADS_ROOT_PATH", XOOPS_ROOT_PATH . '/modules/' . WFDOWNLOADS_DIRNAME);
 
 xoops_loadLanguage('common', WFDOWNLOADS_DIRNAME);
 
+include_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
+include_once XOOPS_ROOT_PATH . '/class/tree.php';
+include_once XOOPS_ROOT_PATH . '/class/pagenav.php';
+
 include_once WFDOWNLOADS_ROOT_PATH . '/include/functions.php';
 include_once WFDOWNLOADS_ROOT_PATH . '/include/constants.php';
-include_once WFDOWNLOADS_ROOT_PATH . '/class/session.php';
-include_once WFDOWNLOADS_ROOT_PATH . '/class/wfdownloads.php';
-include_once WFDOWNLOADS_ROOT_PATH . '/class/request.php';
-include_once WFDOWNLOADS_ROOT_PATH . '/class/breadcrumb.php';
+include_once WFDOWNLOADS_ROOT_PATH . '/class/session.php'; // WfdownloadsSession class
+include_once WFDOWNLOADS_ROOT_PATH . '/class/wfdownloads.php'; // WfdownloadsWfdownloads class
+include_once WFDOWNLOADS_ROOT_PATH . '/class/request.php'; // WfdownloadsRequest class
+include_once WFDOWNLOADS_ROOT_PATH . '/class/breadcrumb.php'; // WfdownloadsBreadcrumb class
+include_once WFDOWNLOADS_ROOT_PATH . '/class/tree.php'; // WfdownloadsObjectTree class
+include_once WFDOWNLOADS_ROOT_PATH . '/class/xoopstree.php'; // WfdownloadsXoopsTree class
+//include_once WFDOWNLOADS_ROOT_PATH . '/class/formelementchoose.php'; // WfdownloadsFormElementChoose class
+include_once WFDOWNLOADS_ROOT_PATH . '/class/multicolumnsthemeform.php'; // WfdownloadsMulticolumnsThemeForm class
+
+xoops_load('XoopsUserUtility');
+xoops_load('XoopsLocal');
+// MyTextSanitizer object
+$myts = MyTextSanitizer::getInstance();
 
 $debug = false;
 $wfdownloads = WfdownloadsWfdownloads::getInstance($debug);
@@ -51,3 +61,8 @@ if (is_object($wfdownloads->getModule())) {
     $wfdownloads_isAdmin = wfdownloads_userIsAdmin();
 }
 
+// Load Xoops handlers
+$module_handler = xoops_gethandler('module');
+$member_handler = xoops_gethandler('member');
+$notification_handler = &xoops_gethandler('notification');
+$gperm_handler = xoops_gethandler('groupperm');

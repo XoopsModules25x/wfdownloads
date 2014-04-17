@@ -37,7 +37,6 @@ switch ($op) {
 
         $adminMenu = new ModuleAdmin();
         $adminMenu->addItemButton(_MI_WFDOWNLOADS_MENU_DOWNLOADS, "{$currentFile}?op=downloads.list", 'list');
-//        $adminMenu->addItemButton(_AM_WFDOWNLOADS_FFS_DOWNLOADTITLE, "{$currentFile}?op=download.add", 'add');
         echo $adminMenu->renderButton();
 
         $lid = WfdownloadsRequest::getInt('lid', 0);
@@ -162,24 +161,24 @@ switch ($op) {
 
                 $criteria = new Criteria("ratinguser", "(" . implode(',', $uids) . ")", "IN");
                 $criteria->setGroupby("ratinguser");
-                $userratings = $wfdownloads->getHandler('rating')->getUserAverage($criteria);
+                $userRatings = $wfdownloads->getHandler('rating')->getUserAverage($criteria);
 
                 foreach (array_keys($regvotes) as $i) {
-                    $formatted_date = formatTimestamp($regvotes[$i]->getVar('ratingtimestamp'), _DATESTRING);
-                    $useravgrating  = isset($userratings[$regvotes[$i]->getVar('ratinguser')]) ? $userratings[$regvotes[$i]->getVar(
+                    $formatted_date = XoopsLocal::formatTimestamp($regvotes[$i]->getVar('ratingtimestamp'), 'l');
+                    $userAvgRating  = isset($userRatings[$regvotes[$i]->getVar('ratinguser')]) ? $userRatings[$regvotes[$i]->getVar(
                         'ratinguser'
                     )]["avg"] : 0;
-                    $uservotes      = isset($userratings[$regvotes[$i]->getVar('ratinguser')]) ? $userratings[$regvotes[$i]->getVar(
+                    $userVotes      = isset($userRatings[$regvotes[$i]->getVar('ratinguser')]) ? $userRatings[$regvotes[$i]->getVar(
                         'ratinguser'
                     )]["count"] : 0;
-                    $ratinguname    = XoopsUser :: getUnameFromId($regvotes[$i]->getVar('ratinguser'));
+                    $ratingUserName    = XoopsUser :: getUnameFromId($regvotes[$i]->getVar('ratinguser'));
 
                     echo "
-                        <tr><td class='head'>$ratinguname</td>\n
+                        <tr><td class='head'>$ratingUserName</td>\n
                         <td class='even'>" . $regvotes[$i]->getVar('ratinghostname') . "</th>\n
                         <td class='even'>" . $regvotes[$i]->getVar('rating') . "</th>\n
-                        <td class='even'>$useravgrating</th>\n
-                        <td class='even'>$uservotes</th>\n
+                        <td class='even'>$userAvgRating</th>\n
+                        <td class='even'>$userVotes</th>\n
                         <td class='even'>$formatted_date</th>\n
                         <td class='even'>\n
                         <a href='{$currentFile}?op=vote.delete&amp;lid={$lid}&amp;rid=" . $regvotes[$i]->getVar('ratingid') . "'>"
@@ -206,22 +205,22 @@ switch ($op) {
                 echo "<tr><td colspan='7' class='even'><b>" . _AM_WFDOWNLOADS_VOTE_NOUNREGVOTES . "</b></td></tr>";
             } else {
                 $criteria       = new Criteria('ratinguser', 0);
-                $userratings    = $wfdownloads->getHandler('rating')->getUserAverage($criteria);
+                $userRatings    = $wfdownloads->getHandler('rating')->getUserAverage($criteria);
                 $anonymousVotes = $wfdownloads->getHandler('rating')->getObjects($anonymousCriteria);
 
                 foreach (array_keys($anonymousVotes) as $i) {
-                    $formatted_date = formatTimestamp($anonymousVotes[$i]->getVar('ratingtimestamp'), _DATESTRING);
-                    $useravgrating  = isset($userratings['avg']) ? $userratings["avg"] : 0;
-                    $uservotes      = isset($userratings['count']) ? $userratings["count"] : 0;
+                    $formatted_date = XoopsLocal::formatTimestamp($anonymousVotes[$i]->getVar('ratingtimestamp'), 'l');
+                    $userAvgRating  = isset($userRatings['avg']) ? $userRatings["avg"] : 0;
+                    $userVotes      = isset($userRatings['count']) ? $userRatings["count"] : 0;
 
-                    $ratinguname = $GLOBALS['xoopsConfig']['anonymous'];
+                    $ratingUserName = $GLOBALS['xoopsConfig']['anonymous'];
 
                     echo "
-                        <tr><td class='head'>$ratinguname</td>\n
+                        <tr><td class='head'>$ratingUserName</td>\n
                         <td class='even'>" . $anonymousVotes[$i]->getVar('ratinghostname') . "</th>\n
                         <td class='even'>" . $anonymousVotes[$i]->getVar('rating') . "</th>\n
-                        <td class='even'>$useravgrating</th>\n
-                        <td class='even'>$uservotes</th>\n
+                        <td class='even'>$userAvgRating</th>\n
+                        <td class='even'>$userVotes</th>\n
                         <td class='even'>$formatted_date</th>\n
                         <td class='even'>\n
                         <a href='{$currentFile}?op=vote.delete&amp;lid={$lid}&amp;rid=" . $anonymousVotes[$i]->getVar('ratingid') . "'>"
@@ -240,7 +239,7 @@ switch ($op) {
     case "addDownload" :
         $lid    = WfdownloadsRequest::getInt('lid', 0, 'POST');
         $cid    = WfdownloadsRequest::getInt('cid', 0, 'POST');
-        $status = WfdownloadsRequest::getInt('status', 2, 'POST');
+        $status = WfdownloadsRequest::getInt('status', _WFDOWNLOADS_STATUS_UPDATED, 'POST');
 
         if ($lid > 0) {
             $thisIsANewRecord = false; /* Added by Lankford on 2007/3/21 */
@@ -255,12 +254,16 @@ switch ($op) {
                 $url      = ($_POST['url'] != "http://") ? $_POST['url'] : '';
                 $filename = '';
                 $filetype = '';
+                // Get size from form
+                $size = (empty($_POST['size']) || !is_numeric($_POST['size'])) ? 0 : (int) $_POST["size"];
             } else {
                 $url      = ($_POST["url"] != "http://") ? $_POST['url'] : '';
                 $filename = $_POST['filename'];
                 $filetype = $_POST['filetype'];
+                $filePath = $wfdownloads->getConfig('uploaddir') . '/' . $filename;
+                // Get size from filesystem
+                $size = @filesize($filePath);
             }
-            $size  = (empty($_POST['size']) || !is_numeric($_POST['size'])) ? 0 : (int)$_POST["size"];
             $title = trim($_POST['title']);
             $download->setVar('filename', $filename);
             $download->setVar('filetype', $filetype);
@@ -269,6 +272,7 @@ switch ($op) {
             $url   = ($_POST['url'] != "http://") ? $_POST["url"] : '';
             $size  = $down['size'];
             $title = $_FILES['userfile']['name'];
+
             $ext   = rtrim(strrchr($title, '.'), '.');
             $title = str_replace($ext, '', $title);
             $title = (isset($_POST['title_checkbox']) && $_POST['title_checkbox'] == 1) ? $title : trim($_POST['title']);
@@ -329,6 +333,11 @@ switch ($op) {
         $download->setVar('platform', trim($_POST['platform']));
         $download->setVar('summary', trim($_POST['summary']));
         $download->setVar('description', trim($_POST['description']));
+        $download->setVar('dohtml', isset($_POST['dohtml']));
+        $download->setVar('dosmiley', isset($_POST['dosmiley']));
+        $download->setVar('doxcode', isset($_POST['doxcode']));
+        $download->setVar('doimage', isset($_POST['doimage']));
+        $download->setVar('dobr', isset($_POST['dobr']));
         $download->setVar('submitter', trim($_POST['submitter']));
         $download->setVar('publisher', trim($_POST['publisher']));
         $download->setVar('price', trim($_POST['price']));
@@ -349,7 +358,7 @@ switch ($op) {
         if ($lid > 0 && !empty($dhistoryhistory)) {
             $dhistory = $dhistory . "\n\n";
             $time     = time();
-            $dhistory .= _AM_WFDOWNLOADS_FILE_HISTORYVERS . $version . _AM_WFDOWNLOADS_FILE_HISTORDATE . formatTimestamp($time, _DATESTRING) . "\n\n";
+            $dhistory .= _AM_WFDOWNLOADS_FILE_HISTORYVERS . $version . _AM_WFDOWNLOADS_FILE_HISTORDATE . XoopsLocal::formatTimestamp($time, 'l') . "\n\n";
             $dhistory .= $dhistoryhistory;
         }
         $download->setVar('dhistory', $dhistory);
@@ -362,7 +371,7 @@ switch ($op) {
         }
         $download->setVar('updated', $updated);
 
-        $offline = ($_POST['offline'] == 1) ? 1 : 0;
+        $offline = ($_POST['offline'] == true) ? true : false;
         $download->setVar('offline', $offline);
         $approved  = (isset($_POST['approved']) && $_POST['approved'] == true) ? true : false;
         $notifypub = (isset($_POST['notifypub']) && $_POST['notifypub'] == true);
@@ -446,7 +455,7 @@ switch ($op) {
         }
         // Added Formulize module support (2006/05/04) jpc - end
         $wfdownloads->getHandler('download')->insert($download);
-        $newid = (int)$download->getVar('lid');
+        $newid = (int) $download->getVar('lid');
         // Send notifications
         if (!$lid) {
             $tags                  = array();
@@ -549,7 +558,7 @@ switch ($op) {
         }
         // Update the database
         $download->setVar('published', time());
-        $download->setVar('status', 1);
+        $download->setVar('status', _WFDOWNLOADS_STATUS_APPROVED);
         if (!$wfdownloads->getHandler('download')->insert($download, true)) {
             echo $download->getHtmlErrors();
             exit();
@@ -578,12 +587,12 @@ switch ($op) {
         $filter_title                    = WfdownloadsRequest::getString('filter_title', '');
         $filter_category_title_condition = WfdownloadsRequest::getString('filter_category_title_condition', '=');
         $filter_category_title           = WfdownloadsRequest::getString('filter_category_title', '');
-        $filter_poster                   = WfdownloadsRequest::getArray('filter_poster', null);
+        $filter_submitter                = WfdownloadsRequest::getArray('filter_submitter', null);
         $filter_date                     = WfdownloadsRequest::getArray('filter_date', null);
         $filter_date_condition           = WfdownloadsRequest::getString('filter_date_condition', '<');
 
         if ($op == 'downloads.filter') {
-            if ($filter_title == '' && $filter_category_title == '' && is_null($filter_poster)) {
+            if ($filter_title == '' && $filter_category_title == '' && is_null($filter_submitter)) {
                 $op = 'downloads.list';
             }
         }
@@ -598,7 +607,7 @@ switch ($op) {
         $start_expired       = WfdownloadsRequest::getInt('start_expired', 0);
         $start_offline       = WfdownloadsRequest::getInt('start_offline', 0);
 
-        $totalcats  = wfdownloads_categoriesCount();
+        $totalCategoriesCount  = wfdownloads_categoriesCount();
         $categories = $wfdownloads->getHandler('category')->getObjects(null, true, false);
 
         $totalDownloadsCount = $wfdownloads->getHandler('download')->getCount();
@@ -608,7 +617,6 @@ switch ($op) {
         echo $indexAdmin->addNavigation($currentFile);
 
         $adminMenu = new ModuleAdmin();
-//        $adminMenu->addItemButton(_MI_WFDOWNLOADS_MENU_DOWNLOADS, $currentFile . "?op=downloads.list", 'list');
         $adminMenu->addItemButton(_AM_WFDOWNLOADS_FFS_DOWNLOADTITLE, $currentFile . "?op=download.add", 'add');
         echo $adminMenu->renderButton();
 
@@ -634,13 +642,13 @@ switch ($op) {
                         $criteria->add(new Criteria('cid', '(' . implode(',', $cids) . ')', 'IN'));
                     }
                 }
-                // Evaluate poster criteria
-                if (!is_null($filter_poster)) {
-                    $criteria->add(new Criteria('poster', '(' . implode(',', $filter_poster) . ')', 'IN'));
+                // Evaluate submitter criteria
+                if (!is_null($filter_submitter)) {
+                    $criteria->add(new Criteria('submitter', '(' . implode(',', $filter_submitter) . ')', 'IN'));
                 }
                 // Evaluate date criteria
                 if (!empty($filter_date)) {
-                    // IN PROGRESS
+                    // TODO: IN PROGRESS
                 }
             }
 
@@ -651,13 +659,14 @@ switch ($op) {
             $publishedDownloads      = $wfdownloads->getHandler('download')->getActiveDownloads($criteria);
             $publishedDownloadsCount = $wfdownloads->getHandler('download')->getActiveCount();
             $GLOBALS['xoopsTpl']->assign('published_downloads_count', $publishedDownloadsCount);
+
             if ($publishedDownloadsCount > 0) {
                 foreach ($publishedDownloads as $publishedDownload) {
                     $publishedDownload_array                        = $publishedDownload->toArray();
                     $publishedDownload_array['title_html']          = $myts->htmlSpecialChars(trim($publishedDownload_array['title']));
                     $publishedDownload_array['category_title']      = $categories[$publishedDownload_array['cid']]['title'];
                     $publishedDownload_array['submitter_uname']     = XoopsUserUtility::getUnameFromId($publishedDownload_array['submitter']);
-                    $publishedDownload_array['published_timestamp'] = formatTimestamp($publishedDownload_array['published'], _DATESTRING);
+                    $publishedDownload_array['published_timestamp'] = XoopsLocal::formatTimestamp($publishedDownload_array['published'], 'l');
                     $GLOBALS['xoopsTpl']->append('published_downloads', $publishedDownload_array);
                 }
             }
@@ -667,12 +676,20 @@ switch ($op) {
             $GLOBALS['xoopsTpl']->assign('filter_title_condition', $filter_title_condition);
             $GLOBALS['xoopsTpl']->assign('filter_category_title', $filter_category_title);
             $GLOBALS['xoopsTpl']->assign('filter_category_title_condition', $filter_category_title_condition);
-            $poster_select = new XoopsFormSelectUser(null, 'filter_poster', true, $filter_poster, 2, true);
-            $GLOBALS['xoopsTpl']->assign('filter_poster_select', $poster_select->render());
+            $submitters = array();
+            $downloadsSubmitters_array = $wfdownloads->getHandler('download')->getAll(null, array('submitter'), false, false);
+            foreach ($downloadsSubmitters_array as $downloadSubmitters_array) {
+                $submitters[$downloadSubmitters_array['submitter']] = XoopsUserUtility::getUnameFromId($downloadSubmitters_array['submitter']);
+            }
+            asort($submitters);
+            $submitter_select = new XoopsFormSelect('', 'filter_submitter', $filter_submitter, (count($submitters) > 5) ? 5 : count($submitters), true);
+            foreach ($submitters as $submitter_uid => $submitter_uname) {
+                $submitter_select->addOption($submitter_uid, $submitter_uname);
+            }
+            $GLOBALS['xoopsTpl']->assign('filter_submitter_select', $submitter_select->render());
             $date_select = new XoopsFormDateTime (null, 'filter_date', 15, time(), false);
             $GLOBALS['xoopsTpl']->assign('filter_date_select', $date_select->render());
             $GLOBALS['xoopsTpl']->assign('filter_date_condition', $filter_date_condition);
-
 
             // New Downloads
             $criteria = new CriteriaCompo();
@@ -695,7 +712,7 @@ switch ($op) {
                     $platform                             = $myts->htmlSpecialChars($newDownload_array['platform']);
                     $logourl                              = $myts->htmlSpecialChars($newDownload_array['screenshot']);
                     $newDownload_array['submitter_uname'] = XoopsUserUtility::getUnameFromId($newDownload_array['submitter']);
-                    $newDownload_array['date_timestamp']  = formatTimestamp($newDownload_array['date'], _DATESTRING);
+                    $newDownload_array['date_timestamp']  = XoopsLocal::formatTimestamp($newDownload_array['date'], 'l');
                     $GLOBALS['xoopsTpl']->append('new_downloads', $newDownload_array);
                 }
             }
@@ -718,7 +735,7 @@ switch ($op) {
                     $autopublishedDownload_array['title_html']          = $myts->htmlSpecialChars(trim($autopublishedDownload_array['title']));
                     $autopublishedDownload_array['category_title']      = $categories[$autopublishedDownload_array['cid']]['title'];
                     $autopublishedDownload_array['submitter_uname']     = XoopsUserUtility::getUnameFromId($autopublishedDownload_array['submitter']);
-                    $autopublishedDownload_array['published_timestamp'] = formatTimestamp($autopublishedDownload_array['published'], _DATESTRING);
+                    $autopublishedDownload_array['published_timestamp'] = XoopsLocal::formatTimestamp($autopublishedDownload_array['published'], 'l');
                     $GLOBALS['xoopsTpl']->append('autopublished_downloads', $autopublishedDownload_array);
                 }
             }
@@ -744,7 +761,7 @@ switch ($op) {
                     $expired_download_array['title_html']          = $myts->htmlSpecialChars(trim($expired_download_array['title']));
                     $expired_download_array['category_title']      = $categories[$expired_download_array['cid']]['title'];
                     $expired_download_array['submitter_uname']     = XoopsUserUtility::getUnameFromId($expired_download_array['submitter']);
-                    $expired_download_array['published_timestamp'] = formatTimestamp($expired_download_array['published'], _DATESTRING);
+                    $expired_download_array['published_timestamp'] = XoopsLocal::formatTimestamp($expired_download_array['published'], 'l');
                     $GLOBALS['xoopsTpl']->append('expired_downloads', $expired_download_array);
                 }
             }
@@ -752,7 +769,7 @@ switch ($op) {
             $GLOBALS['xoopsTpl']->assign('expired_downloads_pagenav', $pagenav->renderNav());
 
             // Offline downloads
-            $criteria = new Criteria("offline", 1);
+            $criteria = new Criteria('offline', true);
             $criteria->setSort('published');
             $criteria->setOrder('ASC');
             $criteria->setStart($start_offline);
@@ -767,7 +784,7 @@ switch ($op) {
                     $offlineDownload_array['title_html']          = $myts->htmlSpecialChars(trim($offlineDownload_array['title']));
                     $offlineDownload_array['category_title']      = $categories[$offlineDownload_array['cid']]['title'];
                     $offlineDownload_array['submitter_uname']     = XoopsUserUtility::getUnameFromId($offlineDownload_array['submitter']);
-                    $offlineDownload_array['published_timestamp'] = formatTimestamp($offlineDownload_array['published'], _DATESTRING);
+                    $offlineDownload_array['published_timestamp'] = XoopsLocal::formatTimestamp($offlineDownload_array['published'], 'l');
 
                     $GLOBALS['xoopsTpl']->append('offline_downloads', $offlineDownload_array);
                 }
@@ -777,7 +794,7 @@ switch ($op) {
         } else {
             // NOP
         }
-        $GLOBALS['xoopsTpl']->display("db:" . $wfdownloads->getModule()->dirname() . "_admin_downloadslist.html");
+        $GLOBALS['xoopsTpl']->display("db:{$wfdownloads->getModule()->dirname()}_admin_downloadslist.html");
 
         include 'admin_footer.php';
         break;
@@ -793,7 +810,6 @@ switch ($op) {
         echo $indexAdmin->addNavigation($currentFile);
 
         $adminMenu = new ModuleAdmin();
-//        $adminMenu->addItemButton(_MI_WFDOWNLOADS_MENU_DOWNLOADS, $currentFile . "?op=downloads.list", 'list');
         $adminMenu->addItemButton(_AM_WFDOWNLOADS_FFS_DOWNLOADTITLE, $currentFile . "?op=download.add", 'add');
         echo $adminMenu->renderButton();
 
@@ -817,7 +833,6 @@ switch ($op) {
             $GLOBALS['xoopsTpl']->assign('download', $download_array);
         }
 
-
         // Get all logged users
         $uidArray = array();
         foreach ($ip_logs as $ip_log) {
@@ -837,13 +852,14 @@ switch ($op) {
                 $ip_log_array                   = $ip_log->toArray();
                 $ip_log_array['uname']          = XoopsUserUtility::getUnameFromId(
                     $ip_log_array['uid']
-                ); //($ip_log_array['uid'] != 0) ? $userList[$ip_log_array['uid']] : _AM_WFDOWNLOADS_ANONYMOUS;
+                );
+                //($ip_log_array['uid'] != 0) ? $userList[$ip_log_array['uid']] : _AM_WFDOWNLOADS_ANONYMOUS;
                 $ip_log_array['date_timestamp'] = formatTimestamp($ip_log_array['date']);
                 $GLOBALS['xoopsTpl']->append('ip_logs', $ip_log_array);
             }
         }
 
-        $GLOBALS['xoopsTpl']->display("db:" . $wfdownloads->getModule()->dirname() . "_admin_ip_logslist.html");
+        $GLOBALS['xoopsTpl']->display("db:{$wfdownloads->getModule()->dirname()}_admin_ip_logslist.html");
 
         include 'admin_footer.php';
         break;

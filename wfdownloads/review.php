@@ -33,13 +33,12 @@ if (empty($category)) {
 }
 
 // Download not published, expired or taken offline - redirect
-if ($download->getVar('published') == 0 || $download->getVar('published') > time() || $download->getVar('offline') == true
-    || ($download->getVar(
-            'expired'
-        ) != 0
-        && $download->getVar('expired') < time())
-    || $download->getVar('status') == 0
-) {
+if (
+    $download->getVar('published') == 0 ||
+    $download->getVar('published') > time() ||
+    $download->getVar('offline') == true ||
+    ($download->getVar('expired') != 0 && $download->getVar('expired') < time()) ||
+    $download->getVar('status') == _WFDOWNLOADS_STATUS_WAITING) {
     redirect_header('index.php', 3, _MD_WFDOWNLOADS_NODOWNLOAD);
 }
 
@@ -69,11 +68,14 @@ switch ($op) {
     case "list" : // this care is not removed for backward compatibility issues
         $start = WfdownloadsRequest::getInt('start', 0);
 
-        $xoopsOption['template_main'] = 'wfdownloads_reviews.html';
+        $xoopsOption['template_main'] = "{$wfdownloads->getModule()->dirname()}_reviews.html";
         include XOOPS_ROOT_PATH . '/header.php';
 
-        $xoTheme->addStylesheet(WFDOWNLOADS_URL . '/module.css');
-        $xoTheme->addStylesheet(WFDOWNLOADS_URL . '/thickbox.css');
+        $xoTheme->addScript(XOOPS_URL . '/browse.php?Frameworks/jquery/jquery.js');
+        $xoTheme->addScript(WFDOWNLOADS_URL . '/assets/js/magnific/jquery.magnific-popup.min.js');
+        $xoTheme->addStylesheet(WFDOWNLOADS_URL . '/assets/js/magnific/magnific-popup.css');
+        $xoTheme->addStylesheet(WFDOWNLOADS_URL . '/assets/css/module.css');
+
         $xoopsTpl->assign('wfdownloads_url', WFDOWNLOADS_URL . '/');
 
         // Generate content header
@@ -132,30 +134,33 @@ switch ($op) {
         }
 
         // Get review poster 'uid'
-        $reviewerUid = is_object($xoopsUser) ? (int)$xoopsUser->getVar('uid') : 0;
+        $reviewerUid = is_object($xoopsUser) ? (int) $xoopsUser->getVar('uid') : 0;
 
         if (!empty($_POST['submit'])) {
             $review = $wfdownloads->getHandler('review')->create();
             $review->setVar('title', trim($_POST['title']));
             $review->setVar('review', trim($_POST['review']));
-            $review->setVar('lid', (int)$_POST['lid']);
-            $review->setVar('rated', (int)$_POST['rated']);
+            $review->setVar('lid', (int) $_POST['lid']);
+            $review->setVar('rated', (int) $_POST['rated']);
             $review->setVar('date', time());
             $review->setVar('uid', $reviewerUid);
-            $submit = ($wfdownloads->getConfig('rev_approve')) ? true : false;
+            $submit = (wfdownloads_userIsAdmin() ? wfdownloads_userIsAdmin() : ($wfdownloads->getConfig('rev_approve')) ? true : false);
             $review->setVar('submit', $submit);
 
             if (!$wfdownloads->getHandler('review')->insert($review)) {
                 redirect_header('index.php', 3, _MD_WFDOWNLOADS_ERROR_CREATEREVIEW);
             } else {
-                $databaseMessage = ($wfdownloads->getConfig('rev_approve')) ? _MD_WFDOWNLOADS_ISAPPROVED : _MD_WFDOWNLOADS_ISNOTAPPROVED;
+                $databaseMessage = ($submit) ? _MD_WFDOWNLOADS_ISAPPROVED : _MD_WFDOWNLOADS_ISNOTAPPROVED;
                 redirect_header('index.php', 2, $databaseMessage);
             }
         } else {
             include XOOPS_ROOT_PATH . '/header.php';
 
-            $xoTheme->addStylesheet(WFDOWNLOADS_URL . '/module.css');
-            $xoTheme->addStylesheet(WFDOWNLOADS_URL . '/thickbox.css');
+            $xoTheme->addScript(XOOPS_URL . '/browse.php?Frameworks/jquery/jquery.js');
+            $xoTheme->addScript(WFDOWNLOADS_URL . '/assets/js/magnific/jquery.magnific-popup.min.js');
+            $xoTheme->addStylesheet(WFDOWNLOADS_URL . '/assets/js/magnific/magnific-popup.css');
+            $xoTheme->addStylesheet(WFDOWNLOADS_URL . '/assets/css/module.css');
+
             $xoopsTpl->assign('wfdownloads_url', WFDOWNLOADS_URL . '/');
 
             // Breadcrumb

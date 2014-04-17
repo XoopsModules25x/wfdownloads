@@ -1,0 +1,72 @@
+<div id="help-template" class="outer">
+    <h1 class="head">Help:
+        <a class="ui-corner-all tooltip" href="<{$xoops_url}>/modules/wfdownloads/admin/index.php" title="Back to the administration of Wfdownloads">
+            Wfdownloads
+            <img src="<{xoAdminIcons home.png}>" alt="Back to the Administration of Wfdownloads"/>
+        </a>
+    </h1>
+
+    <h4 class="odd">Fresh Install</h4>
+    <p class="even">
+        These instructions are for a fresh install.
+        <br>
+        <br>
+        If you want to update an older Wfdownloads please select 'Update'.
+        <br>
+        If you want to import from Xoops myDownloads please select 'Import'.
+        <br>
+        <br>
+        We <span style="font-weight: bold;">recommends you take a full backup</span> before INSTALLING or UPDATING any module.
+        <br>
+        <br>
+    </p>
+
+    <h4 class="odd">Fresh installation of Wfdownloads</h4>
+    <p class="even">
+        <span style="font-weight: bold;">Upload the module to your website</span>
+        <br>
+        <br>
+        Upload the 'wfdownloads' folder to {xoops-rootdirectory}/modules folder.
+        <br>
+        <br>
+        <span style="font-weight: bold;">Change and verify folder permissions</span>
+        <br>
+        <br>
+        CHMOD the following folders to 777:
+        <br>
+        wfdownloads/assets/images
+        <br>
+        wfdownloads/assets/images/category
+        <br>
+        wfdownloads/assets/images/category/thumbs
+        <br>
+        wfdownloads/assets/images/screenshots
+        <br>
+        wfdownloads/assets/images/screenshots/thumbs
+        <br>
+        <br>
+        Also make sure that the {xoops-rootdirectory}/uploads folder is set to 777.
+        <br>
+        <br>
+        <span style="font-weight: bold;">Install the module</span>
+        <br>
+        <br>
+        Login as administrator and enter Xoops Administration page.
+        <br>
+        Select System --&gt; modules and install wfdownloads from there.
+        <br>
+        <br>
+        On Linux/Apache servers, in order to avoid any kind  of problem in audio/video preview, create a filed called .htaccess with the following text and upload it to the root of your website.
+        <code>
+&nbsp;&nbsp;AddType video/ogg .ogv
+&nbsp;&nbsp;AddType video/mp4 .mp4
+&nbsp;&nbsp;AddType video/webm .webm
+        </code>
+        <br>
+        <br>
+        <span style="font-weight: bold;">Configure the module</span>
+        <br>
+        <br>
+        Most important steps now will be to setup the group permissions for the module and its blocks via System --&gt; groups and than within wfdownloads administration Mimetype management to decide which files are allowed to be uploaded by users and administrators.
+    </p>
+</div>

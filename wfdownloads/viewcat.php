@@ -48,7 +48,7 @@ if (is_object($xoopsUser)
 ) {
     // if user is a registered user
     $groups = $xoopsUser->getGroups();
-    if (array_intersect($xoopsModuleConfig['submitarts'], $groups)) {
+    if (count(array_intersect($wfdownloads->getConfig('submitarts'), $groups)) > 0) {
         $isSubmissionAllowed = true;
     }
 } else {
@@ -68,11 +68,14 @@ if (empty($category)) {
 $allowedDownCategoriesIds = $gperm_handler->getItemIds('WFDownCatPerm', $groups, $wfdownloads->getModule()->mid());
 $allowedUpCategoriesIds   = $gperm_handler->getItemIds('WFUpCatPerm', $groups, $wfdownloads->getModule()->mid());
 
-$xoopsOption['template_main'] = 'wfdownloads_viewcat.html';
+$xoopsOption['template_main'] = "{$wfdownloads->getModule()->dirname()}_viewcat.html";
 include XOOPS_ROOT_PATH . '/header.php';
 
-$xoTheme->addStylesheet(WFDOWNLOADS_URL . '/module.css');
-$xoTheme->addStylesheet(WFDOWNLOADS_URL . '/thickbox.css');
+$xoTheme->addScript(XOOPS_URL . '/browse.php?Frameworks/jquery/jquery.js');
+$xoTheme->addScript(WFDOWNLOADS_URL . '/assets/js/magnific/jquery.magnific-popup.min.js');
+$xoTheme->addStylesheet(WFDOWNLOADS_URL . '/assets/js/magnific/magnific-popup.css');
+$xoTheme->addStylesheet(WFDOWNLOADS_URL . '/assets/css/module.css');
+
 $xoopsTpl->assign('wfdownloads_url', WFDOWNLOADS_URL . '/');
 
 $xoopsTpl->assign('cid', $cid); // this definition is not removed for backward compatibility issues
@@ -214,7 +217,7 @@ if (is_array($allSubcategories) > 0 && !isset($_GET['list']) && !isset($_GET['se
                  'subcategories_count' => $catdowncount,
             )
         );
-        $scount++;
+        ++$scount;
     }
 }
 if (isset($cid) && $cid > 0 && isset($categories[$cid])) {
@@ -257,7 +260,7 @@ if (isset($cid) && $cid > 0 && isset($categories[$cid])) {
 $xoopsTpl->assign('show_category_title', false);
 
 if (isset($_GET['selectdate'])) {
-    $criteria->add(new Criteria('', 'TO_DAYS(FROM_UNIXTIME(' . (int)$_GET['selectdate'] . '))', '=', '', 'TO_DAYS(FROM_UNIXTIME(published))'));
+    $criteria->add(new Criteria('', 'TO_DAYS(FROM_UNIXTIME(' . (int) $_GET['selectdate'] . '))', '=', '', 'TO_DAYS(FROM_UNIXTIME(published))'));
     $xoopsTpl->assign('show_categort_title', true);
 } elseif (isset($_GET['list'])) {
     $criteria->setSort("{$orderby}, title");
@@ -325,9 +328,54 @@ if ($wfdownloads->getConfig('enablerss') == true && $downloads_count > 0) {
     $rsslink_URL = WFDOWNLOADS_URL . "/rss.php?cid={$cid}";
     $xoopsTpl->assign('category_rssfeed_URL', $rsslink_URL);
     $rsslink = "<a href='" . $rsslink_URL . "' title='" . _MD_WFDOWNLOADS_LEGENDTEXTCATRSS . "'><img src='" . XOOPS_URL . "/modules/"
-        . $wfdownloads->getModule()->getVar('dirname') . "/images/icon/rss.gif' border='0' alt='" . _MD_WFDOWNLOADS_LEGENDTEXTCATRSS . "' title='"
+        . $wfdownloads->getModule()->getVar('dirname') . "/assets/images/icon/rss.gif' border='0' alt='" . _MD_WFDOWNLOADS_LEGENDTEXTCATRSS . "' title='"
         . _MD_WFDOWNLOADS_LEGENDTEXTCATRSS . "'></a>";
     $xoopsTpl->assign('cat_rssfeed_link', $rsslink); // this definition is not removed for backward compatibility issues
 }
 
 include 'footer.php';
+
+?>
+<script type="text/javascript">
+
+    $('.magnific_zoom').magnificPopup({
+        type               : 'image',
+        image              : {
+            cursor     : 'mfp-zoom-out-cur',
+            titleSrc   : "title",
+            verticalFit: true,
+            tError     : 'The image could not be loaded.' // Error message
+        },
+        iframe             : {
+            patterns: {
+                youtube : {
+                    index: 'youtube.com/',
+                    id   : 'v=',
+                    src  : '//www.youtube.com/embed/%id%?autoplay=1'
+                }, vimeo: {
+                    index: 'vimeo.com/',
+                    id   : '/',
+                    src  : '//player.vimeo.com/video/%id%?autoplay=1'
+                }, gmaps: {
+                    index: '//maps.google.',
+                    src  : '%id%&output=embed'
+                }
+            }
+        },
+        preloader          : true,
+        showCloseBtn       : true,
+        closeBtnInside     : false,
+        closeOnContentClick: true,
+        closeOnBgClick     : true,
+        enableEscapeKey    : true,
+        modal              : false,
+        alignTop           : false,
+        mainClass          : 'mfp-img-mobile mfp-fade',
+        zoom               : {
+            enabled : true,
+            duration: 300,
+            easing  : 'ease-in-out'
+        },
+        removalDelay       : 200
+    });
+</script>

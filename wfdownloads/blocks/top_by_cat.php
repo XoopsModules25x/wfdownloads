@@ -29,6 +29,11 @@
  */
 defined("XOOPS_ROOT_PATH") or die('XOOPS root path not defined');
 include_once dirname(dirname(__FILE__)) . '/include/common.php';
+/**
+ * @param $options
+ *
+ * @return array
+ */
 function wfdownloads_top_by_cat_show($options)
 {
     global $xoopsUser;
@@ -43,7 +48,7 @@ function wfdownloads_top_by_cat_show($options)
     // get downloads
     $criteria = new CriteriaCompo();
     $criteria->add(new Criteria('cid', '(' . implode(',', $allowedDownCategoriesIds) . ')', 'IN'));
-    $criteria->add(new Criteria('offline', 0)); // false
+    $criteria->add(new Criteria('offline', false));
     $criteria->setSort('date');
     $criteria->setOrder('DESC');
     $criteria->setLimit($options[1]);
@@ -51,11 +56,11 @@ function wfdownloads_top_by_cat_show($options)
 
     foreach (array_keys($downloads) as $i) {
         $download = $downloads[$i]->toArray();
-        if (!in_array((int)$download['cid'], $allowedDownCategoriesIds)) {
+        if (!in_array((int) $download['cid'], $allowedDownCategoriesIds)) {
             continue;
         }
         $download['title'] = xoops_substr($download['title'], 0, ($options[2] - 1));
-        $download['id']    = (int)$download['lid'];
+        $download['id']    = (int) $download['lid'];
         if ($options[0] == 'published') {
             $download['date'] = formatTimestamp($download['published'], $wfdownloads->getConfig('dateformat'));
         } else {
@@ -80,6 +85,11 @@ function wfdownloads_top_by_cat_show($options)
     return $block;
 }
 
+/**
+ * @param $options
+ *
+ * @return string
+ */
 function wfdownloads_top_by_cat_edit($options)
 {
     $form = "" . _MB_WFDOWNLOADS_DISP . "&nbsp;";

@@ -39,14 +39,13 @@ if ($download->isNew()) {
 $cid    = WfdownloadsRequest::getInt('cid', $download->getVar('cid'));
 $agreed = WfdownloadsRequest::getBool('agreed', false, 'POST');
 
-//Download not published, expired or taken offline - redirect
-if ($download->getVar('published') == 0 || $download->getVar('published') > time() || $download->getVar('offline') == true
-    || ($download->getVar(
-            'expired'
-        ) != 0
-        && $download->getVar('expired') < time())
-    || $download->getVar('status') == 0
-) {
+// Download not published, expired or taken offline - redirect
+if (
+    $download->getVar('published') == 0 ||
+    $download->getVar('published') > time() ||
+    $download->getVar('offline') == true ||
+    ($download->getVar('expired') != 0 && $download->getVar('expired') < time()) ||
+    $download->getVar('status') == _WFDOWNLOADS_STATUS_WAITING) {
     redirect_header('index.php', 3, _MD_WFDOWNLOADS_NODOWNLOAD);
 }
 
@@ -54,14 +53,6 @@ if ($download->getVar('published') == 0 || $download->getVar('published') > time
 $groups = is_object($xoopsUser) ? $xoopsUser->getGroups() : array(0 => XOOPS_GROUP_ANONYMOUS);
 if (!$gperm_handler->checkRight('WFDownCatPerm', $cid, $groups, $wfdownloads->getModule()->mid())) {
     redirect_header('index.php', 3, _NOPERM);
-}
-
-function reportBroken($lid)
-{
-    echo "<h4>" . _MD_WFDOWNLOADS_BROKENFILE . "</h4>\n";
-    echo "<div>" . _MD_WFDOWNLOADS_PLEASEREPORT . "\n";
-    echo "<a href='" . WFDOWNLOADS_URL . "/brokenfile.php?lid={$lid}'>" . _MD_WFDOWNLOADS_CLICKHERE . "</a>\n";
-    echo "</div>\n";
 }
 
 if ($agreed == false) {
@@ -82,11 +73,14 @@ if ($agreed == false) {
 }
 
 if ($wfdownloads->getConfig('showDowndisclaimer') && $agreed == false) {
-    $xoopsOption['template_main'] = 'wfdownloads_disclaimer.html';
+    $xoopsOption['template_main'] = "{$wfdownloads->getModule()->dirname()}_disclaimer.html";
     include XOOPS_ROOT_PATH . '/header.php';
 
-    $xoTheme->addStylesheet(WFDOWNLOADS_URL . '/module.css');
-    $xoTheme->addStylesheet(WFDOWNLOADS_URL . '/thickbox.css');
+    $xoTheme->addScript(XOOPS_URL . '/browse.php?Frameworks/jquery/jquery.js');
+    $xoTheme->addScript(WFDOWNLOADS_URL . '/assets/js/magnific/jquery.magnific-popup.min.js');
+    $xoTheme->addStylesheet(WFDOWNLOADS_URL . '/assets/js/magnific/magnific-popup.css');
+    $xoTheme->addStylesheet(WFDOWNLOADS_URL . '/assets/css/module.css');
+
     $xoopsTpl->assign('wfdownloads_url', WFDOWNLOADS_URL . '/');
 
     $catarray['imageheader'] = wfdownloads_headerImage();
@@ -127,18 +121,24 @@ if ($wfdownloads->getConfig('showDowndisclaimer') && $agreed == false) {
     $ip_log->setVar('uid', is_object($xoopsUser) ? $xoopsUser->getVar('uid') : 0);
     $wfdownloads->getHandler('ip_log')->insert($ip_log, true);
 
-    $fullFilename = trim($download->getVar('filename'));
-    if ((!$download->getVar('url') == '' && !$download->getVar('url') == 'http://') || $fullFilename == '') {
+    // Download file
+    $fileFilename = trim($download->getVar('filename')); // IN PROGRESS: why 'trim'?
+    if ((!$download->getVar('url') == '' && !$download->getVar('url') == 'http://') || $fileFilename == '') {
+        // download is a remote file: download from remote url
         include XOOPS_ROOT_PATH . '/header.php';
 
-        $xoTheme->addStylesheet(WFDOWNLOADS_URL . '/module.css');
-        $xoTheme->addStylesheet(WFDOWNLOADS_URL . '/thickbox.css');
+        $xoTheme->addScript(XOOPS_URL . '/browse.php?Frameworks/jquery/jquery.js');
+        $xoTheme->addScript(WFDOWNLOADS_URL . '/assets/js/magnific/jquery.magnific-popup.min.js');
+        $xoTheme->addStylesheet(WFDOWNLOADS_URL . '/assets/js/magnific/magnific-popup.css');
+        $xoTheme->addStylesheet(WFDOWNLOADS_URL . '/assets/css/module.css');
+
         $xoopsTpl->assign('wfdownloads_url', WFDOWNLOADS_URL . '/');
 
         echo "<div align='center'>" . wfdownloads_headerImage() . "</div>";
         $url = $myts->htmlSpecialChars(preg_replace('/javascript:/si', 'javascript:', $download->getVar('url')), ENT_QUOTES);
-        echo "<h4><img src='" . WFDOWNLOADS_URL . "/images/icon/downloads.gif' align='middle' alt='' title='" . _MD_WFDOWNLOADS_DOWNINPROGRESS
-            . "' /> " . _MD_WFDOWNLOADS_DOWNINPROGRESS . "</h4>\n";
+        echo "<h4>\n";
+        echo "<img src='" . WFDOWNLOADS_URL . "/assets/images/icon/downloads.gif' align='middle' alt='' title='" . _MD_WFDOWNLOADS_DOWNINPROGRESS . "' /> " . _MD_WFDOWNLOADS_DOWNINPROGRESS . "\n";
+        echo "</h4>\n";
         echo "<div>" . _MD_WFDOWNLOADS_DOWNSTARTINSEC . "</div><br />\n";
         echo "<div>" . _MD_WFDOWNLOADS_DOWNNOTSTART . "\n";
         echo "<a href='{$url}' target='_blank'>" . _MD_WFDOWNLOADS_CLICKHERE . "</a>.\n";
@@ -150,38 +150,51 @@ if ($wfdownloads->getConfig('showDowndisclaimer') && $agreed == false) {
         header("Expires: Mon, 26 Jul 1997 05:00:00 GMT"); // Date in the past
         header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT"); // Always modified
         header("Refresh: 3; url={$url}");
-    } elseif (!empty($fullFilename)) {
-        $mimeType     = $download->getVar('filetype');
-        $file         = strrev($fullFilename);
-        $tempFilename = strtolower(strrev(substr($file, 0, strpos($file, '--'))));
-        $filename     = ($tempFilename == '') ? $fullFilename : $tempFilename;
-        $filePath     = $wfdownloads->getConfig('uploaddir') . '/' . stripslashes(trim($fullFilename));
+    } elseif (!empty($fileFilename)) {
+        // download is a local file: download from filesystem
         if (ini_get('zlib.output_compression')) {
             ini_set('zlib.output_compression', 'Off');
         }
-        // MSIE Bug fix.
-        $headerFilename = (strstr($_SERVER['HTTP_USER_AGENT'], 'MSIE')) ? preg_replace('/\./', '%2e', $filename, substr_count($filename, '.') - 1)
-            : $filename;
+        // get file informations from filesystem
+        $fileFilename = trim($download->getVar('filename')); // IN PROGRESS: why 'trim'?
+        $fileMimetype = ($download->getVar('filetype') != '') ? $download->getVar('filetype') : "application/octet-stream";
+        $filePath = $wfdownloads->getConfig('uploaddir') . '/' . stripslashes(trim($fileFilename));
+        $fileFilesize = filesize($filePath);
+        $fileInfo = pathinfo($filePath);
+        $fileName = $fileInfo['basename'];
+        $fileExtension = $fileInfo['extension'];
+
+        $headerFilename = strtolower(strrev(substr(strrev($fileFilename), 0, strpos(strrev($fileFilename), '--'))));
+        $headerFilename = ($headerFilename == '') ? $fileFilename : $headerFilename;
+        // MSIE Bug fix
+        if (strstr($_SERVER['HTTP_USER_AGENT'], 'MSIE')) {
+            $headerFilename = preg_replace('/\./', '%2e', $headerFilename, substr_count($headerFilename, '.') - 1);
+        }
+        //
         header("Pragma: public");
         header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
         header("Cache-Control: private", false);
-        header("Content-Length: " . (string)(filesize($filePath)));
+        header("Content-Length: " . (string) ($fileFilesize));
         header("Content-Transfer-Encoding: binary");
-        if (isset($mimeType)) {
-            header("Content-Type: {$mimeType}");
-        }
+        header("Content-Type: {$fileMimetype}");
         header("Content-Disposition: attachment; filename={$headerFilename}");
-        if (isset($mimeType) && strstr($mimeType, 'text/')) {
+        if (strstr($fileMimetype, 'text/')) {
+            // downladed file is not binary
             wfdownloads_download($filePath, false, true);
         } else {
+            // downladed file is binary
             wfdownloads_download($filePath, true, true);
         }
         exit();
     } else {
+        // download is a broken file: report broken
         include XOOPS_ROOT_PATH . '/header.php';
         echo "<br />";
         echo "<div align='center'>" . wfdownloads_headerImage() . "</div>";
-        reportBroken($lid);
+        echo "<h4>" . _MD_WFDOWNLOADS_BROKENFILE . "</h4>\n";
+        echo "<div>" . _MD_WFDOWNLOADS_PLEASEREPORT . "\n";
+        echo "<a href='" . WFDOWNLOADS_URL . "/brokenfile.php?lid={$lid}'>" . _MD_WFDOWNLOADS_CLICKHERE . "</a>\n";
+        echo "</div>\n";
     }
     include 'footer.php';
 }

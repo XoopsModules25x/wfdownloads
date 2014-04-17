@@ -9,7 +9,7 @@
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 /**
- *  Publisher class
+ *  WfdownloadsWfdownloads class
  *
  * @copyright       The XUUPS Project http://sourceforge.net/projects/xuups/
  * @license         http://www.fsf.org/copyleft/gpl.html GNU public license
@@ -21,6 +21,9 @@
  */
 defined("XOOPS_ROOT_PATH") or die("XOOPS root path not defined");
 
+/**
+ * Class WfdownloadsWfdownloads
+ */
 class WfdownloadsWfdownloads
 {
     var $dirname;
@@ -30,21 +33,27 @@ class WfdownloadsWfdownloads
     var $debug;
     var $debugArray = array();
 
+    /**
+     * @param $debug
+     */
     protected function __construct($debug)
     {
         $this->debug = $debug;
         $this->dirname =  basename(dirname(dirname(__FILE__)));
     }
 
+    /**
+     * @param bool $debug
+     *
+     * @return WfdownloadsWfdownloads
+     */
     static function &getInstance($debug = false)
     {
         static $instance = false;
         if (!$instance) {
             $instance = new self($debug);
         }
-//error_log("istance: [" . print_r($istance,true) . "]");
-//phpinfo();
-//debug_print_backtrace ();
+
         return $instance;
     }
 
@@ -53,9 +62,15 @@ class WfdownloadsWfdownloads
         if ($this->module == null) {
             $this->initModule();
         }
+
         return $this->module;
     }
 
+    /**
+     * @param null $name
+     *
+     * @return null
+     */
     function getConfig($name = null)
     {
         if ($this->config == null) {
@@ -63,16 +78,25 @@ class WfdownloadsWfdownloads
         }
         if (!$name) {
             $this->addLog("Getting all config");
+
             return $this->config;
         }
         if (!isset($this->config[$name])) {
             $this->addLog("ERROR :: CONFIG '{$name}' does not exist");
+
             return null;
         }
         $this->addLog("Getting config '{$name}' : " . print_r($this->config[$name], true));
+
         return $this->config[$name];
     }
 
+    /**
+     * @param null $name
+     * @param null $value
+     *
+     * @return mixed
+     */
     function setConfig($name = null, $value = null)
     {
         if ($this->config == null) {
@@ -80,15 +104,22 @@ class WfdownloadsWfdownloads
         }
         $this->config[$name] = $value;
         $this->addLog("Setting config '{$name}' : " . $this->config[$name]);
+
         return $this->config[$name];
     }
 
+    /**
+     * @param $name
+     *
+     * @return mixed
+     */
     function &getHandler($name)
     {
         if (!isset($this->handler[$name . '_handler'])) {
             $this->initHandler($name);
         }
         $this->addLog("Getting handler '{$name}'");
+
         return $this->handler[$name . '_handler'];
     }
 
@@ -111,12 +142,18 @@ class WfdownloadsWfdownloads
         $this->config = $hModConfig->getConfigsByCat(0, $this->getModule()->getVar('mid'));
     }
 
+    /**
+     * @param $name
+     */
     function initHandler($name)
     {
         $this->addLog('INIT ' . $name . ' HANDLER');
         $this->handler[$name . '_handler'] = xoops_getModuleHandler($name, $this->dirname);
     }
 
+    /**
+     * @param $log
+     */
     function addLog($log)
     {
         if ($this->debug) {

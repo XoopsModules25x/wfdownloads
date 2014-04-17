@@ -20,6 +20,10 @@
  */
 defined("XOOPS_ROOT_PATH") or die("XOOPS root path not defined");
 include_once dirname(dirname(__FILE__)) . '/include/common.php';
+
+/**
+ * Class WfdownloadsIP_Log
+ */
 class WfdownloadsIP_Log extends XoopsObject
 {
     /**
@@ -50,6 +54,9 @@ class WfdownloadsIP_Log extends XoopsObject
     }
 }
 
+/**
+ * Class WfdownloadsIP_LogHandler
+ */
 class WfdownloadsIP_LogHandler extends XoopsPersistableObjectHandler
 {
     /**

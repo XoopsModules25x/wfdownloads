@@ -19,19 +19,24 @@
  * @version         svn:$id$
  */
 
-if (!defined("XOOPS_ROOT_PATH")) {
-     die("XOOPS root path not defined");
-}
+defined("XOOPS_ROOT_PATH") or die("XOOPS root path not defined");
 include_once dirname(__FILE__) . '/common.php';
 
 // comment callback functions
 
+/**
+ * @param $download_id
+ * @param $total_num
+ */
 function wfdownloads_com_update($download_id, $total_num)
 {
     $wfdownloads = WfdownloadsWfdownloads::getInstance();
     $wfdownloads->getHandler('download')->updateAll("comments", intval($total_num), new Criteria("lid", intval($download_id)));
 }
 
+/**
+ * @param $comment
+ */
 function wfdownloads_com_approve(&$comment)
 {
     // notification mail here

@@ -14,7 +14,7 @@
  * @package         kernel
  * @since           2.0.0
  * @author          Kazumi Ono (AKA onokazu) http://www.myweb.ne.jp/, http://jp.xoops.org/
- * @version         $Id: xoopstree.php 12147 2013-10-06 04:10:39Z beckmi $
+ * @version         $Id: xoopstree.php 12447 2014-04-15 08:31:59Z beckmi $
  */
 
 defined('XOOPS_ROOT_PATH') or die('Restricted access');
@@ -40,6 +40,11 @@ class WfdownloadsXoopsTree
 
     //constructor of class XoopsTree
     //sets the names of table, unique id, and parend id
+    /**
+     * @param $table_name
+     * @param $id_name
+     * @param $pid_name
+     */
     function __construct($table_name, $id_name, $pid_name)
     {
 //        $GLOBALS['xoopsLogger']->addDeprecated("Class '" . __CLASS__ . "' is deprecated, check 'XoopsObjectTree' in tree.php");
@@ -50,6 +55,12 @@ class WfdownloadsXoopsTree
     }
 
     // returns an array of first child objects for a given id($sel_id)
+    /**
+     * @param        $sel_id
+     * @param string $order
+     *
+     * @return array
+     */
     function getFirstChild($sel_id, $order = "")
     {
         $sel_id = intval($sel_id);
@@ -71,6 +82,11 @@ class WfdownloadsXoopsTree
     }
 
     // returns an array of all FIRST child ids of a given id($sel_id)
+    /**
+     * @param $sel_id
+     *
+     * @return array
+     */
     function getFirstChildId($sel_id)
     {
         $sel_id  = intval($sel_id);
@@ -88,6 +104,13 @@ class WfdownloadsXoopsTree
     }
 
     //returns an array of ALL child ids for a given id($sel_id)
+    /**
+     * @param        $sel_id
+     * @param string $order
+     * @param array  $idarray
+     *
+     * @return array
+     */
     function getAllChildId($sel_id, $order = "", $idarray = array())
     {
         $sel_id = intval($sel_id);
@@ -109,6 +132,13 @@ class WfdownloadsXoopsTree
     }
 
     //returns an array of ALL parent ids for a given id($sel_id)
+    /**
+     * @param        $sel_id
+     * @param string $order
+     * @param array  $idarray
+     *
+     * @return array
+     */
     function getAllParentId($sel_id, $order = "", $idarray = array())
     {
         $sel_id = intval($sel_id);
@@ -129,6 +159,13 @@ class WfdownloadsXoopsTree
 
     //generates path from the root id to a given id($sel_id)
     // the path is delimetered with "/"
+    /**
+     * @param        $sel_id
+     * @param        $title
+     * @param string $path
+     *
+     * @return string
+     */
     function getPathFromId($sel_id, $title, $path = "")
     {
         $sel_id = intval($sel_id);
@@ -151,6 +188,14 @@ class WfdownloadsXoopsTree
     //makes a nicely ordered selection box
     //$preset_id is used to specify a preselected item
     //set $none to 1 to add a option with value 0
+    /**
+     * @param        $title
+     * @param string $order
+     * @param int    $preset_id
+     * @param int    $none
+     * @param string $sel_name
+     * @param string $onchange
+     */
     function makeMySelBox($title, $order = "", $preset_id = 0, $none = 0, $sel_name = "", $onchange = "")
     {
         if ($sel_name == "") {
@@ -192,6 +237,14 @@ class WfdownloadsXoopsTree
     }
 
     //generates nicely formatted linked path from the root id to a given id
+    /**
+     * @param        $sel_id
+     * @param        $title
+     * @param        $funcURL
+     * @param string $path
+     *
+     * @return string
+     */
     function getNicePathFromId($sel_id, $title, $funcURL, $path = "")
     {
         $path   = !empty($path) ? "&nbsp;:&nbsp;" . $path : $path;
@@ -215,6 +268,12 @@ class WfdownloadsXoopsTree
 
     //generates id path from the root id to a given id
     // the path is delimetered with "/"
+    /**
+     * @param        $sel_id
+     * @param string $path
+     *
+     * @return string
+     */
     function getIdPathFromId($sel_id, $path = "")
     {
         $sel_id = intval($sel_id);
@@ -235,9 +294,9 @@ class WfdownloadsXoopsTree
     /**
      * Enter description here...
      *
-     * @param  unknown_type $sel_id
-     * @param  unknown_type $order
-     * @param  unknown_type $parray
+     * @param int|\unknown_type    $sel_id
+     * @param string|\unknown_type $order
+     * @param array|\unknown_type  $parray
      *
      * @return unknown
      */
@@ -264,10 +323,10 @@ class WfdownloadsXoopsTree
     /**
      * Enter description here...
      *
-     * @param  unknown_type $sel_id
-     * @param  unknown_type $order
-     * @param  unknown_type $parray
-     * @param  unknown_type $r_prefix
+     * @param int|\unknown_type    $sel_id
+     * @param string|\unknown_type $order
+     * @param array|\unknown_type  $parray
+     * @param string|\unknown_type $r_prefix
      *
      * @return unknown
      */

@@ -37,7 +37,7 @@ CREATE TABLE wfdownloads_cat (
     summary text NOT NULL,
     spotlighttop int(11) NOT NULL default '0',
     spotlighthis int(11) NOT NULL default '0',
-    dohtml tinyint(1) NOT NULL default '1',
+    dohtml tinyint(1) NOT NULL default '0',
     dosmiley tinyint(1) NOT NULL default '1',
     doxcode tinyint(1) NOT NULL default '1',
     doimage tinyint(1) NOT NULL default '1',
@@ -102,6 +102,11 @@ CREATE TABLE wfdownloads_downloads (
     notifypub int(1) NOT NULL default '0',
     formulize_idreq int(5) NOT NULL default '0',
     screenshots text NOT NULL default '',
+    dohtml tinyint(1) NOT NULL default '0',
+    dosmiley tinyint(1) NOT NULL default '1',
+    doxcode tinyint(1) NOT NULL default '1',
+    doimage tinyint(1) NOT NULL default '1',
+    dobr tinyint(1) NOT NULL default '1',
     PRIMARY KEY  (lid),
     KEY cid (cid),
     KEY status (status),
@@ -180,7 +185,7 @@ INSERT INTO wfdownloads_mimetypes VALUES (16, 'exe', 'application/exe applicatio
 INSERT INTO wfdownloads_mimetypes VALUES (17, 'wmz', 'application/x-ms-wmz', 'Windows Media Compressed Skin File', 1, 0);
 INSERT INTO wfdownloads_mimetypes VALUES (18, 'wmd', 'application/x-ms-wmd', 'Windows Media Download File', 1, 0);
 INSERT INTO wfdownloads_mimetypes VALUES (19, 'doc', 'application/msword application/doc appl/text application/vnd.msword application/vnd.ms-word application/winword application/word application/x-msw6 application/x-msword', 'Word Document', 1, 0);
-INSERT INTO wfdownloads_mimetypes VALUES (20, 'pdf', 'application/pdf application/acrobat application/x-pdf applications/vnd.pdf text/pdf', 'Acrobat Portable Document Format', 1, 0);
+INSERT INTO wfdownloads_mimetypes VALUES (20, 'pdf', 'application/pdf application/acrobat application/x-pdf applications/vnd.pdf text/pdf', 'Acrobat Portable Document Format', 1, 1);
 INSERT INTO wfdownloads_mimetypes VALUES (21, 'eps', 'application/eps application/postscript application/x-eps image/eps image/x-eps', 'Encapsulated PostScript', 1, 0);
 INSERT INTO wfdownloads_mimetypes VALUES (22, 'ps', 'application/postscript application/ps application/x-postscript application/x-ps text/postscript', 'PostScript', 1, 0);
 INSERT INTO wfdownloads_mimetypes VALUES (23, 'smi', 'application/smil', 'SMIL Multimedia', 1, 0);
@@ -199,7 +204,7 @@ INSERT INTO wfdownloads_mimetypes VALUES (35, 'spl', 'application/x-futuresplash
 INSERT INTO wfdownloads_mimetypes VALUES (36, 'hdf', 'application/x-hdf', 'Hierarchical Data Format File', 1, 0);
 INSERT INTO wfdownloads_mimetypes VALUES (37, 'js', 'application/x-javascript text/javascript', 'JavaScript Source Code', 1, 0);
 INSERT INTO wfdownloads_mimetypes VALUES (38, 'skp', 'application/x-koan application/vnd-koan koan/x-skm application/vnd.koan', 'SSEYO Koan Play File', 1, 0);
-INSERT INTO wfdownloads_mimetypes VALUES (39, 'skd', 'application/x-koan application/vnd-koan koan/x-skm application/vnd.koan', 'SSEYO Koan Design File', 1, 1);
+INSERT INTO wfdownloads_mimetypes VALUES (39, 'skd', 'application/x-koan application/vnd-koan koan/x-skm application/vnd.koan', 'SSEYO Koan Design File', 1, 0);
 INSERT INTO wfdownloads_mimetypes VALUES (40, 'skt', 'application/x-koan application/vnd-koan koan/x-skm application/vnd.koan', 'SSEYO Koan Template File', 1, 0);
 INSERT INTO wfdownloads_mimetypes VALUES (41, 'skm', 'application/x-koan application/vnd-koan koan/x-skm application/vnd.koan', 'SSEYO Koan Mix File', 1, 0);
 INSERT INTO wfdownloads_mimetypes VALUES (42, 'latex', 'application/x-latex text/x-latex', 'LaTeX Source Document', 1, 0);
@@ -216,7 +221,7 @@ INSERT INTO wfdownloads_mimetypes VALUES (52, 'tr', 'application/x-troff', 'Unix
 INSERT INTO wfdownloads_mimetypes VALUES (53, 'src', 'application/x-wais-source', 'Sourcecode', 1, 0);
 INSERT INTO wfdownloads_mimetypes VALUES (54, 'xhtml', 'application/xhtml+xml', 'Extensible HyperText Markup Language File', 1, 0);
 INSERT INTO wfdownloads_mimetypes VALUES (55, 'xht', 'application/xhtml+xml', 'Extensible HyperText Markup Language File', 1, 0);
-INSERT INTO wfdownloads_mimetypes VALUES (56, 'au', 'audio/basic audio/x-basic audio/au audio/x-au audio/x-pn-au audio/rmf audio/x-rmf audio/x-ulaw audio/vnd.qcelp audio/x-gsm audio/snd', 'ULaw/AU Audio File', 1, 1);
+INSERT INTO wfdownloads_mimetypes VALUES (56, 'au', 'audio/basic audio/x-basic audio/au audio/x-au audio/x-pn-au audio/rmf audio/x-rmf audio/x-ulaw audio/vnd.qcelp audio/x-gsm audio/snd', 'ULaw/AU Audio File', 1, 0);
 INSERT INTO wfdownloads_mimetypes VALUES (57, 'XM', 'audio/xm audio/x-xm audio/module-xm audio/mod audio/x-mod', 'Fast Tracker 2 Extended Module', 1, 0);
 INSERT INTO wfdownloads_mimetypes VALUES (58, 'snd', 'audio/basic', 'Macintosh Sound Resource', 1, 0);
 INSERT INTO wfdownloads_mimetypes VALUES (59, 'mid', 'audio/mid audio/m audio/midi audio/x-midi application/x-midi audio/soundtrack', 'Musical Instrument Digital Interface MIDI-sequention Sound', 1, 0);
@@ -224,7 +229,7 @@ INSERT INTO wfdownloads_mimetypes VALUES (60, 'midi', 'audio/mid audio/m audio/m
 INSERT INTO wfdownloads_mimetypes VALUES (61, 'kar', 'audio/midi audio/x-midi audio/mid x-music/x-midi', 'Karaoke MIDI File', 1, 0);
 INSERT INTO wfdownloads_mimetypes VALUES (62, 'mpga', 'audio/mpeg audio/mp3 audio/mgp audio/m-mpeg audio/x-mp3 audio/x-mpeg audio/x-mpg video/mpeg', 'Mpeg-1 Layer3 Audio Stream', 1, 0);
 INSERT INTO wfdownloads_mimetypes VALUES (63, 'mp2', 'video/mpeg audio/mpeg', 'MPEG Audio Stream, Layer II', 1, 0);
-INSERT INTO wfdownloads_mimetypes VALUES (64, 'mp3', 'audio/mpeg audio/x-mpeg audio/mp3 audio/x-mp3 audio/mpeg3 audio/x-mpeg3 audio/mpg audio/x-mpg audio/x-mpegaudio', 'MPEG Audio Stream, Layer III', 1, 0);
+INSERT INTO wfdownloads_mimetypes VALUES (64, 'mp3', 'audio/mpeg audio/x-mpeg audio/mp3 audio/x-mp3 audio/mpeg3 audio/x-mpeg3 audio/mpg audio/x-mpg audio/x-mpegaudio', 'MPEG Audio Stream, Layer III', 1, 1);
 INSERT INTO wfdownloads_mimetypes VALUES (65, 'aif', 'audio/aiff audio/x-aiff sound/aiff audio/rmf audio/x-rmf audio/x-pn-aiff audio/x-gsm audio/x-midi audio/vnd.qcelp', 'Audio Interchange File', 1, 0);
 INSERT INTO wfdownloads_mimetypes VALUES (66, 'aiff', 'audio/aiff audio/x-aiff sound/aiff audio/rmf audio/x-rmf audio/x-pn-aiff audio/x-gsm audio/mid audio/x-midi audio/vnd.qcelp', 'Audio Interchange File', 1, 0);
 INSERT INTO wfdownloads_mimetypes VALUES (67, 'aifc', 'audio/aiff audio/x-aiff audio/x-aifc sound/aiff audio/rmf audio/x-rmf audio/x-pn-aiff audio/x-gsm audio/x-midi audio/mid audio/vnd.qcelp', 'Audio Interchange File', 1, 0);
@@ -284,6 +289,11 @@ INSERT INTO wfdownloads_mimetypes VALUES (120, 'wm', 'video/x-ms-wm', 'Windows M
 INSERT INTO wfdownloads_mimetypes VALUES (121, 'wmx', 'video/x-ms-wmx', 'Windows Media Player A/V Shortcut', 1, 0);
 INSERT INTO wfdownloads_mimetypes VALUES (122, 'ice', 'x-conference-xcooltalk', 'Cooltalk Audio', 1, 0);
 INSERT INTO wfdownloads_mimetypes VALUES (123, 'rar', 'application/octet-stream', 'WinRAR Compressed Archive', 1, 0);
+INSERT INTO wfdownloads_mimetypes VALUES (124, 'mp4', 'video/mp4', 'MPEG-4', 1, 0);
+INSERT INTO wfdownloads_mimetypes VALUES (125, 'flv', 'video/x-flv', 'Flash Video', 1, 0);
+INSERT INTO wfdownloads_mimetypes VALUES (126, 'm3u8', 'application/x-mpegURL', 'iPhone Index', 0, 0);
+INSERT INTO wfdownloads_mimetypes VALUES (127, 'ts', 'video/MP2T', 'iPhone Segment', 0, 0);
+INSERT INTO wfdownloads_mimetypes VALUES (128, '3gp', 'video/3gpp', '3GP Mobile', 0, 0);
 
 # --------------------------------------------------------
 
@@ -334,6 +344,11 @@ CREATE TABLE wfdownloads_mod (
     description text NOT NULL,
     modifysubmitter int(11) NOT NULL default '0',
     requestdate int(11) NOT NULL default '0',
+    dohtml tinyint(1) NOT NULL default '0',
+    dosmiley tinyint(1) NOT NULL default '1',
+    doxcode tinyint(1) NOT NULL default '1',
+    doimage tinyint(1) NOT NULL default '1',
+    dobr tinyint(1) NOT NULL default '1',
     PRIMARY KEY  (requestid)
 ) ENGINE=MyISAM;
 

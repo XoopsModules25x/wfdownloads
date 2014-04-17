@@ -90,6 +90,9 @@ if (@$_POST['op'] == 'submit') {
 }
 
 // recursive clonning script
+/**
+ * @param $path
+ */
 function wfdownloads_cloneFileDir($path)
 {
     global $patKeys;
@@ -122,6 +125,11 @@ function wfdownloads_cloneFileDir($path)
     }
 }
 
+/**
+ * @param $dirname
+ *
+ * @return bool
+ */
 function wfdownloads_createLogo($dirname)
 {
     $wfdownloads = WfdownloadsWfdownloads::getInstance();
@@ -144,10 +152,10 @@ function wfdownloads_createLogo($dirname)
         }
     }
     // Check original image/font
-    if (!file_exists($imageBase = XOOPS_ROOT_PATH . "/modules/" . $dirname . "/images/module_logo.png")) {
+    if (!file_exists($imageBase = XOOPS_ROOT_PATH . "/modules/" . $dirname . "/assets/images/module_logo.png")) {
         return false;
     }
-    if (!file_exists($font = XOOPS_ROOT_PATH . "/modules/" . $wfdownloads->getModule()->dirname() . "/images/VeraBd.ttf")) {
+    if (!file_exists($font = XOOPS_ROOT_PATH . "/modules/" . $wfdownloads->getModule()->dirname() . "/assets/images/VeraBd.ttf")) {
         return false;
     }
     // Create image
@@ -164,7 +172,7 @@ function wfdownloads_createLogo($dirname)
     imagefill($imageModule, 0, 0, $whiteColor);
     imagecolortransparent($imageModule, $whiteColor);
     // Save new image
-    imagepng($imageModule, XOOPS_ROOT_PATH . "/modules/" . $dirname . "/images/module_logo.png");
+    imagepng($imageModule, XOOPS_ROOT_PATH . "/modules/" . $dirname . "/assets/images/module_logo.png");
     imagedestroy($imageModule);
 
     return true;

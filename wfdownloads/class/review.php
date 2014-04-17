@@ -20,6 +20,10 @@
  */
 defined("XOOPS_ROOT_PATH") or die("XOOPS root path not defined");
 include_once dirname(dirname(__FILE__)) . '/include/common.php';
+
+/**
+ * Class WfdownloadsReview
+ */
 class WfdownloadsReview extends XoopsObject
 {
     /**
@@ -52,10 +56,13 @@ class WfdownloadsReview extends XoopsObject
         }
     }
 
+    /**
+     * @return XoopsThemeForm
+     */
     function getForm()
     {
         include_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
-        $uid = !empty($xoopsUser) ? (int)($xoopsUser->getVar('uid')) : 0;
+        $uid = !empty($xoopsUser) ? (int) ($xoopsUser->getVar('uid')) : 0;
 
         $sform = new XoopsThemeForm(_AM_WFDOWNLOADS_REV_SNEWMNAMEDESC, 'reviewform', $_SERVER['REQUEST_URI']);
         $sform->addElement(new XoopsFormText(_AM_WFDOWNLOADS_REV_FTITLE, 'title', 30, 40, $this->getVar('title', 'e')), true);
@@ -82,9 +89,9 @@ class WfdownloadsReview extends XoopsObject
         $approve_checkbox->addOption(1, " ");
         $sform->addElement($approve_checkbox);
 
-        $sform->addElement(new XoopsFormHidden('lid', (int)($this->getVar('lid'))));
+        $sform->addElement(new XoopsFormHidden('lid', (int) ($this->getVar('lid'))));
         $sform->addElement(new XoopsFormHidden('uid', $uid));
-        $sform->addElement(new XoopsFormHidden('review_id', (int)($this->getVar('review_id'))));
+        $sform->addElement(new XoopsFormHidden('review_id', (int) ($this->getVar('review_id'))));
         $sform->addElement(new XoopsFormHidden('confirm', 1));
         $button_tray = new XoopsFormElementTray('', '');
         $hidden      = new XoopsFormHidden('op', '');
@@ -132,6 +139,9 @@ class WfdownloadsReview extends XoopsObject
     }
 }
 
+/**
+ * Class WfdownloadsReviewHandler
+ */
 class WfdownloadsReviewHandler extends XoopsPersistableObjectHandler
 {
     /**

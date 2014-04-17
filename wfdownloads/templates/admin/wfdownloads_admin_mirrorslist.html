@@ -45,15 +45,24 @@
             <td class='even'><{$mirror_waiting.submitter_uname}></td>
             <td class='even'><{$mirror_waiting.formatted_date}></td>
             <td class='even' align='center'>
-                <a href='?op=mirror.approve&amp;mirror_id=<{$mirror_waiting.mirror_id}>'><img src="<{xoModuleIcons16 1.png}>"
-                                                                                              title="<{$smarty.const._AM_WFDOWNLOADS_BAPPROVE}>"
-                                                                                              alt="<{$smarty.const._AM_WFDOWNLOADS_BAPPROVE}>"/></a>
-                <a href='?op=mirror.edit&amp;mirror_id=<{$mirror_waiting.mirror_id}>'><img src="<{xoModuleIcons16 edit.png}>"
-                                                                                           title="<{$smarty.const._EDIT}>"
-                                                                                           alt="<{$smarty.const._EDIT}>"/></a>
-                <a href='?op=mirror.delete&amp;mirror_id=<{$mirror_waiting.mirror_id}>'><img src="<{xoModuleIcons16 delete.png}>"
-                                                                                             title="<{$smarty.const._DELETE}>"
-                                                                                             alt="<{$smarty.const._DELETE}>"/></a>
+                <a href='?op=mirror.approve&amp;mirror_id=<{$mirror_waiting.mirror_id}>'>
+                    <img
+                        src="<{xoModuleIcons16 1.png}>"
+                        title="<{$smarty.const._AM_WFDOWNLOADS_BAPPROVE}>"
+                        alt="<{$smarty.const._AM_WFDOWNLOADS_BAPPROVE}>"/>
+                </a>
+                <a href='?op=mirror.edit&amp;mirror_id=<{$mirror_waiting.mirror_id}>'>
+                    <img
+                        src="<{xoModuleIcons16 edit.png}>"
+                        title="<{$smarty.const._EDIT}>"
+                        alt="<{$smarty.const._EDIT}>"/>
+                </a>
+                <a href='?op=mirror.delete&amp;mirror_id=<{$mirror_waiting.mirror_id}>'>
+                    <img
+                        src="<{xoModuleIcons16 delete.png}>"
+                        title="<{$smarty.const._DELETE}>"
+                        alt="<{$smarty.const._DELETE}>"/>
+                </a>
             </td>
         </tr>
         <{/foreach}>

@@ -100,7 +100,7 @@ switch ($op) {
         $mirror->setVar('location', trim($_POST['location']));
         $mirror->setVar('continent', trim($_POST['continent']));
         $mirror->setVar('downurl', formatURL(trim($_POST['downurl'])));
-        $mirror->setVar('submit', (int)($_POST['approve']));
+        $mirror->setVar('submit', (int) ($_POST['approve']));
         $wfdownloads->getHandler('mirror')->insert($mirror);
         redirect_header($currentFile, 1, _AM_WFDOWNLOADS_MIRROR_MIRROR_UPDATED);
         exit();
@@ -151,7 +151,7 @@ switch ($op) {
                     'lid'
                 )]['title'] : "";
                 $mirror_waiting_array['submitter_uname'] = XoopsUserUtility::getUnameFromId($mirror_waiting->getVar('uid'));
-                $mirror_waiting_array['formatted_date']  = formatTimestamp($mirror_waiting->getVar('date'), _DATESTRING);
+                $mirror_waiting_array['formatted_date']  = XoopsLocal::formatTimestamp($mirror_waiting->getVar('date'), 'l');
                 $GLOBALS['xoopsTpl']->append('mirrors_waiting', $mirror_waiting_array);
             }
             //Include page navigation
@@ -176,7 +176,7 @@ switch ($op) {
                 $mirror_published_array['download_title']  = isset($downloads[$mirror_published->getVar('lid')])
                     ? $downloads[$mirror_published->getVar('lid')]['title'] : "";
                 $mirror_published_array['submitter_uname'] = XoopsUserUtility::getUnameFromId($mirror_published->getVar('uid'));
-                $mirror_published_array['formatted_date']  = formatTimestamp($mirror_published->getVar('date'), _DATESTRING);
+                $mirror_published_array['formatted_date']  = XoopsLocal::formatTimestamp($mirror_published->getVar('date'), 'l');
                 $GLOBALS['xoopsTpl']->append('mirrors_published', $mirror_published_array);
             }
             //Include page navigation
@@ -190,7 +190,7 @@ switch ($op) {
         $xoopsTpl->assign('use_reviews', $wfdownloads->getConfig('enable_reviews'));
         $xoopsTpl->assign('use_brokenreports', $wfdownloads->getConfig('enable_brokenreports'));
 
-        $GLOBALS['xoopsTpl']->display("db:" . $wfdownloads->getModule()->dirname() . "_admin_mirrorslist.html");
+        $GLOBALS['xoopsTpl']->display("db:{$wfdownloads->getModule()->dirname()}_admin_mirrorslist.html");
 
         include 'admin_footer.php';
         break;

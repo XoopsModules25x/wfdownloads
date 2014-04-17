@@ -22,15 +22,15 @@ $currentFile = basename(__FILE__);
 include 'header.php';
 
 // Check if submissions are allowed
-$submissionsAllowed = false;
+$isSubmissionAllowed = false;
 if (is_object($xoopsUser)
     && ($wfdownloads->getConfig('submissions') == _WFDOWNLOADS_SUBMISSIONS_DOWNLOAD
         || $wfdownloads->getConfig('submissions') == _WFDOWNLOADS_SUBMISSIONS_BOTH)
 ) {
     // if user is a registered user
     $groups = $xoopsUser->getGroups();
-    if (array_intersect($wfdownloads->getConfig('submitarts'), $groups)) {
-        $submissionsAllowed = true;
+    if (count(array_intersect($wfdownloads->getConfig('submitarts'), $groups)) > 0) {
+        $isSubmissionAllowed = true;
     }
 } else {
     // if user is ANONYMOUS
@@ -38,7 +38,7 @@ if (is_object($xoopsUser)
         && ($wfdownloads->getConfig('anonpost') == _WFDOWNLOADS_ANONPOST_DOWNLOAD
             || $wfdownloads->getConfig('anonpost') == _WFDOWNLOADS_ANONPOST_BOTH)
     ) {
-        $submissionsAllowed = true;
+        $isSubmissionAllowed = true;
     } else {
         redirect_header(XOOPS_URL . '/user.php', 5, _MD_WFDOWNLOADS_MUSTREGFIRST);
     }
@@ -46,19 +46,17 @@ if (is_object($xoopsUser)
 // Get categories where user can submit
 $categories = $wfdownloads->getHandler('category')->getUserUpCategories();
 if (count($categories) == 0) {
-    $submissionsAllowed = false;
+    $isSubmissionAllowed = false;
 }
-if (!$submissionsAllowed) {
+if ($isSubmissionAllowed == false) {
     redirect_header('index.php', 5, _MD_WFDOWNLOADS_NOTALLOWESTOSUBMIT);
 }
-
 // Check posts if user is not an ADMIN
 if (is_object($xoopsUser) && !$xoopsUser->isAdmin()) {
     if ($xoopsUser->getVar('posts') < $wfdownloads->getConfig('upload_minposts')) {
         redirect_header('index.php', 5, _MD_WFDOWNLOADS_UPLOADMINPOSTS);
     }
 }
-
 
 $lid    = WfdownloadsRequest::getInt('lid', 0);
 $cid    = WfdownloadsRequest::getInt('cid', 0);
@@ -73,11 +71,14 @@ if ($wfdownloads->getConfig('showdisclaimer') && ($op == 'download.form') && $ag
 switch ($op) {
     case "download.disclaimer" :
         // Show disclaimers
-        $xoopsOption['template_main'] = 'wfdownloads_disclaimer.html';
+        $xoopsOption['template_main'] = "{$wfdownloads->getModule()->dirname()}_disclaimer.html";
         include XOOPS_ROOT_PATH . '/header.php';
 
-        $xoTheme->addStylesheet(WFDOWNLOADS_URL . '/module.css');
-        $xoTheme->addStylesheet(WFDOWNLOADS_URL . '/thickbox.css');
+        $xoTheme->addScript(XOOPS_URL . '/browse.php?Frameworks/jquery/jquery.js');
+        $xoTheme->addScript(WFDOWNLOADS_URL . '/assets/js/magnific/jquery.magnific-popup.min.js');
+        $xoTheme->addStylesheet(WFDOWNLOADS_URL . '/assets/js/magnific/magnific-popup.css');
+        $xoTheme->addStylesheet(WFDOWNLOADS_URL . '/assets/css/module.css');
+
         $xoopsTpl->assign('wfdownloads_url', WFDOWNLOADS_URL . '/');
 
         $catarray['imageheader'] = wfdownloads_headerImage();
@@ -170,8 +171,11 @@ switch ($op) {
         $xoopsOption['template_main'] = 'wfdownloads_submit.html';
         include XOOPS_ROOT_PATH . '/header.php';
 
-        $xoTheme->addStylesheet(WFDOWNLOADS_URL . '/module.css');
-        $xoTheme->addStylesheet(WFDOWNLOADS_URL . '/thickbox.css');
+        $xoTheme->addScript(XOOPS_URL . '/browse.php?Frameworks/jquery/jquery.js');
+        $xoTheme->addScript(WFDOWNLOADS_URL . '/assets/js/magnific/jquery.magnific-popup.min.js');
+        $xoTheme->addStylesheet(WFDOWNLOADS_URL . '/assets/js/magnific/magnific-popup.css');
+        $xoTheme->addStylesheet(WFDOWNLOADS_URL . '/assets/css/module.css');
+
         $xoopsTpl->assign('wfdownloads_url', WFDOWNLOADS_URL . '/');
 
         $catarray['imageheader'] = wfdownloads_headerImage();
@@ -203,13 +207,11 @@ switch ($op) {
                 $filename = $_POST['filename'];
                 $filetype = $_POST['filetype'];
             }
-            $size  = ((empty($_POST['size']) || !is_numeric($_POST['size']))) ? 0 : (int)$_POST['size'];
+            $size  = ((empty($_POST['size']) || !is_numeric($_POST['size']))) ? 0 : (int) $_POST['size'];
             $title = trim($_POST['title']);
         } else {
             $isAdmin = wfdownloads_userIsAdmin();
-
-            $down = wfdownloads_uploading($_FILES, $wfdownloads->getConfig('uploaddir'), '', '', 0, false, $isAdmin);
-
+            $down = wfdownloads_uploading($_FILES, $wfdownloads->getConfig('uploaddir'), '', $currentFile, 0, false, $isAdmin);
             $url      = ($_POST['url'] != "http://") ? $_POST['url'] : '';
             $size     = $down['size'];
             $filename = $down['filename'];
@@ -296,10 +298,10 @@ switch ($op) {
                 || $wfdownloads->getConfig('autoapprove') == _WFDOWNLOADS_AUTOAPPROVE_BOTH
             ) {
                 $download->setVar('published', time());
-                $download->setVar('status', 1);
+                $download->setVar('status', _WFDOWNLOADS_STATUS_APPROVED);
             } else {
                 $download->setVar('published', false);
-                $download->setVar('status', 0);
+                $download->setVar('status', _WFDOWNLOADS_STATUS_WAITING);
             }
         }
 
@@ -330,8 +332,8 @@ switch ($op) {
                     $owner            = '';
                 }
                 $owner_groups =& $member_handler->getGroupsByUser($owner, false);
-                $uid          = is_object($xoopsUser) ? (int)$xoopsUser->getVar('uid') : 0;
-                $groups       = $xoopsUser ? $xoopsUser->getGroups() : array(0 => XOOPS_GROUP_ANONYMOUS);
+                $uid          = is_object($xoopsUser) ? (int) $xoopsUser->getVar('uid') : 0;
+                $groups       = is_object($xoopsUser) ? $xoopsUser->getGroups() : array(0 => XOOPS_GROUP_ANONYMOUS);
                 $entries      = handleSubmission(
                     $formulize_mgr,
                     $entries,
@@ -356,7 +358,7 @@ switch ($op) {
         }
         $download->setVar('title', $title);
         $download->setVar('url', $url);
-        $download->setVar('cid', (int)$cid);
+        $download->setVar('cid', (int) $cid);
         $download->setVar('filename', $filename);
         $download->setVar('filetype', $filetype);
 
@@ -397,7 +399,12 @@ switch ($op) {
         $download->setVar('screenshot4', $screenshot4);
         $download->setVar('summary', $_POST['summary']);
         $download->setVar('description', $_POST['description']);
-        $submitter = is_object($xoopsUser) ? (int)$xoopsUser->getVar('uid') : 0;
+        $download->setVar('dohtml', isset($_POST['dohtml']));
+        $download->setVar('dosmiley', isset($_POST['dosmiley']));
+        $download->setVar('doxcode', isset($_POST['doxcode']));
+        $download->setVar('doimage', isset($_POST['doimage']));
+        $download->setVar('dobr', isset($_POST['dobr']));
+        $submitter = is_object($xoopsUser) ? (int) $xoopsUser->getVar('uid') : 0;
         $download->setVar('submitter', $submitter);
         $download->setVar('publisher', trim($_POST['publisher']));
         $download->setVar('price', trim($_POST['price']));
@@ -406,7 +413,7 @@ switch ($op) {
         $paypalemail = '';
         $download->setVar('features', trim($_POST['features']));
         $download->setVar('requirements', trim($_POST['requirements']));
-        $forumid = (isset($_POST['forumid']) && $_POST["forumid"] > 0) ? (int)$_POST['forumid'] : 0;
+        $forumid = (isset($_POST['forumid']) && $_POST["forumid"] > 0) ? (int) $_POST['forumid'] : 0;
         $download->setVar('forumid', $forumid);
         $limitations = isset($_POST['limitations']) ? $myts->addslashes($_POST['limitations']) : '';
         $download->setVar('limitations', $limitations);
@@ -420,7 +427,7 @@ switch ($op) {
             $dhistory .= $dhistoryhistory;
         }
         $download->setVar('dhistory', $dhistory);
-        $offline = (isset($_POST['offline']) && $_POST['offline'] == 1) ? 1 : 0;
+        $offline = (isset($_POST['offline']) && $_POST['offline'] == 1) ? true : false;
         $download->setVar('offline', $offline);
         $download->setVar('date', time());
 
@@ -438,7 +445,7 @@ switch ($op) {
                 $error = _MD_WFDOWNLOADS_INFONOSAVEDB;
                 trigger_error($error, E_USER_ERROR);
             }
-            $newid  = (int)$download->getVar('lid');
+            $newid  = (int) $download->getVar('lid');
             $groups = array(1, 2);
             //  Notify of new link (anywhere) and new link in category
             $tags                  = array();
@@ -453,7 +460,7 @@ switch ($op) {
             ) {
                 $notification_handler->triggerEvent('global', 0, 'new_file', $tags);
                 $notification_handler->triggerEvent('category', $cid, 'new_file', $tags);
-                redirect_header('index.php', 2, _MD_WFDOWNLOADS_ISAPPROVED . "");
+                redirect_header('index.php', 2, _MD_WFDOWNLOADS_ISAPPROVED);
             } else {
                 $tags['WAITINGFILES_URL'] = WFDOWNLOADS_URL . '/admin/downloads.php';
                 $notification_handler->triggerEvent('global', 0, 'file_submit', $tags);
@@ -478,14 +485,15 @@ switch ($op) {
                 $tags              = array();
                 $tags['FILE_NAME'] = $title;
                 $tags['FILE_URL']  = WFDOWNLOADS_URL . "/singlefile.php?cid={$cid}&amp;lid={$lid}";
-
                 $category              = $wfdownloads->getHandler('category')->get($cid);
                 $tags['CATEGORY_NAME'] = $category->getVar('title');
                 $tags['CATEGORY_URL']  = WFDOWNLOADS_URL . "/viewcat.php?cid={$cid}";
+                $notification_handler->triggerEvent('global', 0, 'file_modify', $tags);
+                redirect_header('index.php', 2, _MD_WFDOWNLOADS_ISAPPROVED);
             } else {
                 $updated = (isset($_POST['up_dated']) && $_POST['up_dated'] == 0) ? 0 : time();
                 $download->setVar('updated', $updated);
-                $download->setVar('modifysubmitter', (int)$xoopsUser->uid());
+                $download->setVar('modifysubmitter', (int) $xoopsUser->uid());
                 $download->setVar('requestdate', time());
                 if (!$wfdownloads->getHandler('modification')->insert($download)) {
                     $error = _MD_WFDOWNLOADS_INFONOSAVEDB;
@@ -494,8 +502,9 @@ switch ($op) {
                 $tags                      = array();
                 $tags['MODIFYREPORTS_URL'] = WFDOWNLOADS_URL . '/admin/reportsmodifications.php';
                 $notification_handler->triggerEvent('global', 0, 'file_modify', $tags);
+                redirect_header('index.php', 2, _MD_WFDOWNLOADS_THANKSFORINFO);
             }
-            redirect_header('index.php', 2, _MD_WFDOWNLOADS_THANKSFORINFO);
+
         }
         break;
 }

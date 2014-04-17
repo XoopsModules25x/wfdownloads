@@ -71,18 +71,24 @@
  * @copyright (c) 2000-2003 The Xoops Project - www.xoops.org
  */
 mt_srand((double) microtime() * 1000000);
-require_once XOOPS_ROOT_PATH . "/modules/wfdownloads/class/uploader.php";
+//require_once XOOPS_ROOT_PATH . "/modules/wfdownloads/class/uploader.php";
+require_once XOOPS_ROOT_PATH . "/class/uploader.php";
+
+/**
+ * Class XoopsMediaImgUploader
+ */
 class XoopsMediaImgUploader extends XoopsMediaUploader
 {
     /**
      * Constructor
      *
-     * @param string $uploadDir
-     * @param array $allowedMimeTypes
-     * @param int $maxFileSize
-     * @param int $maxWidth
-     * @param int $maxHeight
-     * @param int $cmodvalue
+     * @param string    $uploadDir
+     * @param array|int $allowedMimeTypes
+     * @param int       $maxFileSize
+     * @param int       $maxWidth
+     * @param int       $maxHeight
+     *
+     * @internal param int $cmodvalue
      */
     function XoopsMediaImgUploader($uploadDir, $allowedMimeTypes = 0, $maxFileSize, $maxWidth = 0, $maxHeight = 0)
     {

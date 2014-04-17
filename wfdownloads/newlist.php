@@ -21,11 +21,14 @@
 $currentFile = basename(__FILE__);
 include 'header.php';
 
-$xoopsOption['template_main'] = 'wfdownloads_newlistindex.html';
+$xoopsOption['template_main'] = "{$wfdownloads->getModule()->dirname()}_newlistindex.html";
 include XOOPS_ROOT_PATH . '/header.php';
 
-$xoTheme->addStylesheet(WFDOWNLOADS_URL . '/module.css');
-$xoTheme->addStylesheet(WFDOWNLOADS_URL . '/thickbox.css');
+$xoTheme->addScript(XOOPS_URL . '/browse.php?Frameworks/jquery/jquery.js');
+$xoTheme->addScript(WFDOWNLOADS_URL . '/assets/js/magnific/jquery.magnific-popup.min.js');
+$xoTheme->addStylesheet(WFDOWNLOADS_URL . '/assets/js/magnific/magnific-popup.css');
+$xoTheme->addStylesheet(WFDOWNLOADS_URL . '/assets/css/module.css');
+
 $xoopsTpl->assign('wfdownloads_url', WFDOWNLOADS_URL . '/');
 
 $groups = is_object($xoopsUser) ? $xoopsUser->getGroups() : array(0 => XOOPS_GROUP_ANONYMOUS);
@@ -55,7 +58,7 @@ $xoopsTpl->assign('allmonthdownloads', $allMonthDownloads);
 // Get latest downloads
 $criteria = new CriteriaCompo(new Criteria("offline", 0));
 if (isset($_GET['newdownloadshowdays'])) {
-    $days       = (int)$_GET['newdownloadshowdays'];
+    $days       = (int) $_GET['newdownloadshowdays'];
     $days_limit = array(7, 14, 30);
     if (in_array($days, $days_limit)) {
         $xoopsTpl->assign('newdownloadshowdays', $days);
@@ -86,13 +89,13 @@ if ($wfdownloads->getConfig('screenshot') == 1) {
     $xoopsTpl->assign('viewcat', true);
 }
 if (isset($days)) {
-    $which_new_downloads = " > " . sprintf(_MD_WFDOWNLOADS_NEWDOWNLOADS_INTHELAST, (int)$days);
+    $which_new_downloads = " > " . sprintf(_MD_WFDOWNLOADS_NEWDOWNLOADS_INTHELAST, (int) $days);
     $xoopsTpl->assign(
         'categoryPath',
         '<a href="' . WFDOWNLOADS_URL . '/newlist.php">' . _MD_WFDOWNLOADS_NEWDOWNLOADS . '</a>' . $which_new_downloads
     );
     $breadcrumb->addLink(_MD_WFDOWNLOADS_LATESTLIST, $currentFile);
-    $breadcrumb->addLink(sprintf(_MD_WFDOWNLOADS_NEWDOWNLOADS_INTHELAST, (int)$days), '');
+    $breadcrumb->addLink(sprintf(_MD_WFDOWNLOADS_NEWDOWNLOADS_INTHELAST, (int) $days), '');
 } else {
     $xoopsTpl->assign('categoryPath', _MD_WFDOWNLOADS_NEWDOWNLOADS);
     $breadcrumb->addLink(_MD_WFDOWNLOADS_LATESTLIST, '');

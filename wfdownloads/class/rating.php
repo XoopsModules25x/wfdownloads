@@ -20,6 +20,10 @@
  */
 defined("XOOPS_ROOT_PATH") or die("XOOPS root path not defined");
 include_once dirname(dirname(__FILE__)) . '/include/common.php';
+
+/**
+ * Class WfdownloadsRating
+ */
 class WfdownloadsRating extends XoopsObject
 {
     /**
@@ -51,6 +55,9 @@ class WfdownloadsRating extends XoopsObject
     }
 }
 
+/**
+ * Class WfdownloadsRatingHandler
+ */
 class WfdownloadsRatingHandler extends XoopsPersistableObjectHandler
 {
     /**
@@ -71,7 +78,7 @@ class WfdownloadsRatingHandler extends XoopsPersistableObjectHandler
     /**
      * Get average ratings of users matching a condition
      *
-     * @param  object $criteria {@link CriteriaElement} to match
+     * @param object $criteria {@link CriteriaElement} to match
      *
      * @return array/int
      */

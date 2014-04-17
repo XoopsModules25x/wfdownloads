@@ -1,8 +1,10 @@
 <div>
-    <b><a href="singlefile.php?cid=<{$download.cid}>&amp;lid=<{$download.id}>" title="<{$smarty.const._MD_WFDOWNLOADS_VIEWDETAILS}>"><{$download.title}></a></b>&nbsp;<{$download.icons}>
-    <{if ($download.isadmin == true)}>
+    <span style="font-weight: bold;"><a href="singlefile.php?cid=<{$download.cid}>&amp;lid=<{$download.id}>" title="<{$smarty.const._MD_WFDOWNLOADS_VIEWDETAILS}>"><{$download.title}></a></span>&nbsp;<{$download.icons}>
+    <{if ($download.isadmin == true or $download.issubmitter == true)}>
     <a href="submit.php?op=download.edit&amp;lid=<{$download.id}>"><img src="<{xoModuleIcons16 edit.png}>" title="<{$smarty.const._EDIT}>"
                                                                         alt="<{$smarty.const._EDIT}>"/></a>
+    <{/if}>
+    <{if ($download.isadmin == true)}>
     <a href="admin/downloads.php?op=download.delete&amp;lid=<{$download.id}>"><img src="<{xoModuleIcons16 delete.png}>"
                                                                                    title="<{$smarty.const._DELETE}>" alt="<{$smarty.const._DELETE}>"/></a>
     <{/if}>
@@ -12,28 +14,28 @@
 <div>
     <{if $download.screenshot_full != ''}>
     <div>
-        <a href="<{$xoops_url}>/<{$shots_dir}>/<{$download.screenshot_full}>" class="thickbox" rel="<{$download.title}>">
+        <a href="<{$xoops_url}>/<{$shots_dir}>/<{$download.screenshot_full}>" class="magnific_zoom" rel="<{$download.title}>">
             <img src="<{$download.screenshot_thumb}>" alt="<{$download.title}>" title="<{$download.title}>" style='border: 1px solid black'/>
         </a>
     </div>
     <{/if}>
     <{if $download.screenshot_full2 != '' && $viewcat != true}>
     <div>
-        <a href="<{$xoops_url}>/<{$shots_dir}>/<{$download.screenshot_full2}>" class="thickbox" rel="<{$download.title}>">
+        <a href="<{$xoops_url}>/<{$shots_dir}>/<{$download.screenshot_full2}>" class="magnific_zoom" rel="<{$download.title}>">
             <img src="<{$download.screenshot_thumb2}>" alt="<{$download.title}>" title="<{$download.title}>" style='border: 1px solid black'/>
         </a>
     </div>
     <{/if}>
     <{if $download.screenshot_full3 != '' && $viewcat != true}>
     <div>
-        <a href="<{$xoops_url}>/<{$shots_dir}>/<{$download.screenshot_full3}>" class="thickbox" rel="<{$download.title}>">
+        <a href="<{$xoops_url}>/<{$shots_dir}>/<{$download.screenshot_full3}>" class="magnific_zoom" rel="<{$download.title}>">
             <img src="<{$download.screenshot_thumb3}>" alt="<{$download.title}>" title="<{$download.title}>" style='border: 1px solid black'/>
         </a>
     </div>
     <{/if}>
     <{if $download.screenshot_full4 != '' && $viewcat != true}>
     <div>
-        <a href="<{$xoops_url}>/<{$shots_dir}>/<{$download.screenshot_full4}>" class="thickbox" rel="<{$download.title}>">
+        <a href="<{$xoops_url}>/<{$shots_dir}>/<{$download.screenshot_full4}>" class="magnific_zoom" rel="<{$download.title}>">
             <img src="<{$download.screenshot_thumb4}>" alt="<{$download.title}>" title="<{$download.title}>" style='border: 1px solid black'/>
         </a>
     </div>
@@ -69,9 +71,9 @@
 </div>
 
 <div>
-    <small>
+    <span style="font-size: small;">
         <{$smarty.const._MD_WFDOWNLOADS_SUBMITTER}>:&nbsp;<{$download.submitter}>
-        <br/>
+        <br />
         <{$lang_subdate}>:&nbsp;<{$download.updated}>
-    </small>
+    </span>
 </div>

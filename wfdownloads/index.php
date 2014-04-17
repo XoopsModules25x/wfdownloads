@@ -31,7 +31,7 @@ if (is_object($xoopsUser)
 ) {
     // if user is a registered user
     $groups = $xoopsUser->getGroups();
-    if (array_intersect($xoopsModuleConfig['submitarts'], $groups)) {
+    if (count(array_intersect($wfdownloads->getConfig('submitarts'), $groups)) > 0) {
         $isSubmissionAllowed = true;
     }
 } else {
@@ -45,11 +45,14 @@ if (is_object($xoopsUser)
 $allowedDownCategoriesIds = $gperm_handler->getItemIds('WFDownCatPerm', $groups, $wfdownloads->getModule()->mid());
 $allowedUpCategoriesIds   = $gperm_handler->getItemIds('WFUpCatPerm', $groups, $wfdownloads->getModule()->mid());
 
-$xoopsOption['template_main'] = 'wfdownloads_index.html';
+$xoopsOption['template_main'] = "{$wfdownloads->getModule()->dirname()}_index.html";
 include XOOPS_ROOT_PATH . '/header.php';
 
-$xoTheme->addStylesheet(WFDOWNLOADS_URL . '/module.css');
-$xoTheme->addStylesheet(WFDOWNLOADS_URL . '/thickbox.css');
+$xoTheme->addScript(XOOPS_URL . '/browse.php?Frameworks/jquery/jquery.js');
+$xoTheme->addScript(WFDOWNLOADS_URL . '/assets/js/magnific/jquery.magnific-popup.min.js');
+$xoTheme->addStylesheet(WFDOWNLOADS_URL . '/assets/js/magnific/magnific-popup.css');
+$xoTheme->addStylesheet(WFDOWNLOADS_URL . '/assets/css/module.css');
+
 $xoopsTpl->assign('wfdownloads_url', WFDOWNLOADS_URL . '/');
 
 // Breadcrumb
@@ -96,27 +99,48 @@ $mainCategories = $categoriesTree->getFirstChild(0);
 $count          = 0;
 
 // Comparison functions for uasort()
+/**
+ * @param $category_a
+ * @param $category_b
+ *
+ * @return int
+ */
 function categoriesCompareCid($category_a, $category_b)
 {
     if ($category_a->getVar('cid') == $category_b->getVar('cid')) {
         return 0;
     }
+
     return ($category_a->getVar('cid') < $category_b->getVar('cid')) ? -1 : 1;
 }
 
+/**
+ * @param $category_a
+ * @param $category_b
+ *
+ * @return int
+ */
 function categoriesCompareTitle($category_a, $category_b)
 {
     if ($category_a->getVar('title') == $category_b->getVar('title')) {
         return 0;
     }
+
     return ($category_a->getVar('title') < $category_b->getVar('title')) ? -1 : 1;
 }
 
+/**
+ * @param $category_a
+ * @param $category_b
+ *
+ * @return int
+ */
 function categoriesCompareWeight($category_a, $category_b)
 {
     if ($category_a->getVar('weight') == $category_b->getVar('weight')) {
         return 0;
     }
+
     return ($category_a->getVar('weight') < $category_b->getVar('weight')) ? -1 : 1;
 }
 
@@ -180,7 +204,7 @@ foreach (array_keys($mainCategories) as $i) {
 
         // Get this category subcategories id and title
         $subcategories = array();
-        $count++;
+        ++$count;
         $download_count = isset($listings['count'][$mainCategories[$i]->getVar('cid')]) ? $listings['count'][$mainCategories[$i]->getVar('cid')] : 0;
         // modified July 5 2006 by Freeform Solutions (jwe)
         // make download count recursive, to include all sub categories that the user has permission to view
@@ -211,15 +235,16 @@ foreach (array_keys($mainCategories) as $i) {
                 array(
                      'image'            => $imageURL, // this definition is not removed for backward compatibility issues
                      'image_URL'        => $imageURL,
-                     'id'               => (int)$mainCategories[$i]->getVar('cid'), // this definition is not removed for backward compatibility issues
-                     'cid'              => (int)$mainCategories[$i]->getVar('cid'),
+                     'days'             => $isNewImage['days'],
+                     'id'               => (int) $mainCategories[$i]->getVar('cid'), // this definition is not removed for backward compatibility issues
+                     'cid'              => (int) $mainCategories[$i]->getVar('cid'),
                      'allowed_download' => in_array($mainCategories[$i]->getVar('cid'), $allowedDownCategoriesIds),
                      'allowed_upload'   => ($isSubmissionAllowed && in_array($mainCategories[$i]->getVar('cid'), $allowedUpCategoriesIds)),
                      'title'            => $mainCategories[$i]->getVar('title'),
                      'summary'          => $mainCategories[$i]->getVar('summary'),
-                     'totaldownloads'   => (int)$download_count, // this definition is not removed for backward compatibility issues
-                     'downloads_count'  => (int)$download_count,
-                     'count'            => (int)$count,
+                     'totaldownloads'   => (int) $download_count, // this definition is not removed for backward compatibility issues
+                     'downloads_count'  => (int) $download_count,
+                     'count'            => (int) $count,
                      'alttext'          => $isNewImage['alttext']
                 )
             );
@@ -229,16 +254,17 @@ foreach (array_keys($mainCategories) as $i) {
                 array(
                      'image'            => $imageURL, // this definition is not removed for backward compatibility issues
                      'image_URL'        => $imageURL,
-                     'id'               => (int)$mainCategories[$i]->getVar('cid'), // this definition is not removed for backward compatibility issues
-                     'cid'              => (int)$mainCategories[$i]->getVar('cid'),
+                     'days'             => $isNewImage['days'],
+                     'id'               => (int) $mainCategories[$i]->getVar('cid'), // this definition is not removed for backward compatibility issues
+                     'cid'              => (int) $mainCategories[$i]->getVar('cid'),
                      'allowed_download' => in_array($mainCategories[$i]->getVar('cid'), $allowedDownCategoriesIds),
                      'allowed_upload'   => ($isSubmissionAllowed && in_array($mainCategories[$i]->getVar('cid'), $allowedUpCategoriesIds)),
                      'title'            => $mainCategories[$i]->getVar('title'),
                      'summary'          => $mainCategories[$i]->getVar('summary'),
                      'subcategories'    => $subcategories,
-                     'totaldownloads'   => (int)$download_count, // this definition is not removed for backward compatibility issues
-                     'downloads_count'  => (int)$download_count,
-                     'count'            => (int)$count,
+                     'totaldownloads'   => (int) $download_count, // this definition is not removed for backward compatibility issues
+                     'downloads_count'  => (int) $download_count,
+                     'count'            => (int) $count,
                      'alttext'          => $isNewImage['alttext']
                 )
             );
@@ -252,11 +278,9 @@ $xoopsTpl->assign('lang_thereare', sprintf($lang_ThereAre, $count, array_sum($li
 if ($wfdownloads->getConfig('enablerss') == true) {
     $rsslink_URL = WFDOWNLOADS_URL . "/rss.php";
     $xoopsTpl->assign('full_rssfeed_URL', $rsslink_URL);
-    $rsslink
-        =
-        "<a href='" . $rsslink_URL . "' title='" . _MD_WFDOWNLOADS_LEGENDTEXTRSS . "'><img src='" . XOOPS_URL . "/modules/" . $wfdownloads->getModule(
-        )->getVar('dirname') . "/images/icon/rss.gif' border='0' alt='" . _MD_WFDOWNLOADS_LEGENDTEXTRSS . "' title='" . _MD_WFDOWNLOADS_LEGENDTEXTRSS
-        . "'></a>";
+    $rsslink = "<a href='" . $rsslink_URL . "' title='" . _MD_WFDOWNLOADS_LEGENDTEXTRSS . "'>";
+    $rsslink.= "<img src='" . WFDOWNLOADS_URL . "/assets/images/icon/rss.gif' border='0' alt='" . _MD_WFDOWNLOADS_LEGENDTEXTRSS . "' title='" . _MD_WFDOWNLOADS_LEGENDTEXTRSS . "'>";
+    $rsslink.= "</a>";
     $xoopsTpl->assign('full_rssfeed_link', $rsslink); // this definition is not removed for backward compatibility issues
 }
 
