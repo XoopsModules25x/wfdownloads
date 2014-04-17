@@ -49,7 +49,7 @@
         <td></td>
         <td></td>
         <td>
-            <small>
+            <span style="font-size: small;">
             <{$smarty.const._CO_WFDOWNLOADS_LEGEND}>
             <br />
             <img src="<{xoModuleIcons16 green.gif}>" />&nbsp;<{$smarty.const._MD_WFDOWNLOADS_MIRROR_ONLINE}>
@@ -57,13 +57,13 @@
             <img src="<{xoModuleIcons16 red.gif}>" />&nbsp;<{$smarty.const._MD_WFDOWNLOADS_MIRROR_OFFLINE}>
             <br />
             <img src="<{xoModuleIcons16 green_off.gif}>" />&nbsp;<{$smarty.const._MD_WFDOWNLOADS_MIRROR_DISABLED}>
-            </small>
+            </span>
         </td>
     </tr>
 </table>
 <{if $navbar.navbar }>
 <div>
-    <b><{$smarty.const._MD_WFDOWNLOADS_PAGES}></b>: <{$navbar.navbar}>
+    <span style="font-weight: bold;"><{$smarty.const._MD_WFDOWNLOADS_PAGES}></span>: <{$navbar.navbar}>
 </div>
 <{/if}>
 

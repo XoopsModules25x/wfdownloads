@@ -50,6 +50,8 @@ class XoopsPersistableObjectHandler extends XoopsObjectHandler
      * @param string $classname Name of Class, this handler is managing
      * @param string $keyname   Name of the property, holding the key
      *
+     * @param bool $idenfierName
+     *
      * @return void
      */
     function XoopsPersistableObjectHandler(&$db, $tablename, $classname, $keyname, $idenfierName = false)
@@ -83,8 +85,8 @@ class XoopsPersistableObjectHandler extends XoopsObjectHandler
     /**
      * retrieve an object
      *
-     * @param  mixed $id        ID of the object - or array of ids for joint keys. Joint keys MUST be given in the same order as in the constructor
-     * @param  bool  $as_object whether to return an object or an array
+     * @param mixed $id        ID of the object - or array of ids for joint keys. Joint keys MUST be given in the same order as in the constructor
+     * @param bool  $as_object whether to return an object or an array
      *
      * @return mixed reference to the object, false if failed
      */
@@ -92,7 +94,7 @@ class XoopsPersistableObjectHandler extends XoopsObjectHandler
     {
         if (is_array($this->keyName)) {
             $criteria = new CriteriaCompo();
-            for ($i = 0; $i < count($this->keyName); $i++) {
+            for ($i = 0; $i < count($this->keyName); ++$i) {
                 $criteria->add(new Criteria($this->keyName[$i], intval($id[$i])));
             }
         } else {
@@ -233,9 +235,9 @@ class XoopsPersistableObjectHandler extends XoopsObjectHandler
     /**
      * count objects matching a condition
      *
-     * @param  object $criteria {@link CriteriaElement} to match
+     * @param object $criteria {@link CriteriaElement} to match
      *
-     * @return int    count of objects
+     * @return int count of objects
      */
     function getCount($criteria = null)
     {
@@ -275,16 +277,16 @@ class XoopsPersistableObjectHandler extends XoopsObjectHandler
     /**
      * delete an object from the database
      *
-     * @param  object $obj reference to the object to delete
-     * @param  bool   $force
+     * @param object $obj   reference to the object to delete
+     * @param bool   $force
      *
-     * @return bool   false if failed.
+     * @return bool false if failed.
      */
     function delete(&$obj, $force = false)
     {
         if (is_array($this->keyName)) {
             $clause = array();
-            for ($i = 0; $i < count($this->keyName); $i++) {
+            for ($i = 0; $i < count($this->keyName); ++$i) {
                 $clause[] = $this->keyName[$i] . " = " . $obj->getVar($this->keyName[$i]);
             }
             $whereclause = implode(" AND ", $clause);
@@ -307,11 +309,11 @@ class XoopsPersistableObjectHandler extends XoopsObjectHandler
     /**
      * insert a new object in the database
      *
-     * @param  object $obj         reference to the object
-     * @param  bool   $force       whether to force the query execution despite security settings
-     * @param  bool   $checkObject check if the object is dirty and clean the attributes
+     * @param object $obj         reference to the object
+     * @param bool   $force       whether to force the query execution despite security settings
+     * @param bool   $checkObject check if the object is dirty and clean the attributes
      *
-     * @return bool   false if failed, true if already present and unchanged or successful
+     * @return bool false if failed, true if already present and unchanged or successful
      */
 
     function insert(&$obj, $force = false, $checkObject = true)
@@ -373,7 +375,7 @@ class XoopsPersistableObjectHandler extends XoopsObjectHandler
             }
             if (is_array($this->keyName)) {
                 $whereclause = "";
-                for ($i = 0; $i < count($this->keyName); $i++) {
+                for ($i = 0; $i < count($this->keyName); ++$i) {
                     if ($i > 0) {
                         $whereclause .= " AND ";
                     }
@@ -406,8 +408,9 @@ class XoopsPersistableObjectHandler extends XoopsObjectHandler
      * @param string $fieldvalue Value to write
      * @param object $criteria   {@link CriteriaElement}
      *
+     * @param  bool $force
      * @return bool
-     **/
+     */
     function updateAll($fieldname, $fieldvalue, $criteria = null, $force = false)
     {
         $set_clause = $fieldname . ' = ';
@@ -437,7 +440,7 @@ class XoopsPersistableObjectHandler extends XoopsObjectHandler
     /**
      * delete all objects meeting the conditions
      *
-     * @param  object $criteria {@link CriteriaElement} with conditions to meet
+     * @param object $criteria {@link CriteriaElement} with conditions to meet
      *
      * @return bool
      */

@@ -22,7 +22,8 @@
 //defined("XOOPS_ROOT_PATH") or die("XOOPS root path not defined");
 
 require_once dirname(dirname(dirname(dirname(__FILE__)))) . '/include/cp_header.php';
-xoops_loadLanguage('directorychecker', 'wfdownloads');
+$mydirname = basename(dirname(dirname(__FILE__)));
+xoops_loadLanguage('directorychecker', $mydirname);
 
 /**
  * Class DirectoryChecker
@@ -110,7 +111,7 @@ class DirectoryChecker
     {
         $target = str_replace("..", "", $target);
 
-        return @chmod($target, (int)$mode);
+        return @chmod($target, (int) $mode);
     }
 
     /**

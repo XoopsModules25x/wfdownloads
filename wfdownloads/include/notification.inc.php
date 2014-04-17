@@ -35,6 +35,7 @@ function wfdownloads_notify_iteminfo($category, $item_id)
     if ($category=='global') {
         $item['name'] = '';
         $item['url'] = '';
+
         return $item;
     }
 
@@ -45,6 +46,7 @@ function wfdownloads_notify_iteminfo($category, $item_id)
         $result_array = $xoopsDB->fetchArray($result);
         $item['name'] = $result_array['title'];
         $item['url'] = WFDOWNLOADS_URL . '/viewcat.php?cid=' . intval($item_id);
+
         return $item;
     }
 
@@ -55,6 +57,9 @@ function wfdownloads_notify_iteminfo($category, $item_id)
         $result_array = $xoopsDB->fetchArray($result);
         $item['name'] = $result_array['title'];
         $item['url'] = WFDOWNLOADS_URL . '/singlefile.php?cid=' . intval($result_array['cid']) . '&amp;lid=' . intval($item_id);
+
         return $item;
     }
+
+    return null;
 }

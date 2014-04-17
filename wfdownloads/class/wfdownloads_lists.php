@@ -52,6 +52,11 @@ class WfsLists
         $this->type        = $type;
     }
 
+    /**
+     * @param $this_array
+     *
+     * @return string
+     */
     function &getarray($this_array)
     {
         $ret = "<select size='" . $this->size() . "' name='$this->value()'>";
@@ -93,7 +98,15 @@ class WfsLists
         return $dirlist;
     }
 
-    function &getListTypeAsArray($dirname, $type = '', $prefix = "", $noselection = 1)
+    /**
+     * @param        $dirname
+     * @param string $type
+     * @param string $prefix
+     * @param int    $noselection
+     *
+     * @return array
+     */
+    static function &getListTypeAsArray($dirname, $type = '', $prefix = "", $noselection = 1)
     {
         $filelist = array();
         switch (trim($type)) {
@@ -139,6 +152,9 @@ class WfsLists
         return $filelist;
     }
 
+    /**
+     * @return null
+     */
     function value()
     {
         return $this->value;
@@ -149,21 +165,33 @@ class WfsLists
         return $this->selected;
     }
 
+    /**
+     * @return string
+     */
     function paths()
     {
         return $this->path;
     }
 
+    /**
+     * @return int
+     */
     function size()
     {
         return $this->size;
     }
 
+    /**
+     * @return int
+     */
     function emptyselect()
     {
         return $this->emptyselect;
     }
 
+    /**
+     * @return int
+     */
     function type()
     {
         return $this->type;

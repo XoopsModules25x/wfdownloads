@@ -66,7 +66,7 @@ switch ($op) {
             );
             foreach ($ratings as $rating) {
                 $rating_array                    = $rating->toArray();
-                $rating_array['formatted_date']  = formatTimestamp($rating->getVar('ratingtimestamp'), _DATESTRING);
+                $rating_array['formatted_date']  = XoopsLocal::formatTimestamp($rating->getVar('ratingtimestamp'), 'l');
                 $rating_array['submitter_uname'] = XoopsUser::getUnameFromId($rating->getVar('ratinguser'));
                 $rating_array['submitter_uid']   = $rating->getVar('ratinguser');
                 $rating_array['download_title']  = $downloads[$rating->getVar('lid')]->getVar('title');
@@ -83,7 +83,7 @@ switch ($op) {
         $xoopsTpl->assign('use_reviews', $wfdownloads->getConfig('enable_reviews'));
         $xoopsTpl->assign('use_brokenreports', $wfdownloads->getConfig('enable_brokenreports'));
 
-        $GLOBALS['xoopsTpl']->display("db:" . $wfdownloads->getModule()->dirname() . "_admin_ratingslist.html");
+        $GLOBALS['xoopsTpl']->display("db:{$wfdownloads->getModule()->dirname()}_admin_ratingslist.html");
 
         include 'admin_footer.php';
         break;

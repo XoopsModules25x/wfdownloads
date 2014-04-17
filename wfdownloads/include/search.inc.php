@@ -20,6 +20,19 @@
  */
 defined("XOOPS_ROOT_PATH") or die('XOOPS root path not defined');
 include_once dirname(dirname(__FILE__)) . '/include/common.php';
+/**
+ * @param        $queryArray
+ * @param        $andor
+ * @param        $limit
+ * @param        $offset
+ * @param int    $userId
+ * @param array  $categories
+ * @param int    $sortBy
+ * @param string $searchIn
+ * @param string $extra
+ *
+ * @return array
+ */
 function wfdownloads_search($queryArray, $andor, $limit, $offset, $userId = 0, $categories = array(), $sortBy = 0, $searchIn = '', $extra = '')
 {
     global $xoopsUser;
@@ -32,7 +45,7 @@ function wfdownloads_search($queryArray, $andor, $limit, $offset, $userId = 0, $
 
     $criteria = new CriteriaCompo(new Criteria('cid', '(' . implode(',', $allowedDownCategoriesIds) . ')', 'IN'));
     if ($userId != 0) {
-        $criteria->add(new Criteria('submitter', (int)$userId));
+        $criteria->add(new Criteria('submitter', (int) $userId));
     }
 
     // changed and added - start - April 23, 2006 - jwe
@@ -59,7 +72,7 @@ function wfdownloads_search($queryArray, $andor, $limit, $offset, $userId = 0, $
         //        unset($subCriteria);
 
               $allSubCriterias = new CriteriaCompo(); // added to fix bug related to nesting of ( )
-              for ($i = 0;$i < $queryArray_count;$i++) { // 1 changed to 0 so everything happens in one loop now
+              for ($i = 0;$i < $queryArray_count;++$i) { // 1 changed to 0 so everything happens in one loop now
                     $subCriteria = new CriteriaCompo(new Criteria("title", "%".$queryArray[$i]."%", 'LIKE'), 'OR');
                     $subCriteria->add(new Criteria("description", "%".$queryArray[$i]."%", 'LIKE'), 'OR');
                     $allSubCriterias->add($subCriteria, $andor); // $criteria changed to $allSubCriterias to fix bug
@@ -98,7 +111,7 @@ function wfdownloads_search($queryArray, $andor, $limit, $offset, $userId = 0, $
 
         $downloads = array();
         // Loop through all query terms
-        for ($i = 0; $i < $queryArray_count; $i++) {
+        for ($i = 0; $i < $queryArray_count; ++$i) {
             // Make a copy of the $criteria for use with this term only
             $queryCriteria = clone($criteria);
 
@@ -171,8 +184,8 @@ function wfdownloads_search($queryArray, $andor, $limit, $offset, $userId = 0, $
             // Make an array of the downloads based on the lid, and a separate list of all the lids found (the separate list is used in the case of an AND operator to derive an intersection of the hits across all search terms -- and it is used to determine the start and limit points of the main results array for an OR query)
             $downloads_lids = array();
             foreach ($tempDownloads as $tempDownload) {
-                $downloads[(int)$tempDownload->getVar('lid')] = $tempDownload;
-                $downloads_lids[]                             = (int)$tempDownload->getVar('lid');
+                $downloads[(int) $tempDownload->getVar('lid')] = $tempDownload;
+                $downloads_lids[]                             = (int) $tempDownload->getVar('lid');
             }
 
             // Do an intersection of the found lids if the operator is AND
@@ -207,17 +220,17 @@ function wfdownloads_search($queryArray, $andor, $limit, $offset, $userId = 0, $
     $storedLids = array();
 
     // foreach (array_keys($downloads) as $i)
-    for ($x = $offset; ($i < $limit AND $x < count($limitOffsetIndex)); $x++) {
+    for ($x = $offset; ($i < $limit AND $x < count($limitOffsetIndex)); ++$x) {
         $lid = $limitOffsetIndex[$x];
         $obj = $downloads[$lid];
         if (is_object($obj) AND !isset($storedLids[$lid])) {
             $storedLids[$lid] = true;
-            $ret[$i]['image'] = "images/size2.gif";
+            $ret[$i]['image'] = "assets/images/size2.gif";
             $ret[$i]['link']  = "singlefile.php?cid=" . $obj->getVar('cid') . "&amp;lid={$lid}";
             $ret[$i]['title'] = $obj->getVar('title');
             $ret[$i]['time']  = $obj->getVar('published');
             $ret[$i]['uid']   = $obj->getVar('submitter');
-            $i++;
+            ++$i;
         }
     }
 

@@ -27,11 +27,17 @@
  */
 defined("XOOPS_ROOT_PATH") or die("XOOPS root path not defined");
 
+/**
+ * Class WfdownloadsBreadcrumb
+ */
 class WfdownloadsBreadcrumb
 {
     var $dirname;
     var $_bread = array();
 
+    /**
+     *
+     */
     function __construct()
     {
         $this->dirname =  basename(dirname(dirname(__FILE__)));
@@ -48,7 +54,7 @@ class WfdownloadsBreadcrumb
             'title' => $title
             );
     }
-    
+
     /**
      * Render Wfdownloads BreadCrumb
      *
@@ -65,6 +71,7 @@ class WfdownloadsBreadcrumb
         $breadcrumbTpl->assign('breadcrumb', $this->_bread);
         $html = $breadcrumbTpl->fetch("db:" . $this->dirname . "_common_breadcrumb.html");
         unset($breadcrumbTpl);
+
         return $html;
     }
 }

@@ -31,6 +31,10 @@ CREATE TABLE wfdownloads_mimetypes (
 */
 defined("XOOPS_ROOT_PATH") or die("XOOPS root path not defined");
 include_once dirname(dirname(__FILE__)) . '/include/common.php';
+
+/**
+ * Class WfdownloadsMimetype
+ */
 class WfdownloadsMimetype extends XoopsObject
 {
     /**
@@ -61,6 +65,11 @@ class WfdownloadsMimetype extends XoopsObject
         }
     }
 
+    /**
+     * @param bool $action
+     *
+     * @return XoopsThemeForm
+     */
     function getForm($action = false)
     {
         include_once(XOOPS_ROOT_PATH . '/class/xoopsformloader.php');
@@ -118,6 +127,9 @@ class WfdownloadsMimetype extends XoopsObject
     }
 }
 
+/**
+ * Class WfdownloadsMimetypeHandler
+ */
 class WfdownloadsMimetypeHandler extends XoopsPersistableObjectHandler
 {
     /**

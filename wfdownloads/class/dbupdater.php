@@ -38,10 +38,11 @@
  * @author  marcan <marcan@smartfactory.ca>
  * @link    http://www.smartfactory.ca The SmartFactory
  */
-if (!defined("XOOPS_ROOT_PATH")) {
-    die("XOOPS root path not defined");
-}
+defined("XOOPS_ROOT_PATH") or die("XOOPS root path not defined");
 
+/**
+ * Class WfdownloadsTable
+ */
 class WfdownloadsTable
 {
     /**
@@ -117,7 +118,7 @@ class WfdownloadsTable
     /**
      * Set the table structure
      *
-     * @param  string $structure table structure
+     * @param string $structure table structure
      *
      */
     function setStructure($structure)
@@ -199,10 +200,12 @@ class WfdownloadsTable
     /**
      * Invert values 0 to 1 and 1 to 0
      *
-     * @param string $name name of the field
-     * @param string $old  old propertie
-     * @param string $new  new propertie
+     * @param string $name     name of the field
+     * @param        $newValue
+     * @param        $oldValue
      *
+     * @internal param string $old old propertie
+     * @internal param string $new new propertie
      */ //felix
     function addUpdatedWhere($name, $newValue, $oldValue)
     {

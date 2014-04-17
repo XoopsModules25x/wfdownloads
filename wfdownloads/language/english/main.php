@@ -30,7 +30,7 @@ define('_MD_WFDOWNLOADS_THANKSFORINFO', "Thank you for your submission. You will
 define('_MD_WFDOWNLOADS_ISAPPROVED', "Thank you for your submission. Your request has been approved and will now appear in our listing.");
 define('_MD_WFDOWNLOADS_THANKSFORHELP', "Thank you for helping to maintain this directory's integrity.");
 define('_MD_WFDOWNLOADS_FORSECURITY', "For security reasons your user name and IP address will also be temporarily recorded.");
-define('_MD_WFDOWNLOADS_NOPERMISETOLINK', "This file doesn't belong to the site you came from <br /><br />Please e-mail the webmaster of the site you came from and tell him: <br /><b>NOT TO LEECH OTHER SITES LINKS!</b> <br /><br /><b>Definition of a Leecher:</b> One who is too lazy to link from his own server or steals other people's hard work and makes it look like his own <br /><br />  Your IP address <b>has been logged</b>.");
+define('_MD_WFDOWNLOADS_NOPERMISETOLINK', "This file doesn't belong to the site you came from <br /><br />Please e-mail the webmaster of the site you came from and tell him: <br /><span style='font-weight: bold;'>NOT TO LEECH OTHER SITES LINKS!</span> <br /><br /><span style='font-weight: bold;'>Definition of a Leecher:</span> One who is too lazy to link from his own server or steals other people's hard work and makes it look like his own <br /><br />  Your IP address <span style='font-weight: bold;'>has been logged</span>.");
 define('_MD_WFDOWNLOADS_SUMMARY', "Summary");
 define('_MD_WFDOWNLOADS_DESCRIPTION', "Description");
 define('_MD_WFDOWNLOADS_SUBMITCATHEAD', "Submit download form");
@@ -71,8 +71,8 @@ define('_MD_WFDOWNLOADS_SUBMITBROKEN', "Submit");
 define('_MD_WFDOWNLOADS_BEFORESUBMIT', "Before submitting a broken resource request, please check that the actual source of the file you intend reporting broken, is no longer there and that the website is not temporally down.");
 define('_MD_WFDOWNLOADS_TELLAFRIEND', "Recommend");
 define('_MD_WFDOWNLOADS_EDIT', "Edit");
-define('_MD_WFDOWNLOADS_THEREARE', "There are <b>%s</b> <i>Categories</i> and <b>%s</b> <i>Downloads</i> listed");
-define('_MD_WFDOWNLOADS_THEREIS', "There is <b>%s</b> <i>Category</i> and <b>%s</b> <i>Downloads</i> listed");
+define('_MD_WFDOWNLOADS_THEREARE', "There are <span style='font-weight: bold;'>%s</span> <span style='font-style: italic;'>Categories</span> and <span style='font-weight: bold;'>%s</span> <span style='font-style: italic;'>Downloads</span> listed");
+define('_MD_WFDOWNLOADS_THEREIS', "There is <span style='font-weight: bold;'>%s</span> <span style='font-style: italic;'>Category</span> and <span style='font-weight: bold;'>%s</span> <span style='font-style: italic;'>Downloads</span> listed");
 define('_MD_WFDOWNLOADS_LATESTLIST', "Latest listings");
 define('_MD_WFDOWNLOADS_FILETITLE', "Download title");
 define('_MD_WFDOWNLOADS_DLURL', "Remote URL");
@@ -143,7 +143,7 @@ define('_MD_WFDOWNLOADS_RESOURCEID', "Resource ID#");
 define('_MD_WFDOWNLOADS_REPORTER', "Original reporter");
 define('_MD_WFDOWNLOADS_DATEREPORTED', "Date reported");
 define('_MD_WFDOWNLOADS_RESOURCEREPORTED', "Resource reported broken");
-define('_MD_WFDOWNLOADS_BROWSETOTOPIC', "<b>Browse downloads in alphabetical order</b>");
+define('_MD_WFDOWNLOADS_BROWSETOTOPIC', "<span style='font-weight: bold;'>Browse downloads in alphabetical order</span>");
 define('_MD_WFDOWNLOADS_WEBMASTERACKNOW', "Broken report acknowledged");
 define('_MD_WFDOWNLOADS_WEBMASTERCONFIRM', "Broken report confirmed");
 define('_MD_WFDOWNLOADS_DELETE', "Delete");
@@ -165,7 +165,7 @@ define('_MD_WFDOWNLOADS_FILENOTEXIST', "ERROR: file does not exist or file not f
 define('_MD_WFDOWNLOADS_FILENOTOPEN', "ERROR: unable to open file!"); // Orphan Define. Delete if not needed (Cesag).
 // visit
 define('_MD_WFDOWNLOADS_DOWNINPROGRESS', "Download in progress");
-define('_MD_WFDOWNLOADS_DOWNSTARTINSEC', "Your download should start in 3 seconds...<b>please wait</b>.");
+define('_MD_WFDOWNLOADS_DOWNSTARTINSEC', "Your download should start in 3 seconds...<span style='font-weight: bold;'>please wait</span>.");
 define('_MD_WFDOWNLOADS_DOWNNOTSTART', "If your download does not start, ");
 define('_MD_WFDOWNLOADS_CLICKHERE', "Click here!");
 define('_MD_WFDOWNLOADS_BROKENFILE', "Broken file");
@@ -201,12 +201,12 @@ define('_MD_WFDOWNLOADS_OTHERBYUID', "Other files by");
 define('_MD_WFDOWNLOADS_DOWNTIMES', "Download times");
 define('_MD_WFDOWNLOADS_MAINTOTAL', "Total files");
 define('_MD_WFDOWNLOADS_DOWNLOADNOW', "Download now");
-define('_MD_WFDOWNLOADS_PAGES', "<b>Pages</b>");
+define('_MD_WFDOWNLOADS_PAGES', "<span style='font-weight: bold;'>Pages</span>");
 define('_MD_WFDOWNLOADS_REVIEWER', "Reviewer");
 define('_MD_WFDOWNLOADS_RATEDRESOURCE', "Rated resource");
 define('_MD_WFDOWNLOADS_SUBMITTER', "Submitter");
 define('_MD_WFDOWNLOADS_REVIEWTITLE', "User reviews");
-define('_MD_WFDOWNLOADS_REVIEWTOTAL', "<b>Reviews total</b> %s");
+define('_MD_WFDOWNLOADS_REVIEWTOTAL', "<span style='font-weight: bold;'>Reviews total</span> %s");
 define('_MD_WFDOWNLOADS_USERREVIEWSTITLE', "User reviews");
 define('_MD_WFDOWNLOADS_USERREVIEWS', "Read User reviews on %s");
 define('_MD_WFDOWNLOADS_NOUSERREVIEWS', "Be the first person to review %s");
@@ -240,7 +240,7 @@ define('_MD_WFDOWNLOADS_USERMIRRORS', "View available download mirrors on %s");
 define('_MD_WFDOWNLOADS_NOUSERMIRRORS', "Add a new download mirror on %s.");
 define('_MD_WFDOWNLOADS_TOTALMIRRORS', "Total mirrors");
 define('_MD_WFDOWNLOADS_ADDMIRROR', "Add mirror");
-define('_MD_WFDOWNLOADS_MIRROR_TOTAL', "<b>Total mirrors</b> %s");
+define('_MD_WFDOWNLOADS_MIRROR_TOTAL', "<span style='font-weight: bold;'>Total mirrors</span> %s");
 define('_MD_WFDOWNLOADS_MIRROR_HOMEURLTITLE', "Home page title");
 define('_MD_WFDOWNLOADS_MIRROR_HOMEURL', "Home page URL");
 define('_MD_WFDOWNLOADS_MIRROR_UPLOADMIRRORIMAGE', "Upload site logo");
@@ -283,6 +283,9 @@ define('_MD_WFDOWNLOADS_FFS_BACK', "Back");
 define('_MD_WFDOWNLOADS_FFS_DOWNLOADTITLE', "Submitting a '{category}' file.");
 // Added Formulize module support (2006/05/04) jpc - end
 // 3.23
+/**
+ * @return array
+ */
 function wfdownloads_alphabet()
 {
     $alphabet = array(
@@ -347,3 +350,15 @@ define('_MD_WFDOWNLOADS_DESCRIPTION_DESC', "");
 define('_MD_WFDOWNLOADS_SUBCATEGORIESLISTING', "Subcategories listing");
 define('_MD_WFDOWNLOADS_DOWNLOADSLISTING', "Downloads listing");
 define('_MD_WFDOWNLOADS_SORTDOWNLOADSBY', "Sort downloads by");
+// Other Options
+define('_MD_WFDOWNLOADS_TEXTOPTIONS', "Text options");
+define('_MD_WFDOWNLOADS_TEXTOPTIONS_DESC', "Description and Summary text options");
+define('_MD_WFDOWNLOADS_ALLOWHTML', " Allow HTML tags");
+define('_MD_WFDOWNLOADS_ALLOWSMILEY', " Allow Smiley icons");
+define('_MD_WFDOWNLOADS_ALLOWXCODE', " Allow XOOPS codes");
+define('_MD_WFDOWNLOADS_ALLOWIMAGES', " Allow images");
+define('_MD_WFDOWNLOADS_ALLOWBREAK', " Use XOOPS line break conversion");
+define('_MD_WFDOWNLOADS_UPLOADFILE', "File uploaded successfully");
+define('_MD_WFDOWNLOADS_NOMENUITEMS', "No menu items within the menu");
+//singlefile.php
+define('_MD_WFDOWNLOADS_PREVIEW', "Preview");

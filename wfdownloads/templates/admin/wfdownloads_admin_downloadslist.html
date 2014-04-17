@@ -42,7 +42,7 @@
                     <input id='filter_category_title' type='text' value='<{$filter_category_title}>' maxlength='100' size='15' title=''
                            name='filter_category_title'>
                 </td>
-                <td><{$filter_poster_select}></td>
+                <td><{$filter_submitter_select}></td>
                 <td>
                     <{*
                     <select id='filter_date_condition' title='<{$smarty.const._AM_WFDOWNLOADS_SEARCH}>' name='filter_date_condition' size='1'>
@@ -79,18 +79,19 @@
             <td><{$download.submitter_uname}></td>
             <td><{$download.published_timestamp}></td>
             <td align='center'>
-                <{if $download.offline}>
+            <{if $download.offline}>
                 <img src="<{xoModuleIcons16 0.png}>"/>
-                <{else}>
+            <{else}>
                 <img src="<{xoModuleIcons16 1.png}>"/>
-                <{/if}>
+            <{/if}>
             </td>
             <td align='center'>
-                <{if $download.published}>
+            <{if $download.published}>
                 <img src="<{xoModuleIcons16 1.png}>"/>
-                <{else}>
+                <!--<{$download.published_timestamp}>-->
+            <{else}>
                 <img src="<{xoModuleIcons16 0.png}>"/>
-                <{/if}>
+            <{/if}>
             </td>
             <td>
                 <a href='?op=ip_logs.list&amp;lid=<{$download.lid}>' title="<{$smarty.const._AM_WFDOWNLOADS_IP_LOGS}>"><{$smarty.const._AM_WFDOWNLOADS_IP_LOGS}></a>
@@ -110,7 +111,7 @@
     <{/if}>
 </fieldset>
 
-<br/>
+<br />
 
 <fieldset>
     <legend style='font-weight: bold; color: #900;'><{$smarty.const._AM_WFDOWNLOADS_MINDEX_NEWDOWN}></legend>
@@ -150,11 +151,11 @@
     <{/if}>
 </fieldset>
 
-<br/>
+<br />
 
 <fieldset>
     <legend style='font-weight: bold; color: #900;'><{$smarty.const._AM_WFDOWNLOADS_MINDEX_AUTOPUBLISHEDDOWN}></legend>
-    <br/>
+    <br />
     <{if ($autopublished_downloads_count == 0)}>
     <{$smarty.const._AM_WFDOWNLOADS_MINDEX_NODOWNLOADSFOUND}>
     <{else}>
@@ -178,18 +179,19 @@
             <td><{$download.submitter_uname}></td>
             <td><{$download.published_timestamp}></td>
             <td align='center'>
-                <{if $download.offline}>
+            <{if $download.offline}>
                 <img src="<{xoModuleIcons16 0.png}>"/>
-                <{else}>
+            <{else}>
                 <img src="<{xoModuleIcons16 1.png}>"/>
-                <{/if}>
+            <{/if}>
             </td>
             <td align='center'>
-                <{if $download.published}>
+            <{if $download.published}>
                 <img src="<{xoModuleIcons16 1.png}>"/>
-                <{else}>
+                <!--<{$download.published_timestamp}>-->
+            <{else}>
                 <img src="<{xoModuleIcons16 0.png}>"/>
-                <{/if}>
+            <{/if}>
             </td>
             <td><a href='ip_logs.php?lid=<{$download.lid}>'><{$smarty.const._AM_WFDOWNLOADS_IP_LOGS}></a></td>
             <td align='center'>
@@ -207,11 +209,11 @@
     <{/if}>
 </fieldset>
 
-<br/>
+<br />
 
 <fieldset>
     <legend style='font-weight: bold; color: #900;'><{$smarty.const._AM_WFDOWNLOADS_MINDEX_EXPIREDDOWN}></legend>
-    <br/>
+    <br />
     <{if ($expired_downloads_count == 0)}>
     <{$smarty.const._AM_WFDOWNLOADS_MINDEX_NODOWNLOADSFOUND}>
     <{else}>
@@ -235,18 +237,19 @@
             <td><{$download.submitter_uname}></td>
             <td><{$download.published_timestamp}></td>
             <td align='center'>
-                <{if $download.offline}>
+            <{if $download.offline}>
                 <img src="<{xoModuleIcons16 0.png}>"/>
-                <{else}>
+            <{else}>
                 <img src="<{xoModuleIcons16 1.png}>"/>
-                <{/if}>
+            <{/if}>
             </td>
             <td align='center'>
-                <{if $download.published}>
+            <{if $download.published}>
                 <img src="<{xoModuleIcons16 1.png}>"/>
-                <{else}>
+                <!--<{$download.published_timestamp}>-->
+            <{else}>
                 <img src="<{xoModuleIcons16 0.png}>"/>
-                <{/if}>
+            <{/if}>
             </td>
             <td><a href='ip_logs.php?lid=<{$download.lid}>'><{$smarty.const._AM_WFDOWNLOADS_IP_LOGS}></a></td>
             <td align='center'>
@@ -264,7 +267,7 @@
     <{/if}>
 </fieldset>
 
-<br/>
+<br />
 
 <fieldset>
     <legend style='font-weight: bold; color: #900;'><{$smarty.const._AM_WFDOWNLOADS_MINDEX_OFFLINEDOWN}></legend>
@@ -292,18 +295,19 @@
             <td><{$download.submitter_uname}></td>
             <td><{$download.published_timestamp}></td>
             <td align='center'>
-                <{if $download.offline}>
+            <{if $download.offline}>
                 <img src="<{xoModuleIcons16 0.png}>"/>
-                <{else}>
+            <{else}>
                 <img src="<{xoModuleIcons16 1.png}>"/>
-                <{/if}>
+            <{/if}>
             </td>
             <td align='center'>
-                <{if $download.published}>
+            <{if $download.published}>
                 <img src="<{xoModuleIcons16 1.png}>"/>
-                <{else}>
+                <!--<{$download.published_timestamp}>-->
+            <{else}>
                 <img src="<{xoModuleIcons16 0.png}>"/>
-                <{/if}>
+            <{/if}>
             </td>
             <td><a href='ip_logs.php?lid=<{$download.lid}>'><{$smarty.const._AM_WFDOWNLOADS_IP_LOGS}></a></td>
             <td align='center'>

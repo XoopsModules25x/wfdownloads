@@ -3,12 +3,9 @@
 <div>
     <{if $category_rssfeed_URL != ''}>
     <a href='<{$category_rssfeed_URL}>' title='<{$smarty.const._MD_WFDOWNLOADS_LEGENDTEXTCATRSS}>'>
-        <img src='images/icon/rss.gif' alt='<{$smarty.const._MD_WFDOWNLOADS_LEGENDTEXTCATRSS}>'
+        <img src='assets/images/icon/rss.gif' alt='<{$smarty.const._MD_WFDOWNLOADS_LEGENDTEXTCATRSS}>'
              title='<{$smarty.const._MD_WFDOWNLOADS_LEGENDTEXTCATRSS}>'/>
     </a>
-    <{/if}>
-    <{if $category_image_URL}>
-    <img src="<{$category_image_URL}>" alt="<{$category_title}>" title="<{$category_title}>"/>
     <{/if}>
     <{if $category_title != ""}>
     <h1>
@@ -26,6 +23,10 @@
         <{/if}>
     </h1>
     <{/if}>
+    <{if $category_image_URL}>
+    <img src="<{$category_image_URL}>" alt="<{$category_title}>" title="<{$category_title}>"/>
+    <br />
+    <{/if}>
     <{$category_description}>
 </div>
 
@@ -39,9 +40,7 @@
     <{foreach item=subcategory from=$subcategories}>
     <div>
         <div>
-            <a href="viewcat.php?cid=<{$subcategory.cid}>">
-                <{if $subcategory.image_URL != ''}><img src="<{$subcategory.image_URL}>" alt="<{$subcategory.title}>" title="<{$subcategory.title}>"/>&nbsp;<{/if}>
-                <b><{$subcategory.title}></b></a>&nbsp;(<{$subcategory.downloads_count}>)
+            <a href="viewcat.php?cid=<{$subcategory.cid}>" style="font-weight: bold;"><{$subcategory.title}></a>&nbsp;(<{$subcategory.downloads_count}>)
             <{if $isAdmin == true}>
             <a href="admin/categories.php?op=category.edit&amp;cid=<{$subcategory.cid}>"><img src="<{xoModuleIcons16 edit.png}>"
                                                                                               title="<{$smarty.const._EDIT}>"
@@ -56,6 +55,7 @@
                                                                alt="<{$smarty.const._MD_WFDOWNLOADS_SUBMITDOWNLOAD}>"/></a>
             <{/if}>
         </div>
+        <{if $subcategory.image_URL != ''}><img src="<{$subcategory.image_URL}>" alt="<{$subcategory.title}>" title="<{$subcategory.title}>"/><br /><{/if}>
         <div title="<{$smarty.const._MD_WFDOWNLOADS_CSUMMARY}>">
             <{$subcategory.summary}>
         </div>
@@ -158,7 +158,7 @@
         }
     </style>
     <div>
-        <small><b><span title="<{$smarty.const._MD_WFDOWNLOADS_SORTDOWNLOADSBY}>"><{$lang_cursortedby}></span></b></small>
+        <span style="font-size: small; font-weight: bold;"><span title="<{$smarty.const._MD_WFDOWNLOADS_SORTDOWNLOADSBY}>"><{$lang_cursortedby}></span></span>
         <div>
             <{if ($orderby == "titleA")}>
             <span class='button_green' title="<{$smarty.const._MD_WFDOWNLOADS_TITLEATOZ}>"><{$smarty.const._MD_WFDOWNLOADS_TITLE}>&nbsp;<img
@@ -243,14 +243,14 @@
         </div>
     </div>
     <{/if}>
-    <br/>
+    <br />
     <{$pagenav}>
     <!-- Start link loop -->
     <{foreach item=download from=$downloads}>
     <div>
         <{include file="db:wfdownloads_download.html" download=$download}>
     </div>
-    <br/>
+    <br />
     <{/foreach}>
     <!-- End link loop -->
     <div style="clear:both"></div>
@@ -260,7 +260,7 @@
 
 <{if $category_rssfeed_URL != ""}>
 <a href='<{$category_rssfeed_URL}>' title='<{$smarty.const._MD_WFDOWNLOADS_LEGENDTEXTCATRSS}>'>
-    <img src='images/icon/rss.gif' alt='<{$smarty.const._MD_WFDOWNLOADS_LEGENDTEXTCATRSS}>'
+    <img src='assets/images/icon/rss.gif' alt='<{$smarty.const._MD_WFDOWNLOADS_LEGENDTEXTCATRSS}>'
          title='<{$smarty.const._MD_WFDOWNLOADS_LEGENDTEXTCATRSS}>'/>
 </a>
 <{/if}>

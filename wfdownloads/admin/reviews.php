@@ -99,8 +99,8 @@ switch ($op) {
         }
         $review->setVar('title', trim($_POST['title']));
         $review->setVar('review', trim($_POST['review']));
-        $review->setVar('rated', (int)$_POST['rated']);
-        $review->setVar('submit', (int)$_POST['approve']);
+        $review->setVar('rated', (int) $_POST['rated']);
+        $review->setVar('submit', (int) $_POST['approve']);
         $wfdownloads->getHandler('review')->insert($review);
         redirect_header($currentFile, 1, _AM_WFDOWNLOADS_REV_REVIEW_UPDATED);
         exit();
@@ -157,7 +157,7 @@ switch ($op) {
                 $review_waiting_array['reviewer_uname'] = XoopsUserUtility::getUnameFromId($review_waiting->getVar('uid'));
                 $reviewer                               = $member_handler->getUser($review_waiting->getVar('uid'));
                 $review_waiting_array['reviewer_email'] = is_object($reviewer) ? $reviewer->email() : '';
-                $review_waiting_array['formatted_date'] = formatTimestamp($review_waiting->getVar('date'), _DATESTRING);
+                $review_waiting_array['formatted_date'] = XoopsLocal::formatTimestamp($review_waiting->getVar('date'), 'l');
                 $GLOBALS['xoopsTpl']->append('reviews_waiting', $review_waiting_array);
             }
             //Include page navigation
@@ -188,7 +188,7 @@ switch ($op) {
                 $review_published_array['reviewer_uname'] = XoopsUserUtility::getUnameFromId($review_published->getVar('uid'));
                 $reviewer                                 = $member_handler->getUser($review_published->getVar('uid'));
                 $review_published_array['reviewer_email'] = is_object($reviewer) ? $reviewer->email() : '';
-                $review_published_array['formatted_date'] = formatTimestamp($review_published->getVar('date'), _DATESTRING);
+                $review_published_array['formatted_date'] = XoopsLocal::formatTimestamp($review_published->getVar('date'), 'l');
                 $GLOBALS['xoopsTpl']->append('reviews_published', $review_published_array);
             }
             //Include page navigation
@@ -202,7 +202,7 @@ switch ($op) {
         $xoopsTpl->assign('use_reviews', $wfdownloads->getConfig('enable_reviews'));
         $xoopsTpl->assign('use_brokenreports', $wfdownloads->getConfig('enable_brokenreports'));
 
-        $GLOBALS['xoopsTpl']->display("db:" . $wfdownloads->getModule()->dirname() . "_admin_reviewslist.html");
+        $GLOBALS['xoopsTpl']->display("db:{$wfdownloads->getModule()->dirname()}_admin_reviewslist.html");
 
         include 'admin_footer.php';
         break;

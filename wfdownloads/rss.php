@@ -36,7 +36,7 @@ $xoopsTpl = new XoopsTpl();
 
 // Find case
 $case     = "all";
-$category = $wfdownloads->getHandler('category')->get((int)$_REQUEST['cid']);
+$category = $wfdownloads->getHandler('category')->get((int) $_REQUEST['cid']);
 
 $groups = is_object($xoopsUser) ? $xoopsUser->getGroups() : array(0 => XOOPS_GROUP_ANONYMOUS);
 
@@ -58,17 +58,17 @@ switch ($case) {
         break;
 
     case "category" :
-        $cache_prefix = 'wfd|catfeed|' . $feed_type . '|' . (int)$category->getVar('cid');
+        $cache_prefix = 'wfd|catfeed|' . $feed_type . '|' . (int) $category->getVar('cid');
         break;
 }
 
 $xoopsTpl->caching        = true;
-$xoopsTpl->cache_lifetime = $xoopsConfig['module_cache'][(int)$wfdownloads->getModule()->mid()];
+$xoopsTpl->cache_lifetime = $xoopsConfig['module_cache'][(int) $wfdownloads->getModule()->mid()];
 if (!$xoopsTpl->is_cached('db:' . $xoopsOption['template_main'], $cache_prefix)) {
     // Get content
     $limit = 30;
 
-    $criteria = new CriteriaCompo(new Criteria('offline', 0));
+    $criteria = new CriteriaCompo(new Criteria('offline', false));
     $criteria->setSort('published');
     $criteria->setOrder('DESC');
     $criteria->setLimit($limit);
@@ -90,9 +90,9 @@ if (!$xoopsTpl->is_cached('db:' . $xoopsOption['template_main'], $cache_prefix))
             $shorthand   = 'cat';
             $title       = $xoopsConfig['sitename'] . ' - ' . htmlspecialchars($category->getVar('title'), ENT_QUOTES);
             $desc        = $xoopsConfig['slogan'] . ' - ' . htmlspecialchars($category->getVar('title'), ENT_QUOTES);
-            $channel_url = XOOPS_URL . '/modules/' . $wfdownloads->getModule()->getVat('dirname') . '/rss.php?cid=' . (int)$category->getVar('cid');
+            $channel_url = XOOPS_URL . '/modules/' . $wfdownloads->getModule()->getVat('dirname') . '/rss.php?cid=' . (int) $category->getVar('cid');
 
-            $criteria->add(new Criteria('cid', (int)$category->getVar('cid')));
+            $criteria->add(new Criteria('cid', (int) $category->getVar('cid')));
             $downloads = $wfdownloads->getHandler('download')->getObjects($criteria);
             $id        = $category->getVar('categoryid');
             break;
@@ -125,7 +125,7 @@ if (!$xoopsTpl->is_cached('db:' . $xoopsOption['template_main'], $cache_prefix))
         // Assign items to template
         foreach ($downloads as $download) {
             $item   = $download;
-            $link   = $url . 'singlefile.php?lid=' . (int)$item->getVar('lid');
+            $link   = $url . 'singlefile.php?lid=' . (int) $item->getVar('lid');
             $title  = htmlspecialchars($item->getVar('title', 'n'));
             $teaser = htmlspecialchars($item->getVar('summary', 'n'));
             $author = isset($users[$item->getVar('submitter')]) ? isset($users[$item->getVar('submitter')]) : $xoopsConfig['anonymous'];

@@ -9,12 +9,12 @@
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 /**
- *  Wfdownloads class
+ *  WfdownloadsSession class
  *
  * @copyright       The XUUPS Project http://sourceforge.net/projects/xuups/
  * @license         http://www.fsf.org/copyleft/gpl.html GNU public license
  * @package         Wfdownloads
- * @since           1.0
+ * @since           3.23
  * @author          trabis <lusopoemas@gmail.com>
  * @author          Harry Fuecks (PHP Anthology Volume II)
  * @version         $Id: session.php 10283 2012-11-28 13:39:36Z trabis $
@@ -23,6 +23,9 @@ defined("XOOPS_ROOT_PATH") or die("XOOPS root path not defined");
 
 include_once dirname(dirname(__FILE__)) . '/include/common.php';
 
+/**
+ * Class WfdownloadsSession
+ */
 class WfdownloadsSession
 {
     /**
@@ -92,12 +95,16 @@ class WfdownloadsSession
         session_destroy();
     }
 
+    /**
+     * @return WfdownloadsSession
+     */
     public static function &getInstance()
     {
         static $_sess;
         if (!isset($_sess)) {
             $_sess = new WfdownloadsSession();
         }
+
         return $_sess;
     }
 }

@@ -170,6 +170,23 @@ if ($wfdownloads->getConfig('enable_mirrors') == false) {
         'green'
     );
 }
+// module max file size
+$indexAdmin->addInfoBoxLine(
+    _AM_WFDOWNLOADS_MINDEX_DOWNSUMMARY,
+    '<infolabel>' . _AM_WFDOWNLOADS_DOWN_MODULE_MAXFILESIZE . '</infolabel>',
+    wfdownloads_bytesToSize1024($wfdownloads->getConfig('maxfilesize')),
+    'green'
+);
+// upload file size limit
+// get max file size (setup and php.ini)
+$phpiniMaxFileSize = (min((int) (ini_get('upload_max_filesize')), (int) (ini_get('post_max_size')), (int) (ini_get('memory_limit')))) * 1024 * 1024; // bytes
+$maxFileSize = wfdownloads_bytesToSize1024(min($wfdownloads->getConfig('maxfilesize'), $phpiniMaxFileSize));
+$indexAdmin->addInfoBoxLine(
+    _AM_WFDOWNLOADS_MINDEX_DOWNSUMMARY,
+    '<infolabel>' .  _AM_WFDOWNLOADS_UPLOAD_MAXFILESIZE . '</infolabel>',
+    $maxFileSize,
+    'green'
+);
 
 //------ check directories ---------------
 
@@ -191,27 +208,23 @@ $indexAdmin->addConfigBoxLine('');
 
 $path = XOOPS_ROOT_PATH . '/' . $wfdownloads->getConfig('mainimagedir') . '/';
 $indexAdmin->addConfigBoxLine(DirectoryChecker::getDirectoryStatus($path, 0777, $redirectFile));
-$indexAdmin->addConfigBoxLine(FileChecker::getFileStatus($path . 'blank.gif', dirname(dirname(__FILE__)) . '/images/blank.gif', $redirectFile));
+$indexAdmin->addConfigBoxLine(FileChecker::getFileStatus($path . 'blank.gif', dirname(dirname(__FILE__)) . '/assets/images/blank.gif', $redirectFile));
 
 $indexAdmin->addConfigBoxLine('');
 
 $path = XOOPS_ROOT_PATH . '/' . $wfdownloads->getConfig('screenshots') . '/';
 $indexAdmin->addConfigBoxLine(DirectoryChecker::getDirectoryStatus($path, 0777, $redirectFile));
-$indexAdmin->addConfigBoxLine(FileChecker::getFileStatus($path . 'blank.gif', dirname(dirname(__FILE__)) . '/images/blank.gif', $redirectFile));
+$indexAdmin->addConfigBoxLine(FileChecker::getFileStatus($path . 'blank.gif', dirname(dirname(__FILE__)) . '/assets/images/blank.gif', $redirectFile));
 $indexAdmin->addConfigBoxLine(DirectoryChecker::getDirectoryStatus($path . 'thumbs' . '/', 0777, $redirectFile));
-$indexAdmin->addConfigBoxLine(
-    FileChecker::getFileStatus($path . 'thumbs' . '/' . 'blank.gif', dirname(dirname(__FILE__)) . '/images/blank.gif', $redirectFile)
-);
+$indexAdmin->addConfigBoxLine(FileChecker::getFileStatus($path . 'thumbs' . '/' . 'blank.gif', dirname(dirname(__FILE__)) . '/assets/images/blank.gif', $redirectFile));
 
 $indexAdmin->addConfigBoxLine('');
 
 $path = XOOPS_ROOT_PATH . '/' . $wfdownloads->getConfig('catimage') . '/';
 $indexAdmin->addConfigBoxLine(DirectoryChecker::getDirectoryStatus($path, 0777, $redirectFile));
-$indexAdmin->addConfigBoxLine(FileChecker::getFileStatus($path . 'blank.gif', dirname(dirname(__FILE__)) . '/images/blank.gif', $redirectFile));
+$indexAdmin->addConfigBoxLine(FileChecker::getFileStatus($path . 'blank.gif', dirname(dirname(__FILE__)) . '/assets/images/blank.gif', $redirectFile));
 $indexAdmin->addConfigBoxLine(DirectoryChecker::getDirectoryStatus($path . 'thumbs' . '/', 0777, $redirectFile));
-$indexAdmin->addConfigBoxLine(
-    FileChecker::getFileStatus($path . 'thumbs' . '/' . 'blank.gif', dirname(dirname(__FILE__)) . '/images/blank.gif', $redirectFile)
-);
+$indexAdmin->addConfigBoxLine(FileChecker::getFileStatus($path . 'thumbs' . '/' . 'blank.gif', dirname(dirname(__FILE__)) . '/assets/images/blank.gif', $redirectFile));
 
 //---------------------------
 

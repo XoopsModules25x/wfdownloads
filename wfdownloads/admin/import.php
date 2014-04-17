@@ -206,6 +206,9 @@ switch ($op) {
 // =========================================================================================
 // This function imports data from WF-Downloads
 // =========================================================================================
+/**
+ * @return null
+ */
 function import_wfd_to_wfdownloads()
 {
     global $xoopsDB;
@@ -223,7 +226,7 @@ function import_wfd_to_wfdownloads()
     // Get destination module/handlers/configs
     $wfdownloads = WfdownloadsWfdownloads::getInstance();
 
-    echo "<br /><b>Copying Files</b><br />";
+    echo "<br /><span style='font-weight: bold;'>Copying Files</span><br />";
     // Copy categories images/thumbnails
     if (!wfdownloads_copyDir(XOOPS_ROOT_PATH . '/' . $wfdModuleConfig['catimage'], XOOPS_ROOT_PATH . '/' . $wfdownloads->getConfig('catimage'))) {
         return false;
@@ -244,7 +247,7 @@ function import_wfd_to_wfdownloads()
     }
     echo "Copied files<br />";
 
-    echo "<br /><b>Importing Data</b><br />";
+    echo "<br /><span style='font-weight: bold;'>Importing Data</span><br />";
     $destination = array(
         "cat"       => $xoopsDB->prefix("wfdownloads_cat"),
         "downloads" => $xoopsDB->prefix("wfdownloads_downloads"),
@@ -346,7 +349,6 @@ function import_wfd_to_wfdownloads()
     $xoopsDB->query($sql);
     echo "Imported {$xoopsDB->getAffectedRows()} modification requests into {$destination['mod']}<br />";
 
-
     // Update category ID to new value
     $xoopsDB->query("UPDATE {$destination['downloads']} d, {$destination['cat']} c SET d.cid=c.cid WHERE d.old_cid=c.old_cid AND d.old_cid != 0");
     $xoopsDB->query("UPDATE {$destination['cat']} c1, {$destination['cat']} c2 SET c1.pid=c2.cid WHERE c1.old_pid=c2.old_cid AND c1.old_pid != 0");
@@ -390,8 +392,8 @@ function import_wfd_to_wfdownloads()
     $xoopsDB->query("ALTER TABLE ." . $destination['downloads'] . " DROP `old_cid`");
     $xoopsDB->query("ALTER TABLE ." . $destination['downloads'] . " DROP `old_lid`");
 
+    return null;
 }
-
 
 // =========================================================================================
 // This function imports data from mydownloads
@@ -400,7 +402,7 @@ function import_wmpdownloads_to_wfdownloads()
 {
     global $xoopsDB;
 
-    echo "<br /><b>Importing Data</b><br />";
+    echo "<br /><span style='font-weight: bold;'>Importing Data</span><br />";
     $destination = array(
         "cat"       => $xoopsDB->prefix("wfdownloads_cat"),
         "downloads" => $xoopsDB->prefix("wfdownloads_downloads"),
@@ -471,7 +473,6 @@ function import_wmpdownloads_to_wfdownloads()
     );
     echo "Imported " . $xoopsDB->getAffectedRows() . " modification requests into " . $destination['mod'] . "<br />";
 
-
     //Update category ID to new value
     $xoopsDB->query(
         "UPDATE " . $destination['downloads'] . " d, " . $destination['cat'] . " c SET d.cid=c.cid WHERE d.old_cid=c.old_cid AND d.old_cid != 0"
@@ -515,7 +516,6 @@ function import_wmpdownloads_to_wfdownloads()
 
 }
 
-
 // =========================================================================================
 // This function imports data from pd-downloads
 // =========================================================================================
@@ -523,7 +523,7 @@ function import_pddownloads_to_wfdownloads()
 {
     global $xoopsDB;
 
-    echo "<br /><b>Importing Data</b><br />";
+    echo "<br /><span style='font-weight: bold;'>Importing Data</span><br />";
     $destination = array(
         "cat"       => $xoopsDB->prefix("wfdownloads_cat"),
         "downloads" => $xoopsDB->prefix("wfdownloads_downloads"),
@@ -563,36 +563,36 @@ function import_pddownloads_to_wfdownloads()
     //Import data into category table
     $xoopsDB->query(
         "INSERT INTO " . $destination['cat'] . " (`old_cid`, `old_pid`, `title`, `imgurl`, `description`, `total`, `weight`)
-					 SELECT `cid`, `pid`, `title`, `imgurl`, `description`, `total`, `weight`
-					 FROM " . $source['cat']
+                     SELECT `cid`, `pid`, `title`, `imgurl`, `description`, `total`, `weight`
+                     FROM " . $source['cat']
     );
     echo "Imported " . $xoopsDB->getAffectedRows() . " categories into " . $destination['cat'] . "<br />";
     //Import data into downloads table
     $xoopsDB->query(
         "INSERT INTO " . $destination['downloads'] . " (`cid`, `old_lid`, `old_cid`, `title`, `url`, `homepage`, `homepagetitle`, `version`, `size`, `platform`, `screenshot`, `submitter`, `publisher`, `status`, `date`, `hits`, `rating`, `votes`, `comments`, `features`, `forumid`, `dhistory`, `published`, `expired`, `updated`, `offline`, `description`, `ipaddress`, `notifypub`)
                      SELECT 0,`lid`, `cid`, `title`, `url`, `homepage`, `homepagetitle`, `version`, `size`, `platform`, `screenshot`, `submitter`, `publisher`, `status`, `date`, `hits`, `rating`, `votes`, `comments`, `features`, `forumid`, `dhistory`, `published`, `expired`, `updated`, `offline`, `description`, `ipaddress`, `notifypub`
-					 FROM " . $source['downloads']
+                     FROM " . $source['downloads']
     );
     echo "Imported " . $xoopsDB->getAffectedRows() . " downloads into " . $destination['downloads'] . "<br />";
     //Import data into brokens table
     $xoopsDB->query(
         "INSERT INTO " . $destination['broken'] . " (`reportid`, `lid`, `sender`, `ip`, `date`, `confirmed`, `acknowledged`)
                      SELECT `reportid`, `lid`, `sender`, `ip`, `date`, `confirmed`, `acknowledged`
-					 FROM " . $source['broken']
+                     FROM " . $source['broken']
     );
     echo "Imported " . $xoopsDB->getAffectedRows() . " broken reports into " . $destination['broken'] . "<br />";
     //Import data into votedata table
     $xoopsDB->query(
         "INSERT INTO " . $destination['votes'] . " (`ratingid`, `lid`, `ratinguser`, `rating`, `ratinghostname`, `ratingtimestamp`)
                      SELECT `ratingid`, `lid`, `ratinguser`, `rating`, `ratinghostname`, `ratingtimestamp`
-					 FROM " . $source['votes']
+                     FROM " . $source['votes']
     );
     echo "Imported " . $xoopsDB->getAffectedRows() . " votes into " . $destination['votes'] . "<br />";
     //Import data into mod request table
     $xoopsDB->query(
         "INSERT INTO " . $destination['mod'] . " (`lid`, `cid`, `title`, `url`, `homepage`, `homepagetitle`, `version`, `size`, `platform`, `screenshot`, `submitter`, `publisher`, `status`, `date`, `hits`, `rating`, `votes`, `comments`, `features`, `forumid`, `dhistory`, `published`, `expired`, `updated`, `offline`, `description`, `modifysubmitter`, `requestdate`)
                      SELECT `lid`, `cid`, `title`, `url`, `homepage`, `homepagetitle`, `version`, `size`, `platform`, `screenshot`, `submitter`, `publisher`, `status`, `date`, `hits`, `rating`, `votes`, `comments`, `features`, `forumid`, `dhistory`, `published`, `expired`, `updated`, `offline`, `description`, `modifysubmitter`, `requestdate`
-					 FROM " . $source['mod']
+                     FROM " . $source['mod']
     );
     echo "Imported " . $xoopsDB->getAffectedRows() . " modification requests into " . $destination['mod'] . "<br />";
 
@@ -637,7 +637,6 @@ function import_pddownloads_to_wfdownloads()
 
 }
 
-
 // =========================================================================================
 // This function imports data from mydownloads
 // =========================================================================================
@@ -645,7 +644,7 @@ function import_mydownloads_to_wfdownloads()
 {
     global $xoopsDB;
 
-    echo "<br /><b>Importing Data</b><br />";
+    echo "<br /><span style='font-weight: bold;'>Importing Data</span><br />";
     $destination = array(
         "cat"       => $xoopsDB->prefix("wfdownloads_cat"),
         "downloads" => $xoopsDB->prefix("wfdownloads_downloads"),
@@ -716,7 +715,6 @@ function import_mydownloads_to_wfdownloads()
     );
     echo "Imported " . $xoopsDB->getAffectedRows() . " modification requests into " . $destination['mod'] . "<br />";
 
-
     //Update category ID to new value
     $xoopsDB->query(
         "UPDATE " . $destination['downloads'] . " d, " . $destination['cat'] . " c SET d.cid=c.cid WHERE d.old_cid=c.old_cid AND d.old_cid != 0"
@@ -759,4 +757,3 @@ function import_mydownloads_to_wfdownloads()
     $xoopsDB->query("ALTER TABLE ." . $destination['downloads'] . " DROP `old_lid`");
 
 }
-

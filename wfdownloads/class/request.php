@@ -9,7 +9,7 @@
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 /**
- *  Wfdownloads class
+ *  WfdownloadsRequest class
  *
  * @copyright       Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
  * @license         GNU/GPL, see LICENSE.php
@@ -19,7 +19,7 @@
  *                  other free or open source software licenses.
  *                  See COPYRIGHT.php for copyright notices and details.
  * @package         Wfdownloads
- * @since           1.0
+ * @since           3.23
  * @author          trabis <lusopoemas@gmail.com>
  * @version         $Id: request.php 10374 2012-12-12 23:39:48Z trabis $
  */
@@ -241,17 +241,31 @@ class WfdownloadsRequest
     static function getString($name, $default = '', $hash = 'default', $mask = 0)
     {
         // Cast to string, in case JREQUEST_ALLOWRAW was specified for mask
-        return (string)WfdownloadsRequest::getVar($name, $default, $hash, 'string', $mask);
+        return (string) WfdownloadsRequest::getVar($name, $default, $hash, 'string', $mask);
     }
 
+    /**
+     * @param        $name
+     * @param array  $default
+     * @param string $hash
+     *
+     * @return mixed
+     */
     static function getArray($name, $default = array(), $hash = 'default')
     {
         return WfdownloadsRequest::getVar($name, $default, $hash, 'array');
     }
 
+    /**
+     * @param        $name
+     * @param string $default
+     * @param string $hash
+     *
+     * @return string
+     */
     static function getText($name, $default = '', $hash = 'default')
     {
-        return (string)WfdownloadsRequest::getVar($name, $default, $hash, 'string', PUBLISHER_REQUEST_ALLOWRAW);
+        return (string) WfdownloadsRequest::getVar($name, $default, $hash, 'string', PUBLISHER_REQUEST_ALLOWRAW);
     }
 
     /**
@@ -562,8 +576,8 @@ class WfdownloadsFilterInput
     public function __construct($tagsArray = array(), $attrArray = array(), $tagsMethod = 0, $attrMethod = 0, $xssAuto = 1)
     {
         // Make sure user defined arrays are in lowercase
-        $tagsArray = array_map('strtolower', (array)$tagsArray);
-        $attrArray = array_map('strtolower', (array)$attrArray);
+        $tagsArray = array_map('strtolower', (array) $tagsArray);
+        $attrArray = array_map('strtolower', (array) $attrArray);
         // Assign member variables
         $this->tagsArray  = $tagsArray;
         $this->attrArray  = $attrArray;
@@ -621,31 +635,31 @@ class WfdownloadsFilterInput
             case 'INT' :
             case 'INTEGER' :
                 // Only use the first integer value
-                preg_match('/-?[0-9]+/', (string)$source, $matches);
-                $result = @ (int)$matches[0];
+                preg_match('/-?[0-9]+/', (string) $source, $matches);
+                $result = @ (int) $matches[0];
                 break;
             case 'FLOAT' :
             case 'DOUBLE' :
                 // Only use the first floating point value
-                preg_match('/-?[0-9]+(\.[0-9]+)?/', (string)$source, $matches);
-                $result = @ (float)$matches[0];
+                preg_match('/-?[0-9]+(\.[0-9]+)?/', (string) $source, $matches);
+                $result = @ (float) $matches[0];
                 break;
             case 'BOOL' :
             case 'BOOLEAN' :
-                $result = (bool)$source;
+                $result = (bool) $source;
                 break;
             case 'WORD' :
-                $result = (string)preg_replace('/[^A-Z_]/i', '', $source);
+                $result = (string) preg_replace('/[^A-Z_]/i', '', $source);
                 break;
             case 'ALNUM' :
-                $result = (string)preg_replace('/[^A-Z0-9]/i', '', $source);
+                $result = (string) preg_replace('/[^A-Z0-9]/i', '', $source);
                 break;
             case 'CMD' :
-                $result = (string)preg_replace('/[^A-Z0-9_\.-]/i', '', $source);
+                $result = (string) preg_replace('/[^A-Z0-9_\.-]/i', '', $source);
                 $result = ltrim($result, '.');
                 break;
             case 'BASE64' :
-                $result = (string)preg_replace('/[^A-Z0-9\/+=]/i', '', $source);
+                $result = (string) preg_replace('/[^A-Z0-9\/+=]/i', '', $source);
                 break;
             case 'STRING' :
                 // Check for static usage and assign $filter the proper variable
@@ -654,18 +668,18 @@ class WfdownloadsFilterInput
                 } else {
                     $filter = WfdownloadsFilterInput::getInstance();
                 }
-                $result = (string)$filter->_remove($filter->_decode((string)$source));
+                $result = (string) $filter->_remove($filter->_decode((string) $source));
                 break;
             case 'ARRAY' :
-                $result = (array)$source;
+                $result = (is_array($source)) ? (array) $source : array();
                 break;
             case 'PATH' :
                 $pattern = '/^[A-Za-z0-9_-]+[A-Za-z0-9_\.-]*([\\\\\/][A-Za-z0-9_-]+[A-Za-z0-9_\.-]*)*$/';
-                preg_match($pattern, (string)$source, $matches);
-                $result = @ (string)$matches[0];
+                preg_match($pattern, (string) $source, $matches);
+                $result = @ (string) $matches[0];
                 break;
             case 'USERNAME' :
-                $result = (string)preg_replace('/[\x00-\x1F\x7F<>"\'%&]/', '', $source);
+                $result = (string) preg_replace('/[\x00-\x1F\x7F<>"\'%&]/', '', $source);
                 break;
             default :
                 // Check for static usage and assign $filter the proper variable
@@ -735,7 +749,7 @@ class WfdownloadsFilterInput
         // Iteration provides nested tag protection
         while ($source != $this->_cleanTags($source)) {
             $source = $this->_cleanTags($source);
-            $loopCounter++;
+            ++$loopCounter;
         }
 
         return $source;
@@ -861,7 +875,7 @@ class WfdownloadsFilterInput
                     // Open or Single tag
                     $attrSet = $this->_cleanAttributes($attrSet);
                     $preTag .= '<' . $tagName;
-                    for ($i = 0; $i < count($attrSet); $i++) {
+                    for ($i = 0; $i < count($attrSet); ++$i) {
                         $preTag .= ' ' . $attrSet[$i];
                     }
                     // Reformat single tags to XHTML
@@ -901,7 +915,7 @@ class WfdownloadsFilterInput
         // Initialize variables
         $newSet = array();
         // Iterate through attribute pairs
-        for ($i = 0; $i < count($attrSet); $i++) {
+        for ($i = 0; $i < count($attrSet); ++$i) {
             // Skip blank spaces
             if (!$attrSet[$i]) {
                 continue;

@@ -88,8 +88,8 @@ switch ($op) {
         $mimetype->setVar('mime_ext', $_POST['mime_ext']);
         $mimetype->setVar('mime_name', $_POST['mime_name']);
         $mimetype->setVar('mime_types', $_POST['mime_type']);
-        $mimetype->setVar('mime_admin', (int)$_POST['mime_admin']);
-        $mimetype->setVar('mime_user', (int)$_POST['mime_user']);
+        $mimetype->setVar('mime_admin', (int) $_POST['mime_admin']);
+        $mimetype->setVar('mime_user', (int) $_POST['mime_user']);
         if (!$wfdownloads->getHandler('mimetype')->insert($mimetype)) {
             $error = "Could not update mimetype information";
             trigger_error($error, E_USER_ERROR);
@@ -122,13 +122,13 @@ switch ($op) {
         if (!$wfdownloads->getHandler('mimetype')->insert($mimetype, true)) {
             trigger_error($error, E_USER_ERROR);
         }
-        redirect_header("{$currentFile}?start=" . (int)($_GET['start']) . "", 0, _AM_WFDOWNLOADS_MIME_MODIFIED);
+        redirect_header("{$currentFile}?start=" . (int) ($_GET['start']) . "", 0, _AM_WFDOWNLOADS_MIME_MODIFIED);
         break;
 
     case "mimetypes.update" :
         $mime_admin = WfdownloadsRequest::getBool('admin', false);
         $mime_user  = WfdownloadsRequest::getBool('user', false);
-        $type_all   = (int)($_GET['type_all']);
+        $type_all   = (int) ($_GET['type_all']);
 
         if ($mime_admin == true) {
             $field = 'mime_admin';
@@ -142,7 +142,7 @@ switch ($op) {
             $error = "Could not update mimetype information";
             trigger_error($error, E_USER_ERROR);
         }
-        redirect_header("{$currentFile}?start=" . (int)($_GET['start']) . "", 1, _AM_WFDOWNLOADS_MIME_MODIFIED);
+        redirect_header("{$currentFile}?start=" . (int) ($_GET['start']) . "", 1, _AM_WFDOWNLOADS_MIME_MODIFIED);
         break;
 
     case "mimetype.delete" :
@@ -218,7 +218,7 @@ switch ($op) {
         $GLOBALS['xoopsTpl']->assign('allowAdminMimetypes', $allowAdminMimetypes);
         $GLOBALS['xoopsTpl']->assign('allowUserMimetypes', $allowUserMimetypes);
 
-        $GLOBALS['xoopsTpl']->display("db:" . $wfdownloads->getModule()->dirname() . "_admin_mimetypeslist.html");
+        $GLOBALS['xoopsTpl']->display("db:{$wfdownloads->getModule()->dirname()}_admin_mimetypeslist.html");
 
         include 'admin_footer.php';
         break;

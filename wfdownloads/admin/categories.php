@@ -72,19 +72,36 @@ switch ($op) {
     case "category.save" :
     case "addCat" :
         $cid = WfdownloadsRequest::getInt('cid', 0, 'POST');
+        $pid = WfdownloadsRequest::getInt('pid', 0, 'POST');
+        $weight = (isset($_POST["weight"]) && $_POST["weight"] > 0) ? (int) $_POST["weight"] : 0;
         $down_groups = isset($_POST['groups']) ? $_POST['groups'] : array();
         $up_groups = isset($_POST['up_groups']) ? $_POST['up_groups'] : array();
-        $pid = (isset($_POST["pid"])) ? (int)$_POST["pid"] : 0;
-        $weight = (isset($_POST["weight"]) && $_POST["weight"] > 0) ? (int)$_POST["weight"] : 0;
-        $spotlighthis = (isset($_POST["lid"])) ? (int)$_POST["lid"] : 0;
+        $spotlighthis = (isset($_POST["lid"])) ? (int) $_POST["lid"] : 0;
         $spotlighttop = (isset($_POST["spotlighttop"]) && ($_POST["spotlighttop"] == 1)) ? 1 : 0;
-        $imgurl = ($_POST["imgurl"] && $_POST["imgurl"] != "blank.png") ? $myts -> addslashes($_POST["imgurl"]) : "";
 
-        $dohtml = isset($_POST['dohtml']);
-        $dosmiley = isset($_POST['dosmiley']);
-        $doxcode = isset($_POST['doxcode']);
-        $doimage = isset($_POST['doimage']);
-        $dobr = isset($_POST['dobr']);
+        include_once XOOPS_ROOT_PATH.'/class/uploader.php';
+        $allowedMimetypes = array('image/gif', 'image/jpeg', 'image/pjpeg', 'image/x-png', 'image/png');
+        $maxFileSize      = $wfdownloads->getConfig('maxfilesize');
+        $maxImgWidth      = $wfdownloads->getConfig('maximgwidth');
+        $maxImgHeight     = $wfdownloads->getConfig('maximgheight');
+        $uploadDirectory  = XOOPS_ROOT_PATH . '/' . $wfdownloads->getConfig('catimage');
+        $uploader = new XoopsMediaUploader($uploadDirectory, $allowedMimetypes, $maxFileSize, $maxImgWidth, $maxImgHeight);
+        if ($uploader->fetchMedia($_POST['xoops_upload_file'][0])) {
+            $uploader->setTargetFileName('wfdownloads_' . uniqid(time()) . '--' . strtolower($_FILES['uploadfile']['name']));
+            $uploader->fetchMedia($_POST['xoops_upload_file'][0]);
+            if (!$uploader->upload()) {
+                $errors = $uploader->getErrors();
+                redirect_header("javascript:history.go(-1)",3, $errors);
+            } else {
+                $imgurl = $uploader->getSavedFileName();
+            }
+        } else {
+            $imgurl = (isset($_POST["imgurl"]) && $_POST["imgurl"] != "blank.png") ? $myts -> addslashes($_POST["imgurl"]) : "";
+        }
+        // Formulize module support (2006/05/04) jpc
+        if (wfdownloads_checkModule('formulize') < 300) {
+            $formulize_fid = (isset($_POST["formulize_fid"])) ? (int) $_POST["formulize_fid"] : 0;
+        }
 
         if (!$cid) {
             $category = $wfdownloads->getHandler('category')->create();
@@ -96,36 +113,30 @@ switch ($op) {
             }
         }
 
-    	// Added Formulize module support (2006/05/04) jpc - start
-        if (wfdownloads_checkModule('formulize') < 300) {
-            $formulize_fid = (isset($_POST["formulize_fid"])) ? (int)$_POST["formulize_fid"] : 0;
-        }
-    	// Added Formulize module support (2006/05/04) jpc - end
         $category->setVar('title', $_POST["title"]);
-        $category->setVar('description', $_POST["description"]);
-        $category->setVar('summary', $_POST["summary"]);
-        $category->setVar('dohtml', $dohtml);
-        $category->setVar('dosmiley', $dosmiley);
-        $category->setVar('doxcode', $doxcode);
-        $category->setVar('dobr', $dobr);
-        $category->setVar('doimage', $doimage);
         $category->setVar('pid', $pid);
         $category->setVar('weight', $weight);
-        $category->setVar('spotlighthis', $spotlighthis);
-        $category->setVar('spotlighttop', $spotlighttop);
         $category->setVar('imgurl', $imgurl);
-		// Added Formulize module support (2006/05/04) jpc - start
+        $category->setVar('description', $_POST["description"]);
+        $category->setVar('summary', $_POST["summary"]);
+        $category->setVar('dohtml', isset($_POST['dohtml']));
+        $category->setVar('dosmiley', isset($_POST['dosmiley']));
+        $category->setVar('doxcode', isset($_POST['doxcode']));
+        $category->setVar('doimage', isset($_POST['doimage']));
+        $category->setVar('dobr', isset($_POST['dobr']));
+        // Formulize module support (2006/05/04) jpc
         if (wfdownloads_checkModule('formulize')) {
             $category->setVar('formulize_fid', $formulize_fid);
         }
-		// Added Formulize module support (2006/05/04) jpc - end
-        $result = $wfdownloads->getHandler('category')->insert($category);
-        if (!$result) {
+        $category->setVar('spotlighthis', $spotlighthis);
+        $category->setVar('spotlighttop', $spotlighttop);
+
+        if (!$wfdownloads->getHandler('category')->insert($category)) {
             echo $category->getHtmlErrors();
         }
         if (!$cid) {
             if ($cid == 0) {
-                $newid = (int)$category->getVar('cid');
+                $newid = (int) $category->getVar('cid');
             }
             wfdownloads_savePermissions($down_groups, $newid, 'WFDownCatPerm');
             wfdownloads_savePermissions($up_groups, $newid, 'WFUpCatPerm');
@@ -153,7 +164,7 @@ switch ($op) {
         if ($ok == true) {
             // get all subcategories under the specified category
             $arr = $mytree -> getAllChild($cid);
-            foreach($arr as $child) {
+            foreach ($arr as $child) {
                 // get all category ids
                 $cids[] = $child->getVar('cid');
             }
@@ -171,7 +182,7 @@ switch ($op) {
             $wfdownloads->getHandler('report')->deleteAll($download_criteria);
             $wfdownloads->getHandler('download')->deleteAll($download_criteria);
             foreach (array_keys($downloads) as $lid) {
-                xoops_comment_delete($wfdownloads->getModule()->mid(), (int)$lid);
+                xoops_comment_delete($wfdownloads->getModule()->mid(), (int) $lid);
             }
 
             // all downloads for each category is deleted, now delete the category data
@@ -201,16 +212,15 @@ switch ($op) {
 
         $adminMenu = new ModuleAdmin();
         $adminMenu->addItemButton(_MI_WFDOWNLOADS_MENU_CATEGORIES, "{$currentFile}?op=categories.list", 'list');
-//        $adminMenu->addItemButton(_AM_WFDOWNLOADS_CCATEGORY_CREATENEW, "{$currentFile}?op=category.add", 'add');
         echo $adminMenu->renderButton();
 
         if (isset($_REQUEST['cid'])) {
             $category = $wfdownloads->getHandler('category')->get($_REQUEST['cid']);
         } else {
             $category = $wfdownloads->getHandler('category')->create();
-    	}
-    	$form = $category->getForm();
-    	$form -> display();
+        }
+        $form = $category->getForm();
+        $form -> display();
 
         include 'admin_footer.php';
         break;
@@ -223,7 +233,6 @@ switch ($op) {
         echo $indexAdmin->addNavigation($currentFile);
 
         $adminMenu = new ModuleAdmin();
-//        $adminMenu->addItemButton(_MI_WFDOWNLOADS_MENU_CATEGORIES, "{$currentFile}?op=categories.list", 'list');
         $adminMenu->addItemButton(_AM_WFDOWNLOADS_CCATEGORY_CREATENEW, "{$currentFile}?op=category.add", 'add');
         echo $adminMenu->renderButton();
 
@@ -232,7 +241,7 @@ switch ($op) {
             $sorted_categories = wfdownloads_sortCategories();
             $GLOBALS['xoopsTpl']->assign('sorted_categories', $sorted_categories);
             $GLOBALS['xoopsTpl']->assign('token', $GLOBALS['xoopsSecurity']->getTokenHTML() );
-            $GLOBALS['xoopsTpl']->display("db:" . $wfdownloads->getModule()->dirname() . "_admin_categorieslist.html");
+            $GLOBALS['xoopsTpl']->display("db:{$wfdownloads->getModule()->dirname()}_admin_categorieslist.html");
         } else {
             redirect_header("{$currentFile}?op=category.add", 1, _AM_WFDOWNLOADS_CCATEGORY_NOEXISTS);
         }
@@ -247,7 +256,7 @@ switch ($op) {
         if (isset($_POST['new_weights']) && count($_POST['new_weights']) > 0) {
             $new_weights = $_POST['new_weights'];
             $ids = array();
-            foreach ($new_weights as $cid => $new_weight ) {
+            foreach ($new_weights as $cid => $new_weight) {
                 $category = $wfdownloads->getHandler('category')->get($cid);
                 $category->setVar('weight', $new_weight);
                 if (!$wfdownloads->getHandler('category')->insert($category)) {

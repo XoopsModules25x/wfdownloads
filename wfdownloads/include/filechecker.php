@@ -22,7 +22,8 @@
 //defined("XOOPS_ROOT_PATH") or die("XOOPS root path not defined");
 
 require_once dirname(dirname(dirname(dirname(__FILE__)))) . '/include/cp_header.php';
-xoops_loadLanguage('filechecker', 'wfdownloads');
+$mydirname = basename(dirname(dirname(__FILE__)));
+xoops_loadLanguage('filechecker', $mydirname);
 
 /**
  * Class FileChecker
@@ -31,10 +32,12 @@ xoops_loadLanguage('filechecker', 'wfdownloads');
 class FileChecker
 {
     /**
-     * @param     $path
-     * @param int $mode
-     * @param     $redirectFile
+     * @param      $file_path
+     * @param null $original_file_path
+     * @param      $redirectFile
      *
+     * @internal param $path
+     * @internal param int $mode
      * @return bool|string
      */
     public static function getFileStatus($file_path, $original_file_path = null, $redirectFile)
@@ -135,7 +138,7 @@ class FileChecker
     {
         $target = str_replace("..", "", $target);
 
-        return @chmod($target, (int)$mode);
+        return @chmod($target, (int) $mode);
     }
 }
 

@@ -45,6 +45,6 @@ echo $indexAdmin->addNavigation($currentFile);
 $GLOBALS['xoopsTpl']->assign('down_cat_form', $down_cat_form->render());
 $GLOBALS['xoopsTpl']->assign('up_cat_form', $up_cat_form->render());
 
-$GLOBALS['xoopsTpl']->display("db:" . $wfdownloads->getModule()->dirname() . "_admin_permissions.html");
+$GLOBALS['xoopsTpl']->display("db:{$wfdownloads->getModule()->dirname()}_admin_permissions.html");
 
 include 'admin_footer.php';

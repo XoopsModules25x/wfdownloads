@@ -71,18 +71,18 @@ define('_MI_WFDOWNLOADS_SHOTHEIGHTDSC', "Display height for thumbnails image.");
 define('_MI_WFDOWNLOADS_CHECKHOST', "[leeching] Disallow direct download linking");
 define('_MI_WFDOWNLOADS_REFERERS', "[leeching] These sites can directly link to your files");
 define('_MI_WFDOWNLOADS_REFERERSDSC', "Separate with | ");
-define('_MI_WFDOWNLOADS_CAT_IMGWIDTH', "Categories images display width");
+define('_MI_WFDOWNLOADS_CAT_IMGWIDTH', "[categories images] Categories images display width");
 define('_MI_WFDOWNLOADS_CAT_IMGWIDTHDSC', "Display width for category image.");
-define('_MI_WFDOWNLOADS_CAT_IMGHEIGHT', "Categories images display height");
+define('_MI_WFDOWNLOADS_CAT_IMGHEIGHT', "[categories images] Categories images display height");
 define('_MI_WFDOWNLOADS_CAT_IMGHEIGHTDSC', "Display height for category image.");
 define('_MI_WFDOWNLOADS_ANONPOST', "[submissions] Anonymous user submission");
-define('_MI_WFDOWNLOADS_ANONPOSTDSC', "Allow Anonymous users to submit new Downloads/Mirrors to your website.");
+define('_MI_WFDOWNLOADS_ANONPOSTDSC', "Allow Anonymous users to submit new Downloads and/or Mirrors to your website.");
 define('_MI_WFDOWNLOADS_ANONPOST1', "None");
 define('_MI_WFDOWNLOADS_ANONPOST2', "Download only");
 define('_MI_WFDOWNLOADS_ANONPOST3', "Mirror only");
 define('_MI_WFDOWNLOADS_ANONPOST4', "Both");
-define('_MI_WFDOWNLOADS_AUTOAPPROVE', "[submissions] Auto approve submitted Downloads/Mirrors");
-define('_MI_WFDOWNLOADS_AUTOAPPROVEDSC', "Select to approve submitted Downloads/Mirrors without moderation.");
+define('_MI_WFDOWNLOADS_AUTOAPPROVE', "[submissions] Auto approve submitted Downloads and/or Mirrors");
+define('_MI_WFDOWNLOADS_AUTOAPPROVEDSC', "Select to approve submitted Downloads and/or Mirrors without moderation.");
 define('_MI_WFDOWNLOADS_AUTOAPPROVE1', "None");
 define('_MI_WFDOWNLOADS_AUTOAPPROVE2', "Download only");
 define('_MI_WFDOWNLOADS_AUTOAPPROVE3', "Mirror only");
@@ -92,14 +92,14 @@ define('_MI_WFDOWNLOADS_REVIEWAPPROVEDSC', "Select to approve submitted reviews 
 define('_MI_WFDOWNLOADS_REVIEWANONPOST', "[reviews] Anonymous user reviews");
 define('_MI_WFDOWNLOADS_REVIEWANONPOSTDSC', "Allow Anonymous users to submit new reviews to your website.");
 define('_MI_WFDOWNLOADS_MAXFILESIZE', "[upload files] Max file size (bytes)");
-define('_MI_WFDOWNLOADS_MAXFILESIZEDSC', "Maximum file size permitted with file uploads.");
+define('_MI_WFDOWNLOADS_MAXFILESIZEDSC', "Maximum file size permitted with file uploads.<br />WARNING: Upload File Size Limit is also influenced by 'upload_max_filesize', 'post_max_size' and 'memory_limit' php.ini directives");
 define('_MI_WFDOWNLOADS_IMGWIDTH', "[upload files] Max upload image width (pixels)");
 define('_MI_WFDOWNLOADS_IMGWIDTHDSC', "Maximum image width permitted when uploading image files.");
 define('_MI_WFDOWNLOADS_IMGHEIGHT', "[upload files] Max upload image height (pixels)");
 define('_MI_WFDOWNLOADS_IMGHEIGHTDSC', "Maximum image height permitted when uploading image files.");
 define('_MI_WFDOWNLOADS_AUTOSUMMARY', "[auto summary] Enable download auto summary");
 define('_MI_WFDOWNLOADS_AUTOSUMMARYDESC', "Automatically create download summary based on x amount of characters defined.");
-define('_MI_WFDOWNLOADS_AUTOSUMMARYLENGTH', "[auto summary] Summary length");
+define('_MI_WFDOWNLOADS_AUTOSUMMARYLENGTH', "[auto summary] Auto summary length");
 define('_MI_WFDOWNLOADS_AUTOSUMMARYLENGTHDESC', "The maximum amount of characters displayed for the summary.");
 define('_MI_WFDOWNLOADS_UPLOADDIR', "[upload files] Upload directory");
 define('_MI_WFDOWNLOADS_UPLOADDIRDSC', "Upload directory *MUST* be an absolute path! <br />No trailing slash.");
@@ -110,7 +110,7 @@ define('_MI_WFDOWNLOADS_DOWNLOADMINPOSTSDSC', "Enter the minimum number of posts
 define('_MI_WFDOWNLOADS_UPLOADMINPOSTS', "Minimum posts required to upload");
 define('_MI_WFDOWNLOADS_UPLOADMINPOSTSDSC', "Enter the minimum number of posts required to upload a file.");
 define('_MI_WFDOWNLOADS_ALLOWSUBMISS', "[submissions] User submissions");
-define('_MI_WFDOWNLOADS_ALLOWSUBMISSDSC', "Allow users to submit new Downloads/Mirrors.");
+define('_MI_WFDOWNLOADS_ALLOWSUBMISSDSC', "Allow users to submit new Downloads and/or Mirrors.");
 define('_MI_WFDOWNLOADS_ALLOWSUBMISS1', "None");
 define('_MI_WFDOWNLOADS_ALLOWSUBMISS2', "Download only");
 define('_MI_WFDOWNLOADS_ALLOWSUBMISS3', "Mirror only");
@@ -120,8 +120,8 @@ define('_MI_WFDOWNLOADS_ALLOWUPLOADSDSC', "Allow Users to upload files directly 
 define('_MI_WFDOWNLOADS_ALLOWUPLOADSGROUP', "[submissions] Groups uploading files");
 define('_MI_WFDOWNLOADS_ALLOWUPLOADSGROUPDSC', "Select groups that can upload files directly to your website. <br />This includes both files & screenshots!");
 define('_MI_WFDOWNLOADS_SCREENSHOTS', "[screenshots] Screenshots upload directory");
-define('_MI_WFDOWNLOADS_CATEGORYIMG', "Categories images upload directory");
-define('_MI_WFDOWNLOADS_MAINIMGDIR', "Main images directory");
+define('_MI_WFDOWNLOADS_CATEGORYIMG', "[categories images] Categories images upload directory");
+define('_MI_WFDOWNLOADS_MAINIMGDIR', "[index page] Main images directory");
 define('_MI_WFDOWNLOADS_USETHUMBS', "[thumbnails] Use thumbnails");
 define('_MI_WFDOWNLOADS_USETHUMBSDSC',
     "Supported file types: JPG, GIF, PNG. <br />Module will use thumbnails for images (category & screenshots). <br />Set to '" . _NO
@@ -322,6 +322,8 @@ define('_MI_WFDOWNLOADS_DOWNLOAD_CONFIGS', "Download preferences");
 define('_MI_WFDOWNLOADS_DOWNLOAD_CONFIGSDSC', "");
 define('_MI_WFDOWNLOADS_UPLOAD_CONFIGS', "Upload/submit preferences");
 define('_MI_WFDOWNLOADS_UPLOAD_CONFIGSDSC', "");
+define('_MI_WFDOWNLOADS_IMAGES_CONFIGS', "Images preferences");
+define('_MI_WFDOWNLOADS_IMAGES_CONFIGSDSC', "");
 define('_MI_WFDOWNLOADS_SCREENSHOTS_CONFIGS', "Screenshots preferences");
 define('_MI_WFDOWNLOADS_SCREENSHOTS_CONFIGSDSC', "");
 define('_MI_WFDOWNLOADS_FILESUPLOADS_CONFIGS', "Files preferences");
@@ -334,5 +336,16 @@ define('_MI_WFDOWNLOADS_AUTOSUMMARY1', _NO);
 define('_MI_WFDOWNLOADS_AUTOSUMMARY2', "If blank");
 define('_MI_WFDOWNLOADS_AUTOSUMMARY3', _YES);
 
+define('_MI_WFDOWNLOADS_AUTOSUMMARYPLAINTEXT', "[auto summary] Auto summary plain text");
+define('_MI_WFDOWNLOADS_AUTOSUMMARYPLAINTEXTDESC', "If '" . _YES . "' all html tags, except &lt;br&gt;, will be removed.");
+
 define('_MI_WFDOWNLOADS_DISCLAIMER_DEFAULT', 'We have the right, but not the obligation to monitor and review submissions submitted by users, in the forums. We shall not be responsible for any of the content of these messages. We further reserve the right, to delete, move or edit submissions that the we, in its exclusive discretion, deems abusive, defamatory, obscene or in violation of any Copyright or Trademark laws or otherwise objectionable.');
 define('_MI_WFDOWNLOADS_DOWNDISCLAIMER_DEFAULT', 'The file downloads on this site are provided as is without warranty either expressed or implied. Downloaded files should be checked for possible virus infection using the most up-to-date detection and security packages. If you have a question concerning a particular piece of software, feel free to contact the developer. We refuse liability for any damage or loss resulting from the use or misuse of any software offered from this site for downloading. If you have any doubt at all about the safety and operation of software made available to you on this site, do not download it.<br /><br />Contact us if you have questions concerning this disclaimer.');
+
+define('_MI_WFDOWNLOADS_HELP_OVERVIEW', "Overview");
+define('_MI_WFDOWNLOADS_HELP_INSTALL', "Install");
+define('_MI_WFDOWNLOADS_HELP_TIPSTRICKS', "Tips & Tricks");
+define('_MI_WFDOWNLOADS_HELP_IMPORT', "Import<br />(IN PROGRESS)");
+define('_MI_WFDOWNLOADS_HELP_UPDATE1', "Updates Notes<br />(IN PROGRESS)");
+define('_MI_WFDOWNLOADS_HELP_UPDATE2', "Updates from 2.0 - 3.10<br />(IN PROGRESS)");
+define('_MI_WFDOWNLOADS_HELP_UPDATE3', "Updates from 3.10+<br />(IN PROGRESS)");
