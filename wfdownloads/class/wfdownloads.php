@@ -19,7 +19,7 @@
  * @author          trabis <lusopoemas@gmail.com>
  * @version         $Id:$
  */
-defined("XOOPS_ROOT_PATH") or die("XOOPS root path not defined");
+defined('XOOPS_ROOT_PATH') || die('XOOPS root path not defined');
 
 /**
  * Class WfdownloadsWfdownloads

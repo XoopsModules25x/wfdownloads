@@ -42,7 +42,7 @@ class WfsLists
      *        dir
      */
 
-    function WfsLists($path = "uploads", $value = null, $selected = '', $size = 1, $emptyselect = 0, $type = 0, $prefix = '', $suffix = '')
+    function __construct($path = "uploads", $value = null, $selected = '', $size = 1, $emptyselect = 0, $type = 0, $prefix = '', $suffix = '')
     {
         $this->value       = $value;
         $this->selection   = $selected;
@@ -117,7 +117,7 @@ class WfsLists
                 }
                 break;
             case "html":
-                $types = "[.htm|.html|.xhtml|.php|.php3|.phtml|.txt]";
+                $types = "[.htm|.html|.xhtml|.php|.php3|.phtml|.txt|.tpl]";
                 if ($noselection) {
                     $filelist[""] = "No Selection";
                 }

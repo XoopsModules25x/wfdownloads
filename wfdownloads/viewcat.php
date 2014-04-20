@@ -68,7 +68,7 @@ if (empty($category)) {
 $allowedDownCategoriesIds = $gperm_handler->getItemIds('WFDownCatPerm', $groups, $wfdownloads->getModule()->mid());
 $allowedUpCategoriesIds   = $gperm_handler->getItemIds('WFUpCatPerm', $groups, $wfdownloads->getModule()->mid());
 
-$xoopsOption['template_main'] = "{$wfdownloads->getModule()->dirname()}_viewcat.html";
+$xoopsOption['template_main'] = "{$wfdownloads->getModule()->dirname()}_viewcat.tpl";
 include XOOPS_ROOT_PATH . '/header.php';
 
 $xoTheme->addScript(XOOPS_URL . '/browse.php?Frameworks/jquery/jquery.js');

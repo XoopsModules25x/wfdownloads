@@ -1,4 +1,4 @@
-<{include file='db:wfdownloads_header.html'}>
+<{include file='db:wfdownloads_header.tpl'}>
 
 <div>
         <span style="font-weight: bold;"><{$smarty.const._MD_WFDOWNLOADS_TOTALNEWDOWNLOADS}>:</span>
@@ -21,9 +21,9 @@
 
 <!-- Start link loop -->
 <{foreach item=download from=$file}>
-<{include file="db:wfdownloads_download.html"}>
+<{include file="db:wfdownloads_download.tpl"}>
 <br />
 <{/foreach}>
 <!-- End link loop -->
 
-<{include file='db:wfdownloads_footer.html'}>
+<{include file='db:wfdownloads_footer.tpl'}>

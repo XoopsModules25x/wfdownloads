@@ -1,4 +1,7 @@
-<b><u>=> Version 3.23 Beta (2014-04-14)</u></b>
+<b><u>=> Version 3.23 Beta (2014-04-20)</u></b>
+- small changes based on testing tool feedback (mamba)
+- replacing "or" with "||", and "and" with "&&"  (mamba)
+- replaced template extensions from .html to .tpl (mamba)
 - replaced Thickbox with MagnificPopup (mamba)
 - fixed: source code for HTML5/CSS3 (mamba)
 - moved module.css, and /js and /images to /assets folder (mamba)

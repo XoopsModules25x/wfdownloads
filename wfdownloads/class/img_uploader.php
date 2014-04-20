@@ -90,9 +90,9 @@ class XoopsMediaImgUploader extends XoopsMediaUploader
      *
      * @internal param int $cmodvalue
      */
-    function XoopsMediaImgUploader($uploadDir, $allowedMimeTypes = 0, $maxFileSize, $maxWidth = 0, $maxHeight = 0)
+    function __construct($uploadDir, $allowedMimeTypes = 0, $maxFileSize, $maxWidth = 0, $maxHeight = 0)
     {
-        $this->XoopsMediaUploader($uploadDir, $allowedMimeTypes, $maxFileSize, $maxWidth, $maxHeight);
+        parent::__construct($uploadDir, $allowedMimeTypes, $maxFileSize, $maxWidth, $maxHeight);
         $this->randomfilename = false;
     }
 }

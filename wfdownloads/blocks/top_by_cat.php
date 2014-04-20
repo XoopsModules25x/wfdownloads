@@ -27,7 +27,7 @@
  *            $options[1]   = How many downloads are displayes
  * Output  : Returns the most recent or most popular downloads
  */
-defined("XOOPS_ROOT_PATH") or die('XOOPS root path not defined');
+defined('XOOPS_ROOT_PATH') || die('XOOPS root path not defined');
 include_once dirname(dirname(__FILE__)) . '/include/common.php';
 /**
  * @param $options
@@ -78,7 +78,8 @@ function wfdownloads_top_by_cat_show($options)
         $block['topcats'][$cid]['imgurl'] = $wfdownloads->getHandler('category')->allCategories[$cid]->getVar('imgurl');
     }
 
-    foreach ($block['downloads'] as $key => $value) {
+//mb    foreach ($block['downloads'] as $key => $value) {
+    foreach ($block['downloads'] as $value) {
         $block['topcats'][$allsubcats_linked_totop[$value['cid']]]['downloads'][] = $value;
     }
 

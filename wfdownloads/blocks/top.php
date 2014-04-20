@@ -27,7 +27,7 @@
  *            $options[1]   = How many downloads are displayes
  * Output  : Returns the most recent or most popular downloads
  */
-defined("XOOPS_ROOT_PATH") or die('XOOPS root path not defined');
+defined('XOOPS_ROOT_PATH') || die('XOOPS root path not defined');
 include_once dirname(dirname(__FILE__)) . '/include/common.php';
 /**
  * @param $options

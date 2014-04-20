@@ -1,4 +1,4 @@
-<{include file='db:wfdownloads_header.html'}>
+<{include file='db:wfdownloads_header.tpl'}>
 
 <h4 title="<{$smarty.const._MD_WFDOWNLOADS_TITLE}>"><{$down_arr.title}></h4>
 <div title="<{$smarty.const._MD_WFDOWNLOADS_DESCRIPTION}>">
@@ -43,4 +43,4 @@
 
 <a href="<{$xoops_url}>/modules/wfdownloads/review.php?cid=<{$down_arr.cid}>&amp;lid=<{$down_arr.lid}>"><{$smarty.const._MD_WFDOWNLOADS_ADDREVIEW}></a>
 
-<{include file='db:wfdownloads_footer.html'}>
+<{include file='db:wfdownloads_footer.tpl'}>

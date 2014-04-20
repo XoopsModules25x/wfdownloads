@@ -84,7 +84,7 @@ switch ($op) {
                     $customArray['fid']           = $fid;
                     $customArray['formulize_mgr'] =& xoops_getmodulehandler('elements', 'formulize');
                     $customArray['groups']        = $xoopsUser ? $xoopsUser->getGroups() : array(0 => XOOPS_GROUP_ANONYMOUS);
-                    $customArray['prevEntry']     = getEntryValues(
+                    $customArray['prevEntry']     = getEntryValues( // is a 'formulize' function
                         $download->getVar('formulize_idreq'),
                         $customArray['formulize_mgr'],
                         $customArray['groups'],
@@ -94,9 +94,9 @@ switch ($op) {
                     $customArray['go_back']       = "";
                     $customArray['parentLinks']   = "";
                     if (wfdownloads_checkModule('formulize') < 300) {
-                        $owner = getEntryOwner($entry);
+                        $owner = getEntryOwner($entry); // is a 'formulize' function
                     } else {
-                        $owner = getEntryOwner($entry, $fid);
+                        $owner = getEntryOwner($entry, $fid); // is a 'formulize' function
                     }
                     $ownerGroups                 = $member_handler->getGroupsByUser($owner, false);
                     $customArray['owner_groups'] = $ownerGroups;
@@ -300,7 +300,7 @@ switch ($op) {
         //    a) Are they actually changing the value of version, or is it the same?
         //    b) Are they actually modifying the record, or is this a new one?
         //  If both conditions are true, then trigger all three notifications related to modified records.
-        if (!$thisIsANewRecord and ($download->getVar('version') != $version)) {
+        if (!$thisIsANewRecord && ($download->getVar('version') != $version)) {
             // Trigger the three events related to modified files (one for the file, category, and global event categories respectively)
             $tags                  = array();
             $tags['FILE_NAME']     = $title;
@@ -420,9 +420,9 @@ switch ($op) {
                     $entries[$fid][0] = $download->getVar('formulize_idreq');
                     if ($entries[$fid][0]) {
                         if (wfdownloads_checkModule('formulize') < 300) {
-                            $owner = getEntryOwner($entries[$fid][0]);
+                            $owner = getEntryOwner($entries[$fid][0]); // is a 'formulize' function
                         } else {
-                            $owner = getEntryOwner($entries[$fid][0], $fid);
+                            $owner = getEntryOwner($entries[$fid][0], $fid); // is a 'formulize' function
                         }
                     } else {
                         print "no idreq";
@@ -794,7 +794,7 @@ switch ($op) {
         } else {
             // NOP
         }
-        $GLOBALS['xoopsTpl']->display("db:{$wfdownloads->getModule()->dirname()}_admin_downloadslist.html");
+        $GLOBALS['xoopsTpl']->display("db:{$wfdownloads->getModule()->dirname()}_admin_downloadslist.tpl");
 
         include 'admin_footer.php';
         break;
@@ -859,7 +859,7 @@ switch ($op) {
             }
         }
 
-        $GLOBALS['xoopsTpl']->display("db:{$wfdownloads->getModule()->dirname()}_admin_ip_logslist.html");
+        $GLOBALS['xoopsTpl']->display("db:{$wfdownloads->getModule()->dirname()}_admin_ip_logslist.tpl");
 
         include 'admin_footer.php';
         break;

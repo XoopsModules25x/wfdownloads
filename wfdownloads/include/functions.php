@@ -18,7 +18,7 @@
  * @author          Xoops Development Team
  * @version         svn:$id$
  */
-defined("XOOPS_ROOT_PATH") or die("XOOPS root path not defined");
+defined('XOOPS_ROOT_PATH') || die('XOOPS root path not defined');
 include_once dirname(__FILE__) . '/common.php';
 
 /**
@@ -43,7 +43,7 @@ function wfdownloads_bytesToSize1000($bytes, $precision = 2)
     return @round(
             $bytes / pow(1000, ($i = floor(log($bytes, 1000)))),
             $precision
-        ) . ' ' . $unit[$i];
+        ) . ' ' . $unit[(int)$i];
 }
 
 /**
@@ -60,7 +60,7 @@ function wfdownloads_bytesToSize1024($bytes, $precision = 2)
     return @round(
             $bytes / pow(1024, ($i = floor(log($bytes, 1024)))),
             $precision
-        ) . ' ' . $unit[$i];
+        ) . ' ' . $unit[(int)$i];
 }
 
 /**
@@ -364,7 +364,7 @@ function wfdownloads_lettersChoice()
     $letterschoiceTpl          = new XoopsTpl();
     $letterschoiceTpl->caching = false; // Disable cache
     $letterschoiceTpl->assign('alphabet', $alphabet_array);
-    $html = $letterschoiceTpl->fetch("db:" . $wfdownloads->getModule()->dirname() . "_common_letterschoice.html");
+    $html = $letterschoiceTpl->fetch("db:" . $wfdownloads->getModule()->dirname() . "_common_letterschoice.tpl");
     unset($letterschoiceTpl);
 
     return $html;
@@ -575,7 +575,8 @@ function wfdownloads_getCurrentPage()
 function wfdownloads_formatErrors($errors = array())
 {
     $ret = '';
-    foreach ($errors as $key => $value) {
+//mb    foreach ($errors as $key => $value) {
+    foreach ($errors as $value) {
         $ret .= "<br /> - {$value}";
     }
 
@@ -698,7 +699,7 @@ function wfdownloads_toolbar()
  */
 function wfdownloads_serverStats()
 {
-    $wfdownloads = WfdownloadsWfdownloads::getInstance();
+//mb    $wfdownloads = WfdownloadsWfdownloads::getInstance();
     global $xoopsDB;
     $html = "";
     $sql = "SELECT metavalue";
@@ -1283,13 +1284,15 @@ function wfdownloads_allowedMimetypes($fileName, $isAdmin = true)
  */
 function return_bytes($size_str)
 {
-    switch (substr ($size_str, -1)) {
-        case 'M': case 'm': return (int) $size_str * 1048576;
-        case 'K': case 'k': return (int) $size_str * 1024;
-        case 'G': case 'g': return (int) $size_str * 1073741824;
+    switch (substr ($size_str, -1))
+    {
+        case 'M': case 'm': return (int)$size_str * 1048576;
+        case 'K': case 'k': return (int)$size_str * 1024;
+        case 'G': case 'g': return (int)$size_str * 1073741824;
         default: return $size_str;
     }
 }
+
 
 /**
  * wfdownloads_uploading()
@@ -1334,6 +1337,7 @@ function wfdownloads_uploading(
     } else {
         $maxFileSize = $wfdownloads->getConfig('maxfilesize');
     }
+
 
     $maxImageWidth  = $wfdownloads->getConfig('maximgwidth');
     $maxImageHeight = $wfdownloads->getConfig('maximgheight');
@@ -1484,6 +1488,7 @@ function wfdownloads_largeDownload($filePath, $fileMimetype)
                     flush();
                 }
                 if (connection_status() !== CONNECTION_NORMAL) {
+                    //TODO traslation
                     echo "Connection aborted";
                 }
                 fclose($handle);
@@ -1493,9 +1498,11 @@ function wfdownloads_largeDownload($filePath, $fileMimetype)
                 readfile($filePath);
             }
          } else {
+            //TODO traslation
             echo 'File does not exist!';
          }
     } else {
+        //TODO traslation
         echo 'There is no file to download!';
     }
 }
@@ -1695,7 +1702,7 @@ function wfdownloads_swishe_config()
 
     // Create swish-e.conf
     $file = "{$swisheDocPath}/swish-e.conf";
-    $fp = fopen($file, 'w') or die("<BR><BR>Unable to open {$file}");
+    $fp = fopen($file, 'w') || die("<BR><BR>Unable to open {$file}");
     $line = "IndexDir {$swisheDocPath}/\n";
     fputs($fp, $line);
     $line = "IndexFile {$swisheDocPath}/index.swish-e\n";
@@ -1781,7 +1788,7 @@ function wfdownloads_swishe_search($search_query)
 
         // Opens a pipe to swish-e
         $pipe_handler = popen("{$swish} -w {$search_query} -f {$search_index} {$search_params}", "r")
-        or die("The search request generated an error...Please try again.");
+        || die("The search request generated an error...Please try again.");
 
         //print "$swish -w $search_query -f $search_index $search_params<BR>";
 

@@ -25,7 +25,7 @@
  * $breadcrumb->addLink( 'bread 3', 'index3.php' );
  * echo $breadcrumb->render();
  */
-defined("XOOPS_ROOT_PATH") or die("XOOPS root path not defined");
+defined('XOOPS_ROOT_PATH') || die('XOOPS root path not defined');
 
 /**
  * Class WfdownloadsBreadcrumb
@@ -69,7 +69,7 @@ class WfdownloadsBreadcrumb
         require_once $GLOBALS['xoops']->path('class/template.php');
         $breadcrumbTpl = new XoopsTpl();
         $breadcrumbTpl->assign('breadcrumb', $this->_bread);
-        $html = $breadcrumbTpl->fetch("db:" . $this->dirname . "_common_breadcrumb.html");
+        $html = $breadcrumbTpl->fetch("db:" . $this->dirname . "_common_breadcrumb.tpl");
         unset($breadcrumbTpl);
 
         return $html;

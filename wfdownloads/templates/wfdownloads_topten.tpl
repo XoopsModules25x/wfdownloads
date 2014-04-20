@@ -1,4 +1,4 @@
-<{include file='db:wfdownloads_header.html'}>
+<{include file='db:wfdownloads_header.tpl'}>
 
 <!-- Start ranking loop -->
 <{foreach item=ranking from=$rankings}>
@@ -28,4 +28,4 @@
 <br />
 <{/foreach}>
 <!-- End ranking loop -->
-<{include file='db:wfdownloads_footer.html'}>
+<{include file='db:wfdownloads_footer.tpl'}>

@@ -99,7 +99,7 @@ switch ($op) {
             $imgurl = (isset($_POST["imgurl"]) && $_POST["imgurl"] != "blank.png") ? $myts -> addslashes($_POST["imgurl"]) : "";
         }
         // Formulize module support (2006/05/04) jpc
-        if (wfdownloads_checkModule('formulize') < 300) {
+        if (wfdownloads_checkModule('formulize')) {
             $formulize_fid = (isset($_POST["formulize_fid"])) ? (int) $_POST["formulize_fid"] : 0;
         }
 
@@ -241,7 +241,7 @@ switch ($op) {
             $sorted_categories = wfdownloads_sortCategories();
             $GLOBALS['xoopsTpl']->assign('sorted_categories', $sorted_categories);
             $GLOBALS['xoopsTpl']->assign('token', $GLOBALS['xoopsSecurity']->getTokenHTML() );
-            $GLOBALS['xoopsTpl']->display("db:{$wfdownloads->getModule()->dirname()}_admin_categorieslist.html");
+            $GLOBALS['xoopsTpl']->display("db:{$wfdownloads->getModule()->dirname()}_admin_categorieslist.tpl");
         } else {
             redirect_header("{$currentFile}?op=category.add", 1, _AM_WFDOWNLOADS_CCATEGORY_NOEXISTS);
         }

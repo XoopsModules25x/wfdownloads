@@ -18,7 +18,7 @@
  * @author          Xoops Development Team
  * @version         svn:$id$
  */
-defined("XOOPS_ROOT_PATH") or die("XOOPS root path not defined");
+defined('XOOPS_ROOT_PATH') || die('XOOPS root path not defined');
 include_once dirname(dirname(__FILE__)) . '/include/common.php';
 
 /**
@@ -169,11 +169,11 @@ class WfdownloadsCategory extends XoopsObject
         if (wfdownloads_checkModule('formulize')) {
             if (file_exists(XOOPS_ROOT_PATH . "/modules/formulize/include/functions.php")) {
                 include_once XOOPS_ROOT_PATH . "/modules/formulize/include/functions.php";
-                $fids           = allowedForms();
+                $fids           = allowedForms(); // is a 'formulize' function
                 $fids_select    = array();
                 $fids_select[0] = _AM_WFDOWNLOADS_FFS_STANDARD_FORM;
                 foreach ($fids as $fid) {
-                    $fids_select[$fid] = getFormTitle($fid);
+                    $fids_select[$fid] = getFormTitle($fid); // is a 'formulize' function
                 }
 
                 $formulize_forms = new XoopsFormSelect(_AM_WFDOWNLOADS_FFS_CUSTOM_FORM, "formulize_fid", $this->getVar('formulize_fid'));
@@ -345,7 +345,7 @@ class WfdownloadsCategoryHandler extends XoopsPersistableObjectHandler
             if (!isset($this->topCategories[$topcid])) {
                 $this->topCategories[$topcid] = $topcid;
             }
-            foreach ($tree->getAllChild($topcid) as $key => $category) {
+            foreach ($tree->getAllChild($topcid) as /*$key =>*/ $category) {
                 $childrenids[] = $category->getVar('cid');
             }
             $childrenids           = isset($childrenids) ? $childrenids : 0;

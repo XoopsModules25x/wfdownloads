@@ -58,7 +58,7 @@ if (
 }
 
 // Load Template
-$xoopsOption['template_main'] = "{$wfdownloads->getModule()->dirname()}_singlefile.html";
+$xoopsOption['template_main'] = "{$wfdownloads->getModule()->dirname()}_singlefile.tpl";
 include XOOPS_ROOT_PATH . '/header.php';
 
 $xoTheme->addScript(XOOPS_URL . '/browse.php?Frameworks/jquery/jquery.js');

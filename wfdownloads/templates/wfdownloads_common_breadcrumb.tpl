@@ -12,6 +12,5 @@
         <span class="delimiter">&gt;</span>
         <{/if}>
         <{/foreach}>
-        <hr/>
     </div>
 </div>
