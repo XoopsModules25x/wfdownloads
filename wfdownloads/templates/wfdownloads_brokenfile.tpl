@@ -1,4 +1,4 @@
-<{include file='db:wfdownloads_header.html'}>
+<{include file='db:wfdownloads_header.tpl'}>
 
 <h4 title="<{$smarty.const._MD_WFDOWNLOADS_TITLE}>"><{$download.title}></h4>
 <div title="<{$smarty.const._MD_WFDOWNLOADS_DESCRIPTION}>">
@@ -46,4 +46,4 @@
 </div>
 <{/if}>
 
-<{include file='db:wfdownloads_footer.html'}>
+<{include file='db:wfdownloads_footer.tpl'}>

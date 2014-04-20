@@ -68,7 +68,7 @@ switch ($op) {
     case "list" : // this case is not removed for backward compatibility issues
         $start = WfdownloadsRequest::getInt('start', 0);
 
-        $xoopsOption['template_main'] = "{$wfdownloads->getModule()->dirname()}_mirrors.html";
+        $xoopsOption['template_main'] = "{$wfdownloads->getModule()->dirname()}_mirrors.tpl";
         include XOOPS_ROOT_PATH . '/header.php';
 
         $xoTheme->addScript(XOOPS_URL . '/browse.php?Frameworks/jquery/jquery.js');

@@ -45,7 +45,7 @@ if (is_object($xoopsUser)
 $allowedDownCategoriesIds = $gperm_handler->getItemIds('WFDownCatPerm', $groups, $wfdownloads->getModule()->mid());
 $allowedUpCategoriesIds   = $gperm_handler->getItemIds('WFUpCatPerm', $groups, $wfdownloads->getModule()->mid());
 
-$xoopsOption['template_main'] = "{$wfdownloads->getModule()->dirname()}_index.html";
+$xoopsOption['template_main'] = "{$wfdownloads->getModule()->dirname()}_index.tpl";
 include XOOPS_ROOT_PATH . '/header.php';
 
 $xoTheme->addScript(XOOPS_URL . '/browse.php?Frameworks/jquery/jquery.js');
@@ -172,7 +172,7 @@ foreach (array_keys($mainCategories) as $i) {
             // Foreach subcategory
             foreach (array_keys($allSubcategories) as $k) {
                 if (in_array($allSubcategories[$k]->getVar('cid'), $allowedDownCategoriesIds)) {
-                    $publishdate = (isset($listings['published'][$allSubcategories[$k]->getVar('cid')]) AND
+                    $publishdate = (isset($listings['published'][$allSubcategories[$k]->getVar('cid')]) &&
                         $listings['published'][$allSubcategories[$k]->getVar('cid')] > $publishdate)
                         ? $listings['published'][$allSubcategories[$k]->getVar('cid')] : $publishdate;
                 }
@@ -214,7 +214,7 @@ foreach (array_keys($mainCategories) as $i) {
                 if (in_array($allSubcategories[$k]->getVar('cid'), $allowedDownCategoriesIds)) {
                     $download_count += isset($listings['count'][$allSubcategories[$k]->getVar('cid')])
                         ? $listings['count'][$allSubcategories[$k]->getVar('cid')] : 0;
-                    if ($wfdownloads->getConfig('subcats') == 1 AND $allSubcategories[$k]->getVar('pid') == $mainCategories[$i]->getVar('cid')) {
+                    if ($wfdownloads->getConfig('subcats') == 1 && $allSubcategories[$k]->getVar('pid') == $mainCategories[$i]->getVar('cid')) {
                         // if we are collecting subcat info for displaying, and this subcat is a first level child...
                         $subcategories[] = array(
                             'id'               => $allSubcategories[$k]->getVar('cid'), // this definition is not removed for backward compatibility issues

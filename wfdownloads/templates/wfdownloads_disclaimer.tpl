@@ -1,4 +1,4 @@
-<{include file='db:wfdownloads_header.html'}>
+<{include file='db:wfdownloads_header.tpl'}>
 
 <h4><{$smarty.const._MD_WFDOWNLOADS_DISCLAIMERAGREEMENT}></h4>
 
@@ -31,4 +31,4 @@
 </form>
 <br />
 
-<{include file='db:wfdownloads_footer.html'}>
+<{include file='db:wfdownloads_footer.tpl'}>

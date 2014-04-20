@@ -18,7 +18,7 @@
  * @author          Xoops Development Team
  * @version         svn:$id$
  */
-defined("XOOPS_ROOT_PATH") or die("XOOPS root path not defined");
+defined('XOOPS_ROOT_PATH') || die('XOOPS root path not defined');
 include_once dirname(dirname(__FILE__)) . '/include/common.php';
 
 /**
@@ -625,17 +625,23 @@ class WfdownloadsDownload extends XoopsObject
                 true
             );
             $sform->addElement(new XoopsFormHidden('size', $this->getVar('size', 'e')));
-            $sform = compileElements(
-                $customArray['fid'],
-                $sform,
-                $customArray['formulize_mgr'],
-                $customArray['prevEntry'],
-                $customArray['entry'],
-                $customArray['go_back'],
-                $customArray['parentLinks'],
-                $customArray['owner_groups'],
-                $customArray['groups']
-            );
+            if (wfdownloads_checkModule('formulize')) {
+                include_once XOOPS_ROOT_PATH . "/modules/formulize/include/formdisplay.php";
+                include_once XOOPS_ROOT_PATH . "/modules/formulize/include/functions.php";
+                $sform = compileElements( // is a 'formulize' function
+                    $customArray['fid'],
+                    $sform,
+                    $customArray['formulize_mgr'],
+                    $customArray['prevEntry'],
+                    $customArray['entry'],
+                    $customArray['go_back'],
+                    $customArray['parentLinks'],
+                    $customArray['owner_groups'],
+                    $customArray['groups']
+                );
+            } else {
+                // IN PROGRESS... formulize module not installed!!!
+            }
         }
         // download: dhistory
         $sform->addElement(new XoopsFormTextArea(_MD_WFDOWNLOADS_HISTORYC, 'dhistory', $this->getVar('dhistory', 'e'), 7, 60), false);
@@ -884,7 +890,6 @@ class WfdownloadsDownload extends XoopsObject
             );
         } else {
             // if we are using a custom form, then add in the form's elements here
-
             // download: description
             $description_tray   = new XoopsFormElementTray(_MD_WFDOWNLOADS_DESCRIPTION, '<br />');
             $options['name']    = 'description';
@@ -900,17 +905,23 @@ class WfdownloadsDownload extends XoopsObject
             $sform->addElement($description_tray);
             // download: size
             $sform->addElement(new XoopsFormHidden('size', $this->getVar('size', 'e')));
-            $sform = compileElements(
-                $customArray['fid'],
-                $sform,
-                $customArray['formulize_mgr'],
-                $customArray['prevEntry'],
-                $customArray['entry'],
-                $customArray['go_back'],
-                $customArray['parentLinks'],
-                $customArray['owner_groups'],
-                $customArray['groups']
-            );
+            if (wfdownloads_checkModule('formulize')) {
+                include_once XOOPS_ROOT_PATH . "/modules/formulize/include/formdisplay.php";
+                include_once XOOPS_ROOT_PATH . "/modules/formulize/include/functions.php";
+                $sform = compileElements( // is a 'formulize' function
+                    $customArray['fid'],
+                    $sform,
+                    $customArray['formulize_mgr'],
+                    $customArray['prevEntry'],
+                    $customArray['entry'],
+                    $customArray['go_back'],
+                    $customArray['parentLinks'],
+                    $customArray['owner_groups'],
+                    $customArray['groups']
+                );
+            } else {
+                // IN PROGRESS... formulize module not installed!!!
+            }
         }
         // download: dhistory
         $sform->addElement(new XoopsFormTextArea(_AM_WFDOWNLOADS_FILE_HISTORY, 'dhistory', $this->getVar('dhistory', 'e'), 7, 60), false);
@@ -1300,8 +1311,8 @@ class WfdownloadsDownloadHandler extends XoopsPersistableObjectHandler
             xoops_comment_delete((int) $this->wfdownloads->getModule()->mid(), (int) $download->getVar('lid'));
 
             // Added Formulize module support (2006/05/04) jpc - start
-            if (wfdownloads_checkModule('formulize')) {
-                if (file_exists(XOOPS_ROOT_PATH . '/modules/formulize/include/functions.php') AND $download->getVar('formulize_idreq') > 0) {
+            if (wfdownloads_checkModule('formulize')) { if (file_exists(XOOPS_ROOT_PATH . '/modules/formulize/include/functions.php') && $download->getVar('formulize_idreq') > 0) {
+
                     include_once XOOPS_ROOT_PATH . '/modules/formulize/include/functions.php';
                     //deleteFormEntries(array($download->getVar('formulize_idreq')));
                     $category = $this->wfdownloads->getHandler('category')->get($download->getVar('cid'));

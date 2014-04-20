@@ -116,7 +116,7 @@ switch ($op) {
                 echo $rating->getHtmlErrors();
             }
         } else {
-            $xoopsOption['template_main'] = "{$wfdownloads->getModule()->dirname()}_ratefile.html";
+            $xoopsOption['template_main'] = "{$wfdownloads->getModule()->dirname()}_ratefile.tpl";
             include XOOPS_ROOT_PATH . '/header.php';
 
             $xoTheme->addScript(XOOPS_URL . '/browse.php?Frameworks/jquery/jquery.js');

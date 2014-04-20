@@ -18,7 +18,7 @@
  * @author          Xoops Development Team
  * @version         svn:$id$
  */
-defined("XOOPS_ROOT_PATH") or die("XOOPS root path not defined");
+defined('XOOPS_ROOT_PATH') || die('XOOPS root path not defined');
 
 $module_handler = xoops_gethandler('module');
 $module = $module_handler->getByDirname(basename(dirname(dirname(__FILE__))));

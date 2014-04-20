@@ -73,7 +73,7 @@ if ($agreed == false) {
 }
 
 if ($wfdownloads->getConfig('showDowndisclaimer') && $agreed == false) {
-    $xoopsOption['template_main'] = "{$wfdownloads->getModule()->dirname()}_disclaimer.html";
+    $xoopsOption['template_main'] = "{$wfdownloads->getModule()->dirname()}_disclaimer.tpl";
     include XOOPS_ROOT_PATH . '/header.php';
 
     $xoTheme->addScript(XOOPS_URL . '/browse.php?Frameworks/jquery/jquery.js');

@@ -14,10 +14,10 @@
  * @package         kernel
  * @since           2.0.0
  * @author          Kazumi Ono (AKA onokazu) http://www.myweb.ne.jp/, http://jp.xoops.org/
- * @version         $Id: xoopstree.php 12447 2014-04-15 08:31:59Z beckmi $
+ * @version         $Id: xoopstree.php 12463 2014-04-19 23:21:34Z beckmi $
  */
 
-defined('XOOPS_ROOT_PATH') or die('Restricted access');
+defined('XOOPS_ROOT_PATH') || die('XOOPS root path not defined');
 
 /**
  * Abstract base class for forms

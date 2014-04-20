@@ -38,7 +38,7 @@
  * @author  marcan <marcan@smartfactory.ca>
  * @link    http://www.smartfactory.ca The SmartFactory
  */
-defined("XOOPS_ROOT_PATH") or die("XOOPS root path not defined");
+defined('XOOPS_ROOT_PATH') || die('XOOPS root path not defined');
 
 /**
  * Class WfdownloadsTable
@@ -96,7 +96,7 @@ class WfdownloadsTable
      * @param string $name name of the table
      *
      */
-    function WfdownloadsTable($name)
+    function __construct($name)
     {
         $this->_name = $name;
         $this->_data = array();
@@ -511,7 +511,10 @@ class WfdownloadsTable
 
 class WfdownloadsDbupdater
 {
-    function WfdownloadsDbupdater()
+    /**
+     *
+     */
+    function __construct()
     {
 
     }

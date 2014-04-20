@@ -21,7 +21,7 @@
 $currentFile = basename(__FILE__);
 include 'header.php';
 
-$xoopsOption['template_main'] = "{$wfdownloads->getModule()->dirname()}_newlistindex.html";
+$xoopsOption['template_main'] = "{$wfdownloads->getModule()->dirname()}_newlistindex.tpl";
 include XOOPS_ROOT_PATH . '/header.php';
 
 $xoTheme->addScript(XOOPS_URL . '/browse.php?Frameworks/jquery/jquery.js');

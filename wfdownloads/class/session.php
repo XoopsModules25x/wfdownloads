@@ -19,7 +19,7 @@
  * @author          Harry Fuecks (PHP Anthology Volume II)
  * @version         $Id: session.php 10283 2012-11-28 13:39:36Z trabis $
  */
-defined("XOOPS_ROOT_PATH") or die("XOOPS root path not defined");
+defined('XOOPS_ROOT_PATH') || die('XOOPS root path not defined');
 
 include_once dirname(dirname(__FILE__)) . '/include/common.php';
 

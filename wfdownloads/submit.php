@@ -71,7 +71,7 @@ if ($wfdownloads->getConfig('showdisclaimer') && ($op == 'download.form') && $ag
 switch ($op) {
     case "download.disclaimer" :
         // Show disclaimers
-        $xoopsOption['template_main'] = "{$wfdownloads->getModule()->dirname()}_disclaimer.html";
+        $xoopsOption['template_main'] = "{$wfdownloads->getModule()->dirname()}_disclaimer.tpl";
         include XOOPS_ROOT_PATH . '/header.php';
 
         $xoTheme->addScript(XOOPS_URL . '/browse.php?Frameworks/jquery/jquery.js');
@@ -144,7 +144,7 @@ switch ($op) {
                 $customArray['fid']           = $fid;
                 $customArray['formulize_mgr'] = xoops_getmodulehandler('elements', 'formulize');
                 $customArray['groups']        = $xoopsUser ? $xoopsUser->getGroups() : array(0 => XOOPS_GROUP_ANONYMOUS);
-                $customArray['prevEntry']     = getEntryValues(
+                $customArray['prevEntry']     = getEntryValues( // is a 'formulize' function
                     $download->getVar('formulize_idreq'),
                     $customArray['formulize_mgr'],
                     $customArray['groups'],
@@ -154,9 +154,9 @@ switch ($op) {
                 $customArray['go_back']       = '';
                 $customArray['parentLinks']   = '';
                 if (wfdownloads_checkModule('formulize') < 300) {
-                    $owner = getEntryOwner($entry);
+                    $owner = getEntryOwner($entry); // is a 'formulize' function
                 } else {
-                    $owner = getEntryOwner($entry, $fid);
+                    $owner = getEntryOwner($entry, $fid); // is a 'formulize' function
                 }
                 $owner_groups                = $member_handler->getGroupsByUser($owner, false);
                 $customArray['owner_groups'] = $owner_groups;
@@ -168,7 +168,7 @@ switch ($op) {
             $sform = $download->getForm();
         }
 
-        $xoopsOption['template_main'] = 'wfdownloads_submit.html';
+        $xoopsOption['template_main'] = "{$wfdownloads->getModule()->dirname()}_submit.tpl";
         include XOOPS_ROOT_PATH . '/header.php';
 
         $xoTheme->addScript(XOOPS_URL . '/browse.php?Frameworks/jquery/jquery.js');
@@ -369,7 +369,7 @@ switch ($op) {
         //  If both conditions are true, then trigger all three notifications related to modified records.
         $version = !empty($_POST["version"]) ? trim($_POST["version"]) : 0;
 
-        if (!$isANewRecord and ($download->getVar('version') != $version)) {
+        if (!$isANewRecord && ($download->getVar('version') != $version)) {
             // Trigger the three events related to modified files (one for the file, category, and global event categories respectively)
             $tags                  = array();
             $tags['FILE_NAME']     = $title;

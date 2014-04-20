@@ -18,7 +18,7 @@
  * @author          Xoops Development Team
  * @version         svn:$id$
  */
-defined("XOOPS_ROOT_PATH") or die('XOOPS root path not defined');
+defined('XOOPS_ROOT_PATH') || die('XOOPS root path not defined');
 include_once dirname(dirname(__FILE__)) . '/include/common.php';
 /**
  * @param        $queryArray
@@ -56,7 +56,7 @@ function wfdownloads_search($queryArray, $andor, $limit, $offset, $userId = 0, $
     // because count() returns 1 even if a supplied variable
     // is not an array, we must check if $querryarray is really an array
     $queryArray_count = 0;
-    if ((is_array($queryArray) && $queryArray_count = count($queryArray)) OR $userId != 0) {
+    if ((is_array($queryArray) && $queryArray_count = count($queryArray)) || $userId != 0) {
         // $userId != 0 added August 13 2007 -- ACCOUNTS FOR CASES WHERE THERE ARE NO QUERY TERMS BUT A USER ID IS PASSED -- FREEFORM SOLUTIONS
         if ($queryArray_count == 0) {
             $queryArray_count
@@ -98,7 +98,7 @@ function wfdownloads_search($queryArray, $andor, $limit, $offset, $userId = 0, $
             }
 
             // Set criteria for the captions that the user can see if necessary
-            if (is_array($fids) AND count($fids) > 0) {
+            if (is_array($fids) && count($fids) > 0) {
                 $formulizeElementCriteria = new CriteriaCompo();
                 $formulizeElementCriteria->add(new Criteria('ele_display', 1), 'OR');
                 foreach ($userGroups as $group) {
@@ -165,7 +165,7 @@ function wfdownloads_search($queryArray, $andor, $limit, $offset, $userId = 0, $
             }
 
             // Make a criteria object that includes the custom form ids that were found, if any
-            if (count($saved_ids) > 0 AND is_array($saved_ids)) {
+            if (count($saved_ids) > 0 && is_array($saved_ids)) {
                 $subs_plus_custom = new CriteriaCompo(new Criteria('formulize_idreq', '(' . implode(',', $saved_ids) . ')', 'IN'));
                 $subs_plus_custom->add($allSubCriterias, 'OR');
                 $queryCriteria->add($subs_plus_custom);
@@ -220,10 +220,10 @@ function wfdownloads_search($queryArray, $andor, $limit, $offset, $userId = 0, $
     $storedLids = array();
 
     // foreach (array_keys($downloads) as $i)
-    for ($x = $offset; ($i < $limit AND $x < count($limitOffsetIndex)); ++$x) {
+    for ($x = $offset; ($i < $limit && $x < count($limitOffsetIndex)); ++$x) {
         $lid = $limitOffsetIndex[$x];
         $obj = $downloads[$lid];
-        if (is_object($obj) AND !isset($storedLids[$lid])) {
+        if (is_object($obj) && !isset($storedLids[$lid])) {
             $storedLids[$lid] = true;
             $ret[$i]['image'] = "assets/images/size2.gif";
             $ret[$i]['link']  = "singlefile.php?cid=" . $obj->getVar('cid') . "&amp;lid={$lid}";
