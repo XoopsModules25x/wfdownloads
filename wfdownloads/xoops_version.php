@@ -712,6 +712,15 @@ $modversion['config'][] = array(
     'default'     => 768
 );
 
+$modversion['config'][] = array(
+    'name'        => 'batchdir',
+    'title'       => '_MI_WFDOWNLOADS_BATCHDIR',
+    'description' => '_MI_WFDOWNLOADS_BATCHDIRDSC',
+    'formtype'    => 'textbox',
+    'valuetype'   => 'text',
+    'default'     => XOOPS_ROOT_PATH . '/uploads/' . $modversion['dirname'] . '/batch'
+);
+
 // extra systems configs
 $modversion['config'][] = array(
     'name'        => 'extrasystems_configs',

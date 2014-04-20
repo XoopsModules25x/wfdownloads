@@ -794,6 +794,30 @@ switch ($op) {
         } else {
             // NOP
         }
+
+        // Batch files
+        $batchPath = $wfdownloads->getConfig('batchdir') . '/';
+        $batchFiles = array();
+        $dir = opendir($batchPath);
+    	while ($f = readdir($dir)) {
+    		if(is_file($batchPath . $f)) {
+    				$batchFiles[] = $f;
+    		}
+    	}
+        $batchFilesCount = count($batchFiles);
+        $GLOBALS['xoopsTpl']->assign('batch_files_count', $batchFilesCount);
+        if ($batchFilesCount > 0) {
+            foreach($batchFiles as $key => $batchFile) {
+                $batchFile_array['id'] = $key;
+                $batchFile_array['filename'] = $batchFile;
+                $batchFile_array['filesize'] = filesize($batchPath . $batchFile);
+                $batchFile_array['mimetype'] = "// IN PROGRESS";
+            }
+                $GLOBALS['xoopsTpl']->append('batch_files', $batchFile_array);
+        } else {
+            // NOP
+        }
+
         $GLOBALS['xoopsTpl']->display("db:{$wfdownloads->getModule()->dirname()}_admin_downloadslist.tpl");
 
         include 'admin_footer.php';

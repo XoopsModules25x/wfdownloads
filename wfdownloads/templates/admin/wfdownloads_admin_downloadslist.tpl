@@ -315,4 +315,41 @@
         <{$offline_downloads_pagenav}>
     <{/if}>
 </fieldset>
+
+<br />
+
+<fieldset>
+    <legend style='font-weight: bold; color: #900;'><{$smarty.const._AM_WFDOWNLOADS_MINDEX_BATCHFILES}></legend>
+    <br />
+    <{if ($batch_files_count == 0)}>
+    <{$smarty.const._AM_WFDOWNLOADS_MINDEX_NOBATCHFILESFOUND}>
+    <{else}>
+    <table class="outer">
+        <tr>
+            <th><{$smarty.const._AM_WFDOWNLOADS_MINDEX_ID}></th>
+            <th><{$smarty.const._AM_WFDOWNLOADS_BATCHFILE_FILENAME}></th>
+            <th><{$smarty.const._AM_WFDOWNLOADS_BATCHFILE_FILESIZE}></th>
+            <th><{$smarty.const._AM_WFDOWNLOADS_BATCHFILE_MIMETYPE}></th>
+            <th><{$smarty.const._AM_WFDOWNLOADS_MINDEX_ACTION}></th>
+        </tr>
+        <{foreach item=batch_file from=$batch_files}>
+        <tr class="<{cycle values='even, odd'}>">
+            <td><{$batch_file.id}></td>
+            <td><{$batch_file.filename}></td>
+            <td><{$batch_file.filesize}></td>
+            <td><{$batch_file.mimetype}></td>
+            <td align='center'>
+                <a href='?op=batch.add&amp;batchid=<{$batch_file.id}>' title="<{$smarty.const._ADD}>"><img src="<{xoModuleIcons16 add.png}>"
+                                                                                                          title="<{$smarty.const._ADD}>"
+                                                                                                          alt="<{$smarty.const._ADD}>"/></a>
+                <a href='?op=batch.delete&amp;batchid=<{$batch_file.id}>' title="<{$smarty.const._DELETE}>"><img src="<{xoModuleIcons16 delete.png}>"
+                                                                                                               title="<{$smarty.const._DELETE}>"
+                                                                                                               alt="<{$smarty.const._DELETE}>"/></a>
+            </td>
+        </tr>
+        <{/foreach}>
+    </table>
+    <{/if}>
+</fieldset>
+
 </form>
