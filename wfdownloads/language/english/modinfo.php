@@ -349,3 +349,6 @@ define('_MI_WFDOWNLOADS_HELP_IMPORT', "Import<br />(IN PROGRESS)");
 define('_MI_WFDOWNLOADS_HELP_UPDATE1', "Updates Notes<br />(IN PROGRESS)");
 define('_MI_WFDOWNLOADS_HELP_UPDATE2', "Updates from 2.0 - 3.10<br />(IN PROGRESS)");
 define('_MI_WFDOWNLOADS_HELP_UPDATE3', "Updates from 3.10+<br />(IN PROGRESS)");
+
+define('_MI_WFDOWNLOADS_BATCHDIR', "[upload files] Batch directory");
+define('_MI_WFDOWNLOADS_BATCHDIRDSC', "Batch directory *MUST* be an absolute path! <br />No trailing slash.");
