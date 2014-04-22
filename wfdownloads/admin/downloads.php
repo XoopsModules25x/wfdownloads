@@ -796,31 +796,102 @@ switch ($op) {
         }
 
         // Batch files
+        $extensionToMime = include $GLOBALS['xoops']->path('include/mimetypes.inc.php');
         $batchPath = $wfdownloads->getConfig('batchdir') . '/';
-        $batchFiles = array();
-        $dir = opendir($batchPath);
-    	while ($f = readdir($dir)) {
-    		if(is_file($batchPath . $f)) {
-    				$batchFiles[] = $f;
-    		}
-    	}
+        $GLOBALS['xoopsTpl']->assign('batch_path', $batchPath);
+        $batchFiles = wfdownloads_getFiles($batchPath);
         $batchFilesCount = count($batchFiles);
         $GLOBALS['xoopsTpl']->assign('batch_files_count', $batchFilesCount);
         if ($batchFilesCount > 0) {
             foreach($batchFiles as $key => $batchFile) {
                 $batchFile_array['id'] = $key;
                 $batchFile_array['filename'] = $batchFile;
-                $batchFile_array['filesize'] = filesize($batchPath . $batchFile);
-                $batchFile_array['mimetype'] = "// IN PROGRESS";
+                $batchFile_array['size'] = wfdownloads_bytesToSize1024(filesize($batchPath . $batchFile));
+                $batchFile_array['extension'] = pathinfo($batchFile, PATHINFO_EXTENSION);
+                $batchFile_array['mimetype'] = $extensionToMime[pathinfo($batchFile, PATHINFO_EXTENSION)];
             }
                 $GLOBALS['xoopsTpl']->append('batch_files', $batchFile_array);
-        } else {
-            // NOP
         }
 
-        $GLOBALS['xoopsTpl']->display("db:{$wfdownloads->getModule()->dirname()}_admin_downloadslist.tpl");
+        $GLOBALS['xoopsTpl']->display("db:{$wfdownloads->getModule()->dirname()}_admin_downloadslist.html");
 
         include 'admin_footer.php';
+        break;
+
+    case "batchfile.add" :
+        $batchid = WfdownloadsRequest::getInt('batchid', 0);
+
+        $extensionToMime = include $GLOBALS['xoops']->path('include/mimetypes.inc.php');
+        $batchPath = $wfdownloads->getConfig('batchdir');
+        $batchFiles = wfdownloads_getFiles($batchPath . '/');
+
+        if (!isset($batchFiles[$batchid]) || !is_file($batchPath . '/' . $batchFiles[$batchid])) {
+            redirect_header($currentFile, 4, _AM_WFDOWNLOADS_ERROR_BATCHFILENOTFOUND);
+            exit();
+        }
+        $batchFile = $batchFiles[$batchid];
+
+        $savedFileName = iconv("UTF-8", "ASCII//TRANSLIT", $batchFile);
+        $savedFileName = preg_replace('!\s+!', '_', $savedFileName);
+        $savedFileName = preg_replace("/[^a-zA-Z0-9\._-]/", "", $savedFileName);
+        $savedFileName = uniqid(time()) . '--' . $savedFileName;
+
+        if (!wfdownloads_copyFile($batchPath . '/' . $batchFile, $wfdownloads->getConfig('uploaddir') . '/' . $savedFileName)) {
+            redirect_header($currentFile, 4, _AM_WFDOWNLOADS_ERROR_BATCHFILENOTCOPIED);
+        }
+
+        $download = $wfdownloads->getHandler('download')->create();
+        $download->setVar('title', $batchFile);
+        $download->setVar('filename', $savedFileName);
+        $download->setVar('size', filesize($wfdownloads->getConfig('uploaddir') . '/' . $savedFileName));
+        $download->setVar('filetype', $extensionToMime[pathinfo($batchFile, PATHINFO_EXTENSION)]);
+
+        $download->setVar('version', 0);
+        $download->setVar('status', _WFDOWNLOADS_STATUS_APPROVED); // IN PROGRESS
+        $download->setVar('published', time());
+        $download->setVar('date', time());
+        $download->setVar('ipaddress', $_SERVER['REMOTE_ADDR']);
+        $download->setVar('submitter', $xoopsUser->getVar('uid', 'e'));
+        $download->setVar('publisher', $xoopsUser->getVar('uid', 'e'));
+
+        if (!$wfdownloads->getHandler('download')->insert($download)) {
+            wfdownloads_delFile($wfdownloads->getConfig('uploaddir') . '/' . $savedFileName);
+            redirect_header($currentFile, 4, _AM_WFDOWNLOADS_ERROR_BATCHFILENOTADDED);
+        }
+        $newid = (int)$download->getVar('lid');
+        // Delete batch file
+        wfdownloads_delFile($batchPath . '/' . $batchFile);
+        redirect_header("{$currentFile}?op=download.edit&lid={$newid}", 3, _AM_WFDOWNLOADS_BATCHFILE_MOVEDEDITNOW);
+        break;
+
+    case "batchfile.delete" :
+        $batchid = WfdownloadsRequest::getInt('batchid', 0);
+        $ok  = WfdownloadsRequest::getBool('ok', false, 'POST');
+
+        $batchPath = $wfdownloads->getConfig('batchdir');
+        $batchFiles = wfdownloads_getFiles($batchPath);
+
+        if (!isset($batchFiles[$batchid]) || !is_file($batchPath . '/' . $batchFiles[$batchid])) {
+            redirect_header($currentFile, 4, _AM_WFDOWNLOADS_ERROR_BATCHFILENOTFOUND);
+            exit();
+        }
+        $title = $batchFiles[$batchid];
+        if ($ok == true) {
+            if (!$GLOBALS['xoopsSecurity']->check()) {
+                redirect_header($currentFile, 3, implode(',', $GLOBALS['xoopsSecurity']->getErrors()));
+            }
+            $file = $batchPath . '/' . $batchFiles[$batchid];
+            wfdownloads_delFile($file);
+        } else {
+            wfdownloads_xoops_cp_header();
+            xoops_confirm(
+                array('op' => 'batchfile.delete', 'batchid' => $batchid, 'ok' => true, 'title' => $title),
+                $currentFile,
+                _AM_WFDOWNLOADS_FILE_REALLYDELETEDTHIS . "<br /><br>" . $title,
+                _DELETE
+            );
+            xoops_cp_footer();
+        }
         break;
 
     case "ip_logs.list" :

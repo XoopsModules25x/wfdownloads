@@ -175,6 +175,20 @@ function wfdownloads_makeDir($dir, $perm = 0777, $create_index = true)
     return null;
 }
 
+function wfdownloads_getFiles($path = '.')
+{
+$files = array();
+    $dir = opendir($path);
+	while ($f = readdir($dir)) {
+		if(is_file($path . $f)) {
+            if($f != '.' || $f != '..') {
+				$files[] = $f;
+            }
+		}
+	}
+    return $files;
+}
+
 /**
  * Copy a file
  *
@@ -225,6 +239,25 @@ function wfdownloads_copyDir($source, $destination)
     closedir($dirHandler);
 
     return true;
+}
+
+/**
+ * Delete a file
+ *
+ * @param   string $path      is the file absolute path
+ *
+ * @return  bool              Returns true on success or false on failure
+ *
+ */
+function wfdownloads_delFile($path)
+{
+    if (is_file($path)) {
+        @chmod($path, 0777);
+        return @unlink($path);
+    } else {
+        return fasle;
+    }
+
 }
 
 /**

@@ -646,3 +646,15 @@ define('_AM_WFDOWNLOADS_FCATEGORY_SUMMARY_DESC', "");
 define('_AM_WFDOWNLOADS_DOWN_MEMORYLIMIT', "Memory limit (memory_limit directive in php.ini): ");
 define('_AM_WFDOWNLOADS_DOWN_MODULE_MAXFILESIZE', "Module max file size: %s (module config value)");
 define('_AM_WFDOWNLOADS_UPLOAD_MAXFILESIZE', "Upload file size limit: %s");
+
+define('_AM_WFDOWNLOADS_MINDEX_BATCHFILES', "Batch files");
+define('_AM_WFDOWNLOADS_MINDEX_NOBATCHFILESFOUND', "NOTICE: there are no files in batch path");
+define('_AM_WFDOWNLOADS_MINDEX_BATCHPATH', "Batch path");
+define('_AM_WFDOWNLOADS_BATCHFILE_FILENAME', "Filename");
+define('_AM_WFDOWNLOADS_BATCHFILE_FILESIZE', "Size");
+define('_AM_WFDOWNLOADS_BATCHFILE_EXTENSION', "File extension");
+define('_AM_WFDOWNLOADS_BATCHFILE_MIMETYPE', "MIME type");
+define('_AM_WFDOWNLOADS_ERROR_BATCHFILENOTFOUND', "ERROR: Batch file non found");
+define('_AM_WFDOWNLOADS_ERROR_BATCHFILENOTCOPIED', "ERROR: Batch file not copied");
+define('_AM_WFDOWNLOADS_ERROR_BATCHFILENOTADDED', "ERROR: Batch file not added");
+define('_AM_WFDOWNLOADS_BATCHFILE_MOVEDEDITNOW', "Batch file moved, now edit!");
