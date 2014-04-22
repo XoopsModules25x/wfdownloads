@@ -813,7 +813,7 @@ switch ($op) {
                 $GLOBALS['xoopsTpl']->append('batch_files', $batchFile_array);
         }
 
-        $GLOBALS['xoopsTpl']->display("db:{$wfdownloads->getModule()->dirname()}_admin_downloadslist.html");
+        $GLOBALS['xoopsTpl']->display("db:{$wfdownloads->getModule()->dirname()}_admin_downloadslist.tpl");
 
         include 'admin_footer.php';
         break;
