@@ -42,9 +42,9 @@ $modversion['onInstall']   = 'include/module.php';
 $modversion['onUpdate']    = 'include/module.php';
 $modversion['onUninstall'] = 'include/module.php';
 
-$modversion['date']         = '2014-04-19';
-$modversion['release_date'] = '2014/04/19';
-$modversion['releasedate']  = '2014-04-19';
+$modversion['date']         = '2014-04-22';
+$modversion['release_date'] = '2014/04/22';
+$modversion['releasedate']  = '2014-04-22';
 $modversion['status']       = 'RC1';
 $modversion['teammembers']  = "Bender, David, FrankBlack, Xpider, M0nty, Mithrandir, Marcan, felix[fx2024], Sudhaker, Jegelstaff";
 
@@ -218,7 +218,7 @@ $modversion['comments']['callback']['approve'] = $modversion['dirname'] . '_com_
 $modversion['comments']['callback']['update']  = $modversion['dirname'] . '_com_update';
 
 // Templates
-$i                                          = 1;
+$i                                          = 0;
 $modversion['templates'][$i]['file']        = $modversion['dirname'] . '_header.tpl';
 $modversion['templates'][$i]['description'] = 'Header info';
 ++$i;

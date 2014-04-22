@@ -362,3 +362,9 @@ define('_MD_WFDOWNLOADS_UPLOADFILE', "File uploaded successfully");
 define('_MD_WFDOWNLOADS_NOMENUITEMS', "No menu items within the menu");
 //singlefile.php
 define('_MD_WFDOWNLOADS_PREVIEW', "Preview");
+
+// index.php
+define('_MD_WFDOWNLOADS_ERROR_UPLOADDIRNOTEXISTS', "Warning: contact the administrator, the upload directory does not exist");
+define('_MD_WFDOWNLOADS_ERROR_MAINIMAGEDIRNOTEXISTS', "Warning: contact the administrator, the main images directory does not exist");
+define('_MD_WFDOWNLOADS_ERROR_SCREENSHOTSDIRNOTEXISTS', "Warning: contact the administrator, the categories images upload directory does not exist");
+define('_MD_WFDOWNLOADS_ERROR_CATIMAGEDIRNOTEXISTS', "Warning: contact the administrator, the upload directory does not exist");

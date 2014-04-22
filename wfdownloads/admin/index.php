@@ -204,6 +204,9 @@ $indexAdmin->addConfigBoxLine('');
 $path = $wfdownloads->getConfig('uploaddir') . '/';
 $indexAdmin->addConfigBoxLine(DirectoryChecker::getDirectoryStatus($path, 0777, $redirectFile));
 
+$path = $wfdownloads->getConfig('batchdir') . '/';
+$indexAdmin->addConfigBoxLine(DirectoryChecker::getDirectoryStatus($path, 0777, $redirectFile));
+
 $indexAdmin->addConfigBoxLine('');
 
 $path = XOOPS_ROOT_PATH . '/' . $wfdownloads->getConfig('mainimagedir') . '/';

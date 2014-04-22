@@ -21,6 +21,24 @@
 $currentFile = basename(__FILE__);
 include_once dirname(__FILE__) . '/admin_header.php';
 
+// Check directories
+if (!is_dir($wfdownloads->getConfig('uploaddir'))) {
+    redirect_header('index.php', 4, _AM_WFDOWNLOADS_ERROR_UPLOADDIRNOTEXISTS);
+    exit();
+}
+if (!is_dir(XOOPS_ROOT_PATH . '/' . $wfdownloads->getConfig('mainimagedir'))) {
+    redirect_header('index.php', 4, _AM_WFDOWNLOADS_ERROR_MAINIMAGEDIRNOTEXISTS);
+    exit();
+}
+if (!is_dir(XOOPS_ROOT_PATH . '/' . $wfdownloads->getConfig('screenshots'))) {
+    redirect_header('index.php', 4, _AM_WFDOWNLOADS_ERROR_SCREENSHOTSDIRNOTEXISTS);
+    exit();
+}
+if (!is_dir(XOOPS_ROOT_PATH . '/' . $wfdownloads->getConfig('catimage'))) {
+    redirect_header('index.php', 4, _AM_WFDOWNLOADS_ERROR_CATIMAGEDIRNOTEXISTS);
+    exit();
+}
+
 $op = WfdownloadsRequest::getString('op', 'categories.list');
 switch ($op) {
     case "category.move":
