@@ -21,8 +21,21 @@
 $currentFile = basename(__FILE__);
 include_once dirname(__FILE__) . '/admin_header.php';
 
+// Check directories
 if (!is_dir($wfdownloads->getConfig('uploaddir'))) {
     redirect_header('index.php', 4, _AM_WFDOWNLOADS_ERROR_UPLOADDIRNOTEXISTS);
+    exit();
+}
+if (!is_dir(XOOPS_ROOT_PATH . '/' . $wfdownloads->getConfig('mainimagedir'))) {
+    redirect_header('index.php', 4, _AM_WFDOWNLOADS_ERROR_MAINIMAGEDIRNOTEXISTS);
+    exit();
+}
+if (!is_dir(XOOPS_ROOT_PATH . '/' . $wfdownloads->getConfig('screenshots'))) {
+    redirect_header('index.php', 4, _AM_WFDOWNLOADS_ERROR_SCREENSHOTSDIRNOTEXISTS);
+    exit();
+}
+if (!is_dir(XOOPS_ROOT_PATH . '/' . $wfdownloads->getConfig('catimage'))) {
+    redirect_header('index.php', 4, _AM_WFDOWNLOADS_ERROR_CATIMAGEDIRNOTEXISTS);
     exit();
 }
 
@@ -785,7 +798,6 @@ switch ($op) {
                     $offlineDownload_array['category_title']      = $categories[$offlineDownload_array['cid']]['title'];
                     $offlineDownload_array['submitter_uname']     = XoopsUserUtility::getUnameFromId($offlineDownload_array['submitter']);
                     $offlineDownload_array['published_timestamp'] = XoopsLocal::formatTimestamp($offlineDownload_array['published'], 'l');
-
                     $GLOBALS['xoopsTpl']->append('offline_downloads', $offlineDownload_array);
                 }
             }
@@ -797,20 +809,22 @@ switch ($op) {
 
         // Batch files
         $extensionToMime = include $GLOBALS['xoops']->path('include/mimetypes.inc.php');
-        $batchPath = $wfdownloads->getConfig('batchdir') . '/';
+        $batchPath = $wfdownloads->getConfig('batchdir');
         $GLOBALS['xoopsTpl']->assign('batch_path', $batchPath);
-        $batchFiles = wfdownloads_getFiles($batchPath);
+        $batchFiles = wfdownloads_getFiles($batchPath . '/');
         $batchFilesCount = count($batchFiles);
         $GLOBALS['xoopsTpl']->assign('batch_files_count', $batchFilesCount);
         if ($batchFilesCount > 0) {
             foreach($batchFiles as $key => $batchFile) {
+                $batchFile_array = array();
                 $batchFile_array['id'] = $key;
                 $batchFile_array['filename'] = $batchFile;
-                $batchFile_array['size'] = wfdownloads_bytesToSize1024(filesize($batchPath . $batchFile));
+                $batchFile_array['size'] = wfdownloads_bytesToSize1024(filesize($batchPath . '/' . $batchFile));
                 $batchFile_array['extension'] = pathinfo($batchFile, PATHINFO_EXTENSION);
                 $batchFile_array['mimetype'] = $extensionToMime[pathinfo($batchFile, PATHINFO_EXTENSION)];
-            }
                 $GLOBALS['xoopsTpl']->append('batch_files', $batchFile_array);
+                unset($batchFile_array);
+            }
         }
 
         $GLOBALS['xoopsTpl']->display("db:{$wfdownloads->getModule()->dirname()}_admin_downloadslist.tpl");
@@ -866,7 +880,7 @@ switch ($op) {
 
     case "batchfile.delete" :
         $batchid = WfdownloadsRequest::getInt('batchid', 0);
-        $ok  = WfdownloadsRequest::getBool('ok', false, 'POST');
+        $ok = WfdownloadsRequest::getBool('ok', false, 'POST');
 
         $batchPath = $wfdownloads->getConfig('batchdir');
         $batchFiles = wfdownloads_getFiles($batchPath);
