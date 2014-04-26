@@ -436,6 +436,17 @@ class WfdownloadsDownload extends XoopsObject
 
         $download['mirrors_num'] = ($numrows2) ? $numrows2 : 0;
 
+        // Get file url
+        $fullFilename = trim($download['filename']);
+        if ((!$download['url'] == '' && !$download['url'] == 'http://') || $fullFilename == '') {
+            $download['file_url'] = $myts->htmlSpecialChars(preg_replace('/javascript:/si', 'javascript:', $download['url']), ENT_QUOTES);
+        } else {
+            $download['file_url'] = XOOPS_URL . str_replace(XOOPS_ROOT_PATH, '', $this->wfdownloads->getConfig('uploaddir')) . '/' . stripslashes(trim($fullFilename));
+        }
+
+
+
+
         return $download;
 
     }

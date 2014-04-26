@@ -187,6 +187,7 @@ $downloadInfo = $download->getDownloadInfo();
 $xoopsTpl->assign('categoryPath', $downloadInfo['path'] . ' > ' . $downloadInfo['title']); // this definition is not removed for backward compatibility issues
 $xoopsTpl->assign('lang_dltimes', sprintf(_MD_WFDOWNLOADS_DLTIMES, $downloadInfo['hits']));
 $xoopsTpl->assign('lang_subdate', $downloadInfo['is_updated']);
+$xoopsTpl->assign('file_url', $downloadInfo['file_url']); // this definition is not removed for backward compatibility issues
 $xoopsTpl->append('file', $downloadInfo);
 $xoopsTpl->assign('show_screenshot', false);
 if ($wfdownloads->getConfig('screenshot') == 1) {
@@ -195,19 +196,6 @@ if ($wfdownloads->getConfig('screenshot') == 1) {
     $xoopsTpl->assign('shotheight', $wfdownloads->getConfig('shotheight'));
     $xoopsTpl->assign('show_screenshot', true);
 }
-// Get file url
-$fullFilename = trim($downloadInfo['filename']);
-if ((!$downloadInfo['url'] == '' && !$downloadInfo['url'] == 'http://') || $fullFilename == '') {
-    $fileUrl = $myts->htmlSpecialChars(preg_replace('/javascript:/si', 'javascript:', $downloadInfo['url']), ENT_QUOTES);
-} else {
-    $mimeType     = $downloadInfo['filetype'];
-    $file         = strrev($fullFilename);
-    $tempFilename = strtolower(strrev(substr($file, 0, strpos($file, '--'))));
-    $filename     = ($tempFilename == '') ? $fullFilename : $tempFilename;
-    $fileUrl     = XOOPS_URL . str_replace(XOOPS_ROOT_PATH, '', $wfdownloads->getConfig('uploaddir')) . '/' . stripslashes(trim($fullFilename));
-
-}
-$xoopsTpl->assign('file_url', $fileUrl);
 
 // Breadcrumb
 include_once XOOPS_ROOT_PATH . '/class/tree.php';
