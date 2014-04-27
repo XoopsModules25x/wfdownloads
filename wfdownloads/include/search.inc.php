@@ -236,17 +236,3 @@ function wfdownloads_search($queryArray, $andor, $limit, $offset, $userId = 0, $
 
     return $ret;
 }
-
-// changed and added - end - April 23, 2006 - jwe
-// Added - start - April 23, 2006
-// gives PHP4 support for the clone keyword
-// found on Steven Wittens Blog - thanks!
-if (version_compare(phpversion(), '5.0') < 0) {
-    eval('
-            function clone($object)
-            {
-                return $object;
-            }
-         ');
-}
-// added - end - April 23, 2006
