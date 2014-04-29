@@ -1,4 +1,11 @@
-<b><u>=> Version 3.23 Beta (2014-04-20)</u></b>
+<b><u>=> Version 3.23 Beta (2014-04-29)</u></b>
+- removed obsolete eval() that was used for PHP4 (mamba)
+- removed object.php file (mamba)
+- 'file_url' is calculated inside download object for better usability (luciorota)
+- updated large file upload procedure (luciorota)
+- added directories check (luciorota)
+- import form TDMDownloads (not complete, not imports extra fields) (luciorota)
+- add downloads from batch directory
 - small changes based on testing tool feedback (mamba)
 - replacing "or" with "||", and "and" with "&&"  (mamba)
 - replaced template extensions from .html to .tpl (mamba)

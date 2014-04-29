@@ -64,29 +64,44 @@ function wfdownloads_search($queryArray, $andor, $limit, $offset, $userId = 0, $
             $queryArray = array();
         }
 
-        /*
+// Formulize module support - jpc - start
+/*
         // queryarray[0] now handled inside loop -- perhaps this "0 out of loop, 1 and up inside loop" approach was an unsuccessful attempt to fix the "unset" bug.  Interesting that subcrit was unset prior to the FOR loop.
-        //        $subCriteria = new CriteriaCompo(new Criteria("title", "%".$queryArray[0]."%", 'LIKE'), 'OR');
-        //        $subCriteria->add(new Criteria("description", "%".$queryArray[0]."%", 'LIKE'), 'OR');
-        //        $criteria->add($subCriteria);
-        //        unset($subCriteria);
+        $subCriteria = new CriteriaCompo(new Criteria("title", "%".$queryArray[0]."%", 'LIKE'), 'OR');
+        $subCriteria->add(new Criteria("description", "%".$queryArray[0]."%", 'LIKE'), 'OR');
+        $criteria->add($subCriteria);
+        unset($subCriteria);
 
-              $allSubCriterias = new CriteriaCompo(); // added to fix bug related to nesting of ( )
-              for ($i = 0;$i < $queryArray_count;++$i) { // 1 changed to 0 so everything happens in one loop now
-                    $subCriteria = new CriteriaCompo(new Criteria("title", "%".$queryArray[$i]."%", 'LIKE'), 'OR');
-                    $subCriteria->add(new Criteria("description", "%".$queryArray[$i]."%", 'LIKE'), 'OR');
-                    $allSubCriterias->add($subCriteria, $andor); // $criteria changed to $allSubCriterias to fix bug
-                    unset($subCriteria); // added to fix bug
-              }
-              $criteria->add($allSubCriterias); // added to fix bug
-        */
+        $allSubCriterias = new CriteriaCompo(); // added to fix bug related to nesting of ( )
+        for ($i = 0;$i < $queryArray_count;++$i) { // 1 changed to 0 so everything happens in one loop now
+            $subCriteria = new CriteriaCompo(new Criteria("title", "%".$queryArray[$i]."%", 'LIKE'), 'OR');
+            $subCriteria->add(new Criteria("description", "%".$queryArray[$i]."%", 'LIKE'), 'OR');
+            $allSubCriterias->add($subCriteria, $andor); // $criteria changed to $allSubCriterias to fix bug
+            unset($subCriteria); // added to fix bug
+        }
+        $criteria->add($allSubCriterias); // added to fix bug
 
-        // There are two bugs in the above code: all subcrits need to be added to the main criteria as a group, so it was a bug to have them added one at a time as they were, since the nesting of the () in the rendered where clause is incorrect
-        // also there was a bug which caused only the first and last items in the query array to be processed, and the last item would be processed multiple times.  ie: terms "green, orange, black" resulted in a search for "green, black, black" -- this "bug" was introduced with php 4.4.0 (and some version of 5 as well) after a change in how objects are managed in memory or something like that.  The fix is to specifically unset the $subCriteria object at the end of each iteration of the loop.  The same bug hit Liase, Formulaire and Formulize.
-        // You can see the structure of the query by printing the output of $criteria's render or renderWhere method ( ie: print $criteria->renderWhere(); )
-        // However, the whole approach to handling queries has been changed, so the above code is unused.  It is included here for reference with regard to the bugs mentioned above.
-        // With custom forms, because a multi term query using AND could have some terms match only custom form fields and other terms match only native Wfdownloads fields, each term must be evaluated independently, across both modules, and then if an AND operator is in effect, the intersection of the results is returned.  If OR is in effect, then all results are returned.
-
+There are two bugs in the above code: all subcrits need to be added to the main
+criteria as a group, so it was a bug to have them added one at a time as they
+were, since the nesting of the () in the rendered where clause is incorrect also
+there was a bug which caused only the first and last items in the query array to
+be processed, and the last item would be processed multiple times.  ie: terms
+"green, orange, black" resulted in a search for "green, black, black" -- this
+"bug" was introduced with php 4.4.0 (and some version of 5 as well) after a
+change in how objects are managed in memory or something like that.
+The fix is to specifically unset the $subCriteria object at the end of each
+iteration of the loop. The same bug hit Liase, Formulaire and Formulize.
+You can see the structure of the query by printing the output of $criteria's
+render or renderWhere method ( ie: print $criteria->renderWhere(); )
+However, the whole approach to handling queries has been changed, so the above
+code is unused.  It is included here for reference with regard to the bugs
+mentioned above.
+With custom forms, because a multi term query using AND could have some terms
+match only custom form fields and other terms match only native Wfdownloads
+fields, each term must be evaluated independently,
+across both modules, and then if an AND operator is in effect, the intersection
+of the results is returned.  If OR is in effect, then all results are returned.
+*/
         // Determine what the custom forms are that need searching, if any
         if (wfdownloads_checkModule('formulize')) {
             $fids = array();
@@ -117,8 +132,8 @@ function wfdownloads_search($queryArray, $andor, $limit, $offset, $userId = 0, $
 
             // Setup criteria for searching the title and description fields of Wfdownloads for the current term
             $allSubCriterias = new CriteriaCompo();
-            $thisSearchTerm  = count($queryArray) > 0 ? $queryArray[$i] : '';
-            $subCriteria     = new CriteriaCompo();
+            $thisSearchTerm = count($queryArray) > 0 ? $queryArray[$i] : '';
+            $subCriteria = new CriteriaCompo();
             $subCriteria->add(new Criteria('title', '%' . $thisSearchTerm . '%', 'LIKE'), 'OR'); // search in title field
             $subCriteria->add(new Criteria('description', '%' . $thisSearchTerm . '%', 'LIKE'), 'OR'); // search in description fiels
             $allSubCriterias->add($subCriteria, $andor);
@@ -135,13 +150,13 @@ function wfdownloads_search($queryArray, $andor, $limit, $offset, $userId = 0, $
                     include_once XOOPS_ROOT_PATH . '/modules/formulize/include/extract.php';
                     // Setup the filter string based on the elements in the form and the current query term
                     $formulizeElements = $formulizeElements_handler->getObjects2($formulizeElementCriteria, $fid);
-                    $filter_string     = '';
-                    $indexer           = 0;
-                    $start             = 1;
+                    $filter_string = '';
+                    $indexer = 0;
+                    $start = 1;
                     foreach ($formulizeElements as $formulizeElement) {
                         if ($start) {
                             $filter_string = $formulizeElement->getVar('ele_id') . "/**/" . $queryArray[$i];
-                            $start         = 0;
+                            $start = 0;
                         } else {
                             $filter_string .= "][" . $formulizeElement->getVar('ele_id') . "/**/" . $queryArray[$i];
                         }
@@ -149,12 +164,12 @@ function wfdownloads_search($queryArray, $andor, $limit, $offset, $userId = 0, $
                     unset($formulizeElements);
 
                     // Query for the ids of the records in the form that match the queryarray
-                    $data           = getData('', $fid, $filter_string, 'OR');
-                    $formHandle     = getFormHandleFromEntry($data[0], 'uid');
+                    $data           = getData('', $fid, $filter_string, 'OR'); // is a 'formulize' function
+                    $formHandle     = getFormHandleFromEntry($data[0], 'uid'); // is a 'formulize' function
                     $temp_saved_ids = array();
                     foreach ($data as $entry) {
                         // Gather all IDs for this $fid
-                        $found_ids      = internalRecordIds($entry, $formHandle);
+                        $found_ids      = internalRecordIds($entry, $formHandle); // is a 'formulize' function
                         $temp_saved_ids = array_merge($temp_saved_ids, $found_ids);
                         unset($found_ids);
                     }
@@ -163,7 +178,7 @@ function wfdownloads_search($queryArray, $andor, $limit, $offset, $userId = 0, $
                     unset($data);
                 } // end of foreach $fids
             }
-
+// Formulize module support - jpc - end
             // Make a criteria object that includes the custom form ids that were found, if any
             if (count($saved_ids) > 0 && is_array($saved_ids)) {
                 $subs_plus_custom = new CriteriaCompo(new Criteria('formulize_idreq', '(' . implode(',', $saved_ids) . ')', 'IN'));
@@ -215,8 +230,8 @@ function wfdownloads_search($queryArray, $andor, $limit, $offset, $userId = 0, $
         $limitOffsetIndex = $downloads_lids;
     }
 
-    $ret        = array();
-    $i          = 0;
+    $ret = array();
+    $i = 0;
     $storedLids = array();
 
     // foreach (array_keys($downloads) as $i)
@@ -226,27 +241,12 @@ function wfdownloads_search($queryArray, $andor, $limit, $offset, $userId = 0, $
         if (is_object($obj) && !isset($storedLids[$lid])) {
             $storedLids[$lid] = true;
             $ret[$i]['image'] = "assets/images/size2.gif";
-            $ret[$i]['link']  = "singlefile.php?cid=" . $obj->getVar('cid') . "&amp;lid={$lid}";
+            $ret[$i]['link'] = "singlefile.php?cid={$obj->getVar('cid')}&amp;lid={$lid}";
             $ret[$i]['title'] = $obj->getVar('title');
-            $ret[$i]['time']  = $obj->getVar('published');
-            $ret[$i]['uid']   = $obj->getVar('submitter');
+            $ret[$i]['time'] = $obj->getVar('published');
+            $ret[$i]['uid'] = $obj->getVar('submitter');
             ++$i;
         }
     }
-
     return $ret;
 }
-
-// changed and added - end - April 23, 2006 - jwe
-// Added - start - April 23, 2006
-// gives PHP4 support for the clone keyword
-// found on Steven Wittens Blog - thanks!
-if (version_compare(phpversion(), '5.0') < 0) {
-    eval('
-            function clone($object)
-            {
-                return $object;
-            }
-         ');
-}
-// added - end - April 23, 2006

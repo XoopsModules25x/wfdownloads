@@ -97,10 +97,10 @@ $xoopsTpl->assign('topcategory_title', $topCategory->getVar('title'));
 $xoopsTpl->assign('topcategory_image', $topCategory->getVar('imgurl'));
 $xoopsTpl->assign('topcategory_cid', $topCategory->getVar('cid'));
 
-// Added Formulize module support (2006/03/06, 2006/03/08) jpc - start
+// Formulize module support (2006/03/06, 2006/03/08) jpc - start
 $formulize_idreq = $download->getVar('formulize_idreq');
 if (wfdownloads_checkModule('formulize') && $formulize_idreq) {
-    $xoopsTpl->assign('custom_form', 1);
+    $xoopsTpl->assign('custom_form', true);
     include_once XOOPS_ROOT_PATH . '/modules/formulize/include/extract.php';
     // get the form id and id_req of the user's entry
     $formulizeModule = $module_handler->getByDirname('formulize');
@@ -109,60 +109,63 @@ if (wfdownloads_checkModule('formulize') && $formulize_idreq) {
     $formulize_fid = $category->getVar('formulize_fid');
 
     if ($formulize_fid) {
-        $query = "SELECT desc_form";
-        $query .= " FROM " . $xoopsDB->prefix('formulize_id');
-        $query .= " WHERE id_form = '$formulize_fid'";
-        $formulize_formres = $xoopsDB->query($query);
-        if ($formulize_formarray = $xoopsDB->fetchArray($formulize_formres)) {
-            $desc_form = $formulize_formarray['desc_form'];
+        // get Formulize form description
+        $sql = "SELECT desc_form";
+        $sql .= " FROM {$xoopsDB->prefix('formulize_id')}";
+        $sql .= " WHERE id_form = '{$formulize_fid}'";
+        $formulize_formQuery = $xoopsDB->query($sql);
+        if ($formulize_form_array = $xoopsDB->fetchArray($formulize_formQuery)) {
+            $desc_form = $formulize_form_array['desc_form'];
 
             // query the form for its data
-            $data = getData("", $formulize_fid, $formulize_idreq);
+            $data = getData("", $formulize_fid, $formulize_idreq); // is a Formulize function
             // include only elements that are visible to the user's groups in the DB query below
             $userGroups = $xoopsUser ? $xoopsUser->getGroups() : array(0 => XOOPS_GROUP_ANONYMOUS);
-            $start      = 1;
+            $start = 1;
             foreach ($userGroups as $thisgroup) {
                 if ($start) {
-                    $userGroups_query = "ele_display LIKE '%,$thisgroup,%'";
-                    $start            = 0;
+                    $userGroups_query = "ele_display LIKE '%,{$thisgroup},%'";
+                    $start = 0;
                 } else {
-                    $userGroups_query .= " OR ele_display LIKE '%,$thisgroup,%'";
+                    $userGroups_query .= " OR ele_display LIKE '%,{$thisgroup},%'";
                 }
             }
             // collect the element id numbers for use in a DB query, and apply the groups filter to each
             $start = 1;
             foreach ($data[0][$desc_form][$formulize_idreq] as $ele_id => $values) {
                 if ($start) {
-                    $ele_id_query = "(ele_id='$ele_id' AND (ele_display=1 OR ($userGroups_query)))";
-                    $start        = 0;
+                    $ele_id_query = "(ele_id='{$ele_id}' AND (ele_display=1 OR ({$userGroups_query})))";
+                    $start = 0;
                 } else {
-                    $ele_id_query .= " OR (ele_id='$ele_id' AND (ele_display=1 OR ($userGroups_query)))";
+                    $ele_id_query .= " OR (ele_id='{$ele_id}' AND (ele_display=1 OR ({$userGroups_query})))";
                 }
             }
             // get the captions for the elements that are visible to the user's groups
-            $query = "SELECT ele_caption, ele_id, ele_display";
-            $query .= " FROM " . $xoopsDB->prefix("formulize");
-            $query .= " WHERE ($ele_id_query) AND ele_type <> 'ib' AND ele_type <> 'sep' AND ele_type <> 'areamodif'";
-            $query .= " ORDER BY ele_order";
-            $captionres = $xoopsDB->query($query);
+            $sql = "SELECT ele_caption, ele_id, ele_display";
+            $sql .= " FROM {$xoopsDB->prefix("formulize")}";
+            $sql .= " WHERE ({$ele_id_query}) AND ele_type <> 'ib' AND ele_type <> 'sep' AND ele_type <> 'areamodif'";
+            $sql .= " ORDER BY ele_order";
+            $captionQuery = $xoopsDB->query($sql);
             // collect the captions and their values into an array for passing to the template
-            $indexer = 0;
-            while ($captionarray = $xoopsDB->fetchArray($captionres)) {
-                $formulize_download[$indexer]['caption'] = $captionarray['ele_caption'];
-                if (count($data[0][$desc_form][$formulize_idreq][$captionarray['ele_id']]) > 1) {
-                    $formulize_download[$indexer]['values'][] = implode(', ', $data[0][$desc_form][$formulize_idreq][$captionarray['ele_id']]);
+            $formulize_fields = array();
+            $i = 0;
+            while ($caption_array = $xoopsDB->fetchArray($captionQuery)) {
+                $formulize_fields[$i]['caption'] = $caption_array['ele_caption'];
+                if (count($data[0][$desc_form][$formulize_idreq][$caption_array['ele_id']]) > 1) {
+                    $formulize_fields[$i]['values'][] = implode(', ', $data[0][$desc_form][$formulize_idreq][$caption_array['ele_id']]);
                 } else {
-                    $formulize_download[$indexer]['values'][] = $data[0][$desc_form][$formulize_idreq][$captionarray['ele_id']][0];
+                    $formulize_fields[$i]['values'][] = $data[0][$desc_form][$formulize_idreq][$caption_array['ele_id']][0];
                 }
-                ++$indexer;
+                ++$i;
             }
-            $xoopsTpl->assign('formulize_download', $formulize_download);
+            $xoopsTpl->assign('formulize_download', $formulize_fields); // this definition is not removed for backward compatibility issues
+            $xoopsTpl->assign('custom_fields', $formulize_fields);
         }
     }
 } else {
-    $xoopsTpl->assign('custom_form', 0);
+    $xoopsTpl->assign('custom_form', false);
 }
-// Added Formulize module support (2006/03/06, 2006/03/08) jpc - end
+// Formulize module support (2006/03/06, 2006/03/08) jpc - end
 
 $use_mirrors = $wfdownloads->getConfig('enable_mirrors');
 $add_mirror  = false;
@@ -200,7 +203,7 @@ if ($wfdownloads->getConfig('screenshot') == 1) {
 // Breadcrumb
 include_once XOOPS_ROOT_PATH . '/class/tree.php';
 $categoriesTree = new XoopsObjectTree($wfdownloads->getHandler('category')->getObjects(), 'cid', 'pid');
-$breadcrumb     = new WfdownloadsBreadcrumb();
+$breadcrumb = new WfdownloadsBreadcrumb();
 $breadcrumb->addLink($wfdownloads->getModule()->getVar('name'), WFDOWNLOADS_URL);
 foreach (array_reverse($categoriesTree->getAllParent($cid)) as $parentCategory) {
     $breadcrumb->addLink($parentCategory->getVar('title'), "viewcat.php?cid=" . $parentCategory->getVar('cid'));
@@ -217,9 +220,9 @@ $criteria->setSort('published');
 $criteria->setOrder('DESC');
 $downloads = $wfdownloads->getHandler('download')->getActiveDownloads($criteria);
 foreach ($downloads as $download) {
-    $downloadByUser['title']     = $download->getVar('title');
-    $downloadByUser['lid']       = (int) $download->getVar('lid');
-    $downloadByUser['cid']       = (int) $download->getVar('cid');
+    $downloadByUser['title'] = $download->getVar('title');
+    $downloadByUser['lid'] = (int) $download->getVar('lid');
+    $downloadByUser['cid'] = (int) $download->getVar('cid');
     $downloadByUser['published'] = formatTimestamp($download->getVar('published'), $wfdownloads->getConfig('dateformat'));
     $xoopsTpl->append('down_uid', $downloadByUser); // this definition is not removed for backward compatibility issues
     $xoopsTpl->append('downloads_by_user', $downloadByUser);

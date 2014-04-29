@@ -54,9 +54,8 @@ class WfdownloadsCategory extends XoopsObject
         $this->initVar('doimage', XOBJ_DTYPE_INT, true); // boolean
         $this->initVar('dobr', XOBJ_DTYPE_INT, true); // boolean
         $this->initVar('weight', XOBJ_DTYPE_INT, 0);
-        // Added Formulize module support (2006/05/04) jpc - start
+        // Formulize module support (2006/05/04) jpc - start
         $this->initVar('formulize_fid', XOBJ_DTYPE_INT, 0);
-        // Added Formulize module support (2006/05/04) jpc - end
     }
 
     /**
@@ -164,16 +163,16 @@ class WfdownloadsCategory extends XoopsObject
         $breaks_checkbox->addOption(1, _AM_WFDOWNLOADS_ALLOWBREAK);
         $options_tray->addElement($breaks_checkbox);
         $form->addElement($options_tray);
-        // Formulize module support (2006/05/04) jpc
+// Formulize module support (2006/05/04) jpc - start
         // category: formulize_fid
         if (wfdownloads_checkModule('formulize')) {
             if (file_exists(XOOPS_ROOT_PATH . "/modules/formulize/include/functions.php")) {
                 include_once XOOPS_ROOT_PATH . "/modules/formulize/include/functions.php";
-                $fids           = allowedForms(); // is a 'formulize' function
+                $fids           = allowedForms(); // is a Formulize function
                 $fids_select    = array();
                 $fids_select[0] = _AM_WFDOWNLOADS_FFS_STANDARD_FORM;
                 foreach ($fids as $fid) {
-                    $fids_select[$fid] = getFormTitle($fid); // is a 'formulize' function
+                    $fids_select[$fid] = getFormTitle($fid); // is a Formulize function
                 }
 
                 $formulize_forms = new XoopsFormSelect(_AM_WFDOWNLOADS_FFS_CUSTOM_FORM, "formulize_fid", $this->getVar('formulize_fid'));
@@ -181,6 +180,7 @@ class WfdownloadsCategory extends XoopsObject
                 $form->addElement($formulize_forms);
             }
         }
+// Formulize module support (2006/05/04) jpc - end
         // form: button tray
         $button_tray = new XoopsFormElementTray('', '');
         $button_tray->addElement(new XoopsFormHidden('op', 'category.save'));
