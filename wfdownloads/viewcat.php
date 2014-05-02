@@ -92,7 +92,7 @@ if (!isset($_GET['list']) && !isset($_GET['selectdate'])) {
     $xoopsTpl->assign('topcategory_cid', $topCategory->getVar('cid'));
 }
 
-// Added Formulize module support (2006/05/04) jpc - start
+// Formulize module support (2006/05/04) jpc - start
 if (wfdownloads_checkModule('formulize')) {
     $formulize_fid = $category->getVar('formulize_fid');
     if ($formulize_fid) {
@@ -101,7 +101,7 @@ if (wfdownloads_checkModule('formulize')) {
         $xoopsTpl->assign('custom_form', false);
     }
 }
-// Added Formulize module support (2006/05/04) jpc - end
+// Formulize module support (2006/05/04) jpc - end
 
 // Generate Header
 $catArray['imageheader'] = wfdownloads_headerImage();
@@ -284,6 +284,8 @@ if ($downloads_count > 0) {
         $xoopsTpl->assign('lang_subdate', $downloadInfo['is_updated']);
         $xoopsTpl->append('file', $downloadInfo); // this definition is not removed for backward compatibility issues
         $xoopsTpl->append('downloads', $downloadInfo);
+        
+        
     }
 
     // Show order box

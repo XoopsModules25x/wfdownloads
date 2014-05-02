@@ -213,12 +213,12 @@ define('_MD_WFDOWNLOADS_NOUSERREVIEWS', "Be the first person to review %s");
 define('_MD_WFDOWNLOADS_ERROR', "ERROR: error updating database, information not saved");
 define('_MD_WFDOWNLOADS_COPYRIGHT', "copyright");
 define('_MD_WFDOWNLOADS_INFORUM', "Discuss in forum");
-//added frankblack
-//submit.php
+// added frankblack
+// submit.php
 define('_MD_WFDOWNLOADS_NOTALLOWESTOSUBMIT', "You are not allowed to submit files");
 define('_MD_WFDOWNLOADS_INFONOSAVEDB', "Information not saved to database: <br /><br />");
 define('_MD_WFDOWNLOADS_NOTALLOWEDTOMOD', "You are not allowed to modify this download");
-//reviews.php
+// reviews.php
 define('_MD_WFDOWNLOADS_ERROR_CREATCHANNEL', "Create channel first");
 define('_MD_WFDOWNLOADS_REVIEW_CATPATH', "Category path");
 define('_MD_WFDOWNLOADS_ADDREVIEW', "Add review");
@@ -228,7 +228,7 @@ define('_MD_WFDOWNLOADS_NEWTHIS', "New submitted within this week");
 define('_MD_WFDOWNLOADS_THREE', "New submitted within last three days");
 define('_MD_WFDOWNLOADS_TODAY', "New submitted today");
 define('_MD_WFDOWNLOADS_NO_FILES', "No files yet");
-//mirrors.php
+// mirrors.php
 define('_MD_WFDOWNLOADS_MIRROR_AVAILABLE', "Mirrors available");
 define('_MD_WFDOWNLOADS_MIRROR_CATPATH', "Category path");
 define('_MD_WFDOWNLOADS_MIRROR_FILENAME', "Filename");
@@ -261,7 +261,7 @@ define('_MD_WFDOWNLOADS_MIRROR_HDOWNLOAD', "Download");
 define('_MD_WFDOWNLOADS_MIRROR_OFFLINE', "Server host is offline.");
 define('_MD_WFDOWNLOADS_MIRROR_ONLINE', "Server host is online.");
 define('_MD_WFDOWNLOADS_MIRROR_DISABLED', "Server host check disabled.");
-//continents (used in mirrors page)
+// continents (used in mirrors page)
 define('_MD_WFDOWNLOADS_CONT1', "Africa");
 define('_MD_WFDOWNLOADS_CONT2', "Antarctica");
 define('_MD_WFDOWNLOADS_CONT3', "Asia");
@@ -360,7 +360,7 @@ define('_MD_WFDOWNLOADS_ALLOWIMAGES', " Allow images");
 define('_MD_WFDOWNLOADS_ALLOWBREAK', " Use XOOPS line break conversion");
 define('_MD_WFDOWNLOADS_UPLOADFILE', "File uploaded successfully");
 define('_MD_WFDOWNLOADS_NOMENUITEMS', "No menu items within the menu");
-//singlefile.php
+// singlefile.php
 define('_MD_WFDOWNLOADS_PREVIEW', "Preview");
 
 // index.php
@@ -368,3 +368,5 @@ define('_MD_WFDOWNLOADS_ERROR_UPLOADDIRNOTEXISTS', "Warning: contact the adminis
 define('_MD_WFDOWNLOADS_ERROR_MAINIMAGEDIRNOTEXISTS', "Warning: contact the administrator, the main images directory does not exist");
 define('_MD_WFDOWNLOADS_ERROR_SCREENSHOTSDIRNOTEXISTS', "Warning: contact the administrator, the categories images upload directory does not exist");
 define('_MD_WFDOWNLOADS_ERROR_CATIMAGEDIRNOTEXISTS', "Warning: contact the administrator, the upload directory does not exist");
+
+define('_MD_WFDOWNLOADS_FFS_SUBMIT1ST_STEP', "1st step: choose category");

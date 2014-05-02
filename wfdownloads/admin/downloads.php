@@ -85,41 +85,49 @@ switch ($op) {
                 $title = preg_replace("/{category}/", $category->getVar('title'), _AM_WFDOWNLOADS_FFS_DOWNLOADTITLE);
             }
 
-            // Added Formulize module support (2006/05/04) jpc - start
+// Formulize module support (2006/05/04) jpc - start
             if (!wfdownloads_checkModule('formulize')) {
+                // one step form: 1st step
                 $sform = $download->getAdminForm($title);
-            } elseif ((isset($_POST['submit_category']) && !empty($_POST['submit_category'])) || $lid) {
+            } elseif ((isset($_POST['submit_category']) && !empty($_POST['submit_category']))) {
+                // two steps form: 2nd step
                 $fid         = $category->getVar('formulize_fid');
                 $customArray = array();
                 if ($fid) {
                     include_once XOOPS_ROOT_PATH . "/modules/formulize/include/formdisplay.php";
                     include_once XOOPS_ROOT_PATH . "/modules/formulize/include/functions.php";
                     $customArray['fid']           = $fid;
-                    $customArray['formulize_mgr'] =& xoops_getmodulehandler('elements', 'formulize');
+                    $customArray['formulize_mgr'] = xoops_getmodulehandler('elements', 'formulize');
                     $customArray['groups']        = $xoopsUser ? $xoopsUser->getGroups() : array(0 => XOOPS_GROUP_ANONYMOUS);
-                    $customArray['prevEntry']     = getEntryValues( // is a 'formulize' function
+                    $customArray['prevEntry']     = getEntryValues( // is a Formulize function
                         $download->getVar('formulize_idreq'),
                         $customArray['formulize_mgr'],
                         $customArray['groups'],
-                        $fid
+                        $fid,
+                        null,
+                        null,
+                        null,
+                        null,
+                        null
                     );
                     $customArray['entry']         = $download->getVar('formulize_idreq');
                     $customArray['go_back']       = "";
                     $customArray['parentLinks']   = "";
                     if (wfdownloads_checkModule('formulize') < 300) {
-                        $owner = getEntryOwner($entry); // is a 'formulize' function
+                        $owner = getEntryOwner($customArray['entry']); // is a Formulize function
                     } else {
-                        $owner = getEntryOwner($entry, $fid); // is a 'formulize' function
+                        $owner = getEntryOwner($customArray['entry'], $fid); // is a Formulize function
                     }
                     $ownerGroups                 = $member_handler->getGroupsByUser($owner, false);
                     $customArray['owner_groups'] = $ownerGroups;
                 }
                 $sform = $download->getAdminForm($title, $customArray);
             } else {
-                $sform = $download->getCategoryForm();
+                // two steps form: 1st step
+                $sform = $download->getCategoryForm(_MD_WFDOWNLOADS_FFS_SUBMIT1ST_STEP);
             }
+// Formulize module support (2006/05/04) jpc - end
             $sform->display();
-            // Added Formulize module support (2006/05/04) jpc - end
         } else {
             redirect_header('categories.php', 1, _AM_WFDOWNLOADS_CCATEGORY_NOEXISTS);
             exit();
@@ -422,7 +430,7 @@ switch ($op) {
 
         $category = $wfdownloads->getHandler('category')->get($cid);
 
-        // Added Formulize module support (2006/05/04) jpc - start
+// Formulize module support (2006/05/04) jpc - start
         if (wfdownloads_checkModule('formulize')) {
             $fid = $category->getVar('formulize_fid');
             if ($fid) {
@@ -433,9 +441,9 @@ switch ($op) {
                     $entries[$fid][0] = $download->getVar('formulize_idreq');
                     if ($entries[$fid][0]) {
                         if (wfdownloads_checkModule('formulize') < 300) {
-                            $owner = getEntryOwner($entries[$fid][0]); // is a 'formulize' function
+                            $owner = getEntryOwner($entries[$fid][0]); // is a Formulize function
                         } else {
-                            $owner = getEntryOwner($entries[$fid][0], $fid); // is a 'formulize' function
+                            $owner = getEntryOwner($entries[$fid][0], $fid); // is a Formulize function
                         }
                     } else {
                         print "no idreq";
@@ -466,7 +474,7 @@ switch ($op) {
                 }
             }
         }
-        // Added Formulize module support (2006/05/04) jpc - end
+// Formulize module support (2006/05/04) jpc - end
         $wfdownloads->getHandler('download')->insert($download);
         $newid = (int) $download->getVar('lid');
         // Send notifications
@@ -539,7 +547,7 @@ switch ($op) {
         redirect_header($currentFile, 1, _AM_WFDOWNLOADS_VOTE_VOTEDELETED);
         break;
 
-    // Added Formulize module support (2006/05/04) jpc - start
+// Formulize module support (2006/05/04) jpc - start
     case "patch_formulize" :
         if (wfdownloads_checkModule('formulize')) {
             if (!isset($_POST['patch_formulize'])) {
@@ -560,7 +568,7 @@ switch ($op) {
             }
         }
         break;
-    // Added Formulize module support (2006/05/04) jpc - end
+// Formulize module support (2006/05/04) jpc - end
 
     case "newdownload.approve" :
     case "approve" :
@@ -630,7 +638,7 @@ switch ($op) {
         echo $indexAdmin->addNavigation($currentFile);
 
         $adminMenu = new ModuleAdmin();
-        $adminMenu->addItemButton(_AM_WFDOWNLOADS_FFS_DOWNLOADTITLE, $currentFile . "?op=download.add", 'add');
+        $adminMenu->addItemButton(_AM_WFDOWNLOADS_FILE_CREATENEWDOWNLOAD, $currentFile . "?op=download.add", 'add');
         echo $adminMenu->renderButton();
 
         if ($totalDownloadsCount > 0) {
@@ -919,7 +927,7 @@ switch ($op) {
         echo $indexAdmin->addNavigation($currentFile);
 
         $adminMenu = new ModuleAdmin();
-        $adminMenu->addItemButton(_AM_WFDOWNLOADS_FFS_DOWNLOADTITLE, $currentFile . "?op=download.add", 'add');
+        $adminMenu->addItemButton(_AM_WFDOWNLOADS_FILE_CREATENEWDOWNLOAD, $currentFile . "?op=download.add", 'add');
         echo $adminMenu->renderButton();
 
         // Get ip logs

@@ -1,12 +1,22 @@
 <div>
     <span style="font-weight: bold;"><a href="singlefile.php?cid=<{$download.cid}>&amp;lid=<{$download.id}>" title="<{$smarty.const._MD_WFDOWNLOADS_VIEWDETAILS}>"><{$download.title}></a></span>&nbsp;<{$download.icons}>
-    <{if ($download.isadmin == true or $download.issubmitter == true)}>
-        <a href="submit.php?op=download.edit&amp;lid=<{$download.id}>"><img src="<{xoModuleIcons16 edit.png}>" title="<{$smarty.const._EDIT}>"
-                                                                            alt="<{$smarty.const._EDIT}>"/></a>
-    <{/if}>
-    <{if ($download.isadmin == true)}>
-        <a href="admin/downloads.php?op=download.delete&amp;lid=<{$download.id}>"><img src="<{xoModuleIcons16 delete.png}>"
-                                                                                       title="<{$smarty.const._DELETE}>" alt="<{$smarty.const._DELETE}>"/></a>
+    <{if ($download.isadmin == true) }>
+        <a href="admin/downloads.php?op=download.edit&amp;lid=<{$download.id}>">
+            <img src="<{xoModuleIcons16 edit.png}>"
+                title="<{$smarty.const._EDIT}>"
+                alt="<{$smarty.const._EDIT}>"/>
+        </a>
+        <a href="admin/downloads.php?op=download.delete&amp;lid=<{$download.id}>">
+            <img src="<{xoModuleIcons16 delete.png}>"
+                title="<{$smarty.const._DELETE}>"
+                alt="<{$smarty.const._DELETE}>"/>
+        </a>
+    <{elseif ($download.issubmitter == true && $download.has_custom_fields == false)}>
+        <a href="submit.php?op=download.edit&amp;lid=<{$download.id}>">
+            <img src="<{xoModuleIcons16 edit.png}>"
+                title="<{$smarty.const._EDIT}>"
+                alt="<{$smarty.const._EDIT}>"/>
+        </a>
     <{/if}>
 </div>
 

@@ -316,7 +316,7 @@ define('_AM_WFDOWNLOADS_MOD_IPADDRESS', "IP address");
 define('_AM_WFDOWNLOADS_MOD_NOTIFYPUB', "Notify");
 define('_AM_WFDOWNLOADS_MOD_PAYPALEMAIL', "PayPal email");
 define('_AM_WFDOWNLOADS_MOD_SUMMARY', "Summary");
-//Reviews defines
+// Reviews defines
 define('_AM_WFDOWNLOADS_REV_SNEWMNAMEDESC', "Approve review");
 define('_AM_WFDOWNLOADS_REV_ID', "ID");
 define('_AM_WFDOWNLOADS_REV_TITLE', "Download title");
@@ -335,7 +335,7 @@ define('_AM_WFDOWNLOADS_REV_REVIEW_UPDATED', "Selected review modified and datab
 define('_AM_WFDOWNLOADS_REV_REVIEW_TOTAL', "Total reviews");
 define('_AM_WFDOWNLOADS_REV_REVIEW_WAITING', "Waiting reviews");
 define('_AM_WFDOWNLOADS_REV_REVIEW_PUBLISHED', "Published reviews");
-//File management
+// File management
 define('_AM_WFDOWNLOADS_FILE_SUBMITTERID', "Submitter user ID: <br /><br />Leave this as it is, unless you want to change who submitted the download");
 define('_AM_WFDOWNLOADS_FILE_ID', "File ID");
 define('_AM_WFDOWNLOADS_FILE_IP', "Uploader's IP address");
@@ -424,7 +424,7 @@ define('_AM_WFDOWNLOADS_BROKENFILEDELETED', "Download description removed from d
 define('_AM_WFDOWNLOADS_BROKEN_DOWNLOAD_DONT_EXISTS', "The file no longer exists");
 // About defines
 define('_AM_WFDOWNLOADS_BY', "by");
-//block defines
+// block defines
 define('_AM_WFDOWNLOADS_BADMIN', "Block administration");
 define('_AM_WFDOWNLOADS_BLKDESC', "Description");
 define('_AM_WFDOWNLOADS_TITLE', "Title");
@@ -439,7 +439,7 @@ define('_AM_WFDOWNLOADS_CBRIGHT', "Center right");
 define('_AM_WFDOWNLOADS_CBCENTER', "Center middle");
 define('_AM_WFDOWNLOADS_ACTIVERIGHTS', "Active rights");
 define('_AM_WFDOWNLOADS_ACCESSRIGHTS', "Access rights");
-//image admin icon
+// image admin icon
 define('_AM_WFDOWNLOADS_ICO_EDIT', "Edit this item");
 define('_AM_WFDOWNLOADS_ICO_DELETE', "Delete this item");
 define('_AM_WFDOWNLOADS_ICO_ONLINE', "Online");
@@ -487,7 +487,7 @@ define('_AM_WFDOWNLOADS_AMIRRORS_INFO', "Mirrors information");
 define('_AM_WFDOWNLOADS_AMIRRORS_APPROVE', "<span style='font-weight: bold;'>Approve</span> new mirror without validation.");
 define('_AM_WFDOWNLOADS_AMIRRORS_EDIT', "<span style='font-weight: bold;'>Edit</span> new mirror and then approve.");
 define('_AM_WFDOWNLOADS_AMIRRORS_DELETE', "<span style='font-weight: bold;'>Delete</span> the new mirror information.");
-//mirrors defines
+// mirrors defines
 define('_AM_WFDOWNLOADS_MIRROR_MIRRORTITLE', "Mirror host");
 define('_AM_WFDOWNLOADS_MIRROR_NOPUBLISHEDMIRRORS', "No published mirrors found");
 define('_AM_WFDOWNLOADS_MIRROR_MIRROR_TOTAL', "Total mirrors");
@@ -511,7 +511,7 @@ define('_AM_WFDOWNLOADS_MIRROR_ACTION', "Action");
 define('_AM_WFDOWNLOADS_MIRROR_NOWAITINGMIRRORS', "No waiting mirrors found");
 define('_AM_WFDOWNLOADS_MIRROR_MIRROR_UPDATED', "Selected mirror modified and database updated successfully");
 define('_AM_WFDOWNLOADS_MIRROR_APPROVETHIS', "Approve mirror");
-//continents (used in mirrors page)
+// continents (used in mirrors page)
 define('_AM_WFDOWNLOADS_CONT1', "Africa");
 define('_AM_WFDOWNLOADS_CONT2', "Antarctica");
 define('_AM_WFDOWNLOADS_CONT3', "Asia");
@@ -524,8 +524,8 @@ define('_AM_WFDOWNLOADS_HELP', "Help");
 define('_AM_WFDOWNLOADS_FFS_SUBMITBROKEN', "Submit");
 define('_AM_WFDOWNLOADS_FFS_STANDARD_FORM', "No, use the standard form");
 define('_AM_WFDOWNLOADS_FFS_CUSTOM_FORM', "Use a custom form for this category?");
-define('_AM_WFDOWNLOADS_FFS_DOWNLOADTITLE', "Create new download");
-define('_AM_WFDOWNLOADS_FFS_EDITDOWNLOADTITLE', "Modify download");
+define('_AM_WFDOWNLOADS_FFS_DOWNLOADTITLE', "2nd step: create new download");
+define('_AM_WFDOWNLOADS_FFS_EDITDOWNLOADTITLE', "2nd step: modify download");
 define('_AM_WFDOWNLOADS_FFS_BACK', "Back");
 define('_AM_WFDOWNLOADS_FFS_RELOAD', "Reload");
 define('_AM_WFDOWNLOADS_CATEGORYC', "Category: "); // _MD to reuse the category form
@@ -592,7 +592,7 @@ define('_AM_WFDOWNLOADS_MIME_EXTFIND_DESC', "Enter file extension you wish to se
 define('_AM_WFDOWNLOADS_MIME_EXTF_DESC', "");
 define('_AM_WFDOWNLOADS_MIME_NAMEF_DESC', "Enter application associated with this extension.");
 define('_AM_WFDOWNLOADS_MIME_TYPEF_DESC', "Enter each MIME type associated with the file extension. Each MIME type must be separated with a space.");
-//directories
+// directories
 define('_AM_WFDOWNLOADS_AVAILABLE', "<span style='color:green;'>Available. </span>");
 define('_AM_WFDOWNLOADS_NOTAVAILABLE', "<span style='color:red;'>is not available. </span>");
 define('_AM_WFDOWNLOADS_NOTWRITABLE', '<span style="color:red;"> should have permission ( %1$d ), but it has ( %2$d )</span>');
@@ -635,7 +635,7 @@ define('_AM_WFDOWNLOADS_MOD_IGNORE', "Ignore and delete modification request");
 define('_AM_WFDOWNLOADS_MOD_VIEWDESC', "<span style='font-weight: bold;'>View & Compare</span> download and modification.");
 define('_AM_WFDOWNLOADS_MOD_IGNOREDESC', "<span style='font-weight: bold;'>Ignore & Delete</span> modification.");
 define('_AM_WFDOWNLOADS_MOD_REALLYIGNOREDTHIS', "Are you sure to ignore and delete this modification?");
-//Editor:
+// Editor:
 define('_AM_WFDOWNLOADS_MOD_DOHTML', "Allow HTML tags");
 define('_AM_WFDOWNLOADS_MOD_DOSMILEY', "Allow XOOPS Smilies");
 define('_AM_WFDOWNLOADS_MOD_DOXCODE', "Allow XOOPS BBcode");
@@ -664,3 +664,5 @@ define('_AM_WFDOWNLOADS_ERROR_BATCHFILENOTFOUND', "ERROR: Batch file non found")
 define('_AM_WFDOWNLOADS_ERROR_BATCHFILENOTCOPIED', "ERROR: Batch file not copied");
 define('_AM_WFDOWNLOADS_ERROR_BATCHFILENOTADDED', "ERROR: Batch file not added");
 define('_AM_WFDOWNLOADS_BATCHFILE_MOVEDEDITNOW', "Batch file moved, now edit!");
+
+define('_AM_WFDOWNLOADS_FILE_CREATENEWDOWNLOAD', "Create new download");
