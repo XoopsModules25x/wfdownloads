@@ -29,7 +29,7 @@ $modversion['credits']     = "This module was originally based on Mydownloads, a
 $modversion['help']        = 'page=help';
 $modversion['license']     = 'GNU GPL 2.0 or later';
 $modversion['license_url'] = "http://www.gnu.org/licenses/gpl-2.0.html";
-$modversion['official']    = 0;
+$modversion['official']    = false;
 $modversion['dirname']     = basename(dirname(__FILE__));
 
 include_once XOOPS_ROOT_PATH . "/modules/" . $modversion['dirname'] . "/include/constants.php";
@@ -42,13 +42,13 @@ $modversion['onInstall']   = 'include/module.php';
 $modversion['onUpdate']    = 'include/module.php';
 $modversion['onUninstall'] = 'include/module.php';
 
-$modversion['date']         = '2014-04-27';
-$modversion['release_date'] = '2014/04/27';
-$modversion['releasedate']  = '2014-04-27';
+$modversion['date']         = '2014-04-28';
+$modversion['release_date'] = '2014/04/28';
+$modversion['releasedate']  = '2014-04-28';
 $modversion['status']       = 'RC1';
 $modversion['teammembers']  = "Bender, David, FrankBlack, Xpider, M0nty, Mithrandir, Marcan, felix[fx2024], Sudhaker, Jegelstaff";
 
-//about
+// About
 $modversion["module_website_url"]  = "http://www.xoops.org/";
 $modversion["module_website_name"] = "XOOPS";
 $modversion["module_status"]       = "RC1";
@@ -63,7 +63,7 @@ $modversion['dirmoduleadmin']      = 'Frameworks/moduleclasses';
 $modversion['icons16']             = 'Frameworks/moduleclasses/icons/16';
 $modversion['icons32']             = 'Frameworks/moduleclasses/icons/32';
 
-//help files
+// Help files
 $i                                     = 0;
 $modversion['helpsection'][$i]['name'] = _MI_WFDOWNLOADS_HELP_OVERVIEW;
 $modversion['helpsection'][$i]['link'] = "page=help";

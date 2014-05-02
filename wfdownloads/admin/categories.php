@@ -116,10 +116,6 @@ switch ($op) {
         } else {
             $imgurl = (isset($_POST["imgurl"]) && $_POST["imgurl"] != "blank.png") ? $myts -> addslashes($_POST["imgurl"]) : "";
         }
-        // Formulize module support (2006/05/04) jpc
-        if (wfdownloads_checkModule('formulize')) {
-            $formulize_fid = (isset($_POST["formulize_fid"])) ? (int) $_POST["formulize_fid"] : 0;
-        }
 
         if (!$cid) {
             $category = $wfdownloads->getHandler('category')->create();
@@ -142,10 +138,12 @@ switch ($op) {
         $category->setVar('doxcode', isset($_POST['doxcode']));
         $category->setVar('doimage', isset($_POST['doimage']));
         $category->setVar('dobr', isset($_POST['dobr']));
-        // Formulize module support (2006/05/04) jpc
+// Formulize module support (2006/05/04) jpc - start
         if (wfdownloads_checkModule('formulize')) {
+            $formulize_fid = (isset($_POST["formulize_fid"])) ? (int) $_POST["formulize_fid"] : 0;
             $category->setVar('formulize_fid', $formulize_fid);
         }
+// Formulize module support (2006/05/04) jpc - end
         $category->setVar('spotlighthis', $spotlighthis);
         $category->setVar('spotlighttop', $spotlighttop);
 

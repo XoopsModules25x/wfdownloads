@@ -133,8 +133,9 @@ switch ($op) {
             $download = $wfdownloads->getHandler('download')->create();
             $download->setVar('cid', $cid);
         }
-
+// Formulize module support - jpc - start
         if (isset($_POST['submit_category']) && !empty($_POST['submit_category'])) {
+            // two steps form: 2nd step
             $category    = $wfdownloads->getHandler('category')->get($cid);
             $fid         = $category->getVar('formulize_fid');
             $customArray = array();
@@ -144,30 +145,37 @@ switch ($op) {
                 $customArray['fid']           = $fid;
                 $customArray['formulize_mgr'] = xoops_getmodulehandler('elements', 'formulize');
                 $customArray['groups']        = $xoopsUser ? $xoopsUser->getGroups() : array(0 => XOOPS_GROUP_ANONYMOUS);
-                $customArray['prevEntry']     = getEntryValues( // is a 'formulize' function
+                $customArray['prevEntry']     = getEntryValues( // is a Formulize function
                     $download->getVar('formulize_idreq'),
                     $customArray['formulize_mgr'],
                     $customArray['groups'],
-                    $fid
+                    $fid,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null
                 );
                 $customArray['entry']         = $download->getVar('formulize_idreq');
                 $customArray['go_back']       = '';
                 $customArray['parentLinks']   = '';
                 if (wfdownloads_checkModule('formulize') < 300) {
-                    $owner = getEntryOwner($entry); // is a 'formulize' function
+                    $owner = getEntryOwner($customArray['entry']); // is a Formulize function
                 } else {
-                    $owner = getEntryOwner($entry, $fid); // is a 'formulize' function
+                    $owner = getEntryOwner($customArray['entry'], $fid); // is a Formulize function
                 }
                 $owner_groups                = $member_handler->getGroupsByUser($owner, false);
                 $customArray['owner_groups'] = $owner_groups;
             }
             $sform = $download->getForm($customArray);
         } elseif (wfdownloads_checkModule('formulize')) {
-            $sform = $download->getCategoryForm();
+            // two steps form: 1st step
+            $sform = $download->getCategoryForm(_MD_WFDOWNLOADS_FFS_SUBMIT1ST_STEP);
         } else {
+            // one step form: 1st step
             $sform = $download->getForm();
         }
-
+// Formulize module support - jpc - end
         $xoopsOption['template_main'] = "{$wfdownloads->getModule()->dirname()}_submit.tpl";
         include XOOPS_ROOT_PATH . '/header.php';
 
@@ -305,7 +313,7 @@ switch ($op) {
             }
         }
 
-        // Added Formulize module support (2006/05/04) jpc - start
+// Formulize module support (2006/05/04) jpc - start
         if (wfdownloads_checkModule('formulize')) {
             // Now that the $download object has been instantiated, handle the Formulize part of the submission...
             $category = $wfdownloads->getHandler('category')->get($cid);
@@ -318,9 +326,9 @@ switch ($op) {
                     $entries[$fid][0] = $download->getVar('formulize_idreq');
                     if ($entries[$fid][0]) {
                         if (wfdownloads_checkModule('formulize') < 300) {
-                            $owner = getEntryOwner($entries[$fid][0]);
+                            $owner = getEntryOwner($entries[$fid][0]); // is a Formulize function
                         } else {
-                            $owner = getEntryOwner($entries[$fid][0], $fid);
+                            $owner = getEntryOwner($entries[$fid][0], $fid); // is a Formulize function
                         }
                     } else {
                         $entries[$fid][0] = "";
@@ -334,7 +342,7 @@ switch ($op) {
                 $owner_groups =& $member_handler->getGroupsByUser($owner, false);
                 $uid          = is_object($xoopsUser) ? (int) $xoopsUser->getVar('uid') : 0;
                 $groups       = is_object($xoopsUser) ? $xoopsUser->getGroups() : array(0 => XOOPS_GROUP_ANONYMOUS);
-                $entries      = handleSubmission(
+                $entries      = handleSubmission( // is a Formulize function
                     $formulize_mgr,
                     $entries,
                     $uid,
@@ -350,7 +358,7 @@ switch ($op) {
                 }
             }
         }
-        // Added Formulize module support (2006/05/04) jpc - end
+// Formulize module support (2006/05/04) jpc - end
 
         if (!empty($_POST['homepage']) || $_POST['homepage'] != "http://") {
             $download->setVar('homepage', formatURL(trim($_POST["homepage"])));

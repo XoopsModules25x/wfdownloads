@@ -86,7 +86,7 @@ class WfdownloadsDownload extends XoopsObject
         $this->initVar('description', XOBJ_DTYPE_TXTAREA, '');
         $this->initVar('ipaddress', XOBJ_DTYPE_TXTBOX, '');
         $this->initVar('notifypub', XOBJ_DTYPE_INT, 0);
-        // added Formulize module support (2006/05/04) jpc
+        // Formulize module support (2006/05/04) jpc
         $this->initVar('formulize_idreq', XOBJ_DTYPE_INT, 0);
         // added 3.23
         $this->initVar('screenshots', XOBJ_DTYPE_ARRAY, array());
@@ -444,11 +444,10 @@ class WfdownloadsDownload extends XoopsObject
             $download['file_url'] = XOOPS_URL . str_replace(XOOPS_ROOT_PATH, '', $this->wfdownloads->getConfig('uploaddir')) . '/' . stripslashes(trim($fullFilename));
         }
 
-
-
+        // Return if download has custom fields
+        $download['has_custom_fields'] = (wfdownloads_checkModule('formulize') && $this->getVar('formulize_idreq'));
 
         return $download;
-
     }
 
     /**
@@ -513,7 +512,7 @@ class WfdownloadsDownload extends XoopsObject
             $sform->addElement(new XoopsFormText(_MD_WFDOWNLOADS_MIRROR, 'mirror', 50, 255, $this->getVar('mirror', 'e')), false);
         }
         // download: cid
-        // Formulize module support (2006/05/04) jpc
+// Formulize module support (2006/05/04) jpc - start
         if (wfdownloads_checkModule('formulize')) {
             $sform->addElement(new XoopsFormHidden('cid', $this->getVar('cid', 'e')));
         } else {
@@ -639,7 +638,7 @@ class WfdownloadsDownload extends XoopsObject
             if (wfdownloads_checkModule('formulize')) {
                 include_once XOOPS_ROOT_PATH . "/modules/formulize/include/formdisplay.php";
                 include_once XOOPS_ROOT_PATH . "/modules/formulize/include/functions.php";
-                $sform = compileElements( // is a 'formulize' function
+                $sform = compileElements( // is a Formulize function
                     $customArray['fid'],
                     $sform,
                     $customArray['formulize_mgr'],
@@ -648,12 +647,23 @@ class WfdownloadsDownload extends XoopsObject
                     $customArray['go_back'],
                     $customArray['parentLinks'],
                     $customArray['owner_groups'],
-                    $customArray['groups']
+                    $customArray['groups'],
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null
                 );
             } else {
                 // IN PROGRESS... formulize module not installed!!!
             }
         }
+// Formulize module support (2006/05/04) jpc - end
         // download: dhistory
         $sform->addElement(new XoopsFormTextArea(_MD_WFDOWNLOADS_HISTORYC, 'dhistory', $this->getVar('dhistory', 'e'), 7, 60), false);
         if (!$this->isNew() && $this->getVar('dhistory', 'n') != "") {
@@ -789,7 +799,7 @@ class WfdownloadsDownload extends XoopsObject
         $sform->addElement(
             new XoopsFormLabel(_AM_WFDOWNLOADS_FILE_CATEGORY, $categoriesTree->makeSelBox('cid', 'title', '-', $this->getVar('cid', 'e')))
         );
-
+// Formulize module support (2006/03/06, 2006/03/08) jpc - start
         if (count($customArray) == 0) {
             // download: homepagetitle
             $sform->addElement(
@@ -916,10 +926,11 @@ class WfdownloadsDownload extends XoopsObject
             $sform->addElement($description_tray);
             // download: size
             $sform->addElement(new XoopsFormHidden('size', $this->getVar('size', 'e')));
+
             if (wfdownloads_checkModule('formulize')) {
                 include_once XOOPS_ROOT_PATH . "/modules/formulize/include/formdisplay.php";
                 include_once XOOPS_ROOT_PATH . "/modules/formulize/include/functions.php";
-                $sform = compileElements( // is a 'formulize' function
+                $sform = compileElements( // is a Formulize function
                     $customArray['fid'],
                     $sform,
                     $customArray['formulize_mgr'],
@@ -928,12 +939,23 @@ class WfdownloadsDownload extends XoopsObject
                     $customArray['go_back'],
                     $customArray['parentLinks'],
                     $customArray['owner_groups'],
-                    $customArray['groups']
+                    $customArray['groups'],
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null
                 );
             } else {
-                // IN PROGRESS... formulize module not installed!!!
+                // IN PROGRESS... Formulize module not installed!!!
             }
         }
+// Formulize module support (2006/03/06, 2006/03/08) jpc - end
         // download: dhistory
         $sform->addElement(new XoopsFormTextArea(_AM_WFDOWNLOADS_FILE_HISTORY, 'dhistory', $this->getVar('dhistory', 'e'), 7, 60), false);
         if (!$this->isNew() && $this->getVar('dhistory') != "") {
@@ -1125,15 +1147,15 @@ class WfdownloadsDownload extends XoopsObject
         return $sform;
     }
 
-    // Added Formulize module support (2006/05/04) jpc
+// Formulize module support (2006/03/06, 2006/03/08) jpc - start
     /**
      * @return XoopsThemeForm
      */
-    function getCategoryForm()
+    function getCategoryForm($title)
     {
         include XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
         include_once(XOOPS_ROOT_PATH . '/class/tree.php');
-        $sform = new XoopsThemeForm(_MD_WFDOWNLOADS_FFS_SUBMITCATEGORYHEAD, 'storyform', $_SERVER['REQUEST_URI']);
+        $sform = new XoopsThemeForm($title, 'storyform', $_SERVER['REQUEST_URI']);
         $sform->setExtra('enctype="multipart/form-data"');
         // download: cid
         $categories     = $this->wfdownloads->getHandler('category')->getUserUpCategories();
@@ -1151,6 +1173,7 @@ class WfdownloadsDownload extends XoopsObject
 
         return $sform;
     }
+// Formulize module support (2006/03/06, 2006/03/08) jpc - end
 
     /**
      * Returns an array representation of the object
@@ -1321,7 +1344,7 @@ class WfdownloadsDownloadHandler extends XoopsPersistableObjectHandler
             // delete comments
             xoops_comment_delete((int) $this->wfdownloads->getModule()->mid(), (int) $download->getVar('lid'));
 
-            // Added Formulize module support (2006/05/04) jpc - start
+// Formulize module support (2006/05/04) jpc - start
             if (wfdownloads_checkModule('formulize')) { if (file_exists(XOOPS_ROOT_PATH . '/modules/formulize/include/functions.php') && $download->getVar('formulize_idreq') > 0) {
 
                     include_once XOOPS_ROOT_PATH . '/modules/formulize/include/functions.php';
@@ -1330,7 +1353,7 @@ class WfdownloadsDownloadHandler extends XoopsPersistableObjectHandler
                     deleteFormEntries(array($download->getVar("formulize_idreq")), $category->getVar('formulize_fid'));
                 }
             }
-            // Added Formulize module support (2006/05/04) jpc - end
+// Formulize module support (2006/05/04) jpc - end
             return true;
         }
 
