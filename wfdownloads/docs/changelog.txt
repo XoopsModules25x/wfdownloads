@@ -1,4 +1,4 @@
-<b><u>=> Version 3.23 Beta (2014-04-29)</u></b>
+<b><u>=> Version 3.23 Beta (2014-04-27)</u></b>
 - removed obsolete eval() that was used for PHP4 (mamba)
 - removed object.php file (mamba)
 - 'file_url' is calculated inside download object for better usability (luciorota)

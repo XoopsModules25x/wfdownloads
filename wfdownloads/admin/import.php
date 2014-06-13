@@ -39,8 +39,6 @@ if (!is_dir(XOOPS_ROOT_PATH . '/' . $wfdownloads->getConfig('catimage'))) {
     exit();
 }
 
-include_once(WFDOWNLOADS_ROOT_PATH . "/include/module.php");
-
 $op = WfdownloadsRequest::getString('op', 'import.menu');
 switch ($op) {
     case "import.MyDownloads" :

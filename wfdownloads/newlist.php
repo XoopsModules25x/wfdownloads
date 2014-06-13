@@ -70,9 +70,9 @@ $criteria->setSort('published');
 $criteria->setOrder('DESC');
 $criteria->setLimit($wfdownloads->getConfig('perpage'));
 $criteria->setStart(0);
-$downloads = $wfdownloads->getHandler('download')->getActiveDownloads($criteria);
-foreach ($downloads as $download) {
-    $downloadInfo = $download->getDownloadInfo();
+$downloadObjs = $wfdownloads->getHandler('download')->getActiveDownloads($criteria);
+foreach ($downloadObjs as $downloadObj) {
+    $downloadInfo = $downloadObj->getDownloadInfo();
     $xoopsTpl->assign('lang_dltimes', sprintf(_MD_WFDOWNLOADS_DLTIMES, $downloadInfo['hits']));
     $xoopsTpl->assign('lang_subdate', $downloadInfo['is_updated']);
     $xoopsTpl->append('file', $downloadInfo);

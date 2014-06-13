@@ -94,8 +94,8 @@ class WfdownloadsCategory extends XoopsObject
         $form->addElement(new XoopsFormText(_AM_WFDOWNLOADS_FCATEGORY_TITLE, 'title', 50, 255, $this->getVar('title', 'e')), true);
         // category: pid
         if (wfdownloads_categoriesCount() > 0) {
-            $categories     = $this->wfdownloads->getHandler('category')->getObjects();
-            $categoriesTree = new XoopsObjectTree($categories, 'cid', 'pid');
+            $categoryObjs     = $this->wfdownloads->getHandler('category')->getObjects();
+            $categoriesTree = new XoopsObjectTree($categoryObjs, 'cid', 'pid');
             $form->addElement(
                 new XoopsFormLabel(_AM_WFDOWNLOADS_FCATEGORY_SUBCATEGORY, $categoriesTree->makeSelBox(
                     'pid',

@@ -31,21 +31,21 @@ if (is_object($xoopsUser)) {
 }
 
 $lid      = WfdownloadsRequest::getInt('lid', 0);
-$download = $wfdownloads->getHandler('download')->get($lid);
+$downloadObj = $wfdownloads->getHandler('download')->get($lid);
 // Check if download exists
-if ($download->isNew()) {
+if ($downloadObj->isNew()) {
     redirect_header('index.php', 1, _MD_WFDOWNLOADS_NODOWNLOAD);
 }
-$cid    = WfdownloadsRequest::getInt('cid', $download->getVar('cid'));
+$cid    = WfdownloadsRequest::getInt('cid', $downloadObj->getVar('cid'));
 $agreed = WfdownloadsRequest::getBool('agreed', false, 'POST');
 
 // Download not published, expired or taken offline - redirect
 if (
-    $download->getVar('published') == 0 ||
-    $download->getVar('published') > time() ||
-    $download->getVar('offline') == true ||
-    ($download->getVar('expired') != 0 && $download->getVar('expired') < time()) ||
-    $download->getVar('status') == _WFDOWNLOADS_STATUS_WAITING) {
+    $downloadObj->getVar('published') == 0 ||
+    $downloadObj->getVar('published') > time() ||
+    $downloadObj->getVar('offline') == true ||
+    ($downloadObj->getVar('expired') != 0 && $downloadObj->getVar('expired') < time()) ||
+    $downloadObj->getVar('status') == _WFDOWNLOADS_STATUS_WAITING) {
     redirect_header('index.php', 3, _MD_WFDOWNLOADS_NODOWNLOAD);
 }
 
@@ -114,16 +114,16 @@ if ($wfdownloads->getConfig('showDowndisclaimer') && $agreed == false) {
         $wfdownloads->getHandler('download')->incrementHits($lid);
     }
     // Create ip log
-    $ip_log = $wfdownloads->getHandler('ip_log')->create();
-    $ip_log->setVar('lid', $lid);
-    $ip_log->setVar('date', time());
-    $ip_log->setVar('ip_address', getenv('REMOTE_ADDR'));
-    $ip_log->setVar('uid', is_object($xoopsUser) ? $xoopsUser->getVar('uid') : 0);
-    $wfdownloads->getHandler('ip_log')->insert($ip_log, true);
+    $ip_logObj = $wfdownloads->getHandler('ip_log')->create();
+    $ip_logObj->setVar('lid', $lid);
+    $ip_logObj->setVar('date', time());
+    $ip_logObj->setVar('ip_address', getenv('REMOTE_ADDR'));
+    $ip_logObj->setVar('uid', is_object($xoopsUser) ? $xoopsUser->getVar('uid') : 0);
+    $wfdownloads->getHandler('ip_log')->insert($ip_logObj, true);
 
     // Download file
-    $fileFilename = trim($download->getVar('filename')); // IN PROGRESS: why 'trim'?
-    if ((!$download->getVar('url') == '' && !$download->getVar('url') == 'http://') || $fileFilename == '') {
+    $fileFilename = trim($downloadObj->getVar('filename')); // IN PROGRESS: why 'trim'?
+    if ((!$downloadObj->getVar('url') == '' && !$downloadObj->getVar('url') == 'http://') || $fileFilename == '') {
         // download is a remote file: download from remote url
         include XOOPS_ROOT_PATH . '/header.php';
 
@@ -135,7 +135,7 @@ if ($wfdownloads->getConfig('showDowndisclaimer') && $agreed == false) {
         $xoopsTpl->assign('wfdownloads_url', WFDOWNLOADS_URL . '/');
 
         echo "<div align='center'>" . wfdownloads_headerImage() . "</div>";
-        $url = $myts->htmlSpecialChars(preg_replace('/javascript:/si', 'javascript:', $download->getVar('url')), ENT_QUOTES);
+        $url = $myts->htmlSpecialChars(preg_replace('/javascript:/si', 'javascript:', $downloadObj->getVar('url')), ENT_QUOTES);
         echo "<h4>\n";
         echo "<img src='" . WFDOWNLOADS_URL . "/assets/images/icon/downloads.gif' align='middle' alt='' title='" . _MD_WFDOWNLOADS_DOWNINPROGRESS . "' /> " . _MD_WFDOWNLOADS_DOWNINPROGRESS . "\n";
         echo "</h4>\n";
@@ -156,8 +156,8 @@ if ($wfdownloads->getConfig('showDowndisclaimer') && $agreed == false) {
             ini_set('zlib.output_compression', 'Off');
         }
         // get file informations from filesystem
-        $fileFilename = trim($download->getVar('filename')); // IN PROGRESS: why 'trim'?
-        $fileMimetype = ($download->getVar('filetype') != '') ? $download->getVar('filetype') : "application/octet-stream";
+        $fileFilename = trim($downloadObj->getVar('filename')); // IN PROGRESS: why 'trim'?
+        $fileMimetype = ($downloadObj->getVar('filetype') != '') ? $downloadObj->getVar('filetype') : "application/octet-stream";
         $filePath = $wfdownloads->getConfig('uploaddir') . '/' . stripslashes(trim($fileFilename));
         $fileFilesize = filesize($filePath);
         $fileInfo = pathinfo($filePath);

@@ -38,14 +38,14 @@ include_once XOOPS_ROOT_PATH . "/modules/" . $modversion['dirname'] . "/include/
 $modversion['image'] = "assets/images/module_logo.png";
 
 // Install, update, unistall
-$modversion['onInstall']   = 'include/module.php';
-$modversion['onUpdate']    = 'include/module.php';
-$modversion['onUninstall'] = 'include/module.php';
+$modversion['onInstall']   = 'include/oninstall.php';
+$modversion['onUpdate']    = 'include/onupdate.php';
+$modversion['onUninstall'] = 'include/onuninstall.php';
 
-$modversion['date']         = '2014-04-28';
-$modversion['release_date'] = '2014/04/28';
-$modversion['releasedate']  = '2014-04-28';
-$modversion['status']       = 'RC1';
+$modversion['date']         = '2014-06-13';
+$modversion['release_date'] = '2014/06/13';
+$modversion['releasedate']  = '2014-06-13';
+$modversion['status']       = 'RC2';
 $modversion['teammembers']  = "Bender, David, FrankBlack, Xpider, M0nty, Mithrandir, Marcan, felix[fx2024], Sudhaker, Jegelstaff";
 
 // About

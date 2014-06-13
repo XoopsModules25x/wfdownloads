@@ -3,8 +3,23 @@
         <a class="ui-corner-all tooltip" href="<{$xoops_url}>/modules/wfdownloads/admin/index.php" title="Back to the administration of Wfdownloads">Wfdownloads<img src="<{xoAdminIcons home.png}>" alt="Back to the Administration of Wfdownloads"/></a>
     </h1>
 
+    <h4>Custom fields</h4>
+    <div class="even">
+        <span style="font-weight: bold;">Will module support custom fields?</span>
+    </div>
+    <div class="odd">
+        <p>Yes, but only when is installed <a href="http://www.freeform.ca/en/formulize">Formulize module</a> (checked compatibility with Formulize 3.12 and Formulize 4.06)</p>
+        <p>How to:</p>
+        <ol>
+            <li>install Formulize and create a custom form with appropriate permissions;</li>
+            <li>create/edit a category and select custom form from <span style="font-weight: bold;">Use a custom form for this category?</span> select</li>
+            <li>create/edit download (in this case you will get a form with 2 steps)</li>
+        </ol>
+        <p><span style="font-weight: bold;">Note: in this case standard user can not edit downloads.</span></p>
+    </div>
+    <br>
+    
     <h4>Upload files</h4>
-
     <div class="even">
         <span style="font-weight: bold;">How set maximum upload file size limit?</span>
     </div>
@@ -32,14 +47,15 @@
                 </li>
             </ol>
         </div>
-
-        <h4>Download files</h4>
-
-        <div class="even">
-            <span style='font-weight: bold;'>Are there some limits in download file size?</span>
-        </div>
-        <div class="odd">
-            <p>No, to avoid errors by exceeding the memory_limit setting this module splits big files and serves them chunk by chunk.</p>
-        </div>
     </div>
+    <br>
+
+    <h4>Download files</h4>
+    <div class="even">
+        <span style='font-weight: bold;'>Are there some limits in download file size?</span>
+    </div>
+    <div class="odd">
+        <p>No, to avoid errors by exceeding the memory_limit setting this module splits big files and serves them chunk by chunk.</p>
+    </div>
+
 </div>

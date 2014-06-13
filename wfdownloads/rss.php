@@ -36,15 +36,15 @@ $xoopsTpl = new XoopsTpl();
 
 // Find case
 $case     = "all";
-$category = $wfdownloads->getHandler('category')->get((int) $_REQUEST['cid']);
+$categoryObj = $wfdownloads->getHandler('category')->get((int) $_REQUEST['cid']);
 
 $groups = is_object($xoopsUser) ? $xoopsUser->getGroups() : array(0 => XOOPS_GROUP_ANONYMOUS);
 
 // Get download permissions
 $allowedDownCategoriesIds = $gperm_handler->getItemIds('WFDownCatPerm', $groups, $wfdownloads->getModule()->mid());
 
-if (!$category->isNew()) {
-    if (!in_array($category->getVar('cid'), $allowedDownCategoriesIds)) {
+if (!$categoryObj->isNew()) {
+    if (!in_array($categoryObj->getVar('cid'), $allowedDownCategoriesIds)) {
         exit();
     }
     $case = "category";
@@ -58,7 +58,7 @@ switch ($case) {
         break;
 
     case "category" :
-        $cache_prefix = 'wfd|catfeed|' . $feed_type . '|' . (int) $category->getVar('cid');
+        $cache_prefix = 'wfd|catfeed|' . $feed_type . '|' . (int) $categoryObj->getVar('cid');
         break;
 }
 
@@ -88,13 +88,13 @@ if (!$xoopsTpl->is_cached('db:' . $xoopsOption['template_main'], $cache_prefix))
 
         case "category" :
             $shorthand   = 'cat';
-            $title       = $xoopsConfig['sitename'] . ' - ' . htmlspecialchars($category->getVar('title'), ENT_QUOTES);
-            $desc        = $xoopsConfig['slogan'] . ' - ' . htmlspecialchars($category->getVar('title'), ENT_QUOTES);
-            $channel_url = XOOPS_URL . '/modules/' . $wfdownloads->getModule()->getVat('dirname') . '/rss.php?cid=' . (int) $category->getVar('cid');
+            $title       = $xoopsConfig['sitename'] . ' - ' . htmlspecialchars($categoryObj->getVar('title'), ENT_QUOTES);
+            $desc        = $xoopsConfig['slogan'] . ' - ' . htmlspecialchars($categoryObj->getVar('title'), ENT_QUOTES);
+            $channel_url = XOOPS_URL . '/modules/' . $wfdownloads->getModule()->getVat('dirname') . '/rss.php?cid=' . (int) $categoryObj->getVar('cid');
 
-            $criteria->add(new Criteria('cid', (int) $category->getVar('cid')));
+            $criteria->add(new Criteria('cid', (int) $categoryObj->getVar('cid')));
             $downloads = $wfdownloads->getHandler('download')->getObjects($criteria);
-            $id        = $category->getVar('categoryid');
+            $id        = $categoryObj->getVar('categoryid');
             break;
     }
 

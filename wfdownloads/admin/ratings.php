@@ -44,7 +44,7 @@ switch ($op) {
         $criteria->setOrder('DESC');
         $criteria->setStart($start);;
         $criteria->setLimit(20);
-        $ratings = $wfdownloads->getHandler('rating')->getObjects($criteria);
+        $ratingObjs = $wfdownloads->getHandler('rating')->getObjects($criteria);
 
         $useravgrating = $wfdownloads->getHandler('rating')->getUserAverage();
         $useravgrating = number_format($useravgrating["avg"], 2);
@@ -57,19 +57,19 @@ switch ($op) {
         $GLOBALS['xoopsTpl']->assign('ratings_count', $ratings_count);
         $GLOBALS['xoopsTpl']->assign('useravgrating', $useravgrating);
         if ($ratings_count > 0) {
-            foreach ($ratings as $rating) {
-                $lids[] = $rating->getVar('lid');
+            foreach ($ratingObjs as $ratingObj) {
+                $lids[] = $ratingObj->getVar('lid');
             }
             $downloads = $wfdownloads->getHandler('download')->getObjects(
                 new Criteria("lid", "(" . implode(',', array_unique($lids)) . ")", "IN"),
                 true
             );
-            foreach ($ratings as $rating) {
-                $rating_array                    = $rating->toArray();
-                $rating_array['formatted_date']  = XoopsLocal::formatTimestamp($rating->getVar('ratingtimestamp'), 'l');
-                $rating_array['submitter_uname'] = XoopsUser::getUnameFromId($rating->getVar('ratinguser'));
-                $rating_array['submitter_uid']   = $rating->getVar('ratinguser');
-                $rating_array['download_title']  = $downloads[$rating->getVar('lid')]->getVar('title');
+            foreach ($ratingObjs as $ratingObj) {
+                $rating_array                    = $ratingObj->toArray();
+                $rating_array['formatted_date']  = XoopsLocal::formatTimestamp($ratingObj->getVar('ratingtimestamp'), 'l');
+                $rating_array['submitter_uname'] = XoopsUser::getUnameFromId($ratingObj->getVar('ratinguser'));
+                $rating_array['submitter_uid']   = $ratingObj->getVar('ratinguser');
+                $rating_array['download_title']  = $downloads[$ratingObj->getVar('lid')]->getVar('title');
                 $GLOBALS['xoopsTpl']->append('ratings', $rating_array);
             }
         }

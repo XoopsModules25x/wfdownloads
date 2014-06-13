@@ -446,7 +446,7 @@ class WfdownloadsDownload extends XoopsObject
 
         // Return if download has custom fields
         $download['has_custom_fields'] = (wfdownloads_checkModule('formulize') && $this->getVar('formulize_idreq'));
-
+        
         return $download;
     }
 
@@ -516,8 +516,8 @@ class WfdownloadsDownload extends XoopsObject
         if (wfdownloads_checkModule('formulize')) {
             $sform->addElement(new XoopsFormHidden('cid', $this->getVar('cid', 'e')));
         } else {
-            $categories     = $this->wfdownloads->getHandler('category')->getUserUpCategories();
-            $categoriesTree = new XoopsObjectTree($categories, 'cid', 'pid');
+            $categoryObjs     = $this->wfdownloads->getHandler('category')->getUserUpCategories();
+            $categoriesTree = new XoopsObjectTree($categoryObjs, 'cid', 'pid');
             $sform->addElement(
                 new XoopsFormLabel(_MD_WFDOWNLOADS_CATEGORYC, $categoriesTree->makeSelBox('cid', 'title', "-", $this->getVar('cid', 'e')))
             );
@@ -794,8 +794,8 @@ class WfdownloadsDownload extends XoopsObject
         );
         $sform->addElement($userfile_file, false);
         // download: cid
-        $categories = $this->wfdownloads->getHandler('category')->getObjects();
-        $categoriesTree = new XoopsObjectTree($categories, 'cid', 'pid');
+        $categoryObjs = $this->wfdownloads->getHandler('category')->getObjects();
+        $categoriesTree = new XoopsObjectTree($categoryObjs, 'cid', 'pid');
         $sform->addElement(
             new XoopsFormLabel(_AM_WFDOWNLOADS_FILE_CATEGORY, $categoriesTree->makeSelBox('cid', 'title', '-', $this->getVar('cid', 'e')))
         );
@@ -1158,8 +1158,8 @@ class WfdownloadsDownload extends XoopsObject
         $sform = new XoopsThemeForm($title, 'storyform', $_SERVER['REQUEST_URI']);
         $sform->setExtra('enctype="multipart/form-data"');
         // download: cid
-        $categories     = $this->wfdownloads->getHandler('category')->getUserUpCategories();
-        $categoriesTree = new XoopsObjectTree($categories, 'cid', 'pid');
+        $categoryObjs     = $this->wfdownloads->getHandler('category')->getUserUpCategories();
+        $categoriesTree = new XoopsObjectTree($categoryObjs, 'cid', 'pid');
         $sform->addElement(
             new XoopsFormLabel(_MD_WFDOWNLOADS_CATEGORYC, $categoriesTree->makeSelBox('cid', 'title', '-', $this->getVar('cid', 'e')))
         );

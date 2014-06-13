@@ -22,13 +22,13 @@ $currentFile = basename(__FILE__);
 include 'header.php';
 
 $lid      = WfdownloadsRequest::getInt('lid', 0);
-$download = $wfdownloads->getHandler('download')->get($lid);
-if (empty($download)) {
+$downloadObj = $wfdownloads->getHandler('download')->get($lid);
+if (empty($downloadObj)) {
     redirect_header('index.php', 3, _CO_WFDOWNLOADS_ERROR_NODOWNLOAD);
 }
-$cid      = WfdownloadsRequest::getInt('cid', $download->getVar('cid'));
-$category = $wfdownloads->getHandler('category')->get($cid);
-if (empty($category)) {
+$cid      = WfdownloadsRequest::getInt('cid', $downloadObj->getVar('cid'));
+$categoryObj = $wfdownloads->getHandler('category')->get($cid);
+if (empty($categoryObj)) {
     redirect_header('index.php', 3, _CO_WFDOWNLOADS_ERROR_NOCATEGORY);
 }
 
@@ -43,17 +43,17 @@ if (!$gperm_handler->checkRight('WFDownCatPerm', $cid, $userGroups, $wfdownloads
 }
 
 // Get download
-if ($download->isNew()) {
+if ($downloadObj->isNew()) {
     redirect_header('index.php', 1, _MD_WFDOWNLOADS_NODOWNLOAD);
 }
 
 // If Download not published, expired or taken offline - redirect
 if (
-    $download->getVar('published') == 0 ||
-    $download->getVar('published') > time() ||
-    $download->getVar('offline') == true ||
-    ($download->getVar('expired') != 0 && $download->getVar('expired') < time()) ||
-    $download->getVar('status') == _WFDOWNLOADS_STATUS_WAITING) {
+    $downloadObj->getVar('published') == 0 ||
+    $downloadObj->getVar('published') > time() ||
+    $downloadObj->getVar('offline') == true ||
+    ($downloadObj->getVar('expired') != 0 && $downloadObj->getVar('expired') < time()) ||
+    $downloadObj->getVar('status') == _WFDOWNLOADS_STATUS_WAITING) {
     redirect_header('index.php', 3, _MD_WFDOWNLOADS_NODOWNLOAD);
 }
 
@@ -69,10 +69,10 @@ $xoTheme->addStylesheet(WFDOWNLOADS_URL . '/assets/css/module.css');
 $xoopsTpl->assign('wfdownloads_url', WFDOWNLOADS_URL . '/');
 
 // Making the category image and title available in the template
-if (($category->getVar('imgurl') != "") && is_file(XOOPS_ROOT_PATH . '/' . $wfdownloads->getConfig('catimage') . '/' . $category->getVar('imgurl'))) {
+if (($categoryObj->getVar('imgurl') != "") && is_file(XOOPS_ROOT_PATH . '/' . $wfdownloads->getConfig('catimage') . '/' . $categoryObj->getVar('imgurl'))) {
     if ($wfdownloads->getConfig('usethumbs') && function_exists('gd_info')) {
         $imgurl = wfdownloads_createThumb(
-            $category->getVar('imgurl'),
+            $categoryObj->getVar('imgurl'),
             $wfdownloads->getConfig('catimage'),
             'thumbs',
             $wfdownloads->getConfig('cat_imgwidth'),
@@ -82,23 +82,23 @@ if (($category->getVar('imgurl') != "") && is_file(XOOPS_ROOT_PATH . '/' . $wfdo
             $wfdownloads->getConfig('keepaspect')
         );
     } else {
-        $imgurl = XOOPS_URL . '/' . $wfdownloads->getConfig('catimage') . '/' . $category->getVar('imgurl');
+        $imgurl = XOOPS_URL . '/' . $wfdownloads->getConfig('catimage') . '/' . $categoryObj->getVar('imgurl');
     }
 } else {
     $imgurl = XOOPS_URL . '/' . $wfdownloads->getConfig('catimage') . '/blank.gif';
 }
-$xoopsTpl->assign('category_title', $category->getVar('title'));
+$xoopsTpl->assign('category_title', $categoryObj->getVar('title'));
 $xoopsTpl->assign('category_image', $imgurl);
 
 // Retreiving the top parent category
 $allSubcatsTopParentCid = $wfdownloads->getHandler('category')->getAllSubcatsTopParentCid();
-$topCategory            = $wfdownloads->getHandler('category')->allCategories[$allSubcatsTopParentCid[$download->getVar('cid')]];
+$topCategory            = $wfdownloads->getHandler('category')->allCategories[$allSubcatsTopParentCid[$downloadObj->getVar('cid')]];
 $xoopsTpl->assign('topcategory_title', $topCategory->getVar('title'));
 $xoopsTpl->assign('topcategory_image', $topCategory->getVar('imgurl'));
 $xoopsTpl->assign('topcategory_cid', $topCategory->getVar('cid'));
 
 // Formulize module support (2006/03/06, 2006/03/08) jpc - start
-$formulize_idreq = $download->getVar('formulize_idreq');
+$formulize_idreq = $downloadObj->getVar('formulize_idreq');
 if (wfdownloads_checkModule('formulize') && $formulize_idreq) {
     $xoopsTpl->assign('custom_form', true);
     include_once XOOPS_ROOT_PATH . '/modules/formulize/include/extract.php';
@@ -106,7 +106,7 @@ if (wfdownloads_checkModule('formulize') && $formulize_idreq) {
     $formulizeModule = $module_handler->getByDirname('formulize');
     $formulizeConfig = $config_handler->getConfigsByCat(0, $formulizeModule->mid());
 
-    $formulize_fid = $category->getVar('formulize_fid');
+    $formulize_fid = $categoryObj->getVar('formulize_fid');
 
     if ($formulize_fid) {
         // get Formulize form description
@@ -186,7 +186,7 @@ if (!is_object($xoopsUser) && $use_mirrors == true
 
 
 // Get download informations
-$downloadInfo = $download->getDownloadInfo();
+$downloadInfo = $downloadObj->getDownloadInfo();
 $xoopsTpl->assign('categoryPath', $downloadInfo['path'] . ' > ' . $downloadInfo['title']); // this definition is not removed for backward compatibility issues
 $xoopsTpl->assign('lang_dltimes', sprintf(_MD_WFDOWNLOADS_DLTIMES, $downloadInfo['hits']));
 $xoopsTpl->assign('lang_subdate', $downloadInfo['is_updated']);
@@ -208,28 +208,28 @@ $breadcrumb->addLink($wfdownloads->getModule()->getVar('name'), WFDOWNLOADS_URL)
 foreach (array_reverse($categoriesTree->getAllParent($cid)) as $parentCategory) {
     $breadcrumb->addLink($parentCategory->getVar('title'), "viewcat.php?cid=" . $parentCategory->getVar('cid'));
 }
-$breadcrumb->addLink($category->getVar('title'), "viewcat.php?cid=" . $category->getVar('cid'));
+$breadcrumb->addLink($categoryObj->getVar('title'), "viewcat.php?cid=" . $categoryObj->getVar('cid'));
 $breadcrumb->addLink($downloadInfo['title'], '');
 $xoopsTpl->assign('wfdownloads_breadcrumb', $breadcrumb->render());
 
 // Show other author downloads
-$criteria = new CriteriaCompo(new Criteria('submitter', $download->getVar('submitter')));
+$criteria = new CriteriaCompo(new Criteria('submitter', $downloadObj->getVar('submitter')));
 $criteria->add(new Criteria('lid', $lid, '!='));
 $criteria->setLimit(20);
 $criteria->setSort('published');
 $criteria->setOrder('DESC');
-$downloads = $wfdownloads->getHandler('download')->getActiveDownloads($criteria);
-foreach ($downloads as $download) {
-    $downloadByUser['title'] = $download->getVar('title');
-    $downloadByUser['lid'] = (int) $download->getVar('lid');
-    $downloadByUser['cid'] = (int) $download->getVar('cid');
-    $downloadByUser['published'] = formatTimestamp($download->getVar('published'), $wfdownloads->getConfig('dateformat'));
+$downloadObjs = $wfdownloads->getHandler('download')->getActiveDownloads($criteria);
+foreach ($downloadObjs as $downloadObj) {
+    $downloadByUser['title'] = $downloadObj->getVar('title');
+    $downloadByUser['lid'] = (int) $downloadObj->getVar('lid');
+    $downloadByUser['cid'] = (int) $downloadObj->getVar('cid');
+    $downloadByUser['published'] = formatTimestamp($downloadObj->getVar('published'), $wfdownloads->getConfig('dateformat'));
     $xoopsTpl->append('down_uid', $downloadByUser); // this definition is not removed for backward compatibility issues
     $xoopsTpl->append('downloads_by_user', $downloadByUser);
 }
 
-$cid = (int) $download->getVar('cid');
-$lid = (int) $download->getVar('lid');
+$cid = (int) $downloadObj->getVar('cid');
+$lid = (int) $downloadObj->getVar('lid');
 
 // User reviews
 $criteria = new CriteriaCompo(new Criteria("lid", $lid));
@@ -241,7 +241,7 @@ if ($reviewsCount > 0) {
     $user_reviews = "cid={$cid}&amp;lid={$lid}\">" . _MD_WFDOWNLOADS_NOUSERREVIEWS;
 }
 $xoopsTpl->assign('lang_user_reviews', $xoopsConfig['sitename'] . ' ' . _MD_WFDOWNLOADS_USERREVIEWSTITLE);
-$xoopsTpl->assign('lang_UserReviews', sprintf($user_reviews, $download->getVar('title')));
+$xoopsTpl->assign('lang_UserReviews', sprintf($user_reviews, $downloadObj->getVar('title')));
 $xoopsTpl->assign('review_amount', $reviewsCount);
 
 // User mirrors
@@ -255,7 +255,7 @@ if ($mirrorsCount > 0) {
     $user_mirrors = "cid={$cid}&amp;lid={$lid}\">" . _MD_WFDOWNLOADS_NOUSERMIRRORS;
 }
 $xoopsTpl->assign('lang_user_mirrors', $xoopsConfig['sitename'] . ' ' . _MD_WFDOWNLOADS_USERMIRRORSTITLE);
-$xoopsTpl->assign('lang_UserMirrors', sprintf($user_mirrors, $download->getVar('title')));
+$xoopsTpl->assign('lang_UserMirrors', sprintf($user_mirrors, $downloadObj->getVar('title')));
 $xoopsTpl->assign('mirror_amount', $mirrorsCount);
 
 $xoopsTpl->assign('use_ratings', $wfdownloads->getConfig('enable_mirrors'));
@@ -266,7 +266,7 @@ $xoopsTpl->assign('use_rss', $wfdownloads->getConfig('enablerss'));
 
 // Copyright
 if ($wfdownloads->getConfig('copyright') == true) {
-    $xoopsTpl->assign('lang_copyright', $download->getVar('title') . ' &copy; ' . _MD_WFDOWNLOADS_COPYRIGHT . ' ' . formatTimestamp(time(), 'Y'));
+    $xoopsTpl->assign('lang_copyright', $downloadObj->getVar('title') . ' &copy; ' . _MD_WFDOWNLOADS_COPYRIGHT . ' ' . formatTimestamp(time(), 'Y'));
 }
 $xoopsTpl->assign('down', $downloadInfo); // this definition is not removed for backward compatibility issues
 $xoopsTpl->assign('download', $downloadInfo);

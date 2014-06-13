@@ -22,22 +22,22 @@ $currentFile = basename(__FILE__);
 include 'header.php';
 
 $lid      = WfdownloadsRequest::getInt('lid', 0);
-$download = $wfdownloads->getHandler('download')->get($lid);
-if (empty($download)) {
+$downloadObj = $wfdownloads->getHandler('download')->get($lid);
+if (empty($downloadObj)) {
     redirect_header('index.php', 3, _CO_WFDOWNLOADS_ERROR_NODOWNLOAD);
 }
-$cid      = WfdownloadsRequest::getInt('cid', $download->getVar('cid'));
-$category = $wfdownloads->getHandler('category')->get($cid);
-if (empty($category)) {
+$cid      = WfdownloadsRequest::getInt('cid', $downloadObj->getVar('cid'));
+$categoryObj = $wfdownloads->getHandler('category')->get($cid);
+if (empty($categoryObj)) {
     redirect_header('index.php', 3, _CO_WFDOWNLOADS_ERROR_NOCATEGORY);
 }
 
 // Download not published, expired or taken offline - redirect
 if (
-    $download->getVar('published') == false ||
-    $download->getVar('published') > time() ||
-    $download->getVar('offline') == true ||
-    ($download->getVar('expired') != 0 && $download->getVar('expired') < time())) {
+    $downloadObj->getVar('published') == false ||
+    $downloadObj->getVar('published') > time() ||
+    $downloadObj->getVar('offline') == true ||
+    ($downloadObj->getVar('expired') != 0 && $downloadObj->getVar('expired') < time())) {
     redirect_header("index.php", 3, _MD_WFDOWNLOADS_NODOWNLOAD);
 }
 
@@ -53,8 +53,8 @@ $breadcrumb->addLink($wfdownloads->getModule()->getVar('name'), WFDOWNLOADS_URL)
 foreach (array_reverse($categoriesTree->getAllParent($cid)) as $parentCategory) {
     $breadcrumb->addLink($parentCategory->getVar('title'), "viewcat.php?cid=" . $parentCategory->getVar('cid'));
 }
-$breadcrumb->addLink($category->getVar('title'), "viewcat.php?cid={$cid}");
-$breadcrumb->addLink($download->getVar('title'), "singlefile.php?lid={$lid}");
+$breadcrumb->addLink($categoryObj->getVar('title'), "viewcat.php?cid={$cid}");
+$breadcrumb->addLink($downloadObj->getVar('title'), "singlefile.php?lid={$lid}");
 
 $op = WfdownloadsRequest::getString('op', 'vote.add');
 switch ($op) {
@@ -74,7 +74,7 @@ switch ($op) {
             }
             if ($ratinguserUid != 0) {
                 // Check if Download POSTER is voting (UNLESS Anonymous users allowed to post)
-                if ($download->getVar('submitter') == $ratinguserUid) {
+                if ($downloadObj->getVar('submitter') == $ratinguserUid) {
                     redirect_header(WFDOWNLOADS_URL . "/singlefile.php?cid={$cid}&amp;lid={$lid}", 4, _MD_WFDOWNLOADS_CANTVOTEOWN);
                     exit();
                 }
@@ -101,19 +101,19 @@ switch ($op) {
                 }
             }
             // All is well. Add to Line Item Rate to DB.
-            $rating = $wfdownloads->getHandler('rating')->create();
-            $rating->setVar('lid', $lid);
-            $rating->setVar('ratinguser', $ratinguserUid);
-            $rating->setVar('rating', (int) $rating);
-            $rating->setVar('ratinghostname', $ratinguserIp);
-            $rating->setVar('ratingtimestamp', time());
-            if ($wfdownloads->getHandler('rating')->insert($rating)) {
+            $ratingObj = $wfdownloads->getHandler('rating')->create();
+            $ratingObj->setVar('lid', $lid);
+            $ratingObj->setVar('ratinguser', $ratinguserUid);
+            $ratingObj->setVar('rating', (int) $rating);
+            $ratingObj->setVar('ratinghostname', $ratinguserIp);
+            $ratingObj->setVar('ratingtimestamp', time());
+            if ($wfdownloads->getHandler('rating')->insert($ratingObj)) {
                 // All is well. Calculate Score & Add to Summary (for quick retrieval & sorting) to DB.
                 wfdownloads_updateRating($lid);
                 $thankyouMessage = _MD_WFDOWNLOADS_VOTEAPPRE . "<br />" . sprintf(_MD_WFDOWNLOADS_THANKYOU, $xoopsConfig['sitename']);
                 redirect_header("singlefile.php?cid={$cid}&amp;lid={$lid}", 4, $thankyouMessage);
             } else {
-                echo $rating->getHtmlErrors();
+                echo $ratingObj->getHtmlErrors();
             }
         } else {
             $xoopsOption['template_main'] = "{$wfdownloads->getModule()->dirname()}_ratefile.tpl";
@@ -163,12 +163,12 @@ switch ($op) {
             $xoopsTpl->assign('voteform', $sform->render());
             $xoopsTpl->assign(
                 'download',
-                array('lid' => $lid, 'cid' => $cid, 'title' => $download->getVar('title'), 'description' => $download->getVar('description'))
+                array('lid' => $lid, 'cid' => $cid, 'title' => $downloadObj->getVar('title'), 'description' => $downloadObj->getVar('description'))
             );
 
             $xoopsTpl->assign(
                 'file',
-                array('id' => $lid, 'lid' => $lid, 'cid' => $cid, 'title' => $download->getVar('title'), 'imageheader' => wfdownloads_headerImage())
+                array('id' => $lid, 'lid' => $lid, 'cid' => $cid, 'title' => $downloadObj->getVar('title'), 'imageheader' => wfdownloads_headerImage())
             ); // this definition is not removed for backward compatibility issues
             include 'footer.php';
         }

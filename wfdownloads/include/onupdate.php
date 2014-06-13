@@ -25,28 +25,6 @@ include_once(XOOPS_ROOT_PATH . "/modules/wfdownloads/include/common.php");
 
 /**
  * @param $xoopsModule
- *
- * @return bool
- */
-function xoops_module_pre_install_wfdownloads(&$xoopsModule)
-{
-    // NOP
-    return true;
-}
-
-/**
- * @param $xoopsModule
- *
- * @return bool
- */
-function xoops_module_install_wfdownloads(&$xoopsModule)
-{
-    // NOP
-    return true;
-}
-
-/**
- * @param $xoopsModule
  * @param $prev_version
  *
  * @return bool
@@ -71,25 +49,6 @@ function xoops_module_update_wfdownloads(&$xoopsModule, $prev_version)
     wfdownloads_setMeta("version", "3.23"); //Set meta version to current
 
     return true;
-}
-
-/**
- * @param $xoopsModule
- *
- * @return bool
- */
-function xoops_module_pre_uninstall_wfdownloads(&$xoopsModule)
-{
-    // NOP
-    return true;
-}
-
-/**
- * @param $xoopsModule
- */
-function xoops_module_uninstall_wfdownloads(&$xoopsModule)
-{
-    // NOP
 }
 
 // =========================================================================================
