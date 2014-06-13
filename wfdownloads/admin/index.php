@@ -21,6 +21,9 @@
 $currentFile = basename(__FILE__);
 include_once dirname(__FILE__) . '/admin_header.php';
 
+define('INDEX_FILE_PATH', XOOPS_ROOT_PATH . '/uploads/index.html');
+define('BLANK_FILE_PATH', XOOPS_ROOT_PATH . '/uploads/blank.gif');
+
 include_once dirname(dirname(__FILE__)) . '/include/directorychecker.php';
 include_once dirname(dirname(__FILE__)) . '/include/filechecker.php';
 
@@ -211,23 +214,23 @@ $indexAdmin->addConfigBoxLine('');
 
 $path = XOOPS_ROOT_PATH . '/' . $wfdownloads->getConfig('mainimagedir') . '/';
 $indexAdmin->addConfigBoxLine(DirectoryChecker::getDirectoryStatus($path, 0777, $redirectFile));
-$indexAdmin->addConfigBoxLine(FileChecker::getFileStatus($path . 'blank.gif', dirname(dirname(__FILE__)) . '/assets/images/blank.gif', $redirectFile));
+$indexAdmin->addConfigBoxLine(FileChecker::getFileStatus($path . 'blank.gif', BLANK_FILE_PATH, $redirectFile));
 
 $indexAdmin->addConfigBoxLine('');
 
 $path = XOOPS_ROOT_PATH . '/' . $wfdownloads->getConfig('screenshots') . '/';
 $indexAdmin->addConfigBoxLine(DirectoryChecker::getDirectoryStatus($path, 0777, $redirectFile));
-$indexAdmin->addConfigBoxLine(FileChecker::getFileStatus($path . 'blank.gif', dirname(dirname(__FILE__)) . '/assets/images/blank.gif', $redirectFile));
+$indexAdmin->addConfigBoxLine(FileChecker::getFileStatus($path . 'blank.gif', BLANK_FILE_PATH, $redirectFile));
 $indexAdmin->addConfigBoxLine(DirectoryChecker::getDirectoryStatus($path . 'thumbs' . '/', 0777, $redirectFile));
-$indexAdmin->addConfigBoxLine(FileChecker::getFileStatus($path . 'thumbs' . '/' . 'blank.gif', dirname(dirname(__FILE__)) . '/assets/images/blank.gif', $redirectFile));
+$indexAdmin->addConfigBoxLine(FileChecker::getFileStatus($path . 'thumbs' . '/' . 'blank.gif', BLANK_FILE_PATH, $redirectFile));
 
 $indexAdmin->addConfigBoxLine('');
 
 $path = XOOPS_ROOT_PATH . '/' . $wfdownloads->getConfig('catimage') . '/';
 $indexAdmin->addConfigBoxLine(DirectoryChecker::getDirectoryStatus($path, 0777, $redirectFile));
-$indexAdmin->addConfigBoxLine(FileChecker::getFileStatus($path . 'blank.gif', dirname(dirname(__FILE__)) . '/assets/images/blank.gif', $redirectFile));
+$indexAdmin->addConfigBoxLine(FileChecker::getFileStatus($path . 'blank.gif', BLANK_FILE_PATH, $redirectFile));
 $indexAdmin->addConfigBoxLine(DirectoryChecker::getDirectoryStatus($path . 'thumbs' . '/', 0777, $redirectFile));
-$indexAdmin->addConfigBoxLine(FileChecker::getFileStatus($path . 'thumbs' . '/' . 'blank.gif', dirname(dirname(__FILE__)) . '/assets/images/blank.gif', $redirectFile));
+$indexAdmin->addConfigBoxLine(FileChecker::getFileStatus($path . 'thumbs' . '/' . 'blank.gif', BLANK_FILE_PATH, $redirectFile));
 
 //---------------------------
 

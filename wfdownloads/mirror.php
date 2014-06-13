@@ -22,23 +22,23 @@ $currentFile = basename(__FILE__);
 include 'header.php';
 
 $lid      = WfdownloadsRequest::getInt('lid', 0);
-$download = $wfdownloads->getHandler('download')->get($lid);
-if (empty($download)) {
+$downloadObj = $wfdownloads->getHandler('download')->get($lid);
+if (empty($downloadObj)) {
     redirect_header('index.php', 3, _CO_WFDOWNLOADS_ERROR_NODOWNLOAD);
 }
-$cid      = WfdownloadsRequest::getInt('cid', $download->getVar('cid'));
-$category = $wfdownloads->getHandler('category')->get($cid);
-if (empty($category)) {
+$cid      = WfdownloadsRequest::getInt('cid', $downloadObj->getVar('cid'));
+$categoryObj = $wfdownloads->getHandler('category')->get($cid);
+if (empty($categoryObj)) {
     redirect_header('index.php', 3, _CO_WFDOWNLOADS_ERROR_NOCATEGORY);
 }
 
 // Download not published, expired or taken offline - redirect
 if (
-    $download->getVar('published') == 0 ||
-    $download->getVar('published') > time() ||
-    $download->getVar('offline') == true ||
-    ($download->getVar('expired') != 0 && $download->getVar('expired') < time()) ||
-    $download->getVar('status') == _WFDOWNLOADS_STATUS_WAITING) {
+    $downloadObj->getVar('published') == 0 ||
+    $downloadObj->getVar('published') > time() ||
+    $downloadObj->getVar('offline') == true ||
+    ($downloadObj->getVar('expired') != 0 && $downloadObj->getVar('expired') < time()) ||
+    $downloadObj->getVar('status') == _WFDOWNLOADS_STATUS_WAITING) {
     redirect_header('index.php', 3, _MD_WFDOWNLOADS_NODOWNLOAD);
 }
 
@@ -59,8 +59,8 @@ $breadcrumb->addLink($wfdownloads->getModule()->getVar('name'), WFDOWNLOADS_URL)
 foreach (array_reverse($categoriesTree->getAllParent($cid)) as $parentCategory) {
     $breadcrumb->addLink($parentCategory->getVar('title'), "viewcat.php?cid=" . $parentCategory->getVar('cid'));
 }
-$breadcrumb->addLink($category->getVar('title'), "viewcat.php?cid={$cid}");
-$breadcrumb->addLink($download->getVar('title'), "singlefile.php?lid={$lid}");
+$breadcrumb->addLink($categoryObj->getVar('title'), "viewcat.php?cid={$cid}");
+$breadcrumb->addLink($downloadObj->getVar('title'), "singlefile.php?lid={$lid}");
 
 $op = WfdownloadsRequest::getString('op', 'mirror.add');
 switch ($op) {
@@ -99,9 +99,9 @@ switch ($op) {
         $criteria->setSort('date');
         $criteria->setLimit(5);
         $criteria->setStart($start);
-        $mirrors = $wfdownloads->getHandler('mirror')->getObjects($criteria);
+        $mirrorObjs = $wfdownloads->getHandler('mirror')->getObjects($criteria);
 
-        $download_array = $download->toArray();
+        $download_array = $downloadObj->toArray();
         $xoopsTpl->assign('down_arr', $download_array);
 
         $add_mirror = false;
@@ -120,8 +120,8 @@ switch ($op) {
             $add_mirror = true;
         }
 
-        foreach ($mirrors as $mirror) {
-            $mirror_array = $mirror->toArray();
+        foreach ($mirrorObjs as $mirrorObj) {
+            $mirror_array = $mirrorObj->toArray();
             if ($wfdownloads->getConfig('enable_onlinechk') == 1) {
                 $serverURL                = str_replace('http://', '', trim($mirror_array['homeurl']));
                 $mirror_array['isonline'] = wfdownloads_mirrorOnline($serverURL);
@@ -170,15 +170,15 @@ switch ($op) {
         $mirroruserUid = is_object($xoopsUser) ? (int) $xoopsUser->getVar('uid') : 0;
 
         if (!empty($_POST['submit'])) {
-            $mirror = $wfdownloads->getHandler('mirror')->create();
-            $mirror->setVar('title', trim($_POST['title']));
-            $mirror->setVar('homeurl', formatURL(trim($_POST['homeurl'])));
-            $mirror->setVar('location', trim($_POST['location']));
-            $mirror->setVar('continent', trim($_POST['continent']));
-            $mirror->setVar('downurl', trim($_POST['downurl']));
-            $mirror->setVar('lid', (int) $_POST['lid']);
-            $mirror->setVar('uid', $mirroruserUid);
-            $mirror->setVar('date', time());
+            $mirrorObj = $wfdownloads->getHandler('mirror')->create();
+            $mirrorObj->setVar('title', trim($_POST['title']));
+            $mirrorObj->setVar('homeurl', formatURL(trim($_POST['homeurl'])));
+            $mirrorObj->setVar('location', trim($_POST['location']));
+            $mirrorObj->setVar('continent', trim($_POST['continent']));
+            $mirrorObj->setVar('downurl', trim($_POST['downurl']));
+            $mirrorObj->setVar('lid', (int) $_POST['lid']);
+            $mirrorObj->setVar('uid', $mirroruserUid);
+            $mirrorObj->setVar('date', time());
             if (($wfdownloads->getConfig('autoapprove') == _WFDOWNLOADS_AUTOAPPROVE_NONE
                     || $wfdownloads->getConfig('autoapprove') == _WFDOWNLOADS_AUTOAPPROVE_DOWNLOAD)
                 && !$wfdownloads_isAdmin
@@ -188,9 +188,9 @@ switch ($op) {
                 $approve = true;
             }
             $submit = ($approve) ? true : false;
-            $mirror->setVar('submit', $submit);
+            $mirrorObj->setVar('submit', $submit);
 
-            if (!$wfdownloads->getHandler('mirror')->insert($mirror)) {
+            if (!$wfdownloads->getHandler('mirror')->insert($mirrorObj)) {
                 redirect_header('index.php', 3, _MD_WFDOWNLOADS_ERROR_CREATEMIRROR);
             } else {
                 $database_mess = ($approve) ? _MD_WFDOWNLOADS_ISAPPROVED : _MD_WFDOWNLOADS_ISNOTAPPROVED;

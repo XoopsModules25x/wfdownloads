@@ -52,10 +52,10 @@ function wfdownloads_top_by_cat_show($options)
     $criteria->setSort('date');
     $criteria->setOrder('DESC');
     $criteria->setLimit($options[1]);
-    $downloads = $wfdownloads->getHandler('download')->getObjects($criteria);
+    $downloadObjs = $wfdownloads->getHandler('download')->getObjects($criteria);
 
-    foreach (array_keys($downloads) as $i) {
-        $download = $downloads[$i]->toArray();
+    foreach ($downloadObjs as $downloadObj) {
+        $download = $downloadObj->toArray();
         if (!in_array((int) $download['cid'], $allowedDownCategoriesIds)) {
             continue;
         }

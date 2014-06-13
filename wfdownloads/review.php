@@ -22,23 +22,23 @@ $currentFile = basename(__FILE__);
 include 'header.php';
 
 $lid      = WfdownloadsRequest::getInt('lid', 0);
-$download = $wfdownloads->getHandler('download')->get($lid);
-if (empty($download)) {
+$downloadObj = $wfdownloads->getHandler('download')->get($lid);
+if (empty($downloadObj)) {
     redirect_header('index.php', 3, _CO_WFDOWNLOADS_ERROR_NODOWNLOAD);
 }
-$cid      = WfdownloadsRequest::getInt('cid', $download->getVar('cid'));
-$category = $wfdownloads->getHandler('category')->get($cid);
-if (empty($category)) {
+$cid      = WfdownloadsRequest::getInt('cid', $downloadObj->getVar('cid'));
+$categoryObj = $wfdownloads->getHandler('category')->get($cid);
+if (empty($categoryObj)) {
     redirect_header('index.php', 3, _CO_WFDOWNLOADS_ERROR_NOCATEGORY);
 }
 
 // Download not published, expired or taken offline - redirect
 if (
-    $download->getVar('published') == 0 ||
-    $download->getVar('published') > time() ||
-    $download->getVar('offline') == true ||
-    ($download->getVar('expired') != 0 && $download->getVar('expired') < time()) ||
-    $download->getVar('status') == _WFDOWNLOADS_STATUS_WAITING) {
+    $downloadObj->getVar('published') == 0 ||
+    $downloadObj->getVar('published') > time() ||
+    $downloadObj->getVar('offline') == true ||
+    ($downloadObj->getVar('expired') != 0 && $downloadObj->getVar('expired') < time()) ||
+    $downloadObj->getVar('status') == _WFDOWNLOADS_STATUS_WAITING) {
     redirect_header('index.php', 3, _MD_WFDOWNLOADS_NODOWNLOAD);
 }
 
@@ -59,8 +59,8 @@ $breadcrumb->addLink($wfdownloads->getModule()->getVar('name'), WFDOWNLOADS_URL)
 foreach (array_reverse($categoriesTree->getAllParent($cid)) as $parentCategory) {
     $breadcrumb->addLink($parentCategory->getVar('title'), "viewcat.php?cid=" . $parentCategory->getVar('cid'));
 }
-$breadcrumb->addLink($category->getVar('title'), "viewcat.php?cid={$cid}");
-$breadcrumb->addLink($download->getVar('title'), "singlefile.php?lid={$lid}");
+$breadcrumb->addLink($categoryObj->getVar('title'), "viewcat.php?cid={$cid}");
+$breadcrumb->addLink($downloadObj->getVar('title'), "singlefile.php?lid={$lid}");
 
 $op = WfdownloadsRequest::getString('op', 'review.add');
 switch ($op) {
@@ -99,13 +99,13 @@ switch ($op) {
         $criteria->setSort('date');
         $criteria->setLimit(5);
         $criteria->setStart($start);
-        $reviews = $wfdownloads->getHandler('review')->getObjects($criteria);
+        $reviewObjs = $wfdownloads->getHandler('review')->getObjects($criteria);
 
-        $download_array = $download->toArray();
+        $download_array = $downloadObj->toArray();
         $xoopsTpl->assign('down_arr', $download_array);
 
-        foreach ($reviews as $review) {
-            $review_array              = $review->toArray();
+        foreach ($reviewObjs as $reviewObj) {
+            $review_array              = $reviewObj->toArray();
             $review_array['date']      = formatTimestamp($review_array['date'], $wfdownloads->getConfig('dateformat'));
             $review_array['submitter'] = XoopsUserUtility::getUnameFromId($review_array['uid']);
             $review_rating             = round(number_format($review_array['rated'], 0) / 2);
@@ -137,17 +137,17 @@ switch ($op) {
         $reviewerUid = is_object($xoopsUser) ? (int) $xoopsUser->getVar('uid') : 0;
 
         if (!empty($_POST['submit'])) {
-            $review = $wfdownloads->getHandler('review')->create();
-            $review->setVar('title', trim($_POST['title']));
-            $review->setVar('review', trim($_POST['review']));
-            $review->setVar('lid', (int) $_POST['lid']);
-            $review->setVar('rated', (int) $_POST['rated']);
-            $review->setVar('date', time());
-            $review->setVar('uid', $reviewerUid);
+            $reviewObj = $wfdownloads->getHandler('review')->create();
+            $reviewObj->setVar('title', trim($_POST['title']));
+            $reviewObj->setVar('review', trim($_POST['review']));
+            $reviewObj->setVar('lid', (int) $_POST['lid']);
+            $reviewObj->setVar('rated', (int) $_POST['rated']);
+            $reviewObj->setVar('date', time());
+            $reviewObj->setVar('uid', $reviewerUid);
             $submit = (wfdownloads_userIsAdmin() ? wfdownloads_userIsAdmin() : ($wfdownloads->getConfig('rev_approve')) ? true : false);
-            $review->setVar('submit', $submit);
+            $reviewObj->setVar('submit', $submit);
 
-            if (!$wfdownloads->getHandler('review')->insert($review)) {
+            if (!$wfdownloads->getHandler('review')->insert($reviewObj)) {
                 redirect_header('index.php', 3, _MD_WFDOWNLOADS_ERROR_CREATEREVIEW);
             } else {
                 $databaseMessage = ($submit) ? _MD_WFDOWNLOADS_ISAPPROVED : _MD_WFDOWNLOADS_ISNOTAPPROVED;

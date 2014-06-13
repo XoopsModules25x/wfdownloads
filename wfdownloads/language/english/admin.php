@@ -525,7 +525,7 @@ define('_AM_WFDOWNLOADS_FFS_SUBMITBROKEN', "Submit");
 define('_AM_WFDOWNLOADS_FFS_STANDARD_FORM', "No, use the standard form");
 define('_AM_WFDOWNLOADS_FFS_CUSTOM_FORM', "Use a custom form for this category?");
 define('_AM_WFDOWNLOADS_FFS_DOWNLOADTITLE', "2nd step: create new download");
-define('_AM_WFDOWNLOADS_FFS_EDITDOWNLOADTITLE', "2nd step: modify download");
+define('_AM_WFDOWNLOADS_FFS_EDITDOWNLOADTITLE', "2nd step: edit download");
 define('_AM_WFDOWNLOADS_FFS_BACK', "Back");
 define('_AM_WFDOWNLOADS_FFS_RELOAD', "Reload");
 define('_AM_WFDOWNLOADS_CATEGORYC', "Category: "); // _MD to reuse the category form
@@ -665,4 +665,6 @@ define('_AM_WFDOWNLOADS_ERROR_BATCHFILENOTCOPIED', "ERROR: Batch file not copied
 define('_AM_WFDOWNLOADS_ERROR_BATCHFILENOTADDED', "ERROR: Batch file not added");
 define('_AM_WFDOWNLOADS_BATCHFILE_MOVEDEDITNOW', "Batch file moved, now edit!");
 
-define('_AM_WFDOWNLOADS_FILE_CREATENEWDOWNLOAD', "Create new download");
+define('_AM_WFDOWNLOADS_FILE_CREATE', "Create new download");
+define('_AM_WFDOWNLOADS_FILE_EDIT', "Edit download");
+define('_AM_WFDOWNLOADS_FFS_1STEP', "1st step: choose category");

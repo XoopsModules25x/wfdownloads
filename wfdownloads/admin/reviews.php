@@ -26,7 +26,7 @@ switch ($op) {
     case "review.delete":
         $review_id = WfdownloadsRequest::getInt('review_id', 0);
         $ok        = WfdownloadsRequest::getBool('ok', false, 'POST');
-        if (!$review = $wfdownloads->getHandler('review')->get($review_id)) {
+        if (!$reviewObj = $wfdownloads->getHandler('review')->get($review_id)) {
             redirect_header($currentFile, 4, _AM_WFDOWNLOADS_ERROR_REVIEWNOTFOUND);
             exit();
         }
@@ -34,11 +34,11 @@ switch ($op) {
             if (!$GLOBALS['xoopsSecurity']->check()) {
                 redirect_header($currentFile, 3, implode(',', $GLOBALS['xoopsSecurity']->getErrors()));
             }
-            if ($wfdownloads->getHandler('review')->delete($review)) {
-                redirect_header($currentFile, 1, sprintf(_AM_WFDOWNLOADS_FILE_FILEWASDELETED, $review->getVar('title')));
+            if ($wfdownloads->getHandler('review')->delete($reviewObj)) {
+                redirect_header($currentFile, 1, sprintf(_AM_WFDOWNLOADS_FILE_FILEWASDELETED, $reviewObj->getVar('title')));
                 exit();
             } else {
-                echo $review->getHtmlErrors();
+                echo $reviewObj->getHtmlErrors();
                 exit();
             }
         } else {
@@ -46,7 +46,7 @@ switch ($op) {
             xoops_confirm(
                 array('op' => 'review.delete', 'review_id' => $review_id, 'ok' => true),
                 $currentFile,
-                _AM_WFDOWNLOADS_FILE_REALLYDELETEDTHIS . "<br /><br>" . $review->getVar('title'),
+                _AM_WFDOWNLOADS_FILE_REALLYDELETEDTHIS . "<br /><br>" . $reviewObj->getVar('title'),
                 _AM_WFDOWNLOADS_BDELETE
             );
             xoops_cp_footer();
@@ -56,21 +56,21 @@ switch ($op) {
     case "review.approve":
         $review_id = WfdownloadsRequest::getInt('review_id', 0);
         $ok        = WfdownloadsRequest::getBool('ok', false, 'POST');
-        if (!$review = $wfdownloads->getHandler('review')->get($review_id)) {
+        if (!$reviewObj = $wfdownloads->getHandler('review')->get($review_id)) {
             redirect_header($currentFile, 4, _AM_WFDOWNLOADS_ERROR_REVIEWNOTFOUND);
             exit();
         }
         if ($ok == true) {
-            $review->setVar('submit', 1); // true
-            $wfdownloads->getHandler('review')->insert($review);
-            redirect_header($currentFile, 1, sprintf(_AM_WFDOWNLOADS_REV_REVIEW_UPDATED, $review->getVar('title')));
+            $reviewObj->setVar('submit', 1); // true
+            $wfdownloads->getHandler('review')->insert($reviewObj);
+            redirect_header($currentFile, 1, sprintf(_AM_WFDOWNLOADS_REV_REVIEW_UPDATED, $reviewObj->getVar('title')));
             exit();
         } else {
             wfdownloads_xoops_cp_header();
             xoops_confirm(
-                array('op' => 'review.approve', 'review_id' => $review->getVar('review_id'), 'ok' => true),
+                array('op' => 'review.approve', 'review_id' => $reviewObj->getVar('review_id'), 'ok' => true),
                 $currentFile,
-                _AM_WFDOWNLOADS_REVIEW_APPROVETHIS . "<br /><br>" . $review->getVar('title'),
+                _AM_WFDOWNLOADS_REVIEW_APPROVETHIS . "<br /><br>" . $reviewObj->getVar('title'),
                 _AM_WFDOWNLOADS_REVIEW_APPROVETHIS
             );
             xoops_cp_footer();
@@ -79,29 +79,29 @@ switch ($op) {
 
     case "review.edit":
         $review_id = WfdownloadsRequest::getInt('review_id', 0);
-        if (!$review = $wfdownloads->getHandler('review')->get($review_id)) {
+        if (!$reviewObj = $wfdownloads->getHandler('review')->get($review_id)) {
             redirect_header($currentFile, 4, _AM_WFDOWNLOADS_ERROR_REVIEWNOTFOUND);
             exit();
         }
         wfdownloads_xoops_cp_header();
         $indexAdmin = new ModuleAdmin();
         echo $indexAdmin->addNavigation($currentFile);
-        $sform = $review->getForm();
+        $sform = $reviewObj->getForm();
         $sform->display();
         xoops_cp_footer();
         break;
 
     case "review.save":
         $review_id = WfdownloadsRequest::getInt('review_id', 0);
-        if (!$review = $wfdownloads->getHandler('review')->get($review_id)) {
+        if (!$reviewObj = $wfdownloads->getHandler('review')->get($review_id)) {
             redirect_header($currentFile, 4, _AM_WFDOWNLOADS_ERROR_REVIEWNOTFOUND);
             exit();
         }
-        $review->setVar('title', trim($_POST['title']));
-        $review->setVar('review', trim($_POST['review']));
-        $review->setVar('rated', (int) $_POST['rated']);
-        $review->setVar('submit', (int) $_POST['approve']);
-        $wfdownloads->getHandler('review')->insert($review);
+        $reviewObj->setVar('title', trim($_POST['title']));
+        $reviewObj->setVar('review', trim($_POST['review']));
+        $reviewObj->setVar('rated', (int) $_POST['rated']);
+        $reviewObj->setVar('submit', (int) $_POST['approve']);
+        $wfdownloads->getHandler('review')->insert($reviewObj);
         redirect_header($currentFile, 1, _AM_WFDOWNLOADS_REV_REVIEW_UPDATED);
         exit();
         break;

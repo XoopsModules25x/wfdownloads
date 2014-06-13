@@ -54,8 +54,8 @@ switch ($op) {
 
         $lid = WfdownloadsRequest::getInt('lid', 0);
 
-        $category_count = $wfdownloads->getHandler('category')->getCount();
-        if ($category_count) {
+        $categoriesCount = $wfdownloads->getHandler('category')->getCount();
+        if ($categoriesCount) {
             // Allowed mimetypes list
             echo "<fieldset><legend style='font-weight: bold; color: #900;'>" . _AM_WFDOWNLOADS_FILE_ALLOWEDAMIME . "</legend>\n";
             echo "<div style='padding: 8px;'>\n";
@@ -67,31 +67,37 @@ switch ($op) {
             echo "</fieldset><br />\n";
 
             if ($lid) {
-                if (!$download = $wfdownloads->getHandler('download')->get($lid)) {
+                // edit download
+                if (!$downloadObj = $wfdownloads->getHandler('download')->get($lid)) {
                     redirect_header($currentFile, 4, _AM_WFDOWNLOADS_DOWN_ERROR_FILENOTFOUND);
                     exit();
                 }
-                $cid = $download->getVar('cid');
-                if (!$category = $wfdownloads->getHandler('category')->get($cid)) {
+                $cid = $downloadObj->getVar('cid');
+                if (!$categoryObj = $wfdownloads->getHandler('category')->get($cid)) {
                     redirect_header($currentFile, 4, _AM_WFDOWNLOADS_DOWN_ERROR_CATEGORYNOTFOUND);
                     exit();
                 }
-                $title = preg_replace("/{category}/", $category->getVar('title'), _AM_WFDOWNLOADS_FFS_EDITDOWNLOADTITLE);
+                $title = preg_replace("/{category}/", $categoryObj->getVar('title'), _AM_WFDOWNLOADS_FILE_EDIT);
+                $title12 = preg_replace("/{category}/", $categoryObj->getVar('title'), _AM_WFDOWNLOADS_FFS_1STEP);
+                $title22 = preg_replace("/{category}/", $categoryObj->getVar('title'), _AM_WFDOWNLOADS_FFS_EDITDOWNLOADTITLE);
             } else {
-                $download = $wfdownloads->getHandler('download')->create();
+                // create download
+                $downloadObj = $wfdownloads->getHandler('download')->create();
                 $cid      = WfdownloadsRequest::getInt('cid', 0, 'POST');
-                $category = $wfdownloads->getHandler('category')->get($cid);
-                $download->setVar('cid', $cid);
-                $title = preg_replace("/{category}/", $category->getVar('title'), _AM_WFDOWNLOADS_FFS_DOWNLOADTITLE);
+                $categoryObj = $wfdownloads->getHandler('category')->get($cid);
+                $downloadObj->setVar('cid', $cid);
+                $title = preg_replace("/{category}/", $categoryObj->getVar('title'), _AM_WFDOWNLOADS_FILE_CREATE);
+                $title12 = preg_replace("/{category}/", $categoryObj->getVar('title'), _AM_WFDOWNLOADS_FFS_1STEP);
+                $title22 = preg_replace("/{category}/", $categoryObj->getVar('title'), _AM_WFDOWNLOADS_FFS_DOWNLOADTITLE);
             }
 
 // Formulize module support (2006/05/04) jpc - start
             if (!wfdownloads_checkModule('formulize')) {
                 // one step form: 1st step
-                $sform = $download->getAdminForm($title);
+                $sform = $downloadObj->getAdminForm($title);
             } elseif ((isset($_POST['submit_category']) && !empty($_POST['submit_category']))) {
                 // two steps form: 2nd step
-                $fid         = $category->getVar('formulize_fid');
+                $fid         = $categoryObj->getVar('formulize_fid');
                 $customArray = array();
                 if ($fid) {
                     include_once XOOPS_ROOT_PATH . "/modules/formulize/include/formdisplay.php";
@@ -100,7 +106,7 @@ switch ($op) {
                     $customArray['formulize_mgr'] = xoops_getmodulehandler('elements', 'formulize');
                     $customArray['groups']        = $xoopsUser ? $xoopsUser->getGroups() : array(0 => XOOPS_GROUP_ANONYMOUS);
                     $customArray['prevEntry']     = getEntryValues( // is a Formulize function
-                        $download->getVar('formulize_idreq'),
+                        $downloadObj->getVar('formulize_idreq'),
                         $customArray['formulize_mgr'],
                         $customArray['groups'],
                         $fid,
@@ -110,7 +116,7 @@ switch ($op) {
                         null,
                         null
                     );
-                    $customArray['entry']         = $download->getVar('formulize_idreq');
+                    $customArray['entry']         = $downloadObj->getVar('formulize_idreq');
                     $customArray['go_back']       = "";
                     $customArray['parentLinks']   = "";
                     if (wfdownloads_checkModule('formulize') < 300) {
@@ -121,10 +127,10 @@ switch ($op) {
                     $ownerGroups                 = $member_handler->getGroupsByUser($owner, false);
                     $customArray['owner_groups'] = $ownerGroups;
                 }
-                $sform = $download->getAdminForm($title, $customArray);
+                $sform = $downloadObj->getAdminForm($title22, $customArray);
             } else {
                 // two steps form: 1st step
-                $sform = $download->getCategoryForm(_MD_WFDOWNLOADS_FFS_SUBMIT1ST_STEP);
+                $sform = $downloadObj->getCategoryForm($title12);
             }
 // Formulize module support (2006/05/04) jpc - end
             $sform->display();
@@ -264,10 +270,10 @@ switch ($op) {
 
         if ($lid > 0) {
             $thisIsANewRecord = false; /* Added by Lankford on 2007/3/21 */
-            $download         = $wfdownloads->getHandler('download')->get($lid);
+            $downloadObj         = $wfdownloads->getHandler('download')->get($lid);
         } else {
             $thisIsANewRecord = true; /* Added by Lankford on 2007/3/21 */
-            $download         = $wfdownloads->getHandler('download')->create();
+            $downloadObj         = $wfdownloads->getHandler('download')->create();
         }
         // Define URL
         if (empty($_FILES['userfile']['name'])) {
@@ -286,8 +292,8 @@ switch ($op) {
                 $size = @filesize($filePath);
             }
             $title = trim($_POST['title']);
-            $download->setVar('filename', $filename);
-            $download->setVar('filetype', $filetype);
+            $downloadObj->setVar('filename', $filename);
+            $downloadObj->setVar('filetype', $filetype);
         } else {
             $down  = wfdownloads_uploading($_FILES, $wfdownloads->getConfig('uploaddir'), '', $currentFile, 0, false, true);
             $url   = ($_POST['url'] != "http://") ? $_POST["url"] : '';
@@ -300,8 +306,8 @@ switch ($op) {
 
             $filename = $down['filename'];
             $filetype = $_FILES['userfile']['type'];
-            $download->setVar('filename', $filename);
-            $download->setVar('filetype', $filetype);
+            $downloadObj->setVar('filename', $filename);
+            $downloadObj->setVar('filetype', $filetype);
         }
         // Get data from form
         $screenshot  = ($_POST['screenshot'] != 'blank.png') ? $_POST['screenshot'] : '';
@@ -310,8 +316,8 @@ switch ($op) {
         $screenshot4 = ($_POST['screenshot4'] != 'blank.png') ? $_POST['screenshot4'] : '';
 
         if (!empty($_POST['homepage']) || $_POST['homepage'] != "http://") {
-            $download->setVar('homepage', trim($_POST['homepage']));
-            $download->setVar('homepagetitle', trim($_POST['homepagetitle']));
+            $downloadObj->setVar('homepage', trim($_POST['homepage']));
+            $downloadObj->setVar('homepagetitle', trim($_POST['homepagetitle']));
         }
 
         $version = !empty($_POST['version']) ? trim($_POST['version']) : 0;
@@ -321,14 +327,14 @@ switch ($op) {
         //    a) Are they actually changing the value of version, or is it the same?
         //    b) Are they actually modifying the record, or is this a new one?
         //  If both conditions are true, then trigger all three notifications related to modified records.
-        if (!$thisIsANewRecord && ($download->getVar('version') != $version)) {
+        if (!$thisIsANewRecord && ($downloadObj->getVar('version') != $version)) {
             // Trigger the three events related to modified files (one for the file, category, and global event categories respectively)
             $tags                  = array();
             $tags['FILE_NAME']     = $title;
             $tags['FILE_URL']      = WFDOWNLOADS_URL . "/singlefile.php?cid={$cid}&amp;lid={$lid}";
-            $category              = $wfdownloads->getHandler('category')->get($cid);
+            $categoryObj              = $wfdownloads->getHandler('category')->get($cid);
             $tags['FILE_VERSION']  = $version;
-            $tags['CATEGORY_NAME'] = $category->getVar('title');
+            $tags['CATEGORY_NAME'] = $categoryObj->getVar('title');
             $tags['CATEGORY_URL']  = WFDOWNLOADS_URL . "/viewcat.php?cid='{$cid}";
 
             if ($wfdownloads->getConfig('autoapprove') == _WFDOWNLOADS_AUTOAPPROVE_DOWNLOAD
@@ -341,37 +347,37 @@ switch ($op) {
             }
         }
         /* End add block */
-        $download->setVar('version', $version);
-        $download->setVar('url', $url);
-        $download->setVar('cid', $cid);
-        $download->setVar('title', $title);
-        $download->setVar('status', $status);
-        $download->setVar('size', $size);
-        $download->setVar('screenshot', $screenshot);
-        $download->setVar('screenshot2', $screenshot2);
-        $download->setVar('screenshot3', $screenshot3);
-        $download->setVar('screenshot4', $screenshot4);
-        $download->setVar('platform', trim($_POST['platform']));
-        $download->setVar('summary', trim($_POST['summary']));
-        $download->setVar('description', trim($_POST['description']));
-        $download->setVar('dohtml', isset($_POST['dohtml']));
-        $download->setVar('dosmiley', isset($_POST['dosmiley']));
-        $download->setVar('doxcode', isset($_POST['doxcode']));
-        $download->setVar('doimage', isset($_POST['doimage']));
-        $download->setVar('dobr', isset($_POST['dobr']));
-        $download->setVar('submitter', trim($_POST['submitter']));
-        $download->setVar('publisher', trim($_POST['publisher']));
-        $download->setVar('price', trim($_POST['price']));
+        $downloadObj->setVar('version', $version);
+        $downloadObj->setVar('url', $url);
+        $downloadObj->setVar('cid', $cid);
+        $downloadObj->setVar('title', $title);
+        $downloadObj->setVar('status', $status);
+        $downloadObj->setVar('size', $size);
+        $downloadObj->setVar('screenshot', $screenshot);
+        $downloadObj->setVar('screenshot2', $screenshot2);
+        $downloadObj->setVar('screenshot3', $screenshot3);
+        $downloadObj->setVar('screenshot4', $screenshot4);
+        $downloadObj->setVar('platform', trim($_POST['platform']));
+        $downloadObj->setVar('summary', trim($_POST['summary']));
+        $downloadObj->setVar('description', trim($_POST['description']));
+        $downloadObj->setVar('dohtml', isset($_POST['dohtml']));
+        $downloadObj->setVar('dosmiley', isset($_POST['dosmiley']));
+        $downloadObj->setVar('doxcode', isset($_POST['doxcode']));
+        $downloadObj->setVar('doimage', isset($_POST['doimage']));
+        $downloadObj->setVar('dobr', isset($_POST['dobr']));
+        $downloadObj->setVar('submitter', trim($_POST['submitter']));
+        $downloadObj->setVar('publisher', trim($_POST['publisher']));
+        $downloadObj->setVar('price', trim($_POST['price']));
         if (!$wfdownloads->getConfig('enable_mirrors')) {
-            $download->setVar('mirror', formatURL(trim($_POST['mirror'])));
+            $downloadObj->setVar('mirror', formatURL(trim($_POST['mirror'])));
         }
-        $download->setVar('license', trim($_POST['license']));
-        $download->setVar('features', trim($_POST['features']));
-        $download->setVar('requirements', trim($_POST['requirements']));
+        $downloadObj->setVar('license', trim($_POST['license']));
+        $downloadObj->setVar('features', trim($_POST['features']));
+        $downloadObj->setVar('requirements', trim($_POST['requirements']));
         $limitations = (isset($_POST['limitations'])) ? $_POST['limitations'] : '';
-        $download->setVar('limitations', $limitations);
+        $downloadObj->setVar('limitations', $limitations);
         $versiontypes = (isset($_POST['versiontypes'])) ? $_POST['versiontypes'] : '';
-        $download->setVar('versiontypes', $versiontypes);
+        $downloadObj->setVar('versiontypes', $versiontypes);
 
         $dhistory        = (isset($_POST['dhistory'])) ? $_POST['dhistory'] : '';
         $dhistoryhistory = (isset($_POST['dhistoryaddedd'])) ? $_POST['dhistoryaddedd'] : '';
@@ -382,18 +388,18 @@ switch ($op) {
             $dhistory .= _AM_WFDOWNLOADS_FILE_HISTORYVERS . $version . _AM_WFDOWNLOADS_FILE_HISTORDATE . XoopsLocal::formatTimestamp($time, 'l') . "\n\n";
             $dhistory .= $dhistoryhistory;
         }
-        $download->setVar('dhistory', $dhistory);
-        $download->setVar('dhistoryhistory', $dhistoryhistory);
+        $downloadObj->setVar('dhistory', $dhistory);
+        $downloadObj->setVar('dhistoryhistory', $dhistoryhistory);
 
         $updated = (isset($_POST['was_published']) && $_POST['was_published'] == 0) ? 0 : time();
 
         if ($_POST['up_dated'] == 0) {
             $updated = 0;
         }
-        $download->setVar('updated', $updated);
+        $downloadObj->setVar('updated', $updated);
 
         $offline = ($_POST['offline'] == true) ? true : false;
-        $download->setVar('offline', $offline);
+        $downloadObj->setVar('offline', $offline);
         $approved  = (isset($_POST['approved']) && $_POST['approved'] == true) ? true : false;
         $notifypub = (isset($_POST['notifypub']) && $_POST['notifypub'] == true);
 
@@ -411,7 +417,7 @@ switch ($op) {
             $publishdate = strtotime($_POST['published']['date']) + $_POST['published']['time'];
         }
         if ($_POST['clearpublish']) {
-            $publishdate = $download->getVar('published');
+            $publishdate = $downloadObj->getVar('published');
         }
         if (isset($_POST['expiredateactivate'])) {
             $expiredate = strtotime($_POST['expired']['date']) + $_POST['expired']['time'];
@@ -420,25 +426,25 @@ switch ($op) {
             $expiredate = '0';
         }
 
-        $download->setVar('expired', $expiredate);
-        $download->setVar('published', $publishdate);
-        $download->setVar('date', time());
+        $downloadObj->setVar('expired', $expiredate);
+        $downloadObj->setVar('published', $publishdate);
+        $downloadObj->setVar('date', time());
         // Update or insert download data into database
         if (!$lid) {
-            $download->setVar('ipaddress', $_SERVER['REMOTE_ADDR']);
+            $downloadObj->setVar('ipaddress', $_SERVER['REMOTE_ADDR']);
         }
 
-        $category = $wfdownloads->getHandler('category')->get($cid);
+        $categoryObj = $wfdownloads->getHandler('category')->get($cid);
 
 // Formulize module support (2006/05/04) jpc - start
         if (wfdownloads_checkModule('formulize')) {
-            $fid = $category->getVar('formulize_fid');
+            $fid = $categoryObj->getVar('formulize_fid');
             if ($fid) {
                 include_once XOOPS_ROOT_PATH . "/modules/formulize/include/formread.php";
                 include_once XOOPS_ROOT_PATH . "/modules/formulize/include/functions.php";
                 $formulize_mgr =& xoops_getmodulehandler('elements', 'formulize');
                 if ($lid) {
-                    $entries[$fid][0] = $download->getVar('formulize_idreq');
+                    $entries[$fid][0] = $downloadObj->getVar('formulize_idreq');
                     if ($entries[$fid][0]) {
                         if (wfdownloads_checkModule('formulize') < 300) {
                             $owner = getEntryOwner($entries[$fid][0]); // is a Formulize function
@@ -450,7 +456,7 @@ switch ($op) {
                         $entries[$fid][0] = "";
                         $owner            = "";
                     }
-                    $cid = $download->getVar('cid');
+                    $cid = $downloadObj->getVar('cid');
                 } else {
                     $entries[$fid][0] = "";
                     $owner            = "";
@@ -470,19 +476,19 @@ switch ($op) {
                 ); // "new" causes xoops token check to be skipped, since Wfdownloads should be doing that
                 if (!$owner) {
                     $id_req = $entries[$fid][0];
-                    $download->setVar('formulize_idreq', $id_req);
+                    $downloadObj->setVar('formulize_idreq', $id_req);
                 }
             }
         }
 // Formulize module support (2006/05/04) jpc - end
-        $wfdownloads->getHandler('download')->insert($download);
-        $newid = (int) $download->getVar('lid');
+        $wfdownloads->getHandler('download')->insert($downloadObj);
+        $newid = (int) $downloadObj->getVar('lid');
         // Send notifications
         if (!$lid) {
             $tags                  = array();
             $tags['FILE_NAME']     = $title;
             $tags['FILE_URL']      = WFDOWNLOADS_URL . "/singlefile.php?cid={$cid}&amp;lid={$newid}";
-            $tags['CATEGORY_NAME'] = $category->getVar('title');
+            $tags['CATEGORY_NAME'] = $categoryObj->getVar('title');
             $tags['CATEGORY_URL']  = WFDOWNLOADS_URL . "/viewcat.php?cid={$cid}";
             $notification_handler->triggerEvent('global', 0, 'new_file', $tags);
             $notification_handler->triggerEvent('category', $cid, 'new_file', $tags);
@@ -491,8 +497,8 @@ switch ($op) {
             $tags                  = array();
             $tags['FILE_NAME']     = $title;
             $tags['FILE_URL']      = WFDOWNLOADS_URL . "/singlefile.php?cid={$cid}&amp;lid={$lid}";
-            $category              = $wfdownloads->getHandler('category')->get($cid);
-            $tags['CATEGORY_NAME'] = $category->getVar('title');
+            $categoryObj              = $wfdownloads->getHandler('category')->get($cid);
+            $tags['CATEGORY_NAME'] = $categoryObj->getVar('title');
             $tags['CATEGORY_URL']  = WFDOWNLOADS_URL . '/viewcat.php?cid=' . $cid;
             $notification_handler->triggerEvent('global', 0, 'new_file', $tags);
             $notification_handler->triggerEvent('category', $cid, 'new_file', $tags);
@@ -507,24 +513,24 @@ switch ($op) {
     case "download.delete" :
         $lid = WfdownloadsRequest::getInt('lid', 0);
         $ok  = WfdownloadsRequest::getBool('ok', false, 'POST');
-        if (!$download = $wfdownloads->getHandler('download')->get($lid)) {
+        if (!$downloadObj = $wfdownloads->getHandler('download')->get($lid)) {
             redirect_header($currentFile, 4, _AM_WFDOWNLOADS_ERROR_DOWNLOADNOTFOUND);
             exit();
         }
-        $title = $download->getVar('title');
+        $title = $downloadObj->getVar('title');
         if ($ok == true) {
             if (!$GLOBALS['xoopsSecurity']->check()) {
                 redirect_header($currentFile, 3, implode(',', $GLOBALS['xoopsSecurity']->getErrors()));
             }
-            $file = $wfdownloads->getConfig('uploaddir') . '/' . $download->getVar('filename');
+            $file = $wfdownloads->getConfig('uploaddir') . '/' . $downloadObj->getVar('filename');
             if (is_file($file)) {
                 @chmod($file, 0777);
                 @unlink($file);
             }
-            if ($wfdownloads->getHandler('download')->delete($download)) {
+            if ($wfdownloads->getHandler('download')->delete($downloadObj)) {
                 redirect_header($currentFile, 1, sprintf(_AM_WFDOWNLOADS_FILE_FILEWASDELETED, $title));
             } else {
-                echo $download->getHtmlErrors();
+                echo $downloadObj->getHtmlErrors();
             }
         } else {
             wfdownloads_xoops_cp_header();
@@ -573,29 +579,29 @@ switch ($op) {
     case "newdownload.approve" :
     case "approve" :
         $lid = WfdownloadsRequest::getInt('lid', 0);
-        if (!$download = $wfdownloads->getHandler('download')->get($lid)) {
+        if (!$downloadObj = $wfdownloads->getHandler('download')->get($lid)) {
             redirect_header($currentFile, 4, _AM_WFDOWNLOADS_ERROR_DOWNLOADNOTFOUND);
             exit();
         }
         // Update the database
-        $download->setVar('published', time());
-        $download->setVar('status', _WFDOWNLOADS_STATUS_APPROVED);
-        if (!$wfdownloads->getHandler('download')->insert($download, true)) {
-            echo $download->getHtmlErrors();
+        $downloadObj->setVar('published', time());
+        $downloadObj->setVar('status', _WFDOWNLOADS_STATUS_APPROVED);
+        if (!$wfdownloads->getHandler('download')->insert($downloadObj, true)) {
+            echo $downloadObj->getHtmlErrors();
             exit();
         }
         // Trigger notify
-        $title                 = $download->getVar('title');
-        $cid                   = $download->getVar('cid');
-        $category              = $wfdownloads->getHandler('category')->get($cid);
+        $title                 = $downloadObj->getVar('title');
+        $cid                   = $downloadObj->getVar('cid');
+        $categoryObj              = $wfdownloads->getHandler('category')->get($cid);
         $tags                  = array();
         $tags['FILE_NAME']     = $title;
         $tags['FILE_URL']      = WFDOWNLOADS_URL . "/singlefile.php?cid={$cid}&amp;lid={$lid}";
-        $tags['CATEGORY_NAME'] = $category->getVar('title');
+        $tags['CATEGORY_NAME'] = $categoryObj->getVar('title');
         $tags['CATEGORY_URL']  = WFDOWNLOADS_URL . "/viewcat.php?cid={$cid}";
         $notification_handler->triggerEvent('global', 0, 'new_file', $tags);
         $notification_handler->triggerEvent('category', $cid, 'new_file', $tags);
-        if ($download->getVar('notifypub')) {
+        if ($downloadObj->getVar('notifypub')) {
             $notification_handler->triggerEvent('file', $lid, 'approve', $tags);
         }
         redirect_header($currentFile, 1, _AM_WFDOWNLOADS_SUB_NEWFILECREATED);
@@ -638,7 +644,7 @@ switch ($op) {
         echo $indexAdmin->addNavigation($currentFile);
 
         $adminMenu = new ModuleAdmin();
-        $adminMenu->addItemButton(_AM_WFDOWNLOADS_FILE_CREATENEWDOWNLOAD, $currentFile . "?op=download.add", 'add');
+        $adminMenu->addItemButton(_AM_WFDOWNLOADS_FILE_CREATE, $currentFile . "?op=download.add", 'add');
         echo $adminMenu->renderButton();
 
         if ($totalDownloadsCount > 0) {
@@ -862,25 +868,25 @@ switch ($op) {
             redirect_header($currentFile, 4, _AM_WFDOWNLOADS_ERROR_BATCHFILENOTCOPIED);
         }
 
-        $download = $wfdownloads->getHandler('download')->create();
-        $download->setVar('title', $batchFile);
-        $download->setVar('filename', $savedFileName);
-        $download->setVar('size', filesize($wfdownloads->getConfig('uploaddir') . '/' . $savedFileName));
-        $download->setVar('filetype', $extensionToMime[pathinfo($batchFile, PATHINFO_EXTENSION)]);
+        $downloadObj = $wfdownloads->getHandler('download')->create();
+        $downloadObj->setVar('title', $batchFile);
+        $downloadObj->setVar('filename', $savedFileName);
+        $downloadObj->setVar('size', filesize($wfdownloads->getConfig('uploaddir') . '/' . $savedFileName));
+        $downloadObj->setVar('filetype', $extensionToMime[pathinfo($batchFile, PATHINFO_EXTENSION)]);
 
-        $download->setVar('version', 0);
-        $download->setVar('status', _WFDOWNLOADS_STATUS_APPROVED); // IN PROGRESS
-        $download->setVar('published', time());
-        $download->setVar('date', time());
-        $download->setVar('ipaddress', $_SERVER['REMOTE_ADDR']);
-        $download->setVar('submitter', $xoopsUser->getVar('uid', 'e'));
-        $download->setVar('publisher', $xoopsUser->getVar('uid', 'e'));
+        $downloadObj->setVar('version', 0);
+        $downloadObj->setVar('status', _WFDOWNLOADS_STATUS_APPROVED); // IN PROGRESS
+        $downloadObj->setVar('published', time());
+        $downloadObj->setVar('date', time());
+        $downloadObj->setVar('ipaddress', $_SERVER['REMOTE_ADDR']);
+        $downloadObj->setVar('submitter', $xoopsUser->getVar('uid', 'e'));
+        $downloadObj->setVar('publisher', $xoopsUser->getVar('uid', 'e'));
 
-        if (!$wfdownloads->getHandler('download')->insert($download)) {
+        if (!$wfdownloads->getHandler('download')->insert($downloadObj)) {
             wfdownloads_delFile($wfdownloads->getConfig('uploaddir') . '/' . $savedFileName);
             redirect_header($currentFile, 4, _AM_WFDOWNLOADS_ERROR_BATCHFILENOTADDED);
         }
-        $newid = (int)$download->getVar('lid');
+        $newid = (int)$downloadObj->getVar('lid');
         // Delete batch file
         wfdownloads_delFile($batchPath . '/' . $batchFile);
         redirect_header("{$currentFile}?op=download.edit&lid={$newid}", 3, _AM_WFDOWNLOADS_BATCHFILE_MOVEDEDITNOW);
@@ -927,7 +933,7 @@ switch ($op) {
         echo $indexAdmin->addNavigation($currentFile);
 
         $adminMenu = new ModuleAdmin();
-        $adminMenu->addItemButton(_AM_WFDOWNLOADS_FILE_CREATENEWDOWNLOAD, $currentFile . "?op=download.add", 'add');
+        $adminMenu->addItemButton(_AM_WFDOWNLOADS_FILE_CREATE, $currentFile . "?op=download.add", 'add');
         echo $adminMenu->renderButton();
 
         // Get ip logs
@@ -937,24 +943,24 @@ switch ($op) {
         }
         $criteria->setSort('date');
         $criteria->setOrder('DESC');
-        $ip_logs       = $wfdownloads->getHandler('ip_log')->getObjects($criteria);
+        $ip_logObjs       = $wfdownloads->getHandler('ip_log')->getObjects($criteria);
         $ip_logs_count = $wfdownloads->getHandler('ip_log')->getCount($criteria);
         $GLOBALS['xoopsTpl']->assign('ip_logs_count', $ip_logs_count);
         unset($criteria);
 
         // Get download info
         if ($lid != 0) {
-            $download                    = $wfdownloads->getHandler('download')->get($lid);
-            $download_array              = $download->toArray();
+            $downloadObj                    = $wfdownloads->getHandler('download')->get($lid);
+            $download_array              = $downloadObj->toArray();
             $download_array['log_title'] = sprintf(_AM_WFDOWNLOADS_LOG_FOR_LID, $download_array['title']);
             $GLOBALS['xoopsTpl']->assign('download', $download_array);
         }
 
         // Get all logged users
         $uidArray = array();
-        foreach ($ip_logs as $ip_log) {
-            if ($ip_log->getVar('uid') != 0 && $ip_log->getVar('uid') != '') {
-                $uidArray[] = $ip_log->getVar('uid');
+        foreach ($ip_logObjs as $ip_logObj) {
+            if ($ip_logObj->getVar('uid') != 0 && $ip_logObj->getVar('uid') != '') {
+                $uidArray[] = $ip_logObj->getVar('uid');
             }
         }
         $criteria = new CriteriaCompo();
@@ -962,11 +968,11 @@ switch ($op) {
             $criteria->add(new Criteria('uid', '(' . implode(', ', $uidArray) . ')', 'IN'));
         }
         $userList = $member_handler->getUserList($criteria);
-        if (empty($ip_logs)) {
+        if (empty($ip_logObjs)) {
             // NOP
         } else {
-            foreach ($ip_logs as $ip_log) {
-                $ip_log_array                   = $ip_log->toArray();
+            foreach ($ip_logObjs as $ip_logObj) {
+                $ip_log_array                   = $ip_logObj->toArray();
                 $ip_log_array['uname']          = XoopsUserUtility::getUnameFromId(
                     $ip_log_array['uid']
                 );

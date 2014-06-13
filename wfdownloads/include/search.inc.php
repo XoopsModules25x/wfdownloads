@@ -106,8 +106,8 @@ of the results is returned.  If OR is in effect, then all results are returned.
         if (wfdownloads_checkModule('formulize')) {
             $fids = array();
             foreach ($allowedDownCategoriesIds as $cid) {
-                $category = $wfdownloads->getHandler('category')->get($cid);
-                if (isset($category) && $fid = $category->getVar('formulize_fid')) {
+                $categoryObj = $wfdownloads->getHandler('category')->get($cid);
+                if (isset($categoryObj) && $fid = $categoryObj->getVar('formulize_fid')) {
                     $fids[] = $fid;
                 }
             }
@@ -193,14 +193,14 @@ of the results is returned.  If OR is in effect, then all results are returned.
             }
 
             // Check to see if this term matches any files
-            $tempDownloads = $wfdownloads->getHandler('download')->getActiveDownloads($queryCriteria);
+            $tempDownloadObjs = $wfdownloads->getHandler('download')->getActiveDownloads($queryCriteria);
             unset($queryCriteria);
 
             // Make an array of the downloads based on the lid, and a separate list of all the lids found (the separate list is used in the case of an AND operator to derive an intersection of the hits across all search terms -- and it is used to determine the start and limit points of the main results array for an OR query)
             $downloads_lids = array();
-            foreach ($tempDownloads as $tempDownload) {
-                $downloads[(int) $tempDownload->getVar('lid')] = $tempDownload;
-                $downloads_lids[]                             = (int) $tempDownload->getVar('lid');
+            foreach ($tempDownloadObjs as $tempDownloadObj) {
+                $downloads[(int) $tempDownloadObj->getVar('lid')] = $tempDownloadObj;
+                $downloads_lids[]                             = (int) $tempDownloadObj->getVar('lid');
             }
 
             // Do an intersection of the found lids if the operator is AND
@@ -214,7 +214,7 @@ of the results is returned.  If OR is in effect, then all results are returned.
                 $downloads_intersect = array_intersect($downloads_intersect, $downloads_lids);
                 unset($downloads_lids);
             }
-            unset($tempDownloads);
+            unset($tempDownloadObjs);
         } // end of for loop through query terms
     } // end of if there are query terms
 

@@ -52,8 +52,8 @@ switch ($op) {
             include_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
             $sform = new XoopsThemeForm(_AM_WFDOWNLOADS_CCATEGORY_MOVE, "move", xoops_getenv('PHP_SELF'));
 
-            $categories = $wfdownloads->getHandler('category')->getObjects();
-            $mytree = new XoopsObjectTree($categories, "cid", "pid");
+            $categoryObjs = $wfdownloads->getHandler('category')->getObjects();
+            $mytree = new XoopsObjectTree($categoryObjs, "cid", "pid");
             $sform->addElement(new XoopsFormLabel(_AM_WFDOWNLOADS_BMODIFY, $mytree->makeSelBox('target', 'title')));
                 $create_tray = new XoopsFormElementTray('', '');
                 $create_tray -> addElement(new XoopsFormHidden('source', $cid));
@@ -118,41 +118,41 @@ switch ($op) {
         }
 
         if (!$cid) {
-            $category = $wfdownloads->getHandler('category')->create();
+            $categoryObj = $wfdownloads->getHandler('category')->create();
         } else {
-            $category = $wfdownloads->getHandler('category')->get($cid);
-            $childcats = $wfdownloads->getHandler('category')->getChildCats($category);
+            $categoryObj = $wfdownloads->getHandler('category')->get($cid);
+            $childcats = $wfdownloads->getHandler('category')->getChildCats($categoryObj);
             if ($pid == $cid || in_array($pid, array_keys($childcats))) {
-                $category->setErrors(_AM_WFDOWNLOADS_CCATEGORY_CHILDASPARENT);
+                $categoryObj->setErrors(_AM_WFDOWNLOADS_CCATEGORY_CHILDASPARENT);
             }
         }
 
-        $category->setVar('title', $_POST["title"]);
-        $category->setVar('pid', $pid);
-        $category->setVar('weight', $weight);
-        $category->setVar('imgurl', $imgurl);
-        $category->setVar('description', $_POST["description"]);
-        $category->setVar('summary', $_POST["summary"]);
-        $category->setVar('dohtml', isset($_POST['dohtml']));
-        $category->setVar('dosmiley', isset($_POST['dosmiley']));
-        $category->setVar('doxcode', isset($_POST['doxcode']));
-        $category->setVar('doimage', isset($_POST['doimage']));
-        $category->setVar('dobr', isset($_POST['dobr']));
+        $categoryObj->setVar('title', $_POST["title"]);
+        $categoryObj->setVar('pid', $pid);
+        $categoryObj->setVar('weight', $weight);
+        $categoryObj->setVar('imgurl', $imgurl);
+        $categoryObj->setVar('description', $_POST["description"]);
+        $categoryObj->setVar('summary', $_POST["summary"]);
+        $categoryObj->setVar('dohtml', isset($_POST['dohtml']));
+        $categoryObj->setVar('dosmiley', isset($_POST['dosmiley']));
+        $categoryObj->setVar('doxcode', isset($_POST['doxcode']));
+        $categoryObj->setVar('doimage', isset($_POST['doimage']));
+        $categoryObj->setVar('dobr', isset($_POST['dobr']));
 // Formulize module support (2006/05/04) jpc - start
         if (wfdownloads_checkModule('formulize')) {
             $formulize_fid = (isset($_POST["formulize_fid"])) ? (int) $_POST["formulize_fid"] : 0;
-            $category->setVar('formulize_fid', $formulize_fid);
+            $categoryObj->setVar('formulize_fid', $formulize_fid);
         }
 // Formulize module support (2006/05/04) jpc - end
-        $category->setVar('spotlighthis', $spotlighthis);
-        $category->setVar('spotlighttop', $spotlighttop);
+        $categoryObj->setVar('spotlighthis', $spotlighthis);
+        $categoryObj->setVar('spotlighttop', $spotlighttop);
 
-        if (!$wfdownloads->getHandler('category')->insert($category)) {
-            echo $category->getHtmlErrors();
+        if (!$wfdownloads->getHandler('category')->insert($categoryObj)) {
+            echo $categoryObj->getHtmlErrors();
         }
         if (!$cid) {
             if ($cid == 0) {
-                $newid = (int) $category->getVar('cid');
+                $newid = (int) $categoryObj->getVar('cid');
             }
             wfdownloads_savePermissions($down_groups, $newid, 'WFDownCatPerm');
             wfdownloads_savePermissions($up_groups, $newid, 'WFUpCatPerm');
@@ -175,8 +175,8 @@ switch ($op) {
     case "del" :
         $cid = WfdownloadsRequest::getInt('cid', 0);
         $ok = WfdownloadsRequest::getBool('ok', false, 'POST');
-        $categories = $wfdownloads->getHandler('category')->getObjects();
-        $mytree = new XoopsObjectTree($categories, "cid", "pid");
+        $categoryObjs = $wfdownloads->getHandler('category')->getObjects();
+        $mytree = new XoopsObjectTree($categoryObjs, "cid", "pid");
         if ($ok == true) {
             // get all subcategories under the specified category
             $arr = $mytree -> getAllChild($cid);
@@ -231,11 +231,11 @@ switch ($op) {
         echo $adminMenu->renderButton();
 
         if (isset($_REQUEST['cid'])) {
-            $category = $wfdownloads->getHandler('category')->get($_REQUEST['cid']);
+            $categoryObj = $wfdownloads->getHandler('category')->get($_REQUEST['cid']);
         } else {
-            $category = $wfdownloads->getHandler('category')->create();
+            $categoryObj = $wfdownloads->getHandler('category')->create();
         }
-        $form = $category->getForm();
+        $form = $categoryObj->getForm();
         $form -> display();
 
         include 'admin_footer.php';
@@ -273,12 +273,12 @@ switch ($op) {
             $new_weights = $_POST['new_weights'];
             $ids = array();
             foreach ($new_weights as $cid => $new_weight) {
-                $category = $wfdownloads->getHandler('category')->get($cid);
-                $category->setVar('weight', $new_weight);
-                if (!$wfdownloads->getHandler('category')->insert($category)) {
-                    redirect_header($currentFile, 3, $category->getErrors());
+                $categoryObj = $wfdownloads->getHandler('category')->get($cid);
+                $categoryObj->setVar('weight', $new_weight);
+                if (!$wfdownloads->getHandler('category')->insert($categoryObj)) {
+                    redirect_header($currentFile, 3, $categoryObj->getErrors());
                 }
-                unset($category);
+                unset($categoryObj);
             }
             redirect_header($currentFile, 1, _AM_WFDOWNLOADS_CATEGORIES_REORDERED);
             exit();

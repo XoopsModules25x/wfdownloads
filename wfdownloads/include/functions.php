@@ -179,10 +179,10 @@ function wfdownloads_getFiles($path = '.')
 {
 $files = array();
     $dir = opendir($path);
-	while ($f = readdir($dir)) {
-		if(is_file($path . $f)) {
-            if($f != '.' || $f != '..') {
-				$files[] = $f;
+	while ($file = readdir($dir)) {
+		if(is_file($path . $file)) {
+            if($file != '.' && $file != '..' && $file != 'blank.gif' && $file != 'index.html') {
+				$files[] = $file;
             }
 		}
 	}
@@ -339,13 +339,13 @@ function wfdownloads_sortCategories($pid = 0, $level = 0)
     $criteria->add(new Criteria("pid", $pid));
     $criteria->setSort("weight");
     $criteria->setOrder("ASC");
-    $subCategories = $wfdownloads->getHandler('category')->getObjects($criteria);
-    if (count($subCategories) > 0) {
+    $subCategoryObjs = $wfdownloads->getHandler('category')->getObjects($criteria);
+    if (count($subCategoryObjs) > 0) {
         ++$level;
-        foreach ($subCategories as $subCategory) {
-            $pid      = $subCategory->getVar('pid');
-            $cid      = $subCategory->getVar('cid');
-            $sorted[] = array('pid' => $pid, 'cid' => $cid, 'level' => $level, 'category' => $subCategory->toArray());
+        foreach ($subCategoryObjs as $subCategoryObj) {
+            $pid      = $subCategoryObj->getVar('pid');
+            $cid      = $subCategoryObj->getVar('cid');
+            $sorted[] = array('pid' => $pid, 'cid' => $cid, 'level' => $level, 'category' => $subCategoryObj->toArray());
             if ($subSorted = wfdownloads_sortCategories($cid, $level)) {
                 $sorted = array_merge($sorted, $subSorted);
             }
@@ -935,18 +935,18 @@ function wfdownloads_updateRating($lid)
 {
     $wfdownloads = WfdownloadsWfdownloads::getInstance();
 
-    $ratings       = $wfdownloads->getHandler('rating')->getObjects(new Criteria('lid', (int) $lid));
-    $ratings_count = count($ratings);
+    $ratingObjs       = $wfdownloads->getHandler('rating')->getObjects(new Criteria('lid', (int) $lid));
+    $ratings_count = count($ratingObjs);
     $totalRating   = 0;
-    foreach ($ratings as $rating) {
-        $totalRating += $rating->getVar('rating');
+    foreach ($ratingObjs as $ratingObj) {
+        $totalRating += $ratingObj->getVar('rating');
     }
     $averageRating = $totalRating / $ratings_count;
     $averageRating = number_format($averageRating, 4);
-    $download      = $wfdownloads->getHandler('download')->get($lid);
-    $download->setVar('rating', $averageRating);
-    $download->setVar('votes', $ratings_count);
-    $wfdownloads->getHandler('download')->insert($download);
+    $downloadObj      = $wfdownloads->getHandler('download')->get($lid);
+    $downloadObj->setVar('rating', $averageRating);
+    $downloadObj->setVar('votes', $ratings_count);
+    $wfdownloads->getHandler('download')->insert($downloadObj);
 }
 
 /**
@@ -1300,9 +1300,9 @@ function wfdownloads_allowedMimetypes($fileName, $isAdmin = true)
     } else {
         $criteria->add(new Criteria('mime_user', true));
     }
-    if ($mimetypes = $wfdownloads->getHandler('mimetype')->getObjects($criteria)) {
-        $mimetype  = $mimetypes[0];
-        $ret       = explode(' ', $mimetype->getVar('mime_types'));
+    if ($mimetypeObjs = $wfdownloads->getHandler('mimetype')->getObjects($criteria)) {
+        $mimetypeObj  = $mimetypeObjs[0];
+        $ret       = explode(' ', $mimetypeObj->getVar('mime_types'));
     } else {
         $ret = array();
     }
