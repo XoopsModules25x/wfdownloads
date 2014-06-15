@@ -446,7 +446,7 @@ class WfdownloadsDownload extends XoopsObject
 
         // Return if download has custom fields
         $download['has_custom_fields'] = (wfdownloads_checkModule('formulize') && $this->getVar('formulize_idreq'));
-        
+
         return $download;
     }
 
@@ -1149,6 +1149,8 @@ class WfdownloadsDownload extends XoopsObject
 
 // Formulize module support (2006/03/06, 2006/03/08) jpc - start
     /**
+     * @param $title
+     *
      * @return XoopsThemeForm
      */
     function getCategoryForm($title)
