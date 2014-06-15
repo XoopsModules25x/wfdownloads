@@ -17,6 +17,11 @@
  * @since           3.23
  * @author          Xoops Development Team
  * @version         svn:$id$
+ *
+ * @param $category
+ * @param $item_id
+ *
+ * @return null
  */
 function wfdownloads_notify_iteminfo($category, $item_id)
 {

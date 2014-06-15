@@ -40,6 +40,15 @@ class WfsLists
      *        Images
      *        files
      *        dir
+     *
+     * @param string $path
+     * @param null   $value
+     * @param string $selected
+     * @param int    $size
+     * @param int    $emptyselect
+     * @param int    $type
+     * @param string $prefix
+     * @param string $suffix
      */
 
     function __construct($path = "uploads", $value = null, $selected = '', $size = 1, $emptyselect = 0, $type = 0, $prefix = '', $suffix = '')
@@ -78,6 +87,8 @@ class WfsLists
 
     /**
      * Private to be called by other parts of the class
+     * @param $dirname
+     * @return array
      */
     function &getDirListAsArray($dirname)
     {

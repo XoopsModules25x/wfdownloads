@@ -175,6 +175,11 @@ function wfdownloads_makeDir($dir, $perm = 0777, $create_index = true)
     return null;
 }
 
+/**
+ * @param string $path
+ *
+ * @return array
+ */
 function wfdownloads_getFiles($path = '.')
 {
 $files = array();
@@ -1460,15 +1465,18 @@ function wfdownloads_download($filePath, $isBinary = true, $retBytes = true)
 // IN PROGRESS
 // IN PROGRESS
 /**
-* @author     Jack Mason
-* @website    volunteer @ http://www.osipage.com, web access application and bookmarking tool.
-* @copyright Free script, use anywhere as you like, no attribution required
-* @created    2014
-* The script is capable of downloading really large files in PHP. Files greater than 2GB may fail in 32-bit windows or similar system.
-* All incorrect headers have been removed and no nonsense code remains in this script. Should work well.
-* The best and most recommended way to download files with PHP is using xsendfile, learn
-* more here: https://tn123.org/mod_xsendfile/
-*/
+ * @author     Jack Mason
+ * @website    volunteer @ http://www.osipage.com, web access application and bookmarking tool.
+ * @copyright  Free script, use anywhere as you like, no attribution required
+ * @created    2014
+ * The script is capable of downloading really large files in PHP. Files greater than 2GB may fail in 32-bit windows or similar system.
+ * All incorrect headers have been removed and no nonsense code remains in this script. Should work well.
+ * The best and most recommended way to download files with PHP is using xsendfile, learn
+ * more here: https://tn123.org/mod_xsendfile/
+ *
+ * @param $filePath
+ * @param $fileMimetype
+ */
 function wfdownloads_largeDownload($filePath, $fileMimetype)
 {
     /* You may need these ini settings too */
