@@ -152,7 +152,7 @@ function wfdownloads_createLogo($dirname)
         }
     }
     // Check original image/font
-    if (!file_exists($imageBase = XOOPS_ROOT_PATH . "/modules/" . $dirname . "/assets/images/module_logo.png")) {
+    if (!file_exists($imageBase = XOOPS_ROOT_PATH . "/modules/" . $dirname . "/assets/images/module_logo_blank.png")) {
         return false;
     }
     if (!file_exists($font = XOOPS_ROOT_PATH . "/modules/" . $wfdownloads->getModule()->dirname() . "/assets/images/VeraBd.ttf")) {
