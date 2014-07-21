@@ -42,9 +42,9 @@ $modversion['onInstall']   = 'include/oninstall.php';
 $modversion['onUpdate']    = 'include/onupdate.php';
 $modversion['onUninstall'] = 'include/onuninstall.php';
 
-$modversion['date']         = '2014-06-13';
-$modversion['release_date'] = '2014/06/13';
-$modversion['releasedate']  = '2014-06-13';
+$modversion['date']         = '2014-07-21';
+$modversion['release_date'] = '2014/07/21';
+$modversion['releasedate']  = '2014-07-21';
 $modversion['status']       = 'RC2';
 $modversion['teammembers']  = "Bender, David, FrankBlack, Xpider, M0nty, Mithrandir, Marcan, felix[fx2024], Sudhaker, Jegelstaff";
 

@@ -84,12 +84,13 @@ $xoopsTpl->assign('category_cid', $cid);
 
 // Retreiving the top parent category
 if (!isset($_GET['list']) && !isset($_GET['selectdate'])) {
-    $allSubcatsTopParentCid = $wfdownloads->getHandler('category')->getAllSubcatsTopParentCid();
-    $topCategory            = $wfdownloads->getHandler('category')->allCategories[$allSubcatsTopParentCid[$cid]];
-    $xoopsTpl->assign('topcategory_title', $topCategory->getVar('title'));
-    $xoopsTpl->assign('topcategory_image', $topCategory->getVar('imgurl')); // this definition is not removed for backward compatibility issues
-    $xoopsTpl->assign('topcategory_image_URL', $topCategory->getVar('imgurl'));
-    $xoopsTpl->assign('topcategory_cid', $topCategory->getVar('cid'));
+    $categoriesTopParentByCid = $wfdownloads->getHandler('category')->getAllSubcatsTopParentCid();
+    $topCategoryObj = $wfdownloads->getHandler('category')->get($categoriesTopParentByCid[$cid]);
+
+    $xoopsTpl->assign('topcategory_title', $topCategoryObj->getVar('title'));
+    $xoopsTpl->assign('topcategory_image', $topCategoryObj->getVar('imgurl')); // this definition is not removed for backward compatibility issues
+    $xoopsTpl->assign('topcategory_image_URL', $topCategoryObj->getVar('imgurl'));
+    $xoopsTpl->assign('topcategory_cid', $topCategoryObj->getVar('cid'));
 }
 
 // Formulize module support (2006/05/04) jpc - start
@@ -117,12 +118,12 @@ $criteria = new CriteriaCompo();
 $criteria->setSort('weight ASC, title');
 $categoryObjs = $wfdownloads->getHandler('category')->getObjects($criteria, true);
 include_once XOOPS_ROOT_PATH . '/class/tree.php';
-$categoriesTree = new XoopsObjectTree($categoryObjs, 'cid', 'pid');
+$categoryObjsTree = new XoopsObjectTree($categoryObjs, 'cid', 'pid');
 
 // Breadcrumb
 $breadcrumb = new WfdownloadsBreadcrumb();
 $breadcrumb->addLink($wfdownloads->getModule()->getVar('name'), WFDOWNLOADS_URL);
-foreach (array_reverse($categoriesTree->getAllParent($cid)) as $parentCategory) {
+foreach (array_reverse($categoryObjsTree->getAllParent($cid)) as $parentCategory) {
     $breadcrumb->addLink($parentCategory->getVar('title'), 'viewcat.php?cid=' . $parentCategory->getVar('cid'));
 }
 if ($categoryObj->getVar('title') != '') {
@@ -134,7 +135,7 @@ if (isset($_GET['list'])) {
 $xoopsTpl->assign('wfdownloads_breadcrumb', $breadcrumb->render());
 
 // Display Subcategories for selected Category
-$allSubCategoryObjs = $categoriesTree->getFirstChild($cid);
+$allSubCategoryObjs = $categoryObjsTree->getFirstChild($cid);
 
 if (is_array($allSubCategoryObjs) > 0 && !isset($_GET['list']) && !isset($_GET['selectdate'])) {
     $listings = wfdownloads_getTotalDownloads($allowedDownCategoriesIds);
@@ -148,7 +149,7 @@ if (is_array($allSubCategoryObjs) > 0 && !isset($_GET['list']) && !isset($_GET['
 
         $infercategories  = array();
         $catdowncount     = isset($listings['count'][$subCategoryObj->getVar('cid')]) ? $listings['count'][$subCategoryObj->getVar('cid')] : 0;
-        $subsubCategoryObjs = $categoriesTree->getAllChild($subCategoryObj->getVar('cid'));
+        $subsubCategoryObjs = $categoryObjsTree->getAllChild($subCategoryObj->getVar('cid'));
 
         // ----- added for subcat images -----
         if (($subCategoryObj->getVar('imgurl') != '')
