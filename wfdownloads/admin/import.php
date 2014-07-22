@@ -410,9 +410,9 @@ function import_wfd_to_wfdownloads()
 
     //Import data into brokens table
     $sql = "INSERT INTO {$destination['broken']} (";
-    $sql .= " `lid`, `sender`, `ip`";
+    $sql .= " `lid`, `sender`, `date`, `ip`";
     $sql .= " ) SELECT";
-    $sql .= " `lid`, `sender`, `ip`";
+    $sql .= " `lid`, `sender`, `date`, `ip`";
     $sql .= " FROM {$source['broken']}";
     $xoopsDB->query($sql);
     echo "Imported {$xoopsDB->getAffectedRows()} broken reports into {$destination['broken']}<br />";

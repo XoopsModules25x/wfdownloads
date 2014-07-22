@@ -402,7 +402,7 @@ function wfdownloads_lettersChoice()
     $letterschoiceTpl          = new XoopsTpl();
     $letterschoiceTpl->caching = false; // Disable cache
     $letterschoiceTpl->assign('alphabet', $alphabet_array);
-    $html = $letterschoiceTpl->fetch("db:" . $wfdownloads->getModule()->dirname() . "_common_letterschoice.tpl");
+    $html = $letterschoiceTpl->fetch("db:" . $wfdownloads->getModule()->dirname() . "_co_letterschoice.tpl");
     unset($letterschoiceTpl);
 
     return $html;
@@ -1879,13 +1879,9 @@ function wfdownloads_swishe_search($search_query)
                 if ($obj_info->obj_id > 0) {
                     // Permissions required to view this object:
                     // BROWSE, READONLY, EDIT, OWNER
-                    if ($dms_admin_flag == 0) {
-                        $perms_level = dms_perms_level($obj_info->obj_id);
-                    } else {
-                        $perms_level = 4;
-                    }
+                    $permissionLevel = 4; // OWNER IN PROGRESS
                     if ($obj_info->obj_status < 2) {
-                        if (($perms_level == 1) || ($perms_level == 2) || ($perms_level == 3) || ($perms_level == 4)) {
+                        if (($permissionLevel == 1) || ($permissionLevel == 2) || ($permissionLevel == 3) || ($permissionLevel == 4)) {
                             $misc_text = $obj_info->misc_text;
                             if (strlen($misc_text) > 0) {
                                 $misc_text = "&nbsp;&nbsp;&nbsp;(" . $misc_text . ")";

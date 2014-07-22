@@ -841,7 +841,7 @@ switch ($op) {
             }
         }
 
-        $GLOBALS['xoopsTpl']->display("db:{$wfdownloads->getModule()->dirname()}_admin_downloadslist.tpl");
+        $GLOBALS['xoopsTpl']->display("db:{$wfdownloads->getModule()->dirname()}_am_downloadslist.tpl");
 
         include 'admin_footer.php';
         break;
@@ -982,7 +982,7 @@ switch ($op) {
             }
         }
 
-        $GLOBALS['xoopsTpl']->display("db:{$wfdownloads->getModule()->dirname()}_admin_ip_logslist.tpl");
+        $GLOBALS['xoopsTpl']->display("db:{$wfdownloads->getModule()->dirname()}_am_ip_logslist.tpl");
 
         include 'admin_footer.php';
         break;

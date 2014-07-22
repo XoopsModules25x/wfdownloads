@@ -42,16 +42,16 @@ $modversion['onInstall']   = 'include/oninstall.php';
 $modversion['onUpdate']    = 'include/onupdate.php';
 $modversion['onUninstall'] = 'include/onuninstall.php';
 
-$modversion['date']         = '2014-07-21';
-$modversion['release_date'] = '2014/07/21';
-$modversion['releasedate']  = '2014-07-21';
+$modversion['date']         = '2014-07-22';
+$modversion['release_date'] = '2014/07/22';
+$modversion['releasedate']  = '2014-07-22';
 $modversion['status']       = 'RC2';
 $modversion['teammembers']  = "Bender, David, FrankBlack, Xpider, M0nty, Mithrandir, Marcan, felix[fx2024], Sudhaker, Jegelstaff";
 
 // About
 $modversion["module_website_url"]  = "http://www.xoops.org/";
 $modversion["module_website_name"] = "XOOPS";
-$modversion["module_status"]       = "RC1";
+$modversion["module_status"]       = "RC2";
 $modversion['min_php']             = '5.3.7';
 $modversion['min_xoops']           = '2.5.7';
 $modversion['min_admin']           = '1.1';
@@ -189,7 +189,7 @@ $modversion['blocks'][$i]['description'] = "Shows recently added download files"
 $modversion['blocks'][$i]['show_func']   = $modversion['dirname'] . "_top_show";
 $modversion['blocks'][$i]['edit_func']   = $modversion['dirname'] . "_top_edit";
 $modversion['blocks'][$i]['options']     = "published|10|19";
-$modversion['blocks'][$i]['template']    = $modversion['dirname'] . "_block_new.tpl";
+$modversion['blocks'][$i]['template']    = $modversion['dirname'] . "_mb_new.tpl";
 ++$i;
 $modversion['blocks'][$i]['file']        = "top.php";
 $modversion['blocks'][$i]['name']        = _MI_WFDOWNLOADS_BNAME2;
@@ -197,7 +197,7 @@ $modversion['blocks'][$i]['description'] = "Shows most downloaded files";
 $modversion['blocks'][$i]['show_func']   = $modversion['dirname'] . "_top_show";
 $modversion['blocks'][$i]['edit_func']   = $modversion['dirname'] . "_top_edit";
 $modversion['blocks'][$i]['options']     = "hits|10|19";
-$modversion['blocks'][$i]['template']    = $modversion['dirname'] . "_block_top.tpl";
+$modversion['blocks'][$i]['template']    = $modversion['dirname'] . "_mb_top.tpl";
 ++$i;
 $modversion['blocks'][$i]['file']        = "top_by_cat.php";
 $modversion['blocks'][$i]['name']        = _MI_WFDOWNLOADS_BNAME3;
@@ -205,7 +205,7 @@ $modversion['blocks'][$i]['description'] = "Shows most downloaded files by top c
 $modversion['blocks'][$i]['show_func']   = $modversion['dirname'] . "_top_by_cat_show";
 $modversion['blocks'][$i]['edit_func']   = $modversion['dirname'] . "_top_by_cat_edit";
 $modversion['blocks'][$i]['options']     = "hits|10|19";
-$modversion['blocks'][$i]['template']    = $modversion['dirname'] . "_block_top_by_cat.tpl";
+$modversion['blocks'][$i]['template']    = $modversion['dirname'] . "_mb_top_by_cat.tpl";
 
 // Comments
 $modversion['hasComments']             = true;
@@ -263,48 +263,48 @@ $modversion['templates'][$i]['description'] = '';
 
 // Admin templates
 ++$i;
-$modversion['templates'][$i]['file']        = $modversion['dirname'] . '_admin_categorieslist.tpl';
+$modversion['templates'][$i]['file']        = $modversion['dirname'] . '_am_categorieslist.tpl';
 $modversion['templates'][$i]['type']        = 'admin';
 $modversion['templates'][$i]['description'] = '';
 ++$i;
-$modversion['templates'][$i]['file']        = $modversion['dirname'] . '_admin_downloadslist.tpl';
+$modversion['templates'][$i]['file']        = $modversion['dirname'] . '_am_downloadslist.tpl';
 $modversion['templates'][$i]['type']        = 'admin';
 $modversion['templates'][$i]['description'] = '';
 ++$i;
-$modversion['templates'][$i]['file']        = $modversion['dirname'] . '_admin_ip_logslist.tpl';
+$modversion['templates'][$i]['file']        = $modversion['dirname'] . '_am_ip_logslist.tpl';
 $modversion['templates'][$i]['type']        = 'admin';
 $modversion['templates'][$i]['description'] = '';
 ++$i;
-$modversion['templates'][$i]['file']        = $modversion['dirname'] . '_admin_reportsmodificationslist.tpl';
+$modversion['templates'][$i]['file']        = $modversion['dirname'] . '_am_reportsmodificationslist.tpl';
 $modversion['templates'][$i]['type']        = 'admin';
 $modversion['templates'][$i]['description'] = '';
 ++$i;
-$modversion['templates'][$i]['file']        = $modversion['dirname'] . '_admin_ratingslist.tpl';
+$modversion['templates'][$i]['file']        = $modversion['dirname'] . '_am_ratingslist.tpl';
 $modversion['templates'][$i]['type']        = 'admin';
 $modversion['templates'][$i]['description'] = '';
 ++$i;
-$modversion['templates'][$i]['file']        = $modversion['dirname'] . '_admin_reviewslist.tpl';
+$modversion['templates'][$i]['file']        = $modversion['dirname'] . '_am_reviewslist.tpl';
 $modversion['templates'][$i]['type']        = 'admin';
 $modversion['templates'][$i]['description'] = '';
 ++$i;
-$modversion['templates'][$i]['file']        = $modversion['dirname'] . '_admin_mirrorslist.tpl';
+$modversion['templates'][$i]['file']        = $modversion['dirname'] . '_am_mirrorslist.tpl';
 $modversion['templates'][$i]['type']        = 'admin';
 $modversion['templates'][$i]['description'] = '';
 ++$i;
-$modversion['templates'][$i]['file']        = $modversion['dirname'] . '_admin_mimetypeslist.tpl';
+$modversion['templates'][$i]['file']        = $modversion['dirname'] . '_am_mimetypeslist.tpl';
 $modversion['templates'][$i]['type']        = 'admin';
 $modversion['templates'][$i]['description'] = '';
 ++$i;
-$modversion['templates'][$i]['file']        = $modversion['dirname'] . '_admin_permissions.tpl';
+$modversion['templates'][$i]['file']        = $modversion['dirname'] . '_am_permissions.tpl';
 $modversion['templates'][$i]['type']        = 'admin';
 $modversion['templates'][$i]['description'] = '';
 
 // Common templates
 ++$i;
-$modversion['templates'][$i]['file']        = $modversion['dirname'] . '_common_breadcrumb.tpl';
+$modversion['templates'][$i]['file']        = $modversion['dirname'] . '_co_breadcrumb.tpl';
 $modversion['templates'][$i]['description'] = '';
 ++$i;
-$modversion['templates'][$i]['file']        = $modversion['dirname'] . '_common_letterschoice.tpl';
+$modversion['templates'][$i]['file']        = $modversion['dirname'] . '_co_letterschoice.tpl';
 $modversion['templates'][$i]['description'] = '';
 
 // Module config setting

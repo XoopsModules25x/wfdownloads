@@ -257,7 +257,7 @@ switch ($op) {
             $sorted_categories = wfdownloads_sortCategories();
             $GLOBALS['xoopsTpl']->assign('sorted_categories', $sorted_categories);
             $GLOBALS['xoopsTpl']->assign('token', $GLOBALS['xoopsSecurity']->getTokenHTML() );
-            $GLOBALS['xoopsTpl']->display("db:{$wfdownloads->getModule()->dirname()}_admin_categorieslist.tpl");
+            $GLOBALS['xoopsTpl']->display("db:{$wfdownloads->getModule()->dirname()}_am_categorieslist.tpl");
         } else {
             redirect_header("{$currentFile}?op=category.add", 1, _AM_WFDOWNLOADS_CCATEGORY_NOEXISTS);
         }

@@ -38,6 +38,10 @@ if (@$_POST['op'] == 'submit') {
     if ($cloneDirname && is_dir(XOOPS_ROOT_PATH . '/modules/' . $cloneDirname)) {
         redirect_header($currentFile, 3, sprintf(_AM_WFDOWNLOADS_CLONE_EXISTS, $cloneDirname));
     }
+    // Check dirname length for template file name length issues (template file name cannot be longer than 50 chars)
+    if (strlen($cloneDirname) > 18) {
+        redirect_header($currentFile, 3, sprintf(_AM_WFDOWNLOADS_CLONE_TOOLONG, $cloneDirname));
+    }
 
     $patterns = array(
         strtolower(WFDOWNLOADS_DIRNAME)          => strtolower($cloneDirname),
@@ -79,7 +83,7 @@ if (@$_POST['op'] == 'submit') {
         _AM_WFDOWNLOADS_CLONE_TITLE,
         $wfdownloads->getModule()->getVar('name', 'E')
     ), 'clone', $currentFile, 'post', true);
-    $cloneDirname_text = new XoopsFormText(_AM_WFDOWNLOADS_CLONE_NAME, 'clonedirname', 20, 20, '');
+    $cloneDirname_text = new XoopsFormText(_AM_WFDOWNLOADS_CLONE_NAME, 'clonedirname', 18, 18, '');
     $cloneDirname_text->setDescription(_AM_WFDOWNLOADS_CLONE_NAME_DSC);
     $form->addElement($cloneDirname_text, true);
     $form->addElement(new XoopsFormHidden('op', 'submit'));

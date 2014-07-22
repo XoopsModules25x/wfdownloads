@@ -202,7 +202,7 @@ switch ($op) {
         $xoopsTpl->assign('use_reviews', $wfdownloads->getConfig('enable_reviews'));
         $xoopsTpl->assign('use_brokenreports', $wfdownloads->getConfig('enable_brokenreports'));
 
-        $GLOBALS['xoopsTpl']->display("db:{$wfdownloads->getModule()->dirname()}_admin_reviewslist.tpl");
+        $GLOBALS['xoopsTpl']->display("db:{$wfdownloads->getModule()->dirname()}_am_reviewslist.tpl");
 
         include 'admin_footer.php';
         break;

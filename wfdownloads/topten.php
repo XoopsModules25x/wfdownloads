@@ -55,8 +55,8 @@ $arr = array();
 
 $categoryObjs = $wfdownloads->getHandler('category')->getObjects();
 
-$categoriesTree       = new XoopsObjectTree($categoryObjs, 'cid', 'pid');
-$mainCategoryObjs       = $categoriesTree->getFirstChild(0);
+$categoryObjsTree = new XoopsObjectTree($categoryObjs, 'cid', 'pid');
+$mainCategoryObjs = $categoryObjsTree->getFirstChild(0);
 $allowedCategoriesIds = $gperm_handler->getItemIds('WFDownCatPerm', $groups, $wfdownloads->getModule()->mid());
 
 $e        = 0;
@@ -64,7 +64,7 @@ $rankings = array();
 foreach ($mainCategoryObjs as $mainCategoryObj) {
     $cid = (int) $mainCategoryObj->getVar('cid');
     if (in_array($cid, $allowedCategoriesIds)) {
-        $allSubCategoryObjs = $categoriesTree->getAllChild($cid);
+        $allSubCategoryObjs = $categoryObjsTree->getAllChild($cid);
         $cids = array(); //initialise array
         if (count($allSubCategoryObjs) > 0) {
             foreach ($allSubCategoryObjs as $allSubCategoryObj) {
@@ -85,24 +85,22 @@ foreach ($mainCategoryObjs as $mainCategoryObj) {
             $rank                  = 1;
 
             foreach (array_keys($downloadObjs) as $k) {
-                $parent_cat_titles = array();
-                $cats              = $categoriesTree->getAllParent($downloadObjs[$k]->getVar('cid'));
-                if (count($cats) > 0) {
-                    foreach (array_keys($cats) as $j) {
-                        $parent_cat_titles[] = $cats[$j]->getVar('title');
+                $parentCategory_titles = array();
+                $parentCategoryObjs = $categoryObjsTree->getAllParent($downloadObjs[$k]->getVar('cid'));
+                if (count($parentCategoryObjs) > 0) {
+                    foreach ($parentCategoryObjs as $parentCategoryObj) {
+                        $parentCategory_titles[] = $parentCategoryObj->getVar('title');
                     }
                 }
-                $thiscat             = $categoriesTree->getByKey($downloadObjs[$k]->getVar('cid'));
-                $parent_cat_titles[] = $thiscat->getVar('title');
-
-                $catpath = implode('/', $parent_cat_titles);
+                $thisCategoryObj = $categoryObjsTree->getByKey($downloadObjs[$k]->getVar('cid'));
+                $parentCategory_titles[] = $thisCategoryObj->getVar('title');
 
                 $rankings[$e]['file'][] = array(
                     'id'       => (int) $downloadObjs[$k]->getVar('lid'),
                     'cid'      => (int) $downloadObjs[$k]->getVar('cid'),
                     'rank'     => $rank,
                     'title'    => $downloadObjs[$k]->getVar('title'),
-                    'category' => $catpath,
+                    'category' => implode('/', $parentCategory_titles),
                     'hits'     => $downloadObjs[$k]->getVar('hits'),
                     'rating'   => number_format($downloadObjs[$k]->getVar('rating'), 2),
                     'votes'    => $downloadObjs[$k]->getVar('votes')

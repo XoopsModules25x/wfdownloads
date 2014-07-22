@@ -123,8 +123,8 @@ $categoryObjsTree = new XoopsObjectTree($categoryObjs, 'cid', 'pid');
 // Breadcrumb
 $breadcrumb = new WfdownloadsBreadcrumb();
 $breadcrumb->addLink($wfdownloads->getModule()->getVar('name'), WFDOWNLOADS_URL);
-foreach (array_reverse($categoryObjsTree->getAllParent($cid)) as $parentCategory) {
-    $breadcrumb->addLink($parentCategory->getVar('title'), 'viewcat.php?cid=' . $parentCategory->getVar('cid'));
+foreach (array_reverse($categoryObjsTree->getAllParent($cid)) as $parentCategoryObj) {
+    $breadcrumb->addLink($parentCategoryObj->getVar('title'), 'viewcat.php?cid=' . $parentCategoryObj->getVar('cid'));
 }
 if ($categoryObj->getVar('title') != '') {
     $breadcrumb->addLink($categoryObj->getVar('title'), '');
