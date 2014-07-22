@@ -290,7 +290,7 @@ function import_wfd_to_wfdownloads()
     $countCopied = 0;
     $countNotCopied = 0;
     foreach($wfdDownloadObjs as $wfdDownloadObj) {
-        if (wfdownloads_copyFile($wfdModuleConfig['uploaddir'] . "/" . $wfdDownloadObj->getVar('filename'), $archiviodocumenti->getConfig('uploaddir') . "/" . $wfdDownloadObj->getVar('filename'))) {
+        if (wfdownloads_copyFile($wfdModuleConfig['uploaddir'] . "/" . $wfdDownloadObj->getVar('filename'), $wfdownloads->getConfig('uploaddir') . "/" . $wfdDownloadObj->getVar('filename'))) {
             echo "<span style='color:green;'>" . $wfdModuleConfig['uploaddir'] . "/" . $wfdDownloadObj->getVar('filename') . " copied</span><br />";
             ++$countCopied;
         } else {
