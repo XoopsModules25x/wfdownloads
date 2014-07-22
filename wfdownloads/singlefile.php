@@ -91,11 +91,12 @@ $xoopsTpl->assign('category_title', $categoryObj->getVar('title'));
 $xoopsTpl->assign('category_image', $imgurl);
 
 // Retreiving the top parent category
-$allSubcatsTopParentCid = $wfdownloads->getHandler('category')->getAllSubcatsTopParentCid();
-$topCategory            = $wfdownloads->getHandler('category')->allCategories[$allSubcatsTopParentCid[$downloadObj->getVar('cid')]];
-$xoopsTpl->assign('topcategory_title', $topCategory->getVar('title'));
-$xoopsTpl->assign('topcategory_image', $topCategory->getVar('imgurl'));
-$xoopsTpl->assign('topcategory_cid', $topCategory->getVar('cid'));
+$categoriesTopParentByCid = $wfdownloads->getHandler('category')->getAllSubcatsTopParentCid();
+$topCategoryObj = $wfdownloads->getHandler('category')->get($categoriesTopParentByCid[$cid]);
+
+$xoopsTpl->assign('topcategory_title', $topCategoryObj->getVar('title'));
+$xoopsTpl->assign('topcategory_image', $topCategoryObj->getVar('imgurl'));
+$xoopsTpl->assign('topcategory_cid', $topCategoryObj->getVar('cid'));
 
 // Formulize module support (2006/03/06, 2006/03/08) jpc - start
 $formulize_idreq = $downloadObj->getVar('formulize_idreq');

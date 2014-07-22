@@ -218,7 +218,7 @@ switch ($op) {
         $GLOBALS['xoopsTpl']->assign('allowAdminMimetypes', $allowAdminMimetypes);
         $GLOBALS['xoopsTpl']->assign('allowUserMimetypes', $allowUserMimetypes);
 
-        $GLOBALS['xoopsTpl']->display("db:{$wfdownloads->getModule()->dirname()}_admin_mimetypeslist.tpl");
+        $GLOBALS['xoopsTpl']->display("db:{$wfdownloads->getModule()->dirname()}_am_mimetypeslist.tpl");
 
         include 'admin_footer.php';
         break;

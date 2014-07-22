@@ -70,7 +70,8 @@ function wfdownloads_top_by_cat_show($options)
         $block['downloads'][] = $download;
     }
 
-    $allsubcats_linked_totop = $wfdownloads->getHandler('category')->getAllSubcatsTopParentCid();
+
+    $categoriesTopParentByCid = $wfdownloads->getHandler('category')->getAllSubcatsTopParentCid();
 
     foreach ($wfdownloads->getHandler('category')->topCategories as $cid) {
         $block['topcats'][$cid]['title']  = $wfdownloads->getHandler('category')->allCategories[$cid]->getVar('title');
@@ -78,9 +79,8 @@ function wfdownloads_top_by_cat_show($options)
         $block['topcats'][$cid]['imgurl'] = $wfdownloads->getHandler('category')->allCategories[$cid]->getVar('imgurl');
     }
 
-//mb    foreach ($block['downloads'] as $key => $value) {
     foreach ($block['downloads'] as $value) {
-        $block['topcats'][$allsubcats_linked_totop[$value['cid']]]['downloads'][] = $value;
+        $block['topcats'][$categoriesTopParentByCid[$value['cid']]]['downloads'][] = $value;
     }
 
     return $block;

@@ -317,7 +317,7 @@ switch ($op) {
         if (wfdownloads_checkModule('formulize')) {
             // Now that the $downloadObj object has been instantiated, handle the Formulize part of the submission...
             $categoryObj = $wfdownloads->getHandler('category')->get($cid);
-            $fid      = $categoryObj->getVar('formulize_fid');
+            $fid = $categoryObj->getVar('formulize_fid');
             if ($fid) {
                 include_once XOOPS_ROOT_PATH . "/modules/formulize/include/formread.php";
                 include_once XOOPS_ROOT_PATH . "/modules/formulize/include/functions.php";
@@ -418,7 +418,7 @@ switch ($op) {
         $downloadObj->setVar('price', trim($_POST['price']));
         $downloadObj->setVar('mirror', isset($_POST['mirror']) ? trim($_POST['mirror']) : '');
         $downloadObj->setVar('license', trim($_POST['license']));
-        $paypalemail = '';
+        $paypalEmail = '';
         $downloadObj->setVar('features', trim($_POST['features']));
         $downloadObj->setVar('requirements', trim($_POST['requirements']));
         $forumid = (isset($_POST['forumid']) && $_POST["forumid"] > 0) ? (int) $_POST['forumid'] : 0;
