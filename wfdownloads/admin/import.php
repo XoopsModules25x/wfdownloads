@@ -302,7 +302,7 @@ function import_wfd_to_wfdownloads()
     echo "<br />";
     echo "Files not copied: ". $countNotCopied;
     echo "<br />";
-    echo _AM_ARCHIVIODOCUMENTI_IMPORT_IMPORTINGDATA;
+    echo _AM_WFDOWNLOADS_IMPORT_IMPORTINGDATA;
     echo "<br />";
 
     $destination = array(

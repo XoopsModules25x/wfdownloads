@@ -273,12 +273,21 @@ define('_MI_WFDOWNLOADS_MIRROR_ALLOWSUBMISS', "[mirrors] User mirror submissions
 define('_MI_WFDOWNLOADS_MIRROR_ALLOWSUBMISSDSC', "Allow users to submit new mirrors.");
 define('_MI_WFDOWNLOADS_MIRROR_MIRRORIMAGES', "[mirrors] Mirror logo upload directory"); // not implemented yet
 define('_MI_WFDOWNLOADS_MIRROR_MIRRORIMAGESDSC', "Mirror logo upload directory."); // not implemented yet
+
+
+
 // 3.21
 define('_MI_WFDOWNLOADS_DB_IMPORT', "Import");
 define('_MI_WFDOWNLOADS_HELP', "Help");
+
+
+
 // 3.22
 define('_MI_WFDOWNLOADS_EDITOR', "[editor] Text editor");
 define('_MI_WFDOWNLOADS_EDITORCHOICE', "Editor for File Summary and Download fields");
+
+
+
 // 3.23
 define('_MI_WFDOWNLOADS_SUBCATSSORTBY', "Sort subcategories by");
 define('_MI_WFDOWNLOADS_SUBCATSSORTBYDSC', "");
@@ -289,11 +298,12 @@ define('_MI_WFDOWNLOADS_SUBCATSSORTBYWEIGHT', "Category weight");
 define('_MI_WFDOWNLOADS_MENU_HOME', "Home");
 define('_MI_WFDOWNLOADS_MENU_CATEGORIES', "Categories");
 define('_MI_WFDOWNLOADS_MENU_DOWNLOADS', "Downloads");
-define('_MI_WFDOWNLOADS_MENU_INDEXPAGE', "Index page");
 define('_MI_WFDOWNLOADS_MENU_REVIEWS', "Reviews");
 define('_MI_WFDOWNLOADS_MENU_MIRRORS', "Mirrors");
 define('_MI_WFDOWNLOADS_MENU_BROKENS', "Brokens");
 define('_MI_WFDOWNLOADS_MENU_REPORTSMODIFICATIONS', "Broken & Modified");
+define('_MI_WFDOWNLOADS_MENU_INDEXPAGE', "Index page");
+define('_MI_WFDOWNLOADS_MENU_SWISHE', "Swish-e config");
 define('_MI_WFDOWNLOADS_MENU_IMAGES', "Images");
 define('_MI_WFDOWNLOADS_MENU_MIMETYPES', "MIME types");
 define('_MI_WFDOWNLOADS_MENU_RATINGS', "Ratings & Votes");
@@ -352,3 +362,13 @@ define('_MI_WFDOWNLOADS_HELP_UPDATE3', "Updates from 3.10+<br />(IN PROGRESS)");
 
 define('_MI_WFDOWNLOADS_BATCHDIR', "[upload files] Batch directory");
 define('_MI_WFDOWNLOADS_BATCHDIRDSC', "Batch directory *MUST* be an absolute path! <br />No trailing slash.");
+
+define('_MI_WFDOWNLOADS_SWISHE_CONFIGS', "Swish-e preferences");
+define('_MI_WFDOWNLOADS_SWISHE_CONFIGSDSC', "");
+define('_MI_WFDOWNLOADS_SWISHE_ENABLE', "[Swish-e] Enable Swish-e searching system");
+define('_MI_WFDOWNLOADS_SWISHE_ENABLEDSC', "IN PROGRESS");
+define('_MI_WFDOWNLOADS_SWISHE_EXEPATH', "[Swish-e] Swish-e executable path");
+define('_MI_WFDOWNLOADS_SWISHE_EXEPATHDSC', "IN PROGRESS");
+define('_MI_WFDOWNLOADS_SWISHE_SEARCHLIMIT', "[Swish-e] Swish-e max results");
+define('_MI_WFDOWNLOADS_SWISHE_SEARCHLIMITDSC', "While searching, this specifies the maximum number of results to return. '0' is to return all results.");
+
