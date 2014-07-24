@@ -42,9 +42,9 @@ $modversion['onInstall']   = 'include/oninstall.php';
 $modversion['onUpdate']    = 'include/onupdate.php';
 $modversion['onUninstall'] = 'include/onuninstall.php';
 
-$modversion['date']         = '2014-07-22';
-$modversion['release_date'] = '2014/07/22';
-$modversion['releasedate']  = '2014-07-22';
+$modversion['date']         = '2014-07-24';
+$modversion['release_date'] = '2014/07/24';
+$modversion['releasedate']  = '2014-07-24';
 $modversion['status']       = 'RC2';
 $modversion['teammembers']  = "Bender, David, FrankBlack, Xpider, M0nty, Mithrandir, Marcan, felix[fx2024], Sudhaker, Jegelstaff";
 
@@ -979,55 +979,45 @@ $modversion['config'][] = array(
     'default'     => 'None|Alpha|Beta|RC|Final'
 );
 
-/* // Not completed yet
+/*
+// Swish-e support EXPERIMENTAL
+// Swish-e configs
 $modversion['config'][] = array(
-    'name'          => 'mirrorimage',
-    'title'         => '_MI_WFDOWNLOADS_MIRROR_USEIMAGES',
-    'description'   => '_MI_WFDOWNLOADS_MIRROR_USEIMAGESDSCDSC',
-    'formtype'      => 'yesno',
-    'valuetype'     => 'int',
-    'default'       => true);
+    'name'        => 'swishe_configs',
+    'title'       => '_MI_WFDOWNLOADS_SWISHE_CONFIGS',
+    'description' => '_MI_WFDOWNLOADS_SWISHE_CONFIGSDSC',
+    'formtype'    => 'line_break',
+    'valuetype'   => 'textbox',
+    'default'     => 'head'
+);
 
 $modversion['config'][] = array(
-    'name'          => 'mirror_imgwidth',
-    'title'         => '_MI_WFDOWNLOADS_MIRROR_IMGWIDTH',
-    'description'   => '_MI_WFDOWNLOADS_MIRROR_IMGWIDTHDSC',
-    'formtype'      => 'textbox',
-    'valuetype'     => 'int',
-    'default'       => 64);
+    'name'        => 'enable_swishe',
+    'title'       => '_MI_WFDOWNLOADS_SWISHE_ENABLE',
+    'description' => '_MI_WFDOWNLOADS_SWISHE_ENABLEDSC',
+    'formtype'    => 'yesno',
+    'valuetype'   => 'int',
+    'default'     => false
+);
 
 $modversion['config'][] = array(
-    'name'          => 'mirror_imgheight',
-    'title'         => '_MI_WFDOWNLOADS_MIRROR_IMGHEIGHT',
-    'description'   => '_MI_WFDOWNLOADS_MIRROR_IMGHEIGHTDSC',
-    'formtype'      => 'textbox',
-    'valuetype'     => 'int',
-    'default'       => 48);
+    'name'        => 'swishe_exe_path',
+    'title'       => '_MI_WFDOWNLOADS_SWISHE_EXEPATH',
+    'description' => '_MI_WFDOWNLOADS_SWISHE_EXEPATHDSC',
+    'formtype'    => 'textbox',
+    'valuetype'   => 'text',
+    'default'     => XOOPS_ROOT_PATH . '/uploads/' . $modversion['dirname'] . '/swishe'
+);
 
 $modversion['config'][] = array(
-    'name'          => 'mirror_maximgwidth',
-    'title'         => '_MI_WFDOWNLOADS_MIRROR_MAXIMGWIDTH',
-    'description'   => '_MI_WFDOWNLOADS_MIRROR_MAXIMGWIDTHDSC',
-    'formtype'      => 'textbox',
-    'valuetype'     => 'int',
-    'default'       => 64);
-
-$modversion['config'][] = array(
-    'name'          => 'mirror_maximgheight',
-    'title'         => '_MI_WFDOWNLOADS_MIRROR_MAXIMGHEIGHT',
-    'description'   => '_MI_WFDOWNLOADS_MIRROR_MAXIMGHEIGHTDSC',
-    'formtype'      => 'textbox',
-    'valuetype'     => 'int',
-    'default'       => 48);
-
-$modversion['config'][] = array(
-    'name'          => 'mirrorimages',
-    'title'         => '_MI_WFDOWNLOADS_MIRROR_IMAGES',
-    'description'   => '_MI_WFDOWNLOADS_MIRROR_IMAGESDSC',
-    'formtype'      => 'textbox',
-    'valuetype'     => 'text',
-    'default'       => 'uploads/' . $modversion['dirname'] . '/images/mirrorimages');
-
+    'name'        => 'swishe_search_limit',
+    'title'       => '_MI_WFDOWNLOADS_SWISHE_SEARCHLIMIT',
+    'description' => '_MI_WFDOWNLOADS_SWISHE_SEARCHLIMITDSC',
+    'formtype'    => 'textbox',
+    'valuetype'   => 'int',
+    'default'     => 0
+);
+// Swish-e support EXPERIMENTAL
 */
 
 // Notification

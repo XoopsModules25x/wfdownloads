@@ -124,7 +124,7 @@ of the results is returned.  If OR is in effect, then all results are returned.
             }
         }
 
-        $downloads = array();
+        $downloadObjs = array();
         // Loop through all query terms
         for ($i = 0; $i < $queryArray_count; ++$i) {
             // Make a copy of the $criteria for use with this term only
@@ -199,7 +199,7 @@ of the results is returned.  If OR is in effect, then all results are returned.
             // Make an array of the downloads based on the lid, and a separate list of all the lids found (the separate list is used in the case of an AND operator to derive an intersection of the hits across all search terms -- and it is used to determine the start and limit points of the main results array for an OR query)
             $downloads_lids = array();
             foreach ($tempDownloadObjs as $tempDownloadObj) {
-                $downloads[(int) $tempDownloadObj->getVar('lid')] = $tempDownloadObj;
+                $downloadObjs[(int) $tempDownloadObj->getVar('lid')] = $tempDownloadObj;
                 $downloads_lids[]                             = (int) $tempDownloadObj->getVar('lid');
             }
 
@@ -218,11 +218,11 @@ of the results is returned.  If OR is in effect, then all results are returned.
         } // end of for loop through query terms
     } // end of if there are query terms
 
-    // If an AND operator was used, cull the $downloads array based on the intersection found
+    // If an AND operator was used, cull the $downloadObjs array based on the intersection found
     if ($andor == 'AND') {
-        foreach ($downloads as $lid => $download) {
+        foreach ($downloadObjs as $lid => $downloadObj) {
             if (!in_array($lid, $downloads_intersect)) {
-                unset($downloads[$lid]);
+                unset($downloadObjs[$lid]);
             }
         }
         $limitOffsetIndex = $downloads_intersect;
@@ -234,10 +234,10 @@ of the results is returned.  If OR is in effect, then all results are returned.
     $i = 0;
     $storedLids = array();
 
-    // foreach (array_keys($downloads) as $i)
+    // foreach (array_keys($downloadObjs) as $i)
     for ($x = $offset; ($i < $limit && $x < count($limitOffsetIndex)); ++$x) {
         $lid = $limitOffsetIndex[$x];
-        $obj = $downloads[$lid];
+        $obj = $downloadObjs[$lid];
         if (is_object($obj) && !isset($storedLids[$lid])) {
             $storedLids[$lid] = true;
             $ret[$i]['image'] = "assets/images/size2.gif";
@@ -248,5 +248,42 @@ of the results is returned.  If OR is in effect, then all results are returned.
             ++$i;
         }
     }
+
+/*
+    // Swish-e support EXPERIMENTAL
+    if (($wfdownloads->getConfig('enable_swishe') == true) && wfdownloads_swishe_check() == true) {
+// IN PROGRESS
+        $swisheCriteria = new CriteriaCompo(new Criteria('cid', '(' . implode(',', $allowedDownCategoriesIds) . ')', 'IN'));
+        if ($userId != 0) {
+            $swisheCriteria->add(new Criteria('submitter', (int) $userId));
+        }
+        if ($andor = 'AND') {
+            $swisheQueryWords = implode (' AND ', $queryArray);
+        } elseif ($andor = 'OR') {
+            $swisheQueryWords = implode (' OR ', $queryArray);
+        } else {
+            $swisheQueryWords = '';
+        }
+        if (strlen($swisheQueryWords) > 0) {
+            $swisheSearchResults = wfdownloads_swishe_search($swisheQueryWords);
+            foreach ($swisheSearchResults as $swisheSearchResult) {
+                $tempSwisheCriteria = clone($swisheCriteria);
+                $tempSwisheCriteria->add(new Criteria('filename', $swisheSearchResult['file_path']));
+                $tempDownloadObjs = $wfdownloads->getHandler('download')->getActiveDownloads($tempSwisheCriteria);
+                $tempDownloadObj = $tempDownloadObjs[0];
+                if (is_object($tempDownloadObj)) {
+                    $tempRet['image'] = "assets/images/size2.gif";
+                    $tempRet['link'] = "singlefile.php?cid={$tempDownloadObj->getVar('cid')}&amp;lid={$tempDownloadObj->getVar('lid')}";
+                    $tempRet['title'] = $tempDownloadObj->getVar('title');
+                    $tempRet['time'] = $tempDownloadObj->getVar('published');
+                    $tempRet['uid'] = $tempDownloadObj->getVar('submitter');
+// IN PROGRESS
+                }
+            }
+        }
+    }
+    // Swish-e support EXPERIMENTAL
+*/
+
     return $ret;
 }

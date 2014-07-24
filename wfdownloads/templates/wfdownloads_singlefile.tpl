@@ -308,31 +308,31 @@
 
 <div>
     <span style="font-size: small;">
-        <{if $download.use_mirrors == 1 && $download.add_mirror == 1}>
-            <a href="mirror.php?cid=<{$download.cid}>&amp;lid=<{$download.id}>"><{$smarty.const._MD_WFDOWNLOADS_ADDMIRROR}></a>
-            &nbsp;|&nbsp;
-        <{/if}>
-        <{if $download.use_reviews == 1}>
-            <a href="review.php?cid=<{$download.cid}>&amp;lid=<{$download.id}>"><{$smarty.const._MD_WFDOWNLOADS_REVIEWTHISFILE}></a>
-            &nbsp;|&nbsp;
-        <{/if}>
-        <{if $download.use_ratings == 1}>
-            <a href="ratefile.php?cid=<{$download.cid}>&amp;lid=<{$download.id}>"><{$smarty.const._MD_WFDOWNLOADS_RATETHISFILE}></a>
-            &nbsp;|&nbsp;
-        <{/if}>
-        <{if $download.useradminlink == true}>
-            <a href="submit.php?cid=<{$download.cid}>&amp;lid=<{$download.id}>"><{$smarty.const._MD_WFDOWNLOADS_MODIFY}></a>
-            &nbsp;|&nbsp;
-        <{/if}>
-        <{if $download.use_brokenreports == 1}>
-            <a href="brokenfile.php?cid=<{$download.cid}>&amp;lid=<{$download.id}>"><{$smarty.const._MD_WFDOWNLOADS_REPORTBROKEN}></a>
-            &nbsp;|&nbsp;
-        <{/if}>
-        <a target="_top" href="mailto:?subject=<{$download.mail_subject}>&amp;body=<{$download.mail_body}>"><{$smarty.const._MD_WFDOWNLOADS_TELLAFRIEND}></a>
-        <{if $com_rule <> 0}>
-            &nbsp;|&nbsp;
-            <a href="#comments"><{$smarty.const._COMMENTS}> (<{$download.comments}>)</a>
-        <{/if}>
+    <{if $download.use_mirrors == 1 && $download.add_mirror == 1}>
+        <a href="mirror.php?cid=<{$download.cid}>&amp;lid=<{$download.id}>"><{$smarty.const._MD_WFDOWNLOADS_ADDMIRROR}></a>
+        &nbsp;|&nbsp;
+    <{/if}>
+    <{if $download.use_reviews == 1}>
+        <a href="review.php?cid=<{$download.cid}>&amp;lid=<{$download.id}>"><{$smarty.const._MD_WFDOWNLOADS_REVIEWTHISFILE}></a>
+        &nbsp;|&nbsp;
+    <{/if}>
+    <{if $download.use_ratings == 1}>
+        <a href="ratefile.php?cid=<{$download.cid}>&amp;lid=<{$download.id}>"><{$smarty.const._MD_WFDOWNLOADS_RATETHISFILE}></a>
+        &nbsp;|&nbsp;
+    <{/if}>
+    <{if $download.useradminlink == true}>
+        <a href="submit.php?cid=<{$download.cid}>&amp;lid=<{$download.id}>"><{$smarty.const._MD_WFDOWNLOADS_MODIFY}></a>
+        &nbsp;|&nbsp;
+    <{/if}>
+    <{if $download.use_brokenreports == 1}>
+        <a href="brokenfile.php?cid=<{$download.cid}>&amp;lid=<{$download.id}>"><{$smarty.const._MD_WFDOWNLOADS_REPORTBROKEN}></a>
+        &nbsp;|&nbsp;
+    <{/if}>
+    <a target="_top" href="mailto:?subject=<{$download.mail_subject}>&amp;body=<{$download.mail_body}>"><{$smarty.const._MD_WFDOWNLOADS_TELLAFRIEND}></a>
+    <{if $com_rule <> 0}>
+        &nbsp;|&nbsp;
+        <a href="#comments"><{$smarty.const._COMMENTS}> (<{$download.comments}>)</a>
+    <{/if}>
     </span>
 </div>
 
@@ -343,11 +343,11 @@
 <{if $download.use_reviews == 1}>
     <div style="font-weight: bold;"><{$smarty.const._MD_WFDOWNLOADS_USERREVIEWSTITLE}></div>
     <div style="padding: 3px; margin:3px;">
-        <{if ($review_amount > 0)}>
-            <a href="review.php?op=reviews.list&amp;cid=<{$download.cid}>&amp;lid=<{$download.id}>"><{$smarty.const._MD_WFDOWNLOADS_USERREVIEWS|replace:'%s':$download.title}></a>
-        <{else}>
-            <a href="review.php?op=review.add&amp;cid=<{$download.cid}>&amp;lid=<{$download.id}>"><{$smarty.const._MD_WFDOWNLOADS_NOUSERREVIEWS|replace:'%s':$download.title}></a>
-        <{/if}>
+    <{if ($review_amount > 0)}>
+        <a href="review.php?op=reviews.list&amp;cid=<{$download.cid}>&amp;lid=<{$download.id}>"><{$smarty.const._MD_WFDOWNLOADS_USERREVIEWS|replace:'%s':$download.title}></a>
+    <{else}>
+        <a href="review.php?op=review.add&amp;cid=<{$download.cid}>&amp;lid=<{$download.id}>"><{$smarty.const._MD_WFDOWNLOADS_NOUSERREVIEWS|replace:'%s':$download.title}></a>
+    <{/if}>
     </div>
     <br>
 <{/if}>
@@ -356,11 +356,11 @@
 <{if $download.use_mirrors == 1 && $download.mirrors_num >= 1}>
     <div style="font-weight: bold;"><{$smarty.const._MD_WFDOWNLOADS_USERMIRRORSTITLE}></div>
     <div style="padding: 3px; margin:3px;">
-        <{if ($mirror_amount > 0)}>
-            <a href="<{$xoops_url}>/modules/wfdownloads/mirror.php?op=mirrors.list&amp;cid=<{$download.cid}>&amp;lid=<{$download.id}>"><{$smarty.const._MD_WFDOWNLOADS_USERMIRRORS|replace:'%s':$download.title}></a>
-        <{else}>
-            <a href="<{$xoops_url}>/modules/wfdownloads/mirror.php?op=mirror.add&amp;cid=<{$download.cid}>&amp;lid=<{$download.id}>"><{$smarty.const._MD_WFDOWNLOADS_NOUSERMIRRORS|replace:'%s':$download.title}></a>
-        <{/if}>
+    <{if ($mirror_amount > 0)}>
+        <a href="<{$xoops_url}>/modules/wfdownloads/mirror.php?op=mirrors.list&amp;cid=<{$download.cid}>&amp;lid=<{$download.id}>"><{$smarty.const._MD_WFDOWNLOADS_USERMIRRORS|replace:'%s':$download.title}></a>
+    <{else}>
+        <a href="<{$xoops_url}>/modules/wfdownloads/mirror.php?op=mirror.add&amp;cid=<{$download.cid}>&amp;lid=<{$download.id}>"><{$smarty.const._MD_WFDOWNLOADS_NOUSERMIRRORS|replace:'%s':$download.title}></a>
+    <{/if}>
     </div>
     <br>
 <{/if}>
@@ -369,14 +369,14 @@
 <div>
     <span style="font-weight: bold;"><{$smarty.const._MD_WFDOWNLOADS_OTHERBYUID}> <{$download.submitter}></span>
     <ul>
-        <{foreach item=download_by_user from=$downloads_by_user}>
+    <{foreach item=download_by_user from=$downloads_by_user}>
         <li>
             <a href="<{$xoops_url}>/modules/wfdownloads/singlefile.php?cid=<{$download_by_user.cid}>&amp;lid=<{$download_by_user.lid}>">
                 <{$download_by_user.title}>
             </a>
             (<{$download_by_user.published}>)
-            <{/foreach}>
         </li>
+    <{/foreach}>
     </ul>
 </div>
 

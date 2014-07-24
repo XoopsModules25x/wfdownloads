@@ -681,6 +681,8 @@ define('_AM_WFDOWNLOADS_AREVIEWS_EDIT_DESC', "<span style='font-weight: bold;'>E
 define('_AM_WFDOWNLOADS_AREVIEWS_DELETE_ALT', "Delete");
 define('_AM_WFDOWNLOADS_AREVIEWS_DELETE_DESC', "<span style='font-weight: bold;'>Delete</span> the review.");
 
+define('_AM_WFDOWNLOADS_SVOTES', "Votes: %s");
+
 define('_AM_WFDOWNLOADS_MOD_VIEW_ALT', "View & Compare");
 define('_AM_WFDOWNLOADS_MOD_IGNORE_ALT', "Ignore & Delete");
 define('_AM_WFDOWNLOADS_MOD_APPROVE_ALT', "Approve & Delete");

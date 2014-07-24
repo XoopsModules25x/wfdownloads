@@ -20,11 +20,13 @@
  */
 defined('XOOPS_ROOT_PATH') || die('XOOPS root path not defined');
 
-$module_handler = xoops_gethandler('module');
-$module = $module_handler->getByDirname(basename(dirname(dirname(__FILE__))));
-$pathIcon32 = '../../' . $module->getInfo('icons32');
+//$module_handler = xoops_gethandler('module');
+//$module = $module_handler->getByDirname(basename(dirname(dirname(__FILE__))));
+include_once dirname(dirname(__FILE__)) . '/include/common.php';
+$wfdownloads = WfdownloadsWfdownloads::getInstance();
+$pathIcon32 = '../../' . $wfdownloads->getModule()->getInfo('icons32');
 
-xoops_loadLanguage('modinfo', $module->dirname());
+xoops_loadLanguage('modinfo', $wfdownloads->getModule()->dirname());
 
 $adminmenu = array();
 $i=0;
@@ -59,6 +61,16 @@ $adminmenu[$i]["icon"]  = $pathIcon32 . '/list.png';
 $adminmenu[$i]['title'] = _MI_WFDOWNLOADS_MENU_INDEXPAGE;
 $adminmenu[$i]['link'] = "admin/indexpage.php";
 $adminmenu[$i]["icon"]  = $pathIcon32 . '/index.png';
+/*
+// Swish-e support EXPERIMENTAL
+if ($wfdownloads->getConfig('enable_swishe') == true) {
+    ++$i;
+    $adminmenu[$i]['title'] = _MI_WFDOWNLOADS_MENU_SWISHE;
+    $adminmenu[$i]['link'] = "admin/swishe.php";
+    $adminmenu[$i]["icon"]  = $pathIcon32 . '/search.png';
+}
+// Swish-e support EXPERIMENTAL
+*/
 ++$i;
 $adminmenu[$i]['title'] = _MI_WFDOWNLOADS_MENU_IMAGES;
 $adminmenu[$i]['link'] = "admin/images.php";

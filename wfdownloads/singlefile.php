@@ -214,17 +214,17 @@ $breadcrumb->addLink($downloadInfo['title'], '');
 $xoopsTpl->assign('wfdownloads_breadcrumb', $breadcrumb->render());
 
 // Show other author downloads
-$criteria = new CriteriaCompo(new Criteria('submitter', $downloadObj->getVar('submitter')));
-$criteria->add(new Criteria('lid', $lid, '!='));
-$criteria->setLimit(20);
-$criteria->setSort('published');
-$criteria->setOrder('DESC');
-$downloadObjs = $wfdownloads->getHandler('download')->getActiveDownloads($criteria);
-foreach ($downloadObjs as $downloadObj) {
-    $downloadByUser['title'] = $downloadObj->getVar('title');
-    $downloadByUser['lid'] = (int) $downloadObj->getVar('lid');
-    $downloadByUser['cid'] = (int) $downloadObj->getVar('cid');
-    $downloadByUser['published'] = formatTimestamp($downloadObj->getVar('published'), $wfdownloads->getConfig('dateformat'));
+$downloadByUserCriteria = new CriteriaCompo(new Criteria('submitter', $downloadObj->getVar('submitter')));
+$downloadByUserCriteria->add(new Criteria('lid', $lid, '!='));
+$downloadByUserCriteria->setLimit(20);
+$downloadByUserCriteria->setSort('published');
+$downloadByUserCriteria->setOrder('DESC');
+$downloadByUserObjs = $wfdownloads->getHandler('download')->getActiveDownloads($downloadByUserCriteria);
+foreach ($downloadByUserObjs as $downloadByUserObj) {
+    $downloadByUser['title'] = $downloadByUserObj->getVar('title');
+    $downloadByUser['lid'] = (int) $downloadByUserObj->getVar('lid');
+    $downloadByUser['cid'] = (int) $downloadByUserObj->getVar('cid');
+    $downloadByUser['published'] = formatTimestamp($downloadByUserObj->getVar('published'), $wfdownloads->getConfig('dateformat'));
     $xoopsTpl->append('down_uid', $downloadByUser); // this definition is not removed for backward compatibility issues
     $xoopsTpl->append('downloads_by_user', $downloadByUser);
 }
