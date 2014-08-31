@@ -693,7 +693,7 @@ switch ($op) {
                     $publishedDownload_array['title_html']          = $myts->htmlSpecialChars(trim($publishedDownload_array['title']));
                     $publishedDownload_array['category_title']      = $categories[$publishedDownload_array['cid']]['title'];
                     $publishedDownload_array['submitter_uname']     = XoopsUserUtility::getUnameFromId($publishedDownload_array['submitter']);
-                    $publishedDownload_array['published_timestamp'] = XoopsLocal::formatTimestamp($publishedDownload_array['published'], 'l');
+                    $publishedDownload_array['published_formatted'] = XoopsLocal::formatTimestamp($publishedDownload_array['published'], 'l');
                     $GLOBALS['xoopsTpl']->append('published_downloads', $publishedDownload_array);
                 }
             }
@@ -739,7 +739,7 @@ switch ($op) {
                     $platform                             = $myts->htmlSpecialChars($newDownload_array['platform']);
                     $logourl                              = $myts->htmlSpecialChars($newDownload_array['screenshot']);
                     $newDownload_array['submitter_uname'] = XoopsUserUtility::getUnameFromId($newDownload_array['submitter']);
-                    $newDownload_array['date_timestamp']  = XoopsLocal::formatTimestamp($newDownload_array['date'], 'l');
+                    $newDownload_array['date_formatted']  = XoopsLocal::formatTimestamp($newDownload_array['date'], 'l');
                     $GLOBALS['xoopsTpl']->append('new_downloads', $newDownload_array);
                 }
             }
@@ -762,7 +762,7 @@ switch ($op) {
                     $autopublishedDownload_array['title_html']          = $myts->htmlSpecialChars(trim($autopublishedDownload_array['title']));
                     $autopublishedDownload_array['category_title']      = $categories[$autopublishedDownload_array['cid']]['title'];
                     $autopublishedDownload_array['submitter_uname']     = XoopsUserUtility::getUnameFromId($autopublishedDownload_array['submitter']);
-                    $autopublishedDownload_array['published_timestamp'] = XoopsLocal::formatTimestamp($autopublishedDownload_array['published'], 'l');
+                    $autopublishedDownload_array['published_formatted'] = XoopsLocal::formatTimestamp($autopublishedDownload_array['published'], 'l');
                     $GLOBALS['xoopsTpl']->append('autopublished_downloads', $autopublishedDownload_array);
                 }
             }
@@ -788,7 +788,7 @@ switch ($op) {
                     $expired_download_array['title_html']          = $myts->htmlSpecialChars(trim($expired_download_array['title']));
                     $expired_download_array['category_title']      = $categories[$expired_download_array['cid']]['title'];
                     $expired_download_array['submitter_uname']     = XoopsUserUtility::getUnameFromId($expired_download_array['submitter']);
-                    $expired_download_array['published_timestamp'] = XoopsLocal::formatTimestamp($expired_download_array['published'], 'l');
+                    $expired_download_array['published_formatted'] = XoopsLocal::formatTimestamp($expired_download_array['published'], 'l');
                     $GLOBALS['xoopsTpl']->append('expired_downloads', $expired_download_array);
                 }
             }
@@ -811,7 +811,7 @@ switch ($op) {
                     $offlineDownload_array['title_html']          = $myts->htmlSpecialChars(trim($offlineDownload_array['title']));
                     $offlineDownload_array['category_title']      = $categories[$offlineDownload_array['cid']]['title'];
                     $offlineDownload_array['submitter_uname']     = XoopsUserUtility::getUnameFromId($offlineDownload_array['submitter']);
-                    $offlineDownload_array['published_timestamp'] = XoopsLocal::formatTimestamp($offlineDownload_array['published'], 'l');
+                    $offlineDownload_array['published_formatted'] = XoopsLocal::formatTimestamp($offlineDownload_array['published'], 'l');
                     $GLOBALS['xoopsTpl']->append('offline_downloads', $offlineDownload_array);
                 }
             }
@@ -977,7 +977,7 @@ switch ($op) {
                     $ip_log_array['uid']
                 );
                 //($ip_log_array['uid'] != 0) ? $userList[$ip_log_array['uid']] : _AM_WFDOWNLOADS_ANONYMOUS;
-                $ip_log_array['date_timestamp'] = formatTimestamp($ip_log_array['date']);
+                $ip_log_array['date_formatted'] = formatTimestamp($ip_log_array['date']);
                 $GLOBALS['xoopsTpl']->append('ip_logs', $ip_log_array);
             }
         }

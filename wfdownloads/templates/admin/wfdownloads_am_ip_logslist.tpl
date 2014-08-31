@@ -14,7 +14,7 @@
     <{foreach item=ip_log from=$ip_logs}>
         <tr class="<{cycle values='even, odd'}>">
             <td><{$ip_log.ip_address}></td>
-            <td align='center'><{$ip_log.date_timestamp}></td>
+            <td align='center'><{$ip_log.date_formatted}></td>
             <td align='center'><a href='../../../userinfo.php?uid=<{$ip_log.uid}>'><{$ip_log.uname}></a></td>
         </tr>
     <{/foreach}>

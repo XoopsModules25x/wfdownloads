@@ -126,8 +126,8 @@ define('_MI_WFDOWNLOADS_USETHUMBS', "[thumbnails] Use thumbnails");
 define('_MI_WFDOWNLOADS_USETHUMBSDSC',
     "Supported file types: JPG, GIF, PNG. <br />Module will use thumbnails for images (category & screenshots). <br />Set to '" . _NO
     . "' to use original image if the server does not support this option.");
-define('_MI_WFDOWNLOADS_DATEFORMAT', "Timestamp");
-define('_MI_WFDOWNLOADS_DATEFORMATDSC', "Default Timestamp for module front end. <br />More info here: <a href='http://www.php.net/manual/en/function.date.php'>http://www.php.net/manual/en/function.date.php</a>");
+define('_MI_WFDOWNLOADS_DATEFORMAT', "Date format");
+define('_MI_WFDOWNLOADS_DATEFORMATDSC', "Default date format for module front end. <br />More info here: <a href='http://www.php.net/manual/en/function.date.php'>http://www.php.net/manual/en/function.date.php</a>");
 define('_MI_WFDOWNLOADS_SHOWDISCLAIMER', "[disclaimer] Show disclaimer before user submission");
 define('_MI_WFDOWNLOADS_SHOWDOWNDISCL', "[disclaimer] Show disclaimer before user download");
 define('_MI_WFDOWNLOADS_DISCLAIMER', "[disclaimer] Submission disclaimer text");
