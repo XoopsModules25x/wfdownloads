@@ -56,6 +56,8 @@ function wfdownloads_search($queryArray, $andor, $limit, $offset, $userId = 0, $
     // because count() returns 1 even if a supplied variable
     // is not an array, we must check if $querryarray is really an array
     $queryArray_count = 0;
+    $downloadObjs = array();
+
     if ((is_array($queryArray) && $queryArray_count = count($queryArray)) || $userId != 0) {
         // $userId != 0 added August 13 2007 -- ACCOUNTS FOR CASES WHERE THERE ARE NO QUERY TERMS BUT A USER ID IS PASSED -- FREEFORM SOLUTIONS
         if ($queryArray_count == 0) {
@@ -123,7 +125,6 @@ of the results is returned.  If OR is in effect, then all results are returned.
             }
         }
 
-        $downloadObjs = array();
         // Loop through all query terms
         for ($i = 0; $i < $queryArray_count; ++$i) {
             // Make a copy of the $criteria for use with this term only

@@ -904,7 +904,7 @@ function wfdownloads_updateRating($lid)
     }
     $averageRating = $totalRating / $ratings_count;
     $averageRating = number_format($averageRating, 4);
-    $downloadOb = $wfdownloads->getHandler('download')->get($lid);
+    $downloadObj = $wfdownloads->getHandler('download')->get($lid);
     $downloadObj->setVar('rating', $averageRating);
     $downloadObj->setVar('votes', $ratings_count);
     $wfdownloads->getHandler('download')->insert($downloadObj);
