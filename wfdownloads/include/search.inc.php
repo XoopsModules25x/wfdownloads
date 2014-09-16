@@ -40,7 +40,7 @@ function wfdownloads_search($queryArray, $andor, $limit, $offset, $userId = 0, $
 
     $userGroups = is_object($xoopsUser) ? $xoopsUser->getGroups() : array(0 => XOOPS_GROUP_ANONYMOUS);
 
-    $gperm_handler            = xoops_gethandler('groupperm');
+    $gperm_handler = xoops_gethandler('groupperm');
     $allowedDownCategoriesIds = $gperm_handler->getItemIds('WFDownCatPerm', $userGroups, $wfdownloads->getModule()->mid());
 
     $criteria = new CriteriaCompo(new Criteria('cid', '(' . implode(',', $allowedDownCategoriesIds) . ')', 'IN'));
@@ -59,8 +59,7 @@ function wfdownloads_search($queryArray, $andor, $limit, $offset, $userId = 0, $
     if ((is_array($queryArray) && $queryArray_count = count($queryArray)) || $userId != 0) {
         // $userId != 0 added August 13 2007 -- ACCOUNTS FOR CASES WHERE THERE ARE NO QUERY TERMS BUT A USER ID IS PASSED -- FREEFORM SOLUTIONS
         if ($queryArray_count == 0) {
-            $queryArray_count
-                        = 1; // AUGUST 13 2007 -- MAKE COUNT EQUAL 1 SINCE WE HAVE TO DO AT LEAST ONE SEARCH (BASED ON USER ID) EVEN IF THERE ARE NO QUERY TERMS -- FREEFORM SOLUTIONS
+            $queryArray_count = 1; // AUGUST 13 2007 -- MAKE COUNT EQUAL 1 SINCE WE HAVE TO DO AT LEAST ONE SEARCH (BASED ON USER ID) EVEN IF THERE ARE NO QUERY TERMS -- FREEFORM SOLUTIONS
             $queryArray = array();
         }
 
@@ -164,8 +163,8 @@ of the results is returned.  If OR is in effect, then all results are returned.
                     unset($formulizeElements);
 
                     // Query for the ids of the records in the form that match the queryarray
-                    $data           = getData('', $fid, $filter_string, 'OR'); // is a 'formulize' function
-                    $formHandle     = getFormHandleFromEntry($data[0], 'uid'); // is a 'formulize' function
+                    $data = getData('', $fid, $filter_string, 'OR'); // is a 'formulize' function
+                    $formHandle = getFormHandleFromEntry($data[0], 'uid'); // is a 'formulize' function
                     $temp_saved_ids = array();
                     foreach ($data as $entry) {
                         // Gather all IDs for this $fid
@@ -200,7 +199,7 @@ of the results is returned.  If OR is in effect, then all results are returned.
             $downloads_lids = array();
             foreach ($tempDownloadObjs as $tempDownloadObj) {
                 $downloadObjs[(int) $tempDownloadObj->getVar('lid')] = $tempDownloadObj;
-                $downloads_lids[]                             = (int) $tempDownloadObj->getVar('lid');
+                $downloads_lids[] = (int) $tempDownloadObj->getVar('lid');
             }
 
             // Do an intersection of the found lids if the operator is AND
@@ -240,7 +239,7 @@ of the results is returned.  If OR is in effect, then all results are returned.
         $obj = $downloadObjs[$lid];
         if (is_object($obj) && !isset($storedLids[$lid])) {
             $storedLids[$lid] = true;
-            $ret[$i]['image'] = "assets/images/size2.gif";
+            $ret[$i]['image'] = 'assets/images/size2.gif';
             $ret[$i]['link'] = "singlefile.php?cid={$obj->getVar('cid')}&amp;lid={$lid}";
             $ret[$i]['title'] = $obj->getVar('title');
             $ret[$i]['time'] = $obj->getVar('published');

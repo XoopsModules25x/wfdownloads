@@ -19,9 +19,9 @@
  * @version         svn:$id$
  */
 defined('XOOPS_ROOT_PATH') || die('XOOPS root path not defined');
-include_once(XOOPS_ROOT_PATH . "/modules/wfdownloads/class/dbupdater.php");
-include_once(XOOPS_ROOT_PATH . "/modules/wfdownloads/include/common.php");
-@include_once(XOOPS_ROOT_PATH . "/modules/wfdownloads/language/" . $xoopsConfig['language'] . "/admin.php");
+include_once dirname(__FILE__) . '/common.php';
+@include_once WFDOWNLOADS_ROOT_PATH . '/language/' . $xoopsConfig['language'] . '/admin.php';
+include_once WFDOWNLOADS_ROOT_PATH . '/class/dbupdater.php';
 
 /**
  * @param $xoopsModule
@@ -41,13 +41,12 @@ function xoops_module_update_wfdownloads(&$xoopsModule, $prev_version)
     }
     update_tables_to_323($xoopsModule);
     $feedback = ob_get_clean();
-    if (method_exists($xoopsModule, "setMessage")) {
+    if (method_exists($xoopsModule, 'setMessage')) {
         $xoopsModule->setMessage($feedback);
     } else {
         echo $feedback;
     }
-    wfdownloads_setMeta("version", "3.23"); //Set meta version to current
-
+    wfdownloads_setMeta('version', '3.23'); //Set meta version to current
     return true;
 }
 
