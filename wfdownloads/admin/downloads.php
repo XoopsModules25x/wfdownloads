@@ -182,6 +182,7 @@ switch ($op) {
             if ($votesreg == 0) {
                 echo "<tr><td colspan='7' class='even'><b>" . _AM_WFDOWNLOADS_VOTE_NOREGVOTES . "</b></td></tr>";
             } else {
+                $uids = array();
                 foreach (array_keys($regvotes) as $i) {
                     $uids[] = $regvotes[$i]->getVar('ratinguser');
                 }

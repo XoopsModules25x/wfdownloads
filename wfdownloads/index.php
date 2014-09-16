@@ -80,12 +80,12 @@ $breadcrumb->addLink($wfdownloads->getModule()->getVar('name'), WFDOWNLOADS_URL)
 $xoopsTpl->assign('module_home', wfdownloads_module_home(false)); // this definition is not removed for backward compatibility issues
 $xoopsTpl->assign('wfdownloads_breadcrumb', $breadcrumb->render());
 
-$cat_criteria = new CriteriaCompo();
-$cat_criteria->setSort('weight ASC, title');
-$categories = $wfdownloads->getHandler('category')->getObjects($cat_criteria);
-unset($cat_criteria);
+$categoryCriteria = new CriteriaCompo();
+$categoryCriteria->setSort('weight ASC, title');
+$categoryObjs = $wfdownloads->getHandler('category')->getObjects($categoryCriteria);
+unset($categoryCriteria);
 
-$categoriesTree = new XoopsObjectTree($categories, "cid", "pid");
+$categoryObjsTree = new XoopsObjectTree($categoryObjs, 'cid', 'pid');
 
 // Generate content header
 $sql                          = "SELECT * FROM " . $xoopsDB->prefix('wfdownloads_indexpage') . " ";
@@ -113,7 +113,7 @@ $listings = wfdownloads_getTotalDownloads($allowedDownCategoriesIds);
 // Get total amount of categories
 $total_cat = count($allowedDownCategoriesIds);
 // Get all main categories
-$mainCategories = $categoriesTree->getFirstChild(0);
+$mainCategories = $categoryObjsTree->getFirstChild(0);
 $count          = 0;
 
 // Comparison functions for uasort()
@@ -167,7 +167,7 @@ foreach (array_keys($mainCategories) as $i) {
     if (in_array($mainCategories[$i]->getVar('cid'), $allowedDownCategoriesIds)) {
         // Get this category image
         // Get this category subcategories
-        $allSubcategories = $categoriesTree->getAllChild($mainCategories[$i]->getVar('cid'));
+        $allSubcategories = $categoryObjsTree->getAllChild($mainCategories[$i]->getVar('cid'));
 
         // Sort subcategories by: cid or title or weight
         switch ($wfdownloads->getConfig('subcatssortby')) {
@@ -226,7 +226,7 @@ foreach (array_keys($mainCategories) as $i) {
         $download_count = isset($listings['count'][$mainCategories[$i]->getVar('cid')]) ? $listings['count'][$mainCategories[$i]->getVar('cid')] : 0;
         // modified July 5 2006 by Freeform Solutions (jwe)
         // make download count recursive, to include all sub categories that the user has permission to view
-        //$allSubcategories = $categoriesTree->getAllChild($mainCategories[$i]->getVar('cid'));
+        //$allSubcategories = $categoryObjsTree->getAllChild($mainCategories[$i]->getVar('cid'));
         if (count($allSubcategories) > 0) {
             foreach (array_keys($allSubcategories) as $k) {
                 if (in_array($allSubcategories[$k]->getVar('cid'), $allowedDownCategoriesIds)) {
