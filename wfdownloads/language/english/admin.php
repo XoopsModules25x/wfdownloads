@@ -241,7 +241,7 @@ define('_AM_WFDOWNLOADS_VOTE_FILETITLE', "File title");
 define('_AM_WFDOWNLOADS_VOTE_DISPLAYVOTES', "Voting data information");
 define('_AM_WFDOWNLOADS_VOTE_NOVOTES', "No User Votes to display");
 define('_AM_WFDOWNLOADS_VOTE_DELETE', "No User Votes to display");
-define('_AM_WFDOWNLOADS_VOTE_DELETEDSC', "<span style='font-weight: bold;'>Deletes</span> the chosen vote information from the database.");
+define('_AM_WFDOWNLOADS_VOTE_DELETEDSC', "<span style='font-weight: bold;'>Delete</span> the chosen vote information from the database.");
 // Modifications
 /*
 define('_AM_WFDOWNLOADS_MOD_TOTMODREQUESTS', "Total modification requests: ");
@@ -403,11 +403,11 @@ define('_AM_WFDOWNLOADS_BROKEN_NOWACK', "Acknowledged status changed and databas
 define('_AM_WFDOWNLOADS_BROKEN_NOWCON', "Confirmed status changed and database updated!");
 define('_AM_WFDOWNLOADS_BROKEN_REPORTINFO', "Broken reports information");
 define('_AM_WFDOWNLOADS_BROKEN_REPORTSNO', "Broken reports waiting");
-define('_AM_WFDOWNLOADS_BROKEN_IGNOREDESC', "<span style='font-weight: bold;'>Ignores</span> the report and only deletes the broken file report.");
+define('_AM_WFDOWNLOADS_BROKEN_IGNOREDESC', "<span style='font-weight: bold;'>Ignore</span> and <span style='font-weight: bold;'>Delete</span> the broken file report.");
 define('_AM_WFDOWNLOADS_BROKEN_IGNORE_ALT', "Ignore and delete the broken file report");
-define('_AM_WFDOWNLOADS_BROKEN_DELETEDESC', "<span style='font-weight: bold;'>Deletes</span> the reported download data and broken file reports for the file.");
-define('_AM_WFDOWNLOADS_BROKEN_DELETE_ALT', "Delete the reported download data and broken file report");
-define('_AM_WFDOWNLOADS_BROKEN_EDITDESC', "<span style='font-weight: bold;'>Edit</span> download to correct the problem.");
+define('_AM_WFDOWNLOADS_BROKEN_DELETEDESC', "<span style='font-weight: bold; color: red;'>WARNING: <span style='font-weight: bold;'>Delete</span> the download</span> and <span style='font-weight: bold;'>Delete</span> the broken file report.");
+define('_AM_WFDOWNLOADS_BROKEN_DELETE_ALT', "Delete download and broken file report");
+define('_AM_WFDOWNLOADS_BROKEN_EDITDESC', "<span style='font-weight: bold;'>Edit</span> download to fix the problem.");
 define('_AM_WFDOWNLOADS_BROKEN_EDIT_ALT', "Edit download to correct the problem");
 define('_AM_WFDOWNLOADS_BROKEN_ACKDESC', "<span style='font-weight: bold;'>Acknowledged</span> Set acknowledged state of broken file report.");
 define('_AM_WFDOWNLOADS_BROKEN_ACK_ALT', "Acknowledge state of broken file report");
@@ -622,7 +622,7 @@ define('_AM_WFDOWNLOADS_CLONE', "Clone module");
 define('_AM_WFDOWNLOADS_CLONE_DSC', "Cloning a module has never been this easy! Just type in the name you want for it and hit submit button!");
 define('_AM_WFDOWNLOADS_CLONE_TITLE', "Clone %s");
 define('_AM_WFDOWNLOADS_CLONE_NAME', "Choose a name for the new module");
-define('_AM_WFDOWNLOADS_CLONE_NAME_DSC', "Do not use special characters! <br />Do not choose an existing module dirname or database table name!");
+define('_AM_WFDOWNLOADS_CLONE_NAME_DSC', "Do not use special characters! <br />Do not choose an existing module dirname or database table name!<br />It must be at most 18 characters long.");
 define('_AM_WFDOWNLOADS_CLONE_INVALIDNAME', "ERROR: Invalid module name, please try another one!");
 define('_AM_WFDOWNLOADS_CLONE_EXISTS', "ERROR: Module name already taken, please try another one!");
 define('_AM_WFDOWNLOADS_CLONE_CONGRAT', "Congratulations! %s was sucessfully created! <br />You may want to make changes in language files.");
@@ -633,7 +633,7 @@ define('_AM_WFDOWNLOADS_FCATEGORY_ID', "ID");
 // admin/reportsmodifications.php
 define('_AM_WFDOWNLOADS_MOD_IGNORE', "Ignore and delete modification request");
 define('_AM_WFDOWNLOADS_MOD_VIEWDESC', "<span style='font-weight: bold;'>View & Compare</span> download and modification.");
-define('_AM_WFDOWNLOADS_MOD_IGNOREDESC', "<span style='font-weight: bold;'>Ignore & Delete</span> modification.");
+define('_AM_WFDOWNLOADS_MOD_IGNOREDESC', "<span style='font-weight: bold;'>Ignore</span> modification & <span style='font-weight: bold;'>Delete</span> modification request.");
 define('_AM_WFDOWNLOADS_MOD_REALLYIGNOREDTHIS', "Are you sure to ignore and delete this modification?");
 // Editor:
 define('_AM_WFDOWNLOADS_MOD_DOHTML', "Allow HTML tags");
@@ -642,6 +642,9 @@ define('_AM_WFDOWNLOADS_MOD_DOXCODE', "Allow XOOPS BBcode");
 define('_AM_WFDOWNLOADS_MOD_DOIMAGE', "Allow XOOPS Images");
 define('_AM_WFDOWNLOADS_MOD_DOBR', "Convert line breaks");
 define('_AM_WFDOWNLOADS_MOD_FORMULIZE_IDREQ', "Formulize Form ID");
+
+
+
 // 3.23
 define('_AM_WFDOWNLOADS_MOD_APPROVE', "Approve and delete modification request");
 define('_AM_WFDOWNLOADS_MOD_SAVE', "Save");
@@ -668,3 +671,26 @@ define('_AM_WFDOWNLOADS_BATCHFILE_MOVEDEDITNOW', "Batch file moved, now edit!");
 define('_AM_WFDOWNLOADS_FILE_CREATE', "Create new download");
 define('_AM_WFDOWNLOADS_FILE_EDIT', "Edit download");
 define('_AM_WFDOWNLOADS_FFS_1STEP', "1st step: choose category");
+
+define('_AM_WFDOWNLOADS_CLONE_TOOLONG', "ERROR: Module name is too long! It must be at most 18 characters long");
+
+define('_AM_WFDOWNLOADS_AREVIEWS_APPROVE_ALT', "Approve");
+define('_AM_WFDOWNLOADS_AREVIEWS_APPROVE_DESC', "<span style='font-weight: bold;'>Approve</span> the review.");
+define('_AM_WFDOWNLOADS_AREVIEWS_EDIT_ALT', "Edit & Approve");
+define('_AM_WFDOWNLOADS_AREVIEWS_EDIT_DESC', "<span style='font-weight: bold;'>Edit</span> and then <span style='font-weight: bold;'>Approve</span> the review.");
+define('_AM_WFDOWNLOADS_AREVIEWS_DELETE_ALT', "Delete");
+define('_AM_WFDOWNLOADS_AREVIEWS_DELETE_DESC', "<span style='font-weight: bold;'>Delete</span> the review.");
+
+define('_AM_WFDOWNLOADS_SVOTES', "Votes: %s");
+
+define('_AM_WFDOWNLOADS_MOD_VIEW_ALT', "View & Compare");
+define('_AM_WFDOWNLOADS_MOD_IGNORE_ALT', "Ignore & Delete");
+define('_AM_WFDOWNLOADS_MOD_APPROVE_ALT', "Approve & Delete");
+define('_AM_WFDOWNLOADS_MOD_APPROVEDESC', "<span style='font-weight: bold;'>Approve</span> modification & <span style='font-weight: bold;'>Delete</span> modification request.");
+
+define('_AM_WFDOWNLOADS_AMIRRORS_APPROVE_ALT', "Approve");
+define('_AM_WFDOWNLOADS_AMIRRORS_APPROVE_DESC', "<span style='font-weight: bold;'>Approve</span> the mirror.");
+define('_AM_WFDOWNLOADS_AMIRRORS_EDIT_ALT', "Edit & Approve");
+define('_AM_WFDOWNLOADS_AMIRRORS_EDIT_DESC', "<span style='font-weight: bold;'>Edit</span> and then <span style='font-weight: bold;'>Approve</span> the mirror.");
+define('_AM_WFDOWNLOADS_AMIRRORS_DELETE_ALT', "Delete");
+define('_AM_WFDOWNLOADS_AMIRRORS_DELETE_DESC', "<span style='font-weight: bold;'>Delete</span> the mirror.");

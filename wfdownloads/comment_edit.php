@@ -18,5 +18,5 @@
  * @author          Xoops Development Team
  * @version         svn:$id$
  */
-include '../../mainfile.php';
-include XOOPS_ROOT_PATH . '/include/comment_edit.php';
+include_once '../../mainfile.php';
+include_once XOOPS_ROOT_PATH . '/include/comment_edit.php';

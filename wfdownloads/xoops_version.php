@@ -24,8 +24,8 @@ defined('XOOPS_ROOT_PATH') || die('XOOPS root path not defined');
 $modversion['name']        = _MI_WFDOWNLOADS_NAME;
 $modversion['version']     = 3.23;
 $modversion['description'] = _MI_WFDOWNLOADS_DESC;
-$modversion['author']      = "XOOPS Development Team";
-$modversion['credits']     = "This module was originally based on Mydownloads, and refactored by Catzwolf and the WF-Projects team. Then it became a project of The SmartFactory who continued the excellent work started by the WF-Projects team.";
+$modversion['author']      = 'XOOPS Development Team';
+$modversion['credits']     = 'This module was originally based on Mydownloads, and refactored by Catzwolf and the WF-Projects team. Then it became a project of The SmartFactory who continued the excellent work started by the WF-Projects team.';
 $modversion['help']        = 'page=help';
 $modversion['license']     = 'GNU GPL 2.0 or later';
 $modversion['license_url'] = "http://www.gnu.org/licenses/gpl-2.0.html";
@@ -35,23 +35,23 @@ $modversion['dirname']     = basename(dirname(__FILE__));
 include_once XOOPS_ROOT_PATH . "/modules/" . $modversion['dirname'] . "/include/constants.php";
 
 // Path and name of the module’s logo
-$modversion['image'] = "assets/images/module_logo.png";
+$modversion['image'] = 'assets/images/module_logo.png';
 
 // Install, update, unistall
 $modversion['onInstall']   = 'include/oninstall.php';
 $modversion['onUpdate']    = 'include/onupdate.php';
 $modversion['onUninstall'] = 'include/onuninstall.php';
 
-$modversion['date']         = '2014-06-13';
-$modversion['release_date'] = '2014/06/13';
-$modversion['releasedate']  = '2014-06-13';
-$modversion['status']       = 'RC2';
-$modversion['teammembers']  = "Bender, David, FrankBlack, Xpider, M0nty, Mithrandir, Marcan, felix[fx2024], Sudhaker, Jegelstaff";
+$modversion['date']         = '2014-09-17';
+$modversion['release_date'] = '2014/09/17';
+$modversion['releasedate']  = '2014-09-17';
+$modversion['status']       = 'RC4';
+$modversion['teammembers']  = 'Bender, David, FrankBlack, Xpider, M0nty, Mithrandir, Marcan, felix[fx2024], Sudhaker, Jegelstaff';
 
 // About
 $modversion["module_website_url"]  = "http://www.xoops.org/";
 $modversion["module_website_name"] = "XOOPS";
-$modversion["module_status"]       = "RC1";
+$modversion["module_status"]       = "RC4";
 $modversion['min_php']             = '5.3.7';
 $modversion['min_xoops']           = '2.5.7';
 $modversion['min_admin']           = '1.1';
@@ -189,7 +189,7 @@ $modversion['blocks'][$i]['description'] = "Shows recently added download files"
 $modversion['blocks'][$i]['show_func']   = $modversion['dirname'] . "_top_show";
 $modversion['blocks'][$i]['edit_func']   = $modversion['dirname'] . "_top_edit";
 $modversion['blocks'][$i]['options']     = "published|10|19";
-$modversion['blocks'][$i]['template']    = $modversion['dirname'] . "_block_new.tpl";
+$modversion['blocks'][$i]['template']    = $modversion['dirname'] . "_mb_new.tpl";
 ++$i;
 $modversion['blocks'][$i]['file']        = "top.php";
 $modversion['blocks'][$i]['name']        = _MI_WFDOWNLOADS_BNAME2;
@@ -197,7 +197,7 @@ $modversion['blocks'][$i]['description'] = "Shows most downloaded files";
 $modversion['blocks'][$i]['show_func']   = $modversion['dirname'] . "_top_show";
 $modversion['blocks'][$i]['edit_func']   = $modversion['dirname'] . "_top_edit";
 $modversion['blocks'][$i]['options']     = "hits|10|19";
-$modversion['blocks'][$i]['template']    = $modversion['dirname'] . "_block_top.tpl";
+$modversion['blocks'][$i]['template']    = $modversion['dirname'] . "_mb_top.tpl";
 ++$i;
 $modversion['blocks'][$i]['file']        = "top_by_cat.php";
 $modversion['blocks'][$i]['name']        = _MI_WFDOWNLOADS_BNAME3;
@@ -205,7 +205,7 @@ $modversion['blocks'][$i]['description'] = "Shows most downloaded files by top c
 $modversion['blocks'][$i]['show_func']   = $modversion['dirname'] . "_top_by_cat_show";
 $modversion['blocks'][$i]['edit_func']   = $modversion['dirname'] . "_top_by_cat_edit";
 $modversion['blocks'][$i]['options']     = "hits|10|19";
-$modversion['blocks'][$i]['template']    = $modversion['dirname'] . "_block_top_by_cat.tpl";
+$modversion['blocks'][$i]['template']    = $modversion['dirname'] . "_mb_top_by_cat.tpl";
 
 // Comments
 $modversion['hasComments']             = true;
@@ -263,48 +263,48 @@ $modversion['templates'][$i]['description'] = '';
 
 // Admin templates
 ++$i;
-$modversion['templates'][$i]['file']        = $modversion['dirname'] . '_admin_categorieslist.tpl';
+$modversion['templates'][$i]['file']        = $modversion['dirname'] . '_am_categorieslist.tpl';
 $modversion['templates'][$i]['type']        = 'admin';
 $modversion['templates'][$i]['description'] = '';
 ++$i;
-$modversion['templates'][$i]['file']        = $modversion['dirname'] . '_admin_downloadslist.tpl';
+$modversion['templates'][$i]['file']        = $modversion['dirname'] . '_am_downloadslist.tpl';
 $modversion['templates'][$i]['type']        = 'admin';
 $modversion['templates'][$i]['description'] = '';
 ++$i;
-$modversion['templates'][$i]['file']        = $modversion['dirname'] . '_admin_ip_logslist.tpl';
+$modversion['templates'][$i]['file']        = $modversion['dirname'] . '_am_ip_logslist.tpl';
 $modversion['templates'][$i]['type']        = 'admin';
 $modversion['templates'][$i]['description'] = '';
 ++$i;
-$modversion['templates'][$i]['file']        = $modversion['dirname'] . '_admin_reportsmodificationslist.tpl';
+$modversion['templates'][$i]['file']        = $modversion['dirname'] . '_am_reportsmodificationslist.tpl';
 $modversion['templates'][$i]['type']        = 'admin';
 $modversion['templates'][$i]['description'] = '';
 ++$i;
-$modversion['templates'][$i]['file']        = $modversion['dirname'] . '_admin_ratingslist.tpl';
+$modversion['templates'][$i]['file']        = $modversion['dirname'] . '_am_ratingslist.tpl';
 $modversion['templates'][$i]['type']        = 'admin';
 $modversion['templates'][$i]['description'] = '';
 ++$i;
-$modversion['templates'][$i]['file']        = $modversion['dirname'] . '_admin_reviewslist.tpl';
+$modversion['templates'][$i]['file']        = $modversion['dirname'] . '_am_reviewslist.tpl';
 $modversion['templates'][$i]['type']        = 'admin';
 $modversion['templates'][$i]['description'] = '';
 ++$i;
-$modversion['templates'][$i]['file']        = $modversion['dirname'] . '_admin_mirrorslist.tpl';
+$modversion['templates'][$i]['file']        = $modversion['dirname'] . '_am_mirrorslist.tpl';
 $modversion['templates'][$i]['type']        = 'admin';
 $modversion['templates'][$i]['description'] = '';
 ++$i;
-$modversion['templates'][$i]['file']        = $modversion['dirname'] . '_admin_mimetypeslist.tpl';
+$modversion['templates'][$i]['file']        = $modversion['dirname'] . '_am_mimetypeslist.tpl';
 $modversion['templates'][$i]['type']        = 'admin';
 $modversion['templates'][$i]['description'] = '';
 ++$i;
-$modversion['templates'][$i]['file']        = $modversion['dirname'] . '_admin_permissions.tpl';
+$modversion['templates'][$i]['file']        = $modversion['dirname'] . '_am_permissions.tpl';
 $modversion['templates'][$i]['type']        = 'admin';
 $modversion['templates'][$i]['description'] = '';
 
 // Common templates
 ++$i;
-$modversion['templates'][$i]['file']        = $modversion['dirname'] . '_common_breadcrumb.tpl';
+$modversion['templates'][$i]['file']        = $modversion['dirname'] . '_co_breadcrumb.tpl';
 $modversion['templates'][$i]['description'] = '';
 ++$i;
-$modversion['templates'][$i]['file']        = $modversion['dirname'] . '_common_letterschoice.tpl';
+$modversion['templates'][$i]['file']        = $modversion['dirname'] . '_co_letterschoice.tpl';
 $modversion['templates'][$i]['description'] = '';
 
 // Module config setting
@@ -979,55 +979,45 @@ $modversion['config'][] = array(
     'default'     => 'None|Alpha|Beta|RC|Final'
 );
 
-/* // Not completed yet
+/*
+// Swish-e support EXPERIMENTAL
+// Swish-e configs
 $modversion['config'][] = array(
-    'name'          => 'mirrorimage',
-    'title'         => '_MI_WFDOWNLOADS_MIRROR_USEIMAGES',
-    'description'   => '_MI_WFDOWNLOADS_MIRROR_USEIMAGESDSCDSC',
-    'formtype'      => 'yesno',
-    'valuetype'     => 'int',
-    'default'       => true);
+    'name'        => 'swishe_configs',
+    'title'       => '_MI_WFDOWNLOADS_SWISHE_CONFIGS',
+    'description' => '_MI_WFDOWNLOADS_SWISHE_CONFIGSDSC',
+    'formtype'    => 'line_break',
+    'valuetype'   => 'textbox',
+    'default'     => 'head'
+);
 
 $modversion['config'][] = array(
-    'name'          => 'mirror_imgwidth',
-    'title'         => '_MI_WFDOWNLOADS_MIRROR_IMGWIDTH',
-    'description'   => '_MI_WFDOWNLOADS_MIRROR_IMGWIDTHDSC',
-    'formtype'      => 'textbox',
-    'valuetype'     => 'int',
-    'default'       => 64);
+    'name'        => 'enable_swishe',
+    'title'       => '_MI_WFDOWNLOADS_SWISHE_ENABLE',
+    'description' => '_MI_WFDOWNLOADS_SWISHE_ENABLEDSC',
+    'formtype'    => 'yesno',
+    'valuetype'   => 'int',
+    'default'     => false
+);
 
 $modversion['config'][] = array(
-    'name'          => 'mirror_imgheight',
-    'title'         => '_MI_WFDOWNLOADS_MIRROR_IMGHEIGHT',
-    'description'   => '_MI_WFDOWNLOADS_MIRROR_IMGHEIGHTDSC',
-    'formtype'      => 'textbox',
-    'valuetype'     => 'int',
-    'default'       => 48);
+    'name'        => 'swishe_exe_path',
+    'title'       => '_MI_WFDOWNLOADS_SWISHE_EXEPATH',
+    'description' => '_MI_WFDOWNLOADS_SWISHE_EXEPATHDSC',
+    'formtype'    => 'textbox',
+    'valuetype'   => 'text',
+    'default'     => XOOPS_ROOT_PATH . '/uploads/' . $modversion['dirname'] . '/swishe'
+);
 
 $modversion['config'][] = array(
-    'name'          => 'mirror_maximgwidth',
-    'title'         => '_MI_WFDOWNLOADS_MIRROR_MAXIMGWIDTH',
-    'description'   => '_MI_WFDOWNLOADS_MIRROR_MAXIMGWIDTHDSC',
-    'formtype'      => 'textbox',
-    'valuetype'     => 'int',
-    'default'       => 64);
-
-$modversion['config'][] = array(
-    'name'          => 'mirror_maximgheight',
-    'title'         => '_MI_WFDOWNLOADS_MIRROR_MAXIMGHEIGHT',
-    'description'   => '_MI_WFDOWNLOADS_MIRROR_MAXIMGHEIGHTDSC',
-    'formtype'      => 'textbox',
-    'valuetype'     => 'int',
-    'default'       => 48);
-
-$modversion['config'][] = array(
-    'name'          => 'mirrorimages',
-    'title'         => '_MI_WFDOWNLOADS_MIRROR_IMAGES',
-    'description'   => '_MI_WFDOWNLOADS_MIRROR_IMAGESDSC',
-    'formtype'      => 'textbox',
-    'valuetype'     => 'text',
-    'default'       => 'uploads/' . $modversion['dirname'] . '/images/mirrorimages');
-
+    'name'        => 'swishe_search_limit',
+    'title'       => '_MI_WFDOWNLOADS_SWISHE_SEARCHLIMIT',
+    'description' => '_MI_WFDOWNLOADS_SWISHE_SEARCHLIMITDSC',
+    'formtype'    => 'textbox',
+    'valuetype'   => 'int',
+    'default'     => 0
+);
+// Swish-e support EXPERIMENTAL
 */
 
 // Notification

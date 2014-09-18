@@ -38,7 +38,7 @@ class WfdownloadsMirror extends XoopsObject
     public function __construct($id = null)
     {
         $this->wfdownloads = WfdownloadsWfdownloads::getInstance();
-        $this->db          = XoopsDatabaseFactory::getDatabaseConnection();
+        $this->db = XoopsDatabaseFactory::getDatabaseConnection();
         $this->initVar('mirror_id', XOBJ_DTYPE_INT);
         $this->initVar('lid', XOBJ_DTYPE_INT);
         $this->initVar('title', XOBJ_DTYPE_TXTBOX);
@@ -63,41 +63,49 @@ class WfdownloadsMirror extends XoopsObject
      */
     function getForm()
     {
+        global $xoopsUser;
+
         include_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
         $uid = !empty($xoopsUser) ? (int) ($xoopsUser->getVar('uid')) : 0;
 
-        $sform = new XoopsThemeForm(_AM_WFDOWNLOADS_MIRROR_SNEWMNAMEDESC, 'mirrorform', $_SERVER['REQUEST_URI']);
-        $sform->addElement(new XoopsFormText(_AM_WFDOWNLOADS_MIRROR_FHOMEURLTITLE, 'title', 50, 255, $this->getVar('title', 'e')), true);
-        $sform->addElement(new XoopsFormText(_AM_WFDOWNLOADS_MIRROR_FHOMEURL, 'homeurl', 50, 255, $this->getVar('homeurl', 'e')), true);
-        $sform->addElement(new XoopsFormText(_AM_WFDOWNLOADS_MIRROR_LOCATION, 'location', 50, 255, $this->getVar('location', 'e')), true);
+        $form = new XoopsThemeForm(_AM_WFDOWNLOADS_MIRROR_SNEWMNAMEDESC, 'mirrorform', $_SERVER['REQUEST_URI']);
+        // title
+        $form->addElement(new XoopsFormText(_AM_WFDOWNLOADS_MIRROR_FHOMEURLTITLE, 'title', 50, 255, $this->getVar('title', 'e')), true);
+        // homeurl
+        $form->addElement(new XoopsFormText(_AM_WFDOWNLOADS_MIRROR_FHOMEURL, 'homeurl', 50, 255, $this->getVar('homeurl', 'e')), true);
+        // location
+        $form->addElement(new XoopsFormText(_AM_WFDOWNLOADS_MIRROR_LOCATION, 'location', 50, 255, $this->getVar('location', 'e')), true);
+        // continent
         $continent_select = new XoopsFormSelect(_AM_WFDOWNLOADS_MIRROR_CONTINENT, "continent", $this->getVar('continent'));
-        $continent_select->addOptionArray(
-            array(
-                 _AM_WFDOWNLOADS_CONT1 => _AM_WFDOWNLOADS_CONT1,
-                 _AM_WFDOWNLOADS_CONT2 => _AM_WFDOWNLOADS_CONT2,
-                 _AM_WFDOWNLOADS_CONT3 => _AM_WFDOWNLOADS_CONT3,
-                 _AM_WFDOWNLOADS_CONT4 => _AM_WFDOWNLOADS_CONT4,
-                 _AM_WFDOWNLOADS_CONT5 => _AM_WFDOWNLOADS_CONT5,
-                 _AM_WFDOWNLOADS_CONT6 => _AM_WFDOWNLOADS_CONT6,
-                 _AM_WFDOWNLOADS_CONT7 => _AM_WFDOWNLOADS_CONT7
-            )
-        );
-        $sform->addElement($continent_select);
-        $sform->addElement(new XoopsFormText(_AM_WFDOWNLOADS_MIRROR_DOWNURL, 'downurl', 50, 255, $this->getVar('downurl', 'e')), true);
-
-        $approved         = ($this->getVar('submit') == 0) ? 0 : 1;
+        $continent_select->addOptionArray(array(
+             _AM_WFDOWNLOADS_CONT1 => _AM_WFDOWNLOADS_CONT1,
+             _AM_WFDOWNLOADS_CONT2 => _AM_WFDOWNLOADS_CONT2,
+             _AM_WFDOWNLOADS_CONT3 => _AM_WFDOWNLOADS_CONT3,
+             _AM_WFDOWNLOADS_CONT4 => _AM_WFDOWNLOADS_CONT4,
+             _AM_WFDOWNLOADS_CONT5 => _AM_WFDOWNLOADS_CONT5,
+             _AM_WFDOWNLOADS_CONT6 => _AM_WFDOWNLOADS_CONT6,
+             _AM_WFDOWNLOADS_CONT7 => _AM_WFDOWNLOADS_CONT7
+            ));
+        $form->addElement($continent_select);
+        // downurl
+        $form->addElement(new XoopsFormText(_AM_WFDOWNLOADS_MIRROR_DOWNURL, 'downurl', 50, 255, $this->getVar('downurl', 'e')), true);
+        // approve
+        $approved = ($this->getVar('submit') == 0) ? 0 : 1;
         $approve_checkbox = new XoopsFormCheckBox(_AM_WFDOWNLOADS_MIRROR_FAPPROVE, 'approve', $approved);
-        $approve_checkbox->addOption(1, " ");
-        $sform->addElement($approve_checkbox);
-
-        $sform->addElement(new XoopsFormHidden('lid', (int) ($this->getVar('lid'))));
-        $sform->addElement(new XoopsFormHidden('mirror_id', (int) ($this->getVar('mirror_id'))));
-        $sform->addElement(new XoopsFormHidden('uid', $uid));
-        $sform->addElement(new XoopsFormHidden('confirm', 1));
+        $approve_checkbox->addOption(1, ' ');
+        $form->addElement($approve_checkbox);
+        // lid
+        $form->addElement(new XoopsFormHidden('lid', (int) ($this->getVar('lid'))));
+        // mirror_id
+        $form->addElement(new XoopsFormHidden('mirror_id', (int) ($this->getVar('mirror_id'))));
+        // uid
+        $form->addElement(new XoopsFormHidden('uid', $uid));
+        // confirm
+        $form->addElement(new XoopsFormHidden('confirm', 1));
+        // op
+        $form->addElement(new XoopsFormHidden('op', ''));
+        // buttons
         $button_tray = new XoopsFormElementTray('', '');
-        $hidden      = new XoopsFormHidden('op', '');
-        $button_tray->addElement($hidden);
-
         if ($this->isNew()) {
             $create_button = new XoopsFormButton('', '', _AM_WFDOWNLOADS_BSAVE, 'submit');
             $create_button->setExtra('onclick="this.form.elements.op.value=\'mirror.save\'"');
@@ -118,25 +126,9 @@ class WfdownloadsMirror extends XoopsObject
             $cancel_button->setExtra('onclick="history.go(-1)"');
             $button_tray->addElement($cancel_button);
         }
-        $sform->addElement($button_tray);
+        $form->addElement($button_tray);
 
-        return $sform;
-    }
-
-    /**
-     * Returns an array representation of the object
-     *
-     * @return array
-     */
-    function toArray()
-    {
-        $ret  = array();
-        $vars = $this->getVars();
-        foreach (array_keys($vars) as $i) {
-            $ret[$i] = $this->getVar($i);
-        }
-
-        return $ret;
+        return $form;
     }
 }
 

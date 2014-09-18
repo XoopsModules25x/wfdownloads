@@ -19,14 +19,14 @@
  * @version         svn:$id$
  */
 $currentFile = basename(__FILE__);
-include 'header.php';
+include_once dirname(__FILE__) . '/header.php';
 
-$lid      = WfdownloadsRequest::getInt('lid', 0);
+$lid = WfdownloadsRequest::getInt('lid', 0);
 $downloadObj = $wfdownloads->getHandler('download')->get($lid);
 if (empty($downloadObj)) {
     redirect_header('index.php', 3, _CO_WFDOWNLOADS_ERROR_NODOWNLOAD);
 }
-$cid      = WfdownloadsRequest::getInt('cid', $downloadObj->getVar('cid'));
+$cid = WfdownloadsRequest::getInt('cid', $downloadObj->getVar('cid'));
 $categoryObj = $wfdownloads->getHandler('category')->get($cid);
 if (empty($categoryObj)) {
     redirect_header('index.php', 3, _CO_WFDOWNLOADS_ERROR_NOCATEGORY);
@@ -59,7 +59,7 @@ if (
 
 // Load Template
 $xoopsOption['template_main'] = "{$wfdownloads->getModule()->dirname()}_singlefile.tpl";
-include XOOPS_ROOT_PATH . '/header.php';
+include_once XOOPS_ROOT_PATH . '/header.php';
 
 $xoTheme->addScript(XOOPS_URL . '/browse.php?Frameworks/jquery/jquery.js');
 $xoTheme->addScript(WFDOWNLOADS_URL . '/assets/js/magnific/jquery.magnific-popup.min.js');
@@ -91,11 +91,12 @@ $xoopsTpl->assign('category_title', $categoryObj->getVar('title'));
 $xoopsTpl->assign('category_image', $imgurl);
 
 // Retreiving the top parent category
-$allSubcatsTopParentCid = $wfdownloads->getHandler('category')->getAllSubcatsTopParentCid();
-$topCategory            = $wfdownloads->getHandler('category')->allCategories[$allSubcatsTopParentCid[$downloadObj->getVar('cid')]];
-$xoopsTpl->assign('topcategory_title', $topCategory->getVar('title'));
-$xoopsTpl->assign('topcategory_image', $topCategory->getVar('imgurl'));
-$xoopsTpl->assign('topcategory_cid', $topCategory->getVar('cid'));
+$categoriesTopParentByCid = $wfdownloads->getHandler('category')->getAllSubcatsTopParentCid();
+$topCategoryObj = $wfdownloads->getHandler('category')->get($categoriesTopParentByCid[$cid]);
+
+$xoopsTpl->assign('topcategory_title', $topCategoryObj->getVar('title'));
+$xoopsTpl->assign('topcategory_image', $topCategoryObj->getVar('imgurl'));
+$xoopsTpl->assign('topcategory_cid', $topCategoryObj->getVar('cid'));
 
 // Formulize module support (2006/03/06, 2006/03/08) jpc - start
 $formulize_idreq = $downloadObj->getVar('formulize_idreq');
@@ -202,10 +203,10 @@ if ($wfdownloads->getConfig('screenshot') == 1) {
 
 // Breadcrumb
 include_once XOOPS_ROOT_PATH . '/class/tree.php';
-$categoriesTree = new XoopsObjectTree($wfdownloads->getHandler('category')->getObjects(), 'cid', 'pid');
+$categoryObjsTree = new XoopsObjectTree($wfdownloads->getHandler('category')->getObjects(), 'cid', 'pid');
 $breadcrumb = new WfdownloadsBreadcrumb();
 $breadcrumb->addLink($wfdownloads->getModule()->getVar('name'), WFDOWNLOADS_URL);
-foreach (array_reverse($categoriesTree->getAllParent($cid)) as $parentCategory) {
+foreach (array_reverse($categoryObjsTree->getAllParent($cid)) as $parentCategory) {
     $breadcrumb->addLink($parentCategory->getVar('title'), "viewcat.php?cid=" . $parentCategory->getVar('cid'));
 }
 $breadcrumb->addLink($categoryObj->getVar('title'), "viewcat.php?cid=" . $categoryObj->getVar('cid'));
@@ -213,17 +214,17 @@ $breadcrumb->addLink($downloadInfo['title'], '');
 $xoopsTpl->assign('wfdownloads_breadcrumb', $breadcrumb->render());
 
 // Show other author downloads
-$criteria = new CriteriaCompo(new Criteria('submitter', $downloadObj->getVar('submitter')));
-$criteria->add(new Criteria('lid', $lid, '!='));
-$criteria->setLimit(20);
-$criteria->setSort('published');
-$criteria->setOrder('DESC');
-$downloadObjs = $wfdownloads->getHandler('download')->getActiveDownloads($criteria);
-foreach ($downloadObjs as $downloadObj) {
-    $downloadByUser['title'] = $downloadObj->getVar('title');
-    $downloadByUser['lid'] = (int) $downloadObj->getVar('lid');
-    $downloadByUser['cid'] = (int) $downloadObj->getVar('cid');
-    $downloadByUser['published'] = formatTimestamp($downloadObj->getVar('published'), $wfdownloads->getConfig('dateformat'));
+$downloadByUserCriteria = new CriteriaCompo(new Criteria('submitter', $downloadObj->getVar('submitter')));
+$downloadByUserCriteria->add(new Criteria('lid', $lid, '!='));
+$downloadByUserCriteria->setLimit(20);
+$downloadByUserCriteria->setSort('published');
+$downloadByUserCriteria->setOrder('DESC');
+$downloadByUserObjs = $wfdownloads->getHandler('download')->getActiveDownloads($downloadByUserCriteria);
+foreach ($downloadByUserObjs as $downloadByUserObj) {
+    $downloadByUser['title'] = $downloadByUserObj->getVar('title');
+    $downloadByUser['lid'] = (int) $downloadByUserObj->getVar('lid');
+    $downloadByUser['cid'] = (int) $downloadByUserObj->getVar('cid');
+    $downloadByUser['published'] = formatTimestamp($downloadByUserObj->getVar('published'), $wfdownloads->getConfig('dateformat'));
     $xoopsTpl->append('down_uid', $downloadByUser); // this definition is not removed for backward compatibility issues
     $xoopsTpl->append('downloads_by_user', $downloadByUser);
 }
@@ -234,29 +235,29 @@ $lid = (int) $downloadObj->getVar('lid');
 // User reviews
 $criteria = new CriteriaCompo(new Criteria("lid", $lid));
 $criteria->add(new Criteria("submit", 1));
-$reviewsCount = $wfdownloads->getHandler('review')->getCount($criteria);
-if ($reviewsCount > 0) {
+$reviewCount = $wfdownloads->getHandler('review')->getCount($criteria);
+if ($reviewCount > 0) {
     $user_reviews = "op=list&amp;cid={$cid}&amp;lid={$lid}\">" . _MD_WFDOWNLOADS_USERREVIEWS;
 } else {
     $user_reviews = "cid={$cid}&amp;lid={$lid}\">" . _MD_WFDOWNLOADS_NOUSERREVIEWS;
 }
 $xoopsTpl->assign('lang_user_reviews', $xoopsConfig['sitename'] . ' ' . _MD_WFDOWNLOADS_USERREVIEWSTITLE);
 $xoopsTpl->assign('lang_UserReviews', sprintf($user_reviews, $downloadObj->getVar('title')));
-$xoopsTpl->assign('review_amount', $reviewsCount);
+$xoopsTpl->assign('review_amount', $reviewCount);
 
 // User mirrors
 $downloadInfo['add_mirror'] = $add_mirror;
 $criteria                   = new CriteriaCompo(new Criteria('lid', $lid));
 $criteria->add(new Criteria('submit', 1));
-$mirrorsCount = $wfdownloads->getHandler('mirror')->getCount($criteria);
-if ($mirrorsCount > 0) {
+$mirrorCount = $wfdownloads->getHandler('mirror')->getCount($criteria);
+if ($mirrorCount > 0) {
     $user_mirrors = "op=list&amp;cid={$cid}&amp;lid={$lid}\">" . _MD_WFDOWNLOADS_USERMIRRORS;
 } else {
     $user_mirrors = "cid={$cid}&amp;lid={$lid}\">" . _MD_WFDOWNLOADS_NOUSERMIRRORS;
 }
 $xoopsTpl->assign('lang_user_mirrors', $xoopsConfig['sitename'] . ' ' . _MD_WFDOWNLOADS_USERMIRRORSTITLE);
 $xoopsTpl->assign('lang_UserMirrors', sprintf($user_mirrors, $downloadObj->getVar('title')));
-$xoopsTpl->assign('mirror_amount', $mirrorsCount);
+$xoopsTpl->assign('mirror_amount', $mirrorCount);
 
 $xoopsTpl->assign('use_ratings', $wfdownloads->getConfig('enable_mirrors'));
 $xoopsTpl->assign('use_ratings', $wfdownloads->getConfig('enable_ratings'));
@@ -271,11 +272,11 @@ if ($wfdownloads->getConfig('copyright') == true) {
 $xoopsTpl->assign('down', $downloadInfo); // this definition is not removed for backward compatibility issues
 $xoopsTpl->assign('download', $downloadInfo);
 
-include XOOPS_ROOT_PATH . '/include/comment_view.php';
+include_once XOOPS_ROOT_PATH . '/include/comment_view.php';
 
 $xoopsTpl->assign('com_rule', $wfdownloads->getConfig('com_rule'));
 $xoopsTpl->assign('module_home', wfdownloads_module_home(true));
-include 'footer.php';
+include_once dirname(__FILE__) . '/footer.php';
 
 ?>
 <script type="text/javascript">

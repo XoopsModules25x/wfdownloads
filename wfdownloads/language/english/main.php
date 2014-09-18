@@ -282,6 +282,9 @@ define('_MD_WFDOWNLOADS_FFS_DOWNLOADCUSTOMDETAILS', "Custom details:");
 define('_MD_WFDOWNLOADS_FFS_BACK', "Back");
 define('_MD_WFDOWNLOADS_FFS_DOWNLOADTITLE', "Submitting a '{category}' file.");
 // Added Formulize module support (2006/05/04) jpc - end
+
+
+
 // 3.23
 /**
  * @return array

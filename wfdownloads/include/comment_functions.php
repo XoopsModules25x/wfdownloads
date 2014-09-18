@@ -26,12 +26,12 @@ include_once dirname(__FILE__) . '/common.php';
 
 /**
  * @param $download_id
- * @param $total_num
+ * @param $commentCount
  */
-function wfdownloads_com_update($download_id, $total_num)
+function wfdownloads_com_update($download_id, $commentCount)
 {
     $wfdownloads = WfdownloadsWfdownloads::getInstance();
-    $wfdownloads->getHandler('download')->updateAll("comments", intval($total_num), new Criteria("lid", intval($download_id)));
+    $wfdownloads->getHandler('download')->updateAll('comments', (int) $commentCount, new Criteria('lid', (int) $download_id));
 }
 
 /**

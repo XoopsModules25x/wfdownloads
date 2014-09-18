@@ -137,17 +137,16 @@ switch ($op) {
         echo "</fieldset>\n";
 
         //ask what to do
-        include XOOPS_ROOT_PATH . "/class/xoopsformloader.php";
+        include_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
 
-        $form = new XoopsThemeForm(_AM_WFDOWNLOADS_IMPORT_BUTTON_IMPORT, "form", $_SERVER['REQUEST_URI']);
+        $form = new XoopsThemeForm(_AM_WFDOWNLOADS_IMPORT_BUTTON_IMPORT, 'form', $_SERVER['REQUEST_URI']);
         // Avoid module to import form itself
         // Is wf-downloads installed?
-        if ($wfdownloads->getModule()->dirname() != "wf" . "downloads") {
+        if ($wfdownloads->getModule()->dirname() != 'wf' . "downloads") {
             $got_options = false;
             if (wfdownloads_checkModule('wf' . 'downloads')) { // don't modify, is for cloning
                 $moduleVersion = round(wfdownloads_checkModule('wf' . 'downloads') / 100, 2); // don't modify, is for cloning
-                $button        = new XoopsFormButton(_AM_WFDOWNLOADS_IMPORT_WFD . '<br />'
-                    . $moduleVersion, "wmp_button", _AM_WFDOWNLOADS_IMPORT_BUTTON_IMPORT, "submit");
+                $button = new XoopsFormButton(_AM_WFDOWNLOADS_IMPORT_WFD . '<br />' . $moduleVersion, 'wmp_button', _AM_WFDOWNLOADS_IMPORT_BUTTON_IMPORT, 'submit');
                 $button->setExtra("onclick='document.forms.form.op.value=\"import.wfd322\"'");
                 $form->addElement($button);
                 unset($button);
@@ -161,8 +160,7 @@ switch ($op) {
         $got_options = false;
         if (wfdownloads_checkModule('mydownloads')) {
             $moduleVersion = round(wfdownloads_checkModule('mydownloads') / 100, 2);
-            $button        = new XoopsFormButton(_AM_WFDOWNLOADS_IMPORT_MYDOWNLOADS . '<br />'
-                . $moduleVersion, "myd_button", _AM_WFDOWNLOADS_IMPORT_BUTTON_IMPORT, "submit");
+            $button = new XoopsFormButton(_AM_WFDOWNLOADS_IMPORT_MYDOWNLOADS . '<br />' . $moduleVersion, 'myd_button', _AM_WFDOWNLOADS_IMPORT_BUTTON_IMPORT, 'submit');
             $button->setExtra("onclick='document.forms.form.op.value=\"import.MyDownloads\"'");
             $form->addElement($button);
             unset($button);
@@ -175,8 +173,7 @@ switch ($op) {
         $got_options = false;
         if (wfdownloads_checkModule('PDdownloads')) {
             $moduleVersion = round(wfdownloads_checkModule('PDdownloads') / 100, 2);
-            $button        = new XoopsFormButton(_AM_WFDOWNLOADS_IMPORT_PDDOWNLOADS . '<br />'
-                . $moduleVersion, "pd_button", _AM_WFDOWNLOADS_IMPORT_BUTTON_IMPORT, "submit");
+            $button = new XoopsFormButton(_AM_WFDOWNLOADS_IMPORT_PDDOWNLOADS . '<br />' . $moduleVersion, 'pd_button', _AM_WFDOWNLOADS_IMPORT_BUTTON_IMPORT, 'submit');
             $button->setExtra("onclick='document.forms.form.op.value=\"import.PD-Downloads\"'");
             $form->addElement($button);
             unset($button);
@@ -189,8 +186,7 @@ switch ($op) {
         $got_options = false;
         if (wfdownloads_checkModule('wmpdownloads')) {
             $moduleVersion = round(wfdownloads_checkModule('wmpdownloads') / 100, 2);
-            $button        = new XoopsFormButton(_AM_WFDOWNLOADS_IMPORT_WMPOWNLOADS . '<br />'
-                . $moduleVersion, "wmp_button", _AM_WFDOWNLOADS_IMPORT_BUTTON_IMPORT, "submit");
+            $button = new XoopsFormButton(_AM_WFDOWNLOADS_IMPORT_WMPOWNLOADS . '<br />' . $moduleVersion, 'wmp_button', _AM_WFDOWNLOADS_IMPORT_BUTTON_IMPORT, 'submit');
             $button->setExtra("onclick='document.forms.form.op.value=\"import.wmpownloads\"'");
             $form->addElement($button);
             unset($button);
@@ -203,8 +199,7 @@ switch ($op) {
         $got_options = false;
         if (wfdownloads_checkModule('TDMDownloads')) {
             $moduleVersion = round(wfdownloads_checkModule('TDMDownloads') / 100, 2);
-            $button        = new XoopsFormButton(_AM_WFDOWNLOADS_IMPORT_TDMDOWNLOADS . '<br />'
-                . $moduleVersion, "wmp_button", _AM_WFDOWNLOADS_IMPORT_BUTTON_IMPORT, "submit");
+            $button = new XoopsFormButton(_AM_WFDOWNLOADS_IMPORT_TDMDOWNLOADS . '<br />' . $moduleVersion, 'wmp_button', _AM_WFDOWNLOADS_IMPORT_BUTTON_IMPORT, 'submit');
             $button->setExtra("onclick='document.forms.form.op.value=\"import.TDMDownloads\"'");
             $form->addElement($button);
             unset($button);
@@ -216,7 +211,7 @@ switch ($op) {
 
         $form->addElement(new XoopsFormHidden('op', 0));
         $form->display();
-        include 'admin_footer.php';
+        include_once dirname(__FILE__) . '/admin_footer.php';
         break;
 }
 
@@ -269,26 +264,38 @@ function import_wfd_to_wfdownloads()
     $wfdownloads = WfdownloadsWfdownloads::getInstance();
 
     echo "<br /><span style='font-weight: bold;'>Copying Files</span><br />";
+
     // Copy categories images/thumbnails
     if (!wfdownloads_copyDir(XOOPS_ROOT_PATH . '/' . $wfdModuleConfig['catimage'], XOOPS_ROOT_PATH . '/' . $wfdownloads->getConfig('catimage'))) {
         return false;
     }
     echo "Copied categories images and thumbnails<br />";
+
     // Copy screenshots images/thumbnails
     if (!wfdownloads_copyDir(
         XOOPS_ROOT_PATH . '/' . $wfdModuleConfig['screenshots'],
         XOOPS_ROOT_PATH . '/' . $wfdownloads->getConfig('screenshots')
-    )
-    ) {
+    )) {
         return false;
     }
     echo "Copied downloads screenshots and thumbnails<br />";
-    // Copy files
-    if (!wfdownloads_copyDir($wfdModuleConfig['uploaddir'], $wfdownloads->getConfig('uploaddir'))) {
-        return false;
-    }
-    echo "Copied files<br />";
 
+    // Copy files
+    $wfdDownloadObjs = $wfdDownloadsHandler->getObjects();
+    $countCopied = 0;
+    $countNotCopied = 0;
+    foreach($wfdDownloadObjs as $wfdDownloadObj) {
+        if (wfdownloads_copyFile($wfdModuleConfig['uploaddir'] . "/" . $wfdDownloadObj->getVar('filename'), $wfdownloads->getConfig('uploaddir') . "/" . $wfdDownloadObj->getVar('filename'))) {
+            echo "<span style='color:green;'>" . $wfdModuleConfig['uploaddir'] . "/" . $wfdDownloadObj->getVar('filename') . " copied</span><br />";
+            ++$countCopied;
+        } else {
+            echo "<span style='color:red;'>ERROR copying:" . $wfdModuleConfig['uploaddir'] . "/" . $wfdDownloadObj->getVar('filename') . "</span><br />";
+            ++$countNotCopied;
+        }
+    }
+    echo "Files copied: ". $countCopied;
+    echo "<br />";
+    echo "Files not copied: ". $countNotCopied;
     echo "<br />";
     echo _AM_WFDOWNLOADS_IMPORT_IMPORTINGDATA;
     echo "<br />";
@@ -337,19 +344,36 @@ function import_wfd_to_wfdownloads()
     list($max_ratingid) = $xoopsDB->fetchRow($result);
 
     //Import data into category table
-    $sql = "INSERT INTO {$destination['cat']} (";
-    $sql .= " `old_cid`, `old_pid`, `title`, `imgurl`, `description`, `total`, `summary`, `spotlighttop`, `spotlighthis`, `dohtml`, `dosmiley`, `doxcode`, `doimage`, `dobr`, `weight`, `formulize_fid`";
-    $sql .= " ) SELECT ";
-    $sql .= " `cid`,     `pid`,     `title`, `imgurl`, `description`, `total`, `summary`, `spotlighttop`, `spotlighthis`, `dohtml`, `dosmiley`, `doxcode`, `doimage`, `dobr`, `weight`, `formulize_fid`";
-    $sql .= " FROM {$source['cat']}";
+    if (wfdownloads_checkModule('wf' . 'downloads') >= 320) {
+        $sql = "INSERT INTO {$destination['cat']} (";
+        $sql .= " `old_cid`, `old_pid`, `title`, `imgurl`, `description`, `total`, `summary`, `spotlighttop`, `spotlighthis`, `dohtml`, `dosmiley`, `doxcode`, `doimage`, `dobr`, `weight`, `formulize_fid`";
+        $sql .= " ) SELECT ";
+        $sql .= " `cid`,     `pid`,     `title`, `imgurl`, `description`, `total`, `summary`, `spotlighttop`, `spotlighthis`, `dohtml`, `dosmiley`, `doxcode`, `doimage`, `dobr`, `weight`, `formulize_fid`";
+        $sql .= " FROM {$source['cat']}";
+    } else {
+        $sql = "INSERT INTO {$destination['cat']} (";
+        $sql .= " `old_cid`, `old_pid`, `title`, `imgurl`, `description`, `total`, `summary`, `spotlighttop`, `spotlighthis`, `dohtml`, `dosmiley`, `doxcode`, `doimage`, `dobr`, `weight`";
+        $sql .= " ) SELECT ";
+        $sql .= " `cid`,     `pid`,     `title`, `imgurl`, `description`, `total`, `summary`, `spotlighttop`, `spotlighthis`, `dohtml`, `dosmiley`, `doxcode`, `doimage`, `dobr`, `weight`";
+        $sql .= " FROM {$source['cat']}";
+    }
     $xoopsDB->query($sql);
     echo "Imported {$xoopsDB->getAffectedRows()} categories into {$destination['cat']}<br />";
+
     //Import data into downloads table
-    $sql = "INSERT INTO {$destination['downloads']} (";
-    $sql .= " `cid`, `old_lid`, `old_cid`, `title`, `url`, `filename`, `filetype`, `homepage`, `version`, `size`, `platform`, `screenshot`, `screenshot2`, `screenshot3`, `screenshot4`, `submitter`, `publisher`, `status`, `date`, `hits`, `rating`, `votes`, `comments`, `license`, `mirror`, `price`, `paypalemail`, `features`, `requirements`, `homepagetitle`, `forumid`, `limitations`, `versiontypes`, `dhistory`, `published`, `expired`, `updated`, `offline`, `summary`, `description`, `ipaddress`, `notifypub`, `formulize_idreq`, `screenshots`";
-    $sql .= " ) SELECT ";
-    $sql .= " 0,     `lid`,     `cid`,     `title`, `url`, `filename`, `filetype`, `homepage`, `version`, `size`, `platform`, `screenshot`, `screenshot2`, `screenshot3`, `screenshot4`, `submitter`, `publisher`, `status`, `date`, `hits`, `rating`, `votes`, `comments`, `license`, `mirror`, `price`, `paypalemail`, `features`, `requirements`, `homepagetitle`, `forumid`, `limitations`, `versiontypes`, `dhistory`, `published`, `expired`, `updated`, `offline`, `summary`, `description`, `ipaddress`, `notifypub`, `formulize_idreq`, `screenshots`";
-    $sql .= " FROM {$source['downloads']}";
+    if (wfdownloads_checkModule('wf' . 'downloads') >= 320) {
+        $sql = "INSERT INTO {$destination['downloads']} (";
+        $sql .= " `cid`, `old_lid`, `old_cid`, `title`, `url`, `filename`, `filetype`, `homepage`, `version`, `size`, `platform`, `screenshot`, `screenshot2`, `screenshot3`, `screenshot4`, `submitter`, `publisher`, `status`, `date`, `hits`, `rating`, `votes`, `comments`, `license`, `mirror`, `price`, `paypalemail`, `features`, `requirements`, `homepagetitle`, `forumid`, `limitations`, `versiontypes`, `dhistory`, `published`, `expired`, `updated`, `offline`, `summary`, `description`, `ipaddress`, `notifypub`, `formulize_idreq`";
+        $sql .= " ) SELECT ";
+        $sql .= " 0,     `lid`,     `cid`,     `title`, `url`, `filename`, `filetype`, `homepage`, `version`, `size`, `platform`, `screenshot`, `screenshot2`, `screenshot3`, `screenshot4`, `submitter`, `publisher`, `status`, `date`, `hits`, `rating`, `votes`, `comments`, `license`, `mirror`, `price`, `paypalemail`, `features`, `requirements`, `homepagetitle`, `forumid`, `limitations`, `versiontypes`, `dhistory`, `published`, `expired`, `updated`, `offline`, `summary`, `description`, `ipaddress`, `notifypub`, `formulize_idreq`";
+        $sql .= " FROM {$source['downloads']}";
+    } else {
+        $sql = "INSERT INTO {$destination['downloads']} (";
+        $sql .= " `cid`, `old_lid`, `old_cid`, `title`, `url`, `filename`, `filetype`, `homepage`, `version`, `size`, `platform`, `screenshot`, `submitter`, `publisher`, `status`, `date`, `hits`, `rating`, `votes`, `comments`, `license`, `mirror`, `price`, `paypalemail`, `features`, `requirements`, `homepagetitle`, `forumid`, `limitations`, `dhistory`, `published`, `expired`, `updated`, `offline`, `summary`, `description`, `ipaddress`, `notifypub`";
+        $sql .= " ) SELECT ";
+        $sql .= " 0,     `lid`,     `cid`,     `title`, `url`, `filename`, `filetype`, `homepage`, `version`, `size`, `platform`, `screenshot`, `submitter`, `publisher`, `status`, `date`, `hits`, `rating`, `votes`, `comments`, `license`, `mirror`, `price`, `paypalemail`, `features`, `requirements`, `homepagetitle`, `forumid`, `limitations`, `dhistory`, `published`, `expired`, `updated`, `offline`, `summary`, `description`, `ipaddress`, `notifypub`";
+        $sql .= " FROM {$source['downloads']}";
+    }
     $xoopsDB->query($sql);
     echo "Imported {$xoopsDB->getAffectedRows()} downloads into {$destination['downloads']}<br />";
 
@@ -361,22 +385,33 @@ function import_wfd_to_wfdownloads()
     $sql .= " FROM {$source['mirrors']}";
     $xoopsDB->query($sql);
     echo "Imported {$xoopsDB->getAffectedRows()} mirrors into {$destination['mirrors']}<br />";
+
     //Import data into reviews table
-    $sql = "INSERT INTO {$destination['reviews']} (";
-    $sql .= " `lid`, `title`, `review`, `submit`, `date`, `uid`, `rate`";
-    $sql .= " ) SELECT";
-    $sql .= " `lid`, `title`, `review`, `submit`, `date`, `uid`, `rate`";
-    $sql .= " FROM {$source['reviews']}";
+    if (wfdownloads_checkModule('wf' . 'downloads') >= 320) {
+        $sql = "INSERT INTO {$destination['reviews']} (";
+        $sql .= " `lid`, `title`, `review`, `submit`, `date`, `uid`, `rate`";
+        $sql .= " ) SELECT";
+        $sql .= " `lid`, `title`, `review`, `submit`, `date`, `uid`, `rate`";
+        $sql .= " FROM {$source['reviews']}";
+    } else {
+        $sql = "INSERT INTO {$destination['reviews']} (";
+        $sql .= " `lid`, `title`, `review`, `submit`, `date`, `uid`";
+        $sql .= " ) SELECT";
+        $sql .= " `lid`, `title`, `review`, `submit`, `date`, `uid`";
+        $sql .= " FROM {$source['reviews']}";
+    }
     $xoopsDB->query($sql);
     echo "Imported {$xoopsDB->getAffectedRows()} reviews into {$destination['reviews']}<br />";
+
     //Import data into brokens table
     $sql = "INSERT INTO {$destination['broken']} (";
-    $sql .= " `lid`, `sender`, `ip`";
+    $sql .= " `lid`, `sender`, `date`, `ip`";
     $sql .= " ) SELECT";
-    $sql .= " `lid`, `sender`, `ip`";
+    $sql .= " `lid`, `sender`, `date`, `ip`";
     $sql .= " FROM {$source['broken']}";
     $xoopsDB->query($sql);
     echo "Imported {$xoopsDB->getAffectedRows()} broken reports into {$destination['broken']}<br />";
+
     //Import data into votedata table
     $sql = "INSERT INTO {$destination['votes']} (";
     $sql .= " `lid`, `ratinguser`, `rating`, `ratinghostname`, `ratingtimestamp`";
@@ -385,6 +420,7 @@ function import_wfd_to_wfdownloads()
     $sql .= " FROM {$source['votes']}";
     $xoopsDB->query($sql);
     echo "Imported {$xoopsDB->getAffectedRows()} votes into {$destination['votes']}<br />";
+
     //Import data into mod request table
     $sql = "INSERT INTO {$destination['mod']} (";
     $sql .= " `lid`, `cid`, `title`, `url`, `homepage`, `version`, `size`, `platform`, `screenshot`, `description`, `modifysubmitter`, `features`, `requirements`, `publisher`, `dhistory`, `summary`)";
@@ -432,10 +468,10 @@ function import_wfd_to_wfdownloads()
     }
 
     //Remove temporary fields
-    $xoopsDB->query("ALTER TABLE ." . $destination['cat'] . " DROP `old_cid`");
-    $xoopsDB->query("ALTER TABLE ." . $destination['cat'] . " DROP `old_pid`");
-    $xoopsDB->query("ALTER TABLE ." . $destination['downloads'] . " DROP `old_cid`");
-    $xoopsDB->query("ALTER TABLE ." . $destination['downloads'] . " DROP `old_lid`");
+    $xoopsDB->query("ALTER TABLE " . $destination['cat'] . " DROP `old_cid`");
+    $xoopsDB->query("ALTER TABLE " . $destination['cat'] . " DROP `old_pid`");
+    $xoopsDB->query("ALTER TABLE " . $destination['downloads'] . " DROP `old_cid`");
+    $xoopsDB->query("ALTER TABLE " . $destination['downloads'] . " DROP `old_lid`");
 
     return null;
 }

@@ -19,7 +19,7 @@
  * @version         svn:$id$
  */
 $currentFile = basename(__FILE__);
-include 'header.php';
+include_once dirname(__FILE__) . '/header.php';
 
 // Check permissions
 if (is_object($xoopsUser)) {
@@ -30,13 +30,13 @@ if (is_object($xoopsUser)) {
     redirect_header(XOOPS_URL . '/user.php', 1, _MD_WFDOWNLOADS_MUSTREGFIRST);
 }
 
-$lid      = WfdownloadsRequest::getInt('lid', 0);
+$lid = WfdownloadsRequest::getInt('lid', 0);
 $downloadObj = $wfdownloads->getHandler('download')->get($lid);
 // Check if download exists
 if ($downloadObj->isNew()) {
     redirect_header('index.php', 1, _MD_WFDOWNLOADS_NODOWNLOAD);
 }
-$cid    = WfdownloadsRequest::getInt('cid', $downloadObj->getVar('cid'));
+$cid = WfdownloadsRequest::getInt('cid', $downloadObj->getVar('cid'));
 $agreed = WfdownloadsRequest::getBool('agreed', false, 'POST');
 
 // Download not published, expired or taken offline - redirect
@@ -57,8 +57,8 @@ if (!$gperm_handler->checkRight('WFDownCatPerm', $cid, $groups, $wfdownloads->ge
 
 if ($agreed == false) {
     if ($wfdownloads->getConfig('check_host')) {
-        $isAGoodHost  = false;
-        $referer      = parse_url(xoops_getenv('HTTP_REFERER'));
+        $isAGoodHost = false;
+        $referer = parse_url(xoops_getenv('HTTP_REFERER'));
         $referer_host = $referer['host'];
         foreach ($wfdownloads->getConfig('referers') as $ref) {
             if (!empty($ref) && preg_match("/{$ref}/i", $referer_host)) {
@@ -74,7 +74,7 @@ if ($agreed == false) {
 
 if ($wfdownloads->getConfig('showDowndisclaimer') && $agreed == false) {
     $xoopsOption['template_main'] = "{$wfdownloads->getModule()->dirname()}_disclaimer.tpl";
-    include XOOPS_ROOT_PATH . '/header.php';
+    include_once XOOPS_ROOT_PATH . '/header.php';
 
     $xoTheme->addScript(XOOPS_URL . '/browse.php?Frameworks/jquery/jquery.js');
     $xoTheme->addScript(WFDOWNLOADS_URL . '/assets/js/magnific/jquery.magnific-popup.min.js');
@@ -108,7 +108,7 @@ if ($wfdownloads->getConfig('showDowndisclaimer') && $agreed == false) {
     ); // this definition is not removed for backward compatibility issues
     $xoopsTpl->assign('cancel_location', WFDOWNLOADS_URL . '/index.php'); // this definition is not removed for backward compatibility issues
     $xoopsTpl->assign('agree_location', WFDOWNLOADS_URL . "/{$currentFile}?agree=1&amp;lid={$lid}&amp;cid={$cid}");
-    include 'footer.php';
+    include_once dirname(__FILE__) . '/footer.php';
 } else {
     if (!wfdownloads_userIsAdmin()) {
         $wfdownloads->getHandler('download')->incrementHits($lid);
@@ -125,7 +125,7 @@ if ($wfdownloads->getConfig('showDowndisclaimer') && $agreed == false) {
     $fileFilename = trim($downloadObj->getVar('filename')); // IN PROGRESS: why 'trim'?
     if ((!$downloadObj->getVar('url') == '' && !$downloadObj->getVar('url') == 'http://') || $fileFilename == '') {
         // download is a remote file: download from remote url
-        include XOOPS_ROOT_PATH . '/header.php';
+        include_once XOOPS_ROOT_PATH . '/header.php';
 
         $xoTheme->addScript(XOOPS_URL . '/browse.php?Frameworks/jquery/jquery.js');
         $xoTheme->addScript(WFDOWNLOADS_URL . '/assets/js/magnific/jquery.magnific-popup.min.js');
@@ -188,7 +188,7 @@ if ($wfdownloads->getConfig('showDowndisclaimer') && $agreed == false) {
         exit();
     } else {
         // download is a broken file: report broken
-        include XOOPS_ROOT_PATH . '/header.php';
+        include_once XOOPS_ROOT_PATH . '/header.php';
         echo "<br />";
         echo "<div align='center'>" . wfdownloads_headerImage() . "</div>";
         echo "<h4>" . _MD_WFDOWNLOADS_BROKENFILE . "</h4>\n";
@@ -196,5 +196,5 @@ if ($wfdownloads->getConfig('showDowndisclaimer') && $agreed == false) {
         echo "<a href='" . WFDOWNLOADS_URL . "/brokenfile.php?lid={$lid}'>" . _MD_WFDOWNLOADS_CLICKHERE . "</a>\n";
         echo "</div>\n";
     }
-    include 'footer.php';
+    include_once dirname(__FILE__) . '/footer.php';
 }

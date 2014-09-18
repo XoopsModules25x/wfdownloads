@@ -43,7 +43,7 @@ function wfdownloads_bytesToSize1000($bytes, $precision = 2)
     return @round(
             $bytes / pow(1000, ($i = floor(log($bytes, 1000)))),
             $precision
-        ) . ' ' . $unit[(int)$i];
+        ) . ' ' . $unit[(int) $i];
 }
 
 /**
@@ -56,11 +56,10 @@ function wfdownloads_bytesToSize1024($bytes, $precision = 2)
 {
     // human readable format -- powers of 1024
     $unit = array('B', 'kB', 'MB', 'GB', 'TB', 'PB', 'EB');
-
     return @round(
             $bytes / pow(1024, ($i = floor(log($bytes, 1024)))),
             $precision
-        ) . ' ' . $unit[(int)$i];
+        ) . ' ' . $unit[(int) $i];
 }
 
 /**
@@ -72,7 +71,7 @@ function wfdownloads_bytesToSize1024($bytes, $precision = 2)
  **/
 function wfdownloads_sizeToBytes1024($size)
 {
-    $l   = substr($size, -1);
+    $l = substr($size, -1);
     $ret = substr($size, 0, -1);
     switch (strtoupper($l)) {
         case 'P':
@@ -96,7 +95,6 @@ function wfdownloads_sizeToBytes1024($size)
             $ret *= 1024;
             break;
     }
-
     return $ret;
 }
 
@@ -118,7 +116,7 @@ function wfdownloads_sizeToBytes1024($size)
  */
 function wfdownloads_getDir($path = '.', $level = 0)
 {
-    $ret    = array();
+    $ret = array();
     $ignore = array('cgi-bin', '.', '..');
     // Directories to ignore when listing output. Many hosts will deny PHP access to the cgi-bin.
     $dirHandler = @opendir($path);
@@ -142,7 +140,7 @@ function wfdownloads_getDir($path = '.', $level = 0)
         }
     }
     closedir($dirHandler);
-    // Close the directory handle
+    // close the directory handle
     return $ret;
 }
 
@@ -167,11 +165,9 @@ function wfdownloads_makeDir($dir, $perm = 0777, $create_index = true)
                 }
                 @fclose($fileHandler);
             }
-
             return true;
         }
     }
-
     return null;
 }
 
@@ -182,7 +178,7 @@ function wfdownloads_makeDir($dir, $perm = 0777, $create_index = true)
  */
 function wfdownloads_getFiles($path = '.')
 {
-$files = array();
+    $files = array();
     $dir = opendir($path);
 	while ($file = readdir($dir)) {
 		if(is_file($path . $file)) {
@@ -242,7 +238,6 @@ function wfdownloads_copyDir($source, $destination)
         }
     }
     closedir($dirHandler);
-
     return true;
 }
 
@@ -293,7 +288,6 @@ function wfdownloads_delDir($dir, $if_not_empty = true)
     } else {
         // NOP
     }
-
     return rmdir($dir);
 }
 
@@ -318,9 +312,8 @@ function wfdownloads_checkModule($dirname)
     if (!xoops_isActiveModule($dirname)) {
         return false;
     }
-    $module_handler =& xoops_gethandler('module');
-    $module         = $module_handler->getByDirname($dirname);
-
+    $module_handler = xoops_gethandler('module');
+    $module = $module_handler->getByDirname($dirname);
     return $module->getVar('version');
 }
 
@@ -341,22 +334,21 @@ function wfdownloads_sortCategories($pid = 0, $level = 0)
 
     $sorted   = array();
     $criteria = new CriteriaCompo();
-    $criteria->add(new Criteria("pid", $pid));
-    $criteria->setSort("weight");
-    $criteria->setOrder("ASC");
+    $criteria->add(new Criteria('pid', $pid));
+    $criteria->setSort('weight');
+    $criteria->setOrder('ASC');
     $subCategoryObjs = $wfdownloads->getHandler('category')->getObjects($criteria);
     if (count($subCategoryObjs) > 0) {
         ++$level;
         foreach ($subCategoryObjs as $subCategoryObj) {
-            $pid      = $subCategoryObj->getVar('pid');
-            $cid      = $subCategoryObj->getVar('cid');
+            $pid = $subCategoryObj->getVar('pid');
+            $cid = $subCategoryObj->getVar('cid');
             $sorted[] = array('pid' => $pid, 'cid' => $cid, 'level' => $level, 'category' => $subCategoryObj->toArray());
             if ($subSorted = wfdownloads_sortCategories($cid, $level)) {
                 $sorted = array_merge($sorted, $subSorted);
             }
         }
     }
-
     return $sorted;
 }
 
@@ -384,11 +376,11 @@ function wfdownloads_lettersChoice()
         if (isset($countsByLetters[$letter])) {
             $letter_array['letter'] = $letter;
             $letter_array['count']  = $countsByLetters[$letter];
-            $letter_array['url']    = "" . XOOPS_URL . "/modules/" . $wfdownloads->getModule()->dirname() . "/viewcat.php?list={$letter}";
+            $letter_array['url']    = XOOPS_URL . "/modules/{$wfdownloads->getModule()->dirname()}/viewcat.php?list={$letter}";
         } else {
             $letter_array['letter'] = $letter;
             $letter_array['count']  = 0;
-            $letter_array['url']    = "";
+            $letter_array['url']    = '';
         }
         $alphabet_array[$letter] = $letter_array;
         unset($letter_array);
@@ -402,9 +394,8 @@ function wfdownloads_lettersChoice()
     $letterschoiceTpl          = new XoopsTpl();
     $letterschoiceTpl->caching = false; // Disable cache
     $letterschoiceTpl->assign('alphabet', $alphabet_array);
-    $html = $letterschoiceTpl->fetch("db:" . $wfdownloads->getModule()->dirname() . "_common_letterschoice.tpl");
+    $html = $letterschoiceTpl->fetch("db:{$wfdownloads->getModule()->dirname()}_co_letterschoice.tpl");
     unset($letterschoiceTpl);
-
     return $html;
 }
 
@@ -422,9 +413,7 @@ function wfdownloads_userIsAdmin()
     if (isset($wfdownloads_isAdmin)) {
         return $wfdownloads_isAdmin;
     }
-
     $wfdownloads_isAdmin = (!is_object($xoopsUser)) ? false : $xoopsUser->isAdmin($wfdownloads->getModule()->getVar('mid'));
-
     return $wfdownloads_isAdmin;
 }
 
@@ -464,12 +453,11 @@ function wfdownloads_tableExists($table)
 {
     $bRetVal = false;
     //Verifies that a MySQL table exists
-    $xoopsDB  =& XoopsDatabaseFactory::getDatabaseConnection();
+    $xoopsDB = XoopsDatabaseFactory::getDatabaseConnection();
     $realName = $xoopsDB->prefix($table);
 
     $sql = "SHOW TABLES FROM " . XOOPS_DB_NAME;
     $ret = $xoopsDB->queryF($sql);
-
     while (list($m_table) = $xoopsDB->fetchRow($ret)) {
         if ($m_table == $realName) {
             $bRetVal = true;
@@ -477,7 +465,6 @@ function wfdownloads_tableExists($table)
         }
     }
     $xoopsDB->freeRecordSet($ret);
-
     return ($bRetVal);
 }
 
@@ -493,16 +480,14 @@ function wfdownloads_tableExists($table)
  */
 function wfdownloads_getMeta($key)
 {
-    $xoopsDB =& XoopsDatabaseFactory::getDatabaseConnection();
-    $sql     = sprintf("SELECT metavalue FROM %s WHERE metakey=%s", $xoopsDB->prefix('wfdownloads_meta'), $xoopsDB->quoteString($key));
-    $ret     = $xoopsDB->query($sql);
+    $xoopsDB = XoopsDatabaseFactory::getDatabaseConnection();
+    $sql = sprintf("SELECT metavalue FROM %s WHERE metakey=%s", $xoopsDB->prefix('wfdownloads_meta'), $xoopsDB->quoteString($key));
+    $ret = $xoopsDB->query($sql);
     if (!$ret) {
         $value = false;
     } else {
         list($value) = $xoopsDB->fetchRow($ret);
-
     }
-
     return $value;
 }
 
@@ -519,7 +504,7 @@ function wfdownloads_getMeta($key)
  */
 function wfdownloads_setMeta($key, $value)
 {
-    $xoopsDB =& XoopsDatabaseFactory::getDatabaseConnection();
+    $xoopsDB = XoopsDatabaseFactory::getDatabaseConnection();
     if ($ret = wfdownloads_getMeta($key)) {
         $sql = sprintf(
             "UPDATE %s SET metavalue = %s WHERE metakey = %s",
@@ -539,7 +524,6 @@ function wfdownloads_setMeta($key, $value)
     if (!$ret) {
         return false;
     }
-
     return true;
 }
 
@@ -577,31 +561,27 @@ function wfdownloads_getCookieVar($name, $default = '')
  */
 function wfdownloads_getCurrentUrls()
 {
-    $http        = ((strpos(XOOPS_URL, "https://")) === false) ? ("http://") : ("https://");
-    $phpSelf     = $_SERVER['PHP_SELF'];
-    $httpHost    = $_SERVER['HTTP_HOST'];
+    $http = ((strpos(XOOPS_URL, "https://")) === false) ? ("http://") : ("https://");
+    $phpSelf = $_SERVER['PHP_SELF'];
+    $httpHost = $_SERVER['HTTP_HOST'];
     $queryString = $_SERVER['QUERY_STRING'];
 
     If ($queryString != '') {
         $queryString = '?' . $queryString;
     }
-
     $currentURL = $http . $httpHost . $phpSelf . $queryString;
-
-    $urls                = array();
-    $urls['http']        = $http;
-    $urls['httphost']    = $httpHost;
-    $urls['phpself']     = $phpSelf;
+    $urls = array();
+    $urls['http'] = $http;
+    $urls['httphost'] = $httpHost;
+    $urls['phpself'] = $phpSelf;
     $urls['querystring'] = $queryString;
-    $urls['full']        = $currentURL;
-
+    $urls['full'] = $currentURL;
     return $urls;
 }
 
 function wfdownloads_getCurrentPage()
 {
     $urls = wfdownloads_getCurrentUrls();
-
     return $urls['full'];
 }
 
@@ -617,7 +597,6 @@ function wfdownloads_formatErrors($errors = array())
     foreach ($errors as $value) {
         $ret .= "<br /> - {$value}";
     }
-
     return $ret;
 }
 
@@ -670,11 +649,10 @@ function wfdownloads_savePermissions($groups, $id, $permName)
 {
     $wfdownloads = WfdownloadsWfdownloads::getInstance();
 
-    $id            = (int) $id;
-    $result        = true;
-    $mid           = $wfdownloads->getModule()->mid();
+    $id = (int) $id;
+    $result = true;
+    $mid = $wfdownloads->getModule()->mid();
     $gperm_handler = xoops_gethandler('groupperm');
-
     // First, if the permissions are already there, delete them
     $gperm_handler->deleteByModule($mid, $permName, $id);
     // Save the new permissions
@@ -683,7 +661,6 @@ function wfdownloads_savePermissions($groups, $id, $permName)
             $gperm_handler->addRight($permName, $id, $group_id, $mid);
         }
     }
-
     return $result;
 }
 
@@ -712,7 +689,6 @@ function wfdownloads_toolbar()
     ) {
         $isSubmissionAllowed = true;
     }
-
     $toolbar = "[ ";
     if ($isSubmissionAllowed == true) {
         $category_suffix = !empty($_GET['cid']) ? "?cid=" . (int) $_GET['cid'] : ""; //Added by Lankford
@@ -726,7 +702,6 @@ function wfdownloads_toolbar()
         $toolbar .= "<a href='topten.php?list=rate'>" . _MD_WFDOWNLOADS_TOPRATED . "</a>";
     }
     $toolbar .= " ]";
-
     return $toolbar;
 }
 
@@ -777,16 +752,13 @@ function wfdownloads_serverStats()
     $html .= "<li>" . _AM_WFDOWNLOADS_DOWN_MAXPOSTSIZE . " <b><span style=\"color: blue;\">" . ini_get('post_max_size') . "</span></b>\n";
     $html .= "<li>" . _AM_WFDOWNLOADS_DOWN_MEMORYLIMIT . " <b><span style=\"color: blue;\">" . ini_get('memory_limit') . "</span></b>\n";
     $html .= "</ul>\n";
-
     $html .= "<ul>\n";
     $html .= "<li>" . _AM_WFDOWNLOADS_DOWN_SERVERPATH . " <b>" . XOOPS_ROOT_PATH . "</b>\n";
-
     $html .= "</ul>\n";
     $html .= "<br />\n";
     $html .= _AM_WFDOWNLOADS_DOWN_UPLOADPATHDSC . "\n";
     $html .= "</div>";
     $html .= "</fieldset><br />";
-
     return $html;
 }
 
@@ -805,7 +777,6 @@ function wfdownloads_displayIcons($time, $status = _WFDOWNLOADS_STATUS_WAITING, 
 
     $new = '';
     $pop = '';
-
     $newdate = (time() - (86400 * $wfdownloads->getConfig('daysnew')));
     $popdate = (time() - (86400 * $wfdownloads->getConfig('daysupdated')));
 
@@ -839,7 +810,6 @@ function wfdownloads_displayIcons($time, $status = _WFDOWNLOADS_STATUS_WAITING, 
         }
     }
     $icons = "{$new} {$pop}";
-
     return $icons;
 }
 
@@ -855,24 +825,18 @@ if (!function_exists('convertorderbyin')) {
     function convertorderbyin($orderby)
     {
         switch (trim($orderby)) {
-            case "titleA" : $orderby = "title ASC"; break;
-            case "titleD" : $orderby = "title DESC"; break;
-
-            case "dateA" : $orderby = "published ASC"; break;
-            case "dateD" : $orderby = "published DESC"; break;
-
-            case "hitsA" : $orderby = "hits ASC"; break;
-            case "hitsD" : $orderby = "hits DESC"; break;
-
-            case "ratingA" : $orderby = "rating ASC"; break;
-            case "ratingD" : $orderby = "rating DESC"; break;
-
-            case "sizeD" : $orderby = "size DESC"; break;
-            case "sizeA" : $orderby = "size ASC"; break;
-
-            default: $orderby = "published DESC"; break;
+            case 'titleA': $orderby = 'title ASC'; break;
+            case 'titleD': $orderby = 'title DESC'; break;
+            case 'dateA': $orderby = 'published ASC'; break;
+            case 'dateD': $orderby = 'published DESC'; break;
+            case 'hitsA': $orderby = 'hits ASC'; break;
+            case 'hitsD': $orderby = 'hits DESC'; break;
+            case 'ratingA': $orderby = 'rating ASC'; break;
+            case 'ratingD': $orderby = 'rating DESC'; break;
+            case 'sizeD': $orderby = 'size DESC'; break;
+            case 'sizeA': $orderby = 'size ASC'; break;
+            default: $orderby = 'published DESC'; break;
         }
-
         return $orderby;
     }
 }
@@ -885,20 +849,16 @@ if (!function_exists('convertorderbytrans')) {
      */
     function convertorderbytrans($orderby)
     {
-        if ($orderby == "title ASC") $orderbyTrans = _MD_WFDOWNLOADS_TITLEATOZ;
-        if ($orderby == "title DESC") $orderbyTrans = _MD_WFDOWNLOADS_TITLEZTOA;
-
-        if ($orderby == "published ASC") $orderbyTrans = _MD_WFDOWNLOADS_DATEOLD;
-        if ($orderby == "published DESC") $orderbyTrans = _MD_WFDOWNLOADS_DATENEW;
-
-        if ($orderby == "hits ASC") $orderbyTrans = _MD_WFDOWNLOADS_POPULARITYLTOM;
-        if ($orderby == "hits DESC") $orderbyTrans = _MD_WFDOWNLOADS_POPULARITYMTOL;
-
-        if ($orderby == "rating ASC") $orderbyTrans = _MD_WFDOWNLOADS_RATINGLTOH;
-        if ($orderby == "rating DESC") $orderbyTrans = _MD_WFDOWNLOADS_RATINGHTOL;
-
-        if ($orderby == "size ASC") $orderbyTrans = _MD_WFDOWNLOADS_SIZELTOH;
-        if ($orderby == "size DESC") $orderbyTrans = _MD_WFDOWNLOADS_SIZEHTOL;
+        if ($orderby == 'title ASC') $orderbyTrans = _MD_WFDOWNLOADS_TITLEATOZ;
+        if ($orderby == 'title DESC') $orderbyTrans = _MD_WFDOWNLOADS_TITLEZTOA;
+        if ($orderby == 'published ASC') $orderbyTrans = _MD_WFDOWNLOADS_DATEOLD;
+        if ($orderby == 'published DESC') $orderbyTrans = _MD_WFDOWNLOADS_DATENEW;
+        if ($orderby == 'hits ASC') $orderbyTrans = _MD_WFDOWNLOADS_POPULARITYLTOM;
+        if ($orderby == 'hits DESC') $orderbyTrans = _MD_WFDOWNLOADS_POPULARITYMTOL;
+        if ($orderby == 'rating ASC') $orderbyTrans = _MD_WFDOWNLOADS_RATINGLTOH;
+        if ($orderby == 'rating DESC') $orderbyTrans = _MD_WFDOWNLOADS_RATINGHTOL;
+        if ($orderby == 'size ASC') $orderbyTrans = _MD_WFDOWNLOADS_SIZELTOH;
+        if ($orderby == 'size DESC') $orderbyTrans = _MD_WFDOWNLOADS_SIZEHTOL;
         return $orderbyTrans;
     }
 }
@@ -911,20 +871,16 @@ if (!function_exists('convertorderbyout')) {
      */
     function convertorderbyout($orderby)
     {
-        if ($orderby == "title ASC")  $orderby = "titleA";
-        if ($orderby == "title DESC") $orderby = "titleD";
-
-        if ($orderby == "published ASC") $orderby = "dateA";
-        if ($orderby == "published DESC") $orderby = "dateD";
-
-        if ($orderby == "hits ASC") $orderby = "hitsA";
-        if ($orderby == "hits DESC") $orderby = "hitsD";
-
-        if ($orderby == "rating ASC") $orderby = "ratingA";
-        if ($orderby == "rating DESC") $orderby = "ratingD";
-
-        if ($orderby == "size ASC") $orderby = "sizeA";
-        if ($orderby == "size DESC") $orderby = "sizeD";
+        if ($orderby == 'title ASC')  $orderby = 'titleA';
+        if ($orderby == 'title DESC') $orderby = 'titleD';
+        if ($orderby == 'published ASC') $orderby = 'dateA';
+        if ($orderby == 'published DESC') $orderby = 'dateD';
+        if ($orderby == 'hits ASC') $orderby = 'hitsA';
+        if ($orderby == 'hits DESC') $orderby = 'hitsD';
+        if ($orderby == 'rating ASC') $orderby = 'ratingA';
+        if ($orderby == 'rating DESC') $orderby = 'ratingD';
+        if ($orderby == 'size ASC') $orderby = 'sizeA';
+        if ($orderby == 'size DESC') $orderby = 'sizeD';
         return $orderby;
     }
 }
@@ -940,15 +896,15 @@ function wfdownloads_updateRating($lid)
 {
     $wfdownloads = WfdownloadsWfdownloads::getInstance();
 
-    $ratingObjs       = $wfdownloads->getHandler('rating')->getObjects(new Criteria('lid', (int) $lid));
+    $ratingObjs = $wfdownloads->getHandler('rating')->getObjects(new Criteria('lid', (int) $lid));
     $ratings_count = count($ratingObjs);
-    $totalRating   = 0;
+    $totalRating = 0;
     foreach ($ratingObjs as $ratingObj) {
         $totalRating += $ratingObj->getVar('rating');
     }
     $averageRating = $totalRating / $ratings_count;
     $averageRating = number_format($averageRating, 4);
-    $downloadObj      = $wfdownloads->getHandler('download')->get($lid);
+    $downloadObj = $wfdownloads->getHandler('download')->get($lid);
     $downloadObj->setVar('rating', $averageRating);
     $downloadObj->setVar('votes', $ratings_count);
     $wfdownloads->getHandler('download')->insert($downloadObj);
@@ -963,12 +919,9 @@ function wfdownloads_categoriesCount()
 {
     global $xoopsUser;
     $gperm_handler = xoops_gethandler('groupperm');
-    $wfdownloads   = WfdownloadsWfdownloads::getInstance();
-
+    $wfdownloads = WfdownloadsWfdownloads::getInstance();
     $groups = (is_object($xoopsUser)) ? $xoopsUser->getGroups() : array(0 => XOOPS_GROUP_ANONYMOUS);
-
     $allowedDownCategoriesIds = $gperm_handler->getItemIds('WFDownCatPerm', $groups, $wfdownloads->getModule()->mid());
-
     return count($allowedDownCategoriesIds);
 }
 
@@ -998,10 +951,8 @@ function wfdownloads_getTotalDownloads($cids = 0)
         return false;
     }
     $criteria->setGroupby('cid');
-
     $info['published'] = $wfdownloads->getHandler('download')->getMaxPublishdate($criteria);
-    $info['count']     = $wfdownloads->getHandler('download')->getCount($criteria);
-
+    $info['count'] = $wfdownloads->getHandler('download')->getCount($criteria);
     return $info;
 }
 
@@ -1019,7 +970,6 @@ function wfdownloads_headerImage()
     if (!empty($indeximage)) {
         $image = wfdownloads_displayImage($indexImage, 'index.php', $wfdownloads->getConfig('mainimagedir'), $indexHeading);
     }
-
     return $image;
 }
 
@@ -1056,7 +1006,6 @@ function wfdownloads_displayImage($image = '', $href = '', $imgSource = '', $alt
         $showImage .= "</a>";
     }
     clearstatcache();
-
     return $showImage;
 }
 
@@ -1117,7 +1066,6 @@ function wfdownloads_createThumb($imgName, $imgPath, $imgSavePath, $width = 100,
             return $imagePath;
             break;
     }
-
     if (!empty($img)) {
         // Get original image size and scale ratio
         $scale = $origWidth / $origHeight;
@@ -1138,7 +1086,6 @@ function wfdownloads_createThumb($imgName, $imgPath, $imgSavePath, $width = 100,
         flush();
         $img = $tempImg;
     }
-
     switch ($type) {
         case 1:
         default:
@@ -1160,7 +1107,6 @@ function wfdownloads_createThumb($imgName, $imgPath, $imgSavePath, $width = 100,
     }
     imagedestroy($img);
     flush();
-
     return XOOPS_URL . '/' . $saveFile;
 }
 
@@ -1174,7 +1120,7 @@ function wfdownloads_createThumb($imgName, $imgPath, $imgSavePath, $width = 100,
 function wfdownloads_isNewImage($published)
 {
     if ($published <= 0) {
-        $indicator['image']   = 'assets/images/icon/download.gif';
+        $indicator['image'] = 'assets/images/icon/download.gif';
         $indicator['alttext'] = _MD_WFDOWNLOADS_NO_FILES;
         $indicator['days'] = null;
     } else {
@@ -1208,7 +1154,6 @@ function wfdownloads_isNewImage($published)
                 break;
         }
     }
-
     return $indicator;
 }
 
@@ -1273,7 +1218,6 @@ function wfdownloads_getDownloadTime($size = 0, $gmodem = 1, $gisdn = 1, $gdsl =
             $dltime = $dltime . $asout[$i];
         }
     }
-
     return $dltime;
 }
 
@@ -1298,7 +1242,7 @@ function wfdownloads_allowedMimetypes($fileName, $isAdmin = true)
 {
     $wfdownloads = WfdownloadsWfdownloads::getInstance();
 
-    $ext      = ltrim(strrchr($fileName, '.'), '.');
+    $ext = ltrim(strrchr($fileName, '.'), '.');
     $criteria = new CriteriaCompo(new Criteria('mime_ext', strtolower($ext)));
     if ($isAdmin == true) {
         $criteria->add(new Criteria('mime_admin', true));
@@ -1306,12 +1250,11 @@ function wfdownloads_allowedMimetypes($fileName, $isAdmin = true)
         $criteria->add(new Criteria('mime_user', true));
     }
     if ($mimetypeObjs = $wfdownloads->getHandler('mimetype')->getObjects($criteria)) {
-        $mimetypeObj  = $mimetypeObjs[0];
-        $ret       = explode(' ', $mimetypeObj->getVar('mime_types'));
+        $mimetypeObj = $mimetypeObjs[0];
+        $ret = explode(' ', $mimetypeObj->getVar('mime_types'));
     } else {
         $ret = array();
     }
-
     return $ret;
 }
 
@@ -1320,7 +1263,7 @@ function wfdownloads_allowedMimetypes($fileName, $isAdmin = true)
  *
  * @return int
  */
-function return_bytes($size_str)
+function wfdownloads_return_bytes($size_str)
 {
     switch (substr ($size_str, -1))
     {
@@ -1357,8 +1300,7 @@ function wfdownloads_uploading(
     $onlyImages = false
 ) {
     $wfdownloads = WfdownloadsWfdownloads::getInstance();
-    $file        = array();
-
+    $file = array();
     if (empty($allowedMimetypes)) {
         $allowedMimetypes = wfdownloads_allowedMimetypes($_FILES['userfile']['name'], $isAdmin);
     }
@@ -1366,21 +1308,17 @@ function wfdownloads_uploading(
         $errors = 'MIME type not allowed';
         redirect_header($redirectURL, 4, $errors);
     }
-
     $uploadDirectory = $uploadDirectory . '/';
-    $file_name       = $_FILES['userfile']['name'];
+    $file_name = $_FILES['userfile']['name'];
 //Admin can upload files of any size
     if (wfdownloads_userIsAdmin()) {
-        $maxFileSize = return_bytes(ini_get('upload_max_filesize'));
+        $maxFileSize = wfdownloads_return_bytes(ini_get('upload_max_filesize'));
     } else {
         $maxFileSize = $wfdownloads->getConfig('maxfilesize');
     }
-
-
-    $maxImageWidth  = $wfdownloads->getConfig('maximgwidth');
+    $maxImageWidth = $wfdownloads->getConfig('maximgwidth');
     $maxImageHeight = $wfdownloads->getConfig('maximgheight');
-
-    // TODO: use Xoops XoopsMediaUploader class
+// TODO: use Xoops XoopsMediaUploader class
     if ($onlyImages) {
         include_once XOOPS_ROOT_PATH . '/modules/wfdownloads/class/img_uploader.php';
         //xoops_load('XoopsMediaUploader');
@@ -1390,9 +1328,7 @@ function wfdownloads_uploading(
         //xoops_load('XoopsMediaUploader');
         $uploader = new XoopsMediaUploader($uploadDirectory, $allowedMimetypes, $maxFileSize, $maxImageWidth, $maxImageHeight);
     }
-
 //    $uploader->noAdminSizeCheck(1);
-
     if ($uploader->fetchMedia($_POST['xoops_upload_file'][0])) {
         if (!$uploader->upload()) {
             $errors = $uploader->getErrors();
@@ -1406,9 +1342,8 @@ function wfdownloads_uploading(
 //                    $file['url'] = XOOPS_URL . '/' . $uploadDirectory . '/';
                     $file['filename'] = strtolower($uploader->savedFileName);
                     $file['filetype'] = $_FILES['userfile']['type'];
-                    $file['size']     = filesize($uploadDirectory . strtolower($uploader->savedFileName));
+                    $file['size'] = filesize($uploadDirectory . strtolower($uploader->savedFileName));
                 }
-
                 return $file;
             }
         }
@@ -1417,7 +1352,6 @@ function wfdownloads_uploading(
         unlink($uploadDirectory . $uploader->savedFileName);
         redirect_header($redirectURL, 4, $errors);
     }
-
     return null;
 }
 
@@ -1457,7 +1391,6 @@ function wfdownloads_download($filePath, $isBinary = true, $retBytes = true)
     if ($retBytes && $status) {
         return $bytesCounter; // return num. bytes delivered like readfile() does.
     }
-
     return $status;
 }
 
@@ -1558,7 +1491,6 @@ function wfdownloads_getForum($selectedForumId)
     global $xoopsDB;
 
     $selectedForumId = (int) $selectedForumId;
-
     echo "<select name='forumid'>";
     echo "<option value='0'>----------------------</option>";
     $result = $xoopsDB->query("SELECT forum_name, forum_id FROM " . $xoopsDB->prefix("bb_forums") . " ORDER BY forum_id");
@@ -1571,7 +1503,6 @@ function wfdownloads_getForum($selectedForumId)
         echo "<option value='{$forumId}' {$optionSelected}>{$forumName}</option>";
     }
     echo "</select></div>";
-
     return $selectedForumId;
 }
 
@@ -1584,13 +1515,12 @@ function wfdownloads_mirrorOnline($serverURL)
 {
     $fp = @fsockopen($serverURL, 80, $errno, $errstr, 5);
     if (!$fp) {
-        $online = false;
+        $isOnline = false;
     } else {
-        $online = true;
+        $isOnline = true;
         fclose($fp);
     }
-
-    return $online;
+    return $isOnline;
 }
 
 /**
@@ -1698,100 +1628,114 @@ function wfdownloads_truncateHtml($text, $length = 100, $ending = '...', $exact 
             $truncate .= '</' . $tag . '>';
         }
     }
-
     return $truncate;
 }
 
-// IN PROGRESS
-// IN PROGRESS
-// IN PROGRESS
-/*
-php4swish-e 1.1, a web search interface for the swish-e search engine.
-swish-e is a popular open-source search engine that runs on many platforms.
-More information on swish-e is available at swish-e.org.
-This code has been thoroughly tested and is ready for production
- on any UNIX or Linux server that has the swish-e search engine installed.
-You are free to modify this code as you see fit.
-You must specify the path of swish-e ($swish) and
- the location of the search index file ($search_index).
-You will also need to change the default index file served if it is not index.php.
-If you want the meta description information to display completely,
- be sure the <meta description... information is on *one* line for each web page.
-If you wish to allow external search forms to call this script, be sure to set the
- form's action attribute to whatever you name this file.
-Suggestions for enhancements are welcome.
-*/
+
+
+// Swish-e support EXPERIMENTAL
+/**
+ * php4swish-e 1.1, a web search interface for the swish-e search engine.
+ * swish-e is a popular open-source search engine that runs on many platforms.
+ * More information on swish-e is available at swish-e.org.
+ * This code has been thoroughly tested and is ready for production
+ * on any UNIX or Linux server that has the swish-e search engine installed.
+ * You are free to modify this code as you see fit.
+ * You must specify the path of swish-e ($swish) and
+ * the location of the search index file ($swisheIndexFilePath).
+ * You will also need to change the default index file served if it is not index.php.
+ * If you want the meta description information to display completely,
+ * be sure the <meta description... information is on *one* line for each web page.
+ * If you wish to allow external search forms to call this script, be sure to set the
+ * form's action attribute to whatever you name this file.
+ * Suggestions for enhancements are welcome.
+ */
+function wfdownloads_swishe_check()
+{
+    $wfdownloads = WfdownloadsWfdownloads::getInstance();
+
+    // Get the location of the document repository (the index files are located in the root)
+    $swisheDocPath = $wfdownloads->getConfig('uploaddir');
+    // Get the location of the SWISH-E executable
+    $swisheExePath = $wfdownloads->getConfig('swishe_exe_path');
+    // check if _binfilter.sh exists
+    if (!is_file("{$swisheDocPath}/_binfilter.sh")) {
+        return false;
+    }
+    // check if swish-e.conf exists
+    if (!is_file("{$swisheDocPath}/swish-e.conf")) {
+        return false;
+    }
+    // check if swish-e.exe exists
+    if (!is_file("{$swisheExePath}/swish-e.exe")) {
+        return false;
+    }
+    return true;
+}
+
 function wfdownloads_swishe_config()
 {
     $wfdownloads = WfdownloadsWfdownloads::getInstance();
 
-    // Get the path to the repository
-    // IN PROGRESS
-    // IN PROGRESS
-    // IN PROGRESS
-    $swisheDocPath = $wfdownloads->getConfig('swishe_doc_path'); // IN PROGRESS WFDOWNLOADS REPOSITORY PATH
-
+    // Get the location of the document repository (the index files are located in the root)
+    $swisheDocPath = $wfdownloads->getConfig('uploaddir');
     // Create _binfilter.sh
-    // IN PROGRESS
-    // IN PROGRESS
-    // IN PROGRESS
-    //$file = "{$swisheDocPath}/_binfilter.sh";
-    //$fp = fopen($file, 'w') or die("<BR><BR>Unable to open $file");
-    //fputs($fp, "strings \"\$1\" - 2>/dev/null\n");
-    //fclose($fp);
-    //chmod($file, 0755);
-
-    // Create swish-e.conf
-    $file = "{$swisheDocPath}/swish-e.conf";
-    $fp = fopen($file, 'w') || die("<BR><BR>Unable to open {$file}");
-    $line = "IndexDir {$swisheDocPath}/\n";
-    fputs($fp, $line);
-    $line = "IndexFile {$swisheDocPath}/index.swish-e\n";
-    fputs($fp, $line);
-    //$line = "TruncateDocSize 100000\n";
-    //fputs($fp,$line);
-    $line = "IndexReport 1\n";
-    fputs($fp, $line);
-    $line = "IndexContents TXT* .dat\n";
-    fputs($fp, $line);
-    //$line = "FileFilter .dat \"{$swisheDocPath}/_binfilter.sh\" \"'%p'\"\n";
-    //fputs($fp,$line);
-    $line = "IndexOnly .dat\n";
-    fputs($fp, $line);
-    $line = "MinWordLimit 3\n";
-    fputs($fp, $line);
+    $file = "{$swisheDocPath}/_binfilter.sh";
+    $fp = fopen($file, 'w') or die("<BR><BR>Unable to open $file");
+    fputs($fp, "strings \"\$1\" - 2>/dev/null\n");
     fclose($fp);
     chmod($file, 0755);
-
-    // IN PROGRESS
-    // IN PROGRESS
-    // IN PROGRESS
-    print("<SCRIPT LANGUAGE='Javascript'>\r");
-    print("location='config_main.php';");
-    print("</SCRIPT>");
+    unset($fp);
+    // Create swish-e.conf
+    $file = "{$swisheDocPath}/swish-e.conf";
+    $fp = fopen($file, 'w') or die("<BR><BR>Unable to open {$file}");
+    // IndexDir [directories or files|URL|external program]
+    // IndexDir defines the source of the documents for Swish-e. Swish-e currently supports three file access methods: File system, HTTP (also called spidering), and prog for reading files from an external program.
+    fputs($fp, "IndexDir {$swisheDocPath}/\n");
+    // IndexFile *path*
+    // Index file specifies the location of the generated index file. If not specified, Swish-e will create the file index.swish-e in the current directory.
+    fputs($fp, "IndexFile {$swisheDocPath}/index.swish-e\n");
+    // TruncateDocSize *number of characters*
+    // TruncateDocSize limits the size of a document while indexing documents and/or using filters. This config directive truncates the numbers of read bytes of a document to the specified size. This means: if a document is larger, read only the specified numbers of bytes of the document.
+    //fputs($fp, "TruncateDocSize 100000\n");
+    // IndexReport [0|1|2|3]
+    // This is how detailed you want reporting while indexing. You can specify numbers 0 to 3. 0 is totally silent, 3 is the most verbose. The default is 1.
+    fputs($fp, "IndexReport 1\n");
+    // IndexContents [TXT|HTML|XML|TXT2|HTML2|XML2|TXT*|HTML*|XML*] *file extensions*
+    // The IndexContents directive assigns one of Swish-e's document parsers to a document, based on the its extension. Swish-e currently knows how to parse TXT, HTML, and XML documents.
+    fputs($fp, "IndexContents TXT* .dat\n");
+    // FileFilter *suffix* "filter-prog" ["filter-options"]
+    // This maps file suffix (extension) to a filter program. If filter-prog starts with a directory delimiter (absolute path), Swish-e doesn't use the FilterDir settings, but uses the given filter-prog path directly.
+    //fputs($fp, "FileFilter .dat \"{$swisheDocPath}/_binfilter.sh\" \"'%p'\"\n");
+    // IndexOnly *list of file suffixes*
+    // This directive specifies the allowable file suffixes (extensions) while indexing. The default is to index all files specified in IndexDir.
+    fputs($fp, "IndexOnly .dat\n");
+    // MinWordLimit *integer*
+    // Set the minimum length of an word. Shorter words will not be indexed. The default is 1 (as defined in src/config.h).
+    fputs($fp, "MinWordLimit 3\n");
+    fclose($fp);
+    chmod($file, 0755);
 }
 
-// IN PROGRESS
-// IN PROGRESS
-// IN PROGRESS
 /**
- * @param $search_query
+ * @param $swisheQueryWords
  */
-function wfdownloads_swishe_search($search_query)
+function wfdownloads_swishe_search($swisheQueryWords)
 {
     $wfdownloads = WfdownloadsWfdownloads::getInstance();
 
+    $ret = false;
     // IN PROGRESS
     // IN PROGRESS
     // IN PROGRESS
-    $search_query = stripslashes($search_query);
-    if (((strlen($search_query) > 2) && ($last_query != $search_query)) && ($page == false)) {
+    $swisheQueryWords = stripslashes($swisheQueryWords);
+    if (strlen($swisheQueryWords) > 2) {
         //print "<BR>SEARCH!";
-        // Get the first word in $search_query and use it for the $summary_query.
+        // Get the first word in $swisheQueryWords and use it for the $summary_query.
         // IN PROGRESS
         // IN PROGRESS
         // IN PROGRESS
-        $summary_query   = str_replace("\"", " ", $search_query);
+        $summary_query   = str_replace("\"", " ", $swisheQueryWords);
         $summary_query   = trim($summary_query);
         $summary_query_e = explode(" ", $summary_query);
         $summary_query   = trim($summary_query_e[0]);
@@ -1800,42 +1744,32 @@ function wfdownloads_swishe_search($search_query)
         //print "<BR>SQ:  ".$summary_query;
 
         // Get the location of the document repository (the index files are located in the root)
-        // IN PROGRESS
-        // IN PROGRESS
-        // IN PROGRESS
-        $swisheDocPath        = $wfdownloads->getConfig('swishe_doc_path'); // IN PROGRESS WFDOWNLOADS REPOSITORY PATH
+        $swisheDocPath = $wfdownloads->getConfig('uploaddir');
         $swisheDocPath_strlen = strlen($wfdownloads->getConfig('swishe_doc_path'));
 
         // Get the location of the SWISH-E executable
-        // IN PROGRESS
-        // IN PROGRESS
-        // IN PROGRESS
         $swisheExePath = $wfdownloads->getConfig('swishe_exe_path');
 
-        // Get the search_limit to limit the search to X number of entries
-        // IN PROGRESS
-        // IN PROGRESS
-        // IN PROGRESS
-        $search_limit = $wfdownloads->getConfig('search_limit');
-        //print "<BR>Query:  ".$search_query;
-
         // Get search query
-        $search_query  = EscapeShellCmd($search_query); // escape potentially malicious shell commands
-        $search_query  = stripslashes($search_query); // remove backslashes from search query
-        $search_query  = preg_replace('#("|\')#', '', $search_query); // remove quotes from search query
-        $swish         = "{$swisheExePath}/swish-e"; // path of swish-e command
-        $search_index  = "{$swisheDocPath}/index.swish-e"; // path of swish-e index file
-        $search_params = "-H1 -m{$search_limit}"; // Additional search parameters
+        $swisheQueryWords  = escapeshellcmd($swisheQueryWords); // escape potentially malicious shell commands
+        $swisheQueryWords  = stripslashes($swisheQueryWords); // remove backslashes from search query
+        $swisheQueryWords  = preg_replace('#("|\')#', '', $swisheQueryWords); // remove quotes from search query
+        $swisheCommand = "{$swisheExePath}/swish-e"; // path of swish-e command
+        $swisheIndexFilePath  = "{$swisheDocPath}/index.swish-e"; // path of swish-e index file
+        $swisheSearchParams = ""; // Additional search parameters
+        $swisheSearchParams .= "-H1"; // -H1 : print standard result header (default).
+        if ($wfdownloads->getConfig('swishe_search_limit') != 0) {
+            $swisheSearchParams .= " -m{$wfdownloads->getConfig('swishe_search_limit')}"; // -m *number* (max results)
+        } 
 
         // Opens a pipe to swish-e
-        $pipe_handler = popen("{$swish} -w {$search_query} -f {$search_index} {$search_params}", "r")
-        || die("The search request generated an error...Please try again.");
-
-        //print "$swish -w $search_query -f $search_index $search_params<BR>";
+        $swishePipeHandler = popen("{$swisheCommand} -w {$swisheQueryWords} -f {$swisheIndexFilePath} {$swisheSearchParams}", "r");
+        if(!$swishePipeHandler) die("The search request generated an error...Please try again.");
+error_log("{$swisheCommand} -w {$swisheQueryWords} -f {$swisheIndexFilePath} {$swisheSearchParams}");
 
         $line_cnt = 1;
         // loop through each line of the pipe result (i.e. swish-e output) to find hit number
-        while ($nline = @fgets($pipe_handler, 1024)) {
+        while ($nline = @fgets($swishePipeHandler, 1024)) {
             if ($line_cnt == 4) {
                 $num_line = $nline;
                 break; // grab the 4th line, which contains the number of hits returned
@@ -1844,12 +1778,13 @@ function wfdownloads_swishe_search($search_query)
         }
 
         // strip out all but the number of hits
-        $num_results = preg_replace('/# Number of hits: /', '', $num_line);
+        //$num_results = preg_replace('/# Number of hits: /', '', $num_line);
 
         //$table_header_flag = false;
         //$disp_nff_flag = true;
 
-        while ($line = @fgets($pipe_handler, 4096)) {
+        $ret = array();
+        while ($line = @fgets($swishePipeHandler, 4096)) {
             // loop through each line of the pipe result (i.e. swish-e output)
             if (preg_match("/^(\d+)\s+(\S+)\s+\"(.*)\"\s+(\d+)/", $line)) {
                 // Skip commented-out lines and the last line
@@ -1857,60 +1792,24 @@ function wfdownloads_swishe_search($search_query)
                 $line[1] = preg_replace("/[[:blank:]]/", "%%", $line[1]); // replace every space with %% for the phrase in quotation marks
                 $line    = implode('"', $line); // collapse the array into a string
                 $line    = preg_replace("/[[:blank:]]/", "\t", $line); // replace every space with a tab
-                list ($relevance, $result_url, $result_title, $file_size) = explode(
-                    "\t",
-                    $line
-                ); // split the line into an array by tabs; assign variable names to each column
+                
+                list ($relevance, $result_url, $result_title, $file_size) = explode("\t", $line); // split the line into an array by tabs; assign variable names to each column
                 $relevance = $relevance / 10; // format relevance as a percentage for search results
-
                 $full_path_and_file = $result_url;
-                $result_url         = trim(substr($result_url, ($swisheDocPath_strlen - 1), strlen($result_url)));
-                $file_path          = strright($result_url, (strlen($result_url) - 2));
-
-                $query = "SELECT * ";
-                $query .= "FROM " . $dmsdb->prefix("dms_object_versions") . " ";
-                $query .= "WHERE file_path='{$file_path}'";
-                $ver_info = $dmsdb->query($query, 'ROW');
-
-                $query = "SELECT * ";
-                $query .= "FROM " . $dmsdb->prefix("dms_objects") . " ";
-                $query .= "WHERE obj_id='" . $ver_info->obj_id . "'";
-                $obj_info = $dmsdb->query($query, 'ROW');
-                if ($obj_info->obj_id > 0) {
-                    // Permissions required to view this object:
-                    // BROWSE, READONLY, EDIT, OWNER
-                    if ($dms_admin_flag == 0) {
-                        $perms_level = dms_perms_level($obj_info->obj_id);
-                    } else {
-                        $perms_level = 4;
-                    }
-                    if ($obj_info->obj_status < 2) {
-                        if (($perms_level == 1) || ($perms_level == 2) || ($perms_level == 3) || ($perms_level == 4)) {
-                            $misc_text = $obj_info->misc_text;
-                            if (strlen($misc_text) > 0) {
-                                $misc_text = "&nbsp;&nbsp;&nbsp;(" . $misc_text . ")";
-                            } else {
-                                $misc_text = "";
-                            }
-
-                            $store_obj_id      = $obj_info->obj_id;
-                            $store_obj_name    = $obj_info->obj_name . $misc_text;
-                            $store_version_num = $ver_info->major_version . "." . $ver_info->minor_version . "" . $ver_info->sub_minor_version;
-                            $store_relevance   = $relevance;
-                            dms_store_search_results(
-                                $store_obj_id,
-                                $store_obj_name,
-                                $store_version_num,
-                                $relevance,
-                                $full_path_and_file,
-                                $summary_query
-                            );
-                        }
-                    }
-                }
+                $result_url = trim(substr($result_url, ($swisheDocPath_strlen - 1), strlen($result_url)));
+                $file_path = strright($result_url, (strlen($result_url) - 2));
+                $ret[] = array(
+                    'relevance' => $relevance,
+                    'result_url' => $result_url,
+                    'result_title' => $result_title,
+                    'file_size' => $file_size,
+                    'file_path' => $file_path
+                );
             }
         }
         // close the shell pipe
-        pclose($pipe_handler);
+        pclose($swishePipeHandler);
     }
+    return $ret;
 }
+// Swish-e support EXPERIMENTAL

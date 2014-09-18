@@ -69,7 +69,7 @@
                         <a href='../viewcat.php?cid=<{$download.cid}>'><{$download.category_title}></a>
                     </td>
                     <td><{$download.submitter_uname}></td>
-                    <td><{$download.published_timestamp}></td>
+                    <td><{$download.published_formatted}></td>
                     <td align='center'>
                         <{if $download.offline}>
                             <img src="<{xoModuleIcons16 0.png}>"/>
@@ -80,7 +80,7 @@
                     <td align='center'>
                         <{if $download.published}>
                             <img src="<{xoModuleIcons16 1.png}>"/>
-                            <!--<{$download.published_timestamp}>-->
+                            <!--<{$download.published_formatted}>-->
                         <{else}>
                             <img src="<{xoModuleIcons16 0.png}>"/>
                         <{/if}>
@@ -125,7 +125,7 @@
                     <td><{$new_download.title}></td>
                     <td><{$new_download.category_title}></td>
                     <td><{$new_download.submitter_uname}></td>
-                    <td><{$new_download.date_timestamp}></td>
+                    <td><{$new_download.date_formatted}></td>
                     <td align='center'>
                         <a href='?op=newdownload.approve&amp;lid=<{$new_download.lid}>' title="<{$smarty.const._AM_WFDOWNLOADS_BAPPROVE}>"><img
                                     src="<{xoModuleIcons16 1.png}>" title="<{$smarty.const._AM_WFDOWNLOADS_BAPPROVE}>"
@@ -169,7 +169,7 @@
                     <td><a href='../singlefile.php?cid=<{$download.cid}>&amp;lid=<{$download.lid}>'><{$download.title}></a></td>
                     <td><{$download.category_title}></td>
                     <td><{$download.submitter_uname}></td>
-                    <td><{$download.published_timestamp}></td>
+                    <td><{$download.published_formatted}></td>
                     <td align='center'>
                         <{if $download.offline}>
                             <img src="<{xoModuleIcons16 0.png}>"/>
@@ -180,7 +180,7 @@
                     <td align='center'>
                         <{if $download.published}>
                             <img src="<{xoModuleIcons16 1.png}>"/>
-                            <!--<{$download.published_timestamp}>-->
+                            <!--<{$download.published_formatted}>-->
                         <{else}>
                             <img src="<{xoModuleIcons16 0.png}>"/>
                         <{/if}>
@@ -227,7 +227,7 @@
                     <td><a href='../singlefile.php?cid=<{$download.cid}>&amp;lid=<{$download.lid}>'><{$download.title}></a></td>
                     <td><{$download.category_title}></td>
                     <td><{$download.submitter_uname}></td>
-                    <td><{$download.published_timestamp}></td>
+                    <td><{$download.published_formatted}></td>
                     <td align='center'>
                         <{if $download.offline}>
                             <img src="<{xoModuleIcons16 0.png}>"/>
@@ -238,7 +238,7 @@
                     <td align='center'>
                         <{if $download.published}>
                             <img src="<{xoModuleIcons16 1.png}>"/>
-                            <!--<{$download.published_timestamp}>-->
+                            <!--<{$download.published_formatted}>-->
                         <{else}>
                             <img src="<{xoModuleIcons16 0.png}>"/>
                         <{/if}>
@@ -285,7 +285,7 @@
                     <td><a href='../singlefile.php?cid=<{$download.cid}>&amp;lid=<{$download.lid}>'><{$download.title}></a></td>
                     <td><{$download.category_title}></td>
                     <td><{$download.submitter_uname}></td>
-                    <td><{$download.published_timestamp}></td>
+                    <td><{$download.published_formatted}></td>
                     <td align='center'>
                         <{if $download.offline}>
                             <img src="<{xoModuleIcons16 0.png}>"/>
@@ -296,7 +296,7 @@
                     <td align='center'>
                         <{if $download.published}>
                             <img src="<{xoModuleIcons16 1.png}>"/>
-                            <!--<{$download.published_timestamp}>-->
+                            <!--<{$download.published_formatted}>-->
                         <{else}>
                             <img src="<{xoModuleIcons16 0.png}>"/>
                         <{/if}>

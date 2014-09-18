@@ -10,14 +10,14 @@
     </p>
 
     <p>
-        <img src="<{xoModuleIcons16 1.png}>" title="<{$smarty.const._AM_WFDOWNLOADS_AMIRRORS_APPROVE}>"
-             alt="<{$smarty.const._AM_WFDOWNLOADS_AMIRRORS_APPROVE}>"/> <{$smarty.const._AM_WFDOWNLOADS_AMIRRORS_APPROVE}>
+        <img src="<{xoModuleIcons16 1.png}>" title="<{$smarty.const._AM_WFDOWNLOADS_AMIRRORS_APPROVE_ALT}>"
+             alt="<{$smarty.const._AM_WFDOWNLOADS_AMIRRORS_APPROVE_ALT}>"/> <{$smarty.const._AM_WFDOWNLOADS_AMIRRORS_APPROVE_DESC}>
         <br/>
-        <img src="<{xoModuleIcons16 edit.png}>" title="<{$smarty.const._AM_WFDOWNLOADS_AMIRRORS_EDIT}>"
-             alt="<{$smarty.const._AM_WFDOWNLOADS_AMIRRORS_EDIT}>"/> <{$smarty.const._AM_WFDOWNLOADS_AMIRRORS_EDIT}>
+        <img src="<{xoModuleIcons16 edit.png}>" title="<{$smarty.const._AM_WFDOWNLOADS_AMIRRORS_EDIT_ALT}>"
+             alt="<{$smarty.const._AM_WFDOWNLOADS_AMIRRORS_EDIT_ALT}>"/> <{$smarty.const._AM_WFDOWNLOADS_AMIRRORS_EDIT_DESC}>
         <br/>
-        <img src="<{xoModuleIcons16 delete.png}>" title="<{$smarty.const._AM_WFDOWNLOADS_AMIRRORS_DELETE}>"
-             alt="<{$smarty.const._AM_WFDOWNLOADS_AMIRRORS_DELETE}>"/> <{$smarty.const._AM_WFDOWNLOADS_AMIRRORS_DELETE}>
+        <img src="<{xoModuleIcons16 delete.png}>" title="<{$smarty.const._AM_WFDOWNLOADS_AMIRRORS_DELETE_ALT}>"
+             alt="<{$smarty.const._AM_WFDOWNLOADS_AMIRRORS_DELETE_ALT}>"/> <{$smarty.const._AM_WFDOWNLOADS_AMIRRORS_DELETE_DESC}>
     </p>
 </fieldset>
 

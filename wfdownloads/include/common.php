@@ -21,11 +21,11 @@
 defined('XOOPS_ROOT_PATH') || die('XOOPS root path not defined');
 
 // This must contain the name of the folder in which reside Wfdownloads
-define("WFDOWNLOADS_DIRNAME", basename(dirname(dirname(__FILE__))));
-define("WFDOWNLOADS_URL", XOOPS_URL . '/modules/' . WFDOWNLOADS_DIRNAME);
-define("WFDOWNLOADS_IMAGES_URL", WFDOWNLOADS_URL . '/assets/images');
-define("WFDOWNLOADS_ADMIN_URL", WFDOWNLOADS_URL . '/admin');
-define("WFDOWNLOADS_ROOT_PATH", XOOPS_ROOT_PATH . '/modules/' . WFDOWNLOADS_DIRNAME);
+define('WFDOWNLOADS_DIRNAME', basename(dirname(dirname(__FILE__))));
+define('WFDOWNLOADS_URL', XOOPS_URL . '/modules/' . WFDOWNLOADS_DIRNAME);
+define('WFDOWNLOADS_IMAGES_URL', WFDOWNLOADS_URL . '/assets/images');
+define('WFDOWNLOADS_ADMIN_URL', WFDOWNLOADS_URL . '/admin');
+define('WFDOWNLOADS_ROOT_PATH', XOOPS_ROOT_PATH . '/modules/' . WFDOWNLOADS_DIRNAME);
 
 xoops_loadLanguage('common', WFDOWNLOADS_DIRNAME);
 
