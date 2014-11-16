@@ -19,7 +19,7 @@
  * @version         svn:$id$
  */
 $currentFile = basename(__FILE__);
-include 'header.php';
+include_once dirname(__FILE__) . '/header.php';
 
 $xoopsOption['template_main'] = "{$wfdownloads->getModule()->dirname()}_topten.tpl";
 
@@ -27,9 +27,9 @@ $xoopsOption['template_main'] = "{$wfdownloads->getModule()->dirname()}_topten.t
 if (($_GET['list'] == 'rate') && $wfdownloads->getConfig('enable_ratings') == false && !wfdownloads_userIsAdmin()) {
     redirect_header('index.php', 3, _NOPERM);
 }
-$groups = is_object($xoopsUser) ? $xoopsUser->getGroups() : array(0 => XOOPS_GROUP_ANONYMOUS);
+$groups = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : array(0 => XOOPS_GROUP_ANONYMOUS);
 
-include XOOPS_ROOT_PATH . '/header.php';
+include_once XOOPS_ROOT_PATH . '/header.php';
 
 $xoTheme->addScript(XOOPS_URL . '/browse.php?Frameworks/jquery/jquery.js');
 $xoTheme->addScript(WFDOWNLOADS_URL . '/assets/js/magnific/jquery.magnific-popup.min.js');
@@ -39,16 +39,16 @@ $xoTheme->addStylesheet(WFDOWNLOADS_URL . '/assets/css/module.css');
 $xoopsTpl->assign('wfdownloads_url', WFDOWNLOADS_URL . '/');
 
 $action_array = array('hit' => 0, 'rate' => 1);
-$list_array   = array('hits', 'rating');
-$lang_array   = array(_MD_WFDOWNLOADS_HITS, _MD_WFDOWNLOADS_RATING);
+$list_array = array('hits', 'rating');
+$lang_array = array(_MD_WFDOWNLOADS_HITS, _MD_WFDOWNLOADS_RATING);
 
-$sort         = (isset($_GET['list']) && in_array($_GET['list'], $action_array)) ? $_GET['list'] : 'hit';
+$sort = (isset($_GET['list']) && in_array($_GET['list'], $action_array)) ? $_GET['list'] : 'hit';
 $thisselected = $action_array[$sort];
-$sortDB       = $list_array[$thisselected];
+$sortDB = $list_array[$thisselected];
 
 $catarray['imageheader'] = wfdownloads_headerImage();
-$catarray['letters']     = wfdownloads_lettersChoice();
-$catarray['toolbar']     = wfdownloads_toolbar();
+$catarray['letters'] = wfdownloads_lettersChoice();
+$catarray['toolbar'] = wfdownloads_toolbar();
 $xoopsTpl->assign('catarray', $catarray);
 
 $arr = array();
@@ -59,7 +59,7 @@ $categoryObjsTree = new XoopsObjectTree($categoryObjs, 'cid', 'pid');
 $mainCategoryObjs = $categoryObjsTree->getFirstChild(0);
 $allowedCategoriesIds = $gperm_handler->getItemIds('WFDownCatPerm', $groups, $wfdownloads->getModule()->mid());
 
-$e        = 0;
+$e = 0;
 $rankings = array();
 foreach ($mainCategoryObjs as $mainCategoryObj) {
     $cid = (int) $mainCategoryObj->getVar('cid');
@@ -96,14 +96,14 @@ foreach ($mainCategoryObjs as $mainCategoryObj) {
                 $parentCategory_titles[] = $thisCategoryObj->getVar('title');
 
                 $rankings[$e]['file'][] = array(
-                    'id'       => (int) $downloadObjs[$k]->getVar('lid'),
-                    'cid'      => (int) $downloadObjs[$k]->getVar('cid'),
-                    'rank'     => $rank,
-                    'title'    => $downloadObjs[$k]->getVar('title'),
+                    'id' => (int) $downloadObjs[$k]->getVar('lid'),
+                    'cid' => (int) $downloadObjs[$k]->getVar('cid'),
+                    'rank' => $rank,
+                    'title' => $downloadObjs[$k]->getVar('title'),
                     'category' => implode('/', $parentCategory_titles),
-                    'hits'     => $downloadObjs[$k]->getVar('hits'),
-                    'rating'   => number_format($downloadObjs[$k]->getVar('rating'), 2),
-                    'votes'    => $downloadObjs[$k]->getVar('votes')
+                    'hits' => $downloadObjs[$k]->getVar('hits'),
+                    'rating' => number_format($downloadObjs[$k]->getVar('rating'), 2),
+                    'votes' => $downloadObjs[$k]->getVar('votes')
                 );
                 ++$rank;
             }
@@ -129,4 +129,4 @@ if ($_GET['list'] == 'rate') {
 
 $xoopsTpl->assign('module_home', wfdownloads_module_home(true));
 
-include 'footer.php';
+include_once dirname(__FILE__) . '/footer.php';

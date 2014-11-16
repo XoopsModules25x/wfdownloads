@@ -262,4 +262,4 @@ echo $indexAdmin->addNavigation('index.php');
 echo $indexAdmin->renderIndex();
 echo wfdownloads_serverStats();
 
-include 'admin_footer.php';
+include_once dirname(__FILE__) . '/admin_footer.php';

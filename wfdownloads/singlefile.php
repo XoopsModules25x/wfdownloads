@@ -19,21 +19,21 @@
  * @version         svn:$id$
  */
 $currentFile = basename(__FILE__);
-include 'header.php';
+include_once dirname(__FILE__) . '/header.php';
 
-$lid      = WfdownloadsRequest::getInt('lid', 0);
+$lid = WfdownloadsRequest::getInt('lid', 0);
 $downloadObj = $wfdownloads->getHandler('download')->get($lid);
 if (empty($downloadObj)) {
     redirect_header('index.php', 3, _CO_WFDOWNLOADS_ERROR_NODOWNLOAD);
 }
-$cid      = WfdownloadsRequest::getInt('cid', $downloadObj->getVar('cid'));
+$cid = WfdownloadsRequest::getInt('cid', $downloadObj->getVar('cid'));
 $categoryObj = $wfdownloads->getHandler('category')->get($cid);
 if (empty($categoryObj)) {
     redirect_header('index.php', 3, _CO_WFDOWNLOADS_ERROR_NOCATEGORY);
 }
 
 // Check permissions
-$userGroups = is_object($xoopsUser) ? $xoopsUser->getGroups() : array(0 => XOOPS_GROUP_ANONYMOUS);
+$userGroups = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : array(0 => XOOPS_GROUP_ANONYMOUS);
 if (!$gperm_handler->checkRight('WFDownCatPerm', $cid, $userGroups, $wfdownloads->getModule()->mid())) {
     if (in_array(XOOPS_GROUP_ANONYMOUS, $userGroups)) {
         redirect_header(XOOPS_URL . '/user.php', 3, _MD_WFDOWNLOADS_NEEDLOGINVIEW);
@@ -59,7 +59,7 @@ if (
 
 // Load Template
 $xoopsOption['template_main'] = "{$wfdownloads->getModule()->dirname()}_singlefile.tpl";
-include XOOPS_ROOT_PATH . '/header.php';
+include_once XOOPS_ROOT_PATH . '/header.php';
 
 $xoTheme->addScript(XOOPS_URL . '/browse.php?Frameworks/jquery/jquery.js');
 $xoTheme->addScript(WFDOWNLOADS_URL . '/assets/js/magnific/jquery.magnific-popup.min.js');
@@ -112,16 +112,16 @@ if (wfdownloads_checkModule('formulize') && $formulize_idreq) {
     if ($formulize_fid) {
         // get Formulize form description
         $sql = "SELECT desc_form";
-        $sql .= " FROM {$xoopsDB->prefix('formulize_id')}";
+        $sql .= " FROM {$GLOBALS['xoopsDB']->prefix('formulize_id')}";
         $sql .= " WHERE id_form = '{$formulize_fid}'";
-        $formulize_formQuery = $xoopsDB->query($sql);
-        if ($formulize_form_array = $xoopsDB->fetchArray($formulize_formQuery)) {
+        $formulize_formQuery = $GLOBALS['xoopsDB']->query($sql);
+        if ($formulize_form_array = $GLOBALS['xoopsDB']->fetchArray($formulize_formQuery)) {
             $desc_form = $formulize_form_array['desc_form'];
 
             // query the form for its data
             $data = getData("", $formulize_fid, $formulize_idreq); // is a Formulize function
             // include only elements that are visible to the user's groups in the DB query below
-            $userGroups = $xoopsUser ? $xoopsUser->getGroups() : array(0 => XOOPS_GROUP_ANONYMOUS);
+            $userGroups = $GLOBALS['xoopsUser'] ? $GLOBALS['xoopsUser']->getGroups() : array(0 => XOOPS_GROUP_ANONYMOUS);
             $start = 1;
             foreach ($userGroups as $thisgroup) {
                 if ($start) {
@@ -143,14 +143,14 @@ if (wfdownloads_checkModule('formulize') && $formulize_idreq) {
             }
             // get the captions for the elements that are visible to the user's groups
             $sql = "SELECT ele_caption, ele_id, ele_display";
-            $sql .= " FROM {$xoopsDB->prefix("formulize")}";
+            $sql .= " FROM {$GLOBALS['xoopsDB']->prefix("formulize")}";
             $sql .= " WHERE ({$ele_id_query}) AND ele_type <> 'ib' AND ele_type <> 'sep' AND ele_type <> 'areamodif'";
             $sql .= " ORDER BY ele_order";
-            $captionQuery = $xoopsDB->query($sql);
+            $captionQuery = $GLOBALS['xoopsDB']->query($sql);
             // collect the captions and their values into an array for passing to the template
             $formulize_fields = array();
             $i = 0;
-            while ($caption_array = $xoopsDB->fetchArray($captionQuery)) {
+            while ($caption_array = $GLOBALS['xoopsDB']->fetchArray($captionQuery)) {
                 $formulize_fields[$i]['caption'] = $caption_array['ele_caption'];
                 if (count($data[0][$desc_form][$formulize_idreq][$caption_array['ele_id']]) > 1) {
                     $formulize_fields[$i]['values'][] = implode(', ', $data[0][$desc_form][$formulize_idreq][$caption_array['ele_id']]);
@@ -170,14 +170,14 @@ if (wfdownloads_checkModule('formulize') && $formulize_idreq) {
 
 $use_mirrors = $wfdownloads->getConfig('enable_mirrors');
 $add_mirror  = false;
-if (!is_object($xoopsUser) && $use_mirrors == true
+if (!is_object($GLOBALS['xoopsUser']) && $use_mirrors == true
     && ($wfdownloads->getConfig('anonpost') == _WFDOWNLOADS_ANONPOST_MIRROR
         || $wfdownloads->getConfig('anonpost') == _WFDOWNLOADS_ANONPOST_BOTH)
     && ($wfdownloads->getConfig('submissions') == _WFDOWNLOADS_SUBMISSIONS_MIRROR
         || $wfdownloads->getConfig('submissions') == _WFDOWNLOADS_SUBMISSIONS_BOTH)
 ) {
     $add_mirror = true;
-} elseif (is_object($xoopsUser) && $use_mirrors == true
+} elseif (is_object($GLOBALS['xoopsUser']) && $use_mirrors == true
     && ($wfdownloads->getConfig('submissions') == _WFDOWNLOADS_SUBMISSIONS_MIRROR
         || $wfdownloads->getConfig('submissions') == _WFDOWNLOADS_SUBMISSIONS_BOTH
         || wfdownloads_userIsAdmin())
@@ -203,10 +203,10 @@ if ($wfdownloads->getConfig('screenshot') == 1) {
 
 // Breadcrumb
 include_once XOOPS_ROOT_PATH . '/class/tree.php';
-$categoriesTree = new XoopsObjectTree($wfdownloads->getHandler('category')->getObjects(), 'cid', 'pid');
+$categoryObjsTree = new XoopsObjectTree($wfdownloads->getHandler('category')->getObjects(), 'cid', 'pid');
 $breadcrumb = new WfdownloadsBreadcrumb();
 $breadcrumb->addLink($wfdownloads->getModule()->getVar('name'), WFDOWNLOADS_URL);
-foreach (array_reverse($categoriesTree->getAllParent($cid)) as $parentCategory) {
+foreach (array_reverse($categoryObjsTree->getAllParent($cid)) as $parentCategory) {
     $breadcrumb->addLink($parentCategory->getVar('title'), "viewcat.php?cid=" . $parentCategory->getVar('cid'));
 }
 $breadcrumb->addLink($categoryObj->getVar('title'), "viewcat.php?cid=" . $categoryObj->getVar('cid'));
@@ -235,29 +235,29 @@ $lid = (int) $downloadObj->getVar('lid');
 // User reviews
 $criteria = new CriteriaCompo(new Criteria("lid", $lid));
 $criteria->add(new Criteria("submit", 1));
-$reviewsCount = $wfdownloads->getHandler('review')->getCount($criteria);
-if ($reviewsCount > 0) {
+$reviewCount = $wfdownloads->getHandler('review')->getCount($criteria);
+if ($reviewCount > 0) {
     $user_reviews = "op=list&amp;cid={$cid}&amp;lid={$lid}\">" . _MD_WFDOWNLOADS_USERREVIEWS;
 } else {
     $user_reviews = "cid={$cid}&amp;lid={$lid}\">" . _MD_WFDOWNLOADS_NOUSERREVIEWS;
 }
-$xoopsTpl->assign('lang_user_reviews', $xoopsConfig['sitename'] . ' ' . _MD_WFDOWNLOADS_USERREVIEWSTITLE);
+$xoopsTpl->assign('lang_user_reviews', $GLOBALS['xoopsConfig']['sitename'] . ' ' . _MD_WFDOWNLOADS_USERREVIEWSTITLE);
 $xoopsTpl->assign('lang_UserReviews', sprintf($user_reviews, $downloadObj->getVar('title')));
-$xoopsTpl->assign('review_amount', $reviewsCount);
+$xoopsTpl->assign('review_amount', $reviewCount);
 
 // User mirrors
 $downloadInfo['add_mirror'] = $add_mirror;
 $criteria                   = new CriteriaCompo(new Criteria('lid', $lid));
 $criteria->add(new Criteria('submit', 1));
-$mirrorsCount = $wfdownloads->getHandler('mirror')->getCount($criteria);
-if ($mirrorsCount > 0) {
+$mirrorCount = $wfdownloads->getHandler('mirror')->getCount($criteria);
+if ($mirrorCount > 0) {
     $user_mirrors = "op=list&amp;cid={$cid}&amp;lid={$lid}\">" . _MD_WFDOWNLOADS_USERMIRRORS;
 } else {
     $user_mirrors = "cid={$cid}&amp;lid={$lid}\">" . _MD_WFDOWNLOADS_NOUSERMIRRORS;
 }
-$xoopsTpl->assign('lang_user_mirrors', $xoopsConfig['sitename'] . ' ' . _MD_WFDOWNLOADS_USERMIRRORSTITLE);
+$xoopsTpl->assign('lang_user_mirrors', $GLOBALS['xoopsConfig']['sitename'] . ' ' . _MD_WFDOWNLOADS_USERMIRRORSTITLE);
 $xoopsTpl->assign('lang_UserMirrors', sprintf($user_mirrors, $downloadObj->getVar('title')));
-$xoopsTpl->assign('mirror_amount', $mirrorsCount);
+$xoopsTpl->assign('mirror_amount', $mirrorCount);
 
 $xoopsTpl->assign('use_ratings', $wfdownloads->getConfig('enable_mirrors'));
 $xoopsTpl->assign('use_ratings', $wfdownloads->getConfig('enable_ratings'));
@@ -272,11 +272,11 @@ if ($wfdownloads->getConfig('copyright') == true) {
 $xoopsTpl->assign('down', $downloadInfo); // this definition is not removed for backward compatibility issues
 $xoopsTpl->assign('download', $downloadInfo);
 
-include XOOPS_ROOT_PATH . '/include/comment_view.php';
+include_once XOOPS_ROOT_PATH . '/include/comment_view.php';
 
 $xoopsTpl->assign('com_rule', $wfdownloads->getConfig('com_rule'));
 $xoopsTpl->assign('module_home', wfdownloads_module_home(true));
-include 'footer.php';
+include_once dirname(__FILE__) . '/footer.php';
 
 ?>
 <script type="text/javascript">

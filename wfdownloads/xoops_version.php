@@ -24,8 +24,8 @@ defined('XOOPS_ROOT_PATH') || die('XOOPS root path not defined');
 $modversion['name']        = _MI_WFDOWNLOADS_NAME;
 $modversion['version']     = 3.23;
 $modversion['description'] = _MI_WFDOWNLOADS_DESC;
-$modversion['author']      = "XOOPS Development Team";
-$modversion['credits']     = "This module was originally based on Mydownloads, and refactored by Catzwolf and the WF-Projects team. Then it became a project of The SmartFactory who continued the excellent work started by the WF-Projects team.";
+$modversion['author']      = 'XOOPS Development Team';
+$modversion['credits']     = 'This module was originally based on Mydownloads, and refactored by Catzwolf and the WF-Projects team. Then it became a project of The SmartFactory who continued the excellent work started by the WF-Projects team.';
 $modversion['help']        = 'page=help';
 $modversion['license']     = 'GNU GPL 2.0 or later';
 $modversion['license_url'] = "http://www.gnu.org/licenses/gpl-2.0.html";
@@ -35,23 +35,23 @@ $modversion['dirname']     = basename(dirname(__FILE__));
 include_once XOOPS_ROOT_PATH . "/modules/" . $modversion['dirname'] . "/include/constants.php";
 
 // Path and name of the module’s logo
-$modversion['image'] = "assets/images/module_logo.png";
+$modversion['image'] = 'assets/images/module_logo.png';
 
 // Install, update, unistall
 $modversion['onInstall']   = 'include/oninstall.php';
 $modversion['onUpdate']    = 'include/onupdate.php';
 $modversion['onUninstall'] = 'include/onuninstall.php';
 
-$modversion['date']         = '2014-07-29';
-$modversion['release_date'] = '2014/07/29';
-$modversion['releasedate']  = '2014-07-29';
-$modversion['status']       = 'RC3';
-$modversion['teammembers']  = "Bender, David, FrankBlack, Xpider, M0nty, Mithrandir, Marcan, felix[fx2024], Sudhaker, Jegelstaff";
+$modversion['date']         = '2014-09-22';
+$modversion['release_date'] = '2014/09/22';
+$modversion['releasedate']  = '2014-09-22';
+$modversion['status']       = 'RC4';
+$modversion['teammembers']  = 'Bender, David, FrankBlack, Xpider, M0nty, Mithrandir, Marcan, felix[fx2024], Sudhaker, Jegelstaff';
 
 // About
 $modversion["module_website_url"]  = "http://www.xoops.org/";
 $modversion["module_website_name"] = "XOOPS";
-$modversion["module_status"]       = "RC3";
+$modversion["module_status"]       = "RC4";
 $modversion['min_php']             = '5.3.7';
 $modversion['min_xoops']           = '2.5.7';
 $modversion['min_admin']           = '1.1';
@@ -146,16 +146,16 @@ $modversion['search']['func'] = $modversion["dirname"] . '_search';
 $modversion['hasMain']     = true;
 $modversion['system_menu'] = true;
 
-global $xoopsModule, $xoopsModuleConfig, $xoopsUser;
+global $xoopsModule, $xoopsModuleConfig;
 // check if submission is allowed
 $isSubmissionAllowed = false;
 if (is_object($xoopsModule) && $xoopsModule->dirname() == $modversion['dirname'] && $xoopsModule->isactive()) {
-    if (is_object($xoopsUser)
+    if (is_object($GLOBALS['xoopsUser'])
         && ($xoopsModuleConfig['submissions'] == _WFDOWNLOADS_SUBMISSIONS_DOWNLOAD
             || $xoopsModuleConfig['submissions'] == _WFDOWNLOADS_SUBMISSIONS_BOTH)
     ) {
         // if user is a registered user
-        $groups = $xoopsUser->getGroups();
+        $groups = $GLOBALS['xoopsUser']->getGroups();
         if (count(array_intersect($xoopsModuleConfig['submitarts'], $groups)) > 0) {
             $isSubmissionAllowed = true;
         }
@@ -554,7 +554,7 @@ $modversion['config'][] = array(
     'description' => '_MI_WFDOWNLOADS_USESHOTSDSC',
     'formtype'    => 'yesno',
     'valuetype'   => 'int',
-    'default'     => false
+    'default'     => true
 );
 
 $modversion['config'][] = array(
@@ -573,7 +573,7 @@ $modversion['config'][] = array(
     'formtype'    => 'select',
     'valuetype'   => 'int',
     'options'     => array('1' => 1, '2' => 2, '3' => 3, '4' => 4),
-    'default'     => 1
+    'default'     => 4
 );
 
 $modversion['config'][] = array(
@@ -618,7 +618,7 @@ $modversion['config'][] = array(
     'description' => '_MI_WFDOWNLOADS_USETHUMBSDSC',
     'formtype'    => 'yesno',
     'valuetype'   => 'int',
-    'default'     => false
+    'default'     => true
 );
 
 $modversion['config'][] = array(
@@ -645,7 +645,7 @@ $modversion['config'][] = array(
     'description' => '_MI_WFDOWNLOADS_KEEPASPECTDSC',
     'formtype'    => 'yesno',
     'valuetype'   => 'int',
-    'default'     => false
+    'default'     => true
 );
 
 $modversion['config'][] = array(
@@ -663,7 +663,7 @@ $modversion['config'][] = array(
     'description' => '_MI_WFDOWNLOADS_IMGUPDATEDSC',
     'formtype'    => 'yesno',
     'valuetype'   => 'int',
-    'default'     => false
+    'default'     => true
 );
 
 // Files configs

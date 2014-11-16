@@ -51,14 +51,14 @@ class WfsLists
      * @param string $suffix
      */
 
-    function __construct($path = "uploads", $value = null, $selected = '', $size = 1, $emptyselect = 0, $type = 0, $prefix = '', $suffix = '')
+    function __construct($path = 'uploads', $value = null, $selected = '', $size = 1, $emptyselect = 0, $type = 0, $prefix = '', $suffix = '')
     {
-        $this->value       = $value;
-        $this->selection   = $selected;
-        $this->path        = $path;
-        $this->size        = intval($size);
+        $this->value = $value;
+        $this->selection = $selected;
+        $this->path = $path;
+        $this->size = (int) $size;
         $this->emptyselect = ($emptyselect) ? 0 : 1;
-        $this->type        = $type;
+        $this->type = $type;
     }
 
     /**
@@ -117,26 +117,26 @@ class WfsLists
      *
      * @return array
      */
-    static function &getListTypeAsArray($dirname, $type = '', $prefix = "", $noselection = 1)
+    static function &getListTypeAsArray($dirname, $type = '', $prefix = '', $noselection = 1)
     {
         $filelist = array();
         switch (trim($type)) {
-            case "images":
-                $types = "[.gif|.jpg|.png]";
+            case 'images':
+                $types = '[.gif|.jpg|.png]';
                 if ($noselection) {
-                    $filelist[""] = "Show No Image";
+                    $filelist[''] = 'Show No Image';
                 }
                 break;
-            case "html":
-                $types = "[.htm|.html|.xhtml|.php|.php3|.phtml|.txt|.tpl]";
+            case 'html':
+                $types = '[.htm|.html|.xhtml|.php|.php3|.phtml|.txt|.tpl]';
                 if ($noselection) {
-                    $filelist[""] = "No Selection";
+                    $filelist[''] = 'No Selection';
                 }
                 break;
             default:
-                $types = "";
+                $types = '';
                 if ($noselection) {
-                    $filelist[""] = "No Selected File";
+                    $filelist[''] = 'No Selected File';
                 }
                 break;
         }
@@ -148,10 +148,10 @@ class WfsLists
         if (is_dir($dirname) && $handle = opendir($dirname)) {
             while (false !== ($file = readdir($handle))) {
                 if (!preg_match("/^[.]{1,2}$/", $file) && preg_match("/$types$/i", $file) && is_file($dirname . '/' . $file)) {
-                    if (strtolower($file) == "blank.png") {
+                    if (strtolower($file) == 'blank.png') {
                         Continue;
                     }
-                    $file            = $prefix . $file;
+                    $file = $prefix . $file;
                     $filelist[$file] = $file;
                 }
             }

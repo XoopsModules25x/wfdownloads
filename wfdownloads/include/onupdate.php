@@ -20,26 +20,26 @@
  */
 defined('XOOPS_ROOT_PATH') || die('XOOPS root path not defined');
 include_once dirname(__FILE__) . '/common.php';
-@include_once WFDOWNLOADS_ROOT_PATH . '/language/' . $xoopsConfig['language'] . '/admin.php';
+@include_once WFDOWNLOADS_ROOT_PATH . '/language/' . $GLOBALS['xoopsConfig']['language'] . '/admin.php';
 include_once WFDOWNLOADS_ROOT_PATH . '/class/dbupdater.php';
 
 /**
  * @param $xoopsModule
- * @param $prev_version
+ * @param $previousVersion
  *
  * @return bool
  */
-function xoops_module_update_wfdownloads(&$xoopsModule, $prev_version)
+function xoops_module_update_wfdownloads(&$xoopsModule, $previousVersion)
 {
     ob_start();
     invert_nohtm_dohtml_values();
-    if ($prev_version <= 322) {
+    if ($previousVersion < 322) {
         update_tables_to_322($xoopsModule);
     }
-    if ($prev_version <= 323) {
+    if ($previousVersion < 323) {
         update_permissions_to_323($xoopsModule);
+        update_tables_to_323($xoopsModule);
     }
-    update_tables_to_323($xoopsModule);
     $feedback = ob_get_clean();
     if (method_exists($xoopsModule, 'setMessage')) {
         $xoopsModule->setMessage($feedback);
@@ -106,7 +106,7 @@ function update_tables_to_323($module)
         "summary"         => array("Type" => "text NOT NULL", "Default" => false),
         "formulize_idreq" => array("Type" => "int(5) NOT NULL default '0'", "Default" => true),
         // added 3.23
-        "screenshots"     => array("Type" => "text NOT NULL default ''", "Default" => true),
+        "screenshots"     => array("Type" => "text NOT NULL", "Default" => true),
         "dohtml"          => array("Type" => "tinyint(1) NOT NULL default '0'", "Default" => true),
         "dosmiley"        => array("Type" => "tinyint(1) NOT NULL default '1'", "Default" => true),
         "doxcode"         => array("Type" => "tinyint(1) NOT NULL default '1'", "Default" => true),
@@ -118,7 +118,7 @@ function update_tables_to_323($module)
     //);
     echo "<br /><span style='font-weight: bold;'>Checking Download table</span><br />";
     $download_handler = xoops_getmodulehandler('download', 'wfdownloads');
-    $download_table   = new WfdownloadsTable("wfdownloads_downloads");
+    $download_table   = new WfdownloadsTable('wfdownloads_downloads');
     $fields           = get_table_info($download_handler->table, $download_fields);
     // check for renamed fields
     //rename_fields($download_table, $renamed_fields, $fields, $download_fields);
@@ -128,6 +128,19 @@ function update_tables_to_323($module)
         echo "Downloads table updated<br />";
     }
     unset($fields);
+    // populate screenshots with screenshot, screenshot2, screenshot3, screenshot4 values
+    $downloadsObjs = $download_handler->getObjects();
+    foreach ($downloadsObjs as $downloadsObj) {
+        $screenshots = array();
+        $screenshots[] = $downloadsObj->getVar('screenshot');
+        $screenshots[] = $downloadsObj->getVar('screenshot2');
+        $screenshots[] = $downloadsObj->getVar('screenshot3');
+        $screenshots[] = $downloadsObj->getVar('screenshot4');
+        $downloadsObj->setVar('screenshots', $screenshots);
+        unset($screenshots);
+        $download_handler->insert($downloadsObj);
+    }
+
 
     // update wfdownloads_mod table
     $mod_fields     = array(
@@ -178,6 +191,7 @@ function update_tables_to_323($module)
         // ???
         "formulize_idreq" => array("Type" => "int(5) NOT NULL default '0'", "Default" => true),
         // added 3.23
+        "screenshots"     => array("Type" => "text NOT NULL", "Default" => true),
         "dohtml"          => array("Type" => "tinyint(1) NOT NULL default '0'", "Default" => true),
         "dosmiley"        => array("Type" => "tinyint(1) NOT NULL default '1'", "Default" => true),
         "doxcode"         => array("Type" => "tinyint(1) NOT NULL default '1'", "Default" => true),
@@ -189,7 +203,7 @@ function update_tables_to_323($module)
     //);
     echo "<br /><span style='font-weight: bold;'>Checking Modified Downloads table</span><br />";
     $mod_handler = xoops_getmodulehandler('modification', 'wfdownloads');
-    $mod_table   = new WfdownloadsTable("wfdownloads_mod");
+    $mod_table   = new WfdownloadsTable('wfdownloads_mod');
     $fields      = get_table_info($mod_handler->table, $mod_fields);
     // check for renamed fields
     //rename_fields($mod_table, $renamed_fields, $fields, $mod_fields);
@@ -348,7 +362,7 @@ function update_tables_to_322($module)
     );
     echo "<br /><span style='font-weight: bold;'>Checking Download table</span><br />";
     $download_handler = xoops_getmodulehandler('download', 'wfdownloads');
-    $download_table   = new WfdownloadsTable("wfdownloads_downloads");
+    $download_table   = new WfdownloadsTable('wfdownloads_downloads');
     $fields           = get_table_info($download_handler->table, $download_fields);
     // check for renamed fields
     rename_fields($download_table, $renamed_fields, $fields, $download_fields);
@@ -412,7 +426,7 @@ function update_tables_to_322($module)
     );
     echo "<br /><span style='font-weight: bold;'>Checking Modified Downloads table</span><br />";
     $mod_handler = xoops_getmodulehandler('modification', 'wfdownloads');
-    $mod_table   = new WfdownloadsTable("wfdownloads_mod");
+    $mod_table   = new WfdownloadsTable('wfdownloads_mod');
     $fields      = get_table_info($mod_handler->table, $mod_fields);
     rename_fields($mod_table, $renamed_fields, $fields, $mod_fields);
     update_table($mod_fields, $fields, $mod_table);
@@ -442,7 +456,7 @@ function update_tables_to_322($module)
     );
     echo "<br /><span style='font-weight: bold;'>Checking Category table</span><br />";
     $cat_handler = xoops_getmodulehandler('category', 'wfdownloads');
-    $cat_table   = new WfdownloadsTable("wfdownloads_cat");
+    $cat_table   = new WfdownloadsTable('wfdownloads_cat');
     $fields      = get_table_info($cat_handler->table, $cat_fields);
     update_table($cat_fields, $fields, $cat_table);
     if ($dbupdater->updateTable($cat_table)) {
@@ -462,7 +476,7 @@ function update_tables_to_322($module)
     );
     echo "<br /><span style='font-weight: bold;'>Checking Broken Report table</span><br />";
     $broken_handler = xoops_getmodulehandler('report', 'wfdownloads');
-    $broken_table   = new WfdownloadsTable("wfdownloads_broken");
+    $broken_table   = new WfdownloadsTable('wfdownloads_broken');
     $fields         = get_table_info($broken_handler->table, $broken_fields);
     update_table($broken_fields, $fields, $broken_table);
     if ($dbupdater->updateTable($broken_table)) {
@@ -482,10 +496,9 @@ function update_tables_to_322($module)
 function invert_nohtm_dohtml_values()
 {
     $ret = array();
-    global $xoopsDB;
     $cat_handler = xoops_getmodulehandler('category', 'wfdownloads');
-    $result      = $xoopsDB->query("SHOW COLUMNS FROM " . $cat_handler->table);
-    while ($existing_field = $xoopsDB->fetchArray($result)) {
+    $result      = $GLOBALS['xoopsDB']->query("SHOW COLUMNS FROM " . $cat_handler->table);
+    while ($existing_field = $GLOBALS['xoopsDB']->fetchArray($result)) {
         $fields[$existing_field['Field']] = $existing_field['Type'];
     }
     if (in_array("nohtml", array_keys($fields))) {
@@ -541,12 +554,12 @@ function update_table($new_fields, $existing_fields, &$table)
         if (!in_array($field, array_keys($existing_fields))) {
             //Add field as it is missing
             $table->addNewField($field, $type);
-            //$xoopsDB->query("ALTER TABLE " . $table . " ADD " . $field . " " . $type);
+            //$GLOBALS['xoopsDB']->query("ALTER TABLE " . $table . " ADD " . $field . " " . $type);
             //echo $field . "(" . $type . ") <FONT COLOR='##22DD51'>Added</FONT><br />";
         } elseif ($existing_fields[$field] != $type) {
             $table->addAlteredField($field, $field . " " . $type);
             // check $fields[$field]['type'] for things like "int(10) unsigned"
-            //$xoopsDB->query("ALTER TABLE " . $table . " CHANGE " . $field . " " . $field . " " . $type);
+            //$GLOBALS['xoopsDB']->query("ALTER TABLE " . $table . " CHANGE " . $field . " " . $field . " " . $type);
             //echo $field . " <FONT COLOR='#FF6600'>Changed to</FONT> " . $type . "<br />";
         } else {
             //echo $field . " <FONT COLOR='#0033FF'>Uptodate</FONT><br />";
@@ -565,9 +578,8 @@ function update_table($new_fields, $existing_fields, &$table)
  */
 function get_table_info($table, $default_fields)
 {
-    global $xoopsDB;
-    $result = $xoopsDB->query("SHOW COLUMNS FROM " . $table);
-    while ($existing_field = $xoopsDB->fetchArray($result)) {
+    $result = $GLOBALS['xoopsDB']->query("SHOW COLUMNS FROM " . $table);
+    while ($existing_field = $GLOBALS['xoopsDB']->fetchArray($result)) {
         $fields[$existing_field['Field']] = $existing_field['Type'];
         if ($existing_field['Null'] != "YES") {
             $fields[$existing_field['Field']] .= " NOT NULL";
@@ -600,7 +612,7 @@ function rename_fields(&$table, $renamed_fields, &$fields, $new_fields)
             $new_field_name = $renamed_fields[$field];
             $new_field_type = $new_fields[$new_field_name]["Type"];
             $table->addAltered($field, $new_field_name . " " . $new_field_type);
-            //$xoopsDB->query("ALTER TABLE " . $table . " CHANGE " . $field . " " . $new_field_name . " " . $new_field_type);
+            //$GLOBALS['xoopsDB']->query("ALTER TABLE " . $table . " CHANGE " . $field . " " . $new_field_name . " " . $new_field_type);
             //echo $field." Renamed to ". $new_field_name . "<br />";
             $fields[$new_field_name] = $new_field_type;
         }

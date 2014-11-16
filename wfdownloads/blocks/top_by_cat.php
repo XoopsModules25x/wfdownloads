@@ -36,11 +36,10 @@ include_once dirname(dirname(__FILE__)) . '/include/common.php';
  */
 function wfdownloads_top_by_cat_show($options)
 {
-    global $xoopsUser;
     $wfdownloads = WfdownloadsWfdownloads::getInstance();
 
-    $gperm_handler            = xoops_gethandler('groupperm');
-    $groups                   = is_object($xoopsUser) ? $xoopsUser->getGroups() : array(0 => XOOPS_GROUP_ANONYMOUS);
+    $gperm_handler = xoops_gethandler('groupperm');
+    $groups = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : array(0 => XOOPS_GROUP_ANONYMOUS);
     $allowedDownCategoriesIds = $gperm_handler->getItemIds('WFDownCatPerm', $groups, $wfdownloads->getModule()->mid());
 
     $block = array();
@@ -60,13 +59,13 @@ function wfdownloads_top_by_cat_show($options)
             continue;
         }
         $download['title'] = xoops_substr($download['title'], 0, ($options[2] - 1));
-        $download['id']    = (int) $download['lid'];
+        $download['id'] = (int) $download['lid'];
         if ($options[0] == 'published') {
             $download['date'] = formatTimestamp($download['published'], $wfdownloads->getConfig('dateformat'));
         } else {
             $download['date'] = formatTimestamp($download['date'], $wfdownloads->getConfig('dateformat'));
         }
-        $download['dirname']  = $wfdownloads->getModule()->dirname();
+        $download['dirname'] = $wfdownloads->getModule()->dirname();
         $block['downloads'][] = $download;
     }
 
@@ -75,7 +74,7 @@ function wfdownloads_top_by_cat_show($options)
 
     foreach ($wfdownloads->getHandler('category')->topCategories as $cid) {
         $block['topcats'][$cid]['title']  = $wfdownloads->getHandler('category')->allCategories[$cid]->getVar('title');
-        $block['topcats'][$cid]['cid']    = $cid;
+        $block['topcats'][$cid]['cid'] = $cid;
         $block['topcats'][$cid]['imgurl'] = $wfdownloads->getHandler('category')->allCategories[$cid]->getVar('imgurl');
     }
 
@@ -97,9 +96,7 @@ function wfdownloads_top_by_cat_edit($options)
     $form .= "<input type='hidden' name='options[]' value='" . ($options[0] == 'published') ? 'published' : 'hits' . "' />";
     $form .= "<input type='text' name='options[]' value='" . $options[1] . "' />&nbsp;" . _MB_WFDOWNLOADS_FILES . "";
     $form .= "<br />";
-    $form
-        .=
-        "" . _MB_WFDOWNLOADS_CHARS . "&nbsp;<input type='text' name='options[]' value='" . $options[2] . "' />&nbsp;" . _MB_WFDOWNLOADS_LENGTH . "";
+    $form .= "" . _MB_WFDOWNLOADS_CHARS . "&nbsp;<input type='text' name='options[]' value='" . $options[2] . "' />&nbsp;" . _MB_WFDOWNLOADS_LENGTH . "";
 
     return $form;
 }

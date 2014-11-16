@@ -35,7 +35,7 @@ if (@$_POST['op'] == 'submit') {
     wfdownloads_swishe_config();
     // Swish-e support EXPERIMENTAL
 
-    include 'admin_footer.php';
+    include_once dirname(__FILE__) . '/admin_footer.php';
     exit();
 
 } else {
@@ -73,6 +73,6 @@ if (@$_POST['op'] == 'submit') {
 // IN PROGRESS
     // Swish-e support EXPERIMENTAL
 
-    include 'admin_footer.php';
+    include_once dirname(__FILE__) . '/admin_footer.php';
     exit();
 }

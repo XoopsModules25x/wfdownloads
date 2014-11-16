@@ -137,17 +137,16 @@ switch ($op) {
         echo "</fieldset>\n";
 
         //ask what to do
-        include XOOPS_ROOT_PATH . "/class/xoopsformloader.php";
+        include_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
 
-        $form = new XoopsThemeForm(_AM_WFDOWNLOADS_IMPORT_BUTTON_IMPORT, "form", $_SERVER['REQUEST_URI']);
+        $form = new XoopsThemeForm(_AM_WFDOWNLOADS_IMPORT_BUTTON_IMPORT, 'form', $_SERVER['REQUEST_URI']);
         // Avoid module to import form itself
         // Is wf-downloads installed?
-        if ($wfdownloads->getModule()->dirname() != "wf" . "downloads") {
+        if ($wfdownloads->getModule()->dirname() != 'wf' . "downloads") {
             $got_options = false;
             if (wfdownloads_checkModule('wf' . 'downloads')) { // don't modify, is for cloning
                 $moduleVersion = round(wfdownloads_checkModule('wf' . 'downloads') / 100, 2); // don't modify, is for cloning
-                $button        = new XoopsFormButton(_AM_WFDOWNLOADS_IMPORT_WFD . '<br />'
-                    . $moduleVersion, "wmp_button", _AM_WFDOWNLOADS_IMPORT_BUTTON_IMPORT, "submit");
+                $button = new XoopsFormButton(_AM_WFDOWNLOADS_IMPORT_WFD . '<br />' . $moduleVersion, 'wmp_button', _AM_WFDOWNLOADS_IMPORT_BUTTON_IMPORT, 'submit');
                 $button->setExtra("onclick='document.forms.form.op.value=\"import.wfd322\"'");
                 $form->addElement($button);
                 unset($button);
@@ -161,8 +160,7 @@ switch ($op) {
         $got_options = false;
         if (wfdownloads_checkModule('mydownloads')) {
             $moduleVersion = round(wfdownloads_checkModule('mydownloads') / 100, 2);
-            $button        = new XoopsFormButton(_AM_WFDOWNLOADS_IMPORT_MYDOWNLOADS . '<br />'
-                . $moduleVersion, "myd_button", _AM_WFDOWNLOADS_IMPORT_BUTTON_IMPORT, "submit");
+            $button = new XoopsFormButton(_AM_WFDOWNLOADS_IMPORT_MYDOWNLOADS . '<br />' . $moduleVersion, 'myd_button', _AM_WFDOWNLOADS_IMPORT_BUTTON_IMPORT, 'submit');
             $button->setExtra("onclick='document.forms.form.op.value=\"import.MyDownloads\"'");
             $form->addElement($button);
             unset($button);
@@ -175,8 +173,7 @@ switch ($op) {
         $got_options = false;
         if (wfdownloads_checkModule('PDdownloads')) {
             $moduleVersion = round(wfdownloads_checkModule('PDdownloads') / 100, 2);
-            $button        = new XoopsFormButton(_AM_WFDOWNLOADS_IMPORT_PDDOWNLOADS . '<br />'
-                . $moduleVersion, "pd_button", _AM_WFDOWNLOADS_IMPORT_BUTTON_IMPORT, "submit");
+            $button = new XoopsFormButton(_AM_WFDOWNLOADS_IMPORT_PDDOWNLOADS . '<br />' . $moduleVersion, 'pd_button', _AM_WFDOWNLOADS_IMPORT_BUTTON_IMPORT, 'submit');
             $button->setExtra("onclick='document.forms.form.op.value=\"import.PD-Downloads\"'");
             $form->addElement($button);
             unset($button);
@@ -189,8 +186,7 @@ switch ($op) {
         $got_options = false;
         if (wfdownloads_checkModule('wmpdownloads')) {
             $moduleVersion = round(wfdownloads_checkModule('wmpdownloads') / 100, 2);
-            $button        = new XoopsFormButton(_AM_WFDOWNLOADS_IMPORT_WMPOWNLOADS . '<br />'
-                . $moduleVersion, "wmp_button", _AM_WFDOWNLOADS_IMPORT_BUTTON_IMPORT, "submit");
+            $button = new XoopsFormButton(_AM_WFDOWNLOADS_IMPORT_WMPOWNLOADS . '<br />' . $moduleVersion, 'wmp_button', _AM_WFDOWNLOADS_IMPORT_BUTTON_IMPORT, 'submit');
             $button->setExtra("onclick='document.forms.form.op.value=\"import.wmpownloads\"'");
             $form->addElement($button);
             unset($button);
@@ -203,8 +199,7 @@ switch ($op) {
         $got_options = false;
         if (wfdownloads_checkModule('TDMDownloads')) {
             $moduleVersion = round(wfdownloads_checkModule('TDMDownloads') / 100, 2);
-            $button        = new XoopsFormButton(_AM_WFDOWNLOADS_IMPORT_TDMDOWNLOADS . '<br />'
-                . $moduleVersion, "wmp_button", _AM_WFDOWNLOADS_IMPORT_BUTTON_IMPORT, "submit");
+            $button = new XoopsFormButton(_AM_WFDOWNLOADS_IMPORT_TDMDOWNLOADS . '<br />' . $moduleVersion, 'wmp_button', _AM_WFDOWNLOADS_IMPORT_BUTTON_IMPORT, 'submit');
             $button->setExtra("onclick='document.forms.form.op.value=\"import.TDMDownloads\"'");
             $form->addElement($button);
             unset($button);
@@ -216,7 +211,7 @@ switch ($op) {
 
         $form->addElement(new XoopsFormHidden('op', 0));
         $form->display();
-        include 'admin_footer.php';
+        include_once dirname(__FILE__) . '/admin_footer.php';
         break;
 }
 
@@ -253,13 +248,12 @@ switch ($op) {
  */
 function import_wfd_to_wfdownloads()
 {
-    global $xoopsDB;
-    $module_handler =& xoops_gethandler('module');
+    $module_handler = xoops_gethandler('module');
     // Get source module/config
     $wfdDirname = 'wf' . 'downloads'; // don't modify, is for cloning
     $wfdModule  = $module_handler->getByDirname($wfdDirname);
     if (empty($wfdModuleConfig)) {
-        $config_handler  = xoops_gethandler("config");
+        $config_handler  = xoops_gethandler('config');
         $wfdModuleConfig = $config_handler->getConfigsByCat(0, $wfdModule->mid());
     }
     $wfdCategoriesHandler = xoops_getModuleHandler('category', $wfdDirname);
@@ -306,47 +300,47 @@ function import_wfd_to_wfdownloads()
     echo "<br />";
 
     $destination = array(
-        "cat"       => $xoopsDB->prefix("wfdownloads_cat"),
-        "downloads" => $xoopsDB->prefix("wfdownloads_downloads"),
-        "mirrors"   => $xoopsDB->prefix("wfdownloads_mirrors"),
-        "reviews"   => $xoopsDB->prefix("wfdownloads_reviews"),
-        "broken"    => $xoopsDB->prefix("wfdownloads_broken"),
-        "mod"       => $xoopsDB->prefix("wfdownloads_mod"),
-        "votes"     => $xoopsDB->prefix("wfdownloads_votedata")
+        "cat"       => $GLOBALS['xoopsDB']->prefix("wfdownloads_cat"),
+        "downloads" => $GLOBALS['xoopsDB']->prefix("wfdownloads_downloads"),
+        "mirrors"   => $GLOBALS['xoopsDB']->prefix("wfdownloads_mirrors"),
+        "reviews"   => $GLOBALS['xoopsDB']->prefix("wfdownloads_reviews"),
+        "broken"    => $GLOBALS['xoopsDB']->prefix("wfdownloads_broken"),
+        "mod"       => $GLOBALS['xoopsDB']->prefix("wfdownloads_mod"),
+        "votes"     => $GLOBALS['xoopsDB']->prefix("wfdownloads_votedata")
     );
 
     $source = array(
-        "cat"       => $xoopsDB->prefix("wf" . "downloads_cat"), // don't modify, is for cloning
-        "downloads" => $xoopsDB->prefix("wf" . "downloads_downloads"), // don't modify, is for cloning
-        "mirrors"   => $xoopsDB->prefix("wf" . "downloads_mirrors"), // don't modify, is for cloning
-        "reviews"   => $xoopsDB->prefix("wf" . "downloads_reviews"), // don't modify, is for cloning
-        "broken"    => $xoopsDB->prefix("wf" . "downloads_broken"), // don't modify, is for cloning
-        "mod"       => $xoopsDB->prefix("wf" . "downloads_mod"), // don't modify, is for cloning
-        "votes"     => $xoopsDB->prefix("wf" . "downloads_votedata")
+        "cat"       => $GLOBALS['xoopsDB']->prefix("wf" . "downloads_cat"), // don't modify, is for cloning
+        "downloads" => $GLOBALS['xoopsDB']->prefix("wf" . "downloads_downloads"), // don't modify, is for cloning
+        "mirrors"   => $GLOBALS['xoopsDB']->prefix("wf" . "downloads_mirrors"), // don't modify, is for cloning
+        "reviews"   => $GLOBALS['xoopsDB']->prefix("wf" . "downloads_reviews"), // don't modify, is for cloning
+        "broken"    => $GLOBALS['xoopsDB']->prefix("wf" . "downloads_broken"), // don't modify, is for cloning
+        "mod"       => $GLOBALS['xoopsDB']->prefix("wf" . "downloads_mod"), // don't modify, is for cloning
+        "votes"     => $GLOBALS['xoopsDB']->prefix("wf" . "downloads_votedata")
     ); // don't modify, is for cloning
 
     //Add temporary field to category table
-    $xoopsDB->query("ALTER TABLE {$destination['cat']} ADD `old_cid` int NOT NULL default 0");
-    $xoopsDB->query("ALTER TABLE {$destination['cat']} ADD `old_pid` int NOT NULL default 0");
+    $GLOBALS['xoopsDB']->query("ALTER TABLE {$destination['cat']} ADD `old_cid` int NOT NULL default 0");
+    $GLOBALS['xoopsDB']->query("ALTER TABLE {$destination['cat']} ADD `old_pid` int NOT NULL default 0");
     //Add temporary fields to downloads table
-    $xoopsDB->query("ALTER TABLE {$destination['downloads']} ADD `old_lid` int NOT NULL default 0");
-    $xoopsDB->query("ALTER TABLE {$destination['downloads']} ADD `old_cid` int NOT NULL default 0");
+    $GLOBALS['xoopsDB']->query("ALTER TABLE {$destination['downloads']} ADD `old_lid` int NOT NULL default 0");
+    $GLOBALS['xoopsDB']->query("ALTER TABLE {$destination['downloads']} ADD `old_cid` int NOT NULL default 0");
 
     //Get latest mirror ID to determine which records will need an updated lid value afterwards
-    $result = $xoopsDB->query("SELECT MAX(mirror_id) FROM {$destination['mirrors']}");
-    list($max_mirrorid) = $xoopsDB->fetchRow($result);
+    $result = $GLOBALS['xoopsDB']->query("SELECT MAX(mirror_id) FROM {$destination['mirrors']}");
+    list($max_mirrorid) = $GLOBALS['xoopsDB']->fetchRow($result);
     //Get latest review ID to determine which records will need an updated lid value afterwards
-    $result = $xoopsDB->query("SELECT MAX(review_id) FROM {$destination['reviews']}");
-    list($max_reviewid) = $xoopsDB->fetchRow($result);
+    $result = $GLOBALS['xoopsDB']->query("SELECT MAX(review_id) FROM {$destination['reviews']}");
+    list($max_reviewid) = $GLOBALS['xoopsDB']->fetchRow($result);
     //Get latest mod request ID to determine which records will need an updated lid value afterwards
-    $result = $xoopsDB->query("SELECT MAX(requestid) FROM {$destination['mod']}");
-    list($max_requestid) = $xoopsDB->fetchRow($result);
+    $result = $GLOBALS['xoopsDB']->query("SELECT MAX(requestid) FROM {$destination['mod']}");
+    list($max_requestid) = $GLOBALS['xoopsDB']->fetchRow($result);
     //Get latest report ID to determine, which records will need an updated lid value afterwards
-    $result = $xoopsDB->query("SELECT MAX(reportid) FROM {$destination['broken']}");
-    list($max_reportid) = $xoopsDB->fetchRow($result);
+    $result = $GLOBALS['xoopsDB']->query("SELECT MAX(reportid) FROM {$destination['broken']}");
+    list($max_reportid) = $GLOBALS['xoopsDB']->fetchRow($result);
     //Get latest vote ID to determine which records will need an updated lid value afterwards
-    $result = $xoopsDB->query("SELECT MAX(ratingid) FROM {$destination['votes']}");
-    list($max_ratingid) = $xoopsDB->fetchRow($result);
+    $result = $GLOBALS['xoopsDB']->query("SELECT MAX(ratingid) FROM {$destination['votes']}");
+    list($max_ratingid) = $GLOBALS['xoopsDB']->fetchRow($result);
 
     //Import data into category table
     if (wfdownloads_checkModule('wf' . 'downloads') >= 320) {
@@ -362,8 +356,8 @@ function import_wfd_to_wfdownloads()
         $sql .= " `cid`,     `pid`,     `title`, `imgurl`, `description`, `total`, `summary`, `spotlighttop`, `spotlighthis`, `dohtml`, `dosmiley`, `doxcode`, `doimage`, `dobr`, `weight`";
         $sql .= " FROM {$source['cat']}";
     }
-    $xoopsDB->query($sql);
-    echo "Imported {$xoopsDB->getAffectedRows()} categories into {$destination['cat']}<br />";
+    $GLOBALS['xoopsDB']->query($sql);
+    echo "Imported {$GLOBALS['xoopsDB']->getAffectedRows()} categories into {$destination['cat']}<br />";
 
     //Import data into downloads table
     if (wfdownloads_checkModule('wf' . 'downloads') >= 320) {
@@ -379,8 +373,12 @@ function import_wfd_to_wfdownloads()
         $sql .= " 0,     `lid`,     `cid`,     `title`, `url`, `filename`, `filetype`, `homepage`, `version`, `size`, `platform`, `screenshot`, `submitter`, `publisher`, `status`, `date`, `hits`, `rating`, `votes`, `comments`, `license`, `mirror`, `price`, `paypalemail`, `features`, `requirements`, `homepagetitle`, `forumid`, `limitations`, `dhistory`, `published`, `expired`, `updated`, `offline`, `summary`, `description`, `ipaddress`, `notifypub`";
         $sql .= " FROM {$source['downloads']}";
     }
-    $xoopsDB->query($sql);
-    echo "Imported {$xoopsDB->getAffectedRows()} downloads into {$destination['downloads']}<br />";
+    $GLOBALS['xoopsDB']->query($sql);
+    echo "Imported {$GLOBALS['xoopsDB']->getAffectedRows()} downloads into {$destination['downloads']}<br />";
+// IN PROGRESS
+// IN PROGRESS IMPORT AND UPDATE SCREENSHOTS
+// IN PROGRESS
+
 
     //Import data into mirrors table
     $sql = "INSERT INTO {$destination['mirrors']} (";
@@ -388,8 +386,8 @@ function import_wfd_to_wfdownloads()
     $sql .= " ) SELECT";
     $sql .= " `lid`, `title`, `homeurl`, `location`, `continent`, `downurl`, `submit`, `date`, `uid`";
     $sql .= " FROM {$source['mirrors']}";
-    $xoopsDB->query($sql);
-    echo "Imported {$xoopsDB->getAffectedRows()} mirrors into {$destination['mirrors']}<br />";
+    $GLOBALS['xoopsDB']->query($sql);
+    echo "Imported {$GLOBALS['xoopsDB']->getAffectedRows()} mirrors into {$destination['mirrors']}<br />";
 
     //Import data into reviews table
     if (wfdownloads_checkModule('wf' . 'downloads') >= 320) {
@@ -405,8 +403,8 @@ function import_wfd_to_wfdownloads()
         $sql .= " `lid`, `title`, `review`, `submit`, `date`, `uid`";
         $sql .= " FROM {$source['reviews']}";
     }
-    $xoopsDB->query($sql);
-    echo "Imported {$xoopsDB->getAffectedRows()} reviews into {$destination['reviews']}<br />";
+    $GLOBALS['xoopsDB']->query($sql);
+    echo "Imported {$GLOBALS['xoopsDB']->getAffectedRows()} reviews into {$destination['reviews']}<br />";
 
     //Import data into brokens table
     $sql = "INSERT INTO {$destination['broken']} (";
@@ -414,8 +412,8 @@ function import_wfd_to_wfdownloads()
     $sql .= " ) SELECT";
     $sql .= " `lid`, `sender`, `date`, `ip`";
     $sql .= " FROM {$source['broken']}";
-    $xoopsDB->query($sql);
-    echo "Imported {$xoopsDB->getAffectedRows()} broken reports into {$destination['broken']}<br />";
+    $GLOBALS['xoopsDB']->query($sql);
+    echo "Imported {$GLOBALS['xoopsDB']->getAffectedRows()} broken reports into {$destination['broken']}<br />";
 
     //Import data into votedata table
     $sql = "INSERT INTO {$destination['votes']} (";
@@ -423,8 +421,8 @@ function import_wfd_to_wfdownloads()
     $sql .= " ) SELECT";
     $sql .= " `lid`, `ratinguser`, `rating`, `ratinghostname`, `ratingtimestamp`";
     $sql .= " FROM {$source['votes']}";
-    $xoopsDB->query($sql);
-    echo "Imported {$xoopsDB->getAffectedRows()} votes into {$destination['votes']}<br />";
+    $GLOBALS['xoopsDB']->query($sql);
+    echo "Imported {$GLOBALS['xoopsDB']->getAffectedRows()} votes into {$destination['votes']}<br />";
 
     //Import data into mod request table
     $sql = "INSERT INTO {$destination['mod']} (";
@@ -432,51 +430,51 @@ function import_wfd_to_wfdownloads()
     $sql .= " SELECT";
     $sql .= " `lid`, `cid`, `title`, `url`, `homepage`, `version`, `size`, `platform`, `screenshot`, `description`, `modifysubmitter`, `features`, `requirements`, `publisher`, `dhistory`, `summary`";
     $sql .= " FROM {$source['mod']}";
-    $xoopsDB->query($sql);
-    echo "Imported {$xoopsDB->getAffectedRows()} modification requests into {$destination['mod']}<br />";
+    $GLOBALS['xoopsDB']->query($sql);
+    echo "Imported {$GLOBALS['xoopsDB']->getAffectedRows()} modification requests into {$destination['mod']}<br />";
 
     // Update category ID to new value
-    $xoopsDB->query("UPDATE {$destination['downloads']} d, {$destination['cat']} c SET d.cid=c.cid WHERE d.old_cid=c.old_cid AND d.old_cid != 0");
-    $xoopsDB->query("UPDATE {$destination['cat']} c1, {$destination['cat']} c2 SET c1.pid=c2.cid WHERE c1.old_pid=c2.old_cid AND c1.old_pid != 0");
+    $GLOBALS['xoopsDB']->query("UPDATE {$destination['downloads']} d, {$destination['cat']} c SET d.cid=c.cid WHERE d.old_cid=c.old_cid AND d.old_cid != 0");
+    $GLOBALS['xoopsDB']->query("UPDATE {$destination['cat']} c1, {$destination['cat']} c2 SET c1.pid=c2.cid WHERE c1.old_pid=c2.old_cid AND c1.old_pid != 0");
     // Update lid values in mod table
     if ($max_requestid) {
-        $xoopsDB->query(
+        $GLOBALS['xoopsDB']->query(
             "UPDATE {$destination['mod']} m, {$destination['cat']} c SET m.cid=c.cid WHERE m.requestid > {$max_requestid} AND c.old_cid=m.cid"
         );
-        $xoopsDB->query(
+        $GLOBALS['xoopsDB']->query(
             "UPDATE {$destination['mod']} m, {$destination['downloads']} d SET m.lid=d.lid WHERE m.requestid > {$max_requestid} AND m.lid=d.old_lid"
         );
     }
     // Update lid values in mirrors table
     if ($max_mirrorid) {
-        $xoopsDB->query(
+        $GLOBALS['xoopsDB']->query(
             "UPDATE {$destination['mirrors']} v, {$destination['downloads']} d SET v.lid=d.lid WHERE v.mirror_id > {$max_mirrorid} AND v.lid=d.old_lid"
         );
     }
     // Update lid values in reviews table
     if ($max_reviewid) {
-        $xoopsDB->query(
+        $GLOBALS['xoopsDB']->query(
             "UPDATE {$destination['reviews']} v, {$destination['downloads']} d SET v.lid=d.lid WHERE v.review_id > {$max_reviewid} AND v.lid=d.old_lid"
         );
     }
     // Update lid values in votedata table
     if ($max_ratingid) {
-        $xoopsDB->query(
+        $GLOBALS['xoopsDB']->query(
             "UPDATE {$destination['votes']} v, {$destination['downloads']} d SET v.lid=d.lid WHERE v.ratingid > {$max_ratingid} AND v.lid=d.old_lid"
         );
     }
     // Update lid values in broken table
     if ($max_reportid) {
-        $xoopsDB->query(
+        $GLOBALS['xoopsDB']->query(
             "UPDATE {$destination['broken']} b, {$destination['downloads']} d SET b.lid=d.lid WHERE b.reportid > {$max_reportid} AND b.lid=d.old_lid"
         );
     }
 
     //Remove temporary fields
-    $xoopsDB->query("ALTER TABLE " . $destination['cat'] . " DROP `old_cid`");
-    $xoopsDB->query("ALTER TABLE " . $destination['cat'] . " DROP `old_pid`");
-    $xoopsDB->query("ALTER TABLE " . $destination['downloads'] . " DROP `old_cid`");
-    $xoopsDB->query("ALTER TABLE " . $destination['downloads'] . " DROP `old_lid`");
+    $GLOBALS['xoopsDB']->query("ALTER TABLE " . $destination['cat'] . " DROP `old_cid`");
+    $GLOBALS['xoopsDB']->query("ALTER TABLE " . $destination['cat'] . " DROP `old_pid`");
+    $GLOBALS['xoopsDB']->query("ALTER TABLE " . $destination['downloads'] . " DROP `old_cid`");
+    $GLOBALS['xoopsDB']->query("ALTER TABLE " . $destination['downloads'] . " DROP `old_lid`");
 
     return null;
 }
@@ -486,111 +484,109 @@ function import_wfd_to_wfdownloads()
 // =========================================================================================
 function import_wmpdownloads_to_wfdownloads()
 {
-    global $xoopsDB;
-
     echo "<br />";
     echo _AM_WFDOWNLOADS_IMPORT_IMPORTINGDATA;
     echo "<br />";
 
     $destination = array(
-        "cat"       => $xoopsDB->prefix("wfdownloads_cat"),
-        "downloads" => $xoopsDB->prefix("wfdownloads_downloads"),
-        "broken"    => $xoopsDB->prefix("wfdownloads_broken"),
-        "mod"       => $xoopsDB->prefix("wfdownloads_mod"),
-        "votes"     => $xoopsDB->prefix("wfdownloads_votedata")
+        "cat"       => $GLOBALS['xoopsDB']->prefix("wfdownloads_cat"),
+        "downloads" => $GLOBALS['xoopsDB']->prefix("wfdownloads_downloads"),
+        "broken"    => $GLOBALS['xoopsDB']->prefix("wfdownloads_broken"),
+        "mod"       => $GLOBALS['xoopsDB']->prefix("wfdownloads_mod"),
+        "votes"     => $GLOBALS['xoopsDB']->prefix("wfdownloads_votedata")
     );
 
     $source = array(
-        "cat"       => $xoopsDB->prefix("wmpdownloads_cat"),
-        "downloads" => $xoopsDB->prefix("wmpdownloads_downloads"),
-        "broken"    => $xoopsDB->prefix("wmpdownloads_broken"),
-        "mod"       => $xoopsDB->prefix("wmpdownloads_mod"),
-        "votes"     => $xoopsDB->prefix("wmpdownloads_votedata"),
-        "text"      => $xoopsDB->prefix("wmpdownloads_text")
+        "cat"       => $GLOBALS['xoopsDB']->prefix("wmpdownloads_cat"),
+        "downloads" => $GLOBALS['xoopsDB']->prefix("wmpdownloads_downloads"),
+        "broken"    => $GLOBALS['xoopsDB']->prefix("wmpdownloads_broken"),
+        "mod"       => $GLOBALS['xoopsDB']->prefix("wmpdownloads_mod"),
+        "votes"     => $GLOBALS['xoopsDB']->prefix("wmpdownloads_votedata"),
+        "text"      => $GLOBALS['xoopsDB']->prefix("wmpdownloads_text")
     );
 
     //Add temporary field to category table
-    $xoopsDB->query("ALTER TABLE " . $destination['cat'] . " ADD `old_cid` int NOT NULL default 0");
-    $xoopsDB->query("ALTER TABLE " . $destination['cat'] . " ADD `old_pid` int NOT NULL default 0");
+    $GLOBALS['xoopsDB']->query("ALTER TABLE " . $destination['cat'] . " ADD `old_cid` int NOT NULL default 0");
+    $GLOBALS['xoopsDB']->query("ALTER TABLE " . $destination['cat'] . " ADD `old_pid` int NOT NULL default 0");
 
     //Add temporary fields to downloads table
-    $xoopsDB->query(
+    $GLOBALS['xoopsDB']->query(
         "ALTER TABLE " . $destination['downloads'] . " ADD `old_lid` int NOT NULL default 0,
                                                                ADD `old_cid` int NOT NULL default 0"
     );
 
     //Get latest mod request ID to determine which records will need an updated lid value afterwards
-    $result = $xoopsDB->query("SELECT MAX(requestid) FROM " . $destination['mod']);
-    list($max_requestid) = $xoopsDB->fetchRow($result);
+    $result = $GLOBALS['xoopsDB']->query("SELECT MAX(requestid) FROM " . $destination['mod']);
+    list($max_requestid) = $GLOBALS['xoopsDB']->fetchRow($result);
     //Get latest report ID to determine, which records will need an updated lid value afterwards
-    $result = $xoopsDB->query("SELECT MAX(reportid) FROM " . $destination['broken']);
-    list($max_reportid) = $xoopsDB->fetchRow($result);
+    $result = $GLOBALS['xoopsDB']->query("SELECT MAX(reportid) FROM " . $destination['broken']);
+    list($max_reportid) = $GLOBALS['xoopsDB']->fetchRow($result);
     //Get latest vote ID to determine which records will need an updated lid value afterwards
-    $result = $xoopsDB->query("SELECT MAX(ratingid) FROM " . $destination['votes']);
-    list($max_ratingid) = $xoopsDB->fetchRow($result);
+    $result = $GLOBALS['xoopsDB']->query("SELECT MAX(ratingid) FROM " . $destination['votes']);
+    list($max_ratingid) = $GLOBALS['xoopsDB']->fetchRow($result);
 
     //Import data into category table
-    $xoopsDB->query(
+    $GLOBALS['xoopsDB']->query(
         "INSERT"
         . " INTO " . $destination['cat']
         . " (`old_cid`, `old_pid`, `title`, `imgurl`, `summary`)"
         . " SELECT `cid`, `pid`, `title`, `imgurl`, ''"
         . " FROM " . $source['cat']
     );
-    echo "Imported " . $xoopsDB->getAffectedRows() . " categories into " . $destination['cat'] . "<br />";
+    echo "Imported " . $GLOBALS['xoopsDB']->getAffectedRows() . " categories into " . $destination['cat'] . "<br />";
     //Import data into downloads table
-    $xoopsDB->query(
+    $GLOBALS['xoopsDB']->query(
         "INSERT"
         . " INTO " . $destination['downloads']
         . " (`cid`, `old_lid`, `old_cid`, `title`, `url`, `homepage`, `version`, `size`, `platform`, `screenshot`, `submitter`, `status`, `published`, `hits`, `rating`, `votes`, `comments`, `features`, `requirements`, `dhistory`, `summary`, `description`)"
         . " SELECT 0,`lid`, `cid`, `title`, `url`, `homepage`, `version`, `size`, `platform`, `logourl`, `submitter`, `status`, `date`, `hits`, `rating`, `votes`, `comments`, '', '','','', ''"
         . " FROM " . $source['downloads']
     );
-    echo "Imported " . $xoopsDB->getAffectedRows() . " downloads into " . $destination['downloads'] . "<br />";
+    echo "Imported " . $GLOBALS['xoopsDB']->getAffectedRows() . " downloads into " . $destination['downloads'] . "<br />";
     //Import data into brokens table
-    $xoopsDB->query(
+    $GLOBALS['xoopsDB']->query(
         "INSERT"
         . " INTO " . $destination['broken']
         . " (`lid`, `sender`, `ip`)"
         . " SELECT `lid`, `sender`, `ip`"
         . " FROM " . $source['broken']
     );
-    echo "Imported " . $xoopsDB->getAffectedRows() . " broken reports into " . $destination['broken'] . "<br />";
+    echo "Imported " . $GLOBALS['xoopsDB']->getAffectedRows() . " broken reports into " . $destination['broken'] . "<br />";
     //Import data into votedata table
-    $xoopsDB->query(
+    $GLOBALS['xoopsDB']->query(
         "INSERT"
         . " INTO " . $destination['votes']
         . " (`lid`, `ratinguser`, `rating`, `ratinghostname`, `ratingtimestamp`)"
         . "SELECT `lid`, `ratinguser`, `rating`, `ratinghostname`, `ratingtimestamp`"
         . " FROM " . $source['votes']
     );
-    echo "Imported " . $xoopsDB->getAffectedRows() . " votes into " . $destination['votes'] . "<br />";
+    echo "Imported " . $GLOBALS['xoopsDB']->getAffectedRows() . " votes into " . $destination['votes'] . "<br />";
     //Import data into mod request table
-    $xoopsDB->query(
+    $GLOBALS['xoopsDB']->query(
         "INSERT INTO " . $destination['mod']
         . " (`lid`, `cid`, `title`, `url`, `homepage`, `version`, `size`, `platform`, `screenshot`, `description`, `modifysubmitter`,`features`, `requirements`, `publisher`, `dhistory`, `summary`)"
         . " SELECT `lid`, `cid`, `title`, `url`, `homepage`, `version`, `size`, `platform`, `logourl`, `description`, `modifysubmitter`,'','','','',''"
         . " FROM " . $source['mod']
     );
-    echo "Imported " . $xoopsDB->getAffectedRows() . " modification requests into " . $destination['mod'] . "<br />";
+    echo "Imported " . $GLOBALS['xoopsDB']->getAffectedRows() . " modification requests into " . $destination['mod'] . "<br />";
 
     //Update category ID to new value
-    $xoopsDB->query(
+    $GLOBALS['xoopsDB']->query(
         "UPDATE " . $destination['downloads'] . " d, " . $destination['cat'] . " c SET d.cid=c.cid"
         . " WHERE d.old_cid=c.old_cid AND d.old_cid != 0"
     );
-    $xoopsDB->query(
+    $GLOBALS['xoopsDB']->query(
         "UPDATE " . $destination['cat'] . " c1, " . $destination['cat'] . " c2 SET c1.pid=c2.cid"
         . " WHERE c1.old_pid=c2.old_cid AND c1.old_pid != 0"
     );
     if ($max_requestid) {
-        $xoopsDB->query(
+        $GLOBALS['xoopsDB']->query(
             "UPDATE " . $destination['mod'] . " m, " . $destination['cat'] . " c SET m.cid=c.cid"
             . " WHERE m.requestid > " . $max_requestid
             . " AND c.old_cid=m.cid"
         );
         //Update lid values in mod table
-        $xoopsDB->query(
+        $GLOBALS['xoopsDB']->query(
             "UPDATE " . $destination['mod'] . " m, " . $destination['downloads'] . " d SET m.lid=d.lid"
             . " WHERE m.requestid > " . $max_requestid
             . " AND m.lid=d.old_lid"
@@ -598,7 +594,7 @@ function import_wmpdownloads_to_wfdownloads()
     }
     if ($max_ratingid) {
         //Update lid values in votedata table
-        $xoopsDB->query(
+        $GLOBALS['xoopsDB']->query(
             "UPDATE " . $destination['votes'] . " v, " . $destination['downloads'] . " d SET v.lid=d.lid"
             . " WHERE v.ratingid > " . $max_ratingid
             . " AND v.lid=d.old_lid"
@@ -606,21 +602,21 @@ function import_wmpdownloads_to_wfdownloads()
     }
     if ($max_reportid) {
         //Update lid values in brokens table
-        $xoopsDB->query(
+        $GLOBALS['xoopsDB']->query(
             "UPDATE " . $destination['broken'] . " b, " . $destination['downloads'] . " d SET b.lid=d.lid"
             . " WHERE b.reportid > " . $max_reportid
             . " AND b.lid=d.old_lid"
         );
     }
     //Update description
-    $xoopsDB->query("UPDATE " . $destination['downloads'] . " d, " . $source['text'] . " t SET d.description=t.description"
+    $GLOBALS['xoopsDB']->query("UPDATE " . $destination['downloads'] . " d, " . $source['text'] . " t SET d.description=t.description"
     . " WHERE t.lid=d.old_lid");
 
     //Remove temporary fields
-    $xoopsDB->query("ALTER TABLE ." . $destination['cat'] . " DROP `old_cid`");
-    $xoopsDB->query("ALTER TABLE ." . $destination['cat'] . " DROP `old_pid`");
-    $xoopsDB->query("ALTER TABLE ." . $destination['downloads'] . " DROP `old_cid`");
-    $xoopsDB->query("ALTER TABLE ." . $destination['downloads'] . " DROP `old_lid`");
+    $GLOBALS['xoopsDB']->query("ALTER TABLE ." . $destination['cat'] . " DROP `old_cid`");
+    $GLOBALS['xoopsDB']->query("ALTER TABLE ." . $destination['cat'] . " DROP `old_pid`");
+    $GLOBALS['xoopsDB']->query("ALTER TABLE ." . $destination['downloads'] . " DROP `old_cid`");
+    $GLOBALS['xoopsDB']->query("ALTER TABLE ." . $destination['downloads'] . " DROP `old_lid`");
 
 }
 
@@ -629,106 +625,104 @@ function import_wmpdownloads_to_wfdownloads()
 // =========================================================================================
 function import_pddownloads_to_wfdownloads()
 {
-    global $xoopsDB;
-
     echo "<br />";
     echo _AM_WFDOWNLOADS_IMPORT_IMPORTINGDATA;
     echo "<br />";
 
     $destination = array(
-        "cat"       => $xoopsDB->prefix("wfdownloads_cat"),
-        "downloads" => $xoopsDB->prefix("wfdownloads_downloads"),
-        "broken"    => $xoopsDB->prefix("wfdownloads_broken"),
-        "mod"       => $xoopsDB->prefix("wfdownloads_mod"),
-        "votes"     => $xoopsDB->prefix("wfdownloads_votedata")
+        "cat"       => $GLOBALS['xoopsDB']->prefix("wfdownloads_cat"),
+        "downloads" => $GLOBALS['xoopsDB']->prefix("wfdownloads_downloads"),
+        "broken"    => $GLOBALS['xoopsDB']->prefix("wfdownloads_broken"),
+        "mod"       => $GLOBALS['xoopsDB']->prefix("wfdownloads_mod"),
+        "votes"     => $GLOBALS['xoopsDB']->prefix("wfdownloads_votedata")
     );
 
     $source = array(
-        "cat"       => $xoopsDB->prefix("PDdownloads_cat"),
-        "downloads" => $xoopsDB->prefix("PDdownloads_downloads"),
-        "broken"    => $xoopsDB->prefix("PDdownloads_broken"),
-        "mod"       => $xoopsDB->prefix("PDdownloads_mod"),
-        "votes"     => $xoopsDB->prefix("PDdownloads_votedata")
+        "cat"       => $GLOBALS['xoopsDB']->prefix("PDdownloads_cat"),
+        "downloads" => $GLOBALS['xoopsDB']->prefix("PDdownloads_downloads"),
+        "broken"    => $GLOBALS['xoopsDB']->prefix("PDdownloads_broken"),
+        "mod"       => $GLOBALS['xoopsDB']->prefix("PDdownloads_mod"),
+        "votes"     => $GLOBALS['xoopsDB']->prefix("PDdownloads_votedata")
     );
 
     //Add temporary field to category table
-    $xoopsDB->query("ALTER TABLE " . $destination['cat'] . " ADD `old_cid` int NOT NULL default 0");
-    $xoopsDB->query("ALTER TABLE " . $destination['cat'] . " ADD `old_pid` int NOT NULL default 0");
+    $GLOBALS['xoopsDB']->query("ALTER TABLE " . $destination['cat'] . " ADD `old_cid` int NOT NULL default 0");
+    $GLOBALS['xoopsDB']->query("ALTER TABLE " . $destination['cat'] . " ADD `old_pid` int NOT NULL default 0");
 
     //Add temporary fields to downloads table
-    $xoopsDB->query(
+    $GLOBALS['xoopsDB']->query(
         "ALTER TABLE " . $destination['downloads'] . " ADD `old_lid` int NOT NULL default 0,
                                                                ADD `old_cid` int NOT NULL default 0"
     );
 
     //Get latest mod request ID to determine which records will need an updated lid value afterwards
-    $result = $xoopsDB->query("SELECT MAX(requestid) FROM " . $destination['mod']);
-    list($max_requestid) = $xoopsDB->fetchRow($result);
+    $result = $GLOBALS['xoopsDB']->query("SELECT MAX(requestid) FROM " . $destination['mod']);
+    list($max_requestid) = $GLOBALS['xoopsDB']->fetchRow($result);
     //Get latest report ID to determine, which records will need an updated lid value afterwards
-    $result = $xoopsDB->query("SELECT MAX(reportid) FROM " . $destination['broken']);
-    list($max_reportid) = $xoopsDB->fetchRow($result);
+    $result = $GLOBALS['xoopsDB']->query("SELECT MAX(reportid) FROM " . $destination['broken']);
+    list($max_reportid) = $GLOBALS['xoopsDB']->fetchRow($result);
     //Get latest vote ID to determine which records will need an updated lid value afterwards
-    $result = $xoopsDB->query("SELECT MAX(ratingid) FROM " . $destination['votes']);
-    list($max_ratingid) = $xoopsDB->fetchRow($result);
+    $result = $GLOBALS['xoopsDB']->query("SELECT MAX(ratingid) FROM " . $destination['votes']);
+    list($max_ratingid) = $GLOBALS['xoopsDB']->fetchRow($result);
 
     //Import data into category table
-    $xoopsDB->query(
+    $GLOBALS['xoopsDB']->query(
         "INSERT INTO " . $destination['cat']
         . " (`old_cid`, `old_pid`, `title`, `imgurl`, `description`, `total`, `weight`)"
         . " SELECT `cid`, `pid`, `title`, `imgurl`, `description`, `total`, `weight`"
         . " FROM " . $source['cat']
     );
-    echo "Imported " . $xoopsDB->getAffectedRows() . " categories into " . $destination['cat'] . "<br />";
+    echo "Imported " . $GLOBALS['xoopsDB']->getAffectedRows() . " categories into " . $destination['cat'] . "<br />";
     //Import data into downloads table
-    $xoopsDB->query(
+    $GLOBALS['xoopsDB']->query(
         "INSERT INTO " . $destination['downloads']
         . " (`cid`, `old_lid`, `old_cid`, `title`, `url`, `homepage`, `homepagetitle`, `version`, `size`, `platform`, `screenshot`, `submitter`, `publisher`, `status`, `date`, `hits`, `rating`, `votes`, `comments`, `features`, `forumid`, `dhistory`, `published`, `expired`, `updated`, `offline`, `description`, `ipaddress`, `notifypub`)"
         . " SELECT 0,`lid`, `cid`, `title`, `url`, `homepage`, `homepagetitle`, `version`, `size`, `platform`, `screenshot`, `submitter`, `publisher`, `status`, `date`, `hits`, `rating`, `votes`, `comments`, `features`, `forumid`, `dhistory`, `published`, `expired`, `updated`, `offline`, `description`, `ipaddress`, `notifypub`"
         . " FROM " . $source['downloads']
     );
-    echo "Imported " . $xoopsDB->getAffectedRows() . " downloads into " . $destination['downloads'] . "<br />";
+    echo "Imported " . $GLOBALS['xoopsDB']->getAffectedRows() . " downloads into " . $destination['downloads'] . "<br />";
     //Import data into brokens table
-    $xoopsDB->query(
+    $GLOBALS['xoopsDB']->query(
         "INSERT INTO " . $destination['broken']
         . " (`reportid`, `lid`, `sender`, `ip`, `date`, `confirmed`, `acknowledged`)"
         . " SELECT `reportid`, `lid`, `sender`, `ip`, `date`, `confirmed`, `acknowledged`"
         . " FROM " . $source['broken']
     );
-    echo "Imported " . $xoopsDB->getAffectedRows() . " broken reports into " . $destination['broken'] . "<br />";
+    echo "Imported " . $GLOBALS['xoopsDB']->getAffectedRows() . " broken reports into " . $destination['broken'] . "<br />";
     //Import data into votedata table
-    $xoopsDB->query(
+    $GLOBALS['xoopsDB']->query(
         "INSERT INTO " . $destination['votes']
         . " (`ratingid`, `lid`, `ratinguser`, `rating`, `ratinghostname`, `ratingtimestamp`)"
         . " SELECT `ratingid`, `lid`, `ratinguser`, `rating`, `ratinghostname`, `ratingtimestamp`"
         . " FROM " . $source['votes']
     );
-    echo "Imported " . $xoopsDB->getAffectedRows() . " votes into " . $destination['votes'] . "<br />";
+    echo "Imported " . $GLOBALS['xoopsDB']->getAffectedRows() . " votes into " . $destination['votes'] . "<br />";
     //Import data into mod request table
-    $xoopsDB->query(
+    $GLOBALS['xoopsDB']->query(
         "INSERT INTO " . $destination['mod']
         . " (`lid`, `cid`, `title`, `url`, `homepage`, `homepagetitle`, `version`, `size`, `platform`, `screenshot`, `submitter`, `publisher`, `status`, `date`, `hits`, `rating`, `votes`, `comments`, `features`, `forumid`, `dhistory`, `published`, `expired`, `updated`, `offline`, `description`, `modifysubmitter`, `requestdate`)"
         . " SELECT `lid`, `cid`, `title`, `url`, `homepage`, `homepagetitle`, `version`, `size`, `platform`, `screenshot`, `submitter`, `publisher`, `status`, `date`, `hits`, `rating`, `votes`, `comments`, `features`, `forumid`, `dhistory`, `published`, `expired`, `updated`, `offline`, `description`, `modifysubmitter`, `requestdate`"
         . " FROM " . $source['mod']
     );
-    echo "Imported " . $xoopsDB->getAffectedRows() . " modification requests into " . $destination['mod'] . "<br />";
+    echo "Imported " . $GLOBALS['xoopsDB']->getAffectedRows() . " modification requests into " . $destination['mod'] . "<br />";
 
     //Update category ID to new value
-    $xoopsDB->query(
+    $GLOBALS['xoopsDB']->query(
         "UPDATE " . $destination['downloads'] . " d, " . $destination['cat'] . " c SET d.cid=c.cid"
         . " WHERE d.old_cid=c.old_cid AND d.old_cid != 0"
     );
-    $xoopsDB->query(
+    $GLOBALS['xoopsDB']->query(
         "UPDATE " . $destination['cat'] . " c1, " . $destination['cat'] . " c2 SET c1.pid=c2.cid"
         . " WHERE c1.old_pid=c2.old_cid AND c1.old_pid != 0"
     );
     if ($max_requestid) {
-        $xoopsDB->query(
+        $GLOBALS['xoopsDB']->query(
             "UPDATE " . $destination['mod'] . " m, " . $destination['cat'] . " c SET m.cid=c.cid"
             . " WHERE m.requestid > " . $max_requestid
             . " AND c.old_cid=m.cid"
         );
         //Update lid values in mod table
-        $xoopsDB->query(
+        $GLOBALS['xoopsDB']->query(
             "UPDATE " . $destination['mod'] . " m, " . $destination['downloads'] . " d SET m.lid=d.lid"
             . " WHERE m.requestid > " . $max_requestid
             . " AND m.lid=d.old_lid"
@@ -736,7 +730,7 @@ function import_pddownloads_to_wfdownloads()
     }
     if ($max_ratingid) {
         //Update lid values in votedata table
-        $xoopsDB->query(
+        $GLOBALS['xoopsDB']->query(
             "UPDATE " . $destination['votes'] . " v, " . $destination['downloads'] . " d SET v.lid=d.lid"
             . " WHERE v.ratingid > " . $max_ratingid
             . " AND v.lid=d.old_lid"
@@ -744,7 +738,7 @@ function import_pddownloads_to_wfdownloads()
     }
     if ($max_reportid) {
         //Update lid values in brokens table
-        $xoopsDB->query(
+        $GLOBALS['xoopsDB']->query(
             "UPDATE " . $destination['broken'] . " b, " . $destination['downloads'] . " d SET b.lid=d.lid"
             . " WHERE b.reportid > " . $max_reportid
             . " AND b.lid=d.old_lid"
@@ -752,10 +746,10 @@ function import_pddownloads_to_wfdownloads()
     }
 
     //Remove temporary fields
-    $xoopsDB->query("ALTER TABLE ." . $destination['cat'] . " DROP `old_cid`");
-    $xoopsDB->query("ALTER TABLE ." . $destination['cat'] . " DROP `old_pid`");
-    $xoopsDB->query("ALTER TABLE ." . $destination['downloads'] . " DROP `old_cid`");
-    $xoopsDB->query("ALTER TABLE ." . $destination['downloads'] . " DROP `old_lid`");
+    $GLOBALS['xoopsDB']->query("ALTER TABLE ." . $destination['cat'] . " DROP `old_cid`");
+    $GLOBALS['xoopsDB']->query("ALTER TABLE ." . $destination['cat'] . " DROP `old_pid`");
+    $GLOBALS['xoopsDB']->query("ALTER TABLE ." . $destination['downloads'] . " DROP `old_cid`");
+    $GLOBALS['xoopsDB']->query("ALTER TABLE ." . $destination['downloads'] . " DROP `old_lid`");
 
 }
 
@@ -764,107 +758,105 @@ function import_pddownloads_to_wfdownloads()
 // =========================================================================================
 function import_mydownloads_to_wfdownloads()
 {
-    global $xoopsDB;
-
     echo "<br />";
     echo _AM_WFDOWNLOADS_IMPORT_IMPORTINGDATA;
     echo "<br />";
 
     $destination = array(
-        "cat"       => $xoopsDB->prefix("wfdownloads_cat"),
-        "downloads" => $xoopsDB->prefix("wfdownloads_downloads"),
-        "broken"    => $xoopsDB->prefix("wfdownloads_broken"),
-        "mod"       => $xoopsDB->prefix("wfdownloads_mod"),
-        "votes"     => $xoopsDB->prefix("wfdownloads_votedata")
+        "cat"       => $GLOBALS['xoopsDB']->prefix("wfdownloads_cat"),
+        "downloads" => $GLOBALS['xoopsDB']->prefix("wfdownloads_downloads"),
+        "broken"    => $GLOBALS['xoopsDB']->prefix("wfdownloads_broken"),
+        "mod"       => $GLOBALS['xoopsDB']->prefix("wfdownloads_mod"),
+        "votes"     => $GLOBALS['xoopsDB']->prefix("wfdownloads_votedata")
     );
 
     $source = array(
-        "cat"       => $xoopsDB->prefix("mydownloads_cat"),
-        "downloads" => $xoopsDB->prefix("mydownloads_downloads"),
-        "broken"    => $xoopsDB->prefix("mydownloads_broken"),
-        "mod"       => $xoopsDB->prefix("mydownloads_mod"),
-        "votes"     => $xoopsDB->prefix("mydownloads_votedata"),
-        "text"      => $xoopsDB->prefix("mydownloads_text")
+        "cat"       => $GLOBALS['xoopsDB']->prefix("mydownloads_cat"),
+        "downloads" => $GLOBALS['xoopsDB']->prefix("mydownloads_downloads"),
+        "broken"    => $GLOBALS['xoopsDB']->prefix("mydownloads_broken"),
+        "mod"       => $GLOBALS['xoopsDB']->prefix("mydownloads_mod"),
+        "votes"     => $GLOBALS['xoopsDB']->prefix("mydownloads_votedata"),
+        "text"      => $GLOBALS['xoopsDB']->prefix("mydownloads_text")
     );
 
     //Add temporary field to category table
-    $xoopsDB->query("ALTER TABLE " . $destination['cat'] . " ADD `old_cid` int NOT NULL default 0");
-    $xoopsDB->query("ALTER TABLE " . $destination['cat'] . " ADD `old_pid` int NOT NULL default 0");
+    $GLOBALS['xoopsDB']->query("ALTER TABLE " . $destination['cat'] . " ADD `old_cid` int NOT NULL default 0");
+    $GLOBALS['xoopsDB']->query("ALTER TABLE " . $destination['cat'] . " ADD `old_pid` int NOT NULL default 0");
 
     //Add temporary fields to downloads table
-    $xoopsDB->query(
+    $GLOBALS['xoopsDB']->query(
         "ALTER TABLE " . $destination['downloads'] . " ADD `old_lid` int NOT NULL default 0,
                                                                ADD `old_cid` int NOT NULL default 0"
     );
 
     //Get latest mod request ID to determine which records will need an updated lid value afterwards
-    $result = $xoopsDB->query("SELECT MAX(requestid) FROM " . $destination['mod']);
-    list($max_requestid) = $xoopsDB->fetchRow($result);
+    $result = $GLOBALS['xoopsDB']->query("SELECT MAX(requestid) FROM " . $destination['mod']);
+    list($max_requestid) = $GLOBALS['xoopsDB']->fetchRow($result);
     //Get latest report ID to determine, which records will need an updated lid value afterwards
-    $result = $xoopsDB->query("SELECT MAX(reportid) FROM " . $destination['broken']);
-    list($max_reportid) = $xoopsDB->fetchRow($result);
+    $result = $GLOBALS['xoopsDB']->query("SELECT MAX(reportid) FROM " . $destination['broken']);
+    list($max_reportid) = $GLOBALS['xoopsDB']->fetchRow($result);
     //Get latest vote ID to determine which records will need an updated lid value afterwards
-    $result = $xoopsDB->query("SELECT MAX(ratingid) FROM " . $destination['votes']);
-    list($max_ratingid) = $xoopsDB->fetchRow($result);
+    $result = $GLOBALS['xoopsDB']->query("SELECT MAX(ratingid) FROM " . $destination['votes']);
+    list($max_ratingid) = $GLOBALS['xoopsDB']->fetchRow($result);
 
     //Import data into category table
-    $xoopsDB->query(
+    $GLOBALS['xoopsDB']->query(
         "INSERT INTO " . $destination['cat']
         . " (`old_cid`, `old_pid`, `title`, `imgurl`, `summary`)"
         . " SELECT `cid`, `pid`, `title`, `imgurl`, ''"
         . " FROM " . $source['cat']
     );
-    echo "Imported " . $xoopsDB->getAffectedRows() . " categories into " . $destination['cat'] . "<br />";
+    echo "Imported " . $GLOBALS['xoopsDB']->getAffectedRows() . " categories into " . $destination['cat'] . "<br />";
     //Import data into downloads table
-    $xoopsDB->query(
+    $GLOBALS['xoopsDB']->query(
         "INSERT INTO " . $destination['downloads']
         . " (`cid`, `old_lid`, `old_cid`, `title`, `url`, `homepage`, `version`, `size`, `platform`, `screenshot`, `submitter`, `status`, `published`, `hits`, `rating`, `votes`, `comments`, `features`, `requirements`, `dhistory`, `summary`, `description`)"
         . " SELECT 0,`lid`, `cid`, `title`, `url`, `homepage`, `version`, `size`, `platform`, `logourl`, `submitter`, `status`, `date`, `hits`, `rating`, `votes`, `comments`, '', '','','', ''"
         . " FROM " . $source['downloads']
     );
-    echo "Imported " . $xoopsDB->getAffectedRows() . " downloads into " . $destination['downloads'] . "<br />";
+    echo "Imported " . $GLOBALS['xoopsDB']->getAffectedRows() . " downloads into " . $destination['downloads'] . "<br />";
     //Import data into brokens table
-    $xoopsDB->query(
+    $GLOBALS['xoopsDB']->query(
         "INSERT INTO " . $destination['broken']
         . " (`lid`, `sender`, `ip`)"
         . " SELECT `lid`, `sender`, `ip`"
         . " FROM " . $source['broken']
     );
-    echo "Imported " . $xoopsDB->getAffectedRows() . " broken reports into " . $destination['broken'] . "<br />";
+    echo "Imported " . $GLOBALS['xoopsDB']->getAffectedRows() . " broken reports into " . $destination['broken'] . "<br />";
     //Import data into votedata table
-    $xoopsDB->query(
+    $GLOBALS['xoopsDB']->query(
         "INSERT INTO " . $destination['votes']
         . " (`lid`, `ratinguser`, `rating`, `ratinghostname`, `ratingtimestamp`)"
         . " SELECT `lid`, `ratinguser`, `rating`, `ratinghostname`, `ratingtimestamp`"
         . " FROM " . $source['votes']
     );
-    echo "Imported " . $xoopsDB->getAffectedRows() . " votes into " . $destination['votes'] . "<br />";
+    echo "Imported " . $GLOBALS['xoopsDB']->getAffectedRows() . " votes into " . $destination['votes'] . "<br />";
     //Import data into mod request table
-    $xoopsDB->query(
+    $GLOBALS['xoopsDB']->query(
         "INSERT INTO " . $destination['mod']
         . " (`lid`, `cid`, `title`, `url`, `homepage`, `version`, `size`, `platform`, `screenshot`, `description`, `modifysubmitter`,`features`, `requirements`, `publisher`, `dhistory`, `summary`)"
         . " SELECT `lid`, `cid`, `title`, `url`, `homepage`, `version`, `size`, `platform`, `logourl`, `description`, `modifysubmitter`,'','','','',''"
         . " FROM " . $source['mod']
     );
-    echo "Imported " . $xoopsDB->getAffectedRows() . " modification requests into " . $destination['mod'] . "<br />";
+    echo "Imported " . $GLOBALS['xoopsDB']->getAffectedRows() . " modification requests into " . $destination['mod'] . "<br />";
 
     //Update category ID to new value
-    $xoopsDB->query(
+    $GLOBALS['xoopsDB']->query(
         "UPDATE " . $destination['downloads'] . " d, " . $destination['cat'] . " c SET d.cid=c.cid"
         . " WHERE d.old_cid=c.old_cid AND d.old_cid != 0"
     );
-    $xoopsDB->query(
+    $GLOBALS['xoopsDB']->query(
         "UPDATE " . $destination['cat'] . " c1, " . $destination['cat'] . " c2 SET c1.pid=c2.cid"
         . " WHERE c1.old_pid=c2.old_cid AND c1.old_pid != 0"
     );
     if ($max_requestid) {
-        $xoopsDB->query(
+        $GLOBALS['xoopsDB']->query(
             "UPDATE " . $destination['mod'] . " m, " . $destination['cat'] . " c SET m.cid=c.cid"
             . " WHERE m.requestid > " . $max_requestid
             . " AND c.old_cid=m.cid"
         );
         //Update lid values in mod table
-        $xoopsDB->query(
+        $GLOBALS['xoopsDB']->query(
             "UPDATE " . $destination['mod'] . " m, " . $destination['downloads'] . " d SET m.lid=d.lid"
             . " WHERE m.requestid > " . $max_requestid
             . " AND m.lid=d.old_lid"
@@ -872,7 +864,7 @@ function import_mydownloads_to_wfdownloads()
     }
     if ($max_ratingid) {
         //Update lid values in votedata table
-        $xoopsDB->query(
+        $GLOBALS['xoopsDB']->query(
             "UPDATE " . $destination['votes'] . " v, " . $destination['downloads'] . " d SET v.lid=d.lid"
             . " WHERE v.ratingid > " . $max_ratingid
             . " AND v.lid=d.old_lid"
@@ -880,23 +872,23 @@ function import_mydownloads_to_wfdownloads()
     }
     if ($max_reportid) {
         //Update lid values in brokens table
-        $xoopsDB->query(
+        $GLOBALS['xoopsDB']->query(
             "UPDATE " . $destination['broken'] . " b, " . $destination['downloads'] . " d SET b.lid=d.lid"
             . " WHERE b.reportid > " . $max_reportid
             . " AND b.lid=d.old_lid"
         );
     }
     //Update description
-    $xoopsDB->query(
+    $GLOBALS['xoopsDB']->query(
         "UPDATE " . $destination['downloads'] . " d, " . $source['text'] . " t SET d.description=t.description"
         . " WHERE t.lid=d.old_lid"
     );
 
     //Remove temporary fields
-    $xoopsDB->query("ALTER TABLE ." . $destination['cat'] . " DROP `old_cid`");
-    $xoopsDB->query("ALTER TABLE ." . $destination['cat'] . " DROP `old_pid`");
-    $xoopsDB->query("ALTER TABLE ." . $destination['downloads'] . " DROP `old_cid`");
-    $xoopsDB->query("ALTER TABLE ." . $destination['downloads'] . " DROP `old_lid`");
+    $GLOBALS['xoopsDB']->query("ALTER TABLE ." . $destination['cat'] . " DROP `old_cid`");
+    $GLOBALS['xoopsDB']->query("ALTER TABLE ." . $destination['cat'] . " DROP `old_pid`");
+    $GLOBALS['xoopsDB']->query("ALTER TABLE ." . $destination['downloads'] . " DROP `old_cid`");
+    $GLOBALS['xoopsDB']->query("ALTER TABLE ." . $destination['downloads'] . " DROP `old_lid`");
 
 }
 
@@ -905,112 +897,110 @@ function import_mydownloads_to_wfdownloads()
 // =========================================================================================
 function import_tdmdownloads_to_wfdownloads()
 {
-    global $xoopsDB;
-
     echo "<br /><span style='font-weight: bold;'>Importing Data</span><br />";
     $destination = array(
-        "cat"       => $xoopsDB->prefix("wfdownloads_cat"),
-        "downloads" => $xoopsDB->prefix("wfdownloads_downloads"),
-        "broken"    => $xoopsDB->prefix("wfdownloads_broken"),
-        "mod"       => $xoopsDB->prefix("wfdownloads_mod"),
-        "votes"     => $xoopsDB->prefix("wfdownloads_votedata")
+        "cat"       => $GLOBALS['xoopsDB']->prefix("wfdownloads_cat"),
+        "downloads" => $GLOBALS['xoopsDB']->prefix("wfdownloads_downloads"),
+        "broken"    => $GLOBALS['xoopsDB']->prefix("wfdownloads_broken"),
+        "mod"       => $GLOBALS['xoopsDB']->prefix("wfdownloads_mod"),
+        "votes"     => $GLOBALS['xoopsDB']->prefix("wfdownloads_votedata")
     );
 
     $source = array(
-        "cat"           => $xoopsDB->prefix("tdmdownloads_cat"),
-        "downloads"     => $xoopsDB->prefix("tdmdownloads_downloads"),
-        "broken"        => $xoopsDB->prefix("tdmdownloads_broken"),
-        "mod"           => $xoopsDB->prefix("tdmdownloads_mod"),
-        "votes"         => $xoopsDB->prefix("tdmdownloads_votedata"),
-        "field"         => $xoopsDB->prefix("tdmdownloads_field"),
-        "fielddata"     => $xoopsDB->prefix("tdmdownloads_fielddata"),
-        "modfielddata"  => $xoopsDB->prefix("tdmdownloads_modfielddata"),
-        "downlimit"     => $xoopsDB->prefix("tdmdownloads_downlimit")
+        "cat"           => $GLOBALS['xoopsDB']->prefix("tdmdownloads_cat"),
+        "downloads"     => $GLOBALS['xoopsDB']->prefix("tdmdownloads_downloads"),
+        "broken"        => $GLOBALS['xoopsDB']->prefix("tdmdownloads_broken"),
+        "mod"           => $GLOBALS['xoopsDB']->prefix("tdmdownloads_mod"),
+        "votes"         => $GLOBALS['xoopsDB']->prefix("tdmdownloads_votedata"),
+        "field"         => $GLOBALS['xoopsDB']->prefix("tdmdownloads_field"),
+        "fielddata"     => $GLOBALS['xoopsDB']->prefix("tdmdownloads_fielddata"),
+        "modfielddata"  => $GLOBALS['xoopsDB']->prefix("tdmdownloads_modfielddata"),
+        "downlimit"     => $GLOBALS['xoopsDB']->prefix("tdmdownloads_downlimit")
     );
 
     //Add temporary field to category table
-    $xoopsDB->query("ALTER TABLE " . $destination['cat'] . " ADD `old_cid` int NOT NULL default 0");
-    $xoopsDB->query("ALTER TABLE " . $destination['cat'] . " ADD `old_pid` int NOT NULL default 0");
+    $GLOBALS['xoopsDB']->query("ALTER TABLE " . $destination['cat'] . " ADD `old_cid` int NOT NULL default 0");
+    $GLOBALS['xoopsDB']->query("ALTER TABLE " . $destination['cat'] . " ADD `old_pid` int NOT NULL default 0");
 
     //Add temporary fields to downloads table
-    $xoopsDB->query(
+    $GLOBALS['xoopsDB']->query(
         "ALTER TABLE " . $destination['downloads'] . " ADD `old_lid` int NOT NULL default 0,
                                                                ADD `old_cid` int NOT NULL default 0"
     );
 
     //Get latest mod request ID to determine which records will need an updated lid value afterwards
-    $result = $xoopsDB->query("SELECT MAX(requestid) FROM " . $destination['mod']);
-    list($max_requestid) = $xoopsDB->fetchRow($result);
+    $result = $GLOBALS['xoopsDB']->query("SELECT MAX(requestid) FROM " . $destination['mod']);
+    list($max_requestid) = $GLOBALS['xoopsDB']->fetchRow($result);
     //Get latest report ID to determine, which records will need an updated lid value afterwards
-    $result = $xoopsDB->query("SELECT MAX(reportid) FROM " . $destination['broken']);
-    list($max_reportid) = $xoopsDB->fetchRow($result);
+    $result = $GLOBALS['xoopsDB']->query("SELECT MAX(reportid) FROM " . $destination['broken']);
+    list($max_reportid) = $GLOBALS['xoopsDB']->fetchRow($result);
     //Get latest vote ID to determine which records will need an updated lid value afterwards
-    $result = $xoopsDB->query("SELECT MAX(ratingid) FROM " . $destination['votes']);
-    list($max_ratingid) = $xoopsDB->fetchRow($result);
+    $result = $GLOBALS['xoopsDB']->query("SELECT MAX(ratingid) FROM " . $destination['votes']);
+    list($max_ratingid) = $GLOBALS['xoopsDB']->fetchRow($result);
 
     //Import data into category table
-    $xoopsDB->query(
+    $GLOBALS['xoopsDB']->query(
         "INSERT"
         . " INTO " . $destination['cat']
         . " (`old_cid`, `old_pid`, `title`, `imgurl`, `description`, `weight`, `dohtml`)"
         . " SELECT `cat_cid`, `cat_pid`, `cat_title`, `cat_imgurl`, `cat_description_main`, `cat_weight`, 1"
         . " FROM " . $source['cat']
     );
-    echo "Imported " . $xoopsDB->getAffectedRows() . " categories into " . $destination['cat'] . "<br />";
+    echo "Imported " . $GLOBALS['xoopsDB']->getAffectedRows() . " categories into " . $destination['cat'] . "<br />";
     //Import data into downloads table
-    $xoopsDB->query(
+    $GLOBALS['xoopsDB']->query(
         "INSERT"
         . " INTO " . $destination['downloads']
         . " (`cid`, `old_lid`, `old_cid`, `title`, `url`, `homepage`, `version`, `size`, `platform`, `screenshot`, `submitter`, `status`, `published`, `hits`, `rating`, `votes`, `comments`, `features`, `requirements`, `dhistory`, `summary`, `description`, `dohtml`)"
         . " SELECT 0, `lid`, `cid`, `title`, `url`, `homepage`, `version`, `size`, `platform`, `logourl`, `submitter`, `status`, `date`, `hits`, `rating`, `votes`, `comments`, '', '', '', '', `description`, 1"
         . " FROM " . $source['downloads']
     );
-    echo "Imported " . $xoopsDB->getAffectedRows() . " downloads into " . $destination['downloads'] . "<br />";
+    echo "Imported " . $GLOBALS['xoopsDB']->getAffectedRows() . " downloads into " . $destination['downloads'] . "<br />";
     //Import data into brokens table
-    $xoopsDB->query(
+    $GLOBALS['xoopsDB']->query(
         "INSERT"
         . " INTO " . $destination['broken']
         . " (`lid`, `sender`, `ip`)"
         . " SELECT `lid`, `sender`, `ip`"
         . " FROM " . $source['broken']
     );
-    echo "Imported " . $xoopsDB->getAffectedRows() . " broken reports into " . $destination['broken'] . "<br />";
+    echo "Imported " . $GLOBALS['xoopsDB']->getAffectedRows() . " broken reports into " . $destination['broken'] . "<br />";
     //Import data into votedata table
-    $xoopsDB->query(
+    $GLOBALS['xoopsDB']->query(
         "INSERT"
         . " INTO " . $destination['votes']
         . " (`lid`, `ratinguser`, `rating`, `ratinghostname`, `ratingtimestamp`)"
         . " SELECT `lid`, `ratinguser`, `rating`, `ratinghostname`, `ratingtimestamp`"
         . " FROM " . $source['votes']
     );
-    echo "Imported " . $xoopsDB->getAffectedRows() . " votes into " . $destination['votes'] . "<br />";
+    echo "Imported " . $GLOBALS['xoopsDB']->getAffectedRows() . " votes into " . $destination['votes'] . "<br />";
 /*
             //Import data into mod request table
-            $xoopsDB->query(
+            $GLOBALS['xoopsDB']->query(
                 "INSERT INTO " . $destination['mod'] . " (`lid`, `cid`, `title`, `url`, `homepage`, `version`, `size`, `platform`, `screenshot`, `description`, `modifysubmitter`,`features`, `requirements`, `publisher`, `dhistory`, `summary`)
                              SELECT `lid`, `cid`, `title`, `url`, `homepage`, `version`, `size`, `platform`, `logourl`, `description`, `modifysubmitter`,'','','','','' FROM "
                 . $source['mod']
             );
-            echo "Imported " . $xoopsDB->getAffectedRows() . " modification requests into " . $destination['mod'] . "<br />";
+            echo "Imported " . $GLOBALS['xoopsDB']->getAffectedRows() . " modification requests into " . $destination['mod'] . "<br />";
 */
             //Update category ID to new value
-    $xoopsDB->query(
+    $GLOBALS['xoopsDB']->query(
         "UPDATE " . $destination['downloads'] . " d, " . $destination['cat'] . " c SET d.cid=c.cid"
         . " WHERE d.old_cid=c.old_cid AND d.old_cid != 0"
     );
-    $xoopsDB->query(
+    $GLOBALS['xoopsDB']->query(
         "UPDATE " . $destination['cat'] . " c1, " . $destination['cat'] . " c2 SET c1.pid=c2.cid"
         . " WHERE c1.old_pid=c2.old_cid AND c1.old_pid != 0"
     );
 /*
             if ($max_requestid) {
-                $xoopsDB->query(
+                $GLOBALS['xoopsDB']->query(
                     "UPDATE " . $destination['mod'] . " m, " . $destination['cat'] . " c SET m.cid=c.cid"
                     . " WHERE m.requestid > " . $max_requestid
                     . " AND c.old_cid=m.cid"
                 );
                 //Update lid values in mod table
-                $xoopsDB->query(
+                $GLOBALS['xoopsDB']->query(
                     "UPDATE " . $destination['mod'] . " m, " . $destination['downloads'] . " d SET m.lid=d.lid"
                     . " WHERE m.requestid > " . $max_requestid
                     . " AND m.lid=d.old_lid"
@@ -1019,7 +1009,7 @@ function import_tdmdownloads_to_wfdownloads()
 */
     if ($max_ratingid) {
         //Update lid values in votedata table
-        $xoopsDB->query(
+        $GLOBALS['xoopsDB']->query(
             "UPDATE " . $destination['votes'] . " v, " . $destination['downloads'] . " d SET v.lid=d.lid"
             . " WHERE v.ratingid > " . $max_ratingid
             . " AND v.lid=d.old_lid"
@@ -1027,7 +1017,7 @@ function import_tdmdownloads_to_wfdownloads()
     }
     if ($max_reportid) {
         //Update lid values in brokens table
-        $xoopsDB->query(
+        $GLOBALS['xoopsDB']->query(
             "UPDATE " . $destination['broken'] . " b, " . $destination['downloads'] . " d SET b.lid=d.lid"
             . " WHERE b.reportid > " . $max_reportid
             . " AND b.lid=d.old_lid"
@@ -1035,9 +1025,8 @@ function import_tdmdownloads_to_wfdownloads()
     }
 
     //Remove temporary fields
-    $xoopsDB->query("ALTER TABLE ." . $destination['cat'] . " DROP `old_cid`");
-    $xoopsDB->query("ALTER TABLE ." . $destination['cat'] . " DROP `old_pid`");
-    $xoopsDB->query("ALTER TABLE ." . $destination['downloads'] . " DROP `old_cid`");
-    $xoopsDB->query("ALTER TABLE ." . $destination['downloads'] . " DROP `old_lid`");
-
+    $GLOBALS['xoopsDB']->query("ALTER TABLE ." . $destination['cat'] . " DROP `old_cid`");
+    $GLOBALS['xoopsDB']->query("ALTER TABLE ." . $destination['cat'] . " DROP `old_pid`");
+    $GLOBALS['xoopsDB']->query("ALTER TABLE ." . $destination['downloads'] . " DROP `old_cid`");
+    $GLOBALS['xoopsDB']->query("ALTER TABLE ." . $destination['downloads'] . " DROP `old_lid`");
 }

@@ -19,7 +19,7 @@
  * @version         svn:$id$
  */
 $currentFile = pathinfo(__FILE__, PATHINFO_BASENAME);
-include 'header.php';
+include_once dirname(__FILE__) . '/header.php';
 
 // Check directories
 if (!is_dir($wfdownloads->getConfig('uploaddir'))) {
@@ -39,16 +39,16 @@ if (!is_dir(XOOPS_ROOT_PATH . '/' . $wfdownloads->getConfig('catimage'))) {
     exit();
 }
 
-$groups = is_object($xoopsUser) ? $xoopsUser->getGroups() : array(0 => XOOPS_GROUP_ANONYMOUS);
+$groups = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : array(0 => XOOPS_GROUP_ANONYMOUS);
 
 // Check if submission is allowed
 $isSubmissionAllowed = false;
-if (is_object($xoopsUser)
+if (is_object($GLOBALS['xoopsUser'])
     && ($wfdownloads->getConfig('submissions') == _WFDOWNLOADS_SUBMISSIONS_DOWNLOAD
         || $wfdownloads->getConfig('submissions') == _WFDOWNLOADS_SUBMISSIONS_BOTH)
 ) {
     // if user is a registered user
-    $groups = $xoopsUser->getGroups();
+    $groups = $GLOBALS['xoopsUser']->getGroups();
     if (count(array_intersect($wfdownloads->getConfig('submitarts'), $groups)) > 0) {
         $isSubmissionAllowed = true;
     }
@@ -64,7 +64,7 @@ $allowedDownCategoriesIds = $gperm_handler->getItemIds('WFDownCatPerm', $groups,
 $allowedUpCategoriesIds   = $gperm_handler->getItemIds('WFUpCatPerm', $groups, $wfdownloads->getModule()->mid());
 
 $xoopsOption['template_main'] = "{$wfdownloads->getModule()->dirname()}_index.tpl";
-include XOOPS_ROOT_PATH . '/header.php';
+include_once XOOPS_ROOT_PATH . '/header.php';
 
 $xoTheme->addScript(XOOPS_URL . '/browse.php?Frameworks/jquery/jquery.js');
 $xoTheme->addScript(WFDOWNLOADS_URL . '/assets/js/magnific/jquery.magnific-popup.min.js');
@@ -88,8 +88,8 @@ unset($categoryCriteria);
 $categoryObjsTree = new XoopsObjectTree($categoryObjs, 'cid', 'pid');
 
 // Generate content header
-$sql                          = "SELECT * FROM " . $xoopsDB->prefix('wfdownloads_indexpage') . " ";
-$head_arr                     = $xoopsDB->fetchArray($xoopsDB->query($sql));
+$sql                          = "SELECT * FROM " . $GLOBALS['xoopsDB']->prefix('wfdownloads_indexpage') . " ";
+$head_arr                     = $GLOBALS['xoopsDB']->fetchArray($GLOBALS['xoopsDB']->query($sql));
 $catarray['imageheader']      = wfdownloads_headerImage();
 $catarray['indexheaderalign'] = $head_arr['indexheaderalign'];
 $catarray['indexfooteralign'] = $head_arr['indexfooteralign'];
@@ -113,98 +113,98 @@ $listings = wfdownloads_getTotalDownloads($allowedDownCategoriesIds);
 // Get total amount of categories
 $total_cat = count($allowedDownCategoriesIds);
 // Get all main categories
-$mainCategories = $categoryObjsTree->getFirstChild(0);
+$mainCategoryObjs = $categoryObjsTree->getFirstChild(0);
 $count          = 0;
 
 // Comparison functions for uasort()
 /**
- * @param $category_a
- * @param $category_b
+ * @param $categoryObj_a
+ * @param $categoryObj_b
  *
  * @return int
  */
-function categoriesCompareCid($category_a, $category_b)
+function categoriesCompareCid($categoryObj_a, $categoryObj_b)
 {
-    if ($category_a->getVar('cid') == $category_b->getVar('cid')) {
+    if ($categoryObj_a->getVar('cid') == $categoryObj_b->getVar('cid')) {
         return 0;
     }
 
-    return ($category_a->getVar('cid') < $category_b->getVar('cid')) ? -1 : 1;
+    return ($categoryObj_a->getVar('cid') < $categoryObj_b->getVar('cid')) ? -1 : 1;
 }
 
 /**
- * @param $category_a
- * @param $category_b
+ * @param $categoryObj_a
+ * @param $categoryObj_b
  *
  * @return int
  */
-function categoriesCompareTitle($category_a, $category_b)
+function categoriesCompareTitle($categoryObj_a, $categoryObj_b)
 {
-    if ($category_a->getVar('title') == $category_b->getVar('title')) {
+    if ($categoryObj_a->getVar('title') == $categoryObj_b->getVar('title')) {
         return 0;
     }
 
-    return ($category_a->getVar('title') < $category_b->getVar('title')) ? -1 : 1;
+    return ($categoryObj_a->getVar('title') < $categoryObj_b->getVar('title')) ? -1 : 1;
 }
 
 /**
- * @param $category_a
- * @param $category_b
+ * @param $categoryObj_a
+ * @param $categoryObj_b
  *
  * @return int
  */
-function categoriesCompareWeight($category_a, $category_b)
+function categoriesCompareWeight($categoryObj_a, $categoryObj_b)
 {
-    if ($category_a->getVar('weight') == $category_b->getVar('weight')) {
+    if ($categoryObj_a->getVar('weight') == $categoryObj_b->getVar('weight')) {
         return 0;
     }
 
-    return ($category_a->getVar('weight') < $category_b->getVar('weight')) ? -1 : 1;
+    return ($categoryObj_a->getVar('weight') < $categoryObj_b->getVar('weight')) ? -1 : 1;
 }
 
 // Foreach main category
-foreach (array_keys($mainCategories) as $i) {
-    if (in_array($mainCategories[$i]->getVar('cid'), $allowedDownCategoriesIds)) {
+foreach (array_keys($mainCategoryObjs) as $i) {
+    if (in_array($mainCategoryObjs[$i]->getVar('cid'), $allowedDownCategoriesIds)) {
         // Get this category image
         // Get this category subcategories
-        $allSubcategories = $categoryObjsTree->getAllChild($mainCategories[$i]->getVar('cid'));
+        $allSubcategoryObjs = $categoryObjsTree->getAllChild($mainCategoryObjs[$i]->getVar('cid'));
 
         // Sort subcategories by: cid or title or weight
         switch ($wfdownloads->getConfig('subcatssortby')) {
             case 'cid' :
-                uasort($allSubcategories, 'categoriesCompareCid');
+                uasort($allSubcategoryObjs, 'categoriesCompareCid');
                 break;
             case 'title' :
-                uasort($allSubcategories, 'categoriesCompareTitle');
+                uasort($allSubcategoryObjs, 'categoriesCompareTitle');
                 break;
             case 'weight' :
             default :
-                uasort($allSubcategories, 'categoriesCompareWeight');
+                uasort($allSubcategoryObjs, 'categoriesCompareWeight');
                 break;
         }
 
         // Get this category indicator image
-        $publishdate = isset($listings['published'][$mainCategories[$i]->getVar('cid')]) ? $listings['published'][$mainCategories[$i]->getVar('cid')]
+        $publishdate = isset($listings['published'][$mainCategoryObjs[$i]->getVar('cid')]) ? $listings['published'][$mainCategoryObjs[$i]->getVar('cid')]
             : 0;
-        if (count($allSubcategories) > 0) {
+        if (count($allSubcategoryObjs) > 0) {
             // Foreach subcategory
-            foreach (array_keys($allSubcategories) as $k) {
-                if (in_array($allSubcategories[$k]->getVar('cid'), $allowedDownCategoriesIds)) {
-                    $publishdate = (isset($listings['published'][$allSubcategories[$k]->getVar('cid')]) &&
-                        $listings['published'][$allSubcategories[$k]->getVar('cid')] > $publishdate)
-                        ? $listings['published'][$allSubcategories[$k]->getVar('cid')] : $publishdate;
+            foreach (array_keys($allSubcategoryObjs) as $k) {
+                if (in_array($allSubcategoryObjs[$k]->getVar('cid'), $allowedDownCategoriesIds)) {
+                    $publishdate = (isset($listings['published'][$allSubcategoryObjs[$k]->getVar('cid')]) &&
+                        $listings['published'][$allSubcategoryObjs[$k]->getVar('cid')] > $publishdate)
+                        ? $listings['published'][$allSubcategoryObjs[$k]->getVar('cid')] : $publishdate;
                 }
             }
         }
         $isNewImage = wfdownloads_isNewImage($publishdate);
-        if (($mainCategories[$i]->getVar('imgurl') != "")
+        if (($mainCategoryObjs[$i]->getVar('imgurl') != "")
             && is_file(
-                XOOPS_ROOT_PATH . '/' . $wfdownloads->getConfig('catimage') . '/' . $mainCategories[$i]->getVar('imgurl')
+                XOOPS_ROOT_PATH . '/' . $wfdownloads->getConfig('catimage') . '/' . $mainCategoryObjs[$i]->getVar('imgurl')
             )
         ) {
             if ($wfdownloads->getConfig('usethumbs') && function_exists('gd_info')) {
                 $imageURL = wfdownloads_createThumb(
-                    $mainCategories[$i]->getVar('imgurl'),
+                    $mainCategoryObjs[$i]->getVar('imgurl'),
                     $wfdownloads->getConfig('catimage'),
                     "thumbs",
                     $wfdownloads->getConfig('cat_imgwidth'),
@@ -214,7 +214,7 @@ foreach (array_keys($mainCategories) as $i) {
                     $wfdownloads->getConfig('keepaspect')
                 );
             } else {
-                $imageURL = XOOPS_URL . '/' . $wfdownloads->getConfig('catimage') . '/' . $mainCategories[$i]->getVar('imgurl');
+                $imageURL = XOOPS_URL . '/' . $wfdownloads->getConfig('catimage') . '/' . $mainCategoryObjs[$i]->getVar('imgurl');
             }
         } else {
             $imageURL = $isNewImage['image'];
@@ -223,23 +223,23 @@ foreach (array_keys($mainCategories) as $i) {
         // Get this category subcategories id and title
         $subcategories = array();
         ++$count;
-        $download_count = isset($listings['count'][$mainCategories[$i]->getVar('cid')]) ? $listings['count'][$mainCategories[$i]->getVar('cid')] : 0;
+        $download_count = isset($listings['count'][$mainCategoryObjs[$i]->getVar('cid')]) ? $listings['count'][$mainCategoryObjs[$i]->getVar('cid')] : 0;
         // modified July 5 2006 by Freeform Solutions (jwe)
         // make download count recursive, to include all sub categories that the user has permission to view
-        //$allSubcategories = $categoryObjsTree->getAllChild($mainCategories[$i]->getVar('cid'));
-        if (count($allSubcategories) > 0) {
-            foreach (array_keys($allSubcategories) as $k) {
-                if (in_array($allSubcategories[$k]->getVar('cid'), $allowedDownCategoriesIds)) {
-                    $download_count += isset($listings['count'][$allSubcategories[$k]->getVar('cid')])
-                        ? $listings['count'][$allSubcategories[$k]->getVar('cid')] : 0;
-                    if ($wfdownloads->getConfig('subcats') == 1 && $allSubcategories[$k]->getVar('pid') == $mainCategories[$i]->getVar('cid')) {
+        //$allSubcategoryObjs = $categoryObjsTree->getAllChild($mainCategoryObjs[$i]->getVar('cid'));
+        if (count($allSubcategoryObjs) > 0) {
+            foreach (array_keys($allSubcategoryObjs) as $k) {
+                if (in_array($allSubcategoryObjs[$k]->getVar('cid'), $allowedDownCategoriesIds)) {
+                    $download_count += isset($listings['count'][$allSubcategoryObjs[$k]->getVar('cid')])
+                        ? $listings['count'][$allSubcategoryObjs[$k]->getVar('cid')] : 0;
+                    if ($wfdownloads->getConfig('subcats') == 1 && $allSubcategoryObjs[$k]->getVar('pid') == $mainCategoryObjs[$i]->getVar('cid')) {
                         // if we are collecting subcat info for displaying, and this subcat is a first level child...
                         $subcategories[] = array(
-                            'id'               => $allSubcategories[$k]->getVar('cid'), // this definition is not removed for backward compatibility issues
-                            'cid'              => $allSubcategories[$k]->getVar('cid'),
-                            'allowed_download' => in_array($allSubcategories[$k]->getVar('cid'), $allowedDownCategoriesIds),
-                            'allowed_upload'   => ($isSubmissionAllowed && in_array($allSubcategories[$k]->getVar('cid'), $allowedUpCategoriesIds)),
-                            'title'            => $allSubcategories[$k]->getVar('title')
+                            'id'               => $allSubcategoryObjs[$k]->getVar('cid'), // this definition is not removed for backward compatibility issues
+                            'cid'              => $allSubcategoryObjs[$k]->getVar('cid'),
+                            'allowed_download' => in_array($allSubcategoryObjs[$k]->getVar('cid'), $allowedDownCategoriesIds),
+                            'allowed_upload'   => ($isSubmissionAllowed && in_array($allSubcategoryObjs[$k]->getVar('cid'), $allowedUpCategoriesIds)),
+                            'title'            => $allSubcategoryObjs[$k]->getVar('title')
                         );
                     }
                 }
@@ -254,12 +254,12 @@ foreach (array_keys($mainCategories) as $i) {
                      'image'            => $imageURL, // this definition is not removed for backward compatibility issues
                      'image_URL'        => $imageURL,
                      'days'             => $isNewImage['days'],
-                     'id'               => (int) $mainCategories[$i]->getVar('cid'), // this definition is not removed for backward compatibility issues
-                     'cid'              => (int) $mainCategories[$i]->getVar('cid'),
-                     'allowed_download' => in_array($mainCategories[$i]->getVar('cid'), $allowedDownCategoriesIds),
-                     'allowed_upload'   => ($isSubmissionAllowed && in_array($mainCategories[$i]->getVar('cid'), $allowedUpCategoriesIds)),
-                     'title'            => $mainCategories[$i]->getVar('title'),
-                     'summary'          => $mainCategories[$i]->getVar('summary'),
+                     'id'               => (int) $mainCategoryObjs[$i]->getVar('cid'), // this definition is not removed for backward compatibility issues
+                     'cid'              => (int) $mainCategoryObjs[$i]->getVar('cid'),
+                     'allowed_download' => in_array($mainCategoryObjs[$i]->getVar('cid'), $allowedDownCategoriesIds),
+                     'allowed_upload'   => ($isSubmissionAllowed && in_array($mainCategoryObjs[$i]->getVar('cid'), $allowedUpCategoriesIds)),
+                     'title'            => $mainCategoryObjs[$i]->getVar('title'),
+                     'summary'          => $mainCategoryObjs[$i]->getVar('summary'),
                      'totaldownloads'   => (int) $download_count, // this definition is not removed for backward compatibility issues
                      'downloads_count'  => (int) $download_count,
                      'count'            => (int) $count,
@@ -273,12 +273,12 @@ foreach (array_keys($mainCategories) as $i) {
                      'image'            => $imageURL, // this definition is not removed for backward compatibility issues
                      'image_URL'        => $imageURL,
                      'days'             => $isNewImage['days'],
-                     'id'               => (int) $mainCategories[$i]->getVar('cid'), // this definition is not removed for backward compatibility issues
-                     'cid'              => (int) $mainCategories[$i]->getVar('cid'),
-                     'allowed_download' => in_array($mainCategories[$i]->getVar('cid'), $allowedDownCategoriesIds),
-                     'allowed_upload'   => ($isSubmissionAllowed && in_array($mainCategories[$i]->getVar('cid'), $allowedUpCategoriesIds)),
-                     'title'            => $mainCategories[$i]->getVar('title'),
-                     'summary'          => $mainCategories[$i]->getVar('summary'),
+                     'id'               => (int) $mainCategoryObjs[$i]->getVar('cid'), // this definition is not removed for backward compatibility issues
+                     'cid'              => (int) $mainCategoryObjs[$i]->getVar('cid'),
+                     'allowed_download' => in_array($mainCategoryObjs[$i]->getVar('cid'), $allowedDownCategoriesIds),
+                     'allowed_upload'   => ($isSubmissionAllowed && in_array($mainCategoryObjs[$i]->getVar('cid'), $allowedUpCategoriesIds)),
+                     'title'            => $mainCategoryObjs[$i]->getVar('title'),
+                     'summary'          => $mainCategoryObjs[$i]->getVar('summary'),
                      'subcategories'    => $subcategories,
                      'totaldownloads'   => (int) $download_count, // this definition is not removed for backward compatibility issues
                      'downloads_count'  => (int) $download_count,
@@ -302,4 +302,4 @@ if ($wfdownloads->getConfig('enablerss') == true) {
     $xoopsTpl->assign('full_rssfeed_link', $rsslink); // this definition is not removed for backward compatibility issues
 }
 
-include 'footer.php';
+include_once dirname(__FILE__) . '/footer.php';

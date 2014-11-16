@@ -406,14 +406,13 @@ function wfdownloads_lettersChoice()
  */
 function wfdownloads_userIsAdmin()
 {
-    global $xoopsUser;
     $wfdownloads = WfdownloadsWfdownloads::getInstance();
 
     static $wfdownloads_isAdmin;
     if (isset($wfdownloads_isAdmin)) {
         return $wfdownloads_isAdmin;
     }
-    $wfdownloads_isAdmin = (!is_object($xoopsUser)) ? false : $xoopsUser->isAdmin($wfdownloads->getModule()->getVar('mid'));
+    $wfdownloads_isAdmin = (!is_object($GLOBALS['xoopsUser'])) ? false : $GLOBALS['xoopsUser']->isAdmin($wfdownloads->getModule()->getVar('mid'));
     return $wfdownloads_isAdmin;
 }
 
@@ -453,18 +452,18 @@ function wfdownloads_tableExists($table)
 {
     $bRetVal = false;
     //Verifies that a MySQL table exists
-    $xoopsDB = XoopsDatabaseFactory::getDatabaseConnection();
-    $realName = $xoopsDB->prefix($table);
+    $GLOBALS['xoopsDB'] = XoopsDatabaseFactory::getDatabaseConnection();
+    $realName = $GLOBALS['xoopsDB']->prefix($table);
 
     $sql = "SHOW TABLES FROM " . XOOPS_DB_NAME;
-    $ret = $xoopsDB->queryF($sql);
-    while (list($m_table) = $xoopsDB->fetchRow($ret)) {
+    $ret = $GLOBALS['xoopsDB']->queryF($sql);
+    while (list($m_table) = $GLOBALS['xoopsDB']->fetchRow($ret)) {
         if ($m_table == $realName) {
             $bRetVal = true;
             break;
         }
     }
-    $xoopsDB->freeRecordSet($ret);
+    $GLOBALS['xoopsDB']->freeRecordSet($ret);
     return ($bRetVal);
 }
 
@@ -480,13 +479,13 @@ function wfdownloads_tableExists($table)
  */
 function wfdownloads_getMeta($key)
 {
-    $xoopsDB = XoopsDatabaseFactory::getDatabaseConnection();
-    $sql = sprintf("SELECT metavalue FROM %s WHERE metakey=%s", $xoopsDB->prefix('wfdownloads_meta'), $xoopsDB->quoteString($key));
-    $ret = $xoopsDB->query($sql);
+    $GLOBALS['xoopsDB'] = XoopsDatabaseFactory::getDatabaseConnection();
+    $sql = sprintf("SELECT metavalue FROM %s WHERE metakey=%s", $GLOBALS['xoopsDB']->prefix('wfdownloads_meta'), $GLOBALS['xoopsDB']->quoteString($key));
+    $ret = $GLOBALS['xoopsDB']->query($sql);
     if (!$ret) {
         $value = false;
     } else {
-        list($value) = $xoopsDB->fetchRow($ret);
+        list($value) = $GLOBALS['xoopsDB']->fetchRow($ret);
     }
     return $value;
 }
@@ -504,23 +503,23 @@ function wfdownloads_getMeta($key)
  */
 function wfdownloads_setMeta($key, $value)
 {
-    $xoopsDB = XoopsDatabaseFactory::getDatabaseConnection();
+    $GLOBALS['xoopsDB'] = XoopsDatabaseFactory::getDatabaseConnection();
     if ($ret = wfdownloads_getMeta($key)) {
         $sql = sprintf(
             "UPDATE %s SET metavalue = %s WHERE metakey = %s",
-            $xoopsDB->prefix('wfdownloads_meta'),
-            $xoopsDB->quoteString($value),
-            $xoopsDB->quoteString($key)
+            $GLOBALS['xoopsDB']->prefix('wfdownloads_meta'),
+            $GLOBALS['xoopsDB']->quoteString($value),
+            $GLOBALS['xoopsDB']->quoteString($key)
         );
     } else {
         $sql = sprintf(
             "INSERT INTO %s (metakey, metavalue) VALUES (%s, %s)",
-            $xoopsDB->prefix('wfdownloads_meta'),
-            $xoopsDB->quoteString($key),
-            $xoopsDB->quoteString($value)
+            $GLOBALS['xoopsDB']->prefix('wfdownloads_meta'),
+            $GLOBALS['xoopsDB']->quoteString($key),
+            $GLOBALS['xoopsDB']->quoteString($value)
         );
     }
-    $ret = $xoopsDB->queryF($sql);
+    $ret = $GLOBALS['xoopsDB']->queryF($sql);
     if (!$ret) {
         return false;
     }
@@ -671,19 +670,18 @@ function wfdownloads_savePermissions($groups, $id, $permName)
  */
 function wfdownloads_toolbar()
 {
-    global $xoopsUser;
     $wfdownloads = WfdownloadsWfdownloads::getInstance();
 
     $isSubmissionAllowed = false;
-    if (is_object($xoopsUser)
+    if (is_object($GLOBALS['xoopsUser'])
         && ($wfdownloads->getConfig('submissions') == _WFDOWNLOADS_SUBMISSIONS_DOWNLOAD
             || $wfdownloads->getConfig('submissions') == _WFDOWNLOADS_SUBMISSIONS_BOTH)
     ) {
-        $groups = $xoopsUser->getGroups();
+        $groups = $GLOBALS['xoopsUser']->getGroups();
         if (count(array_intersect($wfdownloads->getConfig('submitarts'), $groups)) > 0) {
             $isSubmissionAllowed = true;
         }
-    } elseif (!is_object($xoopsUser)
+    } elseif (!is_object($GLOBALS['xoopsUser'])
         && ($wfdownloads->getConfig('anonpost') == _WFDOWNLOADS_ANONPOST_DOWNLOAD
             || $wfdownloads->getConfig('anonpost') == _WFDOWNLOADS_ANONPOST_BOTH)
     ) {
@@ -713,13 +711,12 @@ function wfdownloads_toolbar()
 function wfdownloads_serverStats()
 {
 //mb    $wfdownloads = WfdownloadsWfdownloads::getInstance();
-    global $xoopsDB;
     $html = "";
     $sql = "SELECT metavalue";
-    $sql.= " FROM " . $xoopsDB->prefix('wfdownloads_meta');
+    $sql.= " FROM " . $GLOBALS['xoopsDB']->prefix('wfdownloads_meta');
     $sql.= " WHERE metakey='version' LIMIT 1";
-    $query = $xoopsDB->query($sql);
-    list($meta) = $xoopsDB->fetchRow($query);
+    $query = $GLOBALS['xoopsDB']->query($sql);
+    list($meta) = $GLOBALS['xoopsDB']->fetchRow($query);
     $html .= "<fieldset><legend style='font-weight: bold; color: #900;'>" . _AM_WFDOWNLOADS_DOWN_IMAGEINFO . "</legend>\n";
     $html .= "<div style='padding: 8px;'>\n";
     $html .= "<div>" . _AM_WFDOWNLOADS_DOWN_METAVERSION . $meta . "</div>\n";
@@ -917,10 +914,9 @@ function wfdownloads_updateRating($lid)
  */
 function wfdownloads_categoriesCount()
 {
-    global $xoopsUser;
     $gperm_handler = xoops_gethandler('groupperm');
     $wfdownloads = WfdownloadsWfdownloads::getInstance();
-    $groups = (is_object($xoopsUser)) ? $xoopsUser->getGroups() : array(0 => XOOPS_GROUP_ANONYMOUS);
+    $groups = (is_object($GLOBALS['xoopsUser'])) ? $GLOBALS['xoopsUser']->getGroups() : array(0 => XOOPS_GROUP_ANONYMOUS);
     $allowedDownCategoriesIds = $gperm_handler->getItemIds('WFDownCatPerm', $groups, $wfdownloads->getModule()->mid());
     return count($allowedDownCategoriesIds);
 }
@@ -961,12 +957,11 @@ function wfdownloads_getTotalDownloads($cids = 0)
  */
 function wfdownloads_headerImage()
 {
-    global $xoopsDB;
     $wfdownloads = WfdownloadsWfdownloads::getInstance();
 
     $image  = '';
-    $result = $xoopsDB->query("SELECT indeximage, indexheading FROM " . $xoopsDB->prefix('wfdownloads_indexpage') . " ");
-    list($indexImage, $indexHeading) = $xoopsDB->fetchrow($result);
+    $result = $GLOBALS['xoopsDB']->query("SELECT indeximage, indexheading FROM " . $GLOBALS['xoopsDB']->prefix('wfdownloads_indexpage') . " ");
+    list($indexImage, $indexHeading) = $GLOBALS['xoopsDB']->fetchrow($result);
     if (!empty($indeximage)) {
         $image = wfdownloads_displayImage($indexImage, 'index.php', $wfdownloads->getConfig('mainimagedir'), $indexHeading);
     }
@@ -983,7 +978,6 @@ function wfdownloads_headerImage()
  */
 function wfdownloads_displayImage($image = '', $href = '', $imgSource = '', $altText = '')
 {
-    global $xoopsUser;
     $wfdownloads = WfdownloadsWfdownloads::getInstance();
 
     $showImage = '';
@@ -996,7 +990,7 @@ function wfdownloads_displayImage($image = '', $href = '', $imgSource = '', $alt
     if (!is_dir(XOOPS_ROOT_PATH . "/{$imgSource}/{$image}") && file_exists(XOOPS_ROOT_PATH . "/{$imgSource}/{$image}")) {
         $showImage .= "<img src='" . XOOPS_URL . "/{$imgSource}/{$image}' border='0' alt='{$altText}' />";
     } else {
-        if ($xoopsUser && $xoopsUser->isAdmin($wfdownloads->getModule()->mid())) {
+        if ($GLOBALS['xoopsUser'] && $GLOBALS['xoopsUser']->isAdmin($wfdownloads->getModule()->mid())) {
             $showImage .= "<img src='" . XOOPS_URL . "/modules/" . WFDOWNLOADS_DIRNAME . "/assets/images/brokenimg.png' alt='" . _MD_WFDOWNLOADS_ISADMINNOTICE . "' />";
         } else {
             $showImage .= "<img src='" . XOOPS_URL . "/modules/" . WFDOWNLOADS_DIRNAME . "/assets/images/blank.gif' alt='{$altText}' />";
@@ -1488,13 +1482,11 @@ function wfdownloads_largeDownload($filePath, $fileMimetype)
  */
 function wfdownloads_getForum($selectedForumId)
 {
-    global $xoopsDB;
-
     $selectedForumId = (int) $selectedForumId;
     echo "<select name='forumid'>";
     echo "<option value='0'>----------------------</option>";
-    $result = $xoopsDB->query("SELECT forum_name, forum_id FROM " . $xoopsDB->prefix("bb_forums") . " ORDER BY forum_id");
-    while (list($forumName, $forumId) = $xoopsDB->fetchRow($result)) {
+    $result = $GLOBALS['xoopsDB']->query("SELECT forum_name, forum_id FROM " . $GLOBALS['xoopsDB']->prefix("bb_forums") . " ORDER BY forum_id");
+    while (list($forumName, $forumId) = $GLOBALS['xoopsDB']->fetchRow($result)) {
         if ($forumId == $selectedForumId) {
             $optionSelected = "selected='selected'";
         } else {

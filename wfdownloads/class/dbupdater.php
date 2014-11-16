@@ -110,9 +110,7 @@ class WfdownloadsTable
      */
     function name()
     {
-        global $xoopsDB;
-
-        return $xoopsDB->prefix($this->_name);
+        return $GLOBALS['xoopsDB']->prefix($this->_name);
     }
 
     /**
@@ -167,11 +165,9 @@ class WfdownloadsTable
      */
     function addData()
     {
-        global $xoopsDB;
-
         foreach ($this->getData() as $data) {
             $query = sprintf('INSERT INTO %s VALUES (%s)', $this->name(), $data);
-            $ret   = $xoopsDB->query($query);
+            $ret   = $GLOBALS['xoopsDB']->query($query);
             if (!$ret) {
                 echo "<li class='err'>" . sprintf(_AM_WFDOWNLOADS_DB_MSG_ADD_DATA_ERR, $this->name()) . "</li>";
             } else {
@@ -326,11 +322,9 @@ class WfdownloadsTable
      */
     function createTable()
     {
-        global $xoopsDB;
-
         $query = $this->getStructure();
 
-        $ret = $xoopsDB->query($query);
+        $ret = $GLOBALS['xoopsDB']->query($query);
         if (!$ret) {
             echo "<li class='err'>" . sprintf(_AM_WFDOWNLOADS_DB_MSG_CREATE_TABLE_ERR, $this->name()) . "</li>";
         } else {
@@ -348,10 +342,8 @@ class WfdownloadsTable
      */
     function dropTable()
     {
-        global $xoopsDB;
-
         $query = sprintf("DROP TABLE %s", $this->name());
-        $ret   = $xoopsDB->query($query);
+        $ret   = $GLOBALS['xoopsDB']->query($query);
         if (!$ret) {
             echo "<li class='err'>" . sprintf(_AM_WFDOWNLOADS_DB_MSG_DROP_TABLE_ERR, $this->name()) . "</li>";
 
@@ -371,14 +363,12 @@ class WfdownloadsTable
      */
     function alterTable()
     {
-        global $xoopsDB;
-
         $ret = true;
 
         foreach ($this->getAlteredFields() as $alteredField) {
             $query = sprintf("ALTER TABLE `%s` CHANGE `%s` %s", $this->name(), $alteredField['name'], $alteredField['properties']);
             //echo $query;
-            $ret = $ret && $xoopsDB->query($query);
+            $ret = $ret && $GLOBALS['xoopsDB']->query($query);
             if (!$ret) {
                 echo "<li class='err'>" . sprintf(_AM_WFDOWNLOADS_DB_MSG_CHGFIELD_ERR, $alteredField['name'], $this->name()) . "</li>";
             } else {
@@ -397,13 +387,11 @@ class WfdownloadsTable
      */
     function addNewFields()
     {
-        global $xoopsDB;
-
         $ret = true;
         foreach ($this->getNewFields() as $newField) {
             $query = sprintf("ALTER TABLE `%s` ADD `%s` %s", $this->name(), $newField['name'], $newField['properties']);
             //echo $query;
-            $ret = $ret && $xoopsDB->query($query);
+            $ret = $ret && $GLOBALS['xoopsDB']->query($query);
             if (!$ret) {
                 echo "<li class='err'>" . sprintf(_AM_WFDOWNLOADS_DB_MSG_NEWFIELD_ERR, $newField['name'], $this->name()) . "</li>";
             } else {
@@ -422,13 +410,11 @@ class WfdownloadsTable
      */
     function updateFieldsValues()
     {
-        global $xoopsDB;
-
         $ret = true;
 
         foreach ($this->getUpdatedFields() as $updatedField) {
             $query = sprintf("UPDATE %s SET %s = %s", $this->name(), $updatedField['name'], $updatedField['value']);
-            $ret   = $ret && $xoopsDB->query($query);
+            $ret   = $ret && $GLOBALS['xoopsDB']->query($query);
             if (!$ret) {
                 echo "<li class='err'>" . sprintf(_AM_WFDOWNLOADS_DB_MSG_UPDATE_TABLE_ERR, $this->name()) . "</li>";
             } else {
@@ -447,8 +433,6 @@ class WfdownloadsTable
      */ //felix
     function updateWhereValues()
     {
-        global $xoopsDB;
-
         $ret = true;
 
         foreach ($this->getUpdatedWhere() as $updatedWhere) {
@@ -461,7 +445,7 @@ class WfdownloadsTable
                 $updatedWhere['where']
             );
             //echo $query."<br>";
-            $ret = $ret && $xoopsDB->query($query);
+            $ret = $ret && $GLOBALS['xoopsDB']->query($query);
             if (!$ret) {
                 echo "<li class='err'>" . sprintf(_AM_WFDOWNLOADS_DB_MSG_UPDATE_TABLE_ERR, $this->name()) . "</li>";
             } else {
@@ -480,14 +464,12 @@ class WfdownloadsTable
      */
     function dropFields()
     {
-        global $xoopsDB;
-
         $ret = true;
 
         foreach ($this->getdropedFields() as $dropedField) {
             $query = sprintf("ALTER TABLE %s DROP %s", $this->name(), $dropedField);
 
-            $ret = $ret && $xoopsDB->query($query);
+            $ret = $ret && $GLOBALS['xoopsDB']->query($query);
             if (!$ret) {
                 echo "<li class='err'>" . sprintf(_AM_WFDOWNLOADS_DB_MSG_DROPFIELD_ERR, $dropedField, $this->name()) . "</li>";
             } else {
@@ -531,8 +513,7 @@ class WfdownloadsDbupdater
      */
     function runQuery($query, $goodmsg, $badmsg)
     {
-        global $xoopsDB;
-        $ret = $xoopsDB->query($query);
+        $ret = $GLOBALS['xoopsDB']->query($query);
         if (!$ret) {
             echo "<li class='err'>$badmsg</li>";
 
@@ -554,13 +535,11 @@ class WfdownloadsDbupdater
      */
     function renameTable($from, $to)
     {
-        global $xoopsDB;
-
-        $from = $xoopsDB->prefix($from);
-        $to   = $xoopsDB->prefix($to);
+        $from = $GLOBALS['xoopsDB']->prefix($from);
+        $to   = $GLOBALS['xoopsDB']->prefix($to);
 
         $query = sprintf("ALTER TABLE %s RENAME %s", $from, $to);
-        $ret   = $xoopsDB->query($query);
+        $ret   = $GLOBALS['xoopsDB']->query($query);
         if (!$ret) {
             echo "<li class='err'>" . sprintf(_AM_WFDOWNLOADS_DB_MSG_RENAME_TABLE_ERR, $from) . "</li>";
 
@@ -583,8 +562,6 @@ class WfdownloadsDbupdater
      */
     function updateTable($table)
     {
-        global $xoopsDB;
-
         $ret = true;
         echo "<ul>";
 

@@ -198,58 +198,21 @@
     <br>
 
     <{if $show_screenshot == true}>
-        <{if $download.screenshot_full}>
-            <div style="margin-left: 10px; margin-center: 10px; padding: 4px;">
-                <span style="font-weight: bold;"><{$smarty.const._MD_WFDOWNLOADS_SCREENSHOT}></span>
-
-                <div><a href="<{$xoops_url}>/<{$shots_dir}>/<{$download.screenshot_full}>" class="magnific_zoom" rel="<{$download.title}>">
-                        <img src="<{$download.screenshot_thumb}>" alt="<{$smarty.const._MD_WFDOWNLOADS_SCREENSHOTCLICK}>"
-                             title="<{$smarty.const._MD_WFDOWNLOADS_SCREENSHOTCLICK}>" style="border: 1px solid black"/></a>
-                </div>
-                <div>
-                    <a href="<{$download.screenshot_thumb}>" rel="external"><{$lang_screenshot_click}></a>
-                </div>
+    <{foreach key=key item=screenshot from=$download.screenshots}>
+    <{if $screenshot.filename}>
+        <div style="margin-left: 10px; margin-center: 10px; padding: 4px;">
+            <span style="font-weight: bold;"><{$key+1}></span>
+            <div><a href="<{$xoops_url}>/<{$shots_dir}>/<{$screenshot.filename}>" class="magnific_zoom" rel="<{$download.title}>">
+                    <img src="<{$screenshot.thumb_url}>" alt="<{$smarty.const._MD_WFDOWNLOADS_SCREENSHOTCLICK}>"
+                         title="<{$smarty.const._MD_WFDOWNLOADS_SCREENSHOTCLICK}>" style="border: 1px solid black"/></a>
             </div>
-        <{/if}>
-        <{if $download.screenshot_full2}>
-            <div style="margin-left: 10px; margin-center: 10px; padding: 4px;">
-                <span style="font-weight: bold;"><{$smarty.const._MD_WFDOWNLOADS_SCREENSHOT2}></span>
-
-                <div><a href="<{$xoops_url}>/<{$shots_dir}>/<{$download.screenshot_full2}>" class="magnific_zoom" rel="<{$download.title}>">
-                        <img src="<{$download.screenshot_thumb2}>" alt="<{$smarty.const._MD_WFDOWNLOADS_SCREENSHOTCLICK}>"
-                             title="<{$smarty.const._MD_WFDOWNLOADS_SCREENSHOTCLICK}>" style="border: 1px solid black"/></a>&nbsp;
-                </div>
-                <div>
-                    <a href="<{$download.screenshot_thumb2}>" rel="external"><{$lang_screenshot_click}></a>
-                </div>
+            <div>
+                <a href="<{$screenshot.thumb_url}>" rel="external"><{$lang_screenshot_click}></a>
             </div>
-        <{/if}>
-        <{if $download.screenshot_full3}>
-            <div style="margin-left: 10px; margin-center: 10px; padding: 4px;">
-                <span style="font-weight: bold;"><{$smarty.const._MD_WFDOWNLOADS_SCREENSHOT3}></span>
-
-                <div><a href="<{$xoops_url}>/<{$shots_dir}>/<{$download.screenshot_full3}>" class="magnific_zoom" rel="<{$download.title}>">
-                        <img src="<{$download.screenshot_thumb3}>" alt="<{$smarty.const._MD_WFDOWNLOADS_SCREENSHOTCLICK}>"
-                             title="<{$smarty.const._MD_WFDOWNLOADS_SCREENSHOTCLICK}>" style="border: 1px solid black"/></a>&nbsp;
-                </div>
-                <div>
-                    <a href="<{$download.screenshot_thumb3}>" rel="external"><{$lang_screenshot_click}></a>
-                </div>
-            </div>
-        <{/if}>
-        <{if $download.screenshot_full4}>
-            <div style="margin-left: 10px; margin-center: 10px; padding: 4px;">
-                <span style="font-weight: bold;"><{$smarty.const._MD_WFDOWNLOADS_SCREENSHOT4}></span>
-
-                <div><a href="<{$xoops_url}>/<{$shots_dir}>/<{$download.screenshot_full4}>" class="magnific_zoom" rel="<{$download.title}>">
-                        <img src="<{$download.screenshot_thumb4}>" alt="<{$smarty.const._MD_WFDOWNLOADS_SCREENSHOTCLICK}>"
-                             title="<{$smarty.const._MD_WFDOWNLOADS_SCREENSHOTCLICK}>" style="border: 1px solid black"/></a>&nbsp;
-                </div>
-                <div>
-                    <a href="<{$download.screenshot_thumb4}>" rel="external"><{$lang_screenshot_click}></a>
-                </div>
-            </div>
-        <{/if}>
+        </div>
+    <{/if}>
+    <{/foreach}>
+        <br>
     <{/if}>
 
     <{if $download.features != ''}>

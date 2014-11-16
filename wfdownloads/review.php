@@ -19,7 +19,7 @@
  * @version         svn:$id$
  */
 $currentFile = basename(__FILE__);
-include 'header.php';
+include_once dirname(__FILE__) . '/header.php';
 
 $lid      = WfdownloadsRequest::getInt('lid', 0);
 $downloadObj = $wfdownloads->getHandler('download')->get($lid);
@@ -46,17 +46,17 @@ if (
 if ($wfdownloads->getConfig('enable_reviews') == false && !wfdownloads_userIsAdmin()) {
     redirect_header('index.php', 3, _NOPERM);
 }
-$userGroups = is_object($xoopsUser) ? $xoopsUser->getGroups() : array(0 => XOOPS_GROUP_ANONYMOUS);
+$userGroups = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : array(0 => XOOPS_GROUP_ANONYMOUS);
 if (!$gperm_handler->checkRight('WFDownCatPerm', $cid, $userGroups, $wfdownloads->getModule()->mid())) {
     redirect_header('index.php', 3, _NOPERM);
 }
 
 // Breadcrumb
-include_once XOOPS_ROOT_PATH . "/class/tree.php";
-$categoriesTree = new XoopsObjectTree($wfdownloads->getHandler('category')->getObjects(), 'cid', 'pid');
-$breadcrumb     = new WfdownloadsBreadcrumb();
+include_once XOOPS_ROOT_PATH . '/class/tree.php';
+$categoryObjsTree = new XoopsObjectTree($wfdownloads->getHandler('category')->getObjects(), 'cid', 'pid');
+$breadcrumb = new WfdownloadsBreadcrumb();
 $breadcrumb->addLink($wfdownloads->getModule()->getVar('name'), WFDOWNLOADS_URL);
-foreach (array_reverse($categoriesTree->getAllParent($cid)) as $parentCategory) {
+foreach (array_reverse($categoryObjsTree->getAllParent($cid)) as $parentCategory) {
     $breadcrumb->addLink($parentCategory->getVar('title'), "viewcat.php?cid=" . $parentCategory->getVar('cid'));
 }
 $breadcrumb->addLink($categoryObj->getVar('title'), "viewcat.php?cid={$cid}");
@@ -64,12 +64,12 @@ $breadcrumb->addLink($downloadObj->getVar('title'), "singlefile.php?lid={$lid}")
 
 $op = WfdownloadsRequest::getString('op', 'review.add');
 switch ($op) {
-    case "reviews.list" :
-    case "list" : // this care is not removed for backward compatibility issues
+    case 'reviews.list':
+    case 'list': // this care is not removed for backward compatibility issues
         $start = WfdownloadsRequest::getInt('start', 0);
 
         $xoopsOption['template_main'] = "{$wfdownloads->getModule()->dirname()}_reviews.tpl";
-        include XOOPS_ROOT_PATH . '/header.php';
+        include_once XOOPS_ROOT_PATH . '/header.php';
 
         $xoTheme->addScript(XOOPS_URL . '/browse.php?Frameworks/jquery/jquery.js');
         $xoTheme->addScript(WFDOWNLOADS_URL . '/assets/js/magnific/jquery.magnific-popup.min.js');
@@ -79,8 +79,8 @@ switch ($op) {
         $xoopsTpl->assign('wfdownloads_url', WFDOWNLOADS_URL . '/');
 
         // Generate content header
-        $sql                     = "SELECT * FROM " . $xoopsDB->prefix('wfdownloads_indexpage') . " ";
-        $head_arr                = $xoopsDB->fetchArray($xoopsDB->query($sql));
+        $sql = "SELECT * FROM " . $GLOBALS['xoopsDB']->prefix('wfdownloads_indexpage') . " ";
+        $head_arr = $GLOBALS['xoopsDB']->fetchArray($GLOBALS['xoopsDB']->query($sql));
         $catarray['imageheader'] = wfdownloads_headerImage();
         $xoopsTpl->assign('catarray', $catarray);
         $xoopsTpl->assign('category_path', $wfdownloads->getHandler('category')->getNicePath($cid));
@@ -105,36 +105,36 @@ switch ($op) {
         $xoopsTpl->assign('down_arr', $download_array);
 
         foreach ($reviewObjs as $reviewObj) {
-            $review_array              = $reviewObj->toArray();
-            $review_array['date']      = formatTimestamp($review_array['date'], $wfdownloads->getConfig('dateformat'));
+            $review_array = $reviewObj->toArray();
+            $review_array['date'] = formatTimestamp($review_array['date'], $wfdownloads->getConfig('dateformat'));
             $review_array['submitter'] = XoopsUserUtility::getUnameFromId($review_array['uid']);
-            $review_rating             = round(number_format($review_array['rated'], 0) / 2);
+            $review_rating = round(number_format($review_array['rated'], 0) / 2);
             $review_array['rated_img'] = "rate{$review_rating}.gif";
             $xoopsTpl->append('down_review', $review_array);
         }
         $xoopsTpl->assign('lang_review_found', sprintf(_MD_WFDOWNLOADS_REVIEWTOTAL, $reviewsCount));
 
         include_once XOOPS_ROOT_PATH . '/class/pagenav.php';
-        $pagenav          = new XoopsPageNav($reviewsCount, 5, $start, 'start', "op=reviews.list&amp;cid={$cid}&amp;lid={$lid}", 1);
+        $pagenav = new XoopsPageNav($reviewsCount, 5, $start, 'start', "op=reviews.list&amp;cid={$cid}&amp;lid={$lid}", 1);
         $navbar['navbar'] = $pagenav->renderNav();
         $xoopsTpl->assign('navbar', $navbar);
 
         $xoopsTpl->assign('categoryPath', $pathstring . " > " . $download_array['title']);
         $xoopsTpl->assign('module_home', wfdownloads_module_home(true));
 
-        include 'footer.php';
+        include_once dirname(__FILE__) . '/footer.php';
         break;
 
-    case "review.add" :
+    case 'review.add':
     default :
         // Check if ANONYMOUS user can review
-        if (!is_object($xoopsUser) && !$wfdownloads->getConfig('rev_anonpost')) {
+        if (!is_object($GLOBALS['xoopsUser']) && !$wfdownloads->getConfig('rev_anonpost')) {
             redirect_header(XOOPS_URL . '/user.php', 1, _MD_WFDOWNLOADS_MUSTREGFIRST);
             exit();
         }
 
         // Get review poster 'uid'
-        $reviewerUid = is_object($xoopsUser) ? (int) $xoopsUser->getVar('uid') : 0;
+        $reviewerUid = is_object($GLOBALS['xoopsUser']) ? (int) $GLOBALS['xoopsUser']->getVar('uid') : 0;
 
         if (!empty($_POST['submit'])) {
             $reviewObj = $wfdownloads->getHandler('review')->create();
@@ -154,7 +154,7 @@ switch ($op) {
                 redirect_header('index.php', 2, $databaseMessage);
             }
         } else {
-            include XOOPS_ROOT_PATH . '/header.php';
+            include_once XOOPS_ROOT_PATH . '/header.php';
 
             $xoTheme->addScript(XOOPS_URL . '/browse.php?Frameworks/jquery/jquery.js');
             $xoTheme->addScript(WFDOWNLOADS_URL . '/assets/js/magnific/jquery.magnific-popup.min.js');
@@ -171,7 +171,7 @@ switch ($op) {
             echo "<div>" . _MD_WFDOWNLOADS_REV_SNEWMNAMEDESC . "</div>\n";
 
             // Generate form
-            include XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
+            include_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
             $sform      = new XoopsThemeForm(_MD_WFDOWNLOADS_REV_SUBMITREV, 'reviewform', xoops_getenv('PHP_SELF'));
             $title_text = new XoopsFormText(_MD_WFDOWNLOADS_REV_TITLE, 'title', 50, 255);
             //$title_text->setDescription(_MD_WFDOWNLOADS_REV_TITLE_DESC);
@@ -207,6 +207,6 @@ switch ($op) {
             $button_tray->addElement($cancel_button);
             $sform->addElement($button_tray);
             $sform->display();
-            include 'footer.php';
+            include_once dirname(__FILE__) . '/footer.php';
         }
 }

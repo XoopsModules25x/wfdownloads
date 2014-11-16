@@ -204,6 +204,6 @@ switch ($op) {
 
         $GLOBALS['xoopsTpl']->display("db:{$wfdownloads->getModule()->dirname()}_am_reviewslist.tpl");
 
-        include 'admin_footer.php';
+        include_once dirname(__FILE__) . '/admin_footer.php';
         break;
 }

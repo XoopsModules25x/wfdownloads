@@ -51,9 +51,9 @@ class WfdownloadsMimetype extends XoopsObject
         $this->wfdownloads = WfdownloadsWfdownloads::getInstance();
         $this->db = XoopsDatabaseFactory::getDatabaseConnection();
         $this->initVar('mime_id', XOBJ_DTYPE_INT);
-        $this->initVar('mime_ext', XOBJ_DTYPE_TXTBOX, "");
-        $this->initVar('mime_types', XOBJ_DTYPE_TXTAREA, "");
-        $this->initVar('mime_name', XOBJ_DTYPE_TXTBOX, "");
+        $this->initVar('mime_ext', XOBJ_DTYPE_TXTBOX, '');
+        $this->initVar('mime_types', XOBJ_DTYPE_TXTAREA, '');
+        $this->initVar('mime_name', XOBJ_DTYPE_TXTBOX, '');
         $this->initVar('mime_admin', XOBJ_DTYPE_INT, true); // boolean
         $this->initVar('mime_user', XOBJ_DTYPE_INT, false); // boolean
 
@@ -72,7 +72,7 @@ class WfdownloadsMimetype extends XoopsObject
      */
     function getForm($action = false)
     {
-        include_once(XOOPS_ROOT_PATH . '/class/xoopsformloader.php');
+        include_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
 
         if ($action === false) {
             $action = $_SERVER['REQUEST_URI'];
@@ -81,27 +81,27 @@ class WfdownloadsMimetype extends XoopsObject
 
         $form = new XoopsThemeForm($title, 'form_error', $action, 'post', true);
         $form->setExtra('enctype="multipart/form-data"');
-
+        // mime_ext
             $mime_ext_text = new XoopsFormText(_AM_WFDOWNLOADS_MIME_EXTF, 'mime_ext', 5, 60, $this->getVar('mime_ext', 'e'));
             $mime_ext_text->setDescription(_AM_WFDOWNLOADS_MIME_EXTF_DESC);
         $form->addElement($mime_ext_text, true);
-
+        // mime_name
             $mime_name_text = new XoopsFormText(_AM_WFDOWNLOADS_MIME_NAMEF, 'mime_name', 50, 255, $this->getVar('mime_name', 'e'));
             $mime_name_text->setDescription(_AM_WFDOWNLOADS_MIME_NAMEF_DESC);
         $form->addElement($mime_name_text, true);
-
+        // mime_type
             $mime_type_textarea = new XoopsFormTextArea(_AM_WFDOWNLOADS_MIME_TYPEF, 'mime_type', $this->getVar('mime_types', 'e'));
             $mime_type_textarea->setDescription(_AM_WFDOWNLOADS_MIME_TYPEF_DESC);
         $form->addElement($mime_type_textarea, 7, 60);
-
+        // mime_admin
             $madmin_radio = new XoopsFormRadioYN(_AM_WFDOWNLOADS_MIME_ADMINF, 'mime_admin', $this->getVar('mime_admin', 'e'));
         $form->addElement($madmin_radio);
-
+        // mime_user
             $muser_radio = new XoopsFormRadioYN(_AM_WFDOWNLOADS_MIME_USERF, 'mime_user', $this->getVar('mime_user', 'e'));
         $form->addElement($muser_radio);
-
+        // op
         $form->addElement(new XoopsFormHidden('op', 'save'));
-
+        // buttons
             $button_tray = new XoopsFormElementTray('', '');
         if ($this->isNew()) {
                 $butt_create = new XoopsFormButton('', '', _AM_WFDOWNLOADS_MIME_CREATE, 'submit');

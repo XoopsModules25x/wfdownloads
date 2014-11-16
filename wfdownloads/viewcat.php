@@ -19,15 +19,15 @@
  * @version         svn:$id$
  */
 $currentFile = basename(__FILE__);
-include 'header.php';
+include_once dirname(__FILE__) . '/header.php';
 
-$cid   = WfdownloadsRequest::getInt('cid', 0);
+$cid = WfdownloadsRequest::getInt('cid', 0);
 $start = WfdownloadsRequest::getInt('start', 0);
 //$list = WfdownloadsRequest::getString('list', null);
 //$orderby = WfdownloadsRequest::getString('orderby', null);
 $orderby = isset($_GET['orderby']) ? convertorderbyin($_GET['orderby']) : $wfdownloads->getConfig('filexorder');
 
-$groups = is_object($xoopsUser) ? $xoopsUser->getGroups() : array(0 => XOOPS_GROUP_ANONYMOUS);
+$groups = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : array(0 => XOOPS_GROUP_ANONYMOUS);
 
 // Check permissions
 if (in_array(XOOPS_GROUP_ANONYMOUS, $groups)) {
@@ -42,12 +42,12 @@ if (in_array(XOOPS_GROUP_ANONYMOUS, $groups)) {
 
 // Check if submission is allowed
 $isSubmissionAllowed = false;
-if (is_object($xoopsUser)
+if (is_object($GLOBALS['xoopsUser'])
     && ($wfdownloads->getConfig('submissions') == _WFDOWNLOADS_SUBMISSIONS_DOWNLOAD
         || $wfdownloads->getConfig('submissions') == _WFDOWNLOADS_SUBMISSIONS_BOTH)
 ) {
     // if user is a registered user
-    $groups = $xoopsUser->getGroups();
+    $groups = $GLOBALS['xoopsUser']->getGroups();
     if (count(array_intersect($wfdownloads->getConfig('submitarts'), $groups)) > 0) {
         $isSubmissionAllowed = true;
     }
@@ -66,10 +66,10 @@ if (empty($categoryObj)) {
 
 // Get download/upload permissions
 $allowedDownCategoriesIds = $gperm_handler->getItemIds('WFDownCatPerm', $groups, $wfdownloads->getModule()->mid());
-$allowedUpCategoriesIds   = $gperm_handler->getItemIds('WFUpCatPerm', $groups, $wfdownloads->getModule()->mid());
+$allowedUpCategoriesIds = $gperm_handler->getItemIds('WFUpCatPerm', $groups, $wfdownloads->getModule()->mid());
 
 $xoopsOption['template_main'] = "{$wfdownloads->getModule()->dirname()}_viewcat.tpl";
-include XOOPS_ROOT_PATH . '/header.php';
+include_once XOOPS_ROOT_PATH . '/header.php';
 
 $xoTheme->addScript(XOOPS_URL . '/browse.php?Frameworks/jquery/jquery.js');
 $xoTheme->addScript(WFDOWNLOADS_URL . '/assets/js/magnific/jquery.magnific-popup.min.js');
@@ -106,8 +106,8 @@ if (wfdownloads_checkModule('formulize')) {
 
 // Generate Header
 $catArray['imageheader'] = wfdownloads_headerImage();
-$catArray['letters']     = wfdownloads_lettersChoice();
-$catArray['toolbar']     = wfdownloads_toolbar();
+$catArray['letters'] = wfdownloads_lettersChoice();
+$catArray['toolbar'] = wfdownloads_toolbar();
 $xoopsTpl->assign('catarray', $catArray);
 
 $xoopsTpl->assign('categoryPath', $wfdownloads->getHandler('category')->getNicePath($cid)); // this definition is not removed for backward compatibility issues
@@ -139,7 +139,7 @@ $allSubCategoryObjs = $categoryObjsTree->getFirstChild($cid);
 
 if (is_array($allSubCategoryObjs) > 0 && !isset($_GET['list']) && !isset($_GET['selectdate'])) {
     $listings = wfdownloads_getTotalDownloads($allowedDownCategoriesIds);
-    $scount   = 1;
+    $scount = 1;
     foreach ($allSubCategoryObjs as $subCategoryObj) {
         $download_count = 0;
         // Check if subcategory is allowed
@@ -148,7 +148,7 @@ if (is_array($allSubCategoryObjs) > 0 && !isset($_GET['list']) && !isset($_GET['
         }
 
         $infercategories  = array();
-        $catdowncount     = isset($listings['count'][$subCategoryObj->getVar('cid')]) ? $listings['count'][$subCategoryObj->getVar('cid')] : 0;
+        $catdowncount = isset($listings['count'][$subCategoryObj->getVar('cid')]) ? $listings['count'][$subCategoryObj->getVar('cid')] : 0;
         $subsubCategoryObjs = $categoryObjsTree->getAllChild($subCategoryObj->getVar('cid'));
 
         // ----- added for subcat images -----
@@ -182,12 +182,12 @@ if (is_array($allSubCategoryObjs) > 0 && !isset($_GET['list']) && !isset($_GET['
                     $download_count += isset($listings['count'][$subsubCategoryObj->getVar('cid')]) ? $listings['count'][$subsubCategoryObj->getVar('cid')]
                         : 0;
                     $infercategories[] = array(
-                        'cid'             => $subsubCategoryObj->getVar('cid'),
-                        'id'              => $subsubCategoryObj->getVar('cid'), // this definition is not removed for backward compatibility issues
-                        'title'           => $subsubCategoryObj->getVar('title'),
-                        'image'           => $imageURL,
-                        'image_URL'       => $imageURL,
-                        'count'           => $download_count, // this definition is not removed for backward compatibility issues
+                        'cid'  => $subsubCategoryObj->getVar('cid'),
+                        'id' => $subsubCategoryObj->getVar('cid'), // this definition is not removed for backward compatibility issues
+                        'title' => $subsubCategoryObj->getVar('title'),
+                        'image' => $imageURL,
+                        'image_URL' => $imageURL,
+                        'count' => $download_count, // this definition is not removed for backward compatibility issues
                         'downloads_count' => $download_count
                     );
                 }
@@ -202,19 +202,19 @@ if (is_array($allSubCategoryObjs) > 0 && !isset($_GET['list']) && !isset($_GET['
         $xoopsTpl->append(
             'subcategories',
             array(
-                 'title'               => $subCategoryObj->getVar('title'),
-                 'image'               => $imageURL, // this definition is not removed for backward compatibility issues
-                 'image_URL'           => $imageURL,
-                 'id'                  => $subCategoryObj->getVar('cid'), // this definition is not removed for backward compatibility issues
-                 'cid'                 => $subCategoryObj->getVar('cid'),
-                 'allowed_download'    => in_array($subCategoryObj->getVar('cid'), $allowedDownCategoriesIds),
-                 'allowed_upload'      => ($isSubmissionAllowed && in_array($subCategoryObj->getVar('cid'), $allowedUpCategoriesIds)),
-                 'summary'             => $subCategoryObj->getVar('summary'),
-                 'infercategories'     => $infercategories,
-                 'subcategories'       => $infercategories,
-                 'totallinks'          => $catdowncount, // this definition is not removed for backward compatibility issues
-                 'downloads_count'     => $catdowncount,
-                 'count'               => $scount, // this definition is not removed for backward compatibility issues
+                 'title' => $subCategoryObj->getVar('title'),
+                 'image' => $imageURL, // this definition is not removed for backward compatibility issues
+                 'image_URL' => $imageURL,
+                 'id' => $subCategoryObj->getVar('cid'), // this definition is not removed for backward compatibility issues
+                 'cid' => $subCategoryObj->getVar('cid'),
+                 'allowed_download' => in_array($subCategoryObj->getVar('cid'), $allowedDownCategoriesIds),
+                 'allowed_upload' => ($isSubmissionAllowed && in_array($subCategoryObj->getVar('cid'), $allowedUpCategoriesIds)),
+                 'summary' => $subCategoryObj->getVar('summary'),
+                 'infercategories' => $infercategories,
+                 'subcategories' => $infercategories,
+                 'totallinks' => $catdowncount, // this definition is not removed for backward compatibility issues
+                 'downloads_count' => $catdowncount,
+                 'count' => $scount, // this definition is not removed for backward compatibility issues
                  'subcategories_count' => $catdowncount,
             )
         );
@@ -229,7 +229,7 @@ if (isset($cid) && $cid > 0 && isset($categoryObjs[$cid])) {
     $xoopsTpl->assign('category_allowed_upload', in_array($cid, $allowedUpCategoriesIds));
 
     // Making the category image and title available in the template
-    if (($categoryObjs[$cid]->getVar('imgurl') != "")
+    if (($categoryObjs[$cid]->getVar('imgurl') != '')
         && is_file(
             XOOPS_ROOT_PATH . '/' . $wfdownloads->getConfig('catimage') . '/' . $categoryObjs[$cid]->getVar('imgurl')
         )
@@ -334,7 +334,7 @@ if ($wfdownloads->getConfig('enablerss') == true && $downloads_count > 0) {
     $xoopsTpl->assign('cat_rssfeed_link', $rsslink); // this definition is not removed for backward compatibility issues
 }
 
-include 'footer.php';
+include_once dirname(__FILE__) . '/footer.php';
 
 ?>
 <script type="text/javascript">

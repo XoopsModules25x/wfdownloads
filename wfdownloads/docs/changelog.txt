@@ -1,4 +1,4 @@
-<b><u>=> Version 3.23 RC2 (2014-07-24)</u></b>
+<b><u>=> Version 3.23 RC2 (2014-09-22)</u></b>
 - todo: Swish-e files indexing support
 - removed obsolete eval() that was used for PHP4 (mamba)
 - removed object.php file (mamba)

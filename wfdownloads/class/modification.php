@@ -81,6 +81,7 @@ class WfdownloadsModification extends WfdownloadsDownload
 //        $this->initVar('ipaddress', XOBJ_DTYPE_TXTBOX, '');
 //        $this->initVar('notifypub', XOBJ_DTYPE_INT, 0);
         // added 3.23
+        $this->initVar('screenshots', XOBJ_DTYPE_ARRAY, array()); // IN PROGRESS
         $this->initVar('dohtml', XOBJ_DTYPE_INT, false); // boolean
         $this->initVar('dosmiley', XOBJ_DTYPE_INT, true); // boolean
         $this->initVar('doxcode', XOBJ_DTYPE_INT, true); // boolean
@@ -156,6 +157,7 @@ class WfdownloadsModificationHandler extends XoopsPersistableObjectHandler
             d.updated = m.updated,
             d.summary = m.summary,
             d.description = m.description,
+            d.screenshots = m.screenshots,
             d.dohtml = m.dohtml,
             d.dosmiley = m.dosmiley,
             d.doxcode = m.doxcode,

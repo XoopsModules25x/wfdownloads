@@ -44,8 +44,8 @@ if (@$_POST['op'] == 'submit') {
     }
 
     $patterns = array(
-        strtolower(WFDOWNLOADS_DIRNAME)          => strtolower($cloneDirname),
-        strtoupper(WFDOWNLOADS_DIRNAME)          => strtoupper($cloneDirname),
+        strtolower(WFDOWNLOADS_DIRNAME) => strtolower($cloneDirname),
+        strtoupper(WFDOWNLOADS_DIRNAME) => strtoupper($cloneDirname),
         ucfirst(strtolower(WFDOWNLOADS_DIRNAME)) => ucfirst(strtolower($cloneDirname))
     );
 
@@ -54,7 +54,7 @@ if (@$_POST['op'] == 'submit') {
     wfdownloads_cloneFileDir(WFDOWNLOADS_ROOT_PATH);
     $logocreated = wfdownloads_createLogo(strtolower($cloneDirname));
 
-    $message = "";
+    $message = '';
     if (is_dir(XOOPS_ROOT_PATH . '/modules/' . strtolower($cloneDirname))) {
         $message .= sprintf(
                 _AM_WFDOWNLOADS_CLONE_CONGRAT,
@@ -71,7 +71,7 @@ if (@$_POST['op'] == 'submit') {
     $indexAdmin = new ModuleAdmin();
     echo $indexAdmin->addNavigation($currentFile);
     echo $message;
-    include 'admin_footer.php';
+    include_once dirname(__FILE__) . '/admin_footer.php';
     exit();
 
 } else {
@@ -79,17 +79,14 @@ if (@$_POST['op'] == 'submit') {
     $indexAdmin = new ModuleAdmin();
     echo $indexAdmin->addNavigation($currentFile);
     include_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
-    $form              = new XoopsThemeForm(sprintf(
-        _AM_WFDOWNLOADS_CLONE_TITLE,
-        $wfdownloads->getModule()->getVar('name', 'E')
-    ), 'clone', $currentFile, 'post', true);
+    $form = new XoopsThemeForm(sprintf(_AM_WFDOWNLOADS_CLONE_TITLE, $wfdownloads->getModule()->getVar('name', 'E')), 'clone', $currentFile, 'post', true);
     $cloneDirname_text = new XoopsFormText(_AM_WFDOWNLOADS_CLONE_NAME, 'clonedirname', 18, 18, '');
     $cloneDirname_text->setDescription(_AM_WFDOWNLOADS_CLONE_NAME_DSC);
     $form->addElement($cloneDirname_text, true);
     $form->addElement(new XoopsFormHidden('op', 'submit'));
     $form->addElement(new XoopsFormButton('', '', _SUBMIT, 'submit'));
     $form->display();
-    include 'admin_footer.php';
+    include_once dirname(__FILE__) . '/admin_footer.php';
     exit();
 }
 
@@ -138,16 +135,16 @@ function wfdownloads_createLogo($dirname)
 {
     $wfdownloads = WfdownloadsWfdownloads::getInstance();
     // Check extension/functions
-    if (!extension_loaded("gd")) {
+    if (!extension_loaded('gd')) {
         return false;
     } else {
         $required_functions = array(
-            "imagecreatetruecolor",
-            "imagecolorallocate",
-            "imagefilledrectangle",
-            "imagejpeg",
-            "imagedestroy",
-            "imageftbbox"
+            'imagecreatetruecolor',
+            'imagecolorallocate',
+            'imagefilledrectangle',
+            'imagejpeg',
+            'imagedestroy',
+            'imageftbbox'
         );
         foreach ($required_functions as $func) {
             if (!function_exists($func)) {
@@ -156,10 +153,10 @@ function wfdownloads_createLogo($dirname)
         }
     }
     // Check original image/font
-    if (!file_exists($imageBase = XOOPS_ROOT_PATH . "/modules/" . $dirname . "/assets/images/module_logo_blank.png")) {
+    if (!file_exists($imageBase = XOOPS_ROOT_PATH . "/modules/{$dirname}/assets/images/module_logo_blank.png")) {
         return false;
     }
-    if (!file_exists($font = XOOPS_ROOT_PATH . "/modules/" . $wfdownloads->getModule()->dirname() . "/assets/images/VeraBd.ttf")) {
+    if (!file_exists($font = XOOPS_ROOT_PATH . "/modules/{$wfdownloads->getModule()->dirname()}/assets/images/VeraBd.ttf")) {
         return false;
     }
     // Create image
@@ -168,7 +165,7 @@ function wfdownloads_createLogo($dirname)
     $greyColor = imagecolorallocate($imageModule, 237, 237, 237);
     imagefilledrectangle($imageModule, 5, 35, 85, 46, $greyColor);
     // Write text
-    $textColor       = imagecolorallocate($imageModule, 0, 0, 0);
+    $textColor = imagecolorallocate($imageModule, 0, 0, 0);
     $space_to_border = (80 - strlen($dirname) * 6.5) / 2;
     imagefttext($imageModule, 8.5, 0, $space_to_border, 45, $textColor, $font, ucfirst($dirname), array());
     // Set transparency color
@@ -176,7 +173,7 @@ function wfdownloads_createLogo($dirname)
     imagefill($imageModule, 0, 0, $whiteColor);
     imagecolortransparent($imageModule, $whiteColor);
     // Save new image
-    imagepng($imageModule, XOOPS_ROOT_PATH . "/modules/" . $dirname . "/assets/images/module_logo.png");
+    imagepng($imageModule, XOOPS_ROOT_PATH . "/modules/{$dirname}/assets/images/module_logo.png");
     imagedestroy($imageModule);
 
     return true;
