@@ -96,6 +96,7 @@ foreach ($mainCategoryObjs as $mainCategoryObj) {
                 $parentCategory_titles[] = $thisCategoryObj->getVar('title');
 
                 $rankings[$e]['file'][] = array(
+<<<<<<< HEAD
                     'id' => (int) $downloadObjs[$k]->getVar('lid'),
                     'cid' => (int) $downloadObjs[$k]->getVar('cid'),
                     'rank' => $rank,
@@ -104,6 +105,16 @@ foreach ($mainCategoryObjs as $mainCategoryObj) {
                     'hits' => $downloadObjs[$k]->getVar('hits'),
                     'rating' => number_format($downloadObjs[$k]->getVar('rating'), 2),
                     'votes' => $downloadObjs[$k]->getVar('votes')
+=======
+                    'id'       => (int) $downloadObjs[$k]->getVar('lid'),
+                    'cid'      => (int) $downloadObjs[$k]->getVar('cid'),
+                    'rank'     => $rank,
+                    'title'    => $downloadObjs[$k]->getVar('title'),
+                    'category' => implode('/', $parentCategory_titles),
+                    'hits'     => $downloadObjs[$k]->getVar('hits'),
+                    'rating'   => number_format($downloadObjs[$k]->getVar('rating'), 2),
+                    'votes'    => $downloadObjs[$k]->getVar('votes')
+>>>>>>> eff3aa919a5b45464cdf6fc138f173d8a99a6e66
                 );
                 ++$rank;
             }

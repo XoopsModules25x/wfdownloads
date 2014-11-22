@@ -394,7 +394,11 @@ function wfdownloads_lettersChoice()
     $letterschoiceTpl          = new XoopsTpl();
     $letterschoiceTpl->caching = false; // Disable cache
     $letterschoiceTpl->assign('alphabet', $alphabet_array);
+<<<<<<< HEAD
     $html = $letterschoiceTpl->fetch("db:{$wfdownloads->getModule()->dirname()}_co_letterschoice.tpl");
+=======
+    $html = $letterschoiceTpl->fetch("db:" . $wfdownloads->getModule()->dirname() . "_co_letterschoice.tpl");
+>>>>>>> eff3aa919a5b45464cdf6fc138f173d8a99a6e66
     unset($letterschoiceTpl);
     return $html;
 }
@@ -1796,6 +1800,7 @@ error_log("{$swisheCommand} -w {$swisheQueryWords} -f {$swisheIndexFilePath} {$s
                 list ($relevance, $result_url, $result_title, $file_size) = explode("\t", $line); // split the line into an array by tabs; assign variable names to each column
                 $relevance = $relevance / 10; // format relevance as a percentage for search results
                 $full_path_and_file = $result_url;
+<<<<<<< HEAD
                 $result_url = trim(substr($result_url, ($swisheDocPath_strlen - 1), strlen($result_url)));
                 $file_path = strright($result_url, (strlen($result_url) - 2));
                 $ret[] = array(
@@ -1805,6 +1810,48 @@ error_log("{$swisheCommand} -w {$swisheQueryWords} -f {$swisheIndexFilePath} {$s
                     'file_size' => $file_size,
                     'file_path' => $file_path
                 );
+=======
+                $result_url         = trim(substr($result_url, ($swisheDocPath_strlen - 1), strlen($result_url)));
+                $file_path          = strright($result_url, (strlen($result_url) - 2));
+
+                $query = "SELECT * ";
+                $query .= "FROM " . $dmsdb->prefix("dms_object_versions") . " ";
+                $query .= "WHERE file_path='{$file_path}'";
+                $ver_info = $dmsdb->query($query, 'ROW');
+
+                $query = "SELECT * ";
+                $query .= "FROM " . $dmsdb->prefix("dms_objects") . " ";
+                $query .= "WHERE obj_id='" . $ver_info->obj_id . "'";
+                $obj_info = $dmsdb->query($query, 'ROW');
+                if ($obj_info->obj_id > 0) {
+                    // Permissions required to view this object:
+                    // BROWSE, READONLY, EDIT, OWNER
+                    $permissionLevel = 4; // OWNER IN PROGRESS
+                    if ($obj_info->obj_status < 2) {
+                        if (($permissionLevel == 1) || ($permissionLevel == 2) || ($permissionLevel == 3) || ($permissionLevel == 4)) {
+                            $misc_text = $obj_info->misc_text;
+                            if (strlen($misc_text) > 0) {
+                                $misc_text = "&nbsp;&nbsp;&nbsp;(" . $misc_text . ")";
+                            } else {
+                                $misc_text = "";
+                            }
+
+                            $store_obj_id      = $obj_info->obj_id;
+                            $store_obj_name    = $obj_info->obj_name . $misc_text;
+                            $store_version_num = $ver_info->major_version . "." . $ver_info->minor_version . "" . $ver_info->sub_minor_version;
+                            $store_relevance   = $relevance;
+                            dms_store_search_results(
+                                $store_obj_id,
+                                $store_obj_name,
+                                $store_version_num,
+                                $relevance,
+                                $full_path_and_file,
+                                $summary_query
+                            );
+                        }
+                    }
+                }
+>>>>>>> eff3aa919a5b45464cdf6fc138f173d8a99a6e66
             }
         }
         // close the shell pipe

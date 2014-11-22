@@ -403,11 +403,19 @@ define('_AM_WFDOWNLOADS_BROKEN_NOWACK', "Acknowledged status changed and databas
 define('_AM_WFDOWNLOADS_BROKEN_NOWCON', "Confirmed status changed and database updated!");
 define('_AM_WFDOWNLOADS_BROKEN_REPORTINFO', "Broken reports information");
 define('_AM_WFDOWNLOADS_BROKEN_REPORTSNO', "Broken reports waiting");
+<<<<<<< HEAD
 define('_AM_WFDOWNLOADS_BROKEN_IGNOREDESC', "<span style='font-weight: bold;'>Ignore</span> and <span style='font-weight: bold;'>Delete</span> the broken file report.");
 define('_AM_WFDOWNLOADS_BROKEN_IGNORE_ALT', "Ignore and delete the broken file report");
 define('_AM_WFDOWNLOADS_BROKEN_DELETEDESC', "<span style='font-weight: bold; color: red;'>WARNING: <span style='font-weight: bold;'>Delete</span> the download</span> and <span style='font-weight: bold;'>Delete</span> the broken file report.");
 define('_AM_WFDOWNLOADS_BROKEN_DELETE_ALT', "Delete download and broken file report");
 define('_AM_WFDOWNLOADS_BROKEN_EDITDESC', "<span style='font-weight: bold;'>Edit</span> download to fix the problem.");
+=======
+define('_AM_WFDOWNLOADS_BROKEN_IGNOREDESC', "<span style='font-weight: bold;'>Ignore & Delete</span> the broken file report.");
+define('_AM_WFDOWNLOADS_BROKEN_IGNORE_ALT', "Ignore and delete the broken file report");
+define('_AM_WFDOWNLOADS_BROKEN_DELETEDESC', "<span style='font-weight: bold; color: red;'>WARNING:</span> <span style='font-weight: bold;'>Delete</span> the download & <span style='font-weight: bold;'>Delete</span> the broken file report.");
+define('_AM_WFDOWNLOADS_BROKEN_DELETE_ALT', "Delete download and broken file report");
+define('_AM_WFDOWNLOADS_BROKEN_EDITDESC', "<span style='font-weight: bold;'>Edit</span> download to correct the problem.");
+>>>>>>> eff3aa919a5b45464cdf6fc138f173d8a99a6e66
 define('_AM_WFDOWNLOADS_BROKEN_EDIT_ALT', "Edit download to correct the problem");
 define('_AM_WFDOWNLOADS_BROKEN_ACKDESC', "<span style='font-weight: bold;'>Acknowledged</span> Set acknowledged state of broken file report.");
 define('_AM_WFDOWNLOADS_BROKEN_ACK_ALT', "Acknowledge state of broken file report");
@@ -674,6 +682,7 @@ define('_AM_WFDOWNLOADS_FFS_1STEP', "1st step: choose category");
 
 define('_AM_WFDOWNLOADS_CLONE_TOOLONG', "ERROR: Module name is too long! It must be at most 18 characters long");
 
+<<<<<<< HEAD
 define('_AM_WFDOWNLOADS_AREVIEWS_APPROVE_ALT', "Approve");
 define('_AM_WFDOWNLOADS_AREVIEWS_APPROVE_DESC', "<span style='font-weight: bold;'>Approve</span> the review.");
 define('_AM_WFDOWNLOADS_AREVIEWS_EDIT_ALT', "Edit & Approve");
@@ -694,3 +703,9 @@ define('_AM_WFDOWNLOADS_AMIRRORS_EDIT_ALT', "Edit & Approve");
 define('_AM_WFDOWNLOADS_AMIRRORS_EDIT_DESC', "<span style='font-weight: bold;'>Edit</span> and then <span style='font-weight: bold;'>Approve</span> the mirror.");
 define('_AM_WFDOWNLOADS_AMIRRORS_DELETE_ALT', "Delete");
 define('_AM_WFDOWNLOADS_AMIRRORS_DELETE_DESC', "<span style='font-weight: bold;'>Delete</span> the mirror.");
+=======
+define('_AM_WFDOWNLOADS_MOD_VIEW_ALT', "View & Compare");
+define('_AM_WFDOWNLOADS_MOD_IGNORE_ALT', "Ignore & Delete");
+define('_AM_WFDOWNLOADS_MOD_APPROVE_ALT', "Approve & Delete");
+define('_AM_WFDOWNLOADS_MOD_APPROVEDESC', "<span style='font-weight: bold;'>Approve</span> modification & <span style='font-weight: bold;'>Delete</span> modification request.");
+>>>>>>> eff3aa919a5b45464cdf6fc138f173d8a99a6e66

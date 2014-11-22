@@ -42,16 +42,28 @@ $modversion['onInstall']   = 'include/oninstall.php';
 $modversion['onUpdate']    = 'include/onupdate.php';
 $modversion['onUninstall'] = 'include/onuninstall.php';
 
+<<<<<<< HEAD
 $modversion['date']         = '2014-09-17';
 $modversion['release_date'] = '2014/09/17';
 $modversion['releasedate']  = '2014-09-17';
 $modversion['status']       = 'RC4';
 $modversion['teammembers']  = 'Bender, David, FrankBlack, Xpider, M0nty, Mithrandir, Marcan, felix[fx2024], Sudhaker, Jegelstaff';
+=======
+$modversion['date']         = '2014-07-22';
+$modversion['release_date'] = '2014/07/22';
+$modversion['releasedate']  = '2014-07-22';
+$modversion['status']       = 'RC2';
+$modversion['teammembers']  = "Bender, David, FrankBlack, Xpider, M0nty, Mithrandir, Marcan, felix[fx2024], Sudhaker, Jegelstaff";
+>>>>>>> eff3aa919a5b45464cdf6fc138f173d8a99a6e66
 
 // About
 $modversion["module_website_url"]  = "http://www.xoops.org/";
 $modversion["module_website_name"] = "XOOPS";
+<<<<<<< HEAD
 $modversion["module_status"]       = "RC4";
+=======
+$modversion["module_status"]       = "RC2";
+>>>>>>> eff3aa919a5b45464cdf6fc138f173d8a99a6e66
 $modversion['min_php']             = '5.3.7';
 $modversion['min_xoops']           = '2.5.7';
 $modversion['min_admin']           = '1.1';

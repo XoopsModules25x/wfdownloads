@@ -285,7 +285,11 @@ function import_wfd_to_wfdownloads()
     $countCopied = 0;
     $countNotCopied = 0;
     foreach($wfdDownloadObjs as $wfdDownloadObj) {
+<<<<<<< HEAD
         if (wfdownloads_copyFile($wfdModuleConfig['uploaddir'] . "/" . $wfdDownloadObj->getVar('filename'), $wfdownloads->getConfig('uploaddir') . "/" . $wfdDownloadObj->getVar('filename'))) {
+=======
+        if (wfdownloads_copyFile($wfdModuleConfig['uploaddir'] . "/" . $wfdDownloadObj->getVar('filename'), $archiviodocumenti->getConfig('uploaddir') . "/" . $wfdDownloadObj->getVar('filename'))) {
+>>>>>>> eff3aa919a5b45464cdf6fc138f173d8a99a6e66
             echo "<span style='color:green;'>" . $wfdModuleConfig['uploaddir'] . "/" . $wfdDownloadObj->getVar('filename') . " copied</span><br />";
             ++$countCopied;
         } else {
@@ -294,10 +298,15 @@ function import_wfd_to_wfdownloads()
         }
     }
     echo "Files copied: ". $countCopied;
+<<<<<<< HEAD
+    echo "<br />";
+    echo "Files not copied: ". $countNotCopied;
+=======
+>>>>>>> eff3aa919a5b45464cdf6fc138f173d8a99a6e66
     echo "<br />";
     echo "Files not copied: ". $countNotCopied;
     echo "<br />";
-    echo _AM_WFDOWNLOADS_IMPORT_IMPORTINGDATA;
+    echo _AM_ARCHIVIODOCUMENTI_IMPORT_IMPORTINGDATA;
     echo "<br />";
 
     $destination = array(
