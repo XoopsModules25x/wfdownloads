@@ -19,15 +19,15 @@
  * @version         svn:$id$
  */
 $currentFile = basename(__FILE__);
-include_once dirname(__FILE__) . '/header.php';
+include_once __DIR__ . '/header.php';
 
-$cid = WfdownloadsRequest::getInt('cid', 0);
-$start = WfdownloadsRequest::getInt('start', 0);
-//$list = WfdownloadsRequest::getString('list', null);
-//$orderby = WfdownloadsRequest::getString('orderby', null);
+$cid = XoopsRequest::getInt('cid', 0);
+$start = XoopsRequest::getInt('start', 0);
+//$list = XoopsRequest::getString('list', null);
+//$orderby = XoopsRequest::getString('orderby', null);
 $orderby = isset($_GET['orderby']) ? convertorderbyin($_GET['orderby']) : $wfdownloads->getConfig('filexorder');
 
-$groups = is_object($xoopsUser) ? $xoopsUser->getGroups() : array(0 => XOOPS_GROUP_ANONYMOUS);
+$groups = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : array(0 => XOOPS_GROUP_ANONYMOUS);
 
 // Check permissions
 if (in_array(XOOPS_GROUP_ANONYMOUS, $groups)) {
@@ -42,12 +42,12 @@ if (in_array(XOOPS_GROUP_ANONYMOUS, $groups)) {
 
 // Check if submission is allowed
 $isSubmissionAllowed = false;
-if (is_object($xoopsUser)
+if (is_object($GLOBALS['xoopsUser'])
     && ($wfdownloads->getConfig('submissions') == _WFDOWNLOADS_SUBMISSIONS_DOWNLOAD
         || $wfdownloads->getConfig('submissions') == _WFDOWNLOADS_SUBMISSIONS_BOTH)
 ) {
     // if user is a registered user
-    $groups = $xoopsUser->getGroups();
+    $groups = $GLOBALS['xoopsUser']->getGroups();
     if (count(array_intersect($wfdownloads->getConfig('submitarts'), $groups)) > 0) {
         $isSubmissionAllowed = true;
     }
@@ -148,11 +148,7 @@ if (is_array($allSubCategoryObjs) > 0 && !isset($_GET['list']) && !isset($_GET['
         }
 
         $infercategories  = array();
-<<<<<<< HEAD
         $catdowncount = isset($listings['count'][$subCategoryObj->getVar('cid')]) ? $listings['count'][$subCategoryObj->getVar('cid')] : 0;
-=======
-        $catdowncount     = isset($listings['count'][$subCategoryObj->getVar('cid')]) ? $listings['count'][$subCategoryObj->getVar('cid')] : 0;
->>>>>>> eff3aa919a5b45464cdf6fc138f173d8a99a6e66
         $subsubCategoryObjs = $categoryObjsTree->getAllChild($subCategoryObj->getVar('cid'));
 
         // ----- added for subcat images -----
@@ -233,7 +229,7 @@ if (isset($cid) && $cid > 0 && isset($categoryObjs[$cid])) {
     $xoopsTpl->assign('category_allowed_upload', in_array($cid, $allowedUpCategoriesIds));
 
     // Making the category image and title available in the template
-    if (($categoryObjs[$cid]->getVar('imgurl') != "")
+    if (($categoryObjs[$cid]->getVar('imgurl') != '')
         && is_file(
             XOOPS_ROOT_PATH . '/' . $wfdownloads->getConfig('catimage') . '/' . $categoryObjs[$cid]->getVar('imgurl')
         )
@@ -338,7 +334,7 @@ if ($wfdownloads->getConfig('enablerss') == true && $downloads_count > 0) {
     $xoopsTpl->assign('cat_rssfeed_link', $rsslink); // this definition is not removed for backward compatibility issues
 }
 
-include_once dirname(__FILE__) . '/footer.php';
+include_once __DIR__ . '/footer.php';
 
 ?>
 <script type="text/javascript">

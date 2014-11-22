@@ -19,7 +19,7 @@
  * @version         svn:$id$
  */
 $currentFile = basename(__FILE__);
-include_once dirname(__FILE__) . '/header.php';
+include_once __DIR__ . '/header.php';
 
 if (function_exists('mb_http_output')) {
     mb_http_output('pass');
@@ -31,14 +31,14 @@ header('Content-Type:text/xml; charset=utf-8');
 $xoopsOption['template_main'] = 'system_' . $feed_type . '.tpl';
 error_reporting(0);
 
-include_once(XOOPS_ROOT_PATH . '/class/template.php');
+include_once XOOPS_ROOT_PATH . '/class/template.php';
 $xoopsTpl = new XoopsTpl();
 
 // Find case
 $case = 'all';
 $categoryObj = $wfdownloads->getHandler('category')->get((int) $_REQUEST['cid']);
 
-$groups = is_object($xoopsUser) ? $xoopsUser->getGroups() : array(0 => XOOPS_GROUP_ANONYMOUS);
+$groups = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : array(0 => XOOPS_GROUP_ANONYMOUS);
 
 // Get download permissions
 $allowedDownCategoriesIds = $gperm_handler->getItemIds('WFDownCatPerm', $groups, $wfdownloads->getModule()->mid());
@@ -63,7 +63,7 @@ switch ($case) {
 }
 
 $xoopsTpl->caching        = true;
-$xoopsTpl->cache_lifetime = $xoopsConfig['module_cache'][(int) $wfdownloads->getModule()->mid()];
+$xoopsTpl->cache_lifetime = $GLOBALS['xoopsConfig']['module_cache'][(int) $wfdownloads->getModule()->mid()];
 if (!$xoopsTpl->is_cached('db:' . $xoopsOption['template_main'], $cache_prefix)) {
     // Get content
     $limit = 30;
@@ -77,8 +77,8 @@ if (!$xoopsTpl->is_cached('db:' . $xoopsOption['template_main'], $cache_prefix))
         default:
         case 'all':
             $shorthand = 'all';
-            $title = $xoopsConfig['sitename'] . ' - ' . htmlspecialchars($wfdownloads->getModule()->getVar('name'), ENT_QUOTES);
-            $desc = $xoopsConfig['slogan'];
+            $title = $GLOBALS['xoopsConfig']['sitename'] . ' - ' . htmlspecialchars($wfdownloads->getModule()->getVar('name'), ENT_QUOTES);
+            $desc = $GLOBALS['xoopsConfig']['slogan'];
             $channel_url = XOOPS_URL . '/modules/' . $wfdownloads->getModule()->getVat('dirname') . '/rss.php';
 
             $criteria->add(new Criteria('cid', '(' . implode(',', $allowedDownCategoriesIds) . ')', 'IN'));
@@ -88,8 +88,8 @@ if (!$xoopsTpl->is_cached('db:' . $xoopsOption['template_main'], $cache_prefix))
 
         case 'category':
             $shorthand = 'cat';
-            $title = $xoopsConfig['sitename'] . ' - ' . htmlspecialchars($categoryObj->getVar('title'), ENT_QUOTES);
-            $desc = $xoopsConfig['slogan'] . ' - ' . htmlspecialchars($categoryObj->getVar('title'), ENT_QUOTES);
+            $title = $GLOBALS['xoopsConfig']['sitename'] . ' - ' . htmlspecialchars($categoryObj->getVar('title'), ENT_QUOTES);
+            $desc = $GLOBALS['xoopsConfig']['slogan'] . ' - ' . htmlspecialchars($categoryObj->getVar('title'), ENT_QUOTES);
             $channel_url = XOOPS_URL . '/modules/' . $wfdownloads->getModule()->getVat('dirname') . '/rss.php?cid=' . (int) $categoryObj->getVar('cid');
 
             $criteria->add(new Criteria('cid', (int) $categoryObj->getVar('cid')));
@@ -103,9 +103,9 @@ if (!$xoopsTpl->is_cached('db:' . $xoopsOption['template_main'], $cache_prefix))
     $xoopsTpl->assign('channel_desc', xoops_utf8_encode($desc, 'n'));
     $xoopsTpl->assign('channel_link', $channel_url);
     $xoopsTpl->assign('channel_lastbuild', formatTimestamp(time(), $feed_type));
-    $xoopsTpl->assign('channel_webmaster', $xoopsConfig['adminmail']);
-    $xoopsTpl->assign('channel_editor', $xoopsConfig['adminmail']);
-    $xoopsTpl->assign('channel_editor_name', $xoopsConfig['sitename']);
+    $xoopsTpl->assign('channel_webmaster', $GLOBALS['xoopsConfig']['adminmail']);
+    $xoopsTpl->assign('channel_editor', $GLOBALS['xoopsConfig']['adminmail']);
+    $xoopsTpl->assign('channel_editor_name', $GLOBALS['xoopsConfig']['sitename']);
     $xoopsTpl->assign('channel_category', $wfdownloads->getModule()->getVar('name', 'e'));
     $xoopsTpl->assign('channel_generator', 'PHP');
     $xoopsTpl->assign('channel_language', _LANGCODE);
@@ -128,7 +128,7 @@ if (!$xoopsTpl->is_cached('db:' . $xoopsOption['template_main'], $cache_prefix))
             $link = $url . 'singlefile.php?lid=' . (int) $item->getVar('lid');
             $title = htmlspecialchars($item->getVar('title', 'n'));
             $teaser = htmlspecialchars($item->getVar('summary', 'n'));
-            $author = isset($users[$item->getVar('submitter')]) ? isset($users[$item->getVar('submitter')]) : $xoopsConfig['anonymous'];
+            $author = isset($users[$item->getVar('submitter')]) ? isset($users[$item->getVar('submitter')]) : $GLOBALS['xoopsConfig']['anonymous'];
 
             $xoopsTpl->append(
                 'items',

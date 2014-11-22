@@ -30,7 +30,7 @@ $modversion['help']        = 'page=help';
 $modversion['license']     = 'GNU GPL 2.0 or later';
 $modversion['license_url'] = "http://www.gnu.org/licenses/gpl-2.0.html";
 $modversion['official']    = false;
-$modversion['dirname']     = basename(dirname(__FILE__));
+$modversion['dirname']     = basename(__DIR__);
 
 include_once XOOPS_ROOT_PATH . "/modules/" . $modversion['dirname'] . "/include/constants.php";
 
@@ -42,28 +42,16 @@ $modversion['onInstall']   = 'include/oninstall.php';
 $modversion['onUpdate']    = 'include/onupdate.php';
 $modversion['onUninstall'] = 'include/onuninstall.php';
 
-<<<<<<< HEAD
-$modversion['date']         = '2014-09-17';
-$modversion['release_date'] = '2014/09/17';
-$modversion['releasedate']  = '2014-09-17';
+$modversion['date']         = '2014-11-22';
+$modversion['release_date'] = '2014/11/22';
 $modversion['status']       = 'RC4';
 $modversion['teammembers']  = 'Bender, David, FrankBlack, Xpider, M0nty, Mithrandir, Marcan, felix[fx2024], Sudhaker, Jegelstaff';
-=======
-$modversion['date']         = '2014-07-22';
-$modversion['release_date'] = '2014/07/22';
-$modversion['releasedate']  = '2014-07-22';
-$modversion['status']       = 'RC2';
-$modversion['teammembers']  = "Bender, David, FrankBlack, Xpider, M0nty, Mithrandir, Marcan, felix[fx2024], Sudhaker, Jegelstaff";
->>>>>>> eff3aa919a5b45464cdf6fc138f173d8a99a6e66
 
 // About
+$modversion["module_status"]       = "RC4";
+$modversion['releasedate']         = '2014-11-22';
 $modversion["module_website_url"]  = "http://www.xoops.org/";
 $modversion["module_website_name"] = "XOOPS";
-<<<<<<< HEAD
-$modversion["module_status"]       = "RC4";
-=======
-$modversion["module_status"]       = "RC2";
->>>>>>> eff3aa919a5b45464cdf6fc138f173d8a99a6e66
 $modversion['min_php']             = '5.3.7';
 $modversion['min_xoops']           = '2.5.7';
 $modversion['min_admin']           = '1.1';
@@ -158,16 +146,16 @@ $modversion['search']['func'] = $modversion["dirname"] . '_search';
 $modversion['hasMain']     = true;
 $modversion['system_menu'] = true;
 
-global $xoopsModule, $xoopsModuleConfig, $xoopsUser;
+global $xoopsModule, $xoopsModuleConfig;
 // check if submission is allowed
 $isSubmissionAllowed = false;
 if (is_object($xoopsModule) && $xoopsModule->dirname() == $modversion['dirname'] && $xoopsModule->isactive()) {
-    if (is_object($xoopsUser)
+    if (is_object($GLOBALS['xoopsUser'])
         && ($xoopsModuleConfig['submissions'] == _WFDOWNLOADS_SUBMISSIONS_DOWNLOAD
             || $xoopsModuleConfig['submissions'] == _WFDOWNLOADS_SUBMISSIONS_BOTH)
     ) {
         // if user is a registered user
-        $groups = $xoopsUser->getGroups();
+        $groups = $GLOBALS['xoopsUser']->getGroups();
         if (count(array_intersect($xoopsModuleConfig['submitarts'], $groups)) > 0) {
             $isSubmissionAllowed = true;
         }
@@ -566,7 +554,7 @@ $modversion['config'][] = array(
     'description' => '_MI_WFDOWNLOADS_USESHOTSDSC',
     'formtype'    => 'yesno',
     'valuetype'   => 'int',
-    'default'     => false
+    'default'     => true
 );
 
 $modversion['config'][] = array(
@@ -585,7 +573,7 @@ $modversion['config'][] = array(
     'formtype'    => 'select',
     'valuetype'   => 'int',
     'options'     => array('1' => 1, '2' => 2, '3' => 3, '4' => 4),
-    'default'     => 1
+    'default'     => 4
 );
 
 $modversion['config'][] = array(
@@ -630,7 +618,7 @@ $modversion['config'][] = array(
     'description' => '_MI_WFDOWNLOADS_USETHUMBSDSC',
     'formtype'    => 'yesno',
     'valuetype'   => 'int',
-    'default'     => false
+    'default'     => true
 );
 
 $modversion['config'][] = array(
@@ -657,7 +645,7 @@ $modversion['config'][] = array(
     'description' => '_MI_WFDOWNLOADS_KEEPASPECTDSC',
     'formtype'    => 'yesno',
     'valuetype'   => 'int',
-    'default'     => false
+    'default'     => true
 );
 
 $modversion['config'][] = array(
@@ -675,7 +663,7 @@ $modversion['config'][] = array(
     'description' => '_MI_WFDOWNLOADS_IMGUPDATEDSC',
     'formtype'    => 'yesno',
     'valuetype'   => 'int',
-    'default'     => false
+    'default'     => true
 );
 
 // Files configs

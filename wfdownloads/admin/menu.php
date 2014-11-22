@@ -21,8 +21,8 @@
 defined('XOOPS_ROOT_PATH') || die('XOOPS root path not defined');
 
 //$module_handler = xoops_gethandler('module');
-//$module = $module_handler->getByDirname(basename(dirname(dirname(__FILE__))));
-include_once dirname(dirname(__FILE__)) . '/include/common.php';
+//$module = $module_handler->getByDirname(basename(dirname(__DIR__)));
+include_once dirname(__DIR__) . '/include/common.php';
 $wfdownloads = WfdownloadsWfdownloads::getInstance();
 $pathIcon32 = '../../' . $wfdownloads->getModule()->getInfo('icons32');
 

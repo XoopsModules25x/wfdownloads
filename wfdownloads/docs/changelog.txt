@@ -1,9 +1,7 @@
-<<<<<<< HEAD
-<b><u>=> Version 3.23 RC2 (2014-09-03)</u></b>
-- todo: Swish-e files indexing support
-=======
-<b><u>=> Version 3.23 Beta (2014-07-22)</u></b>
->>>>>>> eff3aa919a5b45464cdf6fc138f173d8a99a6e66
+<b><u>=> Version 3.23 RC2 (2014-11-22)</u></b>
+- TODO: Swish-e files indexing support
+- replaced dirname(__FILE__) with __DIR__ (mamba)
+- replaced WfdwonloadsRequest with native XoopsRequest (mamba)
 - removed obsolete eval() that was used for PHP4 (mamba)
 - removed object.php file (mamba)
 - 'file_url' is calculated inside download object for better usability (luciorota)

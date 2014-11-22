@@ -19,25 +19,25 @@
  * @version         svn:$id$
  */
 $currentFile = basename(__FILE__);
-include_once dirname(__FILE__) . '/header.php';
+include_once __DIR__ . '/header.php';
 
 // Check permissions
-if (is_object($xoopsUser)) {
-    if ($xoopsUser->getVar('posts') < $wfdownloads->getConfig('download_minposts') && !$xoopsUser->isAdmin()) {
+if (is_object($GLOBALS['xoopsUser'])) {
+    if ($GLOBALS['xoopsUser']->getVar('posts') < $wfdownloads->getConfig('download_minposts') && !$GLOBALS['xoopsUser']->isAdmin()) {
         redirect_header('index.php', 5, _MD_WFDOWNLOADS_DOWNLOADMINPOSTS);
     }
-} elseif (!is_object($xoopsUser) && ($wfdownloads->getConfig('download_minposts') > 0)) {
+} elseif (!is_object($GLOBALS['xoopsUser']) && ($wfdownloads->getConfig('download_minposts') > 0)) {
     redirect_header(XOOPS_URL . '/user.php', 1, _MD_WFDOWNLOADS_MUSTREGFIRST);
 }
 
-$lid = WfdownloadsRequest::getInt('lid', 0);
+$lid = XoopsRequest::getInt('lid', 0);
 $downloadObj = $wfdownloads->getHandler('download')->get($lid);
 // Check if download exists
 if ($downloadObj->isNew()) {
     redirect_header('index.php', 1, _MD_WFDOWNLOADS_NODOWNLOAD);
 }
-$cid = WfdownloadsRequest::getInt('cid', $downloadObj->getVar('cid'));
-$agreed = WfdownloadsRequest::getBool('agreed', false, 'POST');
+$cid = XoopsRequest::getInt('cid', $downloadObj->getVar('cid'));
+$agreed = XoopsRequest::getBool('agreed', false, 'POST');
 
 // Download not published, expired or taken offline - redirect
 if (
@@ -50,7 +50,7 @@ if (
 }
 
 // Check permissions
-$groups = is_object($xoopsUser) ? $xoopsUser->getGroups() : array(0 => XOOPS_GROUP_ANONYMOUS);
+$groups = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : array(0 => XOOPS_GROUP_ANONYMOUS);
 if (!$gperm_handler->checkRight('WFDownCatPerm', $cid, $groups, $wfdownloads->getModule()->mid())) {
     redirect_header('index.php', 3, _NOPERM);
 }
@@ -108,7 +108,7 @@ if ($wfdownloads->getConfig('showDowndisclaimer') && $agreed == false) {
     ); // this definition is not removed for backward compatibility issues
     $xoopsTpl->assign('cancel_location', WFDOWNLOADS_URL . '/index.php'); // this definition is not removed for backward compatibility issues
     $xoopsTpl->assign('agree_location', WFDOWNLOADS_URL . "/{$currentFile}?agree=1&amp;lid={$lid}&amp;cid={$cid}");
-    include_once dirname(__FILE__) . '/footer.php';
+    include_once __DIR__ . '/footer.php';
 } else {
     if (!wfdownloads_userIsAdmin()) {
         $wfdownloads->getHandler('download')->incrementHits($lid);
@@ -118,7 +118,7 @@ if ($wfdownloads->getConfig('showDowndisclaimer') && $agreed == false) {
     $ip_logObj->setVar('lid', $lid);
     $ip_logObj->setVar('date', time());
     $ip_logObj->setVar('ip_address', getenv('REMOTE_ADDR'));
-    $ip_logObj->setVar('uid', is_object($xoopsUser) ? $xoopsUser->getVar('uid') : 0);
+    $ip_logObj->setVar('uid', is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getVar('uid') : 0);
     $wfdownloads->getHandler('ip_log')->insert($ip_logObj, true);
 
     // Download file
@@ -196,5 +196,5 @@ if ($wfdownloads->getConfig('showDowndisclaimer') && $agreed == false) {
         echo "<a href='" . WFDOWNLOADS_URL . "/brokenfile.php?lid={$lid}'>" . _MD_WFDOWNLOADS_CLICKHERE . "</a>\n";
         echo "</div>\n";
     }
-    include_once dirname(__FILE__) . '/footer.php';
+    include_once __DIR__ . '/footer.php';
 }

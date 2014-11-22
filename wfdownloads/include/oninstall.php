@@ -19,8 +19,8 @@
  * @version         svn:$id$
  */
 defined('XOOPS_ROOT_PATH') || die('XOOPS root path not defined');
-include_once dirname(__FILE__) . '/common.php';
-@include_once WFDOWNLOADS_ROOT_PATH . '/language/' . $xoopsConfig['language'] . '/admin.php';
+include_once __DIR__ . '/common.php';
+@include_once WFDOWNLOADS_ROOT_PATH . '/language/' . $GLOBALS['xoopsConfig']['language'] . '/admin.php';
 
 define('INDEX_FILE_PATH', XOOPS_ROOT_PATH . '/uploads/index.html');
 define('BLANK_FILE_PATH', XOOPS_ROOT_PATH . '/uploads/blank.gif');
@@ -94,5 +94,6 @@ function xoops_module_install_wfdownloads(&$xoopsModule)
     chmod($path, 0777);
     copy(INDEX_FILE_PATH, $path . '/index.html');
     copy(BLANK_FILE_PATH, $path . '/blank.gif');
+
     return true;
 }

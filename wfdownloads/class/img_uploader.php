@@ -71,8 +71,8 @@
  * @copyright (c) 2000-2003 The Xoops Project - www.xoops.org
  */
 mt_srand((double) microtime() * 1000000);
-//require_once XOOPS_ROOT_PATH . "/modules/wfdownloads/class/uploader.php";
-require_once XOOPS_ROOT_PATH . "/class/uploader.php";
+//require_once XOOPS_ROOT_PATH . '/modules/wfdownloads/class/uploader.php';
+require_once XOOPS_ROOT_PATH . '/class/uploader.php';
 
 /**
  * Class XoopsMediaImgUploader

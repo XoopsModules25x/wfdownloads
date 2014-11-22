@@ -21,8 +21,8 @@
 
 //defined('XOOPS_ROOT_PATH') || die('XOOPS root path not defined');
 
-require_once dirname(dirname(dirname(dirname(__FILE__)))) . '/include/cp_header.php';
-$mydirname = basename(dirname(dirname(__FILE__)));
+require_once dirname(dirname(dirname(__DIR__))) . '/include/cp_header.php';
+$mydirname = basename(dirname(__DIR__));
 xoops_loadLanguage('directorychecker', $mydirname);
 
 /**

@@ -19,7 +19,7 @@
  * @version         svn:$id$
  */
 defined('XOOPS_ROOT_PATH') || die('XOOPS root path not defined');
-include_once dirname(dirname(__FILE__)) . '/include/common.php';
+include_once dirname(__DIR__) . '/include/common.php';
 
 /**
  * Class WfdownloadsMirror
@@ -63,10 +63,8 @@ class WfdownloadsMirror extends XoopsObject
      */
     function getForm()
     {
-        global $xoopsUser;
-
         include_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
-        $uid = !empty($xoopsUser) ? (int) ($xoopsUser->getVar('uid')) : 0;
+        $uid = !empty($GLOBALS['xoopsUser']) ? (int) ($GLOBALS['xoopsUser']->getVar('uid')) : 0;
 
         $form = new XoopsThemeForm(_AM_WFDOWNLOADS_MIRROR_SNEWMNAMEDESC, 'mirrorform', $_SERVER['REQUEST_URI']);
         // title

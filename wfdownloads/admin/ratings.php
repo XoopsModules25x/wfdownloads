@@ -19,13 +19,13 @@
  * @version         svn:$id$
  */
 $currentFile = basename(__FILE__);
-include_once dirname(__FILE__) . '/admin_header.php';
+include_once __DIR__ . '/admin_header.php';
 
-$op = WfdownloadsRequest::getString('op', 'votes.list');
+$op = XoopsRequest::getString('op', 'votes.list');
 switch ($op) {
     case "vote.delete":
-        $rid = WfdownloadsRequest::getInt('rid', 0);
-        $lid = WfdownloadsRequest::getInt('lid', 0);
+        $rid = XoopsRequest::getInt('rid', 0);
+        $lid = XoopsRequest::getInt('lid', 0);
         $wfdownloads->getHandler('rating')->deleteAll(new Criteria("ratingid", $rid), true);
         wfdownloads_updateRating($lid);
         redirect_header($currentFile, 1, _AM_WFDOWNLOADS_VOTEDELETED);
@@ -33,7 +33,7 @@ switch ($op) {
 
     case "votes.list":
     default:
-        $start         = WfdownloadsRequest::getInt('start', 0);
+        $start         = XoopsRequest::getInt('start', 0);
         $useravgrating = '0';
         $uservotes     = '0';
 
@@ -85,6 +85,6 @@ switch ($op) {
 
         $GLOBALS['xoopsTpl']->display("db:{$wfdownloads->getModule()->dirname()}_am_ratingslist.tpl");
 
-        include_once dirname(__FILE__) . '/admin_footer.php';
+        include_once __DIR__ . '/admin_footer.php';
         break;
 }

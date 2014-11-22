@@ -19,8 +19,8 @@
  * @version         svn:$id$
  */
 defined('XOOPS_ROOT_PATH') || die('XOOPS root path not defined');
-include_once dirname(__FILE__) . '/common.php';
-@include_once WFDOWNLOADS_ROOT_PATH . '/language/' . $xoopsConfig['language'] . '/admin.php';
+include_once __DIR__ . '/common.php';
+@include_once WFDOWNLOADS_ROOT_PATH . '/language/' . $GLOBALS['xoopsConfig']['language'] . '/admin.php';
 
 /**
  * @param $xoopsModule

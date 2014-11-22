@@ -19,7 +19,7 @@
  * @version         svn:$id$
  */
 $currentFile = basename(__FILE__);
-include_once dirname(__FILE__) . '/admin_header.php';
+include_once __DIR__ . '/admin_header.php';
 
 include_once XOOPS_ROOT_PATH . '/class/xoopsform/grouppermform.php';
 
@@ -45,4 +45,4 @@ $GLOBALS['xoopsTpl']->assign('up_cat_form', $WFUpCatPermForm->render());
 
 $GLOBALS['xoopsTpl']->display("db:{$wfdownloads->getModule()->dirname()}_am_permissions.tpl");
 
-include_once dirname(__FILE__) . '/admin_footer.php';
+include_once __DIR__ . '/admin_footer.php';

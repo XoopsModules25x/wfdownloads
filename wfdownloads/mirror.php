@@ -19,14 +19,14 @@
  * @version         svn:$id$
  */
 $currentFile = basename(__FILE__);
-include_once dirname(__FILE__) . '/header.php';
+include_once __DIR__ . '/header.php';
 
-$lid = WfdownloadsRequest::getInt('lid', 0);
+$lid = XoopsRequest::getInt('lid', 0);
 $downloadObj = $wfdownloads->getHandler('download')->get($lid);
 if (empty($downloadObj)) {
     redirect_header('index.php', 3, _CO_WFDOWNLOADS_ERROR_NODOWNLOAD);
 }
-$cid = WfdownloadsRequest::getInt('cid', $downloadObj->getVar('cid'));
+$cid = XoopsRequest::getInt('cid', $downloadObj->getVar('cid'));
 $categoryObj = $wfdownloads->getHandler('category')->get($cid);
 if (empty($categoryObj)) {
     redirect_header('index.php', 3, _CO_WFDOWNLOADS_ERROR_NOCATEGORY);
@@ -46,7 +46,7 @@ if (
 if ($wfdownloads->getConfig('enable_mirrors') == false && !wfdownloads_userIsAdmin()) {
     redirect_header('index.php', 3, _NOPERM);
 }
-$userGroups = is_object($xoopsUser) ? $xoopsUser->getGroups() : array(0 => XOOPS_GROUP_ANONYMOUS);
+$userGroups = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : array(0 => XOOPS_GROUP_ANONYMOUS);
 if (!$gperm_handler->checkRight('WFDownCatPerm', $cid, $userGroups, $wfdownloads->getModule()->mid())) {
     redirect_header('index.php', 3, _NOPERM);
 }
@@ -62,11 +62,11 @@ foreach (array_reverse($categoryObjsTree->getAllParent($cid)) as $parentCategory
 $breadcrumb->addLink($categoryObj->getVar('title'), "viewcat.php?cid={$cid}");
 $breadcrumb->addLink($downloadObj->getVar('title'), "singlefile.php?lid={$lid}");
 
-$op = WfdownloadsRequest::getString('op', 'mirror.add');
+$op = XoopsRequest::getString('op', 'mirror.add');
 switch ($op) {
     case 'mirrors.list':
     case 'list': // this case is not removed for backward compatibility issues
-        $start = WfdownloadsRequest::getInt('start', 0);
+        $start = XoopsRequest::getInt('start', 0);
 
         $xoopsOption['template_main'] = "{$wfdownloads->getModule()->dirname()}_mirrors.tpl";
         include_once XOOPS_ROOT_PATH . '/header.php';
@@ -79,8 +79,8 @@ switch ($op) {
         $xoopsTpl->assign('wfdownloads_url', WFDOWNLOADS_URL . '/');
 
         // Generate content header
-        $sql = "SELECT * FROM " . $xoopsDB->prefix('wfdownloads_indexpage') . " ";
-        $head_arr = $xoopsDB->fetchArray($xoopsDB->query($sql));
+        $sql = "SELECT * FROM " . $GLOBALS['xoopsDB']->prefix('wfdownloads_indexpage') . " ";
+        $head_arr = $GLOBALS['xoopsDB']->fetchArray($GLOBALS['xoopsDB']->query($sql));
         $catarray['imageheader'] = wfdownloads_headerImage();
         $xoopsTpl->assign('catarray', $catarray);
         $xoopsTpl->assign('category_path', $wfdownloads->getHandler('category')->getNicePath($cid));
@@ -105,17 +105,17 @@ switch ($op) {
         $xoopsTpl->assign('down_arr', $download_array);
 
         $add_mirror = false;
-        if (!is_object($xoopsUser)
+        if (!is_object($GLOBALS['xoopsUser'])
             && ($wfdownloads->getConfig('anonpost') == _WFDOWNLOADS_ANONPOST_MIRROR
                 || $wfdownloads->getConfig('anonpost') == _WFDOWNLOADS_ANONPOST_BOTH)
             && ($wfdownloads->getConfig('submissions') == _WFDOWNLOADS_SUBMISSIONS_MIRROR
                 || $wfdownloads->getConfig('submissions') == _WFDOWNLOADS_SUBMISSIONS_BOTH)
         ) {
             $add_mirror = true;
-        } elseif (is_object($xoopsUser)
+        } elseif (is_object($GLOBALS['xoopsUser'])
             && ($wfdownloads->getConfig('submissions') == _WFDOWNLOADS_SUBMISSIONS_MIRROR
                 || $wfdownloads->getConfig('submissions') == _WFDOWNLOADS_SUBMISSIONS_BOTH
-                || $xoopsUser->isAdmin())
+                || $GLOBALS['xoopsUser']->isAdmin())
         ) {
             $add_mirror = true;
         }
@@ -143,13 +143,13 @@ switch ($op) {
         $xoopsTpl->assign('categoryPath', $pathstring . " > " . $download_array['title']);
         $xoopsTpl->assign('module_home', wfdownloads_module_home(true));
 
-        include_once dirname(__FILE__) . '/footer.php';
+        include_once __DIR__ . '/footer.php';
         break;
 
     case 'mirror.add':
     default:
         // Check if ANONYMOUS user can post mirrors
-        if (!is_object($xoopsUser)
+        if (!is_object($GLOBALS['xoopsUser'])
             && ($wfdownloads->getConfig('anonpost') == _WFDOWNLOADS_ANONPOST_NONE
                 || $wfdownloads->getConfig('anonpost') == _WFDOWNLOADS_ANONPOST_DOWNLOAD)
         ) {
@@ -157,17 +157,17 @@ switch ($op) {
             exit();
         }
         // Check if user can submit mirrors
-        if (is_object($xoopsUser)
+        if (is_object($GLOBALS['xoopsUser'])
             && ($wfdownloads->getConfig('submissions') == _WFDOWNLOADS_SUBMISSIONS_NONE
                 || $wfdownloads->getConfig('submissions') == _WFDOWNLOADS_SUBMISSIONS_DOWNLOAD)
-            && !$xoopsUser->isAdmin()
+            && !$GLOBALS['xoopsUser']->isAdmin()
         ) {
             redirect_header('index.php', 1, _MD_WFDOWNLOADS_MIRROR_NOTALLOWESTOSUBMIT);
             exit();
         }
 
         // Get mirror poster 'uid'
-        $mirroruserUid = is_object($xoopsUser) ? (int) $xoopsUser->getVar('uid') : 0;
+        $mirroruserUid = is_object($GLOBALS['xoopsUser']) ? (int) $GLOBALS['xoopsUser']->getVar('uid') : 0;
 
         if (!empty($_POST['submit'])) {
             $mirrorObj = $wfdownloads->getHandler('mirror')->create();
@@ -252,7 +252,7 @@ switch ($op) {
             $button_tray->addElement($cancel_button);
             $sform->addElement($button_tray);
             $sform->display();
-            include_once dirname(__FILE__) . '/footer.php';
+            include_once __DIR__ . '/footer.php';
         }
         break;
 }

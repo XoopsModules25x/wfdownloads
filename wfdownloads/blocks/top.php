@@ -28,7 +28,7 @@
  * Output  : Returns the most recent or most popular downloads
  */
 defined('XOOPS_ROOT_PATH') || die('XOOPS root path not defined');
-include_once dirname(dirname(__FILE__)) . '/include/common.php';
+include_once dirname(__DIR__) . '/include/common.php';
 /**
  * @param $options
  *
@@ -36,10 +36,9 @@ include_once dirname(dirname(__FILE__)) . '/include/common.php';
  */
 function wfdownloads_top_show($options)
 {
-    global $xoopsUser;
     $wfdownloads = WfdownloadsWfdownloads::getInstance();
 
-    $groups = is_object($xoopsUser) ? $xoopsUser->getGroups() : array(0 => XOOPS_GROUP_ANONYMOUS);
+    $groups = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : array(0 => XOOPS_GROUP_ANONYMOUS);
     $gperm_handler = xoops_gethandler('groupperm');
     $allowedDownCategoriesIds = $gperm_handler->getItemIds('WFDownCatPerm', $groups, $wfdownloads->getModule()->mid());
 

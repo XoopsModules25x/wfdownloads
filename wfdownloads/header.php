@@ -18,8 +18,8 @@
  * @author          Xoops Development Team
  * @version         svn:$id$
  */
-include_once dirname(dirname(dirname(__FILE__))) . '/mainfile.php';
-include_once dirname(__FILE__) . '/include/common.php';
+include_once dirname(dirname(__DIR__)) . '/mainfile.php';
+include_once __DIR__ . '/include/common.php';
 
 // uncomment the below line only if you are using Protector 3.x module
 // and you trust your users when uploading files, it is recommended to not allow anonymous uploads if you do so!!

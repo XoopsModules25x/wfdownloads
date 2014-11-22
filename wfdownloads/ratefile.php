@@ -19,14 +19,14 @@
  * @version         svn:$id$
  */
 $currentFile = basename(__FILE__);
-include_once dirname(__FILE__) . '/header.php';
+include_once __DIR__ . '/header.php';
 
-$lid = WfdownloadsRequest::getInt('lid', 0);
+$lid = XoopsRequest::getInt('lid', 0);
 $downloadObj = $wfdownloads->getHandler('download')->get($lid);
 if (empty($downloadObj)) {
     redirect_header('index.php', 3, _CO_WFDOWNLOADS_ERROR_NODOWNLOAD);
 }
-$cid = WfdownloadsRequest::getInt('cid', $downloadObj->getVar('cid'));
+$cid = XoopsRequest::getInt('cid', $downloadObj->getVar('cid'));
 $categoryObj = $wfdownloads->getHandler('category')->get($cid);
 if (empty($categoryObj)) {
     redirect_header('index.php', 3, _CO_WFDOWNLOADS_ERROR_NOCATEGORY);
@@ -56,16 +56,16 @@ foreach (array_reverse($categoryObjsTree->getAllParent($cid)) as $parentCategory
 $breadcrumb->addLink($categoryObj->getVar('title'), "viewcat.php?cid={$cid}");
 $breadcrumb->addLink($downloadObj->getVar('title'), "singlefile.php?lid={$lid}");
 
-$op = WfdownloadsRequest::getString('op', 'vote.add');
+$op = XoopsRequest::getString('op', 'vote.add');
 switch ($op) {
     case 'vote.add':
     default:
         // Get vote poster 'uid'
-        $ratinguserUid = is_object($xoopsUser) ? (int) $xoopsUser->getVar('uid') : 0;
+        $ratinguserUid = is_object($GLOBALS['xoopsUser']) ? (int) $GLOBALS['xoopsUser']->getVar('uid') : 0;
         $ratinguserIp  = getenv('REMOTE_ADDR');
 
         if (!empty($_POST['submit'])) {
-            $rating = WfdownloadsRequest::getString('rating', '--', 'POST');
+            $rating = XoopsRequest::getString('rating', '--', 'POST');
 
             // Check if Rating is Null
             if ($rating == '--') {
@@ -110,7 +110,7 @@ switch ($op) {
             if ($wfdownloads->getHandler('rating')->insert($ratingObj)) {
                 // All is well. Calculate Score & Add to Summary (for quick retrieval & sorting) to DB.
                 wfdownloads_updateRating($lid);
-                $thankyouMessage = _MD_WFDOWNLOADS_VOTEAPPRE . "<br />" . sprintf(_MD_WFDOWNLOADS_THANKYOU, $xoopsConfig['sitename']);
+                $thankyouMessage = _MD_WFDOWNLOADS_VOTEAPPRE . "<br />" . sprintf(_MD_WFDOWNLOADS_THANKYOU, $GLOBALS['xoopsConfig']['sitename']);
                 redirect_header("singlefile.php?cid={$cid}&amp;lid={$lid}", 4, $thankyouMessage);
             } else {
                 echo $ratingObj->getHtmlErrors();
@@ -170,7 +170,7 @@ switch ($op) {
                 'file',
                 array('id' => $lid, 'lid' => $lid, 'cid' => $cid, 'title' => $downloadObj->getVar('title'), 'imageheader' => wfdownloads_headerImage())
             ); // this definition is not removed for backward compatibility issues
-            include_once dirname(__FILE__) . '/footer.php';
+            include_once __DIR__ . '/footer.php';
         }
         break;
 }

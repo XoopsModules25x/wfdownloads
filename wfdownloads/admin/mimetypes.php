@@ -19,9 +19,9 @@
  * @version         svn:$id$
  */
 $currentFile = basename(__FILE__);
-include_once dirname(__FILE__) . '/admin_header.php';
+include_once __DIR__ . '/admin_header.php';
 
-$op = WfdownloadsRequest::getString('op', 'mimetypes.list');
+$op = XoopsRequest::getString('op', 'mimetypes.list');
 switch ($op) {
     /*
         case 'openurl':
@@ -79,7 +79,7 @@ switch ($op) {
         break;
 
     case "mimetype.save" :
-        $mime_id = WfdownloadsRequest::getInt('mime_id', 0, 'POST');
+        $mime_id = XoopsRequest::getInt('mime_id', 0, 'POST');
         if (!$mimetypeObj = $wfdownloads->getHandler('mimetype')->get($mime_id)) {
             redirect_header($currentFile, 4, _AM_WFDOWNLOADS_ERROR_MIMETYPENOTFOUND);
             exit();
@@ -99,7 +99,7 @@ switch ($op) {
         break;
 
     case "mimetype.update" :
-        $mime_id = WfdownloadsRequest::getInt('mime_id', 0);
+        $mime_id = XoopsRequest::getInt('mime_id', 0);
         if (!$mimetypeObj = $wfdownloads->getHandler('mimetype')->get($mime_id)) {
             redirect_header($currentFile, 4, _AM_WFDOWNLOADS_ERROR_MIMETYPENOTFOUND);
             exit();
@@ -126,8 +126,8 @@ switch ($op) {
         break;
 
     case "mimetypes.update" :
-        $mime_admin = WfdownloadsRequest::getBool('admin', false);
-        $mime_user  = WfdownloadsRequest::getBool('user', false);
+        $mime_admin = XoopsRequest::getBool('admin', false);
+        $mime_user  = XoopsRequest::getBool('user', false);
         $type_all   = (int) ($_GET['type_all']);
 
         if ($mime_admin == true) {
@@ -146,8 +146,8 @@ switch ($op) {
         break;
 
     case "mimetype.delete" :
-        $mime_id = WfdownloadsRequest::getInt('mime_id', 0);
-        $ok      = WfdownloadsRequest::getBool('ok', false, 'POST');
+        $mime_id = XoopsRequest::getInt('mime_id', 0);
+        $ok      = XoopsRequest::getBool('ok', false, 'POST');
         if (!$mimetypeObj = $wfdownloads->getHandler('mimetype')->get($mime_id)) {
             redirect_header($currentFile, 4, _AM_WFDOWNLOADS_ERROR_MIMETYPENOTFOUND);
             exit();
@@ -177,7 +177,7 @@ switch ($op) {
 
     case "mimetypes.list" :
     default :
-        $start = WfdownloadsRequest::getInt('start', 0);
+        $start = XoopsRequest::getInt('start', 0);
 
         // Get mimetypes (20 per page)
         $criteria = new CriteriaCompo();
@@ -220,6 +220,6 @@ switch ($op) {
 
         $GLOBALS['xoopsTpl']->display("db:{$wfdownloads->getModule()->dirname()}_am_mimetypeslist.tpl");
 
-        include_once dirname(__FILE__) . '/admin_footer.php';
+        include_once __DIR__ . '/admin_footer.php';
         break;
 }

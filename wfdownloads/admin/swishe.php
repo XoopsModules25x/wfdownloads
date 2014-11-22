@@ -19,7 +19,7 @@
  * @version         svn:$id$
  */
 $currentFile = basename(__FILE__);
-include_once dirname(__FILE__) . '/admin_header.php';
+include_once __DIR__ . '/admin_header.php';
 
 if (@$_POST['op'] == 'submit') {
     if (!$GLOBALS['xoopsSecurity']->check()) {
@@ -30,12 +30,12 @@ if (@$_POST['op'] == 'submit') {
     wfdownloads_xoops_cp_header();
     $indexAdmin = new ModuleAdmin();
     echo $indexAdmin->addNavigation($currentFile);
-    
+
     // Swish-e support EXPERIMENTAL
     wfdownloads_swishe_config();
     // Swish-e support EXPERIMENTAL
 
-    include_once dirname(__FILE__) . '/admin_footer.php';
+    include_once __DIR__ . '/admin_footer.php';
     exit();
 
 } else {
@@ -73,6 +73,6 @@ if (@$_POST['op'] == 'submit') {
 // IN PROGRESS
     // Swish-e support EXPERIMENTAL
 
-    include_once dirname(__FILE__) . '/admin_footer.php';
+    include_once __DIR__ . '/admin_footer.php';
     exit();
 }

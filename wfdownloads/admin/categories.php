@@ -19,7 +19,7 @@
  * @version         svn:$id$
  */
 $currentFile = basename(__FILE__);
-include_once dirname(__FILE__) . '/admin_header.php';
+include_once __DIR__ . '/admin_header.php';
 
 // Check directories
 if (!is_dir($wfdownloads->getConfig('uploaddir'))) {
@@ -39,13 +39,13 @@ if (!is_dir(XOOPS_ROOT_PATH . '/' . $wfdownloads->getConfig('catimage'))) {
     exit();
 }
 
-$op = WfdownloadsRequest::getString('op', 'categories.list');
+$op = XoopsRequest::getString('op', 'categories.list');
 switch ($op) {
     case 'category.move':
     case 'move':
-        $ok = WfdownloadsRequest::getBool('ok', false, 'POST');
+        $ok = XoopsRequest::getBool('ok', false, 'POST');
         if ($ok == false) {
-            $cid = WfdownloadsRequest::getInt('cid', 0);
+            $cid = XoopsRequest::getInt('cid', 0);
 
             wfdownloads_xoops_cp_header();
 
@@ -69,8 +69,8 @@ switch ($op) {
             $sform->display();
             xoops_cp_footer();
         } else {
-            $source = WfdownloadsRequest::getInt('source', 0, 'POST');
-            $target = WfdownloadsRequest::getInt('target', 0, 'POST');
+            $source = XoopsRequest::getInt('source', 0, 'POST');
+            $target = XoopsRequest::getInt('target', 0, 'POST');
             if ($target == $source) {
                 redirect_header($currentFile . "?op=category.move&amp;ok=0&amp;cid={$source}", 5, _AM_WFDOWNLOADS_CCATEGORY_MODIFY_FAILED);
             }
@@ -89,8 +89,8 @@ switch ($op) {
 
     case 'category.save':
     case 'addCat':
-        $cid = WfdownloadsRequest::getInt('cid', 0, 'POST');
-        $pid = WfdownloadsRequest::getInt('pid', 0, 'POST');
+        $cid = XoopsRequest::getInt('cid', 0, 'POST');
+        $pid = XoopsRequest::getInt('pid', 0, 'POST');
         $weight = (isset($_POST['weight']) && $_POST['weight'] > 0) ? (int) $_POST["weight"] : 0;
         $down_groups = isset($_POST['groups']) ? $_POST['groups'] : array();
         $up_groups = isset($_POST['up_groups']) ? $_POST['up_groups'] : array();
@@ -174,8 +174,8 @@ switch ($op) {
 
     case 'category.delete':
     case 'del':
-        $cid = WfdownloadsRequest::getInt('cid', 0);
-        $ok = WfdownloadsRequest::getBool('ok', false, 'POST');
+        $cid = XoopsRequest::getInt('cid', 0);
+        $ok = XoopsRequest::getBool('ok', false, 'POST');
         $categoryObjs = $wfdownloads->getHandler('category')->getObjects();
         $categoryObjsTree = new XoopsObjectTree($categoryObjs, 'cid', 'pid');
         if ($ok == true) {
@@ -239,7 +239,7 @@ switch ($op) {
         $form = $categoryObj->getForm();
         $form -> display();
 
-        include_once dirname(__FILE__) . '/admin_footer.php';
+        include_once __DIR__ . '/admin_footer.php';
         break;
 
     case 'categories.list':
@@ -262,7 +262,7 @@ switch ($op) {
         } else {
             redirect_header("{$currentFile}?op=category.add", 1, _AM_WFDOWNLOADS_CCATEGORY_NOEXISTS);
         }
-        include_once dirname(__FILE__) . '/admin_footer.php';
+        include_once __DIR__ . '/admin_footer.php';
         break;
 
     case 'categories.reorder':

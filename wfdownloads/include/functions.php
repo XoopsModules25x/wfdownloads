@@ -19,7 +19,7 @@
  * @version         svn:$id$
  */
 defined('XOOPS_ROOT_PATH') || die('XOOPS root path not defined');
-include_once dirname(__FILE__) . '/common.php';
+include_once __DIR__ . '/common.php';
 
 /**
  *
@@ -56,6 +56,7 @@ function wfdownloads_bytesToSize1024($bytes, $precision = 2)
 {
     // human readable format -- powers of 1024
     $unit = array('B', 'kB', 'MB', 'GB', 'TB', 'PB', 'EB');
+
     return @round(
             $bytes / pow(1024, ($i = floor(log($bytes, 1024)))),
             $precision
@@ -95,6 +96,7 @@ function wfdownloads_sizeToBytes1024($size)
             $ret *= 1024;
             break;
     }
+
     return $ret;
 }
 
@@ -165,9 +167,11 @@ function wfdownloads_makeDir($dir, $perm = 0777, $create_index = true)
                 }
                 @fclose($fileHandler);
             }
+
             return true;
         }
     }
+
     return null;
 }
 
@@ -180,13 +184,14 @@ function wfdownloads_getFiles($path = '.')
 {
     $files = array();
     $dir = opendir($path);
-	while ($file = readdir($dir)) {
-		if(is_file($path . $file)) {
-            if($file != '.' && $file != '..' && $file != 'blank.gif' && $file != 'index.html') {
-				$files[] = $file;
+    while ($file = readdir($dir)) {
+        if (is_file($path . $file)) {
+            if ($file != '.' && $file != '..' && $file != 'blank.gif' && $file != 'index.html') {
+                $files[] = $file;
             }
-		}
-	}
+        }
+    }
+
     return $files;
 }
 
@@ -238,6 +243,7 @@ function wfdownloads_copyDir($source, $destination)
         }
     }
     closedir($dirHandler);
+
     return true;
 }
 
@@ -253,6 +259,7 @@ function wfdownloads_delFile($path)
 {
     if (is_file($path)) {
         @chmod($path, 0777);
+
         return @unlink($path);
     } else {
         return fasle;
@@ -288,6 +295,7 @@ function wfdownloads_delDir($dir, $if_not_empty = true)
     } else {
         // NOP
     }
+
     return rmdir($dir);
 }
 
@@ -314,6 +322,7 @@ function wfdownloads_checkModule($dirname)
     }
     $module_handler = xoops_gethandler('module');
     $module = $module_handler->getByDirname($dirname);
+
     return $module->getVar('version');
 }
 
@@ -349,6 +358,7 @@ function wfdownloads_sortCategories($pid = 0, $level = 0)
             }
         }
     }
+
     return $sorted;
 }
 
@@ -394,12 +404,9 @@ function wfdownloads_lettersChoice()
     $letterschoiceTpl          = new XoopsTpl();
     $letterschoiceTpl->caching = false; // Disable cache
     $letterschoiceTpl->assign('alphabet', $alphabet_array);
-<<<<<<< HEAD
     $html = $letterschoiceTpl->fetch("db:{$wfdownloads->getModule()->dirname()}_co_letterschoice.tpl");
-=======
-    $html = $letterschoiceTpl->fetch("db:" . $wfdownloads->getModule()->dirname() . "_co_letterschoice.tpl");
->>>>>>> eff3aa919a5b45464cdf6fc138f173d8a99a6e66
     unset($letterschoiceTpl);
+
     return $html;
 }
 
@@ -410,14 +417,14 @@ function wfdownloads_lettersChoice()
  */
 function wfdownloads_userIsAdmin()
 {
-    global $xoopsUser;
     $wfdownloads = WfdownloadsWfdownloads::getInstance();
 
     static $wfdownloads_isAdmin;
     if (isset($wfdownloads_isAdmin)) {
         return $wfdownloads_isAdmin;
     }
-    $wfdownloads_isAdmin = (!is_object($xoopsUser)) ? false : $xoopsUser->isAdmin($wfdownloads->getModule()->getVar('mid'));
+    $wfdownloads_isAdmin = (!is_object($GLOBALS['xoopsUser'])) ? false : $GLOBALS['xoopsUser']->isAdmin($wfdownloads->getModule()->getVar('mid'));
+
     return $wfdownloads_isAdmin;
 }
 
@@ -457,18 +464,19 @@ function wfdownloads_tableExists($table)
 {
     $bRetVal = false;
     //Verifies that a MySQL table exists
-    $xoopsDB = XoopsDatabaseFactory::getDatabaseConnection();
-    $realName = $xoopsDB->prefix($table);
+    $GLOBALS['xoopsDB'] = XoopsDatabaseFactory::getDatabaseConnection();
+    $realName = $GLOBALS['xoopsDB']->prefix($table);
 
     $sql = "SHOW TABLES FROM " . XOOPS_DB_NAME;
-    $ret = $xoopsDB->queryF($sql);
-    while (list($m_table) = $xoopsDB->fetchRow($ret)) {
+    $ret = $GLOBALS['xoopsDB']->queryF($sql);
+    while (list($m_table) = $GLOBALS['xoopsDB']->fetchRow($ret)) {
         if ($m_table == $realName) {
             $bRetVal = true;
             break;
         }
     }
-    $xoopsDB->freeRecordSet($ret);
+    $GLOBALS['xoopsDB']->freeRecordSet($ret);
+
     return ($bRetVal);
 }
 
@@ -484,14 +492,15 @@ function wfdownloads_tableExists($table)
  */
 function wfdownloads_getMeta($key)
 {
-    $xoopsDB = XoopsDatabaseFactory::getDatabaseConnection();
-    $sql = sprintf("SELECT metavalue FROM %s WHERE metakey=%s", $xoopsDB->prefix('wfdownloads_meta'), $xoopsDB->quoteString($key));
-    $ret = $xoopsDB->query($sql);
+    $GLOBALS['xoopsDB'] = XoopsDatabaseFactory::getDatabaseConnection();
+    $sql = sprintf("SELECT metavalue FROM %s WHERE metakey=%s", $GLOBALS['xoopsDB']->prefix('wfdownloads_meta'), $GLOBALS['xoopsDB']->quoteString($key));
+    $ret = $GLOBALS['xoopsDB']->query($sql);
     if (!$ret) {
         $value = false;
     } else {
-        list($value) = $xoopsDB->fetchRow($ret);
+        list($value) = $GLOBALS['xoopsDB']->fetchRow($ret);
     }
+
     return $value;
 }
 
@@ -508,26 +517,27 @@ function wfdownloads_getMeta($key)
  */
 function wfdownloads_setMeta($key, $value)
 {
-    $xoopsDB = XoopsDatabaseFactory::getDatabaseConnection();
+    $GLOBALS['xoopsDB'] = XoopsDatabaseFactory::getDatabaseConnection();
     if ($ret = wfdownloads_getMeta($key)) {
         $sql = sprintf(
             "UPDATE %s SET metavalue = %s WHERE metakey = %s",
-            $xoopsDB->prefix('wfdownloads_meta'),
-            $xoopsDB->quoteString($value),
-            $xoopsDB->quoteString($key)
+            $GLOBALS['xoopsDB']->prefix('wfdownloads_meta'),
+            $GLOBALS['xoopsDB']->quoteString($value),
+            $GLOBALS['xoopsDB']->quoteString($key)
         );
     } else {
         $sql = sprintf(
             "INSERT INTO %s (metakey, metavalue) VALUES (%s, %s)",
-            $xoopsDB->prefix('wfdownloads_meta'),
-            $xoopsDB->quoteString($key),
-            $xoopsDB->quoteString($value)
+            $GLOBALS['xoopsDB']->prefix('wfdownloads_meta'),
+            $GLOBALS['xoopsDB']->quoteString($key),
+            $GLOBALS['xoopsDB']->quoteString($value)
         );
     }
-    $ret = $xoopsDB->queryF($sql);
+    $ret = $GLOBALS['xoopsDB']->queryF($sql);
     if (!$ret) {
         return false;
     }
+
     return true;
 }
 
@@ -580,12 +590,14 @@ function wfdownloads_getCurrentUrls()
     $urls['phpself'] = $phpSelf;
     $urls['querystring'] = $queryString;
     $urls['full'] = $currentURL;
+
     return $urls;
 }
 
 function wfdownloads_getCurrentPage()
 {
     $urls = wfdownloads_getCurrentUrls();
+
     return $urls['full'];
 }
 
@@ -601,6 +613,7 @@ function wfdownloads_formatErrors($errors = array())
     foreach ($errors as $value) {
         $ret .= "<br /> - {$value}";
     }
+
     return $ret;
 }
 
@@ -665,6 +678,7 @@ function wfdownloads_savePermissions($groups, $id, $permName)
             $gperm_handler->addRight($permName, $id, $group_id, $mid);
         }
     }
+
     return $result;
 }
 
@@ -675,19 +689,18 @@ function wfdownloads_savePermissions($groups, $id, $permName)
  */
 function wfdownloads_toolbar()
 {
-    global $xoopsUser;
     $wfdownloads = WfdownloadsWfdownloads::getInstance();
 
     $isSubmissionAllowed = false;
-    if (is_object($xoopsUser)
+    if (is_object($GLOBALS['xoopsUser'])
         && ($wfdownloads->getConfig('submissions') == _WFDOWNLOADS_SUBMISSIONS_DOWNLOAD
             || $wfdownloads->getConfig('submissions') == _WFDOWNLOADS_SUBMISSIONS_BOTH)
     ) {
-        $groups = $xoopsUser->getGroups();
+        $groups = $GLOBALS['xoopsUser']->getGroups();
         if (count(array_intersect($wfdownloads->getConfig('submitarts'), $groups)) > 0) {
             $isSubmissionAllowed = true;
         }
-    } elseif (!is_object($xoopsUser)
+    } elseif (!is_object($GLOBALS['xoopsUser'])
         && ($wfdownloads->getConfig('anonpost') == _WFDOWNLOADS_ANONPOST_DOWNLOAD
             || $wfdownloads->getConfig('anonpost') == _WFDOWNLOADS_ANONPOST_BOTH)
     ) {
@@ -706,6 +719,7 @@ function wfdownloads_toolbar()
         $toolbar .= "<a href='topten.php?list=rate'>" . _MD_WFDOWNLOADS_TOPRATED . "</a>";
     }
     $toolbar .= " ]";
+
     return $toolbar;
 }
 
@@ -717,13 +731,12 @@ function wfdownloads_toolbar()
 function wfdownloads_serverStats()
 {
 //mb    $wfdownloads = WfdownloadsWfdownloads::getInstance();
-    global $xoopsDB;
     $html = "";
     $sql = "SELECT metavalue";
-    $sql.= " FROM " . $xoopsDB->prefix('wfdownloads_meta');
+    $sql.= " FROM " . $GLOBALS['xoopsDB']->prefix('wfdownloads_meta');
     $sql.= " WHERE metakey='version' LIMIT 1";
-    $query = $xoopsDB->query($sql);
-    list($meta) = $xoopsDB->fetchRow($query);
+    $query = $GLOBALS['xoopsDB']->query($sql);
+    list($meta) = $GLOBALS['xoopsDB']->fetchRow($query);
     $html .= "<fieldset><legend style='font-weight: bold; color: #900;'>" . _AM_WFDOWNLOADS_DOWN_IMAGEINFO . "</legend>\n";
     $html .= "<div style='padding: 8px;'>\n";
     $html .= "<div>" . _AM_WFDOWNLOADS_DOWN_METAVERSION . $meta . "</div>\n";
@@ -763,6 +776,7 @@ function wfdownloads_serverStats()
     $html .= _AM_WFDOWNLOADS_DOWN_UPLOADPATHDSC . "\n";
     $html .= "</div>";
     $html .= "</fieldset><br />";
+
     return $html;
 }
 
@@ -814,6 +828,7 @@ function wfdownloads_displayIcons($time, $status = _WFDOWNLOADS_STATUS_WAITING, 
         }
     }
     $icons = "{$new} {$pop}";
+
     return $icons;
 }
 
@@ -841,6 +856,7 @@ if (!function_exists('convertorderbyin')) {
             case 'sizeA': $orderby = 'size ASC'; break;
             default: $orderby = 'published DESC'; break;
         }
+
         return $orderby;
     }
 }
@@ -921,11 +937,11 @@ function wfdownloads_updateRating($lid)
  */
 function wfdownloads_categoriesCount()
 {
-    global $xoopsUser;
     $gperm_handler = xoops_gethandler('groupperm');
     $wfdownloads = WfdownloadsWfdownloads::getInstance();
-    $groups = (is_object($xoopsUser)) ? $xoopsUser->getGroups() : array(0 => XOOPS_GROUP_ANONYMOUS);
+    $groups = (is_object($GLOBALS['xoopsUser'])) ? $GLOBALS['xoopsUser']->getGroups() : array(0 => XOOPS_GROUP_ANONYMOUS);
     $allowedDownCategoriesIds = $gperm_handler->getItemIds('WFDownCatPerm', $groups, $wfdownloads->getModule()->mid());
+
     return count($allowedDownCategoriesIds);
 }
 
@@ -957,6 +973,7 @@ function wfdownloads_getTotalDownloads($cids = 0)
     $criteria->setGroupby('cid');
     $info['published'] = $wfdownloads->getHandler('download')->getMaxPublishdate($criteria);
     $info['count'] = $wfdownloads->getHandler('download')->getCount($criteria);
+
     return $info;
 }
 
@@ -965,15 +982,15 @@ function wfdownloads_getTotalDownloads($cids = 0)
  */
 function wfdownloads_headerImage()
 {
-    global $xoopsDB;
     $wfdownloads = WfdownloadsWfdownloads::getInstance();
 
     $image  = '';
-    $result = $xoopsDB->query("SELECT indeximage, indexheading FROM " . $xoopsDB->prefix('wfdownloads_indexpage') . " ");
-    list($indexImage, $indexHeading) = $xoopsDB->fetchrow($result);
+    $result = $GLOBALS['xoopsDB']->query("SELECT indeximage, indexheading FROM " . $GLOBALS['xoopsDB']->prefix('wfdownloads_indexpage') . " ");
+    list($indexImage, $indexHeading) = $GLOBALS['xoopsDB']->fetchrow($result);
     if (!empty($indeximage)) {
         $image = wfdownloads_displayImage($indexImage, 'index.php', $wfdownloads->getConfig('mainimagedir'), $indexHeading);
     }
+
     return $image;
 }
 
@@ -987,7 +1004,6 @@ function wfdownloads_headerImage()
  */
 function wfdownloads_displayImage($image = '', $href = '', $imgSource = '', $altText = '')
 {
-    global $xoopsUser;
     $wfdownloads = WfdownloadsWfdownloads::getInstance();
 
     $showImage = '';
@@ -1000,7 +1016,7 @@ function wfdownloads_displayImage($image = '', $href = '', $imgSource = '', $alt
     if (!is_dir(XOOPS_ROOT_PATH . "/{$imgSource}/{$image}") && file_exists(XOOPS_ROOT_PATH . "/{$imgSource}/{$image}")) {
         $showImage .= "<img src='" . XOOPS_URL . "/{$imgSource}/{$image}' border='0' alt='{$altText}' />";
     } else {
-        if ($xoopsUser && $xoopsUser->isAdmin($wfdownloads->getModule()->mid())) {
+        if ($GLOBALS['xoopsUser'] && $GLOBALS['xoopsUser']->isAdmin($wfdownloads->getModule()->mid())) {
             $showImage .= "<img src='" . XOOPS_URL . "/modules/" . WFDOWNLOADS_DIRNAME . "/assets/images/brokenimg.png' alt='" . _MD_WFDOWNLOADS_ISADMINNOTICE . "' />";
         } else {
             $showImage .= "<img src='" . XOOPS_URL . "/modules/" . WFDOWNLOADS_DIRNAME . "/assets/images/blank.gif' alt='{$altText}' />";
@@ -1010,6 +1026,7 @@ function wfdownloads_displayImage($image = '', $href = '', $imgSource = '', $alt
         $showImage .= "</a>";
     }
     clearstatcache();
+
     return $showImage;
 }
 
@@ -1111,6 +1128,7 @@ function wfdownloads_createThumb($imgName, $imgPath, $imgSavePath, $width = 100,
     }
     imagedestroy($img);
     flush();
+
     return XOOPS_URL . '/' . $saveFile;
 }
 
@@ -1158,6 +1176,7 @@ function wfdownloads_isNewImage($published)
                 break;
         }
     }
+
     return $indicator;
 }
 
@@ -1222,6 +1241,7 @@ function wfdownloads_getDownloadTime($size = 0, $gmodem = 1, $gisdn = 1, $gdsl =
             $dltime = $dltime . $asout[$i];
         }
     }
+
     return $dltime;
 }
 
@@ -1259,6 +1279,7 @@ function wfdownloads_allowedMimetypes($fileName, $isAdmin = true)
     } else {
         $ret = array();
     }
+
     return $ret;
 }
 
@@ -1277,7 +1298,6 @@ function wfdownloads_return_bytes($size_str)
         default: return $size_str;
     }
 }
-
 
 /**
  * wfdownloads_uploading()
@@ -1348,6 +1368,7 @@ function wfdownloads_uploading(
                     $file['filetype'] = $_FILES['userfile']['type'];
                     $file['size'] = filesize($uploadDirectory . strtolower($uploader->savedFileName));
                 }
+
                 return $file;
             }
         }
@@ -1356,6 +1377,7 @@ function wfdownloads_uploading(
         unlink($uploadDirectory . $uploader->savedFileName);
         redirect_header($redirectURL, 4, $errors);
     }
+
     return null;
 }
 
@@ -1395,6 +1417,7 @@ function wfdownloads_download($filePath, $isBinary = true, $retBytes = true)
     if ($retBytes && $status) {
         return $bytesCounter; // return num. bytes delivered like readfile() does.
     }
+
     return $status;
 }
 
@@ -1492,13 +1515,11 @@ function wfdownloads_largeDownload($filePath, $fileMimetype)
  */
 function wfdownloads_getForum($selectedForumId)
 {
-    global $xoopsDB;
-
     $selectedForumId = (int) $selectedForumId;
     echo "<select name='forumid'>";
     echo "<option value='0'>----------------------</option>";
-    $result = $xoopsDB->query("SELECT forum_name, forum_id FROM " . $xoopsDB->prefix("bb_forums") . " ORDER BY forum_id");
-    while (list($forumName, $forumId) = $xoopsDB->fetchRow($result)) {
+    $result = $GLOBALS['xoopsDB']->query("SELECT forum_name, forum_id FROM " . $GLOBALS['xoopsDB']->prefix("bb_forums") . " ORDER BY forum_id");
+    while (list($forumName, $forumId) = $GLOBALS['xoopsDB']->fetchRow($result)) {
         if ($forumId == $selectedForumId) {
             $optionSelected = "selected='selected'";
         } else {
@@ -1507,6 +1528,7 @@ function wfdownloads_getForum($selectedForumId)
         echo "<option value='{$forumId}' {$optionSelected}>{$forumName}</option>";
     }
     echo "</select></div>";
+
     return $selectedForumId;
 }
 
@@ -1524,6 +1546,7 @@ function wfdownloads_mirrorOnline($serverURL)
         $isOnline = true;
         fclose($fp);
     }
+
     return $isOnline;
 }
 
@@ -1632,10 +1655,9 @@ function wfdownloads_truncateHtml($text, $length = 100, $ending = '...', $exact 
             $truncate .= '</' . $tag . '>';
         }
     }
+
     return $truncate;
 }
-
-
 
 // Swish-e support EXPERIMENTAL
 /**
@@ -1674,6 +1696,7 @@ function wfdownloads_swishe_check()
     if (!is_file("{$swisheExePath}/swish-e.exe")) {
         return false;
     }
+
     return true;
 }
 
@@ -1764,7 +1787,7 @@ function wfdownloads_swishe_search($swisheQueryWords)
         $swisheSearchParams .= "-H1"; // -H1 : print standard result header (default).
         if ($wfdownloads->getConfig('swishe_search_limit') != 0) {
             $swisheSearchParams .= " -m{$wfdownloads->getConfig('swishe_search_limit')}"; // -m *number* (max results)
-        } 
+        }
 
         // Opens a pipe to swish-e
         $swishePipeHandler = popen("{$swisheCommand} -w {$swisheQueryWords} -f {$swisheIndexFilePath} {$swisheSearchParams}", "r");
@@ -1796,11 +1819,10 @@ error_log("{$swisheCommand} -w {$swisheQueryWords} -f {$swisheIndexFilePath} {$s
                 $line[1] = preg_replace("/[[:blank:]]/", "%%", $line[1]); // replace every space with %% for the phrase in quotation marks
                 $line    = implode('"', $line); // collapse the array into a string
                 $line    = preg_replace("/[[:blank:]]/", "\t", $line); // replace every space with a tab
-                
+
                 list ($relevance, $result_url, $result_title, $file_size) = explode("\t", $line); // split the line into an array by tabs; assign variable names to each column
                 $relevance = $relevance / 10; // format relevance as a percentage for search results
                 $full_path_and_file = $result_url;
-<<<<<<< HEAD
                 $result_url = trim(substr($result_url, ($swisheDocPath_strlen - 1), strlen($result_url)));
                 $file_path = strright($result_url, (strlen($result_url) - 2));
                 $ret[] = array(
@@ -1810,53 +1832,12 @@ error_log("{$swisheCommand} -w {$swisheQueryWords} -f {$swisheIndexFilePath} {$s
                     'file_size' => $file_size,
                     'file_path' => $file_path
                 );
-=======
-                $result_url         = trim(substr($result_url, ($swisheDocPath_strlen - 1), strlen($result_url)));
-                $file_path          = strright($result_url, (strlen($result_url) - 2));
-
-                $query = "SELECT * ";
-                $query .= "FROM " . $dmsdb->prefix("dms_object_versions") . " ";
-                $query .= "WHERE file_path='{$file_path}'";
-                $ver_info = $dmsdb->query($query, 'ROW');
-
-                $query = "SELECT * ";
-                $query .= "FROM " . $dmsdb->prefix("dms_objects") . " ";
-                $query .= "WHERE obj_id='" . $ver_info->obj_id . "'";
-                $obj_info = $dmsdb->query($query, 'ROW');
-                if ($obj_info->obj_id > 0) {
-                    // Permissions required to view this object:
-                    // BROWSE, READONLY, EDIT, OWNER
-                    $permissionLevel = 4; // OWNER IN PROGRESS
-                    if ($obj_info->obj_status < 2) {
-                        if (($permissionLevel == 1) || ($permissionLevel == 2) || ($permissionLevel == 3) || ($permissionLevel == 4)) {
-                            $misc_text = $obj_info->misc_text;
-                            if (strlen($misc_text) > 0) {
-                                $misc_text = "&nbsp;&nbsp;&nbsp;(" . $misc_text . ")";
-                            } else {
-                                $misc_text = "";
-                            }
-
-                            $store_obj_id      = $obj_info->obj_id;
-                            $store_obj_name    = $obj_info->obj_name . $misc_text;
-                            $store_version_num = $ver_info->major_version . "." . $ver_info->minor_version . "" . $ver_info->sub_minor_version;
-                            $store_relevance   = $relevance;
-                            dms_store_search_results(
-                                $store_obj_id,
-                                $store_obj_name,
-                                $store_version_num,
-                                $relevance,
-                                $full_path_and_file,
-                                $summary_query
-                            );
-                        }
-                    }
-                }
->>>>>>> eff3aa919a5b45464cdf6fc138f173d8a99a6e66
             }
         }
         // close the shell pipe
         pclose($swishePipeHandler);
     }
+
     return $ret;
 }
 // Swish-e support EXPERIMENTAL

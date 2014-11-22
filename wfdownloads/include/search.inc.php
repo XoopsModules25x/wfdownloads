@@ -19,7 +19,7 @@
  * @version         svn:$id$
  */
 defined('XOOPS_ROOT_PATH') || die('XOOPS root path not defined');
-include_once dirname(dirname(__FILE__)) . '/include/common.php';
+include_once dirname(__DIR__) . '/include/common.php';
 /**
  * @param        $queryArray
  * @param        $andor
@@ -35,10 +35,9 @@ include_once dirname(dirname(__FILE__)) . '/include/common.php';
  */
 function wfdownloads_search($queryArray, $andor, $limit, $offset, $userId = 0, $categories = array(), $sortBy = 0, $searchIn = '', $extra = '')
 {
-    global $xoopsUser;
     $wfdownloads = WfdownloadsWfdownloads::getInstance();
 
-    $userGroups = is_object($xoopsUser) ? $xoopsUser->getGroups() : array(0 => XOOPS_GROUP_ANONYMOUS);
+    $userGroups = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : array(0 => XOOPS_GROUP_ANONYMOUS);
 
     $gperm_handler = xoops_gethandler('groupperm');
     $allowedDownCategoriesIds = $gperm_handler->getItemIds('WFDownCatPerm', $userGroups, $wfdownloads->getModule()->mid());

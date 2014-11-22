@@ -19,13 +19,13 @@
  * @version         svn:$id$
  */
 $currentFile = basename(__FILE__);
-include_once dirname(__FILE__) . '/admin_header.php';
+include_once __DIR__ . '/admin_header.php';
 
-$op = WfdownloadsRequest::getString('op', 'reviews.list');
+$op = XoopsRequest::getString('op', 'reviews.list');
 switch ($op) {
     case "review.delete":
-        $review_id = WfdownloadsRequest::getInt('review_id', 0);
-        $ok        = WfdownloadsRequest::getBool('ok', false, 'POST');
+        $review_id = XoopsRequest::getInt('review_id', 0);
+        $ok        = XoopsRequest::getBool('ok', false, 'POST');
         if (!$reviewObj = $wfdownloads->getHandler('review')->get($review_id)) {
             redirect_header($currentFile, 4, _AM_WFDOWNLOADS_ERROR_REVIEWNOTFOUND);
             exit();
@@ -54,8 +54,8 @@ switch ($op) {
         break;
 
     case "review.approve":
-        $review_id = WfdownloadsRequest::getInt('review_id', 0);
-        $ok        = WfdownloadsRequest::getBool('ok', false, 'POST');
+        $review_id = XoopsRequest::getInt('review_id', 0);
+        $ok        = XoopsRequest::getBool('ok', false, 'POST');
         if (!$reviewObj = $wfdownloads->getHandler('review')->get($review_id)) {
             redirect_header($currentFile, 4, _AM_WFDOWNLOADS_ERROR_REVIEWNOTFOUND);
             exit();
@@ -78,7 +78,7 @@ switch ($op) {
         break;
 
     case "review.edit":
-        $review_id = WfdownloadsRequest::getInt('review_id', 0);
+        $review_id = XoopsRequest::getInt('review_id', 0);
         if (!$reviewObj = $wfdownloads->getHandler('review')->get($review_id)) {
             redirect_header($currentFile, 4, _AM_WFDOWNLOADS_ERROR_REVIEWNOTFOUND);
             exit();
@@ -92,7 +92,7 @@ switch ($op) {
         break;
 
     case "review.save":
-        $review_id = WfdownloadsRequest::getInt('review_id', 0);
+        $review_id = XoopsRequest::getInt('review_id', 0);
         if (!$reviewObj = $wfdownloads->getHandler('review')->get($review_id)) {
             redirect_header($currentFile, 4, _AM_WFDOWNLOADS_ERROR_REVIEWNOTFOUND);
             exit();
@@ -108,8 +108,8 @@ switch ($op) {
 
     case "reviews.list":
     default:
-        $start_waiting   = WfdownloadsRequest::getInt('start_waiting', 0);
-        $start_published = WfdownloadsRequest::getInt('start_published', 0);
+        $start_waiting   = XoopsRequest::getInt('start_waiting', 0);
+        $start_published = XoopsRequest::getInt('start_published', 0);
 
         $criteria_waiting = new Criteria('submit', 0); // false
         $waiting_count    = $wfdownloads->getHandler('review')->getCount($criteria_waiting);
@@ -204,6 +204,6 @@ switch ($op) {
 
         $GLOBALS['xoopsTpl']->display("db:{$wfdownloads->getModule()->dirname()}_am_reviewslist.tpl");
 
-        include_once dirname(__FILE__) . '/admin_footer.php';
+        include_once __DIR__ . '/admin_footer.php';
         break;
 }

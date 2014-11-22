@@ -19,7 +19,7 @@
  * @version         svn:$id$
  */
 $currentFile = basename(__FILE__);
-include_once dirname(__FILE__) . '/admin_header.php';
+include_once __DIR__ . '/admin_header.php';
 
 if (@$_POST['op'] == 'submit') {
     if (!$GLOBALS['xoopsSecurity']->check()) {
@@ -71,7 +71,7 @@ if (@$_POST['op'] == 'submit') {
     $indexAdmin = new ModuleAdmin();
     echo $indexAdmin->addNavigation($currentFile);
     echo $message;
-    include_once dirname(__FILE__) . '/admin_footer.php';
+    include_once __DIR__ . '/admin_footer.php';
     exit();
 
 } else {
@@ -79,21 +79,14 @@ if (@$_POST['op'] == 'submit') {
     $indexAdmin = new ModuleAdmin();
     echo $indexAdmin->addNavigation($currentFile);
     include_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
-<<<<<<< HEAD
     $form = new XoopsThemeForm(sprintf(_AM_WFDOWNLOADS_CLONE_TITLE, $wfdownloads->getModule()->getVar('name', 'E')), 'clone', $currentFile, 'post', true);
-=======
-    $form              = new XoopsThemeForm(sprintf(
-        _AM_WFDOWNLOADS_CLONE_TITLE,
-        $wfdownloads->getModule()->getVar('name', 'E')
-    ), 'clone', $currentFile, 'post', true);
->>>>>>> eff3aa919a5b45464cdf6fc138f173d8a99a6e66
     $cloneDirname_text = new XoopsFormText(_AM_WFDOWNLOADS_CLONE_NAME, 'clonedirname', 18, 18, '');
     $cloneDirname_text->setDescription(_AM_WFDOWNLOADS_CLONE_NAME_DSC);
     $form->addElement($cloneDirname_text, true);
     $form->addElement(new XoopsFormHidden('op', 'submit'));
     $form->addElement(new XoopsFormButton('', '', _SUBMIT, 'submit'));
     $form->display();
-    include_once dirname(__FILE__) . '/admin_footer.php';
+    include_once __DIR__ . '/admin_footer.php';
     exit();
 }
 
@@ -160,11 +153,7 @@ function wfdownloads_createLogo($dirname)
         }
     }
     // Check original image/font
-<<<<<<< HEAD
     if (!file_exists($imageBase = XOOPS_ROOT_PATH . "/modules/{$dirname}/assets/images/module_logo_blank.png")) {
-=======
-    if (!file_exists($imageBase = XOOPS_ROOT_PATH . "/modules/" . $dirname . "/assets/images/module_logo_blank.png")) {
->>>>>>> eff3aa919a5b45464cdf6fc138f173d8a99a6e66
         return false;
     }
     if (!file_exists($font = XOOPS_ROOT_PATH . "/modules/{$wfdownloads->getModule()->dirname()}/assets/images/VeraBd.ttf")) {

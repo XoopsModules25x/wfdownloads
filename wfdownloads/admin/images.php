@@ -19,7 +19,7 @@
  * @version         svn:$id$
  */
 $currentFile = basename(__FILE__);
-include_once dirname(__FILE__) . '/admin_header.php';
+include_once __DIR__ . '/admin_header.php';
 
 if (!is_dir(XOOPS_ROOT_PATH . '/' . $wfdownloads->getConfig('mainimagedir'))) {
     redirect_header('index.php', 4, _AM_WFDOWNLOADS_ERROR_MAINIMAGEDIRNOTEXISTS);
@@ -34,7 +34,7 @@ if (!is_dir(XOOPS_ROOT_PATH . '/' . $wfdownloads->getConfig('catimage'))) {
     exit();
 }
 
-$op = WfdownloadsRequest::getString('op', 'images.list');
+$op = XoopsRequest::getString('op', 'images.list');
 switch ($op) {
     case 'image.upload':
         if ($_FILES['uploadfile']['name'] != '') {
@@ -61,7 +61,7 @@ switch ($op) {
         break;
 
     case 'image.delete':
-        $ok = WfdownloadsRequest::getBool('ok', false, 'POST');
+        $ok = XoopsRequest::getBool('ok', false, 'POST');
 
         if ($ok == true) {
             $fileToDelete = XOOPS_ROOT_PATH . '/' . $_POST['uploadpath'] . '/' . $_POST['downfile'];
@@ -86,7 +86,7 @@ switch ($op) {
                 _AM_WFDOWNLOADS_DOWN_DELETEFILE . "<br /><br />" . $_POST['downfile'],
                 _AM_WFDOWNLOADS_BDELETE
             );
-            include_once dirname(__FILE__) . '/admin_footer.php';
+            include_once __DIR__ . '/admin_footer.php';
         }
         break;
 
@@ -95,7 +95,7 @@ switch ($op) {
         include_once WFDOWNLOADS_ROOT_PATH . '/class/wfdownloads_lists.php';
 
         $displayImage = '';
-        $rootPath     = WfdownloadsRequest::getInt('rootpath', 0);
+        $rootPath     = XoopsRequest::getInt('rootpath', 0);
 
         wfdownloads_xoops_cp_header();
         $indexAdmin = new ModuleAdmin();
@@ -170,5 +170,5 @@ switch ($op) {
         }
         $iform->display();
         echo wfdownloads_serverStats();
-        include_once dirname(__FILE__) . '/admin_footer.php';
+        include_once __DIR__ . '/admin_footer.php';
 }

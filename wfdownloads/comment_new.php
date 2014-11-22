@@ -19,9 +19,9 @@
  * @version         svn:$id$
  */
 $currentFile = basename(__FILE__);
-include_once dirname(__FILE__) . '/header.php';
+include_once __DIR__ . '/header.php';
 
-$com_itemid = WfdownloadsRequest::getInt('com_itemid', 0);
+$com_itemid = XoopsRequest::getInt('com_itemid', 0);
 if ($com_itemid > 0) {
     // Get file title
     $downloadObj = $wfdownloads->getHandler('download')->get($com_itemid);

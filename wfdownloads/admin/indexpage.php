@@ -19,9 +19,9 @@
  * @version         svn:$id$
  */
 $currentFile = basename(__FILE__);
-include_once dirname(__FILE__) . '/admin_header.php';
+include_once __DIR__ . '/admin_header.php';
 
-$op = WfdownloadsRequest::getString('op', 'indexpage.form');
+$op = XoopsRequest::getString('op', 'indexpage.form');
 switch ($op) {
     case "indexpage.save":
         // Get post parameters
@@ -55,7 +55,7 @@ switch ($op) {
         $indexheaderalign = $_POST['indexheaderalign'];
         $indexfooteralign = $_POST['indexfooteralign'];
         // Update db
-        $sql = "update {$xoopsDB->prefix("wfdownloads_indexpage")} set";
+        $sql = "update {$GLOBALS['xoopsDB']->prefix("wfdownloads_indexpage")} set";
         $sql.= " indexheading='{$indexheading}',";
         $sql.= " indexheader='{$indexheader}',";
         $sql.= " indexfooter='{$indexfooter}',";
@@ -67,7 +67,7 @@ switch ($op) {
         $sql.= " noxcodes='{$noxcodes}',";
         $sql.= " noimages='{$noimages}',";
         $sql.= " nobreak='{$nobreak}' ";
-        $xoopsDB->query($sql);
+        $GLOBALS['xoopsDB']->query($sql);
         redirect_header(WFDOWNLOADS_URL . '/admin/indexpage.php', 1, _AM_WFDOWNLOADS_IPAGE_UPDATED);
         exit();
 
@@ -79,11 +79,11 @@ switch ($op) {
         include_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
 
         $sql = "SELECT indeximage, indexheading, indexheader, indexfooter, nohtml, nosmiley, noxcodes, noimages, nobreak, indexheaderalign, indexfooteralign";
-        $sql.= " FROM {$xoopsDB->prefix('wfdownloads_indexpage')} ";
-        $result = $xoopsDB->query($sql);
+        $sql.= " FROM {$GLOBALS['xoopsDB']->prefix('wfdownloads_indexpage')} ";
+        $result = $GLOBALS['xoopsDB']->query($sql);
         list($indeximage, $indexheading, $indexheader, $indexfooter, $nohtml, $nosmiley, $noxcodes, $noimages, $nobreak, $indexheaderalign,
             $indexfooteralign)
-            = $xoopsDB->fetchrow($result);
+            = $GLOBALS['xoopsDB']->fetchrow($result);
 
         wfdownloads_xoops_cp_header();
         $indexAdmin = new ModuleAdmin();
@@ -153,4 +153,4 @@ switch ($op) {
         $sform->display();
         break;
 }
-include_once dirname(__FILE__) . '/admin_footer.php';
+include_once __DIR__ . '/admin_footer.php';

@@ -19,7 +19,7 @@
  * @version         svn:$id$
  */
 $currentFile = pathinfo(__FILE__, PATHINFO_BASENAME);
-include_once dirname(__FILE__) . '/header.php';
+include_once __DIR__ . '/header.php';
 
 // Check directories
 if (!is_dir($wfdownloads->getConfig('uploaddir'))) {
@@ -39,16 +39,16 @@ if (!is_dir(XOOPS_ROOT_PATH . '/' . $wfdownloads->getConfig('catimage'))) {
     exit();
 }
 
-$groups = is_object($xoopsUser) ? $xoopsUser->getGroups() : array(0 => XOOPS_GROUP_ANONYMOUS);
+$groups = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : array(0 => XOOPS_GROUP_ANONYMOUS);
 
 // Check if submission is allowed
 $isSubmissionAllowed = false;
-if (is_object($xoopsUser)
+if (is_object($GLOBALS['xoopsUser'])
     && ($wfdownloads->getConfig('submissions') == _WFDOWNLOADS_SUBMISSIONS_DOWNLOAD
         || $wfdownloads->getConfig('submissions') == _WFDOWNLOADS_SUBMISSIONS_BOTH)
 ) {
     // if user is a registered user
-    $groups = $xoopsUser->getGroups();
+    $groups = $GLOBALS['xoopsUser']->getGroups();
     if (count(array_intersect($wfdownloads->getConfig('submitarts'), $groups)) > 0) {
         $isSubmissionAllowed = true;
     }
@@ -88,8 +88,8 @@ unset($categoryCriteria);
 $categoryObjsTree = new XoopsObjectTree($categoryObjs, 'cid', 'pid');
 
 // Generate content header
-$sql                          = "SELECT * FROM " . $xoopsDB->prefix('wfdownloads_indexpage') . " ";
-$head_arr                     = $xoopsDB->fetchArray($xoopsDB->query($sql));
+$sql                          = "SELECT * FROM " . $GLOBALS['xoopsDB']->prefix('wfdownloads_indexpage') . " ";
+$head_arr                     = $GLOBALS['xoopsDB']->fetchArray($GLOBALS['xoopsDB']->query($sql));
 $catarray['imageheader']      = wfdownloads_headerImage();
 $catarray['indexheaderalign'] = $head_arr['indexheaderalign'];
 $catarray['indexfooteralign'] = $head_arr['indexfooteralign'];
@@ -302,4 +302,4 @@ if ($wfdownloads->getConfig('enablerss') == true) {
     $xoopsTpl->assign('full_rssfeed_link', $rsslink); // this definition is not removed for backward compatibility issues
 }
 
-include_once dirname(__FILE__) . '/footer.php';
+include_once __DIR__ . '/footer.php';

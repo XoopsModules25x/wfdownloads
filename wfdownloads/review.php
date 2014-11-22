@@ -19,14 +19,14 @@
  * @version         svn:$id$
  */
 $currentFile = basename(__FILE__);
-include_once dirname(__FILE__) . '/header.php';
+include_once __DIR__ . '/header.php';
 
-$lid      = WfdownloadsRequest::getInt('lid', 0);
+$lid      = XoopsRequest::getInt('lid', 0);
 $downloadObj = $wfdownloads->getHandler('download')->get($lid);
 if (empty($downloadObj)) {
     redirect_header('index.php', 3, _CO_WFDOWNLOADS_ERROR_NODOWNLOAD);
 }
-$cid      = WfdownloadsRequest::getInt('cid', $downloadObj->getVar('cid'));
+$cid      = XoopsRequest::getInt('cid', $downloadObj->getVar('cid'));
 $categoryObj = $wfdownloads->getHandler('category')->get($cid);
 if (empty($categoryObj)) {
     redirect_header('index.php', 3, _CO_WFDOWNLOADS_ERROR_NOCATEGORY);
@@ -46,7 +46,7 @@ if (
 if ($wfdownloads->getConfig('enable_reviews') == false && !wfdownloads_userIsAdmin()) {
     redirect_header('index.php', 3, _NOPERM);
 }
-$userGroups = is_object($xoopsUser) ? $xoopsUser->getGroups() : array(0 => XOOPS_GROUP_ANONYMOUS);
+$userGroups = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : array(0 => XOOPS_GROUP_ANONYMOUS);
 if (!$gperm_handler->checkRight('WFDownCatPerm', $cid, $userGroups, $wfdownloads->getModule()->mid())) {
     redirect_header('index.php', 3, _NOPERM);
 }
@@ -62,11 +62,11 @@ foreach (array_reverse($categoryObjsTree->getAllParent($cid)) as $parentCategory
 $breadcrumb->addLink($categoryObj->getVar('title'), "viewcat.php?cid={$cid}");
 $breadcrumb->addLink($downloadObj->getVar('title'), "singlefile.php?lid={$lid}");
 
-$op = WfdownloadsRequest::getString('op', 'review.add');
+$op = XoopsRequest::getString('op', 'review.add');
 switch ($op) {
     case 'reviews.list':
     case 'list': // this care is not removed for backward compatibility issues
-        $start = WfdownloadsRequest::getInt('start', 0);
+        $start = XoopsRequest::getInt('start', 0);
 
         $xoopsOption['template_main'] = "{$wfdownloads->getModule()->dirname()}_reviews.tpl";
         include_once XOOPS_ROOT_PATH . '/header.php';
@@ -79,8 +79,8 @@ switch ($op) {
         $xoopsTpl->assign('wfdownloads_url', WFDOWNLOADS_URL . '/');
 
         // Generate content header
-        $sql = "SELECT * FROM " . $xoopsDB->prefix('wfdownloads_indexpage') . " ";
-        $head_arr = $xoopsDB->fetchArray($xoopsDB->query($sql));
+        $sql = "SELECT * FROM " . $GLOBALS['xoopsDB']->prefix('wfdownloads_indexpage') . " ";
+        $head_arr = $GLOBALS['xoopsDB']->fetchArray($GLOBALS['xoopsDB']->query($sql));
         $catarray['imageheader'] = wfdownloads_headerImage();
         $xoopsTpl->assign('catarray', $catarray);
         $xoopsTpl->assign('category_path', $wfdownloads->getHandler('category')->getNicePath($cid));
@@ -122,19 +122,19 @@ switch ($op) {
         $xoopsTpl->assign('categoryPath', $pathstring . " > " . $download_array['title']);
         $xoopsTpl->assign('module_home', wfdownloads_module_home(true));
 
-        include_once dirname(__FILE__) . '/footer.php';
+        include_once __DIR__ . '/footer.php';
         break;
 
     case 'review.add':
     default :
         // Check if ANONYMOUS user can review
-        if (!is_object($xoopsUser) && !$wfdownloads->getConfig('rev_anonpost')) {
+        if (!is_object($GLOBALS['xoopsUser']) && !$wfdownloads->getConfig('rev_anonpost')) {
             redirect_header(XOOPS_URL . '/user.php', 1, _MD_WFDOWNLOADS_MUSTREGFIRST);
             exit();
         }
 
         // Get review poster 'uid'
-        $reviewerUid = is_object($xoopsUser) ? (int) $xoopsUser->getVar('uid') : 0;
+        $reviewerUid = is_object($GLOBALS['xoopsUser']) ? (int) $GLOBALS['xoopsUser']->getVar('uid') : 0;
 
         if (!empty($_POST['submit'])) {
             $reviewObj = $wfdownloads->getHandler('review')->create();
@@ -207,6 +207,6 @@ switch ($op) {
             $button_tray->addElement($cancel_button);
             $sform->addElement($button_tray);
             $sform->display();
-            include_once dirname(__FILE__) . '/footer.php';
+            include_once __DIR__ . '/footer.php';
         }
 }
