@@ -8,6 +8,7 @@
  but WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
+
 /**
  * Wfdownloads module
  *
@@ -53,12 +54,12 @@ class WfsLists
 
     function __construct($path = 'uploads', $value = null, $selected = '', $size = 1, $emptyselect = 0, $type = 0, $prefix = '', $suffix = '')
     {
-        $this->value = $value;
-        $this->selection = $selected;
-        $this->path = $path;
-        $this->size = (int) $size;
+        $this->value       = $value;
+        $this->selection   = $selected;
+        $this->path        = $path;
+        $this->size        = (int)$size;
         $this->emptyselect = ($emptyselect) ? 0 : 1;
-        $this->type = $type;
+        $this->type        = $type;
     }
 
     /**
@@ -87,7 +88,9 @@ class WfsLists
 
     /**
      * Private to be called by other parts of the class
+     *
      * @param $dirname
+     *
      * @return array
      */
     function &getDirListAsArray($dirname)
@@ -151,7 +154,7 @@ class WfsLists
                     if (strtolower($file) == 'blank.png') {
                         Continue;
                     }
-                    $file = $prefix . $file;
+                    $file            = $prefix . $file;
                     $filelist[$file] = $file;
                 }
             }

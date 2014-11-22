@@ -114,7 +114,7 @@ $listings = wfdownloads_getTotalDownloads($allowedDownCategoriesIds);
 $total_cat = count($allowedDownCategoriesIds);
 // Get all main categories
 $mainCategoryObjs = $categoryObjsTree->getFirstChild(0);
-$count          = 0;
+$count            = 0;
 
 // Comparison functions for uasort()
 /**
@@ -184,15 +184,13 @@ foreach (array_keys($mainCategoryObjs) as $i) {
         }
 
         // Get this category indicator image
-        $publishdate = isset($listings['published'][$mainCategoryObjs[$i]->getVar('cid')]) ? $listings['published'][$mainCategoryObjs[$i]->getVar('cid')]
-            : 0;
+        $publishdate = isset($listings['published'][$mainCategoryObjs[$i]->getVar('cid')]) ? $listings['published'][$mainCategoryObjs[$i]->getVar('cid')] : 0;
         if (count($allSubcategoryObjs) > 0) {
             // Foreach subcategory
             foreach (array_keys($allSubcategoryObjs) as $k) {
                 if (in_array($allSubcategoryObjs[$k]->getVar('cid'), $allowedDownCategoriesIds)) {
-                    $publishdate = (isset($listings['published'][$allSubcategoryObjs[$k]->getVar('cid')]) &&
-                        $listings['published'][$allSubcategoryObjs[$k]->getVar('cid')] > $publishdate)
-                        ? $listings['published'][$allSubcategoryObjs[$k]->getVar('cid')] : $publishdate;
+                    $publishdate = (isset($listings['published'][$allSubcategoryObjs[$k]->getVar('cid')])
+                        && $listings['published'][$allSubcategoryObjs[$k]->getVar('cid')] > $publishdate) ? $listings['published'][$allSubcategoryObjs[$k]->getVar('cid')] : $publishdate;
                 }
             }
         }
@@ -230,8 +228,7 @@ foreach (array_keys($mainCategoryObjs) as $i) {
         if (count($allSubcategoryObjs) > 0) {
             foreach (array_keys($allSubcategoryObjs) as $k) {
                 if (in_array($allSubcategoryObjs[$k]->getVar('cid'), $allowedDownCategoriesIds)) {
-                    $download_count += isset($listings['count'][$allSubcategoryObjs[$k]->getVar('cid')])
-                        ? $listings['count'][$allSubcategoryObjs[$k]->getVar('cid')] : 0;
+                    $download_count += isset($listings['count'][$allSubcategoryObjs[$k]->getVar('cid')]) ? $listings['count'][$allSubcategoryObjs[$k]->getVar('cid')] : 0;
                     if ($wfdownloads->getConfig('subcats') == 1 && $allSubcategoryObjs[$k]->getVar('pid') == $mainCategoryObjs[$i]->getVar('cid')) {
                         // if we are collecting subcat info for displaying, and this subcat is a first level child...
                         $subcategories[] = array(
@@ -251,39 +248,39 @@ foreach (array_keys($mainCategoryObjs) as $i) {
             $xoopsTpl->append(
                 'categories',
                 array(
-                     'image'            => $imageURL, // this definition is not removed for backward compatibility issues
-                     'image_URL'        => $imageURL,
-                     'days'             => $isNewImage['days'],
-                     'id'               => (int) $mainCategoryObjs[$i]->getVar('cid'), // this definition is not removed for backward compatibility issues
-                     'cid'              => (int) $mainCategoryObjs[$i]->getVar('cid'),
-                     'allowed_download' => in_array($mainCategoryObjs[$i]->getVar('cid'), $allowedDownCategoriesIds),
-                     'allowed_upload'   => ($isSubmissionAllowed && in_array($mainCategoryObjs[$i]->getVar('cid'), $allowedUpCategoriesIds)),
-                     'title'            => $mainCategoryObjs[$i]->getVar('title'),
-                     'summary'          => $mainCategoryObjs[$i]->getVar('summary'),
-                     'totaldownloads'   => (int) $download_count, // this definition is not removed for backward compatibility issues
-                     'downloads_count'  => (int) $download_count,
-                     'count'            => (int) $count,
-                     'alttext'          => $isNewImage['alttext']
+                    'image'            => $imageURL, // this definition is not removed for backward compatibility issues
+                    'image_URL'        => $imageURL,
+                    'days'             => $isNewImage['days'],
+                    'id'               => (int)$mainCategoryObjs[$i]->getVar('cid'), // this definition is not removed for backward compatibility issues
+                    'cid'              => (int)$mainCategoryObjs[$i]->getVar('cid'),
+                    'allowed_download' => in_array($mainCategoryObjs[$i]->getVar('cid'), $allowedDownCategoriesIds),
+                    'allowed_upload'   => ($isSubmissionAllowed && in_array($mainCategoryObjs[$i]->getVar('cid'), $allowedUpCategoriesIds)),
+                    'title'            => $mainCategoryObjs[$i]->getVar('title'),
+                    'summary'          => $mainCategoryObjs[$i]->getVar('summary'),
+                    'totaldownloads'   => (int)$download_count, // this definition is not removed for backward compatibility issues
+                    'downloads_count'  => (int)$download_count,
+                    'count'            => (int)$count,
+                    'alttext'          => $isNewImage['alttext']
                 )
             );
         } else {
             $xoopsTpl->append(
                 'categories',
                 array(
-                     'image'            => $imageURL, // this definition is not removed for backward compatibility issues
-                     'image_URL'        => $imageURL,
-                     'days'             => $isNewImage['days'],
-                     'id'               => (int) $mainCategoryObjs[$i]->getVar('cid'), // this definition is not removed for backward compatibility issues
-                     'cid'              => (int) $mainCategoryObjs[$i]->getVar('cid'),
-                     'allowed_download' => in_array($mainCategoryObjs[$i]->getVar('cid'), $allowedDownCategoriesIds),
-                     'allowed_upload'   => ($isSubmissionAllowed && in_array($mainCategoryObjs[$i]->getVar('cid'), $allowedUpCategoriesIds)),
-                     'title'            => $mainCategoryObjs[$i]->getVar('title'),
-                     'summary'          => $mainCategoryObjs[$i]->getVar('summary'),
-                     'subcategories'    => $subcategories,
-                     'totaldownloads'   => (int) $download_count, // this definition is not removed for backward compatibility issues
-                     'downloads_count'  => (int) $download_count,
-                     'count'            => (int) $count,
-                     'alttext'          => $isNewImage['alttext']
+                    'image'            => $imageURL, // this definition is not removed for backward compatibility issues
+                    'image_URL'        => $imageURL,
+                    'days'             => $isNewImage['days'],
+                    'id'               => (int)$mainCategoryObjs[$i]->getVar('cid'), // this definition is not removed for backward compatibility issues
+                    'cid'              => (int)$mainCategoryObjs[$i]->getVar('cid'),
+                    'allowed_download' => in_array($mainCategoryObjs[$i]->getVar('cid'), $allowedDownCategoriesIds),
+                    'allowed_upload'   => ($isSubmissionAllowed && in_array($mainCategoryObjs[$i]->getVar('cid'), $allowedUpCategoriesIds)),
+                    'title'            => $mainCategoryObjs[$i]->getVar('title'),
+                    'summary'          => $mainCategoryObjs[$i]->getVar('summary'),
+                    'subcategories'    => $subcategories,
+                    'totaldownloads'   => (int)$download_count, // this definition is not removed for backward compatibility issues
+                    'downloads_count'  => (int)$download_count,
+                    'count'            => (int)$count,
+                    'alttext'          => $isNewImage['alttext']
                 )
             );
         }
@@ -297,8 +294,8 @@ if ($wfdownloads->getConfig('enablerss') == true) {
     $rsslink_URL = WFDOWNLOADS_URL . "/rss.php";
     $xoopsTpl->assign('full_rssfeed_URL', $rsslink_URL);
     $rsslink = "<a href='" . $rsslink_URL . "' title='" . _MD_WFDOWNLOADS_LEGENDTEXTRSS . "'>";
-    $rsslink.= "<img src='" . WFDOWNLOADS_URL . "/assets/images/icon/rss.gif' border='0' alt='" . _MD_WFDOWNLOADS_LEGENDTEXTRSS . "' title='" . _MD_WFDOWNLOADS_LEGENDTEXTRSS . "'>";
-    $rsslink.= "</a>";
+    $rsslink .= "<img src='" . WFDOWNLOADS_URL . "/assets/images/icon/rss.gif' border='0' alt='" . _MD_WFDOWNLOADS_LEGENDTEXTRSS . "' title='" . _MD_WFDOWNLOADS_LEGENDTEXTRSS . "'>";
+    $rsslink .= "</a>";
     $xoopsTpl->assign('full_rssfeed_link', $rsslink); // this definition is not removed for backward compatibility issues
 }
 

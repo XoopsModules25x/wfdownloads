@@ -129,7 +129,8 @@ class WfdownloadsModificationHandler extends XoopsPersistableObjectHandler
     function approveModification($requestid)
     {
         $sql = "UPDATE {$this->table} m, {$this->wfdownloads->getHandler('download')->table} d";
-        $sql.= " SET
+        $sql
+            .= " SET
             d.cid = m.cid,
             d.title = m.title,
             d.url = m.url,
@@ -165,7 +166,7 @@ class WfdownloadsModificationHandler extends XoopsPersistableObjectHandler
             d.dobr = m.dobr";
         $sql .= " WHERE d.lid = m.lid AND m.requestid='{$requestid}'";
         if ($this->db->query($sql)) {
-            return $this->deleteAll(new Criteria('requestid', (int) $requestid));
+            return $this->deleteAll(new Criteria('requestid', (int)$requestid));
         }
 
         return false;

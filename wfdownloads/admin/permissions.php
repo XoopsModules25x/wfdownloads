@@ -29,8 +29,22 @@ if ($wfdownloads->getHandler('category')->getCount() == 0) {
 }
 $categoryObjObjs = $wfdownloads->getHandler('category')->getObjects();
 
-$WFDownCatPermForm = new XoopsGroupPermForm(_AM_WFDOWNLOADS_FCATEGORY_GROUPPROMPT, $wfdownloads->getModule()->mid(), 'WFDownCatPerm', _AM_WFDOWNLOADS_PERM_CSELECTPERMISSIONS, "admin/{$currentFile}", true);
-$WFUpCatPermForm   = new XoopsGroupPermForm(_AM_WFDOWNLOADS_FCATEGORY_GROUPPROMPT_UP, $wfdownloads->getModule()->mid(), 'WFUpCatPerm', _AM_WFDOWNLOADS_PERM_CSELECTPERMISSIONS_UP, "admin/{$currentFile}", true);
+$WFDownCatPermForm = new XoopsGroupPermForm(
+    _AM_WFDOWNLOADS_FCATEGORY_GROUPPROMPT,
+    $wfdownloads->getModule()->mid(),
+    'WFDownCatPerm',
+    _AM_WFDOWNLOADS_PERM_CSELECTPERMISSIONS,
+    "admin/{$currentFile}",
+    true
+);
+$WFUpCatPermForm   = new XoopsGroupPermForm(
+    _AM_WFDOWNLOADS_FCATEGORY_GROUPPROMPT_UP,
+    $wfdownloads->getModule()->mid(),
+    'WFUpCatPerm',
+    _AM_WFDOWNLOADS_PERM_CSELECTPERMISSIONS_UP,
+    "admin/{$currentFile}",
+    true
+);
 foreach ($categoryObjObjs as $categoryObj) {
     $WFDownCatPermForm->addItem($categoryObj->getVar('cid'), $categoryObj->getVar('title'), $categoryObj->getVar('pid'));
     $WFUpCatPermForm->addItem($categoryObj->getVar('cid'), $categoryObj->getVar('title'), $categoryObj->getVar('pid'));

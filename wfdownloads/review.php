@@ -21,24 +21,24 @@
 $currentFile = basename(__FILE__);
 include_once __DIR__ . '/header.php';
 
-$lid      = XoopsRequest::getInt('lid', 0);
+$lid         = XoopsRequest::getInt('lid', 0);
 $downloadObj = $wfdownloads->getHandler('download')->get($lid);
 if (empty($downloadObj)) {
     redirect_header('index.php', 3, _CO_WFDOWNLOADS_ERROR_NODOWNLOAD);
 }
-$cid      = XoopsRequest::getInt('cid', $downloadObj->getVar('cid'));
+$cid         = XoopsRequest::getInt('cid', $downloadObj->getVar('cid'));
 $categoryObj = $wfdownloads->getHandler('category')->get($cid);
 if (empty($categoryObj)) {
     redirect_header('index.php', 3, _CO_WFDOWNLOADS_ERROR_NOCATEGORY);
 }
 
 // Download not published, expired or taken offline - redirect
-if (
-    $downloadObj->getVar('published') == 0 ||
-    $downloadObj->getVar('published') > time() ||
-    $downloadObj->getVar('offline') == true ||
-    ($downloadObj->getVar('expired') != 0 && $downloadObj->getVar('expired') < time()) ||
-    $downloadObj->getVar('status') == _WFDOWNLOADS_STATUS_WAITING) {
+if ($downloadObj->getVar('published') == 0
+    || $downloadObj->getVar('published') > time()
+    || $downloadObj->getVar('offline') == true
+    || ($downloadObj->getVar('expired') != 0 && $downloadObj->getVar('expired') < time())
+    || $downloadObj->getVar('status') == _WFDOWNLOADS_STATUS_WAITING
+) {
     redirect_header('index.php', 3, _MD_WFDOWNLOADS_NODOWNLOAD);
 }
 
@@ -54,7 +54,7 @@ if (!$gperm_handler->checkRight('WFDownCatPerm', $cid, $userGroups, $wfdownloads
 // Breadcrumb
 include_once XOOPS_ROOT_PATH . '/class/tree.php';
 $categoryObjsTree = new XoopsObjectTree($wfdownloads->getHandler('category')->getObjects(), 'cid', 'pid');
-$breadcrumb = new WfdownloadsBreadcrumb();
+$breadcrumb       = new WfdownloadsBreadcrumb();
 $breadcrumb->addLink($wfdownloads->getModule()->getVar('name'), WFDOWNLOADS_URL);
 foreach (array_reverse($categoryObjsTree->getAllParent($cid)) as $parentCategory) {
     $breadcrumb->addLink($parentCategory->getVar('title'), "viewcat.php?cid=" . $parentCategory->getVar('cid'));
@@ -79,8 +79,8 @@ switch ($op) {
         $xoopsTpl->assign('wfdownloads_url', WFDOWNLOADS_URL . '/');
 
         // Generate content header
-        $sql = "SELECT * FROM " . $GLOBALS['xoopsDB']->prefix('wfdownloads_indexpage') . " ";
-        $head_arr = $GLOBALS['xoopsDB']->fetchArray($GLOBALS['xoopsDB']->query($sql));
+        $sql                     = "SELECT * FROM " . $GLOBALS['xoopsDB']->prefix('wfdownloads_indexpage') . " ";
+        $head_arr                = $GLOBALS['xoopsDB']->fetchArray($GLOBALS['xoopsDB']->query($sql));
         $catarray['imageheader'] = wfdownloads_headerImage();
         $xoopsTpl->assign('catarray', $catarray);
         $xoopsTpl->assign('category_path', $wfdownloads->getHandler('category')->getNicePath($cid));
@@ -105,17 +105,17 @@ switch ($op) {
         $xoopsTpl->assign('down_arr', $download_array);
 
         foreach ($reviewObjs as $reviewObj) {
-            $review_array = $reviewObj->toArray();
-            $review_array['date'] = formatTimestamp($review_array['date'], $wfdownloads->getConfig('dateformat'));
+            $review_array              = $reviewObj->toArray();
+            $review_array['date']      = formatTimestamp($review_array['date'], $wfdownloads->getConfig('dateformat'));
             $review_array['submitter'] = XoopsUserUtility::getUnameFromId($review_array['uid']);
-            $review_rating = round(number_format($review_array['rated'], 0) / 2);
+            $review_rating             = round(number_format($review_array['rated'], 0) / 2);
             $review_array['rated_img'] = "rate{$review_rating}.gif";
             $xoopsTpl->append('down_review', $review_array);
         }
         $xoopsTpl->assign('lang_review_found', sprintf(_MD_WFDOWNLOADS_REVIEWTOTAL, $reviewsCount));
 
         include_once XOOPS_ROOT_PATH . '/class/pagenav.php';
-        $pagenav = new XoopsPageNav($reviewsCount, 5, $start, 'start', "op=reviews.list&amp;cid={$cid}&amp;lid={$lid}", 1);
+        $pagenav          = new XoopsPageNav($reviewsCount, 5, $start, 'start', "op=reviews.list&amp;cid={$cid}&amp;lid={$lid}", 1);
         $navbar['navbar'] = $pagenav->renderNav();
         $xoopsTpl->assign('navbar', $navbar);
 
@@ -134,14 +134,14 @@ switch ($op) {
         }
 
         // Get review poster 'uid'
-        $reviewerUid = is_object($GLOBALS['xoopsUser']) ? (int) $GLOBALS['xoopsUser']->getVar('uid') : 0;
+        $reviewerUid = is_object($GLOBALS['xoopsUser']) ? (int)$GLOBALS['xoopsUser']->getVar('uid') : 0;
 
         if (!empty($_POST['submit'])) {
             $reviewObj = $wfdownloads->getHandler('review')->create();
             $reviewObj->setVar('title', trim($_POST['title']));
             $reviewObj->setVar('review', trim($_POST['review']));
-            $reviewObj->setVar('lid', (int) $_POST['lid']);
-            $reviewObj->setVar('rated', (int) $_POST['rated']);
+            $reviewObj->setVar('lid', (int)$_POST['lid']);
+            $reviewObj->setVar('rated', (int)$_POST['rated']);
             $reviewObj->setVar('date', time());
             $reviewObj->setVar('uid', $reviewerUid);
             $submit = (wfdownloads_userIsAdmin() ? wfdownloads_userIsAdmin() : ($wfdownloads->getConfig('rev_approve')) ? true : false);
@@ -180,16 +180,16 @@ switch ($op) {
             //$rating_select->setDescription(_MD_WFDOWNLOADS_REV_RATING_DESC);
             $rating_select->addOptionArray(
                 array(
-                     '1'  => 1,
-                     '2'  => 2,
-                     '3'  => 3,
-                     '4'  => 4,
-                     '5'  => 5,
-                     '6'  => 6,
-                     '7'  => 7,
-                     '8'  => 8,
-                     '9'  => 9,
-                     '10' => 10
+                    '1'  => 1,
+                    '2'  => 2,
+                    '3'  => 3,
+                    '4'  => 4,
+                    '5'  => 5,
+                    '6'  => 6,
+                    '7'  => 7,
+                    '8'  => 8,
+                    '9'  => 9,
+                    '10' => 10
                 )
             );
             $sform->addElement($rating_select);

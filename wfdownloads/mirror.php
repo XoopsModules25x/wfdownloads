@@ -21,24 +21,24 @@
 $currentFile = basename(__FILE__);
 include_once __DIR__ . '/header.php';
 
-$lid = XoopsRequest::getInt('lid', 0);
+$lid         = XoopsRequest::getInt('lid', 0);
 $downloadObj = $wfdownloads->getHandler('download')->get($lid);
 if (empty($downloadObj)) {
     redirect_header('index.php', 3, _CO_WFDOWNLOADS_ERROR_NODOWNLOAD);
 }
-$cid = XoopsRequest::getInt('cid', $downloadObj->getVar('cid'));
+$cid         = XoopsRequest::getInt('cid', $downloadObj->getVar('cid'));
 $categoryObj = $wfdownloads->getHandler('category')->get($cid);
 if (empty($categoryObj)) {
     redirect_header('index.php', 3, _CO_WFDOWNLOADS_ERROR_NOCATEGORY);
 }
 
 // Download not published, expired or taken offline - redirect
-if (
-    $downloadObj->getVar('published') == 0 ||
-    $downloadObj->getVar('published') > time() ||
-    $downloadObj->getVar('offline') == true ||
-    ($downloadObj->getVar('expired') != 0 && $downloadObj->getVar('expired') < time()) ||
-    $downloadObj->getVar('status') == _WFDOWNLOADS_STATUS_WAITING) {
+if ($downloadObj->getVar('published') == 0
+    || $downloadObj->getVar('published') > time()
+    || $downloadObj->getVar('offline') == true
+    || ($downloadObj->getVar('expired') != 0 && $downloadObj->getVar('expired') < time())
+    || $downloadObj->getVar('status') == _WFDOWNLOADS_STATUS_WAITING
+) {
     redirect_header('index.php', 3, _MD_WFDOWNLOADS_NODOWNLOAD);
 }
 
@@ -54,7 +54,7 @@ if (!$gperm_handler->checkRight('WFDownCatPerm', $cid, $userGroups, $wfdownloads
 // Breadcrumb
 include_once XOOPS_ROOT_PATH . '/class/tree.php';
 $categoryObjsTree = new XoopsObjectTree($wfdownloads->getHandler('category')->getObjects(), 'cid', 'pid');
-$breadcrumb = new WfdownloadsBreadcrumb();
+$breadcrumb       = new WfdownloadsBreadcrumb();
 $breadcrumb->addLink($wfdownloads->getModule()->getVar('name'), WFDOWNLOADS_URL);
 foreach (array_reverse($categoryObjsTree->getAllParent($cid)) as $parentCategory) {
     $breadcrumb->addLink($parentCategory->getVar('title'), "viewcat.php?cid=" . $parentCategory->getVar('cid'));
@@ -79,8 +79,8 @@ switch ($op) {
         $xoopsTpl->assign('wfdownloads_url', WFDOWNLOADS_URL . '/');
 
         // Generate content header
-        $sql = "SELECT * FROM " . $GLOBALS['xoopsDB']->prefix('wfdownloads_indexpage') . " ";
-        $head_arr = $GLOBALS['xoopsDB']->fetchArray($GLOBALS['xoopsDB']->query($sql));
+        $sql                     = "SELECT * FROM " . $GLOBALS['xoopsDB']->prefix('wfdownloads_indexpage') . " ";
+        $head_arr                = $GLOBALS['xoopsDB']->fetchArray($GLOBALS['xoopsDB']->query($sql));
         $catarray['imageheader'] = wfdownloads_headerImage();
         $xoopsTpl->assign('catarray', $catarray);
         $xoopsTpl->assign('category_path', $wfdownloads->getHandler('category')->getNicePath($cid));
@@ -167,7 +167,7 @@ switch ($op) {
         }
 
         // Get mirror poster 'uid'
-        $mirroruserUid = is_object($GLOBALS['xoopsUser']) ? (int) $GLOBALS['xoopsUser']->getVar('uid') : 0;
+        $mirroruserUid = is_object($GLOBALS['xoopsUser']) ? (int)$GLOBALS['xoopsUser']->getVar('uid') : 0;
 
         if (!empty($_POST['submit'])) {
             $mirrorObj = $wfdownloads->getHandler('mirror')->create();
@@ -176,7 +176,7 @@ switch ($op) {
             $mirrorObj->setVar('location', trim($_POST['location']));
             $mirrorObj->setVar('continent', trim($_POST['continent']));
             $mirrorObj->setVar('downurl', trim($_POST['downurl']));
-            $mirrorObj->setVar('lid', (int) $_POST['lid']);
+            $mirrorObj->setVar('lid', (int)$_POST['lid']);
             $mirrorObj->setVar('uid', $mirroruserUid);
             $mirrorObj->setVar('date', time());
             if (($wfdownloads->getConfig('autoapprove') == _WFDOWNLOADS_AUTOAPPROVE_NONE
@@ -215,7 +215,7 @@ switch ($op) {
 
             // Generate form
             include_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
-            $sform = new XoopsThemeForm(_MD_WFDOWNLOADS_MIRROR_SUBMITMIRROR, 'mirrorform', xoops_getenv('PHP_SELF'));
+            $sform      = new XoopsThemeForm(_MD_WFDOWNLOADS_MIRROR_SUBMITMIRROR, 'mirrorform', xoops_getenv('PHP_SELF'));
             $title_text = new XoopsFormText(_MD_WFDOWNLOADS_MIRROR_HOMEURLTITLE, 'title', 50, 255);
             $title_text->setDescription(_MD_WFDOWNLOADS_MIRROR_HOMEURLTITLE_DESC);
             $sform->addElement($title_text, true);
@@ -228,13 +228,13 @@ switch ($op) {
             $continent_select = new XoopsFormSelect(_MD_WFDOWNLOADS_MIRROR_CONTINENT, 'continent');
             $continent_select->addOptionArray(
                 array(
-                     _MD_WFDOWNLOADS_CONT1 => _MD_WFDOWNLOADS_CONT1,
-                     _MD_WFDOWNLOADS_CONT2 => _MD_WFDOWNLOADS_CONT2,
-                     _MD_WFDOWNLOADS_CONT3 => _MD_WFDOWNLOADS_CONT3,
-                     _MD_WFDOWNLOADS_CONT4 => _MD_WFDOWNLOADS_CONT4,
-                     _MD_WFDOWNLOADS_CONT5 => _MD_WFDOWNLOADS_CONT5,
-                     _MD_WFDOWNLOADS_CONT6 => _MD_WFDOWNLOADS_CONT6,
-                     _MD_WFDOWNLOADS_CONT7 => _MD_WFDOWNLOADS_CONT7
+                    _MD_WFDOWNLOADS_CONT1 => _MD_WFDOWNLOADS_CONT1,
+                    _MD_WFDOWNLOADS_CONT2 => _MD_WFDOWNLOADS_CONT2,
+                    _MD_WFDOWNLOADS_CONT3 => _MD_WFDOWNLOADS_CONT3,
+                    _MD_WFDOWNLOADS_CONT4 => _MD_WFDOWNLOADS_CONT4,
+                    _MD_WFDOWNLOADS_CONT5 => _MD_WFDOWNLOADS_CONT5,
+                    _MD_WFDOWNLOADS_CONT6 => _MD_WFDOWNLOADS_CONT6,
+                    _MD_WFDOWNLOADS_CONT7 => _MD_WFDOWNLOADS_CONT7
                 )
             );
             $sform->addElement($continent_select);

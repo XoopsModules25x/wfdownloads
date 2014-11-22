@@ -63,7 +63,7 @@ switch ($op) {
     case 'image.delete':
         $ok = XoopsRequest::getBool('ok', false, 'POST');
 
-        if ($ok == true) {
+        if ($ok === true) {
             $fileToDelete = XOOPS_ROOT_PATH . '/' . $_POST['uploadpath'] . '/' . $_POST['downfile'];
             if (file_exists($fileToDelete)) {
                 chmod($fileToDelete, 0666);
@@ -140,16 +140,18 @@ switch ($op) {
             $iform->addElement(new XoopsFormLabel(_AM_WFDOWNLOADS_DOWN_FUPLOADPATH, XOOPS_ROOT_PATH . '/' . $dirArray[$rootPath]));
             $iform->addElement(new XoopsFormLabel(_AM_WFDOWNLOADS_DOWN_FUPLOADURL, XOOPS_URL . '/' . $dirArray[$rootPath]));
 
-            $graph_array = WfsLists::getListTypeAsArray(XOOPS_ROOT_PATH . '/' . $dirArray[$rootPath], $type = 'images');
+            $graph_array       = WfsLists::getListTypeAsArray(XOOPS_ROOT_PATH . '/' . $dirArray[$rootPath], $type = 'images');
             $indeximage_select = new XoopsFormSelect('', 'downfile', '');
             $indeximage_select->addOptionArray($graph_array);
             $indeximage_select->setExtra("onchange='showImgSelected(\"image\", \"downfile\", \"" . $dirArray[$rootPath] . "\", \"\", \"" . XOOPS_URL . "\")'");
             $indeximage_tray = new XoopsFormElementTray(_AM_WFDOWNLOADS_DOWN_FSHOWSELECTEDIMAGE, '&nbsp;');
             $indeximage_tray->addElement($indeximage_select);
             if (!empty($_REQUEST['downfile'])) {
-                $indeximage_tray->addElement(new XoopsFormLabel('', "<br /><br /><img src='" . XOOPS_URL . '/' . $dirArray[$rootPath] . '/' . $_REQUEST['downfile'] . "' name='image' id='image' alt='' title='image' />"));
+                $indeximage_tray->addElement(
+                    new XoopsFormLabel('', "<br /><br /><img src='" . XOOPS_URL . '/' . $dirArray[$rootPath] . '/' . $_REQUEST['downfile'] . "' name='image' id='image' alt='' title='image' />")
+                );
             } else {
-                $indeximage_tray->addElement(new XoopsFormLabel('',"<br /><br /><img src='" . XOOPS_URL . "/uploads/blank.gif' name='image' id='image' alt='' title='image' />"));
+                $indeximage_tray->addElement(new XoopsFormLabel('', "<br /><br /><img src='" . XOOPS_URL . "/uploads/blank.gif' name='image' id='image' alt='' title='image' />"));
             }
             $iform->addElement($indeximage_tray);
 

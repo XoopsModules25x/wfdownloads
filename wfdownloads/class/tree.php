@@ -40,16 +40,16 @@ class WfdownloadsObjectTree extends XoopsObjectTree
      * @return string
     @access private
      */
-    function _makeSelBoxOptionsArray( $fieldName, $key, &$optionsArray, $prefix_orig, $prefix_curr = '' )
+    function _makeSelBoxOptionsArray($fieldName, $key, &$optionsArray, $prefix_orig, $prefix_curr = '')
     {
         if ($key > 0) {
-            $value = $this->_tree[$key]['obj']->getVar( $this->_myId );
-            $optionsArray[$value] = $prefix_curr . $this->_tree[$key]['obj']->getVar( $fieldName );
+            $value                = $this->_tree[$key]['obj']->getVar($this->_myId);
+            $optionsArray[$value] = $prefix_curr . $this->_tree[$key]['obj']->getVar($fieldName);
             $prefix_curr .= $prefix_orig;
         }
-        if ( isset( $this->_tree[$key]['child'] ) && !empty( $this->_tree[$key]['child'] ) ) {
+        if (isset($this->_tree[$key]['child']) && !empty($this->_tree[$key]['child'])) {
             foreach ($this->_tree[$key]['child'] as $childkey) {
-                $this->_makeSelBoxOptionsArray( $fieldName, $childkey, $optionsArray, $prefix_orig, $prefix_curr );
+                $this->_makeSelBoxOptionsArray($fieldName, $childkey, $optionsArray, $prefix_orig, $prefix_curr);
             }
         }
 
@@ -63,15 +63,17 @@ class WfdownloadsObjectTree extends XoopsObjectTree
      * @param  string  $prefix         String to indent deeper levels
      * @param  bool    $addEmptyOption Set TRUE to add an empty option with value "0" at the top of the hierarchy
      * @param  integer $key            ID of the object to display as the root of select options
+     *
      * @return array   $optionsArray   Associative array of value->name pairs, useful for {@link XoopsFormSelect}->addOptionArray method
      */
-    function makeSelBoxOptionsArray( $fieldName, $prefix = '-', $addEmptyOption = false, $key = 0 )
+    function makeSelBoxOptionsArray($fieldName, $prefix = '-', $addEmptyOption = false, $key = 0)
     {
         $optionsArray = array();
-        if ( $addEmptyOption )
+        if ($addEmptyOption) {
             $optionsArray[0] = '';
+        }
 
-        return $this->_makeSelBoxOptionsArray( $fieldName, $key, $optionsArray, $prefix );
+        return $this->_makeSelBoxOptionsArray($fieldName, $key, $optionsArray, $prefix);
     }
 
 }

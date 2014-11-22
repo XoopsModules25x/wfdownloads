@@ -20,7 +20,8 @@
  */
 defined('XOOPS_ROOT_PATH') || die('XOOPS root path not defined');
 include_once __DIR__ . '/common.php';
-@include_once WFDOWNLOADS_ROOT_PATH . '/language/' . $GLOBALS['xoopsConfig']['language'] . '/admin.php';
+//@include_once WFDOWNLOADS_ROOT_PATH . '/language/' . $GLOBALS['xoopsConfig']['language'] . '/admin.php';
+xoops_loadLanguage('admin', $wfdownloads->getModule()->dirname());
 include_once WFDOWNLOADS_ROOT_PATH . '/class/dbupdater.php';
 
 /**
@@ -132,7 +133,7 @@ function update_tables_to_323($module)
     // populate screenshots with screenshot, screenshot2, screenshot3, screenshot4 values
     $downloadsObjs = $download_handler->getObjects();
     foreach ($downloadsObjs as $downloadsObj) {
-        $screenshots = array();
+        $screenshots   = array();
         $screenshots[] = $downloadsObj->getVar('screenshot');
         $screenshots[] = $downloadsObj->getVar('screenshot2');
         $screenshots[] = $downloadsObj->getVar('screenshot3');
@@ -143,7 +144,7 @@ function update_tables_to_323($module)
     }
 
     // update wfdownloads_mod table
-    $mod_fields     = array(
+    $mod_fields = array(
         "requestid"       => array("Type" => "int(11) NOT NULL auto_increment", "Default" => false),
         //
         "modifysubmitter" => array("Type" => "int(11) NOT NULL default '0'", "Default" => true),
@@ -495,7 +496,7 @@ function update_tables_to_322($module)
  */
 function invert_nohtm_dohtml_values()
 {
-    $ret = array();
+    $ret         = array();
     $cat_handler = xoops_getmodulehandler('category', 'wfdownloads');
     $result      = $GLOBALS['xoopsDB']->query("SHOW COLUMNS FROM " . $cat_handler->table);
     while ($existing_field = $GLOBALS['xoopsDB']->fetchArray($result)) {

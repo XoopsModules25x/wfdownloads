@@ -88,8 +88,8 @@ switch ($op) {
         $mimetypeObj->setVar('mime_ext', $_POST['mime_ext']);
         $mimetypeObj->setVar('mime_name', $_POST['mime_name']);
         $mimetypeObj->setVar('mime_types', $_POST['mime_type']);
-        $mimetypeObj->setVar('mime_admin', (int) $_POST['mime_admin']);
-        $mimetypeObj->setVar('mime_user', (int) $_POST['mime_user']);
+        $mimetypeObj->setVar('mime_admin', (int)$_POST['mime_admin']);
+        $mimetypeObj->setVar('mime_user', (int)$_POST['mime_user']);
         if (!$wfdownloads->getHandler('mimetype')->insert($mimetypeObj)) {
             $error = "Could not update mimetype information";
             trigger_error($error, E_USER_ERROR);
@@ -122,13 +122,13 @@ switch ($op) {
         if (!$wfdownloads->getHandler('mimetype')->insert($mimetypeObj, true)) {
             trigger_error($error, E_USER_ERROR);
         }
-        redirect_header("{$currentFile}?start=" . (int) ($_GET['start']) . "", 0, _AM_WFDOWNLOADS_MIME_MODIFIED);
+        redirect_header("{$currentFile}?start=" . (int)($_GET['start']) . "", 0, _AM_WFDOWNLOADS_MIME_MODIFIED);
         break;
 
     case "mimetypes.update" :
         $mime_admin = XoopsRequest::getBool('admin', false);
         $mime_user  = XoopsRequest::getBool('user', false);
-        $type_all   = (int) ($_GET['type_all']);
+        $type_all   = (int)($_GET['type_all']);
 
         if ($mime_admin == true) {
             $field = 'mime_admin';
@@ -142,7 +142,7 @@ switch ($op) {
             $error = "Could not update mimetype information";
             trigger_error($error, E_USER_ERROR);
         }
-        redirect_header("{$currentFile}?start=" . (int) ($_GET['start']) . "", 1, _AM_WFDOWNLOADS_MIME_MODIFIED);
+        redirect_header("{$currentFile}?start=" . (int)($_GET['start']) . "", 1, _AM_WFDOWNLOADS_MIME_MODIFIED);
         break;
 
     case "mimetype.delete" :
@@ -152,7 +152,7 @@ switch ($op) {
             redirect_header($currentFile, 4, _AM_WFDOWNLOADS_ERROR_MIMETYPENOTFOUND);
             exit();
         }
-        if ($ok == true) {
+        if ($ok === true) {
             if (!$GLOBALS['xoopsSecurity']->check()) {
                 redirect_header($currentFile, 3, implode(',', $GLOBALS['xoopsSecurity']->getErrors()));
             }
@@ -184,7 +184,7 @@ switch ($op) {
         $criteria->setSort('mime_name');
         $criteria->setStart($start);
         $criteria->setLimit(20);
-        $mimetypeObjs = $wfdownloads->getHandler('mimetype')->getObjects($criteria);
+        $mimetypeObjs    = $wfdownloads->getHandler('mimetype')->getObjects($criteria);
         $mimetypes_count = $wfdownloads->getHandler('mimetype')->getCount();
 
         wfdownloads_xoops_cp_header();

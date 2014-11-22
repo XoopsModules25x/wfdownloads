@@ -165,6 +165,7 @@ class WfdownloadsTable
      */
     function addData()
     {
+        $ret = null;
         foreach ($this->getData() as $data) {
             $query = sprintf('INSERT INTO %s VALUES (%s)', $this->name(), $data);
             $ret   = $GLOBALS['xoopsDB']->query($query);
@@ -188,6 +189,7 @@ class WfdownloadsTable
      */
     function addAlteredField($name, $properties)
     {
+        $field                  = array();
         $field['name']          = $name;
         $field['properties']    = $properties;
         $this->_alteredFields[] = $field;
@@ -196,7 +198,7 @@ class WfdownloadsTable
     /**
      * Invert values 0 to 1 and 1 to 0
      *
-     * @param string $name     name of the field
+     * @param string $name name of the field
      * @param        $newValue
      * @param        $oldValue
      *
@@ -205,6 +207,7 @@ class WfdownloadsTable
      */ //felix
     function addUpdatedWhere($name, $newValue, $oldValue)
     {
+        $field                 = array();
         $field['name']         = $name;
         $field['value']        = $newValue;
         $field['where']        = $oldValue;
@@ -220,6 +223,7 @@ class WfdownloadsTable
      */
     function addNewField($name, $properties)
     {
+        $field               = array();
         $field['name']       = $name;
         $field['properties'] = $properties;
         $this->_newFields[]  = $field;
@@ -245,6 +249,7 @@ class WfdownloadsTable
      */
     function addUpdatedField($name, $value)
     {
+        $field                  = array();
         $field['name']          = $name;
         $field['value']         = $value;
         $this->_updatedFields[] = $field;
@@ -490,7 +495,6 @@ class WfdownloadsTable
  * @author  marcan <marcan@smartfactory.ca>
  * @link    http://www.smartfactory.ca The SmartFactory
  */
-
 class WfdownloadsDbupdater
 {
     /**

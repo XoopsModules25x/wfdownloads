@@ -30,7 +30,7 @@ switch ($op) {
             redirect_header($currentFile, 4, _AM_WFDOWNLOADS_ERROR_MIRRORNOTFOUND);
             exit();
         }
-        if ($ok == true) {
+        if ($ok === true) {
             if (!$GLOBALS['xoopsSecurity']->check()) {
                 redirect_header($currentFile, 3, implode(',', $GLOBALS['xoopsSecurity']->getErrors()));
             }
@@ -60,7 +60,7 @@ switch ($op) {
             redirect_header($currentFile, 4, _AM_WFDOWNLOADS_ERROR_MIRRORNOTFOUND);
             exit();
         }
-        if ($ok == true) {
+        if ($ok === true) {
             $mirrorObj->setVar('submit', true);
             $wfdownloads->getHandler('mirror')->insert($mirrorObj);
             redirect_header($currentFile, 1, sprintf(_AM_WFDOWNLOADS_MIRROR_MIRROR_UPDATED, $mirrorObj->getVar('title')));
@@ -100,7 +100,7 @@ switch ($op) {
         $mirrorObj->setVar('location', trim($_POST['location']));
         $mirrorObj->setVar('continent', trim($_POST['continent']));
         $mirrorObj->setVar('downurl', formatURL(trim($_POST['downurl'])));
-        $mirrorObj->setVar('submit', (int) ($_POST['approve']));
+        $mirrorObj->setVar('submit', (int)($_POST['approve']));
         $wfdownloads->getHandler('mirror')->insert($mirrorObj);
         redirect_header($currentFile, 1, _AM_WFDOWNLOADS_MIRROR_MIRROR_UPDATED);
         exit();
@@ -173,8 +173,7 @@ switch ($op) {
             $users     = $member_handler->getUserList(new Criteria("uid", "(" . implode(',', $uids_published) . ")"));
             foreach ($mirrors_published as $mirror_published) {
                 $mirror_published_array                    = $mirror_published->toArray();
-                $mirror_published_array['download_title']  = isset($downloads[$mirror_published->getVar('lid')])
-                    ? $downloads[$mirror_published->getVar('lid')]['title'] : "";
+                $mirror_published_array['download_title']  = isset($downloads[$mirror_published->getVar('lid')]) ? $downloads[$mirror_published->getVar('lid')]['title'] : "";
                 $mirror_published_array['submitter_uname'] = XoopsUserUtility::getUnameFromId($mirror_published->getVar('uid'));
                 $mirror_published_array['formatted_date']  = XoopsLocal::formatTimestamp($mirror_published->getVar('date'), 'l');
                 $GLOBALS['xoopsTpl']->append('mirrors_published', $mirror_published_array);
