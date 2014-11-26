@@ -19,18 +19,18 @@
  * @version         svn:$id$
  */
 $currentFile = basename(__FILE__);
-include_once dirname(__FILE__) . '/admin_header.php';
+include_once __DIR__ . '/admin_header.php';
 
-$op = WfdownloadsRequest::getString('op', 'reviews.list');
+$op = XoopsRequest::getString('op', 'reviews.list');
 switch ($op) {
     case "review.delete":
-        $review_id = WfdownloadsRequest::getInt('review_id', 0);
-        $ok        = WfdownloadsRequest::getBool('ok', false, 'POST');
+        $review_id = XoopsRequest::getInt('review_id', 0);
+        $ok        = XoopsRequest::getBool('ok', false, 'POST');
         if (!$reviewObj = $wfdownloads->getHandler('review')->get($review_id)) {
             redirect_header($currentFile, 4, _AM_WFDOWNLOADS_ERROR_REVIEWNOTFOUND);
             exit();
         }
-        if ($ok == true) {
+        if ($ok === true) {
             if (!$GLOBALS['xoopsSecurity']->check()) {
                 redirect_header($currentFile, 3, implode(',', $GLOBALS['xoopsSecurity']->getErrors()));
             }
@@ -54,13 +54,13 @@ switch ($op) {
         break;
 
     case "review.approve":
-        $review_id = WfdownloadsRequest::getInt('review_id', 0);
-        $ok        = WfdownloadsRequest::getBool('ok', false, 'POST');
+        $review_id = XoopsRequest::getInt('review_id', 0);
+        $ok        = XoopsRequest::getBool('ok', false, 'POST');
         if (!$reviewObj = $wfdownloads->getHandler('review')->get($review_id)) {
             redirect_header($currentFile, 4, _AM_WFDOWNLOADS_ERROR_REVIEWNOTFOUND);
             exit();
         }
-        if ($ok == true) {
+        if ($ok === true) {
             $reviewObj->setVar('submit', 1); // true
             $wfdownloads->getHandler('review')->insert($reviewObj);
             redirect_header($currentFile, 1, sprintf(_AM_WFDOWNLOADS_REV_REVIEW_UPDATED, $reviewObj->getVar('title')));
@@ -78,7 +78,7 @@ switch ($op) {
         break;
 
     case "review.edit":
-        $review_id = WfdownloadsRequest::getInt('review_id', 0);
+        $review_id = XoopsRequest::getInt('review_id', 0);
         if (!$reviewObj = $wfdownloads->getHandler('review')->get($review_id)) {
             redirect_header($currentFile, 4, _AM_WFDOWNLOADS_ERROR_REVIEWNOTFOUND);
             exit();
@@ -92,15 +92,15 @@ switch ($op) {
         break;
 
     case "review.save":
-        $review_id = WfdownloadsRequest::getInt('review_id', 0);
+        $review_id = XoopsRequest::getInt('review_id', 0);
         if (!$reviewObj = $wfdownloads->getHandler('review')->get($review_id)) {
             redirect_header($currentFile, 4, _AM_WFDOWNLOADS_ERROR_REVIEWNOTFOUND);
             exit();
         }
         $reviewObj->setVar('title', trim($_POST['title']));
         $reviewObj->setVar('review', trim($_POST['review']));
-        $reviewObj->setVar('rated', (int) $_POST['rated']);
-        $reviewObj->setVar('submit', (int) $_POST['approve']);
+        $reviewObj->setVar('rated', (int)$_POST['rated']);
+        $reviewObj->setVar('submit', (int)$_POST['approve']);
         $wfdownloads->getHandler('review')->insert($reviewObj);
         redirect_header($currentFile, 1, _AM_WFDOWNLOADS_REV_REVIEW_UPDATED);
         exit();
@@ -108,8 +108,8 @@ switch ($op) {
 
     case "reviews.list":
     default:
-        $start_waiting   = WfdownloadsRequest::getInt('start_waiting', 0);
-        $start_published = WfdownloadsRequest::getInt('start_published', 0);
+        $start_waiting   = XoopsRequest::getInt('start_waiting', 0);
+        $start_published = XoopsRequest::getInt('start_published', 0);
 
         $criteria_waiting = new Criteria('submit', 0); // false
         $waiting_count    = $wfdownloads->getHandler('review')->getCount($criteria_waiting);
@@ -183,8 +183,7 @@ switch ($op) {
             }
             foreach ($reviews_published as $review_published) {
                 $review_published_array                   = $review_published->toArray();
-                $review_published_array['download_title'] = isset($downloads[$review_published->getVar('lid')])
-                    ? $downloads[$review_published->getVar('lid')]['title'] : '';
+                $review_published_array['download_title'] = isset($downloads[$review_published->getVar('lid')]) ? $downloads[$review_published->getVar('lid')]['title'] : '';
                 $review_published_array['reviewer_uname'] = XoopsUserUtility::getUnameFromId($review_published->getVar('uid'));
                 $reviewer                                 = $member_handler->getUser($review_published->getVar('uid'));
                 $review_published_array['reviewer_email'] = is_object($reviewer) ? $reviewer->email() : '';
@@ -204,6 +203,6 @@ switch ($op) {
 
         $GLOBALS['xoopsTpl']->display("db:{$wfdownloads->getModule()->dirname()}_am_reviewslist.tpl");
 
-        include_once dirname(__FILE__) . '/admin_footer.php';
+        include_once __DIR__ . '/admin_footer.php';
         break;
 }

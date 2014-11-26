@@ -19,25 +19,25 @@
  * @version         svn:$id$
  */
 $currentFile = basename(__FILE__);
-include_once dirname(__FILE__) . '/header.php';
+include_once __DIR__ . '/header.php';
 
-$lid = WfdownloadsRequest::getInt('lid', 0);
+$lid         = XoopsRequest::getInt('lid', 0);
 $downloadObj = $wfdownloads->getHandler('download')->get($lid);
 if (empty($downloadObj)) {
     redirect_header('index.php', 3, _CO_WFDOWNLOADS_ERROR_NODOWNLOAD);
 }
-$cid = WfdownloadsRequest::getInt('cid', $downloadObj->getVar('cid'));
+$cid         = XoopsRequest::getInt('cid', $downloadObj->getVar('cid'));
 $categoryObj = $wfdownloads->getHandler('category')->get($cid);
 if (empty($categoryObj)) {
     redirect_header('index.php', 3, _CO_WFDOWNLOADS_ERROR_NOCATEGORY);
 }
 
 // Download not published, expired or taken offline - redirect
-if (
-    $downloadObj->getVar('published') == false ||
-    $downloadObj->getVar('published') > time() ||
-    $downloadObj->getVar('offline') == true ||
-    ($downloadObj->getVar('expired') != 0 && $downloadObj->getVar('expired') < time())) {
+if ($downloadObj->getVar('published') == false
+    || $downloadObj->getVar('published') > time()
+    || $downloadObj->getVar('offline') == true
+    || ($downloadObj->getVar('expired') != 0 && $downloadObj->getVar('expired') < time())
+) {
     redirect_header("index.php", 3, _MD_WFDOWNLOADS_NODOWNLOAD);
 }
 
@@ -48,7 +48,7 @@ if ($wfdownloads->getConfig('enable_ratings') == false && !wfdownloads_userIsAdm
 // Breadcrumb
 include_once XOOPS_ROOT_PATH . '/class/tree.php';
 $categoryObjsTree = new XoopsObjectTree($wfdownloads->getHandler('category')->getObjects(), 'cid', 'pid');
-$breadcrumb = new WfdownloadsBreadcrumb();
+$breadcrumb       = new WfdownloadsBreadcrumb();
 $breadcrumb->addLink($wfdownloads->getModule()->getVar('name'), WFDOWNLOADS_URL);
 foreach (array_reverse($categoryObjsTree->getAllParent($cid)) as $parentCategory) {
     $breadcrumb->addLink($parentCategory->getVar('title'), "viewcat.php?cid=" . $parentCategory->getVar('cid'));
@@ -56,16 +56,16 @@ foreach (array_reverse($categoryObjsTree->getAllParent($cid)) as $parentCategory
 $breadcrumb->addLink($categoryObj->getVar('title'), "viewcat.php?cid={$cid}");
 $breadcrumb->addLink($downloadObj->getVar('title'), "singlefile.php?lid={$lid}");
 
-$op = WfdownloadsRequest::getString('op', 'vote.add');
+$op = XoopsRequest::getString('op', 'vote.add');
 switch ($op) {
     case 'vote.add':
     default:
         // Get vote poster 'uid'
-        $ratinguserUid = is_object($GLOBALS['xoopsUser']) ? (int) $GLOBALS['xoopsUser']->getVar('uid') : 0;
+        $ratinguserUid = is_object($GLOBALS['xoopsUser']) ? (int)$GLOBALS['xoopsUser']->getVar('uid') : 0;
         $ratinguserIp  = getenv('REMOTE_ADDR');
 
         if (!empty($_POST['submit'])) {
-            $rating = WfdownloadsRequest::getString('rating', '--', 'POST');
+            $rating = XoopsRequest::getString('rating', '--', 'POST');
 
             // Check if Rating is Null
             if ($rating == '--') {
@@ -89,8 +89,8 @@ switch ($op) {
             } else {
                 // Check if ANONYMOUS user is trying to vote more than once per day (only 1 anonymous from an IP in a single day).
                 $anonymousWaitDays = 1;
-                $yesterday = (time() - (86400 * $anonymousWaitDays));
-                $criteria = new CriteriaCompo(new Criteria('lid', $lid));
+                $yesterday         = (time() - (86400 * $anonymousWaitDays));
+                $criteria          = new CriteriaCompo(new Criteria('lid', $lid));
                 $criteria->add(new Criteria('ratinguser', 0));
                 $criteria->add(new Criteria('ratinghostname', $ratinguserIp));
                 $criteria->add(new Criteria('ratingtimestamp', $yesterday, '>'));
@@ -104,7 +104,7 @@ switch ($op) {
             $ratingObj = $wfdownloads->getHandler('rating')->create();
             $ratingObj->setVar('lid', $lid);
             $ratingObj->setVar('ratinguser', $ratinguserUid);
-            $ratingObj->setVar('rating', (int) $rating);
+            $ratingObj->setVar('rating', (int)$rating);
             $ratingObj->setVar('ratinghostname', $ratinguserIp);
             $ratingObj->setVar('ratingtimestamp', time());
             if ($wfdownloads->getHandler('rating')->insert($ratingObj)) {
@@ -132,28 +132,28 @@ switch ($op) {
 
             // Generate form
             include_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
-            $sform = new XoopsThemeForm(_MD_WFDOWNLOADS_RATETHISFILE, 'voteform', xoops_getenv('PHP_SELF'));
+            $sform         = new XoopsThemeForm(_MD_WFDOWNLOADS_RATETHISFILE, 'voteform', xoops_getenv('PHP_SELF'));
             $rating_select = new XoopsFormSelect(_MD_WFDOWNLOADS_REV_RATING, 'rating', '10');
             //$rating_select->setDescription(_MD_WFDOWNLOADS_REV_RATING_DESC);
             $rating_select->addOptionArray(
                 array(
-                     '1'  => 1,
-                     '2'  => 2,
-                     '3'  => 3,
-                     '4'  => 4,
-                     '5'  => 5,
-                     '6'  => 6,
-                     '7'  => 7,
-                     '8'  => 8,
-                     '9'  => 9,
-                     '10' => 10
+                    '1'  => 1,
+                    '2'  => 2,
+                    '3'  => 3,
+                    '4'  => 4,
+                    '5'  => 5,
+                    '6'  => 6,
+                    '7'  => 7,
+                    '8'  => 8,
+                    '9'  => 9,
+                    '10' => 10
                 )
             );
             $sform->addElement($rating_select);
             $sform->addElement(new XoopsFormHidden('lid', $lid));
             $sform->addElement(new XoopsFormHidden('cid', $cid));
             $sform->addElement(new XoopsFormHidden('uid', $reviewerUid));
-            $button_tray = new XoopsFormElementTray('', '');
+            $button_tray   = new XoopsFormElementTray('', '');
             $submit_button = new XoopsFormButton('', 'submit', _MD_WFDOWNLOADS_RATEIT, 'submit');
             $button_tray->addElement($submit_button);
             $cancel_button = new XoopsFormButton('', '', _CANCEL, 'button');
@@ -170,7 +170,7 @@ switch ($op) {
                 'file',
                 array('id' => $lid, 'lid' => $lid, 'cid' => $cid, 'title' => $downloadObj->getVar('title'), 'imageheader' => wfdownloads_headerImage())
             ); // this definition is not removed for backward compatibility issues
-            include_once dirname(__FILE__) . '/footer.php';
+            include_once __DIR__ . '/footer.php';
         }
         break;
 }

@@ -1,36 +1,10 @@
-<b><u>=> Version 3.23 RC2 (2014-09-22)</u></b>
-- todo: Swish-e files indexing support
-- removed obsolete eval() that was used for PHP4 (mamba)
-- removed object.php file (mamba)
-- 'file_url' is calculated inside download object for better usability (luciorota)
-- updated large file upload procedure (luciorota)
-- added directories check (luciorota)
-- import form TDMDownloads (not complete, not imports extra fields) (luciorota)
-- add downloads from batch directory
-- small changes based on testing tool feedback (mamba)
-- replacing "or" with "||", and "and" with "&&"  (mamba)
-- replaced template extensions from .html to .tpl (mamba)
-- replaced Thickbox with MagnificPopup (mamba)
+<b><u>=> Version 3.23 RC2 (2014-11-24)</u></b>
+- fixed: use DateTime object instead of strtotime function (luciorota)
 - fixed: source code for HTML5/CSS3 (mamba)
-- moved module.css, and /js and /images to /assets folder (mamba)
-- fixed review for Admin: Admin doesn't need approval (mamba)
-- added: missing mp3 tag for preview (mamba)
-- replaced: custom uploader with XoopsMediaUploader (mamba)
-- added: no size limit for uploads by Admin (mamba)
-- added: preview for images, audio, video, pdf files (luciorota)
-- added: calculate real upload file size limit (luciorota)
-- fixed: upload files with spacial chairs in name (luciorota)
-- added: calculate file size also for local files (luciorota)
-- added: use XoopsLocal::formatTimestamp (luciorota)
-- update jQuery Thickbox plugin to 3.1 (luciorota)
 - fixed: jQuery bug in templates (luciorota)
-- standardization of English language files (cesag)
+- fixed: Admin doesn't need approval in review (mamba)
+- fixed: upload files with spacial chairs in name (luciorota)
 - fixed: typos in english folder (cesag)
-- module standardization: header.php, admin/admin_header.php, xoops_version.php
-- module standardization: standardize directories/files names/structures
-- module standardization: standardize code headers
-- module standardization: use WfdownloadWfdownload object instead of $xoopsModule, $xoopsModuleConfig and xoops_getmodulehandler (luciorota)
-- refactorized admin menu (luciorota)
 - fixed: lack of variables in wfdownloads_viewcat.html template (luciorota)
 - fixed: update procedure now updates also permissions (luciorota)
 - fixed: language definition in modinfo.php (luciorota)
@@ -39,6 +13,15 @@
 - fixed: html errors in templates (luciorota)
 - fixed: deprecated XoopsTree (mamba)
 - fixed: English translations (mamba)
+- fixed: small changes based on testing tool feedback (mamba)
+- added: directories check (luciorota)
+- added: no size limit for uploads by Admin (mamba)
+- added: preview for images, audio, video, pdf files (luciorota)
+- added: calculate real upload file size limit (luciorota)
+- added: calculate file size also for local files (luciorota)
+- added: use XoopsLocal::formatTimestamp (luciorota)
+- added: add downloads from batch directory (luciorota)
+- added: missing mp3 tag for preview (mamba)
 - added: dohtm, dosmiley ,doxcode, doimage, dobr fields to download object (luciorota)
 - added: updating to XOOPS 2.5.7 Multi-page help (mamba)
 - added: enable/disable reviews system (luciorota)
@@ -57,9 +40,30 @@
 - added: module is clonable, built-in module clone function (trabis/luciorota)
 - added: cloned module can import data from wfdownloads (luciorota)
 - added: user links to downloaders/voters (mamba)
+- added: 'file_url' is calculated inside download object for better usability (luciorota)
+- added: large file upload procedure (luciorota)
+- added: import form TDMDownloads (not complete, not imports extra fields) (luciorota)
+- replaced: dirname(__FILE__) with __DIR__ (mamba)
+- replaced: WfdwonloadsRequest with native XoopsRequest (mamba)
+- replaced: Thickbox with MagnificPopup (mamba)
+- replaced: custom uploader with XoopsMediaUploader (mamba)
+- update: jQuery Thickbox plugin to 3.1 (luciorota)
+- standardized: replacing "or" with "||", and "and" with "&&"  (mamba)
+- standardized: replaced template extensions from .html to .tpl (mamba)
+- standardized: moved module.css, and /js and /images to /assets folder (mamba)
+- standardized: standardization of English language files (cesag)
+- standardized: header.php, admin/admin_header.php, xoops_version.php
+- standardized: standardize directories/files names/structures
+- standardized: standardize code headers
+- standardized: use WfdownloadWfdownload object instead of $xoopsModule, $xoopsModuleConfig and xoops_getmodulehandler (luciorota)
+- standardized: refactorized admin menu (luciorota)
+- removed: obsolete eval() that was used for PHP4 (mamba)
+- removed: object.php file (mamba)
 - removed: unupgraded languages from repository (luciorota)
 - removed: unused templates (luciorota)
 - removed: unused images files (luciorota)
+- TODO: Swish-e files indexing support
+
 
 <b><u>=> Version 3.22 RC3 (2013-05-19)</u></b>
 - added permission: upload by category (luciorota)

@@ -19,7 +19,7 @@
  * @version         svn:$id$
  */
 defined('XOOPS_ROOT_PATH') || die('XOOPS root path not defined');
-include_once dirname(dirname(__FILE__)) . '/include/common.php';
+include_once dirname(__DIR__) . '/include/common.php';
 
 /**
  * Class WfdownloadsReview
@@ -38,7 +38,7 @@ class WfdownloadsReview extends XoopsObject
     public function __construct($id = null)
     {
         $this->wfdownloads = WfdownloadsWfdownloads::getInstance();
-        $this->db = XoopsDatabaseFactory::getDatabaseConnection();
+        $this->db          = XoopsDatabaseFactory::getDatabaseConnection();
         $this->initVar('review_id', XOBJ_DTYPE_INT);
         $this->initVar('lid', XOBJ_DTYPE_INT);
         $this->initVar('title', XOBJ_DTYPE_TXTBOX);
@@ -62,39 +62,41 @@ class WfdownloadsReview extends XoopsObject
     function getForm()
     {
         include_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
-        $uid = !empty($GLOBALS['xoopsUser']) ? (int) ($GLOBALS['xoopsUser']->getVar('uid')) : 0;
+        $uid = !empty($GLOBALS['xoopsUser']) ? (int)($GLOBALS['xoopsUser']->getVar('uid')) : 0;
 
         $form = new XoopsThemeForm(_AM_WFDOWNLOADS_REV_SNEWMNAMEDESC, 'reviewform', $_SERVER['REQUEST_URI']);
         // review: title
         $form->addElement(new XoopsFormText(_AM_WFDOWNLOADS_REV_FTITLE, 'title', 30, 40, $this->getVar('title', 'e')), true);
         // review: rated
         $rating_select = new XoopsFormSelect(_AM_WFDOWNLOADS_REV_FRATING, 'rated', $this->getVar('rated'));
-        $rating_select->addOptionArray(array(
-             '1' => 1,
-             '2' => 2,
-             '3' => 3,
-             '4' => 4,
-             '5' => 5,
-             '6' => 6,
-             '7' => 7,
-             '8' => 8,
-             '9' => 9,
-             '10' => 10
-        ));
+        $rating_select->addOptionArray(
+            array(
+                '1'  => 1,
+                '2'  => 2,
+                '3'  => 3,
+                '4'  => 4,
+                '5'  => 5,
+                '6'  => 6,
+                '7'  => 7,
+                '8'  => 8,
+                '9'  => 9,
+                '10' => 10
+            )
+        );
         $form->addElement($rating_select);
         // review: review
         $form->addElement(new XoopsFormDhtmlTextArea(_AM_WFDOWNLOADS_REV_FDESCRIPTION, 'review', $this->getVar('review', 'e'), 15, 60), true);
         // form: approve
-        $approved = ($this->getVar('submit') == 0) ? 0 : 1;
+        $approved         = ($this->getVar('submit') == 0) ? 0 : 1;
         $approve_checkbox = new XoopsFormCheckBox(_AM_WFDOWNLOADS_REV_FAPPROVE, 'approve', $approved);
         $approve_checkbox->addOption(1, ' ');
         $form->addElement($approve_checkbox);
         // review: lid
-        $form->addElement(new XoopsFormHidden('lid', (int) ($this->getVar('lid'))));
+        $form->addElement(new XoopsFormHidden('lid', (int)($this->getVar('lid'))));
         // review: uid
         $form->addElement(new XoopsFormHidden('uid', $uid));
         // review: review_id
-        $form->addElement(new XoopsFormHidden('review_id', (int) ($this->getVar('review_id'))));
+        $form->addElement(new XoopsFormHidden('review_id', (int)($this->getVar('review_id'))));
         // form: confirm
         $form->addElement(new XoopsFormHidden('confirm', 1));
         // form: op

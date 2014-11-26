@@ -19,7 +19,7 @@
  * @version         svn:$id$
  */
 $currentFile = basename(__FILE__);
-include_once dirname(__FILE__) . '/header.php';
+include_once __DIR__ . '/header.php';
 
 $xoopsOption['template_main'] = "{$wfdownloads->getModule()->dirname()}_topten.tpl";
 
@@ -129,4 +129,4 @@ if ($_GET['list'] == 'rate') {
 
 $xoopsTpl->assign('module_home', wfdownloads_module_home(true));
 
-include_once dirname(__FILE__) . '/footer.php';
+include_once __DIR__ . '/footer.php';

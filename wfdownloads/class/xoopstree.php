@@ -14,7 +14,7 @@
  * @package         kernel
  * @since           2.0.0
  * @author          Kazumi Ono (AKA onokazu) http://www.myweb.ne.jp/, http://jp.xoops.org/
- * @version         $Id: xoopstree.php 12463 2014-04-19 23:21:34Z beckmi $
+ * @version         $Id: xoopstree.php 12863 2014-11-22 04:11:17Z beckmi $
  */
 
 defined('XOOPS_ROOT_PATH') || die('XOOPS root path not defined');

@@ -19,8 +19,9 @@
  * @version         svn:$id$
  */
 defined('XOOPS_ROOT_PATH') || die('XOOPS root path not defined');
-include_once dirname(__FILE__) . '/common.php';
-@include_once WFDOWNLOADS_ROOT_PATH . '/language/' . $GLOBALS['xoopsConfig']['language'] . '/admin.php';
+include_once __DIR__ . '/common.php';
+//@include_once WFDOWNLOADS_ROOT_PATH . '/language/' . $GLOBALS['xoopsConfig']['language'] . '/admin.php';
+xoops_loadLanguage('admin', $wfdownloads->getModule()->dirname());
 
 define('INDEX_FILE_PATH', XOOPS_ROOT_PATH . '/uploads/index.html');
 define('BLANK_FILE_PATH', XOOPS_ROOT_PATH . '/uploads/blank.gif');
@@ -44,55 +45,63 @@ function xoops_module_pre_install_wfdownloads(&$xoopsModule)
 function xoops_module_install_wfdownloads(&$xoopsModule)
 {
     // get module config values
-    $hModConfig = xoops_gethandler('config');
+    $hModConfig  = xoops_gethandler('config');
     $configArray = $hModConfig->getConfigsByCat(0, $xoopsModule->getVar('mid'));
 
     // create and populate directories with empty blank.gif and index.html
     $path = $configArray['uploaddir'];
-    if(!is_dir($path))
+    if (!is_dir($path)) {
         mkdir($path, 0777, true);
+    }
     chmod($path, 0777);
     copy(INDEX_FILE_PATH, $path . '/index.html');
     //
     $path = $configArray['batchdir'];
-    if(!is_dir($path))
+    if (!is_dir($path)) {
         mkdir($path, 0777);
+    }
     chmod($path, 0777);
     copy(INDEX_FILE_PATH, $path . '/index.html');
     //
     $path = XOOPS_ROOT_PATH . '/' . $configArray['mainimagedir'];
-    if(!is_dir($path))
+    if (!is_dir($path)) {
         mkdir($path, 0777, true);
+    }
     chmod($path, 0777);
     copy(INDEX_FILE_PATH, $path . '/index.html');
     copy(BLANK_FILE_PATH, $path . '/blank.gif');
     //
     $path = XOOPS_ROOT_PATH . '/' . $configArray['screenshots'];
-    if(!is_dir($path))
+    if (!is_dir($path)) {
         mkdir($path, 0777, true);
+    }
     chmod($path, 0777);
     copy(INDEX_FILE_PATH, $path . '/index.html');
     copy(BLANK_FILE_PATH, $path . '/blank.gif');
     //
     $path = XOOPS_ROOT_PATH . '/' . $configArray['screenshots'] . '/' . 'thumbs';
-    if(!is_dir($path))
+    if (!is_dir($path)) {
         mkdir($path, 0777, true);
+    }
     chmod($path, 0777);
     copy(INDEX_FILE_PATH, $path . '/index.html');
     copy(BLANK_FILE_PATH, $path . '/blank.gif');
     //
     $path = XOOPS_ROOT_PATH . '/' . $configArray['catimage'];
-    if(!is_dir($path))
+    if (!is_dir($path)) {
         mkdir($path, 0777, true);
+    }
     chmod($path, 0777);
     copy(INDEX_FILE_PATH, $path . '/index.html');
     copy(BLANK_FILE_PATH, $path . '/blank.gif');
     //
     $path = XOOPS_ROOT_PATH . '/' . $configArray['catimage'] . '/' . 'thumbs';
-    if(!is_dir($path))
+    if (!is_dir($path)) {
         mkdir($path, 0777, true);
+    }
     chmod($path, 0777);
     copy(INDEX_FILE_PATH, $path . '/index.html');
     copy(BLANK_FILE_PATH, $path . '/blank.gif');
+
     return true;
 }

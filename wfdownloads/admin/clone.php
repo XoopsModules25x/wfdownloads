@@ -19,7 +19,7 @@
  * @version         svn:$id$
  */
 $currentFile = basename(__FILE__);
-include_once dirname(__FILE__) . '/admin_header.php';
+include_once __DIR__ . '/admin_header.php';
 
 if (@$_POST['op'] == 'submit') {
     if (!$GLOBALS['xoopsSecurity']->check()) {
@@ -71,7 +71,7 @@ if (@$_POST['op'] == 'submit') {
     $indexAdmin = new ModuleAdmin();
     echo $indexAdmin->addNavigation($currentFile);
     echo $message;
-    include_once dirname(__FILE__) . '/admin_footer.php';
+    include_once __DIR__ . '/admin_footer.php';
     exit();
 
 } else {
@@ -86,7 +86,7 @@ if (@$_POST['op'] == 'submit') {
     $form->addElement(new XoopsFormHidden('op', 'submit'));
     $form->addElement(new XoopsFormButton('', '', _SUBMIT, 'submit'));
     $form->display();
-    include_once dirname(__FILE__) . '/admin_footer.php';
+    include_once __DIR__ . '/admin_footer.php';
     exit();
 }
 

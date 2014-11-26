@@ -203,13 +203,10 @@ define('_AM_WFDOWNLOADS_MIME_USERFINFO', "<span style='font-weight: bold;'>MIME 
 define('_AM_WFDOWNLOADS_MIME_NOMIMEINFO', "No MIME types selected");
 define('_AM_WFDOWNLOADS_MIME_FINDMIMETYPE', "Find MIME type information");
 define('_AM_WFDOWNLOADS_MIME_EXTFIND', "Search file extension");
-define(
-    '_AM_WFDOWNLOADS_MIME_INFOTEXT',
-    "<ul><li>New MIME types can be created, edited or deleted easily via this form</li>
+define('_AM_WFDOWNLOADS_MIME_INFOTEXT', "<ul><li>New MIME types can be created, edited or deleted easily via this form</li>
     <li>Looking for a new MIME type via an external website.</li>
     <li>View displayed MIME types for Admin and user uploads.</li>
-    <li>Change MIME type upload status.</li></ul>"
-);
+    <li>Change MIME type upload status.</li></ul>");
 // Mime type Buttons
 define('_AM_WFDOWNLOADS_MIME_CREATE', "Create");
 define('_AM_WFDOWNLOADS_MIME_CLEAR', "Reset");
@@ -642,8 +639,6 @@ define('_AM_WFDOWNLOADS_MOD_DOXCODE', "Allow XOOPS BBcode");
 define('_AM_WFDOWNLOADS_MOD_DOIMAGE', "Allow XOOPS Images");
 define('_AM_WFDOWNLOADS_MOD_DOBR', "Convert line breaks");
 define('_AM_WFDOWNLOADS_MOD_FORMULIZE_IDREQ', "Formulize Form ID");
-
-
 
 // 3.23
 define('_AM_WFDOWNLOADS_MOD_APPROVE', "Approve and delete modification request");

@@ -30,7 +30,7 @@ $modversion['help']        = 'page=help';
 $modversion['license']     = 'GNU GPL 2.0 or later';
 $modversion['license_url'] = "http://www.gnu.org/licenses/gpl-2.0.html";
 $modversion['official']    = false;
-$modversion['dirname']     = basename(dirname(__FILE__));
+$modversion['dirname']     = basename(__DIR__);
 
 include_once XOOPS_ROOT_PATH . "/modules/" . $modversion['dirname'] . "/include/constants.php";
 
@@ -42,16 +42,16 @@ $modversion['onInstall']   = 'include/oninstall.php';
 $modversion['onUpdate']    = 'include/onupdate.php';
 $modversion['onUninstall'] = 'include/onuninstall.php';
 
-$modversion['date']         = '2014-09-22';
-$modversion['release_date'] = '2014/09/22';
-$modversion['releasedate']  = '2014-09-22';
+$modversion['date']         = '2014-11-22';
+$modversion['release_date'] = '2014/11/22';
 $modversion['status']       = 'RC4';
 $modversion['teammembers']  = 'Bender, David, FrankBlack, Xpider, M0nty, Mithrandir, Marcan, felix[fx2024], Sudhaker, Jegelstaff';
 
 // About
+$modversion["module_status"]       = "RC4";
+$modversion['releasedate']         = '2014-11-22';
 $modversion["module_website_url"]  = "http://www.xoops.org/";
 $modversion["module_website_name"] = "XOOPS";
-$modversion["module_status"]       = "RC4";
 $modversion['min_php']             = '5.3.7';
 $modversion['min_xoops']           = '2.5.7';
 $modversion['min_admin']           = '1.1';
@@ -114,28 +114,20 @@ $modversion['system_menu'] = true;
 // All tables should not have any prefix!
 $modversion['sqlfile']['mysql'] = "sql/mysql.sql";
 // Tables created by sql file (without prefix!)
-$i                        = 0;
-$modversion['tables'][$i] = $modversion['dirname'] . '_broken';
-++$i;
-$modversion['tables'][$i] = $modversion['dirname'] . '_cat';
-++$i;
-$modversion['tables'][$i] = $modversion['dirname'] . '_downloads';
-++$i;
-$modversion['tables'][$i] = $modversion['dirname'] . '_mod';
-++$i;
-$modversion['tables'][$i] = $modversion['dirname'] . '_votedata';
-++$i;
-$modversion['tables'][$i] = $modversion['dirname'] . '_indexpage';
-++$i;
-$modversion['tables'][$i] = $modversion['dirname'] . '_reviews';
-++$i;
-$modversion['tables'][$i] = $modversion['dirname'] . '_mimetypes';
-++$i;
-$modversion['tables'][$i] = $modversion['dirname'] . '_meta';
-++$i;
-$modversion['tables'][$i] = $modversion['dirname'] . '_mirrors';
-++$i;
-$modversion['tables'][$i] = $modversion['dirname'] . '_ip_log';
+
+$modversion['tables'] = array(
+    $modversion['dirname'] . '_broken',
+    $modversion['dirname'] . '_cat',
+    $modversion['dirname'] . '_downloads',
+    $modversion['dirname'] . '_mod',
+    $modversion['dirname'] . '_votedata',
+    $modversion['dirname'] . '_indexpage',
+    $modversion['dirname'] . '_reviews',
+    $modversion['dirname'] . '_mimetypes',
+    $modversion['dirname'] . '_meta',
+    $modversion['dirname'] . '_mirrors',
+    $modversion['dirname'] . '_ip_log'
+);
 
 // Search
 $modversion['hasSearch']      = true;
@@ -173,13 +165,16 @@ if ($isSubmissionAllowed) {
     $category_suffix               = (!empty($_GET['cid'])) ? "?cid=" . intval($_GET['cid']) : ""; //Added by Lankford on 2008/2/20
     $modversion['sub'][$i]['url']  = "submit.php{$category_suffix}";
 }
-++$i;
-$modversion['sub'][$i]['name'] = _MI_WFDOWNLOADS_SMNAME2;
-$modversion['sub'][$i]['url']  = "topten.php?list=hit";
-++$i;
-$modversion['sub'][$i]['name'] = _MI_WFDOWNLOADS_SMNAME3;
-$modversion['sub'][$i]['url']  = "topten.php?list=rate";
-unset($i);
+
+// ------------------- Menu -------------------
+$modversion['sub'][] = array(
+    'name' => _MI_WFDOWNLOADS_SMNAME2,
+    'url'  => "topten.php?list=hit"
+);
+$modversion['sub'][] = array(
+    'name' => _MI_WFDOWNLOADS_SMNAME3,
+    'url'  => "topten.php?list=rate"
+);
 
 // Blocks
 $i                                       = 0;
@@ -218,96 +213,132 @@ $modversion['comments']['callback']['approve'] = $modversion['dirname'] . '_com_
 $modversion['comments']['callback']['update']  = $modversion['dirname'] . '_com_update';
 
 // Templates
-$i                                          = 0;
-$modversion['templates'][$i]['file']        = $modversion['dirname'] . '_header.tpl';
-$modversion['templates'][$i]['description'] = 'Header info';
-++$i;
-$modversion['templates'][$i]['file']        = $modversion['dirname'] . '_footer.tpl';
-$modversion['templates'][$i]['description'] = 'Footer info';
-++$i;
-$modversion['templates'][$i]['file']        = $modversion['dirname'] . '_brokenfile.tpl';
-$modversion['templates'][$i]['description'] = '';
-++$i;
-$modversion['templates'][$i]['file']        = $modversion['dirname'] . '_download.tpl';
-$modversion['templates'][$i]['description'] = '';
-++$i;
-$modversion['templates'][$i]['file']        = $modversion['dirname'] . '_index.tpl';
-$modversion['templates'][$i]['description'] = '';
-++$i;
-$modversion['templates'][$i]['file']        = $modversion['dirname'] . '_ratefile.tpl';
-$modversion['templates'][$i]['description'] = '';
-++$i;
-$modversion['templates'][$i]['file']        = $modversion['dirname'] . '_singlefile.tpl';
-$modversion['templates'][$i]['description'] = '';
-++$i;
-$modversion['templates'][$i]['file']        = $modversion['dirname'] . '_topten.tpl';
-$modversion['templates'][$i]['description'] = '';
-++$i;
-$modversion['templates'][$i]['file']        = $modversion['dirname'] . '_viewcat.tpl';
-$modversion['templates'][$i]['description'] = '';
-++$i;
-$modversion['templates'][$i]['file']        = $modversion['dirname'] . '_newlistindex.tpl';
-$modversion['templates'][$i]['description'] = '';
-++$i;
-$modversion['templates'][$i]['file']        = $modversion['dirname'] . '_reviews.tpl';
-$modversion['templates'][$i]['description'] = '';
-++$i;
-$modversion['templates'][$i]['file']        = $modversion['dirname'] . '_mirrors.tpl';
-$modversion['templates'][$i]['description'] = '';
-++$i;
-$modversion['templates'][$i]['file']        = $modversion['dirname'] . '_disclaimer.tpl';
-$modversion['templates'][$i]['description'] = '';
-++$i;
-$modversion['templates'][$i]['file']        = $modversion['dirname'] . '_submit.tpl';
-$modversion['templates'][$i]['description'] = '';
+$modversion['templates'][] = array(
+    'file'        => $modversion['dirname'] . '_header.tpl',
+    'description' => 'Header info'
+);
+$modversion['templates'][] = array(
+    'file'        => $modversion['dirname'] . '_footer.tpl',
+    'description' => 'Footer info'
+);
+$modversion['templates'][] = array(
+    'file'        => $modversion['dirname'] . '_brokenfile.tpl',
+    'description' => ''
+);
+$modversion['templates'][] = array(
+    'file'        => $modversion['dirname'] . '_download.tpl',
+    'description' => ''
+);
+$modversion['templates'][] = array(
+    'file'        => $modversion['dirname'] . '_index.tpl',
+    'description' => ''
+);
+$modversion['templates'][] = array(
+    'file'        => $modversion['dirname'] . '_ratefile.tpl',
+    'description' => ''
+);
+$modversion['templates'][] = array(
+    'file'        => $modversion['dirname'] . '_singlefile.tpl',
+    'description' => ''
+);
+$modversion['templates'][] = array(
+    'file'        => $modversion['dirname'] . '_topten.tpl',
+    'description' => ''
+);
+$modversion['templates'][] = array(
+    'file'        => $modversion['dirname'] . '_viewcat.tpl',
+    'description' => ''
+);
+$modversion['templates'][] = array(
+    'file'        => $modversion['dirname'] . '_newlistindex.tpl',
+    'description' => ''
+);
+$modversion['templates'][] = array(
+    'file'        => $modversion['dirname'] . '_reviews.tpl',
+    'description' => ''
+);
+$modversion['templates'][] = array(
+    'file'        => $modversion['dirname'] . '_mirrors.tpl',
+    'description' => ''
+);
+$modversion['templates'][] = array(
+    'file'        => $modversion['dirname'] . '_disclaimer.tpl',
+    'description' => ''
+);
 
 // Admin templates
-++$i;
-$modversion['templates'][$i]['file']        = $modversion['dirname'] . '_am_categorieslist.tpl';
-$modversion['templates'][$i]['type']        = 'admin';
-$modversion['templates'][$i]['description'] = '';
-++$i;
-$modversion['templates'][$i]['file']        = $modversion['dirname'] . '_am_downloadslist.tpl';
-$modversion['templates'][$i]['type']        = 'admin';
-$modversion['templates'][$i]['description'] = '';
-++$i;
-$modversion['templates'][$i]['file']        = $modversion['dirname'] . '_am_ip_logslist.tpl';
-$modversion['templates'][$i]['type']        = 'admin';
-$modversion['templates'][$i]['description'] = '';
-++$i;
-$modversion['templates'][$i]['file']        = $modversion['dirname'] . '_am_reportsmodificationslist.tpl';
-$modversion['templates'][$i]['type']        = 'admin';
-$modversion['templates'][$i]['description'] = '';
-++$i;
-$modversion['templates'][$i]['file']        = $modversion['dirname'] . '_am_ratingslist.tpl';
-$modversion['templates'][$i]['type']        = 'admin';
-$modversion['templates'][$i]['description'] = '';
-++$i;
-$modversion['templates'][$i]['file']        = $modversion['dirname'] . '_am_reviewslist.tpl';
-$modversion['templates'][$i]['type']        = 'admin';
-$modversion['templates'][$i]['description'] = '';
-++$i;
-$modversion['templates'][$i]['file']        = $modversion['dirname'] . '_am_mirrorslist.tpl';
-$modversion['templates'][$i]['type']        = 'admin';
-$modversion['templates'][$i]['description'] = '';
-++$i;
-$modversion['templates'][$i]['file']        = $modversion['dirname'] . '_am_mimetypeslist.tpl';
-$modversion['templates'][$i]['type']        = 'admin';
-$modversion['templates'][$i]['description'] = '';
-++$i;
-$modversion['templates'][$i]['file']        = $modversion['dirname'] . '_am_permissions.tpl';
-$modversion['templates'][$i]['type']        = 'admin';
-$modversion['templates'][$i]['description'] = '';
+
+$modversion['templates'][] = array(
+    'file'        => $modversion['dirname'] . '_submit.tpl',
+    'description' => ''
+);
+$modversion['templates'][] = array(
+    'file'        => $modversion['dirname'] . '_am_categorieslist.tpl',
+    'type'        => 'admin',
+    'description' => ''
+);
+
+$modversion['templates'][] = array(
+    'file'        => $modversion['dirname'] . '_am_downloadslist.tpl',
+    'type'        => 'admin',
+    'description' => ''
+);
+
+$modversion['templates'][] = array(
+    'file'        => $modversion['dirname'] . '_am_ip_logslist.tpl',
+    'type'        => 'admin',
+    'description' => ''
+);
+
+$modversion['templates'][] = array(
+    'file'        => $modversion['dirname'] . '_am_reportsmodificationslist.tpl',
+    'type'        => 'admin',
+    'description' => ''
+);
+
+$modversion['templates'][] = array(
+    'file'        => $modversion['dirname'] . '_am_ratingslist.tpl',
+    'type'        => 'admin',
+    'description' => ''
+);
+
+$modversion['templates'][] = array(
+    'file'        => $modversion['dirname'] . '_am_reviewslist.tpl',
+    'type'        => 'admin',
+    'description' => ''
+);
+
+$modversion['templates'][] = array(
+    'file'        => $modversion['dirname'] . '_am_mirrorslist.tpl',
+    'type'        => 'admin',
+    'description' => ''
+);
+
+$modversion['templates'][] = array(
+    'file'        => $modversion['dirname'] . '_am_mimetypeslist.tpl',
+    'type'        => 'admin',
+    'description' => ''
+);
+
+$modversion['templates'][] = array(
+    'file'        => $modversion['dirname'] . '_am_permissions.tpl',
+    'type'        => 'admin',
+    'description' => ''
+);
 
 // Common templates
-++$i;
-$modversion['templates'][$i]['file']        = $modversion['dirname'] . '_co_breadcrumb.tpl';
-$modversion['templates'][$i]['description'] = '';
-++$i;
-$modversion['templates'][$i]['file']        = $modversion['dirname'] . '_co_letterschoice.tpl';
-$modversion['templates'][$i]['description'] = '';
+$modversion['templates'][] = array(
+    'file'        => $modversion['dirname'] . '_co_breadcrumb.tpl',
+    'description' => ''
+);
 
-// Module config setting
+$modversion['templates'][] = array(
+    'file'        => $modversion['dirname'] . '_co_letterschoice.tpl',
+    'description' => ''
+);
+
+// ------------------- Preferences -------------------
+
 xoops_load('XoopsEditorHandler');
 $editor_handler         = XoopsEditorHandler::getInstance();
 $editorList             = array_flip($editor_handler->getList());
@@ -952,6 +983,7 @@ $license[]              = 'W3C Software Notice and License';
 $license[]              = 'Wide Open License (WOL)';
 $license[]              = 'X.Net License';
 $license[]              = 'X Window System License';
+
 $modversion['config'][] = array(
     'name'        => 'license',
     'title'       => '_MI_WFDOWNLOADS_LICENSE',
@@ -1020,7 +1052,7 @@ $modversion['config'][] = array(
 // Swish-e support EXPERIMENTAL
 */
 
-// Notification
+// ------------------- Notifications -------------------
 $modversion['hasNotification']             = true;
 $modversion['notification']['lookup_file'] = 'include/notification.inc.php';
 $modversion['notification']['lookup_func'] = $modversion['dirname'] . '_notify_iteminfo';

@@ -200,7 +200,7 @@
     <{if $show_screenshot == true}>
     <{foreach key=key item=screenshot from=$download.screenshots}>
     <{if $screenshot.filename}>
-        <div style="margin-left: 10px; margin-center: 10px; padding: 4px;">
+        <div style="margin-left: 10px; margin-right: 10px; padding: 4px;">
             <span style="font-weight: bold;"><{$key+1}></span>
             <div><a href="<{$xoops_url}>/<{$shots_dir}>/<{$screenshot.filename}>" class="magnific_zoom" rel="<{$download.title}>">
                     <img src="<{$screenshot.thumb_url}>" alt="<{$smarty.const._MD_WFDOWNLOADS_SCREENSHOTCLICK}>"
@@ -252,7 +252,7 @@
 <{* Formulize module support (2006/05/04) jpc - start *}>
 <{if $custom_form}>
 <{foreach item=custom_field from=$custom_fields}>
-    <div style="margin-left: 0px; margin-right: 10px; padding: 4px; background-color:#e6e6e6; border-color:#999999;" class="outer">
+    <div style="margin-left: 0; margin-right: 10px; padding: 4px; background-color:#e6e6e6; border-color:#999999;" class="outer">
     <span style="font-weight: bold;"><{$custom_field.caption}></span>:
     <br>
     <{foreach item=value from=$custom_field.values name=valueloop}>

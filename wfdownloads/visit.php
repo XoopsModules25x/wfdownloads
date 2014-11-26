@@ -19,7 +19,7 @@
  * @version         svn:$id$
  */
 $currentFile = basename(__FILE__);
-include_once dirname(__FILE__) . '/header.php';
+include_once __DIR__ . '/header.php';
 
 // Check permissions
 if (is_object($GLOBALS['xoopsUser'])) {
@@ -30,22 +30,22 @@ if (is_object($GLOBALS['xoopsUser'])) {
     redirect_header(XOOPS_URL . '/user.php', 1, _MD_WFDOWNLOADS_MUSTREGFIRST);
 }
 
-$lid = WfdownloadsRequest::getInt('lid', 0);
+$lid         = XoopsRequest::getInt('lid', 0);
 $downloadObj = $wfdownloads->getHandler('download')->get($lid);
 // Check if download exists
 if ($downloadObj->isNew()) {
     redirect_header('index.php', 1, _MD_WFDOWNLOADS_NODOWNLOAD);
 }
-$cid = WfdownloadsRequest::getInt('cid', $downloadObj->getVar('cid'));
-$agreed = WfdownloadsRequest::getBool('agreed', false, 'POST');
+$cid    = XoopsRequest::getInt('cid', $downloadObj->getVar('cid'));
+$agreed = XoopsRequest::getBool('agreed', false, 'POST');
 
 // Download not published, expired or taken offline - redirect
-if (
-    $downloadObj->getVar('published') == 0 ||
-    $downloadObj->getVar('published') > time() ||
-    $downloadObj->getVar('offline') == true ||
-    ($downloadObj->getVar('expired') != 0 && $downloadObj->getVar('expired') < time()) ||
-    $downloadObj->getVar('status') == _WFDOWNLOADS_STATUS_WAITING) {
+if ($downloadObj->getVar('published') == 0
+    || $downloadObj->getVar('published') > time()
+    || $downloadObj->getVar('offline') == true
+    || ($downloadObj->getVar('expired') != 0 && $downloadObj->getVar('expired') < time())
+    || $downloadObj->getVar('status') == _WFDOWNLOADS_STATUS_WAITING
+) {
     redirect_header('index.php', 3, _MD_WFDOWNLOADS_NODOWNLOAD);
 }
 
@@ -57,8 +57,8 @@ if (!$gperm_handler->checkRight('WFDownCatPerm', $cid, $groups, $wfdownloads->ge
 
 if ($agreed == false) {
     if ($wfdownloads->getConfig('check_host')) {
-        $isAGoodHost = false;
-        $referer = parse_url(xoops_getenv('HTTP_REFERER'));
+        $isAGoodHost  = false;
+        $referer      = parse_url(xoops_getenv('HTTP_REFERER'));
         $referer_host = $referer['host'];
         foreach ($wfdownloads->getConfig('referers') as $ref) {
             if (!empty($ref) && preg_match("/{$ref}/i", $referer_host)) {
@@ -108,7 +108,7 @@ if ($wfdownloads->getConfig('showDowndisclaimer') && $agreed == false) {
     ); // this definition is not removed for backward compatibility issues
     $xoopsTpl->assign('cancel_location', WFDOWNLOADS_URL . '/index.php'); // this definition is not removed for backward compatibility issues
     $xoopsTpl->assign('agree_location', WFDOWNLOADS_URL . "/{$currentFile}?agree=1&amp;lid={$lid}&amp;cid={$cid}");
-    include_once dirname(__FILE__) . '/footer.php';
+    include_once __DIR__ . '/footer.php';
 } else {
     if (!wfdownloads_userIsAdmin()) {
         $wfdownloads->getHandler('download')->incrementHits($lid);
@@ -156,12 +156,12 @@ if ($wfdownloads->getConfig('showDowndisclaimer') && $agreed == false) {
             ini_set('zlib.output_compression', 'Off');
         }
         // get file informations from filesystem
-        $fileFilename = trim($downloadObj->getVar('filename')); // IN PROGRESS: why 'trim'?
-        $fileMimetype = ($downloadObj->getVar('filetype') != '') ? $downloadObj->getVar('filetype') : "application/octet-stream";
-        $filePath = $wfdownloads->getConfig('uploaddir') . '/' . stripslashes(trim($fileFilename));
-        $fileFilesize = filesize($filePath);
-        $fileInfo = pathinfo($filePath);
-        $fileName = $fileInfo['basename'];
+        $fileFilename  = trim($downloadObj->getVar('filename')); // IN PROGRESS: why 'trim'?
+        $fileMimetype  = ($downloadObj->getVar('filetype') != '') ? $downloadObj->getVar('filetype') : "application/octet-stream";
+        $filePath      = $wfdownloads->getConfig('uploaddir') . '/' . stripslashes(trim($fileFilename));
+        $fileFilesize  = filesize($filePath);
+        $fileInfo      = pathinfo($filePath);
+        $fileName      = $fileInfo['basename'];
         $fileExtension = $fileInfo['extension'];
 
         $headerFilename = strtolower(strrev(substr(strrev($fileFilename), 0, strpos(strrev($fileFilename), '--'))));
@@ -174,7 +174,7 @@ if ($wfdownloads->getConfig('showDowndisclaimer') && $agreed == false) {
         header("Pragma: public");
         header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
         header("Cache-Control: private", false);
-        header("Content-Length: " . (string) ($fileFilesize));
+        header("Content-Length: " . (string)($fileFilesize));
         header("Content-Transfer-Encoding: binary");
         header("Content-Type: {$fileMimetype}");
         header("Content-Disposition: attachment; filename={$headerFilename}");
@@ -196,5 +196,5 @@ if ($wfdownloads->getConfig('showDowndisclaimer') && $agreed == false) {
         echo "<a href='" . WFDOWNLOADS_URL . "/brokenfile.php?lid={$lid}'>" . _MD_WFDOWNLOADS_CLICKHERE . "</a>\n";
         echo "</div>\n";
     }
-    include_once dirname(__FILE__) . '/footer.php';
+    include_once __DIR__ . '/footer.php';
 }

@@ -19,9 +19,9 @@
  * @version         svn:$id$
  */
 $currentFile = basename(__FILE__);
-include_once dirname(__FILE__) . '/admin_header.php';
+include_once __DIR__ . '/admin_header.php';
 
-$op = WfdownloadsRequest::getString('op', 'mimetypes.list');
+$op = XoopsRequest::getString('op', 'mimetypes.list');
 switch ($op) {
     /*
         case 'openurl':
@@ -79,7 +79,7 @@ switch ($op) {
         break;
 
     case "mimetype.save" :
-        $mime_id = WfdownloadsRequest::getInt('mime_id', 0, 'POST');
+        $mime_id = XoopsRequest::getInt('mime_id', 0, 'POST');
         if (!$mimetypeObj = $wfdownloads->getHandler('mimetype')->get($mime_id)) {
             redirect_header($currentFile, 4, _AM_WFDOWNLOADS_ERROR_MIMETYPENOTFOUND);
             exit();
@@ -88,8 +88,8 @@ switch ($op) {
         $mimetypeObj->setVar('mime_ext', $_POST['mime_ext']);
         $mimetypeObj->setVar('mime_name', $_POST['mime_name']);
         $mimetypeObj->setVar('mime_types', $_POST['mime_type']);
-        $mimetypeObj->setVar('mime_admin', (int) $_POST['mime_admin']);
-        $mimetypeObj->setVar('mime_user', (int) $_POST['mime_user']);
+        $mimetypeObj->setVar('mime_admin', (int)$_POST['mime_admin']);
+        $mimetypeObj->setVar('mime_user', (int)$_POST['mime_user']);
         if (!$wfdownloads->getHandler('mimetype')->insert($mimetypeObj)) {
             $error = "Could not update mimetype information";
             trigger_error($error, E_USER_ERROR);
@@ -99,7 +99,7 @@ switch ($op) {
         break;
 
     case "mimetype.update" :
-        $mime_id = WfdownloadsRequest::getInt('mime_id', 0);
+        $mime_id = XoopsRequest::getInt('mime_id', 0);
         if (!$mimetypeObj = $wfdownloads->getHandler('mimetype')->get($mime_id)) {
             redirect_header($currentFile, 4, _AM_WFDOWNLOADS_ERROR_MIMETYPENOTFOUND);
             exit();
@@ -122,13 +122,13 @@ switch ($op) {
         if (!$wfdownloads->getHandler('mimetype')->insert($mimetypeObj, true)) {
             trigger_error($error, E_USER_ERROR);
         }
-        redirect_header("{$currentFile}?start=" . (int) ($_GET['start']) . "", 0, _AM_WFDOWNLOADS_MIME_MODIFIED);
+        redirect_header("{$currentFile}?start=" . (int)($_GET['start']) . "", 0, _AM_WFDOWNLOADS_MIME_MODIFIED);
         break;
 
     case "mimetypes.update" :
-        $mime_admin = WfdownloadsRequest::getBool('admin', false);
-        $mime_user  = WfdownloadsRequest::getBool('user', false);
-        $type_all   = (int) ($_GET['type_all']);
+        $mime_admin = XoopsRequest::getBool('admin', false);
+        $mime_user  = XoopsRequest::getBool('user', false);
+        $type_all   = (int)($_GET['type_all']);
 
         if ($mime_admin == true) {
             $field = 'mime_admin';
@@ -142,17 +142,17 @@ switch ($op) {
             $error = "Could not update mimetype information";
             trigger_error($error, E_USER_ERROR);
         }
-        redirect_header("{$currentFile}?start=" . (int) ($_GET['start']) . "", 1, _AM_WFDOWNLOADS_MIME_MODIFIED);
+        redirect_header("{$currentFile}?start=" . (int)($_GET['start']) . "", 1, _AM_WFDOWNLOADS_MIME_MODIFIED);
         break;
 
     case "mimetype.delete" :
-        $mime_id = WfdownloadsRequest::getInt('mime_id', 0);
-        $ok      = WfdownloadsRequest::getBool('ok', false, 'POST');
+        $mime_id = XoopsRequest::getInt('mime_id', 0);
+        $ok      = XoopsRequest::getBool('ok', false, 'POST');
         if (!$mimetypeObj = $wfdownloads->getHandler('mimetype')->get($mime_id)) {
             redirect_header($currentFile, 4, _AM_WFDOWNLOADS_ERROR_MIMETYPENOTFOUND);
             exit();
         }
-        if ($ok == true) {
+        if ($ok === true) {
             if (!$GLOBALS['xoopsSecurity']->check()) {
                 redirect_header($currentFile, 3, implode(',', $GLOBALS['xoopsSecurity']->getErrors()));
             }
@@ -177,14 +177,14 @@ switch ($op) {
 
     case "mimetypes.list" :
     default :
-        $start = WfdownloadsRequest::getInt('start', 0);
+        $start = XoopsRequest::getInt('start', 0);
 
         // Get mimetypes (20 per page)
         $criteria = new CriteriaCompo();
         $criteria->setSort('mime_name');
         $criteria->setStart($start);
         $criteria->setLimit(20);
-        $mimetypeObjs = $wfdownloads->getHandler('mimetype')->getObjects($criteria);
+        $mimetypeObjs    = $wfdownloads->getHandler('mimetype')->getObjects($criteria);
         $mimetypes_count = $wfdownloads->getHandler('mimetype')->getCount();
 
         wfdownloads_xoops_cp_header();
@@ -220,6 +220,6 @@ switch ($op) {
 
         $GLOBALS['xoopsTpl']->display("db:{$wfdownloads->getModule()->dirname()}_am_mimetypeslist.tpl");
 
-        include_once dirname(__FILE__) . '/admin_footer.php';
+        include_once __DIR__ . '/admin_footer.php';
         break;
 }

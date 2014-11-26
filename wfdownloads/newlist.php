@@ -19,7 +19,7 @@
  * @version         svn:$id$
  */
 $currentFile = basename(__FILE__);
-include_once dirname(__FILE__) . '/header.php';
+include_once __DIR__ . '/header.php';
 
 $xoopsOption['template_main'] = "{$wfdownloads->getModule()->dirname()}_newlistindex.tpl";
 include_once XOOPS_ROOT_PATH . '/header.php';
@@ -105,4 +105,4 @@ if (isset($days)) {
 $xoopsTpl->assign('wfdownloads_breadcrumb', $breadcrumb->render());
 
 $xoopsTpl->assign('module_home', wfdownloads_module_home(true));
-include_once dirname(__FILE__) . '/footer.php';
+include_once __DIR__ . '/footer.php';

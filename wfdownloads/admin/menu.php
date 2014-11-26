@@ -21,92 +21,122 @@
 defined('XOOPS_ROOT_PATH') || die('XOOPS root path not defined');
 
 //$module_handler = xoops_gethandler('module');
-//$module = $module_handler->getByDirname(basename(dirname(dirname(__FILE__))));
-include_once dirname(dirname(__FILE__)) . '/include/common.php';
+//$module = $module_handler->getByDirname(basename(dirname(__DIR__)));
+include_once dirname(__DIR__) . '/include/common.php';
 $wfdownloads = WfdownloadsWfdownloads::getInstance();
-$pathIcon32 = '../../' . $wfdownloads->getModule()->getInfo('icons32');
+$pathIcon32  = '../../' . $wfdownloads->getModule()->getInfo('icons32');
 
 xoops_loadLanguage('modinfo', $wfdownloads->getModule()->dirname());
 
-$adminmenu = array();
-$i=0;
-$adminmenu[$i]["title"] = _MI_WFDOWNLOADS_MENU_HOME;
-$adminmenu[$i]['desc'] = _MI_WFDOWNLOADS_MENU_HOME;
-$adminmenu[$i]['link'] = "admin/index.php";
-$adminmenu[$i]['icon']  = $pathIcon32 . '/home.png';
-++$i;
-$adminmenu[$i]['title'] = _MI_WFDOWNLOADS_MENU_CATEGORIES;
-$adminmenu[$i]['desc'] = _MI_WFDOWNLOADS_MENU_CATEGORIES;
-$adminmenu[$i]['link'] = "admin/categories.php";
-$adminmenu[$i]['icon']  = $pathIcon32 . '/category.png';
-++$i;
-$adminmenu[$i]['title'] = _MI_WFDOWNLOADS_MENU_DOWNLOADS;
-$adminmenu[$i]['desc'] = _MI_WFDOWNLOADS_MENU_DOWNLOADS;
-$adminmenu[$i]['link'] = "admin/downloads.php";
-$adminmenu[$i]['icon']  = $pathIcon32 . '/download.png';
-++$i;
-$adminmenu[$i]['title'] = _MI_WFDOWNLOADS_MENU_REVIEWS;
-$adminmenu[$i]['desc'] = _MI_WFDOWNLOADS_MENU_REVIEWS;
-$adminmenu[$i]['link'] = "admin/reviews.php";
-$adminmenu[$i]['icon']  = $pathIcon32 . '/translations.png';
-++$i;
-$adminmenu[$i]['title'] = _MI_WFDOWNLOADS_MENU_RATINGS;
-$adminmenu[$i]['desc'] = _MI_WFDOWNLOADS_MENU_RATINGS;
-$adminmenu[$i]['link'] = "admin/ratings.php";
-$adminmenu[$i]['icon']  = $pathIcon32 . '/button_ok.png';
-++$i;
-$adminmenu[$i]['title'] = _MI_WFDOWNLOADS_MENU_REPORTSMODIFICATIONS;
-$adminmenu[$i]['desc'] = _MI_WFDOWNLOADS_MENU_REPORTSMODIFICATIONS;
-$adminmenu[$i]['link'] = "admin/reportsmodifications.php";
-$adminmenu[$i]['icon']  = $pathIcon32 . '/alert.png';
-++$i;
-$adminmenu[$i]['title'] = _MI_WFDOWNLOADS_MENU_MIRRORS;
-$adminmenu[$i]['desc'] = _MI_WFDOWNLOADS_MENU_MIRRORS;
-$adminmenu[$i]['link'] = "admin/mirrors.php";
-$adminmenu[$i]['icon']  = $pathIcon32 . '/list.png';
-++$i;
-$adminmenu[$i]['title'] = _MI_WFDOWNLOADS_MENU_INDEXPAGE;
-$adminmenu[$i]['desc'] = _MI_WFDOWNLOADS_MENU_INDEXPAGE;
-$adminmenu[$i]['link'] = "admin/indexpage.php";
-$adminmenu[$i]['icon']  = $pathIcon32 . '/index.png';
+$adminmenu              = array();
+
+$adminmenu[] = array(
+    'title' => _MI_WFDOWNLOADS_MENU_HOME,
+    'desc'  => _MI_WFDOWNLOADS_MENU_HOME,
+    'link'  => 'admin/index.php',
+    'icon'  => $pathIcon32.'/home.png'
+);
+
+$adminmenu[] = array(
+    'title' => _MI_WFDOWNLOADS_MENU_CATEGORIES,
+    'desc'  => _MI_WFDOWNLOADS_MENU_CATEGORIES,
+    'link'  => 'admin/categories.php',
+    'icon'  => $pathIcon32.'/category.png'
+);
+
+$adminmenu[] = array(
+    'title' => _MI_WFDOWNLOADS_MENU_DOWNLOADS,
+    'desc'  => _MI_WFDOWNLOADS_MENU_DOWNLOADS,
+    'link'  => 'admin/downloads.php',
+    'icon'  => $pathIcon32.'/download.png'
+);
+
+$adminmenu[] = array(
+    'title' => _MI_WFDOWNLOADS_MENU_REVIEWS,
+    'desc'  => _MI_WFDOWNLOADS_MENU_REVIEWS,
+    'link'  => 'admin/reviews.php',
+    'icon'  => $pathIcon32.'/translations.png'
+);
+
+$adminmenu[] = array(
+    'title' => _MI_WFDOWNLOADS_MENU_RATINGS,
+    'desc'  => _MI_WFDOWNLOADS_MENU_RATINGS,
+    'link'  => 'admin/ratings.php',
+    'icon'  => $pathIcon32.'/button_ok.png'
+);
+
+$adminmenu[] = array(
+    'title' => _MI_WFDOWNLOADS_MENU_REPORTSMODIFICATIONS,
+    'desc'  => _MI_WFDOWNLOADS_MENU_REPORTSMODIFICATIONS,
+    'link'  => 'admin/reportsmodifications.php',
+    'icon'  => $pathIcon32.'/alert.png'
+);
+
+$adminmenu[] = array(
+    'title' => _MI_WFDOWNLOADS_MENU_MIRRORS,
+    'desc'  => _MI_WFDOWNLOADS_MENU_MIRRORS,
+    'link'  => 'admin/mirrors.php',
+    'icon'  => $pathIcon32.'/list.png'
+);
+
+$adminmenu[] = array(
+    'title' => _MI_WFDOWNLOADS_MENU_INDEXPAGE,
+    'desc'  => _MI_WFDOWNLOADS_MENU_INDEXPAGE,
+    'link'  => 'admin/indexpage.php',
+    'icon'  => $pathIcon32.'/index.png'
+);
+
 /*
 // Swish-e support EXPERIMENTAL
 if ($wfdownloads->getConfig('enable_swishe') == true) {
-    ++$i;
-    $adminmenu[$i]['title'] = _MI_WFDOWNLOADS_MENU_SWISHE;
-    $adminmenu[$i]['desc'] =
-    $adminmenu[$i]['link'] = "admin/swishe.php";
-    $adminmenu[$i]['icon']  = $pathIcon32 . '/search.png';
+$adminmenu[] = array(
+    'title' => _MI_WFDOWNLOADS_MENU_SWISHE,
+    'desc'  => _MI_WFDOWNLOADS_MENU_SWISHE,
+    'link'  => 'admin/swishe.php',
+    'icon'  => $pathIcon32.'/search.png'
+);
 }
 // Swish-e support EXPERIMENTAL
 */
-++$i;
-$adminmenu[$i]['title'] = _MI_WFDOWNLOADS_MENU_IMAGES;
-$adminmenu[$i]['desc'] = _MI_WFDOWNLOADS_MENU_IMAGES;
-$adminmenu[$i]['link'] = "admin/images.php";
-$adminmenu[$i]['icon']  = $pathIcon32 . '/photo.png';
-++$i;
-$adminmenu[$i]['title'] = _MI_WFDOWNLOADS_MENU_MIMETYPES;
-$adminmenu[$i]['desc'] = _MI_WFDOWNLOADS_MENU_MIMETYPES;
-$adminmenu[$i]['link'] = "admin/mimetypes.php";
-$adminmenu[$i]['icon']  = $pathIcon32 . '/type.png';
-++$i;
-$adminmenu[$i]['title'] = _MI_WFDOWNLOADS_MENU_PERMISSIONS;
-$adminmenu[$i]['desc'] = _MI_WFDOWNLOADS_MENU_PERMISSIONS;
-$adminmenu[$i]['link'] = "admin/permissions.php";
-$adminmenu[$i]['icon']  = $pathIcon32 . '/permissions.png';
-++$i;
-$adminmenu[$i]['title'] = _MI_WFDOWNLOADS_MENU_IMPORT;
-$adminmenu[$i]['desc'] = _MI_WFDOWNLOADS_MENU_IMPORT;
-$adminmenu[$i]['link'] = "admin/import.php";
-$adminmenu[$i]['icon']  = './assets/images/icon32/database_go.png';
-++$i;
-$adminmenu[$i]['title'] = _MI_WFDOWNLOADS_MENU_CLONE;
-$adminmenu[$i]['desc'] = _MI_WFDOWNLOADS_MENU_CLONE;
-$adminmenu[$i]['link'] = "admin/clone.php";
-$adminmenu[$i]['icon'] = './assets/images/icon32/editcopy.png';
-++$i;
-$adminmenu[$i]['title'] = _MI_WFDOWNLOADS_MENU_ABOUT;
-$adminmenu[$i]['desc'] = _MI_WFDOWNLOADS_MENU_ABOUT;
-$adminmenu[$i]['link'] =  "admin/about.php";
-$adminmenu[$i]['icon']  = $pathIcon32 . '/about.png';
+
+$adminmenu[] = array(
+    'title' => _MI_WFDOWNLOADS_MENU_IMAGES,
+    'desc'  => _MI_WFDOWNLOADS_MENU_IMAGES,
+    'link'  => 'admin/images.php',
+    'icon'  => $pathIcon32.'/photo.png'
+);
+
+$adminmenu[] = array(
+    'title' => _MI_WFDOWNLOADS_MENU_MIMETYPES,
+    'desc'  => _MI_WFDOWNLOADS_MENU_MIMETYPES,
+    'link'  => 'admin/mimetypes.php',
+    'icon'  => $pathIcon32.'/type.png'
+);
+
+$adminmenu[] = array(
+    'title' => _MI_WFDOWNLOADS_MENU_PERMISSIONS,
+    'desc'  => _MI_WFDOWNLOADS_MENU_PERMISSIONS,
+    'link'  => 'admin/permissions.php',
+    'icon'  => $pathIcon32.'/permissions.png'
+);
+
+$adminmenu[] = array(
+    'title' => _MI_WFDOWNLOADS_MENU_IMPORT,
+    'desc'  => _MI_WFDOWNLOADS_MENU_IMPORT,
+    'link'  => 'admin/import.php',
+    'icon'  => $pathIcon32.'/database_go.png'
+);
+
+$adminmenu[] = array(
+    'title' => _MI_WFDOWNLOADS_MENU_CLONE,
+    'desc'  => _MI_WFDOWNLOADS_MENU_CLONE,
+    'link'  => 'admin/clone.php',
+    'icon'  => './assets/images/icon32/editcopy.png'
+);
+
+$adminmenu[] = array(
+    'title' => _MI_WFDOWNLOADS_MENU_ABOUT,
+    'desc'  => _MI_WFDOWNLOADS_MENU_ABOUT,
+    'link'  => 'admin/about.php',
+    'icon'  => $pathIcon32.'/about.png'
+);

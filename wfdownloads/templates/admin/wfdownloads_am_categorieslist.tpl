@@ -17,7 +17,8 @@
                         <a href='../viewcat.php?cid=<{$sorted_category.category.cid}>'><{$sorted_category.category.title}></a>
                     </td>
                     <td>
-                        <input type="text" name="new_weights[<{$sorted_category.category.cid}>]" size="11" maxlength="11"
+                        <label for="new_weights[<{$sorted_category.category.cid}>]">Category:</label>
+                        <input type="text" name="new_weights[<{$sorted_category.category.cid}>]" id="new_weights[<{$sorted_category.category.cid}>]" size="11" maxlength="11"
                                value="<{$sorted_category.category.weight}>"/>
                     </td>
                     <td><{$sorted_category.category.description}></td>
