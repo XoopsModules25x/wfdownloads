@@ -63,7 +63,7 @@ class WfdownloadsMirror extends XoopsObject
      */
     function getForm()
     {
-        include_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
+        xoops_load('XoopsFormLoader');
         $uid = !empty($GLOBALS['xoopsUser']) ? (int)($GLOBALS['xoopsUser']->getVar('uid')) : 0;
 
         $form = new XoopsThemeForm(_AM_WFDOWNLOADS_MIRROR_SNEWMNAMEDESC, 'mirrorform', $_SERVER['REQUEST_URI']);

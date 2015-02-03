@@ -401,7 +401,7 @@ switch ($op) {
                 $GLOBALS['xoopsTpl']->append('reports', $report_array);
             }
             //Include page navigation
-            include_once XOOPS_ROOT_PATH . '/class/pagenav.php';
+            xoops_load('XoopsPageNav');
             $pagenav_report = new XoopsPageNav($reports_count, $wfdownloads->getConfig('admin_perpage'), $start_report, 'start_report');
             $GLOBALS['xoopsTpl']->assign('reports_pagenav', $pagenav_report->renderNav());
         }
@@ -428,7 +428,7 @@ switch ($op) {
                 $GLOBALS['xoopsTpl']->append('modifications', $modification_array);
             }
             //Include page navigation
-            include_once XOOPS_ROOT_PATH . '/class/pagenav.php';
+            xoops_load('XoopsPageNav');
             $pagenav_modification = new XoopsPageNav(
                 $modifications_count, $wfdownloads->getConfig(
                     'admin_perpage'

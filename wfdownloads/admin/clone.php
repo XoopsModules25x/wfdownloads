@@ -78,7 +78,7 @@ if (@$_POST['op'] == 'submit') {
     wfdownloads_xoops_cp_header();
     $indexAdmin = new ModuleAdmin();
     echo $indexAdmin->addNavigation($currentFile);
-    include_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
+    xoops_load('XoopsFormLoader');
     $form = new XoopsThemeForm(sprintf(_AM_WFDOWNLOADS_CLONE_TITLE, $wfdownloads->getModule()->getVar('name', 'E')), 'clone', $currentFile, 'post', true);
     $cloneDirname_text = new XoopsFormText(_AM_WFDOWNLOADS_CLONE_NAME, 'clonedirname', 18, 18, '');
     $cloneDirname_text->setDescription(_AM_WFDOWNLOADS_CLONE_NAME_DSC);

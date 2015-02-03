@@ -48,7 +48,7 @@ if (@$_POST['op'] == 'submit') {
         echo "OK";
     } else {
         echo "NOT OK" . "<br />";
-        include_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
+        xoops_load('XoopsFormLoader');
         $form = new XoopsThemeForm(_AM_WFDOWNLOADS_SWISHE_CONFIG, 'config', $currentFile, 'post', true);
         $form->addElement(new XoopsFormHidden('op', 'submit'));
         $form->addElement(new XoopsFormButton('', '', _SUBMIT, 'submit'));

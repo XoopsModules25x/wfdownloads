@@ -363,54 +363,6 @@ function wfdownloads_sortCategories($pid = 0, $level = 0)
 }
 
 /**
- * Create download by letter choice bar/menu
- * updated starting from this idea http://xoops.org/modules/news/article.php?storyid=6497
- *
- * @return  string   html
- *
- * @access  public
- * @author  luciorota
- */
-function wfdownloads_lettersChoice()
-{
-    $wfdownloads = WfdownloadsWfdownloads::getInstance();
-
-    $criteria = $wfdownloads->getHandler('download')->getActiveCriteria();
-    $criteria->setGroupby('UPPER(LEFT(title,1))');
-    $countsByLetters = $wfdownloads->getHandler('download')->getCounts($criteria);
-    // Fill alphabet array
-    $alphabet       = wfdownloads_alphabet();
-    $alphabet_array = array();
-    foreach ($alphabet as $letter) {
-        $letter_array = array();
-        if (isset($countsByLetters[$letter])) {
-            $letter_array['letter'] = $letter;
-            $letter_array['count']  = $countsByLetters[$letter];
-            $letter_array['url']    = XOOPS_URL . "/modules/{$wfdownloads->getModule()->dirname()}/viewcat.php?list={$letter}";
-        } else {
-            $letter_array['letter'] = $letter;
-            $letter_array['count']  = 0;
-            $letter_array['url']    = '';
-        }
-        $alphabet_array[$letter] = $letter_array;
-        unset($letter_array);
-    }
-    // Render output
-    if (!isset($GLOBALS['xoTheme']) || !is_object($GLOBALS['xoTheme'])) {
-        include_once $GLOBALS['xoops']->path("/class/theme.php");
-        $GLOBALS['xoTheme'] = new xos_opal_Theme();
-    }
-    require_once $GLOBALS['xoops']->path('class/template.php');
-    $letterschoiceTpl          = new XoopsTpl();
-    $letterschoiceTpl->caching = false; // Disable cache
-    $letterschoiceTpl->assign('alphabet', $alphabet_array);
-    $html = $letterschoiceTpl->fetch("db:{$wfdownloads->getModule()->dirname()}_co_letterschoice.tpl");
-    unset($letterschoiceTpl);
-
-    return $html;
-}
-
-/**
  * Checks if a user is admin of Wfdownloads
  *
  * @return boolean

@@ -104,23 +104,30 @@ if (wfdownloads_checkModule('formulize')) {
 }
 // Formulize module support (2006/05/04) jpc - end
 
-// Generate Header
+// template: catarray
+$catArray = array();
+$downloadCriteria = $wfdownloads->getHandler('download')->getActiveCriteria();
+$alphabet = array_merge(range('1', '9'), range('A', 'Z'));
+$letterChoice = new WfdownloadsChoiceByLetter($wfdownloads->getHandler('download'), $downloadCriteria, 'title', $alphabet, 'list', 'viewcat.php', '', false);
+unset($downloadCriteria);
+$catArray['letters'] = $letterChoice->render();
 $catArray['imageheader'] = wfdownloads_headerImage();
-$catArray['letters']     = wfdownloads_lettersChoice();
-$catArray['toolbar']     = wfdownloads_toolbar();
+$catArray['toolbar'] = wfdownloads_toolbar();
 $xoopsTpl->assign('catarray', $catArray);
 
+// template: categoryPath
 $xoopsTpl->assign('categoryPath', $wfdownloads->getHandler('category')->getNicePath($cid)); // this definition is not removed for backward compatibility issues
+// template: module_home
 $xoopsTpl->assign('module_home', wfdownloads_module_home(true)); // this definition is not removed for backward compatibility issues
 
 // Get categories tree
+xoops_load('XoopsObjectTree');
 $criteria = new CriteriaCompo();
 $criteria->setSort('weight ASC, title');
 $categoryObjs = $wfdownloads->getHandler('category')->getObjects($criteria, true);
-include_once XOOPS_ROOT_PATH . '/class/tree.php';
 $categoryObjsTree = new XoopsObjectTree($categoryObjs, 'cid', 'pid');
 
-// Breadcrumb
+// template: breadcrumb
 $breadcrumb = new WfdownloadsBreadcrumb();
 $breadcrumb->addLink($wfdownloads->getModule()->getVar('name'), WFDOWNLOADS_URL);
 foreach (array_reverse($categoryObjsTree->getAllParent($cid)) as $parentCategoryObj) {
@@ -306,7 +313,7 @@ if ($downloads_count > 0) {
     }
 
     // Nav page render
-    include_once XOOPS_ROOT_PATH . '/class/pagenav.php';
+    xoops_load('XoopsPageNav');
     if (isset($_GET['selectdate'])) {
         $pagenav = new XoopsPageNav($downloads_count, $wfdownloads->getConfig('perpage'), $start, 'start', 'list=' . urlencode($_GET['selectdate']));
     } elseif (isset($_GET['list'])) {

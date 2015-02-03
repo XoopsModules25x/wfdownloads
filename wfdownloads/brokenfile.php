@@ -48,7 +48,7 @@ if ($wfdownloads->getConfig('enable_brokenreports') == false && !wfdownloads_use
 }
 
 // Breadcrumb
-include_once XOOPS_ROOT_PATH . '/class/tree.php';
+xoops_load('XoopsObjectTree');
 $categoryObjsTree = new XoopsObjectTree($wfdownloads->getHandler('category')->getObjects(), 'cid', 'pid');
 $breadcrumb       = new WfdownloadsBreadcrumb();
 $breadcrumb->addLink($wfdownloads->getModule()->getVar('name'), WFDOWNLOADS_URL);
@@ -139,7 +139,7 @@ switch ($op) {
             $xoopsTpl->assign('wfdownloads_breadcrumb', $breadcrumb->render());
 
             // Generate form
-            include_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
+            xoops_load('XoopsFormLoader');
             $sform = new XoopsThemeForm(_MD_WFDOWNLOADS_RATETHISFILE, 'reportform', xoops_getenv('PHP_SELF'));
             $sform->addElement(new XoopsFormHidden('lid', $lid));
             $sform->addElement(new XoopsFormHidden('cid', $cid));

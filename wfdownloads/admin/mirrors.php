@@ -155,7 +155,7 @@ switch ($op) {
                 $GLOBALS['xoopsTpl']->append('mirrors_waiting', $mirror_waiting_array);
             }
             //Include page navigation
-            include_once XOOPS_ROOT_PATH . '/class/pagenav.php';
+            xoops_load('XoopsPageNav');
             $pagenav_waiting = new XoopsPageNav($waiting_count, $wfdownloads->getConfig('admin_perpage'), $start_waiting, 'start_waiting');
             $GLOBALS['xoopsTpl']->assign('mirrors_waiting_pagenav', $pagenav_waiting->renderNav());
         }
@@ -179,7 +179,7 @@ switch ($op) {
                 $GLOBALS['xoopsTpl']->append('mirrors_published', $mirror_published_array);
             }
             //Include page navigation
-            include_once XOOPS_ROOT_PATH . '/class/pagenav.php';
+            xoops_load('XoopsPageNav');
             $pagenav_published = new XoopsPageNav($published_count, $wfdownloads->getConfig('admin_perpage'), $start_published, 'start_published');
             $GLOBALS['xoopsTpl']->assign('mirrors_published_pagenav', $pagenav_published->renderNav());
         }

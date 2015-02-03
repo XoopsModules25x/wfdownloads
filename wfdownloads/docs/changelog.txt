@@ -1,4 +1,4 @@
-<b><u>=> Version 3.23 RC2 (2014-11-24)</u></b>
+<b><u>=> Version 3.23 RC5 (2015-02-02)</u></b>
 - fixed: use DateTime object instead of strtotime function (luciorota)
 - fixed: source code for HTML5/CSS3 (mamba)
 - fixed: jQuery bug in templates (luciorota)
@@ -48,6 +48,7 @@
 - replaced: Thickbox with MagnificPopup (mamba)
 - replaced: custom uploader with XoopsMediaUploader (mamba)
 - update: jQuery Thickbox plugin to 3.1 (luciorota)
+- standardized: use WfdownloadWfdownloadsChoiceByLetter class (luciorota)
 - standardized: replacing "or" with "||", and "and" with "&&"  (mamba)
 - standardized: replaced template extensions from .html to .tpl (mamba)
 - standardized: moved module.css, and /js and /images to /assets folder (mamba)

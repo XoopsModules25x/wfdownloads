@@ -609,6 +609,8 @@ switch ($op) {
     case 'downloads.list':
     case 'downloads.filter':
     default :
+        xoops_load('XoopsPageNav');
+        //
         // get filter conditions
         $filter_title_condition          = XoopsRequest::getString('filter_title_condition', '=');
         $filter_title                    = XoopsRequest::getString('filter_title', '');
@@ -623,22 +625,17 @@ switch ($op) {
                 $op = 'downloads.list';
             }
         }
-
-        include_once XOOPS_ROOT_PATH . '/class/pagenav.php';
-
-        $categoryObjs = $wfdownloads->getHandler('category')->getObjects();
-
+        //
         $start_published     = XoopsRequest::getInt('start_published', 0);
         $start_new           = XoopsRequest::getInt('start_new', 0);
         $start_autopublished = XoopsRequest::getInt('start_autopublished', 0);
         $start_expired       = XoopsRequest::getInt('start_expired', 0);
         $start_offline       = XoopsRequest::getInt('start_offline', 0);
-
+        //
         $totalCategoriesCount = wfdownloads_categoriesCount();
-        $categoryObjs         = $wfdownloads->getHandler('category')->getObjects(null, true, false);
-
+        $categories = $wfdownloads->getHandler('category')->getObjects(null, true, false); // as array
         $totalDownloadsCount = $wfdownloads->getHandler('download')->getCount();
-
+        //
         wfdownloads_xoops_cp_header();
         $indexAdmin = new ModuleAdmin();
         echo $indexAdmin->addNavigation($currentFile);
@@ -691,7 +688,7 @@ switch ($op) {
                 foreach ($publishedDownloadObjs as $publishedDownloadObj) {
                     $publishedDownload_array                        = $publishedDownloadObj->toArray();
                     $publishedDownload_array['title_html']          = $myts->htmlSpecialChars(trim($publishedDownload_array['title']));
-                    $publishedDownload_array['category_title']      = $categoryObjs[$publishedDownload_array['cid']]['title'];
+                    $publishedDownload_array['category_title']      = $categories[$publishedDownload_array['cid']]['title'];
                     $publishedDownload_array['submitter_uname']     = XoopsUserUtility::getUnameFromId($publishedDownload_array['submitter']);
                     $publishedDownload_array['published_formatted'] = XoopsLocal::formatTimestamp($publishedDownload_array['published'], 'l');
                     $GLOBALS['xoopsTpl']->append('published_downloads', $publishedDownload_array);

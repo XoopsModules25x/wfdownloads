@@ -161,7 +161,7 @@ switch ($op) {
                 $GLOBALS['xoopsTpl']->append('reviews_waiting', $review_waiting_array);
             }
             //Include page navigation
-            include_once XOOPS_ROOT_PATH . '/class/pagenav.php';
+            xoops_load('XoopsPageNav');
             $pagenav_waiting = new XoopsPageNav($waiting_count, $wfdownloads->getConfig('admin_perpage'), $start_waiting, 'start_waiting');
             $GLOBALS['xoopsTpl']->assign('reviews_waiting_pagenav', $pagenav_waiting->renderNav());
         }
@@ -191,7 +191,7 @@ switch ($op) {
                 $GLOBALS['xoopsTpl']->append('reviews_published', $review_published_array);
             }
             //Include page navigation
-            include_once XOOPS_ROOT_PATH . '/class/pagenav.php';
+            xoops_load('XoopsPageNav');
             $pagenav_published = new XoopsPageNav($published_count, $wfdownloads->getConfig('admin_perpage'), $start_published, 'start_published');
             $GLOBALS['xoopsTpl']->assign('reviews_published_pagenav', $pagenav_published->renderNav());
         }

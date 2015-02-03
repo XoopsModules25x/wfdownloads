@@ -42,18 +42,18 @@ $modversion['onInstall']   = 'include/oninstall.php';
 $modversion['onUpdate']    = 'include/onupdate.php';
 $modversion['onUninstall'] = 'include/onuninstall.php';
 
-$modversion['date']         = '2014-11-22';
-$modversion['release_date'] = '2014/11/22';
-$modversion['status']       = 'RC4';
+$modversion['date']         = '2015-02-03';
+$modversion['release_date'] = '2015-02-03';
+$modversion['status']       = 'RC5';
 $modversion['teammembers']  = 'Bender, David, FrankBlack, Xpider, M0nty, Mithrandir, Marcan, felix[fx2024], Sudhaker, Jegelstaff';
 
 // About
-$modversion["module_status"]       = "RC4";
-$modversion['releasedate']         = '2014-11-22';
+$modversion["module_status"]       = "RC5";
+$modversion['releasedate']         = '2015-02-03';
 $modversion["module_website_url"]  = "http://www.xoops.org/";
 $modversion["module_website_name"] = "XOOPS";
 $modversion['min_php']             = '5.3.7';
-$modversion['min_xoops']           = '2.5.7';
+$modversion['min_xoops']           = '2.5.7.1';
 $modversion['min_admin']           = '1.1';
 $modversion['min_db']              = array(
     'mysql'  => '5.0.7',
@@ -327,15 +327,8 @@ $modversion['templates'][] = array(
 );
 
 // Common templates
-$modversion['templates'][] = array(
-    'file'        => $modversion['dirname'] . '_co_breadcrumb.tpl',
-    'description' => ''
-);
 
-$modversion['templates'][] = array(
-    'file'        => $modversion['dirname'] . '_co_letterschoice.tpl',
-    'description' => ''
-);
+
 
 // ------------------- Preferences -------------------
 

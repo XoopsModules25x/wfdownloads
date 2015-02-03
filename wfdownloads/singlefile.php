@@ -71,7 +71,7 @@ $xoopsTpl->assign('wfdownloads_url', WFDOWNLOADS_URL . '/');
 // Making the category image and title available in the template
 if (($categoryObj->getVar('imgurl') != "") && is_file(XOOPS_ROOT_PATH . '/' . $wfdownloads->getConfig('catimage') . '/' . $categoryObj->getVar('imgurl'))) {
     if ($wfdownloads->getConfig('usethumbs') && function_exists('gd_info')) {
-        $imgurl = wfdownloads_createThumb(
+        $imgUrl = wfdownloads_createThumb(
             $categoryObj->getVar('imgurl'),
             $wfdownloads->getConfig('catimage'),
             'thumbs',
@@ -82,13 +82,13 @@ if (($categoryObj->getVar('imgurl') != "") && is_file(XOOPS_ROOT_PATH . '/' . $w
             $wfdownloads->getConfig('keepaspect')
         );
     } else {
-        $imgurl = XOOPS_URL . '/' . $wfdownloads->getConfig('catimage') . '/' . $categoryObj->getVar('imgurl');
+        $imgUrl = XOOPS_URL . '/' . $wfdownloads->getConfig('catimage') . '/' . $categoryObj->getVar('imgurl');
     }
 } else {
-    $imgurl = XOOPS_URL . '/' . $wfdownloads->getConfig('catimage') . '/blank.gif';
+    $imgUrl = XOOPS_URL . '/' . $wfdownloads->getConfig('catimage') . '/blank.gif';
 }
 $xoopsTpl->assign('category_title', $categoryObj->getVar('title'));
-$xoopsTpl->assign('category_image', $imgurl);
+$xoopsTpl->assign('category_image', $imgUrl);
 
 // Retreiving the top parent category
 $categoriesTopParentByCid = $wfdownloads->getHandler('category')->getAllSubcatsTopParentCid();
@@ -168,21 +168,18 @@ if (wfdownloads_checkModule('formulize') && $formulize_idreq) {
 }
 // Formulize module support (2006/03/06, 2006/03/08) jpc - end
 
-$use_mirrors = $wfdownloads->getConfig('enable_mirrors');
-$add_mirror  = false;
-if (!is_object($GLOBALS['xoopsUser']) && $use_mirrors == true
-    && ($wfdownloads->getConfig('anonpost') == _WFDOWNLOADS_ANONPOST_MIRROR
-        || $wfdownloads->getConfig('anonpost') == _WFDOWNLOADS_ANONPOST_BOTH)
-    && ($wfdownloads->getConfig('submissions') == _WFDOWNLOADS_SUBMISSIONS_MIRROR
-        || $wfdownloads->getConfig('submissions') == _WFDOWNLOADS_SUBMISSIONS_BOTH)
-) {
-    $add_mirror = true;
-} elseif (is_object($GLOBALS['xoopsUser']) && $use_mirrors == true
-    && ($wfdownloads->getConfig('submissions') == _WFDOWNLOADS_SUBMISSIONS_MIRROR
-        || $wfdownloads->getConfig('submissions') == _WFDOWNLOADS_SUBMISSIONS_BOTH
-        || wfdownloads_userIsAdmin())
-) {
-    $add_mirror = true;
+$add_mirror = false;
+if ($wfdownloads->getConfig('enable_mirrors')) {
+    if (!is_object($GLOBALS['xoopsUser'])
+        && ($wfdownloads->getConfig('anonpost') == _WFDOWNLOADS_ANONPOST_MIRROR || $wfdownloads->getConfig('anonpost') == _WFDOWNLOADS_ANONPOST_BOTH)
+        && ($wfdownloads->getConfig('submissions') == _WFDOWNLOADS_SUBMISSIONS_MIRROR || $wfdownloads->getConfig('submissions') == _WFDOWNLOADS_SUBMISSIONS_BOTH)
+    ) {
+        $add_mirror = true;
+    } elseif (is_object($GLOBALS['xoopsUser'])
+        && ($wfdownloads->getConfig('submissions') == _WFDOWNLOADS_SUBMISSIONS_MIRROR || $wfdownloads->getConfig('submissions') == _WFDOWNLOADS_SUBMISSIONS_BOTH || wfdownloads_userIsAdmin())
+    ) {
+        $add_mirror = true;
+    }
 }
 
 // Get download informations
@@ -200,8 +197,8 @@ if ($wfdownloads->getConfig('screenshot') == 1) {
     $xoopsTpl->assign('show_screenshot', true);
 }
 
-// Breadcrumb
-include_once XOOPS_ROOT_PATH . '/class/tree.php';
+// template: wfdownloads_breadcrumb
+xoops_load('XoopsObjectTree');
 $categoryObjsTree = new XoopsObjectTree($wfdownloads->getHandler('category')->getObjects(), 'cid', 'pid');
 $breadcrumb       = new WfdownloadsBreadcrumb();
 $breadcrumb->addLink($wfdownloads->getModule()->getVar('name'), WFDOWNLOADS_URL);
@@ -232,9 +229,9 @@ $cid = (int)$downloadObj->getVar('cid');
 $lid = (int)$downloadObj->getVar('lid');
 
 // User reviews
-$criteria = new CriteriaCompo(new Criteria("lid", $lid));
-$criteria->add(new Criteria("submit", 1));
-$reviewCount = $wfdownloads->getHandler('review')->getCount($criteria);
+$reviewCriteria = new CriteriaCompo(new Criteria('lid', $lid));
+$reviewCriteria->add(new Criteria('submit', 1));
+$reviewCount = $wfdownloads->getHandler('review')->getCount($reviewCriteria);
 if ($reviewCount > 0) {
     $user_reviews = "op=list&amp;cid={$cid}&amp;lid={$lid}\">" . _MD_WFDOWNLOADS_USERREVIEWS;
 } else {
@@ -246,9 +243,9 @@ $xoopsTpl->assign('review_amount', $reviewCount);
 
 // User mirrors
 $downloadInfo['add_mirror'] = $add_mirror;
-$criteria                   = new CriteriaCompo(new Criteria('lid', $lid));
-$criteria->add(new Criteria('submit', 1));
-$mirrorCount = $wfdownloads->getHandler('mirror')->getCount($criteria);
+$mirrorCriteria = new CriteriaCompo(new Criteria('lid', $lid));
+$mirrorCriteria->add(new Criteria('submit', 1));
+$mirrorCount = $wfdownloads->getHandler('mirror')->getCount($mirrorCriteria);
 if ($mirrorCount > 0) {
     $user_mirrors = "op=list&amp;cid={$cid}&amp;lid={$lid}\">" . _MD_WFDOWNLOADS_USERMIRRORS;
 } else {
@@ -258,6 +255,7 @@ $xoopsTpl->assign('lang_user_mirrors', $GLOBALS['xoopsConfig']['sitename'] . ' '
 $xoopsTpl->assign('lang_UserMirrors', sprintf($user_mirrors, $downloadObj->getVar('title')));
 $xoopsTpl->assign('mirror_amount', $mirrorCount);
 
+// template: use_...
 $xoopsTpl->assign('use_ratings', $wfdownloads->getConfig('enable_mirrors'));
 $xoopsTpl->assign('use_ratings', $wfdownloads->getConfig('enable_ratings'));
 $xoopsTpl->assign('use_reviews', $wfdownloads->getConfig('enable_reviews'));

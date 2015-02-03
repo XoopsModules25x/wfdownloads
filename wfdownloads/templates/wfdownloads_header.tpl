@@ -30,7 +30,10 @@
 <br />
 <{/if}>
 <{if $catarray.letters}>
-<div class="wfdownloads_head_catletters" align="center"><{$catarray.letters}></div>
+<div class="wfdownloads_head_catletters" align="center">
+    <{$smarty.const._MD_WFDOWNLOADS_BROWSETOTOPIC}>
+    <{$catarray.letters}>
+</div>
 <br />
 <{/if}>
 <{if $catarray.toolbar}>

@@ -137,7 +137,7 @@ switch ($op) {
         echo "</fieldset>\n";
 
         //ask what to do
-        include_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
+        xoops_load('XoopsFormLoader');
 
         $form = new XoopsThemeForm(_AM_WFDOWNLOADS_IMPORT_BUTTON_IMPORT, 'form', $_SERVER['REQUEST_URI']);
         // Avoid module to import form itself

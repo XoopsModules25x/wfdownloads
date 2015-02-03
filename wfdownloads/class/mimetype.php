@@ -72,7 +72,7 @@ class WfdownloadsMimetype extends XoopsObject
      */
     function getForm($action = false)
     {
-        include_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
+        xoops_load('XoopsFormLoader');
 
         if ($action === false) {
             $action = $_SERVER['REQUEST_URI'];

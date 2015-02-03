@@ -87,22 +87,21 @@ unset($categoryCriteria);
 
 $categoryObjsTree = new XoopsObjectTree($categoryObjs, 'cid', 'pid');
 
-// Generate content header
-$sql                          = "SELECT * FROM " . $GLOBALS['xoopsDB']->prefix('wfdownloads_indexpage') . " ";
-$head_arr                     = $GLOBALS['xoopsDB']->fetchArray($GLOBALS['xoopsDB']->query($sql));
-$catarray['imageheader']      = wfdownloads_headerImage();
-$catarray['indexheaderalign'] = $head_arr['indexheaderalign'];
-$catarray['indexfooteralign'] = $head_arr['indexfooteralign'];
-$html                         = ($head_arr['nohtml']) ? 1 : 0;
-$smiley                       = ($head_arr['nosmiley']) ? 1 : 0;
-$xcodes                       = ($head_arr['noxcodes']) ? 1 : 0;
-$images                       = ($head_arr['noimages']) ? 1 : 0;
-$breaks                       = ($head_arr['nobreak']) ? 1 : 0;
-$catarray['indexheader']      = $myts->displayTarea($head_arr['indexheader'], $html, $smiley, $xcodes, $images, $breaks);
-$catarray['indexfooter']      = $myts->displayTarea($head_arr['indexfooter'], $html, $smiley, $xcodes, $images, $breaks);
-$catarray['letters']          = wfdownloads_lettersChoice();
-$catarray['toolbar']          = wfdownloads_toolbar();
-$xoopsTpl->assign('catarray', $catarray);
+// template: catarray
+$catArray = array();
+$head_arr                     = $GLOBALS['xoopsDB']->fetchArray($GLOBALS['xoopsDB']->query("SELECT * FROM " . $GLOBALS['xoopsDB']->prefix('wfdownloads_indexpage') . " "));
+$catArray['indexheaderalign'] = $head_arr['indexheaderalign'];
+$catArray['indexfooteralign'] = $head_arr['indexfooteralign'];
+$catArray['indexheader']      = $myts->displayTarea($head_arr['indexheader'], $head_arr['nohtml'], $head_arr['nosmiley'], $head_arr['noxcodes'], $head_arr['noimages'], $head_arr['nobreak']);
+$catArray['indexfooter']      = $myts->displayTarea($head_arr['indexfooter'], $head_arr['nohtml'], $head_arr['nosmiley'], $head_arr['noxcodes'], $head_arr['noimages'], $head_arr['nobreak']);
+$downloadCriteria = $wfdownloads->getHandler('download')->getActiveCriteria();
+$alphabet = array_merge(range('1', '9'), range('A', 'Z'));
+$letterChoice = new WfdownloadsChoiceByLetter($wfdownloads->getHandler('download'), $downloadCriteria, 'title', $alphabet, 'list', 'viewcat.php', '', false);
+unset($downloadCriteria);
+$catArray['letters']          = $letterChoice->render();
+$catArray['imageheader']      = wfdownloads_headerImage();
+$catArray['toolbar']          = wfdownloads_toolbar();
+$xoopsTpl->assign('catarray', $catArray);
 
 // Begin Main page download info
 $chcount = 0;
@@ -184,17 +183,17 @@ foreach (array_keys($mainCategoryObjs) as $i) {
         }
 
         // Get this category indicator image
-        $publishdate = isset($listings['published'][$mainCategoryObjs[$i]->getVar('cid')]) ? $listings['published'][$mainCategoryObjs[$i]->getVar('cid')] : 0;
+        $publishDate = isset($listings['published'][$mainCategoryObjs[$i]->getVar('cid')]) ? $listings['published'][$mainCategoryObjs[$i]->getVar('cid')] : 0;
         if (count($allSubcategoryObjs) > 0) {
             // Foreach subcategory
             foreach (array_keys($allSubcategoryObjs) as $k) {
                 if (in_array($allSubcategoryObjs[$k]->getVar('cid'), $allowedDownCategoriesIds)) {
-                    $publishdate = (isset($listings['published'][$allSubcategoryObjs[$k]->getVar('cid')])
-                        && $listings['published'][$allSubcategoryObjs[$k]->getVar('cid')] > $publishdate) ? $listings['published'][$allSubcategoryObjs[$k]->getVar('cid')] : $publishdate;
+                    $publishDate = (isset($listings['published'][$allSubcategoryObjs[$k]->getVar('cid')])
+                        && $listings['published'][$allSubcategoryObjs[$k]->getVar('cid')] > $publishDate) ? $listings['published'][$allSubcategoryObjs[$k]->getVar('cid')] : $publishDate;
                 }
             }
         }
-        $isNewImage = wfdownloads_isNewImage($publishdate);
+        $isNewImage = wfdownloads_isNewImage($publishDate);
         if (($mainCategoryObjs[$i]->getVar('imgurl') != "")
             && is_file(
                 XOOPS_ROOT_PATH . '/' . $wfdownloads->getConfig('catimage') . '/' . $mainCategoryObjs[$i]->getVar('imgurl')
@@ -221,14 +220,14 @@ foreach (array_keys($mainCategoryObjs) as $i) {
         // Get this category subcategories id and title
         $subcategories = array();
         ++$count;
-        $download_count = isset($listings['count'][$mainCategoryObjs[$i]->getVar('cid')]) ? $listings['count'][$mainCategoryObjs[$i]->getVar('cid')] : 0;
+        $downloadCount = isset($listings['count'][$mainCategoryObjs[$i]->getVar('cid')]) ? $listings['count'][$mainCategoryObjs[$i]->getVar('cid')] : 0;
         // modified July 5 2006 by Freeform Solutions (jwe)
         // make download count recursive, to include all sub categories that the user has permission to view
         //$allSubcategoryObjs = $categoryObjsTree->getAllChild($mainCategoryObjs[$i]->getVar('cid'));
         if (count($allSubcategoryObjs) > 0) {
             foreach (array_keys($allSubcategoryObjs) as $k) {
                 if (in_array($allSubcategoryObjs[$k]->getVar('cid'), $allowedDownCategoriesIds)) {
-                    $download_count += isset($listings['count'][$allSubcategoryObjs[$k]->getVar('cid')]) ? $listings['count'][$allSubcategoryObjs[$k]->getVar('cid')] : 0;
+                    $downloadCount += isset($listings['count'][$allSubcategoryObjs[$k]->getVar('cid')]) ? $listings['count'][$allSubcategoryObjs[$k]->getVar('cid')] : 0;
                     if ($wfdownloads->getConfig('subcats') == 1 && $allSubcategoryObjs[$k]->getVar('pid') == $mainCategoryObjs[$i]->getVar('cid')) {
                         // if we are collecting subcat info for displaying, and this subcat is a first level child...
                         $subcategories[] = array(
@@ -257,8 +256,8 @@ foreach (array_keys($mainCategoryObjs) as $i) {
                     'allowed_upload'   => ($isSubmissionAllowed && in_array($mainCategoryObjs[$i]->getVar('cid'), $allowedUpCategoriesIds)),
                     'title'            => $mainCategoryObjs[$i]->getVar('title'),
                     'summary'          => $mainCategoryObjs[$i]->getVar('summary'),
-                    'totaldownloads'   => (int)$download_count, // this definition is not removed for backward compatibility issues
-                    'downloads_count'  => (int)$download_count,
+                    'totaldownloads'   => (int)$downloadCount, // this definition is not removed for backward compatibility issues
+                    'downloads_count'  => (int)$downloadCount,
                     'count'            => (int)$count,
                     'alttext'          => $isNewImage['alttext']
                 )
@@ -277,8 +276,8 @@ foreach (array_keys($mainCategoryObjs) as $i) {
                     'title'            => $mainCategoryObjs[$i]->getVar('title'),
                     'summary'          => $mainCategoryObjs[$i]->getVar('summary'),
                     'subcategories'    => $subcategories,
-                    'totaldownloads'   => (int)$download_count, // this definition is not removed for backward compatibility issues
-                    'downloads_count'  => (int)$download_count,
+                    'totaldownloads'   => (int)$downloadCount, // this definition is not removed for backward compatibility issues
+                    'downloads_count'  => (int)$downloadCount,
                     'count'            => (int)$count,
                     'alttext'          => $isNewImage['alttext']
                 )

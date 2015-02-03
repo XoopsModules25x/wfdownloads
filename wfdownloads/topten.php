@@ -46,10 +46,16 @@ $sort = (isset($_GET['list']) && in_array($_GET['list'], $action_array)) ? $_GET
 $thisselected = $action_array[$sort];
 $sortDB = $list_array[$thisselected];
 
-$catarray['imageheader'] = wfdownloads_headerImage();
-$catarray['letters'] = wfdownloads_lettersChoice();
-$catarray['toolbar'] = wfdownloads_toolbar();
-$xoopsTpl->assign('catarray', $catarray);
+// template: catarray
+$catArray = array();
+$catArray['imageheader'] = wfdownloads_headerImage();
+$downloadCriteria = $wfdownloads->getHandler('download')->getActiveCriteria();
+$alphabet = array_merge(range('1', '9'), range('A', 'Z'));
+$letterChoice = new WfdownloadsChoiceByLetter($wfdownloads->getHandler('download'), $downloadCriteria, 'title', $alphabet, 'list', 'viewcat.php', '', false);
+$catArray['letters'] = $letterChoice->render();
+unset($downloadCriteria);
+$catArray['toolbar'] = wfdownloads_toolbar();
+$xoopsTpl->assign('catarray', $catArray);
 
 $arr = array();
 

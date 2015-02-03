@@ -49,7 +49,7 @@ switch ($op) {
 
             wfdownloads_xoops_cp_header();
 
-            include_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
+            xoops_load('XoopsFormLoader');
             $sform = new XoopsThemeForm(_AM_WFDOWNLOADS_CCATEGORY_MOVE, 'move', xoops_getenv('PHP_SELF'));
 
             $categoryObjs     = $wfdownloads->getHandler('category')->getObjects();
@@ -99,7 +99,7 @@ switch ($op) {
 
         include_once XOOPS_ROOT_PATH . '/class/uploader.php';
         $allowedMimetypes = array('image/gif', 'image/jpeg', 'image/pjpeg', 'image/x-png', 'image/png');
-        $imgurl           = 'blank.png';
+        $imgUrl           = 'blank.png';
         $maxFileSize      = $wfdownloads->getConfig('maxfilesize');
         $maxImgWidth      = $wfdownloads->getConfig('maximgwidth');
         $maxImgHeight     = $wfdownloads->getConfig('maximgheight');
@@ -112,17 +112,17 @@ switch ($op) {
                 $errors = $uploader->getErrors();
                 redirect_header('javascript:history.go(-1)', 3, $errors);
             } else {
-                $imgurl = $uploader->getSavedFileName();
+                $imgUrl = $uploader->getSavedFileName();
             }
         } else {
-            $imgurl = (isset($_POST['imgurl']) && $_POST['imgurl'] != 'blank.png') ? $myts->addslashes($_POST['imgurl']) : '';
+            $imgUrl = (isset($_POST['imgurl']) && $_POST['imgurl'] != 'blank.png') ? $myts->addslashes($_POST['imgurl']) : '';
         }
 
         if (!$cid) {
             $categoryObj = $wfdownloads->getHandler('category')->create();
         } else {
             $categoryObj = $wfdownloads->getHandler('category')->get($cid);
-            $childcats   = $wfdownloads->getHandler('category')->getChildCats($categoryObj);
+            $childcats = $wfdownloads->getHandler('category')->getChildCats($categoryObj);
             if ($pid == $cid || in_array($pid, array_keys($childcats))) {
                 $categoryObj->setErrors(_AM_WFDOWNLOADS_CCATEGORY_CHILDASPARENT);
             }
@@ -131,7 +131,7 @@ switch ($op) {
         $categoryObj->setVar('title', $_POST['title']);
         $categoryObj->setVar('pid', $pid);
         $categoryObj->setVar('weight', $weight);
-        $categoryObj->setVar('imgurl', $imgurl);
+        $categoryObj->setVar('imgurl', $imgUrl);
         $categoryObj->setVar('description', $_POST['description']);
         $categoryObj->setVar('summary', $_POST['summary']);
         $categoryObj->setVar('dohtml', isset($_POST['dohtml']));

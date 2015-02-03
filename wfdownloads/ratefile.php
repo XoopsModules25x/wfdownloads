@@ -46,7 +46,7 @@ if ($wfdownloads->getConfig('enable_ratings') == false && !wfdownloads_userIsAdm
     redirect_header('index.php', 3, _NOPERM);
 }
 // Breadcrumb
-include_once XOOPS_ROOT_PATH . '/class/tree.php';
+xoops_load('XoopsObjectTree');
 $categoryObjsTree = new XoopsObjectTree($wfdownloads->getHandler('category')->getObjects(), 'cid', 'pid');
 $breadcrumb       = new WfdownloadsBreadcrumb();
 $breadcrumb->addLink($wfdownloads->getModule()->getVar('name'), WFDOWNLOADS_URL);
@@ -131,7 +131,7 @@ switch ($op) {
             $xoopsTpl->assign('wfdownloads_breadcrumb', $breadcrumb->render());
 
             // Generate form
-            include_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
+            xoops_load('XoopsFormLoader');
             $sform         = new XoopsThemeForm(_MD_WFDOWNLOADS_RATETHISFILE, 'voteform', xoops_getenv('PHP_SELF'));
             $rating_select = new XoopsFormSelect(_MD_WFDOWNLOADS_REV_RATING, 'rating', '10');
             //$rating_select->setDescription(_MD_WFDOWNLOADS_REV_RATING_DESC);

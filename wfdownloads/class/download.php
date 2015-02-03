@@ -430,9 +430,9 @@ class WfdownloadsDownload extends XoopsObject
      */
     function getForm($customArray = array()) // $custom array added April 22, 2006 by jwe)
     {
-        include_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
-        include_once XOOPS_ROOT_PATH . '/class/tree.php';
-
+        xoops_load('XoopsFormLoader');
+        xoops_load('XoopsObjectTree');
+        //
         $groups = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : array(0 => XOOPS_GROUP_ANONYMOUS);
 
         $use_mirrors = $this->wfdownloads->getConfig('enable_mirrors');
@@ -680,7 +680,8 @@ class WfdownloadsDownload extends XoopsObject
      */
     function getAdminForm($title, $customArray = array()) // $custom array added April 22, 2006 by jwe
     {
-        include_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
+        $member_handler = xoops_gethandler('member');
+        xoops_load('XoopsFormLoader');
         include_once WFDOWNLOADS_ROOT_PATH . '/class/wfdownloads_lists.php';
 
         $use_mirrors = $this->wfdownloads->getConfig('enable_mirrors');
@@ -705,15 +706,25 @@ class WfdownloadsDownload extends XoopsObject
         $sform->addElement($titles_tray);
         // download: submitter
         if (!$this->isNew()) {
-            //$sform -> addElement(new XoopsFormText(_AM_WFDOWNLOADS_FILE_SUBMITTERID, 'submitter', 10, 10, $this->getVar('submitter', 'e')), true);
-            $submitter_select = new XoopsFormSelectUser (
-                _AM_WFDOWNLOADS_FILE_SUBMITTER, 'submitter', false, $this->getVar(
-                    'submitter',
-                    'e'
-                ), 1, false
-            );
-            $submitter_select->setDescription(_AM_WFDOWNLOADS_FILE_SUBMITTER_DESC);
-            $sform->addElement($submitter_select);
+            $userCount = $member_handler->getUserCount();
+// IN PROGRESS
+// IN PROGRESS
+// IN PROGRESS
+            if ($userCount > 200) {
+                //$sform -> addElement(new XoopsFormText(_AM_WFDOWNLOADS_FILE_SUBMITTERID, 'submitter', 10, 10, $this->getVar('submitter', 'e')), true);
+                $submitter_select = new XoopsFormSelectUser (
+                    _AM_WFDOWNLOADS_FILE_SUBMITTER, 'submitter', false, $this->getVar(
+                        'submitter',
+                        'e'
+                    ), 1, false
+                );
+                $submitter_select->setDescription(_AM_WFDOWNLOADS_FILE_SUBMITTER_DESC);
+                $sform->addElement($submitter_select);
+            } else {
+                $submitter_text = new XoopsFormText(_AM_WFDOWNLOADS_FILE_SUBMITTERID, 'submitter', 10, 10, $this->getVar('submitter', 'e'));
+                $submitter_text->setDescription(_AM_WFDOWNLOADS_FILE_SUBMITTER_DESC);
+                $sform->addElement($submitter_text, true);
+            }
         } else {
             $sform->addElement(new XoopsFormHidden('submitter', $GLOBALS['xoopsUser']->getVar('uid', 'e')));
         }
@@ -1081,8 +1092,9 @@ class WfdownloadsDownload extends XoopsObject
      */
     function getCategoryForm($title)
     {
-        include_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
-        include_once XOOPS_ROOT_PATH . '/class/tree.php';
+        xoops_load('XoopsFormLoader');
+        xoops_load('XoopsObjectTree');
+        //
         $sform = new XoopsThemeForm($title, 'storyform', $_SERVER['REQUEST_URI']);
         $sform->setExtra('enctype="multipart/form-data"');
         // download: cid

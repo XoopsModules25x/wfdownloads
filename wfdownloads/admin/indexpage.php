@@ -76,7 +76,7 @@ switch ($op) {
     case "indexpage.form":
     default:
         include_once WFDOWNLOADS_ROOT_PATH . '/class/wfdownloads_lists.php';
-        include_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
+        xoops_load('XoopsFormLoader');
 
         $sql = "SELECT indeximage, indexheading, indexheader, indexfooter, nohtml, nosmiley, noxcodes, noimages, nobreak, indexheaderalign, indexfooteralign";
         $sql .= " FROM {$GLOBALS['xoopsDB']->prefix('wfdownloads_indexpage')} ";

@@ -20,7 +20,7 @@
  */
 defined('XOOPS_ROOT_PATH') || die('XOOPS root path not defined');
 include_once __DIR__ . '/common.php';
-//@include_once WFDOWNLOADS_ROOT_PATH . '/language/' . $GLOBALS['xoopsConfig']['language'] . '/admin.php';
+$wfdownloads = WfdownloadsWfdownloads::getInstance();
 xoops_loadLanguage('admin', $wfdownloads->getModule()->dirname());
 include_once WFDOWNLOADS_ROOT_PATH . '/class/dbupdater.php';
 

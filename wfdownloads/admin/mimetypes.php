@@ -207,7 +207,7 @@ switch ($op) {
                 $GLOBALS['xoopsTpl']->append('mimetypes', $mimetype_array);
             }
             //Include page navigation
-            include_once XOOPS_ROOT_PATH . '/class/pagenav.php';
+            xoops_load('XoopsPageNav');
             $pagenav = new XoopsPageNav($mimetypes_count, 20, $start, 'start');
             $GLOBALS['xoopsTpl']->assign('mimetypes_pagenav', $pagenav->renderNav());
         }

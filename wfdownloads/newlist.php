@@ -33,12 +33,18 @@ $xoopsTpl->assign('wfdownloads_url', WFDOWNLOADS_URL . '/');
 
 $groups = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : array(0 => XOOPS_GROUP_ANONYMOUS);
 
+// template: catarray
+$catArray = array();
 $catArray['imageheader'] = wfdownloads_headerImage();
-$catArray['letters'] = wfdownloads_lettersChoice();
+$downloadCriteria = $wfdownloads->getHandler('download')->getActiveCriteria();
+$alphabet = array_merge(range('1', '9'), range('A', 'Z'));
+$letterChoice = new WfdownloadsChoiceByLetter($wfdownloads->getHandler('download'), $downloadCriteria, 'title', $alphabet, 'list', 'viewcat.php', '', false);
+$catArray['letters'] = $letterChoice->render();
+unset($downloadCriteria);
 $catArray['toolbar'] = wfdownloads_toolbar();
 $xoopsTpl->assign('catarray', $catArray);
 
-// Breadcrumb
+// template: breadcrumb
 $breadcrumb = new WfdownloadsBreadcrumb();
 $breadcrumb->addLink($wfdownloads->getModule()->getVar('name'), WFDOWNLOADS_URL);
 

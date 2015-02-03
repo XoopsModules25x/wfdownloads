@@ -10,7 +10,6 @@
 <div><{$lang_review_found}></div>
 
 <br />
-
 <table class="wfdownloads_reviews_reviewlist" cellspacing="0">
     <tr>
         <th><{$smarty.const._MD_WFDOWNLOADS_REVIEWER}></th>

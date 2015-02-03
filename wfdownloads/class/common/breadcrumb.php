@@ -14,7 +14,7 @@
  * @copyright   The XOOPS Project http://sourceforge.net/projects/xoops/
  * @license     http://www.fsf.org/copyleft/gpl.html GNU public license
  * @author      lucio <lucio.rota@gmail.com>
- * @package     Wfdownloads
+ * @package     wfdownloads
  * @since       3.23
  * @version     $Id:$
  *
@@ -32,15 +32,15 @@ defined('XOOPS_ROOT_PATH') || die('XOOPS root path not defined');
  */
 class WfdownloadsBreadcrumb
 {
-    var $dirname;
-    var $_bread = array();
+    private $dirname;
+    private $_bread = array();
 
     /**
      *
      */
-    function __construct()
+    public function __construct()
     {
-        $this->dirname =  basename(dirname(__DIR__));
+        $this->dirname =  basename(dirname(dirname(__DIR__)));
     }
 
     /**
@@ -49,7 +49,7 @@ class WfdownloadsBreadcrumb
      * @param string $title
      * @param string $link
      */
-    function addLink( $title='', $link='' )
+    public function addLink( $title='', $link='' )
     {
         $this->_bread[] = array(
             'link'  => $link,
@@ -61,19 +61,26 @@ class WfdownloadsBreadcrumb
      * Render Wfdownloads BreadCrumb
      *
      */
-    function render()
+    public function render()
     {
+        $ret = '';
+
         if (!isset($GLOBALS['xoTheme']) || !is_object($GLOBALS['xoTheme'])) {
             include_once $GLOBALS['xoops']->path('/class/theme.php');
             $GLOBALS['xoTheme'] = new xos_opal_Theme();
             }
-
-        require_once $GLOBALS['xoops']->path('class/template.php');
+        require_once $GLOBALS['xoops']->path('/class/template.php');
         $breadcrumbTpl = new XoopsTpl();
         $breadcrumbTpl->assign('breadcrumb', $this->_bread);
-        $html = $breadcrumbTpl->fetch("db:{$this->dirname}_co_breadcrumb.tpl");
+// IN PROGRESS
+// IN PROGRESS
+// IN PROGRESS
+        //$ret .= $breadcrumbTpl->fetch(__DIR__ . '_breadcrumb.tpl');
+        $tplSource = file_get_contents(__DIR__ . '/breadcrumb.tpl');
+//        $ret .= $choiceByLetterTpl->fetchFromData($tplSource, false, null);
+        $ret .= $breadcrumbTpl->fetchFromData($tplSource, false, null);
         unset($breadcrumbTpl);
 
-        return $html;
+        return $ret;
     }
 }

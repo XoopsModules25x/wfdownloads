@@ -74,7 +74,7 @@ switch ($op) {
             }
         }
         //Include page navigation
-        include_once XOOPS_ROOT_PATH . '/class/pagenav.php';
+        xoops_load('XoopsPageNav');
         $ratings_pagenav = new XoopsPageNav($ratings_count, $wfdownloads->getConfig('admin_perpage'), $start, 'start');
         $GLOBALS['xoopsTpl']->assign('ratings_pagenav', $ratings_pagenav->renderNav());
 
