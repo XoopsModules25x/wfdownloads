@@ -781,139 +781,146 @@ function wfdownloads_displayIcons($time, $status = _WFDOWNLOADS_STATUS_WAITING, 
     return $icons;
 }
 
-if (!function_exists('convertorderbyin')) {
-    // Reusable Link Sorting Functions
-    /**
-     * convertorderbyin()
-     *
-     * @param   $orderby
-     *
-     * @return string
-     */
-    function convertorderbyin($orderby)
-    {
-        switch (trim($orderby)) {
-            case 'titleA':
-                $orderby = 'title ASC';
-                break;
-            case 'titleD':
-                $orderby = 'title DESC';
-                break;
-            case 'dateA':
-                $orderby = 'published ASC';
-                break;
-            case 'dateD':
-                $orderby = 'published DESC';
-                break;
-            case 'hitsA':
-                $orderby = 'hits ASC';
-                break;
-            case 'hitsD':
-                $orderby = 'hits DESC';
-                break;
-            case 'ratingA':
-                $orderby = 'rating ASC';
-                break;
-            case 'ratingD':
-                $orderby = 'rating DESC';
-                break;
-            case 'sizeD':
-                $orderby = 'size DESC';
-                break;
-            case 'sizeA':
-                $orderby = 'size ASC';
-                break;
-            default:
-                $orderby = 'published DESC';
-                break;
-        }
-
-        return $orderby;
+/**
+ * wfdownloads_convertorderbyin()
+ *
+ * @param   $orderby
+ *
+ * @return string
+ */
+function wfdownloads_convertorderbyin($orderby)
+{
+    switch (trim($orderby)) {
+        case 'titleA':
+            $orderby = 'title ASC';
+            break;
+        case 'titleD':
+            $orderby = 'title DESC';
+            break;
+        case 'dateA':
+            $orderby = 'published ASC';
+            break;
+        case 'dateD':
+            $orderby = 'published DESC';
+            break;
+        case 'hitsA':
+            $orderby = 'hits ASC';
+            break;
+        case 'hitsD':
+            $orderby = 'hits DESC';
+            break;
+        case 'ratingA':
+            $orderby = 'rating ASC';
+            break;
+        case 'ratingD':
+            $orderby = 'rating DESC';
+            break;
+        case 'sizeD':
+            $orderby = 'size DESC';
+            break;
+        case 'sizeA':
+            $orderby = 'size ASC';
+            break;
+        case 'weightD':
+            $orderby = 'weight DESC';
+            break;
+        case 'weightA':
+            $orderby = 'weight ASC';
+            break;
+        default:
+            $orderby = 'published DESC';
+            break;
     }
+
+    return $orderby;
 }
 
-if (!function_exists('convertorderbytrans')) {
-    /**
-     * @param $orderby
-     *
-     * @return string
-     */
-    function convertorderbytrans($orderby)
-    {
-        if ($orderby == 'title ASC') {
-            $orderbyTrans = _MD_WFDOWNLOADS_TITLEATOZ;
-        }
-        if ($orderby == 'title DESC') {
-            $orderbyTrans = _MD_WFDOWNLOADS_TITLEZTOA;
-        }
-        if ($orderby == 'published ASC') {
-            $orderbyTrans = _MD_WFDOWNLOADS_DATEOLD;
-        }
-        if ($orderby == 'published DESC') {
-            $orderbyTrans = _MD_WFDOWNLOADS_DATENEW;
-        }
-        if ($orderby == 'hits ASC') {
-            $orderbyTrans = _MD_WFDOWNLOADS_POPULARITYLTOM;
-        }
-        if ($orderby == 'hits DESC') {
-            $orderbyTrans = _MD_WFDOWNLOADS_POPULARITYMTOL;
-        }
-        if ($orderby == 'rating ASC') {
-            $orderbyTrans = _MD_WFDOWNLOADS_RATINGLTOH;
-        }
-        if ($orderby == 'rating DESC') {
-            $orderbyTrans = _MD_WFDOWNLOADS_RATINGHTOL;
-        }
-        if ($orderby == 'size ASC') {
-            $orderbyTrans = _MD_WFDOWNLOADS_SIZELTOH;
-        }
-        if ($orderby == 'size DESC') {
-            $orderbyTrans = _MD_WFDOWNLOADS_SIZEHTOL;
-        }
-        return $orderbyTrans;
+/**
+ * @param $orderby
+ *
+ * @return string
+ */
+function wfdownloads_convertorderbytrans($orderby)
+{
+    if ($orderby == 'title ASC') {
+        $orderbyTrans = _MD_WFDOWNLOADS_TITLEATOZ;
     }
+    if ($orderby == 'title DESC') {
+        $orderbyTrans = _MD_WFDOWNLOADS_TITLEZTOA;
+    }
+    if ($orderby == 'published ASC') {
+        $orderbyTrans = _MD_WFDOWNLOADS_DATEOLD;
+    }
+    if ($orderby == 'published DESC') {
+        $orderbyTrans = _MD_WFDOWNLOADS_DATENEW;
+    }
+    if ($orderby == 'hits ASC') {
+        $orderbyTrans = _MD_WFDOWNLOADS_POPULARITYLTOM;
+    }
+    if ($orderby == 'hits DESC') {
+        $orderbyTrans = _MD_WFDOWNLOADS_POPULARITYMTOL;
+    }
+    if ($orderby == 'rating ASC') {
+        $orderbyTrans = _MD_WFDOWNLOADS_RATINGLTOH;
+    }
+    if ($orderby == 'rating DESC') {
+        $orderbyTrans = _MD_WFDOWNLOADS_RATINGHTOL;
+    }
+    if ($orderby == 'size ASC') {
+        $orderbyTrans = _MD_WFDOWNLOADS_SIZELTOH;
+    }
+    if ($orderby == 'size DESC') {
+        $orderbyTrans = _MD_WFDOWNLOADS_SIZEHTOL;
+    }
+    if ($orderby == 'weight ASC') {
+        $orderbyTrans = _MD_WFDOWNLOADS_WEIGHTLTOH;
+    }
+    if ($orderby == 'weight DESC') {
+        $orderbyTrans = _MD_WFDOWNLOADS_WEIGHTHTOL;
+    }
+
+    return $orderbyTrans;
 }
 
-if (!function_exists('convertorderbyout')) {
-    /**
-     * @param $orderby
-     *
-     * @return string
-     */
-    function convertorderbyout($orderby)
-    {
-        if ($orderby == 'title ASC') {
-            $orderby = 'titleA';
-        }
-        if ($orderby == 'title DESC') {
-            $orderby = 'titleD';
-        }
-        if ($orderby == 'published ASC') {
-            $orderby = 'dateA';
-        }
-        if ($orderby == 'published DESC') {
-            $orderby = 'dateD';
-        }
-        if ($orderby == 'hits ASC') {
-            $orderby = 'hitsA';
-        }
-        if ($orderby == 'hits DESC') {
-            $orderby = 'hitsD';
-        }
-        if ($orderby == 'rating ASC') {
-            $orderby = 'ratingA';
-        }
-        if ($orderby == 'rating DESC') {
-            $orderby = 'ratingD';
-        }
-        if ($orderby == 'size ASC') {
-            $orderby = 'sizeA';
-        }
-        if ($orderby == 'size DESC') {
-            $orderby = 'sizeD';
-        }
-        return $orderby;
+function wfdownloads_convertorderbyout($orderby)
+{
+    if ($orderby == 'title ASC') {
+        $orderby = 'titleA';
     }
+    if ($orderby == 'title DESC') {
+        $orderby = 'titleD';
+    }
+    if ($orderby == 'published ASC') {
+        $orderby = 'dateA';
+    }
+    if ($orderby == 'published DESC') {
+        $orderby = 'dateD';
+    }
+    if ($orderby == 'hits ASC') {
+        $orderby = 'hitsA';
+    }
+    if ($orderby == 'hits DESC') {
+        $orderby = 'hitsD';
+    }
+    if ($orderby == 'rating ASC') {
+        $orderby = 'ratingA';
+    }
+    if ($orderby == 'rating DESC') {
+        $orderby = 'ratingD';
+    }
+    if ($orderby == 'size ASC') {
+        $orderby = 'sizeA';
+    }
+    if ($orderby == 'size DESC') {
+        $orderby = 'sizeD';
+    }
+    if ($orderby == 'weight ASC') {
+        $orderby = 'weightA';
+    }
+    if ($orderby == 'weight DESC') {
+        $orderby = 'weightD';
+    }
+    return $orderby;
 }
 
 /**

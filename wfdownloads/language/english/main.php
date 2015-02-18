@@ -372,3 +372,15 @@ define('_MD_WFDOWNLOADS_ERROR_SCREENSHOTSDIRNOTEXISTS', "Warning: contact the ad
 define('_MD_WFDOWNLOADS_ERROR_CATIMAGEDIRNOTEXISTS', "Warning: contact the administrator, the upload directory does not exist");
 
 define('_MD_WFDOWNLOADS_FFS_SUBMIT1ST_STEP', "1st step: choose category");
+
+// class/download.php
+define('_MD_WFDOWNLOADS_WEIGHT', "Weight");
+define('_MD_WFDOWNLOADS_WEIGHTLTOH', "Weight (lowest to highest value)");
+define('_MD_WFDOWNLOADS_WEIGHTHTOL', "Weight (highest to lowest value)");
+
+// template/wfdownloads_singlefile.tpl
+// Magnific Popup http://dimsemenov.com/plugins/magnific-popup/
+define('_MD_WFDOWNLOADS_MAGNIFIC_image_tError', "The image could not be loaded.");
+define('_MD_WFDOWNLOADS_MAGNIFIC_gallery_tPrev', "Previous (Left arrow key)");
+define('_MD_WFDOWNLOADS_MAGNIFIC_gallery_tNext', "Next (Right arrow key)");
+define('_MD_WFDOWNLOADS_MAGNIFIC_gallery_tCounter', "%curr% of %total%");

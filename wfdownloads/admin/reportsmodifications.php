@@ -115,6 +115,7 @@ switch ($op) {
             switch ($key) {
                 case 'title':
                 case 'url':
+                case 'weight':
                     // NOP
                     break;
                 case 'size':

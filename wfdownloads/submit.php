@@ -381,6 +381,7 @@ switch ($op) {
         $downloadObj->setVar('title', $title);
         $downloadObj->setVar('url', $url);
         $downloadObj->setVar('cid', (int)$cid);
+        $downloadObj->setVar('weight', (int)$weight);
         $downloadObj->setVar('filename', $filename);
         $downloadObj->setVar('filetype', $filetype);
 

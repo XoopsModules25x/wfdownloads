@@ -107,6 +107,7 @@ CREATE TABLE wfdownloads_downloads (
     doxcode                     tinyint(1) NOT NULL default '1',
     doimage                     tinyint(1) NOT NULL default '1',
     dobr                        tinyint(1) NOT NULL default '1',
+    weight                      int(11) NOT NULL default '0',
     PRIMARY KEY (lid),
     KEY cid (cid),
     KEY status (status),
@@ -350,6 +351,7 @@ CREATE TABLE wfdownloads_mod (
     doxcode                     tinyint(1) NOT NULL default '1',
     doimage                     tinyint(1) NOT NULL default '1',
     dobr                        tinyint(1) NOT NULL default '1',
+    weight                      int(11) NOT NULL default '0',
     PRIMARY KEY (requestid)
 ) ENGINE=MyISAM;
 

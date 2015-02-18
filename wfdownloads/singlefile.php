@@ -62,8 +62,6 @@ $xoopsOption['template_main'] = "{$wfdownloads->getModule()->dirname()}_singlefi
 include_once XOOPS_ROOT_PATH . '/header.php';
 
 $xoTheme->addScript(XOOPS_URL . '/browse.php?Frameworks/jquery/jquery.js');
-$xoTheme->addScript(WFDOWNLOADS_URL . '/assets/js/magnific/jquery.magnific-popup.min.js');
-$xoTheme->addStylesheet(WFDOWNLOADS_URL . '/assets/js/magnific/magnific-popup.css');
 $xoTheme->addStylesheet(WFDOWNLOADS_URL . '/assets/css/module.css');
 
 $xoopsTpl->assign('wfdownloads_url', WFDOWNLOADS_URL . '/');
@@ -274,51 +272,3 @@ include_once XOOPS_ROOT_PATH . '/include/comment_view.php';
 $xoopsTpl->assign('com_rule', $wfdownloads->getConfig('com_rule'));
 $xoopsTpl->assign('module_home', wfdownloads_module_home(true));
 include_once __DIR__ . '/footer.php';
-
-?>
-<script type="text/javascript">
-
-    $('.magnific_zoom').magnificPopup({
-        type               : 'image',
-        image              : {
-            cursor     : 'mfp-zoom-out-cur',
-            titleSrc   : "title",
-            verticalFit: true,
-            tError     : 'The image could not be loaded.' // Error message
-        },
-        gallery            : {
-            enabled: true
-        },
-        iframe             : {
-            patterns: {
-                youtube : {
-                    index: 'youtube.com/',
-                    id   : 'v=',
-                    src  : '//www.youtube.com/embed/%id%?autoplay=1'
-                }, vimeo: {
-                    index: 'vimeo.com/',
-                    id   : '/',
-                    src  : '//player.vimeo.com/video/%id%?autoplay=1'
-                }, gmaps: {
-                    index: '//maps.google.',
-                    src  : '%id%&output=embed'
-                }
-            }
-        },
-        preloader          : true,
-        showCloseBtn       : true,
-        closeBtnInside     : false,
-        closeOnContentClick: true,
-        closeOnBgClick     : true,
-        enableEscapeKey    : true,
-        modal              : false,
-        alignTop           : false,
-        mainClass          : 'mfp-img-mobile mfp-fade',
-        zoom               : {
-            enabled : true,
-            duration: 300,
-            easing  : 'ease-in-out'
-        },
-        removalDelay       : 200
-    });
-</script>

@@ -20,8 +20,6 @@
  */
 defined('XOOPS_ROOT_PATH') || die('XOOPS root path not defined');
 include_once __DIR__ . '/common.php';
-//@include_once WFDOWNLOADS_ROOT_PATH . '/language/' . $GLOBALS['xoopsConfig']['language'] . '/admin.php';
-xoops_loadLanguage('admin', $wfdownloads->getModule()->dirname());
 
 /**
  * @param $xoopsModule
@@ -30,6 +28,7 @@ xoops_loadLanguage('admin', $wfdownloads->getModule()->dirname());
  */
 function xoops_module_pre_uninstall_wfdownloads(&$xoopsModule)
 {
+    xoops_loadLanguage('admin', $xoopsModule->dirname());
     // NOP
     return true;
 }
@@ -39,5 +38,6 @@ function xoops_module_pre_uninstall_wfdownloads(&$xoopsModule)
  */
 function xoops_module_uninstall_wfdownloads(&$xoopsModule)
 {
+    xoops_loadLanguage('admin', $xoopsModule->dirname());
     // NOP
 }

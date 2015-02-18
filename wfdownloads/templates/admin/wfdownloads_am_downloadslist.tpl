@@ -10,6 +10,7 @@
                 <th><{$smarty.const._AM_WFDOWNLOADS_MINDEX_ID}></th>
                 <th><{$smarty.const._AM_WFDOWNLOADS_MINDEX_TITLE}></th>
                 <th><{$smarty.const._AM_WFDOWNLOADS_FCATEGORY_TITLE}></th>
+                <th><{$smarty.const._MD_WFDOWNLOADS_WEIGHT}></th>
                 <th><{$smarty.const._AM_WFDOWNLOADS_MINDEX_POSTER}></th>
                 <th><{$smarty.const._AM_WFDOWNLOADS_MINDEX_SUBMITTED}></th>
                 <th><{$smarty.const._AM_WFDOWNLOADS_MINDEX_ONLINESTATUS}></th>
@@ -35,6 +36,7 @@
                         </select>
                         <input id='filter_category_title' type='text' value='<{$filter_category_title}>' maxlength='100' size='15' title='' name='filter_category_title'>
                     </td>
+                    <td>&nbsp;</td>
                     <td><{$filter_submitter_select}></td>
                     <td>
                         <{*
@@ -68,6 +70,7 @@
                     <td>
                         <a href='../viewcat.php?cid=<{$download.cid}>'><{$download.category_title}></a>
                     </td>
+                    <td><{$download.weight}></td>
                     <td><{$download.submitter_uname}></td>
                     <td><{$download.published_formatted}></td>
                     <td align='center'>
