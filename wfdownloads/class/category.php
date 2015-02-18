@@ -19,7 +19,7 @@
  * @version         svn:$id$
  */
 defined('XOOPS_ROOT_PATH') || die('XOOPS root path not defined');
-include_once dirname(dirname(__FILE__)) . '/include/common.php';
+include_once dirname(__DIR__) . '/include/common.php';
 
 /**
  * Class WfdownloadsCategory
@@ -85,7 +85,7 @@ class WfdownloadsCategory extends XoopsObject
         }
         $title = $this->isNew() ? _AM_WFDOWNLOADS_CCATEGORY_CREATENEW : _AM_WFDOWNLOADS_CCATEGORY_MODIFY;
 
-        include_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
+        xoops_load('XoopsFormLoader');
         include_once WFDOWNLOADS_ROOT_PATH . '/class/wfdownloads_lists.php';
 
         $form = new XoopsThemeForm($title, 'form_error', $action, 'post', true);
@@ -94,50 +94,37 @@ class WfdownloadsCategory extends XoopsObject
         $form->addElement(new XoopsFormText(_AM_WFDOWNLOADS_FCATEGORY_TITLE, 'title', 50, 255, $this->getVar('title', 'e')), true);
         // category: pid
         if (wfdownloads_categoriesCount() > 0) {
-            $categoryObjs     = $this->wfdownloads->getHandler('category')->getObjects();
-            $categoriesTree = new XoopsObjectTree($categoryObjs, 'cid', 'pid');
-            $form->addElement(
-                new XoopsFormLabel(_AM_WFDOWNLOADS_FCATEGORY_SUBCATEGORY, $categoriesTree->makeSelBox(
-                    'pid',
-                    'title',
-                    "-",
-                    $this->getVar('pid', 'e'),
-                    true
-                ))
-            );
+            $categoryObjs = $this->wfdownloads->getHandler('category')->getObjects();
+            $categoryObjsTree = new XoopsObjectTree($categoryObjs, 'cid', 'pid');
+            $form->addElement(new XoopsFormLabel(_AM_WFDOWNLOADS_FCATEGORY_SUBCATEGORY, $categoryObjsTree->makeSelBox('pid', 'title', '-', $this->getVar('pid', 'e'), true)));
         }
         // category: weight
-        $form->addElement(new XoopsFormText(_AM_WFDOWNLOADS_FCATEGORY_WEIGHT, 'weight', 10, 80, $this->getVar('weight')), false);
+        $form->addElement(new XoopsFormText(_AM_WFDOWNLOADS_FCATEGORY_WEIGHT, 'weight', 11, 11, $this->getVar('weight')), false);
         // permission: WFDownCatPerm
-        $groups             = $gperm_handler->getGroupIds('WFDownCatPerm', $this->getVar('cid'), $this->wfdownloads->getModule()->mid());
-        $groups_down_select = new XoopsFormSelectGroup(_AM_WFDOWNLOADS_FCATEGORY_GROUPPROMPT, "groups", true, $groups, 5, true);
+        $groups = $gperm_handler->getGroupIds('WFDownCatPerm', $this->getVar('cid'), $this->wfdownloads->getModule()->mid());
+        $groups_down_select = new XoopsFormSelectGroup(_AM_WFDOWNLOADS_FCATEGORY_GROUPPROMPT, 'groups', true, $groups, 5, true);
         $groups_down_select->setDescription(_AM_WFDOWNLOADS_FCATEGORY_GROUPPROMPT_DESC);
         $form->addElement($groups_down_select);
         // permission: WFUpCatPerm
-        $up_groups        = $gperm_handler->getGroupIds('WFUpCatPerm', $this->getVar('cid'), $this->wfdownloads->getModule()->mid());
-        $groups_up_select = new XoopsFormSelectGroup(_AM_WFDOWNLOADS_FCATEGORY_GROUPPROMPT_UP, "up_groups", true, $up_groups, 5, true);
+        $up_groups = $gperm_handler->getGroupIds('WFUpCatPerm', $this->getVar('cid'), $this->wfdownloads->getModule()->mid());
+        $groups_up_select = new XoopsFormSelectGroup(_AM_WFDOWNLOADS_FCATEGORY_GROUPPROMPT_UP, 'up_groups', true, $up_groups, 5, true);
         $groups_up_select->setDescription(_AM_WFDOWNLOADS_FCATEGORY_GROUPPROMPT_UP_DESC);
         $form->addElement($groups_up_select);
         // category: imgurl
-        $imgurl_path = $this->getVar('imgurl') ? $this->wfdownloads->getConfig('catimage') . '/' . $this->getVar('imgurl') : WFDOWNLOADS_IMAGES_URL . '/blank.gif';
-        $imgurl_tray = new XoopsFormElementTray(_AM_WFDOWNLOADS_FCATEGORY_CIMAGE, '<br />');
-            $imgurl_tray->addElement(new XoopsFormLabel(_AM_WFDOWNLOADS_DOWN_FUPLOADPATH, XOOPS_ROOT_PATH . '/' . $this->wfdownloads->getConfig('catimage')));
-            $imgurl_tray->addElement(new XoopsFormLabel(_AM_WFDOWNLOADS_DOWN_FUPLOADURL, XOOPS_URL . '/' . $this->wfdownloads->getConfig('catimage')));
-                $graph_array   = & WfsLists::getListTypeAsArray(XOOPS_ROOT_PATH . '/' . $this->wfdownloads->getConfig('catimage'), $type = "images");
-                $imgurl_select = new XoopsFormSelect('', 'imgurl', $this->getVar('imgurl'));
-                $imgurl_select->addOptionArray($graph_array);
-                $imgurl_select->setExtra(
-                    "onchange='showImgSelected(\"image\", \"imgurl\", \"" . $this->wfdownloads->getConfig('catimage') . "\", \"\", \"" . XOOPS_URL . "\")'"
-                );
-            $imgurl_tray->addElement($imgurl_select, false);
-            $imgurl_tray->addElement( new XoopsFormLabel( '', "<img src='" . XOOPS_URL . "/" . $imgurl_path . "' name='image' id='image' alt='' />" ) );
-            $imgurl_tray->addElement(new XoopsFormFile(_AM_WFDOWNLOADS_BUPLOAD , 'uploadfile', 0), false);
-        $form->addElement($imgurl_tray);
+        $imgUrl_path = $this->getVar('imgurl') ? $this->wfdownloads->getConfig('catimage') . '/' . $this->getVar('imgurl') : WFDOWNLOADS_IMAGES_URL . '/blank.gif';
+        $imgUrl_tray = new XoopsFormElementTray(_AM_WFDOWNLOADS_FCATEGORY_CIMAGE, '<br />');
+            $imgUrl_tray->addElement(new XoopsFormLabel(_AM_WFDOWNLOADS_DOWN_FUPLOADPATH, XOOPS_ROOT_PATH . '/' . $this->wfdownloads->getConfig('catimage')));
+            $imgUrl_tray->addElement(new XoopsFormLabel(_AM_WFDOWNLOADS_DOWN_FUPLOADURL, XOOPS_URL . '/' . $this->wfdownloads->getConfig('catimage')));
+                $graph_array = WfsLists::getListTypeAsArray(XOOPS_ROOT_PATH . '/' . $this->wfdownloads->getConfig('catimage'), 'images');
+                $imgUrl_select = new XoopsFormSelect('', 'imgurl', $this->getVar('imgurl'));
+                $imgUrl_select->addOptionArray($graph_array);
+                $imgUrl_select->setExtra("onchange='showImgSelected(\"image\", \"imgurl\", \"" . $this->wfdownloads->getConfig('catimage') . "\", \"\", \"" . XOOPS_URL . "\")'");
+            $imgUrl_tray->addElement($imgUrl_select, false);
+            $imgUrl_tray->addElement(new XoopsFormLabel( '', "<img src='" . XOOPS_URL . "/" . $imgUrl_path . "' name='image' id='image' alt='' />"));
+            $imgUrl_tray->addElement(new XoopsFormFile(_AM_WFDOWNLOADS_BUPLOAD , 'uploadfile', 0), false);
+        $form->addElement($imgUrl_tray);
         // category: description
-        $description_textarea = new XoopsFormDhtmlTextArea(_AM_WFDOWNLOADS_FCATEGORY_DESCRIPTION, 'description', $this->getVar(
-            'description',
-            'e'
-        ), 15, 60);
+        $description_textarea = new XoopsFormDhtmlTextArea(_AM_WFDOWNLOADS_FCATEGORY_DESCRIPTION, 'description', $this->getVar('description', 'e'), 15, 60);
         $description_textarea->setDescription(_AM_WFDOWNLOADS_FCATEGORY_DESCRIPTION_DESC);
         $form->addElement($description_textarea, true);
         // category: summary
@@ -145,7 +132,7 @@ class WfdownloadsCategory extends XoopsObject
         $summary_textarea->setDescription(_AM_WFDOWNLOADS_FCATEGORY_SUMMARY_DESC);
         $form->addElement($summary_textarea);
         // category: dohtml, dosmiley, doxcode, doimage, dobr
-        $options_tray  = new XoopsFormElementTray(_AM_WFDOWNLOADS_TEXTOPTIONS, ' ');
+        $options_tray = new XoopsFormElementTray(_AM_WFDOWNLOADS_TEXTOPTIONS, ' ');
         $options_tray->setDescription(_AM_WFDOWNLOADS_TEXTOPTIONS_DESC);
         $html_checkbox = new XoopsFormCheckBox('', 'dohtml', $this->getVar('dohtml'));
         $html_checkbox->addOption(1, _AM_WFDOWNLOADS_ALLOWHTML);
@@ -166,22 +153,22 @@ class WfdownloadsCategory extends XoopsObject
 // Formulize module support (2006/05/04) jpc - start
         // category: formulize_fid
         if (wfdownloads_checkModule('formulize')) {
-            if (file_exists(XOOPS_ROOT_PATH . "/modules/formulize/include/functions.php")) {
-                include_once XOOPS_ROOT_PATH . "/modules/formulize/include/functions.php";
-                $fids           = allowedForms(); // is a Formulize function
-                $fids_select    = array();
+            if (file_exists(XOOPS_ROOT_PATH . '/modules/formulize/include/functions.php')) {
+                include_once XOOPS_ROOT_PATH . '/modules/formulize/include/functions.php';
+                $fids = allowedForms(); // is a Formulize function
+                $fids_select = array();
                 $fids_select[0] = _AM_WFDOWNLOADS_FFS_STANDARD_FORM;
                 foreach ($fids as $fid) {
                     $fids_select[$fid] = getFormTitle($fid); // is a Formulize function
                 }
 
-                $formulize_forms = new XoopsFormSelect(_AM_WFDOWNLOADS_FFS_CUSTOM_FORM, "formulize_fid", $this->getVar('formulize_fid'));
+                $formulize_forms = new XoopsFormSelect(_AM_WFDOWNLOADS_FFS_CUSTOM_FORM, 'formulize_fid', $this->getVar('formulize_fid'));
                 $formulize_forms->addOptionArray($fids_select);
                 $form->addElement($formulize_forms);
             }
         }
 // Formulize module support (2006/05/04) jpc - end
-        // form: button tray
+        // form: buttons
         $button_tray = new XoopsFormElementTray('', '');
         $button_tray->addElement(new XoopsFormHidden('op', 'category.save'));
         if ($this->isNew()) {
@@ -238,9 +225,9 @@ class WfdownloadsCategoryHandler extends XoopsPersistableObjectHandler
      *
      * @return mixed|string
      */
-    function getNicePath($cid, $root_filename = "index.php", $item_filename = "viewcat.php?op=")
+    function getNicePath($cid, $root_filename = 'index.php', $item_filename = 'viewcat.php?op=')
     {
-        include_once WFDOWNLOADS_ROOT_PATH . '/class/xoopstree.php';
+        //include_once WFDOWNLOADS_ROOT_PATH . '/class/common/xoopstree.php';
         $mytree = new WfdownloadsXoopsTree($this->table, $this->keyName, 'pid');
         $pathString = $mytree->getNicePathFromId($cid, $this->identifierName, $item_filename);
 
@@ -263,10 +250,9 @@ class WfdownloadsCategoryHandler extends XoopsPersistableObjectHandler
      */
     function getUserCategories($id_as_key = false, $as_object = true)
     {
-        global $xoopsUser;
         $gperm_handler = xoops_gethandler('groupperm');
 
-        $groups = is_object($xoopsUser) ? $xoopsUser->getGroups() : array(0 => XOOPS_GROUP_ANONYMOUS);
+        $groups = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : array(0 => XOOPS_GROUP_ANONYMOUS);
         $allowedDownCategoriesIds = $gperm_handler->getItemIds('WFDownCatPerm', $groups, $this->wfdownloads->getModule()->mid());
 
         return $this->getObjects(new Criteria('cid', '(' . implode(',', $allowedDownCategoriesIds) . ')', 'IN'), $id_as_key, $as_object);
@@ -282,10 +268,9 @@ class WfdownloadsCategoryHandler extends XoopsPersistableObjectHandler
      */
     function getUserDownCategories($id_as_key = false, $as_object = true)
     {
-        global $xoopsUser;
         $gperm_handler = xoops_gethandler('groupperm');
 
-        $groups = is_object($xoopsUser) ? $xoopsUser->getGroups() : array(0 => XOOPS_GROUP_ANONYMOUS);
+        $groups = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : array(0 => XOOPS_GROUP_ANONYMOUS);
         $allowedDownCategoriesIds = $gperm_handler->getItemIds('WFDownCatPerm', $groups, $this->wfdownloads->getModule()->mid());
 
         return $this->getObjects(new Criteria('cid', '(' . implode(',', $allowedDownCategoriesIds) . ')', 'IN'), $id_as_key, $as_object);
@@ -299,10 +284,9 @@ class WfdownloadsCategoryHandler extends XoopsPersistableObjectHandler
      */
     function getUserUpCategories($id_as_key = false, $as_object = true)
     {
-        global $xoopsUser;
         $gperm_handler = xoops_gethandler('groupperm');
 
-        $groups = is_object($xoopsUser) ? $xoopsUser->getGroups() : XOOPS_GROUP_ANONYMOUS;
+        $groups = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : XOOPS_GROUP_ANONYMOUS;
         $allowedUpCategoriesIds = $gperm_handler->getItemIds('WFUpCatPerm', $groups, $this->wfdownloads->getModule()->mid());
 
         return $this->getObjects(new Criteria('cid', '(' . implode(',', $allowedUpCategoriesIds) . ')', 'IN'), $id_as_key, $as_object);
@@ -315,10 +299,10 @@ class WfdownloadsCategoryHandler extends XoopsPersistableObjectHandler
      */
     function getChildCats($category)
     {
+        xoops_load('XoopsObjectTree');
+        //
         $categoryObjs = $this->getObjects();
-        include_once XOOPS_ROOT_PATH . '/class/tree.php';
         $categoryObjsTree = new XoopsObjectTree($categoryObjs, $this->keyName, 'pid');
-
         return $categoryObjsTree->getAllChild($category->getVar($this->keyName));
     }
 
@@ -327,17 +311,18 @@ class WfdownloadsCategoryHandler extends XoopsPersistableObjectHandler
      */
     function getAllSubcatsTopParentCid()
     {
+        xoops_load('XoopsObjectTree');
+        //
         if (!$this->allCategories) {
             $this->allCategories = $this->getObjects(null, true);
         }
 
-        include_once XOOPS_ROOT_PATH . '/class/tree.php';
         $categoryObjsTree = new XoopsObjectTree($this->allCategories, $this->keyName, 'pid');
 
         $allsubcats_linked_totop = array();
         foreach ($this->allCategories as $cid => $category) {
             $parentCategoryObjs = $categoryObjsTree->getAllParent($cid);
-            if (count($parents) == 0) {
+            if (count($parentCategoryObjs) == 0) {
                 // is a top category
                 $allsubcats_linked_totop[$cid] = $cid;
             } else {
@@ -347,6 +332,7 @@ class WfdownloadsCategoryHandler extends XoopsPersistableObjectHandler
             }
             unset($parentCategoryObjs);
         }
+
         return $allsubcats_linked_totop;
 /*
         $categoryObjsTreeNodes = $categoryObjsTree->getTree();

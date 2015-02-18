@@ -21,8 +21,8 @@
 
 //defined('XOOPS_ROOT_PATH') || die('XOOPS root path not defined');
 
-require_once dirname(dirname(dirname(dirname(__FILE__)))) . '/include/cp_header.php';
-$mydirname = basename(dirname(dirname(__FILE__)));
+require_once dirname(dirname(dirname(__DIR__))) . '/include/cp_header.php';
+$mydirname = basename(dirname(__DIR__));
 xoops_loadLanguage('directorychecker', $mydirname);
 
 /**
@@ -96,7 +96,7 @@ class DirectoryChecker
      */
     public static function createDirectory($target, $mode = 0777)
     {
-        $target = str_replace("..", "", $target);
+        $target = str_replace('..', '', $target);
         // http://www.php.net/manual/en/function.mkdir.php
         return is_dir($target) || (self::createDirectory(dirname($target), $mode) && mkdir($target, $mode));
     }
@@ -109,7 +109,7 @@ class DirectoryChecker
      */
     public static function setDirectoryPermissions($target, $mode = 0777)
     {
-        $target = str_replace("..", "", $target);
+        $target = str_replace('..', '', $target);
 
         return @chmod($target, (int) $mode);
     }
@@ -127,7 +127,7 @@ class DirectoryChecker
 
 $op = (isset($_POST['op'])) ? $_POST['op'] : "";
 switch ($op) {
-    case "createdir":
+    case 'createdir':
         if (isset($_POST['path'])) {
             $path = $_POST['path'];
         }
@@ -138,7 +138,7 @@ switch ($op) {
         redirect_header($redirect, 2, $msg . ': ' . $path);
         exit();
         break;
-    case "setdirperm":
+    case 'setdirperm':
         if (isset($_POST['path'])) {
             $path = $_POST['path'];
         }

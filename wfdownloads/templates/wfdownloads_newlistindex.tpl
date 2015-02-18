@@ -21,7 +21,7 @@
 
 <!-- Start link loop -->
 <{foreach item=download from=$file}>
-<{include file="db:wfdownloads_download.tpl"}>
+<{include file='db:wfdownloads_download.tpl'}>
 <br />
 <{/foreach}>
 <!-- End link loop -->

@@ -123,11 +123,10 @@ define('_MI_WFDOWNLOADS_SCREENSHOTS', "[screenshots] Screenshots upload director
 define('_MI_WFDOWNLOADS_CATEGORYIMG', "[categories images] Categories images upload directory");
 define('_MI_WFDOWNLOADS_MAINIMGDIR', "[index page] Main images directory");
 define('_MI_WFDOWNLOADS_USETHUMBS', "[thumbnails] Use thumbnails");
-define('_MI_WFDOWNLOADS_USETHUMBSDSC',
-    "Supported file types: JPG, GIF, PNG. <br />Module will use thumbnails for images (category & screenshots). <br />Set to '" . _NO
+define('_MI_WFDOWNLOADS_USETHUMBSDSC', "Supported file types: JPG, GIF, PNG. <br />Module will use thumbnails for images (category & screenshots). <br />Set to '" . _NO
     . "' to use original image if the server does not support this option.");
-define('_MI_WFDOWNLOADS_DATEFORMAT', "Timestamp");
-define('_MI_WFDOWNLOADS_DATEFORMATDSC', "Default Timestamp for module front end. <br />More info here: <a href='http://www.php.net/manual/en/function.date.php'>http://www.php.net/manual/en/function.date.php</a>");
+define('_MI_WFDOWNLOADS_DATEFORMAT', "Date format");
+define('_MI_WFDOWNLOADS_DATEFORMATDSC', "Default date format for module front end. <br />More info here: <a href='http://www.php.net/manual/en/function.date.php'>http://www.php.net/manual/en/function.date.php</a>");
 define('_MI_WFDOWNLOADS_SHOWDISCLAIMER', "[disclaimer] Show disclaimer before user submission");
 define('_MI_WFDOWNLOADS_SHOWDOWNDISCL', "[disclaimer] Show disclaimer before user download");
 define('_MI_WFDOWNLOADS_DISCLAIMER', "[disclaimer] Submission disclaimer text");
@@ -142,8 +141,7 @@ define('_MI_WFDOWNLOADS_MAXSHOTSDSC', "Sets the maximum number of allowed screen
 define('_MI_WFDOWNLOADS_SUBMITART', "[submissions] Download submission");
 define('_MI_WFDOWNLOADS_SUBMITARTDSC', "Select groups that can submit new downloads. <br />Webmasters are automatically selected!");
 define('_MI_WFDOWNLOADS_IMGUPDATE', "[thumbnails] Update thumbnails");
-define('_MI_WFDOWNLOADS_IMGUPDATEDSC',
-    "If selected '" . _YES . "' thumbnail images will be updated at each page render, otherwise the first thumbnail image will be used regardless.");
+define('_MI_WFDOWNLOADS_IMGUPDATEDSC', "If selected '" . _YES . "' thumbnail images will be updated at each page render, otherwise the first thumbnail image will be used regardless.");
 define('_MI_WFDOWNLOADS_QUALITY', "[thumbnails] Thumbnail quality");
 define('_MI_WFDOWNLOADS_QUALITYDSC', "Quality lowest: 0 highest: 100.");
 define('_MI_WFDOWNLOADS_KEEPASPECT', "[thumbnails] Keep image aspect ratio");
@@ -161,8 +159,7 @@ define('_MI_WFDOWNLOADS_COPYRIGHT', "Copyright notice");
 define('_MI_WFDOWNLOADS_COPYRIGHTDSC', "Select to display a copyright notice on download page.");
 // Description of each config items
 define('_MI_WFDOWNLOADS_PLATFORMDSC', "List of platforms to enter. <br />Separate with | <br />IMPORTANT: Do not change this once the site is live, add new to the end of the list!");
-define('_MI_WFDOWNLOADS_SUBCATSDSC',
-    "Select '" . _YES . "' to display subcategories. Selecting '" . _NO . "' will hide sub-categories from the listings.");
+define('_MI_WFDOWNLOADS_SUBCATSDSC', "Select '" . _YES . "' to display subcategories. Selecting '" . _NO . "' will hide sub-categories from the listings.");
 define('_MI_WFDOWNLOADS_LICENSEDSC', "List of licenses to enter. <br />Separate with | <br />IMPORTANT: Do not change this once the site is live, add new to the end of the list!");
 // Text for notifications
 define('_MI_WFDOWNLOADS_GLOBAL_NOTIFY', "Global");
@@ -273,12 +270,16 @@ define('_MI_WFDOWNLOADS_MIRROR_ALLOWSUBMISS', "[mirrors] User mirror submissions
 define('_MI_WFDOWNLOADS_MIRROR_ALLOWSUBMISSDSC', "Allow users to submit new mirrors.");
 define('_MI_WFDOWNLOADS_MIRROR_MIRRORIMAGES', "[mirrors] Mirror logo upload directory"); // not implemented yet
 define('_MI_WFDOWNLOADS_MIRROR_MIRRORIMAGESDSC', "Mirror logo upload directory."); // not implemented yet
+
+
 // 3.21
 define('_MI_WFDOWNLOADS_DB_IMPORT', "Import");
 define('_MI_WFDOWNLOADS_HELP', "Help");
+
 // 3.22
 define('_MI_WFDOWNLOADS_EDITOR', "[editor] Text editor");
 define('_MI_WFDOWNLOADS_EDITORCHOICE', "Editor for File Summary and Download fields");
+
 // 3.23
 define('_MI_WFDOWNLOADS_SUBCATSSORTBY', "Sort subcategories by");
 define('_MI_WFDOWNLOADS_SUBCATSSORTBYDSC', "");
@@ -287,20 +288,37 @@ define('_MI_WFDOWNLOADS_SUBCATSSORTBYTITLE', "Category title");
 define('_MI_WFDOWNLOADS_SUBCATSSORTBYWEIGHT', "Category weight");
 // Names of admin menu items
 define('_MI_WFDOWNLOADS_MENU_HOME', "Home");
+define('_MI_WFDOWNLOADS_MENU_HOME_DESC', "Home");
 define('_MI_WFDOWNLOADS_MENU_CATEGORIES', "Categories");
+define('_MI_WFDOWNLOADS_MENU_CATEGORIES_DESC', "Categories");
 define('_MI_WFDOWNLOADS_MENU_DOWNLOADS', "Downloads");
-define('_MI_WFDOWNLOADS_MENU_INDEXPAGE', "Index page");
+define('_MI_WFDOWNLOADS_MENU_DOWNLOADS_DESC', "Downloads");
 define('_MI_WFDOWNLOADS_MENU_REVIEWS', "Reviews");
+define('_MI_WFDOWNLOADS_MENU_REVIEWS_DESC', "Reviews");
 define('_MI_WFDOWNLOADS_MENU_MIRRORS', "Mirrors");
+define('_MI_WFDOWNLOADS_MENU_MIRRORS_DESC', "Mirrors");
 define('_MI_WFDOWNLOADS_MENU_BROKENS', "Brokens");
+define('_MI_WFDOWNLOADS_MENU_BROKENS_DESC', "Brokens");
 define('_MI_WFDOWNLOADS_MENU_REPORTSMODIFICATIONS', "Broken & Modified");
+define('_MI_WFDOWNLOADS_MENU_REPORTSMODIFICATIONS_DESC', "Broken & Modified");
+define('_MI_WFDOWNLOADS_MENU_INDEXPAGE', "Index page");
+define('_MI_WFDOWNLOADS_MENU_INDEXPAGE_DESC', "Index page");
+define('_MI_WFDOWNLOADS_MENU_SWISHE', "Swish-e config");
+define('_MI_WFDOWNLOADS_MENU_SWISHE_DESC', "Swish-e config");
 define('_MI_WFDOWNLOADS_MENU_IMAGES', "Images");
+define('_MI_WFDOWNLOADS_MENU_IMAGES_DESC', "Images");
 define('_MI_WFDOWNLOADS_MENU_MIMETYPES', "MIME types");
+define('_MI_WFDOWNLOADS_MENU_MIMETYPES_DESC', "MIME types");
 define('_MI_WFDOWNLOADS_MENU_RATINGS', "Ratings & Votes");
+define('_MI_WFDOWNLOADS_MENU_RATINGS_DESC', "Ratings & Votes");
 define('_MI_WFDOWNLOADS_MENU_PERMISSIONS', "Permissions");
+define('_MI_WFDOWNLOADS_MENU_PERMISSIONS_DESC', "Permissions");
 define('_MI_WFDOWNLOADS_MENU_IMPORT', "Import");
+define('_MI_WFDOWNLOADS_MENU_IMPORT_DESC', "Import");
 define('_MI_WFDOWNLOADS_MENU_CLONE', "Clone module");
+define('_MI_WFDOWNLOADS_MENU_CLONE_DESC', "Clone module");
 define('_MI_WFDOWNLOADS_MENU_ABOUT', "About");
+define('_MI_WFDOWNLOADS_MENU_ABOUT_DESC', "About");
 define('_MI_WFDOWNLOADS_SCREENSHOTSDSC', "Path relative to Xoops root path: \"" . XOOPS_ROOT_PATH . "/\". <br />No trailing slash.");
 define('_MI_WFDOWNLOADS_MAINIMGDIRDSC', "Path relative to Xoops root path: \"" . XOOPS_ROOT_PATH . "/\". <br />No trailing slash.");
 define('_MI_WFDOWNLOADS_CATEGORYIMGDSC', "Path relative to Xoops root path: \"" . XOOPS_ROOT_PATH . "/\". <br />No trailing slash.");
@@ -352,3 +370,12 @@ define('_MI_WFDOWNLOADS_HELP_UPDATE3', "Updates from 3.10+<br />(IN PROGRESS)");
 
 define('_MI_WFDOWNLOADS_BATCHDIR', "[upload files] Batch directory");
 define('_MI_WFDOWNLOADS_BATCHDIRDSC', "Batch directory *MUST* be an absolute path! <br />No trailing slash.");
+
+define('_MI_WFDOWNLOADS_SWISHE_CONFIGS', "Swish-e preferences");
+define('_MI_WFDOWNLOADS_SWISHE_CONFIGSDSC', "");
+define('_MI_WFDOWNLOADS_SWISHE_ENABLE', "[Swish-e] Enable Swish-e searching system");
+define('_MI_WFDOWNLOADS_SWISHE_ENABLEDSC', "IN PROGRESS");
+define('_MI_WFDOWNLOADS_SWISHE_EXEPATH', "[Swish-e] Swish-e executable path");
+define('_MI_WFDOWNLOADS_SWISHE_EXEPATHDSC', "IN PROGRESS");
+define('_MI_WFDOWNLOADS_SWISHE_SEARCHLIMIT', "[Swish-e] Swish-e max results");
+define('_MI_WFDOWNLOADS_SWISHE_SEARCHLIMITDSC', "While searching, this specifies the maximum number of results to return. '0' is to return all results.");

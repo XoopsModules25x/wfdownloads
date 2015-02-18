@@ -18,8 +18,8 @@
  * @author          Xoops Development Team
  * @version         svn:$id$
  */
-include_once dirname(dirname(dirname(dirname(__FILE__)))) . '/mainfile.php';
-include_once dirname(dirname(__FILE__)) . '/include/common.php';
+include_once dirname(dirname(dirname(__DIR__))) . '/mainfile.php';
+include_once dirname(__DIR__) . '/include/common.php';
 
 // Include xoops admin header
 include_once XOOPS_ROOT_PATH . '/include/cp_header.php';
@@ -35,6 +35,6 @@ xoops_loadLanguage('modinfo', $wfdownloads->getModule()->dirname());
 xoops_loadLanguage('main', $wfdownloads->getModule()->dirname());
 
 if (!isset($xoopsTpl) || !is_object($xoopsTpl)) {
-    include_once(XOOPS_ROOT_PATH . '/class/template.php');
+    include_once XOOPS_ROOT_PATH . '/class/template.php';
     $xoopsTpl = new XoopsTpl();
 }

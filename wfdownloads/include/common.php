@@ -21,31 +21,32 @@
 defined('XOOPS_ROOT_PATH') || die('XOOPS root path not defined');
 
 // This must contain the name of the folder in which reside Wfdownloads
-define("WFDOWNLOADS_DIRNAME", basename(dirname(dirname(__FILE__))));
-define("WFDOWNLOADS_URL", XOOPS_URL . '/modules/' . WFDOWNLOADS_DIRNAME);
-define("WFDOWNLOADS_IMAGES_URL", WFDOWNLOADS_URL . '/assets/images');
-define("WFDOWNLOADS_ADMIN_URL", WFDOWNLOADS_URL . '/admin');
-define("WFDOWNLOADS_ROOT_PATH", XOOPS_ROOT_PATH . '/modules/' . WFDOWNLOADS_DIRNAME);
+define('WFDOWNLOADS_DIRNAME', basename(dirname(__DIR__)));
+define('WFDOWNLOADS_URL', XOOPS_URL . '/modules/' . WFDOWNLOADS_DIRNAME);
+define('WFDOWNLOADS_IMAGES_URL', WFDOWNLOADS_URL . '/assets/images');
+define('WFDOWNLOADS_ADMIN_URL', WFDOWNLOADS_URL . '/admin');
+define('WFDOWNLOADS_ROOT_PATH', XOOPS_ROOT_PATH . '/modules/' . WFDOWNLOADS_DIRNAME);
 
 xoops_loadLanguage('common', WFDOWNLOADS_DIRNAME);
 
-include_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
-include_once XOOPS_ROOT_PATH . '/class/tree.php';
-include_once XOOPS_ROOT_PATH . '/class/pagenav.php';
+xoops_load('XoopsFormLoader');
+//include_once XOOPS_ROOT_PATH . '/class/tree.php';
+xoops_load('XoopsObjectTree');
+xoops_load('XoopsPageNav');
 
+include_once WFDOWNLOADS_ROOT_PATH . '/class/wfdownloads.php'; // WfdownloadsWfdownloads class
 include_once WFDOWNLOADS_ROOT_PATH . '/include/functions.php';
 include_once WFDOWNLOADS_ROOT_PATH . '/include/constants.php';
-include_once WFDOWNLOADS_ROOT_PATH . '/class/session.php'; // WfdownloadsSession class
-include_once WFDOWNLOADS_ROOT_PATH . '/class/wfdownloads.php'; // WfdownloadsWfdownloads class
-include_once WFDOWNLOADS_ROOT_PATH . '/class/request.php'; // WfdownloadsRequest class
-include_once WFDOWNLOADS_ROOT_PATH . '/class/breadcrumb.php'; // WfdownloadsBreadcrumb class
-include_once WFDOWNLOADS_ROOT_PATH . '/class/tree.php'; // WfdownloadsObjectTree class
-include_once WFDOWNLOADS_ROOT_PATH . '/class/xoopstree.php'; // WfdownloadsXoopsTree class
-//include_once WFDOWNLOADS_ROOT_PATH . '/class/formelementchoose.php'; // WfdownloadsFormElementChoose class
+include_once WFDOWNLOADS_ROOT_PATH . '/class/common/session.php'; // WfdownloadsSession class
+include_once WFDOWNLOADS_ROOT_PATH . '/class/common/breadcrumb.php'; // WfdownloadsBreadcrumb class
+include_once WFDOWNLOADS_ROOT_PATH . '/class/common/choicebyletter.php'; // WfdownloadsChoiceByLetter class
+include_once WFDOWNLOADS_ROOT_PATH . '/class/common/tree.php'; // WfdownloadsObjectTree class
+include_once WFDOWNLOADS_ROOT_PATH . '/class/common/xoopstree.php'; // WfdownloadsXoopsTree class
 include_once WFDOWNLOADS_ROOT_PATH . '/class/multicolumnsthemeform.php'; // WfdownloadsMulticolumnsThemeForm class
 
 xoops_load('XoopsUserUtility');
 xoops_load('XoopsLocal');
+xoops_load('XoopsRequest');
 // MyTextSanitizer object
 $myts = MyTextSanitizer::getInstance();
 

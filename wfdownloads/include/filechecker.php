@@ -21,8 +21,8 @@
 
 //defined('XOOPS_ROOT_PATH') || die('XOOPS root path not defined');
 
-require_once dirname(dirname(dirname(dirname(__FILE__)))) . '/include/cp_header.php';
-$mydirname = basename(dirname(dirname(__FILE__)));
+require_once dirname(dirname(dirname(__DIR__))) . '/include/cp_header.php';
+$mydirname = basename(dirname(__DIR__));
 xoops_loadLanguage('filechecker', $mydirname);
 
 /**
@@ -86,8 +86,8 @@ class FileChecker
      */
     public static function copyFile($source_path, $destination_path)
     {
-        $source_path      = str_replace("..", "", $source_path);
-        $destination_path = str_replace("..", "", $destination_path);
+        $source_path      = str_replace('..', '', $source_path);
+        $destination_path = str_replace('..', '', $destination_path);
 
         return @copy($source_path, $destination_path);
     }
@@ -136,7 +136,7 @@ class FileChecker
      */
     public static function setFilePermissions($target, $mode = 0777)
     {
-        $target = str_replace("..", "", $target);
+        $target = str_replace('..', '', $target);
 
         return @chmod($target, (int) $mode);
     }
@@ -144,7 +144,7 @@ class FileChecker
 
 $op = (isset($_POST['op'])) ? $_POST['op'] : "";
 switch ($op) {
-    case "copyfile":
+    case 'copyfile':
         if (isset($_POST['original_file_path'])) {
             $original_file_path = $_POST['original_file_path'];
         }

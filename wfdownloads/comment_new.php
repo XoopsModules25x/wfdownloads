@@ -19,12 +19,12 @@
  * @version         svn:$id$
  */
 $currentFile = basename(__FILE__);
-include 'header.php';
+include_once __DIR__ . '/header.php';
 
-$com_itemid = WfdownloadsRequest::getInt('com_itemid', 0);
+$com_itemid = XoopsRequest::getInt('com_itemid', 0);
 if ($com_itemid > 0) {
     // Get file title
-    $download = $wfdownloads->getHandler('download')->get($com_itemid);
-    $com_replytitle = $download->getVar('title');
-    include XOOPS_ROOT_PATH . '/include/comment_new.php';
+    $downloadObj = $wfdownloads->getHandler('download')->get($com_itemid);
+    $com_replytitle = $downloadObj->getVar('title');
+    include_once XOOPS_ROOT_PATH . '/include/comment_new.php';
 }

@@ -19,19 +19,20 @@
  * @version         svn:$id$
  */
 $currentFile = basename(__FILE__);
-include_once dirname(__FILE__) . '/admin_header.php';
+include_once __DIR__ . '/admin_header.php';
 
 define('INDEX_FILE_PATH', XOOPS_ROOT_PATH . '/uploads/index.html');
 define('BLANK_FILE_PATH', XOOPS_ROOT_PATH . '/uploads/blank.gif');
 
-include_once dirname(dirname(__FILE__)) . '/include/directorychecker.php';
-include_once dirname(dirname(__FILE__)) . '/include/filechecker.php';
+include_once dirname(__DIR__) . '/class/common/directorychecker.php';
+include_once dirname(__DIR__) . '/class/common/filechecker.php';
 
 xoops_cp_header();
 $indexAdmin = new ModuleAdmin();
 
 //--------------------------
 $categories_count           = wfdownloads_categoriesCount();
+$votes_count                = $wfdownloads->getHandler('rating')->getCount();
 $brokenDownloads_count      = $wfdownloads->getHandler('report')->getCount();
 $modificationRequests_count = $wfdownloads->getHandler('modification')->getCount();
 $newReviews_count           = $wfdownloads->getHandler('review')->getCount();
@@ -108,6 +109,29 @@ if ($wfdownloads->getConfig('enable_reviews') == false) {
         _AM_WFDOWNLOADS_MINDEX_DOWNSUMMARY,
         '<infolabel>' . _AM_WFDOWNLOADS_SREVIEWS . '</infolabel>',
         $newReviews_count,
+        'green'
+    );
+}
+// Ratings
+if ($wfdownloads->getConfig('enable_ratings') == false) {
+    $indexAdmin->addInfoBoxLine(
+        _AM_WFDOWNLOADS_MINDEX_DOWNSUMMARY,
+        '<infolabel>' . _AM_WFDOWNLOADS_SVOTES . '</infolabel>',
+        _CO_WFDOWNLOADS_DISABLED,
+        'red'
+    );
+} elseif ($votes_count > 0) {
+    $indexAdmin->addInfoBoxLine(
+        _AM_WFDOWNLOADS_MINDEX_DOWNSUMMARY,
+        '<infolabel><a href="ratings.php">' . _AM_WFDOWNLOADS_SVOTES . '</a></infolabel>',
+        $votes_count,
+        'green'
+    );
+} else {
+    $indexAdmin->addInfoBoxLine(
+        _AM_WFDOWNLOADS_MINDEX_DOWNSUMMARY,
+        '<infolabel>' . _AM_WFDOWNLOADS_SVOTES . '</infolabel>',
+        $votes_count,
         'green'
     );
 }
@@ -238,4 +262,4 @@ echo $indexAdmin->addNavigation('index.php');
 echo $indexAdmin->renderIndex();
 echo wfdownloads_serverStats();
 
-include 'admin_footer.php';
+include_once __DIR__ . '/admin_footer.php';

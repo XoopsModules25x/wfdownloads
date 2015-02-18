@@ -19,7 +19,7 @@
  * @version         svn:$id$
  */
 defined('XOOPS_ROOT_PATH') || die('XOOPS root path not defined');
-include_once dirname(dirname(__FILE__)) . '/include/common.php';
+include_once dirname(__DIR__) . '/include/common.php';
 
 /**
  * Class WfdownloadsRating
@@ -38,7 +38,7 @@ class WfdownloadsRating extends XoopsObject
     public function __construct($id = null)
     {
         $this->wfdownloads = WfdownloadsWfdownloads::getInstance();
-        $this->db          = XoopsDatabaseFactory::getDatabaseConnection();
+        $this->db = XoopsDatabaseFactory::getDatabaseConnection();
         $this->initVar('ratingid', XOBJ_DTYPE_INT);
         $this->initVar('lid', XOBJ_DTYPE_INT);
         $this->initVar('ratinguser', XOBJ_DTYPE_INT);
@@ -92,7 +92,8 @@ class WfdownloadsRatingHandler extends XoopsPersistableObjectHandler
                 $field   = $criteria->groupby . ', '; //Not entirely secure unless you KNOW that no criteria's groupby clause is going to be mis-used
             }
         }
-        $sql = 'SELECT ' . $field . 'AVG(rating), count(*) FROM ' . $this->table;
+        $sql = "SELECT {$field} AVG(rating), count(*)";
+        $sql .= " FROM {$this->table}";
         if (isset($criteria) && is_subclass_of($criteria, 'criteriaelement')) {
             $sql .= ' ' . $criteria->renderWhere();
             if ($criteria->groupby != '') {
@@ -107,14 +108,14 @@ class WfdownloadsRatingHandler extends XoopsPersistableObjectHandler
             list($average, $count) = $this->db->fetchRow($result);
 
             return array(
-                'avg'   => $average,
+                'avg' => $average,
                 'count' => $count
             );
         } else {
             $ret = array();
             while (list($id, $average, $count) = $this->db->fetchRow($result)) {
                 $ret[$id] = array(
-                    'avg'   => $average,
+                    'avg'=> $average,
                     'count' => $count
                 );
             }
