@@ -87,6 +87,7 @@ class WfdownloadsModification extends WfdownloadsDownload
         $this->initVar('doxcode', XOBJ_DTYPE_INT, true); // boolean
         $this->initVar('doimage', XOBJ_DTYPE_INT, true); // boolean
         $this->initVar('dobr', XOBJ_DTYPE_INT, true); // boolean
+        $this->initVar('weight', XOBJ_DTYPE_INT, 0);
 
         //Obsolete
         unset($this->vars['ipaddress']);
@@ -163,7 +164,8 @@ class WfdownloadsModificationHandler extends XoopsPersistableObjectHandler
             d.dosmiley = m.dosmiley,
             d.doxcode = m.doxcode,
             d.doimage = m.doimage,
-            d.dobr = m.dobr";
+            d.dobr = m.dobr,
+            d.weight = m.weight";
         $sql .= " WHERE d.lid = m.lid AND m.requestid='{$requestid}'";
         if ($this->db->query($sql)) {
             return $this->deleteAll(new Criteria('requestid', (int)$requestid));

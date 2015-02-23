@@ -346,6 +346,7 @@ switch ($op) {
         $downloadObj->setVar('version', $version);
         $downloadObj->setVar('url', $url);
         $downloadObj->setVar('cid', $cid);
+        $downloadObj->setVar('weight', $_POST['weight']);
         $downloadObj->setVar('title', $title);
         $downloadObj->setVar('status', $status);
         $downloadObj->setVar('size', $size);

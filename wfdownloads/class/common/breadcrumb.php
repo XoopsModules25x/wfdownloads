@@ -26,12 +26,19 @@
  * echo $breadcrumb->render();
  */
 defined('XOOPS_ROOT_PATH') || die('XOOPS root path not defined');
+include_once dirname(dirname(__DIR__)) . '/include/common.php';
 
 /**
  * Class WfdownloadsBreadcrumb
  */
 class WfdownloadsBreadcrumb
 {
+    /**
+     * @var WfdownloadsWfdownloads
+     * @access public
+     */
+    public $wfdownloads = null;
+
     private $dirname;
     private $_bread = array();
 
@@ -40,7 +47,8 @@ class WfdownloadsBreadcrumb
      */
     public function __construct()
     {
-        $this->dirname =  basename(dirname(dirname(__DIR__)));
+        $this->wfdownloads = WfdownloadsWfdownloads::getInstance();
+        $this->dirname = basename(dirname(dirname(__DIR__)));
     }
 
     /**
@@ -75,10 +83,7 @@ class WfdownloadsBreadcrumb
 // IN PROGRESS
 // IN PROGRESS
 // IN PROGRESS
-        //$ret .= $breadcrumbTpl->fetch(__DIR__ . '_breadcrumb.tpl');
-        $tplSource = file_get_contents(__DIR__ . '/breadcrumb.tpl');
-//        $ret .= $choiceByLetterTpl->fetchFromData($tplSource, false, null);
-        $ret .= $breadcrumbTpl->fetchFromData($tplSource, false, null);
+        $ret .= $breadcrumbTpl->fetch("db:{$this->wfdownloads->getModule()->dirname()}_co_breadcrumb.tpl");
         unset($breadcrumbTpl);
 
         return $ret;

@@ -95,6 +95,7 @@ class WfdownloadsDownload extends XoopsObject
         $this->initVar('doxcode', XOBJ_DTYPE_INT, true); // boolean
         $this->initVar('doimage', XOBJ_DTYPE_INT, true); // boolean
         $this->initVar('dobr', XOBJ_DTYPE_INT, true); // boolean
+        $this->initVar('weight', XOBJ_DTYPE_INT, 0);
 
         if (isset($id)) {
             $item = $this->wfdownloads->getHandler('item')->get($id);
@@ -132,6 +133,8 @@ class WfdownloadsDownload extends XoopsObject
     function getDownloadInfo()
     {
         xoops_load('XoopsUserUtility');
+
+        $download = $this->toArray(); // as array
 
         $download['id']  = $this->getVar('lid');
         $download['cid'] = $this->getVar('cid');
@@ -490,6 +493,8 @@ class WfdownloadsDownload extends XoopsObject
             $categoryObjsTree = new XoopsObjectTree($categoryObjs, 'cid', 'pid');
             $sform->addElement(new XoopsFormLabel(_MD_WFDOWNLOADS_CATEGORYC, $categoryObjsTree->makeSelBox('cid', 'title', '-', $this->getVar('cid', 'e'))));
         }
+        // download: weight
+        $sform->addElement(new XoopsFormText(_MD_WFDOWNLOADS_WEIGHT, 'weight', 50, 255, $this->getVar('weight', 'e')), false);
 
         if (count($customArray) == 0) {
             // download: homepagetitle
@@ -641,7 +646,6 @@ class WfdownloadsDownload extends XoopsObject
                 $sform->addElement(new XoopsFormFile(_MD_WFDOWNLOADS_DUPLOADSCRSHOT, 'screenshot4', 0), false); // IN PROGRESS
             }
         }
-
         // download: notifypub
         $option_tray     = new XoopsFormElementTray(_MD_WFDOWNLOADS_OPTIONS, '<br />');
         $notify_checkbox = new XoopsFormCheckBox('', 'notifypub');
@@ -764,6 +768,8 @@ class WfdownloadsDownload extends XoopsObject
         $sform->addElement(
             new XoopsFormLabel(_AM_WFDOWNLOADS_FILE_CATEGORY, $categoryObjsTree->makeSelBox('cid', 'title', '-', $this->getVar('cid', 'e')))
         );
+        // download: weight
+        $sform->addElement(new XoopsFormText(_MD_WFDOWNLOADS_WEIGHT, 'weight', 50, 255, $this->getVar('weight', 'e')), false);
 // Formulize module support (2006/03/06, 2006/03/08) jpc - start
         if (count($customArray) == 0) {
             // download: homepagetitle

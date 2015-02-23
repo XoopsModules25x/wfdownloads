@@ -1,4 +1,4 @@
-<b><u>=> Version 3.23 RC5 (2015-02-02)</u></b>
+<b><u>=> Version 3.23 RC5 (2015-02-13)</u></b>
 - fixed: use DateTime object instead of strtotime function (luciorota)
 - fixed: source code for HTML5/CSS3 (mamba)
 - fixed: jQuery bug in templates (luciorota)
@@ -14,6 +14,7 @@
 - fixed: deprecated XoopsTree (mamba)
 - fixed: English translations (mamba)
 - fixed: small changes based on testing tool feedback (mamba)
+- added: sort downloads by weight (luciorota)
 - added: directories check (luciorota)
 - added: no size limit for uploads by Admin (mamba)
 - added: preview for images, audio, video, pdf files (luciorota)

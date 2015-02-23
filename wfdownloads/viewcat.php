@@ -25,7 +25,7 @@ $cid   = XoopsRequest::getInt('cid', 0);
 $start = XoopsRequest::getInt('start', 0);
 //$list = XoopsRequest::getString('list', null);
 //$orderby = XoopsRequest::getString('orderby', null);
-$orderby = isset($_GET['orderby']) ? convertorderbyin($_GET['orderby']) : $wfdownloads->getConfig('filexorder');
+$orderby = isset($_GET['orderby']) ? wfdownloads_convertorderbyin($_GET['orderby']) : $wfdownloads->getConfig('filexorder');
 
 $groups = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : array(0 => XOOPS_GROUP_ANONYMOUS);
 
@@ -72,8 +72,6 @@ $xoopsOption['template_main'] = "{$wfdownloads->getModule()->dirname()}_viewcat.
 include_once XOOPS_ROOT_PATH . '/header.php';
 
 $xoTheme->addScript(XOOPS_URL . '/browse.php?Frameworks/jquery/jquery.js');
-$xoTheme->addScript(WFDOWNLOADS_URL . '/assets/js/magnific/jquery.magnific-popup.min.js');
-$xoTheme->addStylesheet(WFDOWNLOADS_URL . '/assets/js/magnific/magnific-popup.css');
 $xoTheme->addStylesheet(WFDOWNLOADS_URL . '/assets/css/module.css');
 
 $xoopsTpl->assign('wfdownloads_url', WFDOWNLOADS_URL . '/');
@@ -297,10 +295,10 @@ if ($downloads_count > 0) {
     $xoopsTpl->assign('show_links', false);
     if ($downloads_count > 1 && $cid != 0) {
         $xoopsTpl->assign('show_links', true);
-        $orderbyTrans = convertorderbytrans($orderby);
-        $xoopsTpl->assign('orderby', convertorderbyout($orderby));
-        $xoopsTpl->assign('lang_cursortedby', sprintf(_MD_WFDOWNLOADS_CURSORTBY, convertorderbytrans($orderby)));
-        $orderby = convertorderbyout($orderby);
+        $orderbyTrans = wfdownloads_convertorderbytrans($orderby);
+        $xoopsTpl->assign('orderby', wfdownloads_convertorderbyout($orderby));
+        $xoopsTpl->assign('lang_cursortedby', sprintf(_MD_WFDOWNLOADS_CURSORTBY, wfdownloads_convertorderbytrans($orderby)));
+        $orderby = wfdownloads_convertorderbyout($orderby);
     }
     // Screenshots display
     $xoopsTpl->assign('show_screenshot', false);
@@ -340,48 +338,3 @@ if ($wfdownloads->getConfig('enablerss') == true && $downloads_count > 0) {
 }
 
 include_once __DIR__ . '/footer.php';
-
-?>
-<script type="text/javascript">
-
-    $('.magnific_zoom').magnificPopup({
-        type               : 'image',
-        image              : {
-            cursor     : 'mfp-zoom-out-cur',
-            titleSrc   : "title",
-            verticalFit: true,
-            tError     : 'The image could not be loaded.' // Error message
-        },
-        iframe             : {
-            patterns: {
-                youtube : {
-                    index: 'youtube.com/',
-                    id   : 'v=',
-                    src  : '//www.youtube.com/embed/%id%?autoplay=1'
-                }, vimeo: {
-                    index: 'vimeo.com/',
-                    id   : '/',
-                    src  : '//player.vimeo.com/video/%id%?autoplay=1'
-                }, gmaps: {
-                    index: '//maps.google.',
-                    src  : '%id%&output=embed'
-                }
-            }
-        },
-        preloader          : true,
-        showCloseBtn       : true,
-        closeBtnInside     : false,
-        closeOnContentClick: true,
-        closeOnBgClick     : true,
-        enableEscapeKey    : true,
-        modal              : false,
-        alignTop           : false,
-        mainClass          : 'mfp-img-mobile mfp-fade',
-        zoom               : {
-            enabled : true,
-            duration: 300,
-            easing  : 'ease-in-out'
-        },
-        removalDelay       : 200
-    });
-</script>

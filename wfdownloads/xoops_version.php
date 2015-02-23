@@ -42,8 +42,8 @@ $modversion['onInstall']   = 'include/oninstall.php';
 $modversion['onUpdate']    = 'include/onupdate.php';
 $modversion['onUninstall'] = 'include/onuninstall.php';
 
-$modversion['date']         = '2015-02-03';
-$modversion['release_date'] = '2015-02-03';
+$modversion['date']         = '2015-02-18';
+$modversion['release_date'] = '2015-02-18';
 $modversion['status']       = 'RC5';
 $modversion['teammembers']  = 'Bender, David, FrankBlack, Xpider, M0nty, Mithrandir, Marcan, felix[fx2024], Sudhaker, Jegelstaff';
 
@@ -327,6 +327,17 @@ $modversion['templates'][] = array(
 );
 
 // Common templates
+$modversion['templates'][] = array(
+    'file'        => $modversion['dirname'] . '_co_breadcrumb.tpl',
+    'type'        => 'class/common',
+    'description' => ''
+);
+
+$modversion['templates'][] = array(
+    'file'        => $modversion['dirname'] . '_co_choicebyletter.tpl',
+    'type'        => 'class/common',
+    'description' => ''
+);
 
 
 
@@ -902,7 +913,9 @@ $modversion['config'][] = array(
         _MI_WFDOWNLOADS_RATING . $qa     => 'rating ASC',
         _MI_WFDOWNLOADS_RATING . $qd     => 'rating DESC',
         _MI_WFDOWNLOADS_POPULARITY . $qa => 'hits ASC',
-        _MI_WFDOWNLOADS_POPULARITY . $qd => 'hits DESC'
+        _MI_WFDOWNLOADS_POPULARITY . $qd => 'hits DESC',
+        _MI_WFDOWNLOADS_WEIGHT . $qa => 'weight ASC',
+        _MI_WFDOWNLOADS_WEIGHT . $qd => 'weight DESC'
     ),
     'default'     => 'title ASC'
 );

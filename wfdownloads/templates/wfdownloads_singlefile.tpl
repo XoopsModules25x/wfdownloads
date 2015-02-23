@@ -2,6 +2,10 @@
     /** add JQuery */
     global $xoTheme;
     $xoTheme->addScript("browse.php?Frameworks/jquery/jquery.js");
+    // magnific
+    $xoTheme->addScript("" . $xoops_url . "/modules/wfdownloads/assets/js/magnific/jquery.magnific-popup.min.js");
+    $xoTheme->addStylesheet("" . $xoops_url . "/modules/wfdownloads/assets/js/magnific/magnific-popup.css");
+    // mediaelement
     $xoTheme->addScript("" . $xoops_url . "/modules/wfdownloads/assets/js/mediaelement/build/mediaelement-and-player.min.js");
     $xoTheme->addStylesheet("" . $xoops_url . "/modules/wfdownloads/assets/js/mediaelement/build/mediaelementplayer.min.css");
     $this->assign('xoops_module_header', $xoTheme->renderMetas(null, true));
@@ -35,128 +39,123 @@
         <{/if}>
     </h3>
 
-    <div style="float:right; width:35%">
-        <span style="font-size: small;">
-            <div style="margin-left: 10px; margin-right: 10px; padding: 4px; background-color:#e6e6e6; border-color:#999999;" class="outer">
-                <div><span style="font-weight: bold;"><{$smarty.const._MD_WFDOWNLOADS_SUBMITTER}>:</span>&nbsp;<{$download.submitter}></div>
-                <{if $download.publisher != ''}>
-                    <div><span style="font-weight: bold;"><{$smarty.const._MD_WFDOWNLOADS_PUBLISHER}>:</span>&nbsp;<{$download.publisher}></div>
-                <{/if}>
-                <div><span style="font-weight: bold;"><{$lang_subdate}>:</span>&nbsp;<{$download.updated}></div>
-                <br>
-                <{if $download.version != 0}>
-                    <div><span style="font-weight: bold;"><{$smarty.const._MD_WFDOWNLOADS_VERSION}>:</span>&nbsp;<{$download.version}></div>
-                <{/if}>
-                <div><span style="font-weight: bold;"><{$smarty.const._MD_WFDOWNLOADS_VERSIONTYPES}>:</span>&nbsp;<{$download.versiontypes}></div>
-                <div><span style="font-weight: bold;"><{$smarty.const._MD_WFDOWNLOADS_DOWNLOADHITS}>:</span>&nbsp;<{$download.hits}></div>
-                <br>
-
-                <div><span style="font-weight: bold;"><{$smarty.const._MD_WFDOWNLOADS_FILESIZE}>:</span>&nbsp;<{$download.size}></div>
-                <div><span style="font-weight: bold;"><{$smarty.const._MD_WFDOWNLOADS_UPLOAD_FILETYPE}>:</span>&nbsp;<{$download.filetype}></div>
-                <span style="font-weight: bold;"><{$smarty.const._MD_WFDOWNLOADS_DOWNTIMES}></span>
-
-                <div style="margin-left: 4px;">
-                    <{$download.downtime}>
-                </div>
-                <{if $download.homepage != ''}>
-                    <div><span style="font-weight: bold;"><{$smarty.const._MD_WFDOWNLOADS_HOMEPAGE}>:</span>&nbsp;<{$download.homepage}></div>
-                <{/if}>
-            </div>
-
+    <div style="float:right; width:35%; font-size: small;">
+<!-- download info here -->
+        <div style="margin-left: 10px; margin-right: 10px; padding: 4px; background-color:#e6e6e6; border-color:#999999;" class="outer">
+            <div><span style="font-weight: bold;"><{$smarty.const._MD_WFDOWNLOADS_SUBMITTER}>:</span>&nbsp;<{$download.submitter}></div>
+            <{if $download.publisher != ''}>
+                <div><span style="font-weight: bold;"><{$smarty.const._MD_WFDOWNLOADS_PUBLISHER}>:</span>&nbsp;<{$download.publisher}></div>
+            <{/if}>
+            <div><span style="font-weight: bold;"><{$lang_subdate}>:</span>&nbsp;<{$download.updated}></div>
+            <br>
+            <{if $download.version != 0}>
+                <div><span style="font-weight: bold;"><{$smarty.const._MD_WFDOWNLOADS_VERSION}>:</span>&nbsp;<{$download.version}></div>
+            <{/if}>
+            <div><span style="font-weight: bold;"><{$smarty.const._MD_WFDOWNLOADS_VERSIONTYPES}>:</span>&nbsp;<{$download.versiontypes}></div>
+            <div><span style="font-weight: bold;"><{$smarty.const._MD_WFDOWNLOADS_DOWNLOADHITS}>:</span>&nbsp;<{$download.hits}></div>
             <br>
 
-            <{if @in_array($download.filetype, array('image/gif', 'image/jpeg', 'image/pjpeg', 'image/x-png','image/jpeg'))}>
-                <div style="margin-left: 10px; margin-right: 10px; padding: 4px; background-color:#e6e6e6; border-color:#999999;" class="outer">
-                    <span style="font-weight: bold;"><{$smarty.const._MD_WFDOWNLOADS_PREVIEW}></span>
-                    <br>
-                    <img style="width:100%; height:auto;" src="<{$file_url}>"/>
-                </div>
-                <br>
+            <div><span style="font-weight: bold;"><{$smarty.const._MD_WFDOWNLOADS_FILESIZE}>:</span>&nbsp;<{$download.size}></div>
+            <div><span style="font-weight: bold;"><{$smarty.const._MD_WFDOWNLOADS_UPLOAD_FILETYPE}>:</span>&nbsp;<{$download.filetype}></div>
+            <span style="font-weight: bold;"><{$smarty.const._MD_WFDOWNLOADS_DOWNTIMES}></span>
 
-                                <{elseif @in_array($download.filetype, array('audio/mpeg', 'audio/mp3', 'audio/ogg'))}>
-
-                <div style="margin-left: 10px; margin-right: 10px; padding: 4px; background-color:#e6e6e6; border-color:#999999;" class="outer">
-                    <span style="font-weight: bold;"><{$smarty.const._MD_WFDOWNLOADS_PREVIEW}></span>
-                    <audio id="preview-player" src="<{$file_url}>" type="<{$download.filetype}>" controls="controls" style="width:100%">
-                    </audio>
-                    <script>
-                        $('audio#preview-player').mediaelementplayer();
-                    </script>
-                </div>
-                <br>
-
-                                <{elseif @in_array($download.filetype, array('application/pdf'))}>
-
-                <div style="margin-left: 10px; margin-right: 10px; padding: 4px; background-color:#e6e6e6; border-color:#999999;" class="outer">
-                    <span style="font-weight: bold;"><{$smarty.const._MD_WFDOWNLOADS_PREVIEW}></span>
-                    <br>
-                    <iframe style="width:100%; height: auto;" src="<{$file_url}>">
-                        <p>Your browser does not support iframes.</p>
-                    </iframe>
-                </div>
-                <br>
-
-                                <{elseif @in_array($download.filetype, array('video/flv', 'application/octet-stream', 'video/x-flv', 'video/mp4', 'video/ogg', 'video/x-m4v'))}>
-
-                <div style="margin-left: 10px; margin-right: 10px; padding: 4px; background-color:#e6e6e6; border-color:#999999;" class="outer">
-                    <span style="font-weight: bold;"><{$smarty.const._MD_WFDOWNLOADS_PREVIEW}></span>
-                    <video id="preview-player" src="<{$file_url}>" type="<{$download.filetype}>" controls="controls" style="width:100%;height:160px;">
-                    </video>
-                    <script>
-                        $('video#preview-player').mediaelementplayer({
-                            // if the <video width> is not specified, this is the default
-                            defaultVideoWidth : 240,
-                            // if the <video height> is not specified, this is the default
-                            defaultVideoHeight: 135,
-                            // enables Flash and Silverlight to resize to content size
-                            enableAutosize    : false
-                        });
-                    </script>
-                    <div style="clear:both"></div>
-                </div>
-                <br>
+            <div style="margin-left: 4px;">
+                <{$download.downtime}>
+            </div>
+            <{if $download.homepage != ''}>
+                <div><span style="font-weight: bold;"><{$smarty.const._MD_WFDOWNLOADS_HOMEPAGE}>:</span>&nbsp;<{$download.homepage}></div>
             <{/if}>
-
-            <{if $download.use_ratings == 1}>
-                <div style="margin-left: 10px; margin-right: 10px; padding: 4px; background-color:#e6e6e6; border-color:#999999;" class="outer">
-                    <div>
-                        <span style="font-weight: bold;"><{$smarty.const._MD_WFDOWNLOADS_RATINGC}></span>&nbsp;<img src="assets/images/icon/<{$download.rateimg}>"
-                                                                                                                    alt="<{$download.average_rating|string_format:'%.2f'}>"
-                                                                                                                    title="<{$download.average_rating|string_format:'%.2f'}>"
-                                                                                                                    align="middle"/>&nbsp;(<{$download.votes}>)
-                    </div>
-                </div>
-                <br>
-            <{/if}>
-            <{if $download.use_reviews == 1}>
-                <div style="margin-left: 10px; margin-right: 10px; padding: 4px; background-color:#e6e6e6; border-color:#999999;" class="outer">
-                    <div>
-                        <span style="font-weight: bold;"><{$smarty.const._MD_WFDOWNLOADS_REVIEWS}></span>&nbsp;<img src="assets/images/icon/<{$download.review_rateimg}>"
-                                                                                                                    alt="<{$download.review_average_rating|string_format:'%.2f'}>"
-                                                                                                                    title="<{$download.review_average_rating|string_format:'%.2f'}>"/>&nbsp;(<{$download.reviews_num}>
-                        )
-                    </div>
-                </div>
-                <br>
-            <{/if}>
-            <{if $download.use_mirrors == 1}>
-                <div style="margin-left: 10px; margin-right: 10px; padding: 4px; background-color:#e6e6e6; border-color:#999999;" class="outer">
-                    <div><span style="font-weight: bold;"><{$smarty.const._MD_WFDOWNLOADS_MIRROR_AVAILABLE}></span>&nbsp;<{$download.mirrors_num}></div>
-                </div>
-                <br>
-            <{/if}>
-            <{if !$custom_form}>
-                <div style="margin-left: 10px; margin-right: 10px; padding: 4px; background-color:#e6e6e6; border-color:#999999;" class="outer">
-                    <span style="font-weight: bold;"><{$smarty.const._MD_WFDOWNLOADS_PRICE}>:</span>&nbsp;<{$download.price}>
-                    <br>
-                    <span style="font-weight: bold;"><{$smarty.const._MD_WFDOWNLOADS_SUPPORTEDPLAT}>:</span>&nbsp;<{$download.platform}>
-                    <br>
-                    <span style="font-weight: bold;"><{$smarty.const._MD_WFDOWNLOADS_DOWNLICENSE}>:</span>&nbsp;<{$download.license}>
-                    <br>
-                    <span style="font-weight: bold;"><{$smarty.const._MD_WFDOWNLOADS_LIMITS}>:</span>&nbsp;<{$download.limitations}>
-                </div>
-            <{/if}>
-        </span>
+        </div>
+        <br>
+<!-- download preview here if available -->
+    <{if @in_array($download.filetype, array('image/gif', 'image/jpeg', 'image/pjpeg', 'image/x-png','image/jpeg'))}>
+        <div style="margin-left: 10px; margin-right: 10px; padding: 4px; background-color:#e6e6e6; border-color:#999999;" class="outer">
+            <span style="font-weight: bold;"><{$smarty.const._MD_WFDOWNLOADS_PREVIEW}></span>
+            <br>
+            <img style="width:100%; height:auto;" src="<{$file_url}>"/>
+        </div>
+        <br>
+    <{elseif @in_array($download.filetype, array('audio/mpeg', 'audio/mp3', 'audio/ogg'))}>
+        <div style="margin-left: 10px; margin-right: 10px; padding: 4px; background-color:#e6e6e6; border-color:#999999;" class="outer">
+            <span style="font-weight: bold;"><{$smarty.const._MD_WFDOWNLOADS_PREVIEW}></span>
+            <audio id="preview-player" src="<{$file_url}>" type="<{$download.filetype}>" controls="controls" style="width:100%">
+            </audio>
+            <script>
+                $('audio#preview-player').mediaelementplayer();
+            </script>
+        </div>
+        <br>
+    <{elseif @in_array($download.filetype, array('application/pdf'))}>
+        <div style="margin-left: 10px; margin-right: 10px; padding: 4px; background-color:#e6e6e6; border-color:#999999;" class="outer">
+            <span style="font-weight: bold;"><{$smarty.const._MD_WFDOWNLOADS_PREVIEW}></span>
+            <br>
+            <iframe style="width:100%; height: auto;" src="<{$file_url}>">
+                <p>Your browser does not support iframes.</p>
+            </iframe>
+        </div>
+        <br>
+    <{elseif @in_array($download.filetype, array('video/flv', 'application/octet-stream', 'video/x-flv', 'video/mp4', 'video/ogg', 'video/x-m4v'))}>
+        <div style="margin-left: 10px; margin-right: 10px; padding: 4px; background-color:#e6e6e6; border-color:#999999;" class="outer">
+            <span style="font-weight: bold;"><{$smarty.const._MD_WFDOWNLOADS_PREVIEW}></span>
+            <video id="preview-player" src="<{$file_url}>" type="<{$download.filetype}>" controls="controls" style="width:100%;height:160px;">
+            </video>
+            <script>
+                $('video#preview-player').mediaelementplayer({
+                    // if the <video width> is not specified, this is the default
+                    defaultVideoWidth : 240,
+                    // if the <video height> is not specified, this is the default
+                    defaultVideoHeight: 135,
+                    // enables Flash and Silverlight to resize to content size
+                    enableAutosize    : false
+                });
+            </script>
+            <div style="clear:both"></div>
+        </div>
+        <br>
+    <{/if}>
+<!-- download rating here if enabled -->
+    <{if $download.use_ratings == 1}>
+        <div style="margin-left: 10px; margin-right: 10px; padding: 4px; background-color:#e6e6e6; border-color:#999999;" class="outer">
+            <div>
+                <span style="font-weight: bold;"><{$smarty.const._MD_WFDOWNLOADS_RATINGC}></span>&nbsp;<img src="assets/images/icon/<{$download.rateimg}>"
+                                                                                                            alt="<{$download.average_rating|string_format:'%.2f'}>"
+                                                                                                            title="<{$download.average_rating|string_format:'%.2f'}>"
+                                                                                                            align="middle"/>&nbsp;(<{$download.votes}>)
+            </div>
+        </div>
+        <br>
+    <{/if}>
+<!-- download review here if enabled -->
+    <{if $download.use_reviews == 1}>
+        <div style="margin-left: 10px; margin-right: 10px; padding: 4px; background-color:#e6e6e6; border-color:#999999;" class="outer">
+            <div>
+                <span style="font-weight: bold;"><{$smarty.const._MD_WFDOWNLOADS_REVIEWS}></span>&nbsp;<img src="assets/images/icon/<{$download.review_rateimg}>"
+                                                                                                            alt="<{$download.review_average_rating|string_format:'%.2f'}>"
+                                                                                                            title="<{$download.review_average_rating|string_format:'%.2f'}>"/>&nbsp;(<{$download.reviews_num}>
+                )
+            </div>
+        </div>
+        <br>
+    <{/if}>
+<!-- download mirror here if enabled -->
+    <{if $download.use_mirrors == 1}>
+        <div style="margin-left: 10px; margin-right: 10px; padding: 4px; background-color:#e6e6e6; border-color:#999999;" class="outer">
+            <div><span style="font-weight: bold;"><{$smarty.const._MD_WFDOWNLOADS_MIRROR_AVAILABLE}></span>&nbsp;<{$download.mirrors_num}></div>
+        </div>
+        <br>
+    <{/if}>
+<!-- download custom fields here if available -->
+    <{if !$custom_form}>
+        <div style="margin-left: 10px; margin-right: 10px; padding: 4px; background-color:#e6e6e6; border-color:#999999;" class="outer">
+            <span style="font-weight: bold;"><{$smarty.const._MD_WFDOWNLOADS_PRICE}>:</span>&nbsp;<{$download.price}>
+            <br>
+            <span style="font-weight: bold;"><{$smarty.const._MD_WFDOWNLOADS_SUPPORTEDPLAT}>:</span>&nbsp;<{$download.platform}>
+            <br>
+            <span style="font-weight: bold;"><{$smarty.const._MD_WFDOWNLOADS_DOWNLICENSE}>:</span>&nbsp;<{$download.license}>
+            <br>
+            <span style="font-weight: bold;"><{$smarty.const._MD_WFDOWNLOADS_LIMITS}>:</span>&nbsp;<{$download.limitations}>
+        </div>
+    <{/if}>
     </div>
 
     <div>
@@ -349,3 +348,52 @@
 <br>
 
 <{include file='db:wfdownloads_footer.tpl'}>
+
+<script type="text/javascript">
+    $('.magnific_zoom').magnificPopup({
+        type               : 'image',
+        image              : {
+            cursor     : 'mfp-zoom-out-cur',
+            titleSrc   : "title",
+            verticalFit: true,
+            tError     : '<{$smarty.const._MD_WFDOWNLOADS_MAGNIFIC_image_tError}>' // Error message
+        },
+        gallery            : {
+            enabled: true,
+    		tPrev: '<{$smarty.const._MD_WFDOWNLOADS_MAGNIFIC_gallery_ttPrev}>',
+    		tNext: '<{$smarty.const._MD_WFDOWNLOADS_MAGNIFIC_gallery_ttNext}>',
+    		tCounter: '<{$smarty.const._MD_WFDOWNLOADS_MAGNIFIC_gallery_ttCounter}>'
+        },
+        iframe             : {
+            patterns: {
+                youtube : {
+                    index: 'youtube.com/',
+                    id   : 'v=',
+                    src  : '//www.youtube.com/embed/%id%?autoplay=1'
+                }, vimeo: {
+                    index: 'vimeo.com/',
+                    id   : '/',
+                    src  : '//player.vimeo.com/video/%id%?autoplay=1'
+                }, gmaps: {
+                    index: '//maps.google.',
+                    src  : '%id%&output=embed'
+                }
+            }
+        },
+        preloader          : true,
+        showCloseBtn       : true,
+        closeBtnInside     : false,
+        closeOnContentClick: true,
+        closeOnBgClick     : true,
+        enableEscapeKey    : true,
+        modal              : false,
+        alignTop           : false,
+        mainClass          : 'mfp-img-mobile mfp-fade',
+        zoom               : {
+            enabled : true,
+            duration: 300,
+            easing  : 'ease-in-out'
+        },
+        removalDelay       : 200
+    });
+</script>

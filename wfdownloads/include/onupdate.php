@@ -20,8 +20,7 @@
  */
 defined('XOOPS_ROOT_PATH') || die('XOOPS root path not defined');
 include_once __DIR__ . '/common.php';
-$wfdownloads = WfdownloadsWfdownloads::getInstance();
-xoops_loadLanguage('admin', $wfdownloads->getModule()->dirname());
+
 include_once WFDOWNLOADS_ROOT_PATH . '/class/dbupdater.php';
 
 /**
@@ -32,6 +31,7 @@ include_once WFDOWNLOADS_ROOT_PATH . '/class/dbupdater.php';
  */
 function xoops_module_update_wfdownloads(&$xoopsModule, $previousVersion)
 {
+    xoops_loadLanguage('admin', $xoopsModule->dirname());
     ob_start();
     invert_nohtm_dohtml_values();
     if ($previousVersion < 322) {
@@ -113,7 +113,8 @@ function update_tables_to_323($module)
         "dosmiley"        => array("Type" => "tinyint(1) NOT NULL default '1'", "Default" => true),
         "doxcode"         => array("Type" => "tinyint(1) NOT NULL default '1'", "Default" => true),
         "doimage"         => array("Type" => "tinyint(1) NOT NULL default '1'", "Default" => true),
-        "dobr"            => array("Type" => "tinyint(1) NOT NULL default '1'", "Default" => true)
+        "dobr"            => array("Type" => "tinyint(1) NOT NULL default '1'", "Default" => true),
+        "weight"          => array("Type" => "int(11) NOT NULL default '0'", "Default" => true)
     );
     //$renamed_fields = array(
     //    "old_name" => "new_name"
@@ -197,7 +198,8 @@ function update_tables_to_323($module)
         "dosmiley"        => array("Type" => "tinyint(1) NOT NULL default '1'", "Default" => true),
         "doxcode"         => array("Type" => "tinyint(1) NOT NULL default '1'", "Default" => true),
         "doimage"         => array("Type" => "tinyint(1) NOT NULL default '1'", "Default" => true),
-        "dobr"            => array("Type" => "tinyint(1) NOT NULL default '1'", "Default" => true)
+        "dobr"            => array("Type" => "tinyint(1) NOT NULL default '1'", "Default" => true),
+        "weight"          => array("Type" => "int(11) NOT NULL default '0'", "Default" => true)
     );
     //$renamed_fields = array(
     //    "old_name" => "new_name"

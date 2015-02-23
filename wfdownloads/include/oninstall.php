@@ -20,8 +20,6 @@
  */
 defined('XOOPS_ROOT_PATH') || die('XOOPS root path not defined');
 include_once __DIR__ . '/common.php';
-//@include_once WFDOWNLOADS_ROOT_PATH . '/language/' . $GLOBALS['xoopsConfig']['language'] . '/admin.php';
-xoops_loadLanguage('admin', $wfdownloads->getModule()->dirname());
 
 define('INDEX_FILE_PATH', XOOPS_ROOT_PATH . '/uploads/index.html');
 define('BLANK_FILE_PATH', XOOPS_ROOT_PATH . '/uploads/blank.gif');
@@ -33,6 +31,7 @@ define('BLANK_FILE_PATH', XOOPS_ROOT_PATH . '/uploads/blank.gif');
  */
 function xoops_module_pre_install_wfdownloads(&$xoopsModule)
 {
+    xoops_loadLanguage('admin', $xoopsModule->dirname());
     // NOP
     return true;
 }
@@ -44,6 +43,7 @@ function xoops_module_pre_install_wfdownloads(&$xoopsModule)
  */
 function xoops_module_install_wfdownloads(&$xoopsModule)
 {
+    xoops_loadLanguage('admin', $xoopsModule->dirname());
     // get module config values
     $hModConfig  = xoops_gethandler('config');
     $configArray = $hModConfig->getConfigsByCat(0, $xoopsModule->getVar('mid'));

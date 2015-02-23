@@ -23,12 +23,19 @@
  * echo $choicebyletter->render();
  */
 defined('XOOPS_ROOT_PATH') || die('XOOPS root path not defined');
+include_once dirname(dirname(__DIR__)) . '/include/common.php';
 
 /**
  * Class WfdownloadsChoiceByLetter
  */
 class WfdownloadsChoiceByLetter
 {
+    /**
+     * @var WfdownloadsWfdownloads
+     * @access public
+     */
+    public $wfdownloads = null;
+
     /**
      * *#@+
      *
@@ -61,6 +68,7 @@ class WfdownloadsChoiceByLetter
      */
     public function __construct($objHandler, $criteria = null, $field_name = null, $alphabet = array(), $arg_name = 'letter', $url = null, $extra_arg = '', $caseSensitive = false)
     {
+        $this->wfdownloads = WfdownloadsWfdownloads::getInstance();
         $this->objHandler = $objHandler;
         $this->criteria = is_null($criteria) ? new CriteriaCompo() : $criteria;
         $this->field_name = is_null($field_name) ? $this->objHandler->identifierName : $field_name;
@@ -128,9 +136,7 @@ class WfdownloadsChoiceByLetter
 // IN PROGRESS
 // IN PROGRESS
 // IN PROGRESS
-        //$ret .= $choiceByLetterTpl->fetch(__DIR__ . '/choicebyletter.tpl');
-        $tplSource = file_get_contents(__DIR__ . '/choicebyletter.tpl');
-        $ret .= $choiceByLetterTpl->fetchFromData($tplSource, false, null);
+        $ret .= $choiceByLetterTpl->fetch("db:{$this->wfdownloads->getModule()->dirname()}_co_choicebyletter.tpl");
         unset($choiceByLetterTpl);
 
         return $ret;

@@ -25,8 +25,6 @@ $xoopsOption['template_main'] = "{$wfdownloads->getModule()->dirname()}_newlisti
 include_once XOOPS_ROOT_PATH . '/header.php';
 
 $xoTheme->addScript(XOOPS_URL . '/browse.php?Frameworks/jquery/jquery.js');
-$xoTheme->addScript(WFDOWNLOADS_URL . '/assets/js/magnific/jquery.magnific-popup.min.js');
-$xoTheme->addStylesheet(WFDOWNLOADS_URL . '/assets/js/magnific/magnific-popup.css');
 $xoTheme->addStylesheet(WFDOWNLOADS_URL . '/assets/css/module.css');
 
 $xoopsTpl->assign('wfdownloads_url', WFDOWNLOADS_URL . '/');
