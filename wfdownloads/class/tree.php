@@ -59,12 +59,12 @@ class WfdownloadsObjectTree extends XoopsObjectTree
     /**
      * Make a select box with options from the tree
      *
-     * @param  string  $fieldName      Name of the member variable from the node objects that should be used as the title for the options.
-     * @param  string  $prefix         String to indent deeper levels
-     * @param  bool    $addEmptyOption Set TRUE to add an empty option with value "0" at the top of the hierarchy
-     * @param  integer $key            ID of the object to display as the root of select options
+     * @param string  $fieldName      Name of the member variable from the node objects that should be used as the title for the options.
+     * @param string  $prefix         String to indent deeper levels
+     * @param bool    $addEmptyOption Set TRUE to add an empty option with value "0" at the top of the hierarchy
+     * @param integer $key            ID of the object to display as the root of select options
      *
-     * @return array   $optionsArray   Associative array of value->name pairs, useful for {@link XoopsFormSelect}->addOptionArray method
+     * @return array $optionsArray   Associative array of value->name pairs, useful for {@link XoopsFormSelect}->addOptionArray method
      */
     function makeSelBoxOptionsArray($fieldName, $prefix = '-', $addEmptyOption = false, $key = 0)
     {

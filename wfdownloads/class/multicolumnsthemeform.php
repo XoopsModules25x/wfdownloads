@@ -82,9 +82,9 @@ class WfdownloadsMulticolumnsThemeForm extends XoopsForm
      * Add an element to the form
      *
      * @param object $formElement
-     * @param bool   $required is this a "required" element?
-     * @param int    $row      two-dimensional array (matrix) row (0 first key)
-     * @param int    $column   two-dimensional array (matrix) column (0 first key)
+     * @param bool   $required    is this a "required" element?
+     * @param int    $row         two-dimensional array (matrix) row (0 first key)
+     * @param int    $column      two-dimensional array (matrix) column (0 first key)
      *
      * @internal param $object $ &$formElement    reference to a {@link XoopsFormElement}
      */

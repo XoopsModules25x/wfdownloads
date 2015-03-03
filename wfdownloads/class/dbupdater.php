@@ -198,7 +198,7 @@ class WfdownloadsTable
     /**
      * Invert values 0 to 1 and 1 to 0
      *
-     * @param string $name name of the field
+     * @param string $name     name of the field
      * @param        $newValue
      * @param        $oldValue
      *

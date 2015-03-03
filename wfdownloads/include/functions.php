@@ -918,6 +918,7 @@ if (!function_exists('convertorderbytrans')) {
         if ($orderby == 'size DESC') {
             $orderbyTrans = _MD_WFDOWNLOADS_SIZEHTOL;
         }
+
         return $orderbyTrans;
     }
 }
@@ -960,6 +961,7 @@ if (!function_exists('convertorderbyout')) {
         if ($orderby == 'size DESC') {
             $orderby = 'sizeD';
         }
+
         return $orderby;
     }
 }
