@@ -16,7 +16,6 @@
  * @author      lucio <lucio.rota@gmail.com>
  * @package     Wfdownloads
  * @since       3.23
- * @version     $Id:$
  */
 
 defined('XOOPS_ROOT_PATH') || die('XOOPS root path not defined');
@@ -35,7 +34,7 @@ class WfdownloadsMulticolumnsThemeForm extends XoopsForm
      *
      * @var int
      */
-    var $_rows = 0;
+    public $_rows = 0;
 
     /**
      * return number of rows
@@ -52,7 +51,7 @@ class WfdownloadsMulticolumnsThemeForm extends XoopsForm
      *
      * @var int
      */
-    var $_columns = 0;
+    public $_columns = 0;
 
     /**
      * return number of columns
@@ -69,19 +68,19 @@ class WfdownloadsMulticolumnsThemeForm extends XoopsForm
      *
      * @var array
      */
-    var $_elements = array();
+    public $_elements = array();
 
     /**
      * mono-dimensional array of column titles
      *
      * @var array
      */
-    var $_titles = array();
+    public $_titles = array();
 
     /**
      * Add an element to the form
      *
-     * @param object $formElement
+     * @param XoopsObject $formElement
      * @param bool   $required    is this a "required" element?
      * @param int    $row         two-dimensional array (matrix) row (0 first key)
      * @param int    $column      two-dimensional array (matrix) column (0 first key)
@@ -184,27 +183,26 @@ class WfdownloadsMulticolumnsThemeForm extends XoopsForm
      *
      * @return string
      */
-    function render()
+    public function render()
     {
         $ele_name = $this->getName();
-        $ret      = "";
-        $ret .= "<form name='{$ele_name}' id='{$ele_name}' action='{$this->getAction()}' method='{$this->getMethod()}' onsubmit='return xoopsFormValidate_{$ele_name}();' {$this->getExtra()} >"
-            . NWLINE;
+        $ret      = '';
+        $ret .= "<form name='{$ele_name}' id='{$ele_name}' action='{$this->getAction()}' method='{$this->getMethod()}' onsubmit='return xoopsFormValidate_{$ele_name}();' {$this->getExtra()} >" . NWLINE;
         $ret .= "<table width='100%' class='outer' cellspacing='1'>" . NWLINE;
         $ret .= "<tr><th colspan='{$this->_columns}'>{$this->getTitle()}</th></tr>" . NWLINE;
         if (count($this->_titles) > 0) {
-            $ret .= "<tr>";
+            $ret .= '<tr>';
             for ($column = 0; $column < $this->_columns; ++$column) {
-                $ret .= "<th>";
-                $ret .= (isset($this->_titles[$column])) ? "{$this->_titles[$column]}" : "&nbsp;";
-                $ret .= "</th>" . NWLINE;
+                $ret .= '<th>';
+                $ret .= isset($this->_titles[$column]) ? "{$this->_titles[$column]}" : '&nbsp;';
+                $ret .= '</th>' . NWLINE;
             }
-            $ret .= "</tr>";
+            $ret .= '</tr>';
         }
         $hidden = '';
         $class  = 'even';
         for ($row = 0; $row < $this->_rows; ++$row) {
-            $ret .= "<tr>";
+            $ret .= '<tr>';
             for ($column = 0; $column < $this->_columns; ++$column) {
                 $ret .= "<td class='{$class}'>";
                 if (isset($this->_elements[$row][$column])) {
@@ -221,7 +219,7 @@ class WfdownloadsMulticolumnsThemeForm extends XoopsForm
                             $ret .= "<div class='xoops-form-element-caption" . ($ele->isRequired() ? '-required' : '') . "'>";
                             $ret .= "<span class='caption-text'>{$caption}</span>";
                             $ret .= "<span class='caption-marker'>*</span>";
-                            $ret .= "</div>";
+                            $ret .= '</div>';
                         }
                         if (($desc = $ele->getDescription()) != '') {
                             $ret .= "<div class='xoops-form-element-help'>{$desc}</div>";
@@ -235,7 +233,7 @@ class WfdownloadsMulticolumnsThemeForm extends XoopsForm
                             $ret .= "<div class='xoops-form-element-caption" . ($ele->isRequired() ? '-required' : '') . "'>";
                             $ret .= "<span class='caption-text'>{$caption}</span>";
                             $ret .= "<span class='caption-marker'>*</span>";
-                            $ret .= "</div>";
+                            $ret .= '</div>';
                         }
                         //$ret .= '</td></tr>' . NWLINE;
                         //$ret .= '<tr valign="top" align="left"><td class="' . $class . '" colspan="' . $this->_columns . '">';
@@ -245,13 +243,13 @@ class WfdownloadsMulticolumnsThemeForm extends XoopsForm
                 } else {
                     $hidden .= $ele->render();
                 }
-                $ret .= "</td>";
+                $ret .= '</td>';
             }
-            $ret .= "</tr>";
+            $ret .= '</tr>';
         }
-        $ret .= "</table>" . NWLINE;
+        $ret .= '</table>' . NWLINE;
         $ret .= "{$hidden}" . NWLINE;
-        $ret .= "</form>" . NWLINE;
+        $ret .= '</form>' . NWLINE;
         $ret .= $this->renderValidationJS(true);
 
         return $ret;

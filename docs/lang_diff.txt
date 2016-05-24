@@ -63,7 +63,7 @@ Added:
 define('_MI_WFDOWNLOADS_MAXSHOTS', 'Select Max Number of screenshots:');
 define('_MI_WFDOWNLOADS_MAXSHOTSDSC', 'Sets the maximum number of allowed screenshot uploads.');
 define('_MI_WFDOWNLOADS_ALLOWUPLOADSGROUP','Uploads Submit:');
-define('_MI_WFDOWNLOADS_ALLOWUPLOADSGROUPDSC','Select groups that can upload files.<br />This includes both files & screenshots!');
+define('_MI_WFDOWNLOADS_ALLOWUPLOADSGROUPDSC','Select groups that can upload files.<br>This includes both files & screenshots!');
 define('_MI_WFDOWNLOADS_ENABLERSS','Enable RSS Feeds:');
 define('_MI_WFDOWNLOADS_ENABLERSSDSC','Select yes to enable rss feeds');
 define('_MI_WFDOWNLOADS_CAT_IMGWIDTH', 'Category Image Display Width');
@@ -85,9 +85,9 @@ define('_MI_WFDOWNLOADS_GLOBAL_FILEMODIFIED_NOTIFYSBJ', '[{X_SITENAME}] {X_MODUL
 
 Changed:
 define("_MI_WFDOWNLOADS_SUBMITARTDSC", "Select groups that can submit new downloads.");
-To: define("_MI_WFDOWNLOADS_SUBMITARTDSC", "Select groups that can submit new downloads.<br />Webmasters are automatically selected!");
+To: define("_MI_WFDOWNLOADS_SUBMITARTDSC", "Select groups that can submit new downloads.<br>Webmasters are automatically selected!");
 define('_MI_WFDOWNLOADS_ALLOWUPLOADSDSC','Allow Users to upload files directly to your website');
-To: define('_MI_WFDOWNLOADS_ALLOWUPLOADSDSC','Allow Users to upload files directly to your website.<br />This includes both files & screenshots!');
+To: define('_MI_WFDOWNLOADS_ALLOWUPLOADSDSC','Allow Users to upload files directly to your website.<br>This includes both files & screenshots!');
 define("_MI_WFDOWNLOADS_USETHUMBSDSC", "Supported file types: JPG, GIF, PNG.
 Wfdownloads will use thumb nails for images. Set to 'No' to use orginal image if the server does not support this option.
 ");
@@ -182,11 +182,11 @@ FILE: \wfdownloads\language\english\admin.php
 
 Added:
 define("_AM_WFDOWNLOADS_CCATEGORY_CHILDASPARENT", "You cannot set a child category as the category's parent");
-define("_AM_WFDOWNLOADS_FILE_SUBMITTERID", "Submitter User Id:<br /><br />Leave this as it is, Unless you want to change who submitted the download");
+define("_AM_WFDOWNLOADS_FILE_SUBMITTERID", "Submitter User Id:<br><br>Leave this as it is, Unless you want to change who submitted the download");
 
 Changed:
 define("_AM_WFDOWNLOADS_FILE_FILENAME", "Local Filename: ");
-To: define("_AM_WFDOWNLOADS_FILE_FILENAME", "Local Filename:<br /><br /><span style='font-weight: normal;'>Note: If using local file as download, then you must also enter the correct filetype below!</span>");
+To: define("_AM_WFDOWNLOADS_FILE_FILENAME", "Local Filename:<br><br><span style='font-weight: normal;'>Note: If using local file as download, then you must also enter the correct filetype below!</span>");
 
 =================================================================
 v. 3.1.0 RC1      08/04/2006
@@ -227,11 +227,11 @@ define("_AM_WFDOWNLOADS_MIRROR_POSTER", "Submitter");
 define("_AM_WFDOWNLOADS_MIRROR_SUBMITDATE", "Submitted");
 define("_AM_WFDOWNLOADS_MIRROR_FHOMEURLTITLE", "Home Page Title: ");
 define("_AM_WFDOWNLOADS_MIRROR_FHOMEURL", "Home Page URL: ");
-define("_AM_WFDOWNLOADS_MIRROR_UPLOADIMAGE", "Upload Site Logo:<br /><br />A small logo representing your website.");
+define("_AM_WFDOWNLOADS_MIRROR_UPLOADIMAGE", "Upload Site Logo:<br><br>A small logo representing your website.");
 define("_AM_WFDOWNLOADS_MIRROR_MIRRORIMAGE", "Site Logo:");
 define("_AM_WFDOWNLOADS_MIRROR_CONTINENT", "Continent:");
-define("_AM_WFDOWNLOADS_MIRROR_LOCATION", "Location:<br /><br />Example: London, UK");
-define("_AM_WFDOWNLOADS_MIRROR_DOWNURL", "Download URL:<br /><br />Enter the url to the file.");
+define("_AM_WFDOWNLOADS_MIRROR_LOCATION", "Location:<br><br>Example: London, UK");
+define("_AM_WFDOWNLOADS_MIRROR_DOWNURL", "Download URL:<br><br>Enter the url to the file.");
 define("_AM_WFDOWNLOADS_MIRROR_FAPPROVE", "Mirror Approve: ");
 define("_AM_WFDOWNLOADS_MIRROR_ACTION", "Action");
 define("_AM_WFDOWNLOADS_MIRROR_NOWAITINGMIRRORS", "No Waiting Mirrors Found");
@@ -255,7 +255,7 @@ To: define("_AM_WFDOWNLOADS_DB_IMPORT", "Import");
 FILE: \wfdownloads\language\english\main.php
 
 Added:
-define("_MD_WFDOWNLOADS_UPLOADMINPOSTS", "You need to increase you Post Count<br />Before you can Upload Files");
+define("_MD_WFDOWNLOADS_UPLOADMINPOSTS", "You need to increase you Post Count<br>Before you can Upload Files");
 define("_MD_WFDOWNLOADS_UPLOAD_FILENAME", "Local Filename: ");
 define("_MD_WFDOWNLOADS_UPLOAD_FILETYPE", "File Type: ");
 define("_MD_WFDOWNLOADS_ERROR_CREATEREVIEW", "Error when creating a review");
@@ -274,15 +274,15 @@ define("_MD_WFDOWNLOADS_TOTALMIRRORS", "Total Mirrors:");
 define("_MD_WFDOWNLOADS_ADDMIRROR", "Add Mirror");
 define("_MD_WFDOWNLOADS_MIRROR_TOTAL", "<b>Total Mirrors:</b> %s");
 define("_MD_WFDOWNLOADS_MIRROR_HOMEURLTITLE", "Homepage Title:");
-define("_MD_WFDOWNLOADS_MIRROR_HOMEURL", "Homepage URL:<br /><br />Enter your Homepage url.");
-define("_MD_WFDOWNLOADS_MIRROR_UPLOADMIRRORIMAGE", "Upload Site Logo:<br /><br />A small logo representing your website.");
+define("_MD_WFDOWNLOADS_MIRROR_HOMEURL", "Homepage URL:<br><br>Enter your Homepage url.");
+define("_MD_WFDOWNLOADS_MIRROR_UPLOADMIRRORIMAGE", "Upload Site Logo:<br><br>A small logo representing your website.");
 define("_MD_WFDOWNLOADS_MIRROR_MIRRORIMAGE", "Site Logo:");
 define("_MD_WFDOWNLOADS_MIRROR_CONTINENT", "Continent:");
-define("_MD_WFDOWNLOADS_MIRROR_LOCATION", "Location:<br /><br />Example: London, UK");
-define("_MD_WFDOWNLOADS_MIRROR_DOWNURL", "Download URL:<br /><br />Enter the url to the file.");
+define("_MD_WFDOWNLOADS_MIRROR_LOCATION", "Location:<br><br>Example: London, UK");
+define("_MD_WFDOWNLOADS_MIRROR_DOWNURL", "Download URL:<br><br>Enter the url to the file.");
 define("_MD_WFDOWNLOADS_MIRROR_SUBMITMIRROR", "Submit Mirror");
 define("_MD_WFDOWNLOADS_ERROR_CREATEMIRROR", "Error when creating mirror");
-define("_MD_WFDOWNLOADS_MIRROR_SNEWMNAMEDESC", "Please completely fill out the form below, and we'll add your mirror as soon as possible.<br /><br /> Thank you for your assistance in providing another location to download these files. We want to give our users a possibility to find quality software faster.<br /><br /> All mirror submissions will be reviewed by one of our webmasters before they are put up on the web site.");
+define("_MD_WFDOWNLOADS_MIRROR_SNEWMNAMEDESC", "Please completely fill out the form below, and we'll add your mirror as soon as possible.<br><br> Thank you for your assistance in providing another location to download these files. We want to give our users a possibility to find quality software faster.<br><br> All mirror submissions will be reviewed by one of our webmasters before they are put up on the web site.");
 define("_MD_WFDOWNLOADS_MIRROR_HHOST", "Host");
 define("_MD_WFDOWNLOADS_MIRROR_HLOCATION", "Location");
 define("_MD_WFDOWNLOADS_MIRROR_HCONTINENT", "Continent");
@@ -299,8 +299,8 @@ define("_MD_WFDOWNLOADS_CONT6","South America");
 define("_MD_WFDOWNLOADS_CONT7","Oceania");
 
 Changed:
-define("_MD_WFDOWNLOADS_MINPOSTS", "You need to increase you Post Count<br />Before you can Upload/Download Files");
-To: define("_MD_WFDOWNLOADS_DOWNLOADMINPOSTS", "You need to increase you Post Count<br />Before you can Download Files");
+define("_MD_WFDOWNLOADS_MINPOSTS", "You need to increase you Post Count<br>Before you can Upload/Download Files");
+To: define("_MD_WFDOWNLOADS_DOWNLOADMINPOSTS", "You need to increase you Post Count<br>Before you can Download Files");
 define("_MD_WFDOWNLOADS_FILESIZE", "File Size (bytes)");
 To: define("_MD_WFDOWNLOADS_FILESIZE", "File Size");
 define("_MD_WFDOWNLOADS_DLURL", "Download URL: ");
@@ -344,7 +344,7 @@ define('_MI_WFDOWNLOADS_MIRROR_MAXIMGHEIGHTDSC','Maximum logo height permitted w
 define('_MI_WFDOWNLOADS_MIRROR_ENABLE','Enable Mirror System');
 define('_MI_WFDOWNLOADS_MIRROR_ENABLEDSC','');
 define('_MI_WFDOWNLOADS_MIRROR_ENABLEONCHK','Enable Server Online Check');
-define('_MI_WFDOWNLOADS_MIRROR_ENABLEONCHKDSC','Enables the host server check for the Mirrors<br />This can slow your page load down if<br />you have many mirrors');
+define('_MI_WFDOWNLOADS_MIRROR_ENABLEONCHKDSC','Enables the host server check for the Mirrors<br>This can slow your page load down if<br>you have many mirrors');
 define('_MI_WFDOWNLOADS_MIRROR_ALLOWSUBMISS','User Mirror Submissions:');
 define('_MI_WFDOWNLOADS_MIRROR_ALLOWSUBMISSDSC','Allow Users to Submit new mirrors');
 define('_MI_WFDOWNLOADS_MIRROR_MIRRORIMAGES','Mirror Logo Upload Directory'); // not implemented yet
@@ -383,8 +383,8 @@ define('_MI_WFDOWNLOADS_MODULE_MAILANNOUNCEMENTSDSC', "Get the latest announceme
 To: define('_MI_WFDOWNLOADS_MODULE_MAILANNOUNCEMENTSDSC', "Get the latest announcements from SmartFactory.");
 define('_MI_WFDOWNLOADS_WARNINGTEXT', "THE SOFTWARE IS PROVIDED BY WF-SECTIONS \"AS IS\" AND \"WITH ALL FAULTS.\" WF-SECTIONS MAKES NO REPRESENTATIONS OR WARRANTIES OF ANY KIND CONCERNING THE QUALITY, SAFETY OR SUITABILITY OF THE SOFTWARE, EITHER EXPRESS OR IMPLIED, INCLUDING WITHOUT LIMITATION ANY IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, OR NON-INFRINGEMENT. FURTHER, ABLEMEDIA MAKES NO REPRESENTATIONS OR WARRANTIES AS TO THE TRUTH, ACCURACY OR COMPLETENESS OF ANY STATEMENTS, INFORMATION OR MATERIALS CONCERNING THE SOFTWARE THAT IS CONTAINED IN WF-SECTIONS WEBSITE. IN NO EVENT WILL ABLEMEDIA BE LIABLE FOR ANY INDIRECT, PUNITIVE, SPECIAL, INCIDENTAL OR CONSEQUENTIAL DAMAGES HOWEVER THEY MAY ARISE AND EVEN IF WF-SECTIONS HAS BEEN PREVIOUSLY ADVISED OF THE POSSIBILITY OF SUCH DAMAGES..");
 To: define('_MI_WFDOWNLOADS_WARNINGTEXT', "THE SOFTWARE IS PROVIDED BY SMARTFACTORY \"AS IS\" AND \"WITH ALL FAULTS.\" SMARTFACTORY MAKES NO REPRESENTATIONS OR WARRANTIES OF ANY KIND CONCERNING THE QUALITY, SAFETY OR SUITABILITY OF THE SOFTWARE, EITHER EXPRESS OR IMPLIED, INCLUDING WITHOUT LIMITATION ANY IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, OR NON-INFRINGEMENT. FURTHER, SMARTFACTORY MAKES NO REPRESENTATIONS OR WARRANTIES AS TO THE TRUTH, ACCURACY OR COMPLETENESS OF ANY STATEMENTS, INFORMATION OR MATERIALS CONCERNING THE SOFTWARE THAT IS CONTAINED IN SMARTFACTORY WEBSITE. IN NO EVENT WILL SMARTFACTORY BE LIABLE FOR ANY INDIRECT, PUNITIVE, SPECIAL, INCIDENTAL OR CONSEQUENTIAL DAMAGES HOWEVER THEY MAY ARISE AND EVEN IF SMARTFACTORY HAS BEEN PREVIOUSLY ADVISED OF THE POSSIBILITY OF SUCH DAMAGES..");
-define('_MI_WFDOWNLOADS_AUTHOR_CREDITSTEXT',"The WF-Sections Team would like to thank the following people for their help and support during the development phase of this module:<br /><br />tom, mking, paco1969, mharoun, Talis, m0nty, steenlnielsen, Clubby, Geronimo, bd_csmc, herko, LANG, Stewdio, tedsmith, veggieryan, carnuke, MadFish.<br /><br />And on a personal note, I would like to thank the special girl in my life who I love dearly and who gives me the strength and support to do all of this.");
-To: define('_MI_WFDOWNLOADS_AUTHOR_CREDITSTEXT',"The SmartFactory Team would like to thank the following people for their help and support during the development phase of this module:<br /><br />tom, mking, paco1969, mharoun, Talis, m0nty, steenlnielsen, Clubby, Geronimo, bd_csmc, herko, LANG, Stewdio, tedsmith, veggieryan, carnuke, MadFish, Kiang<br />and anyone else who has contributed to either directly or indirectly.");
+define('_MI_WFDOWNLOADS_AUTHOR_CREDITSTEXT',"The WF-Sections Team would like to thank the following people for their help and support during the development phase of this module:<br><br>tom, mking, paco1969, mharoun, Talis, m0nty, steenlnielsen, Clubby, Geronimo, bd_csmc, herko, LANG, Stewdio, tedsmith, veggieryan, carnuke, MadFish.<br><br>And on a personal note, I would like to thank the special girl in my life who I love dearly and who gives me the strength and support to do all of this.");
+To: define('_MI_WFDOWNLOADS_AUTHOR_CREDITSTEXT',"The SmartFactory Team would like to thank the following people for their help and support during the development phase of this module:<br><br>tom, mking, paco1969, mharoun, Talis, m0nty, steenlnielsen, Clubby, Geronimo, bd_csmc, herko, LANG, Stewdio, tedsmith, veggieryan, carnuke, MadFish, Kiang<br>and anyone else who has contributed to either directly or indirectly.");
 define('_MI_WFDOWNLOADS_COPYRIGHTIMAGE', "Images copyright WF-Project and may only be used with permission");
 To: define('_MI_WFDOWNLOADS_COPYRIGHTIMAGE', "Images copyright WF-Project/SmartFactory and may only be used with permission");
 

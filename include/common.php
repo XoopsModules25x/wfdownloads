@@ -16,7 +16,6 @@
  * @package         wfdownload
  * @since           3.23
  * @author          Xoops Development Team
- * @version         svn:$id$
  */
 defined('XOOPS_ROOT_PATH') || die('XOOPS root path not defined');
 
@@ -37,7 +36,7 @@ include_once WFDOWNLOADS_ROOT_PATH . '/include/functions.php';
 include_once WFDOWNLOADS_ROOT_PATH . '/include/constants.php';
 include_once WFDOWNLOADS_ROOT_PATH . '/class/session.php'; // WfdownloadsSession class
 include_once WFDOWNLOADS_ROOT_PATH . '/class/wfdownloads.php'; // WfdownloadsWfdownloads class
-//include_once WFDOWNLOADS_ROOT_PATH . '/class/request.php'; // WfdownloadsRequest class
+//include_once WFDOWNLOADS_ROOT_PATH . '/class/wfdownloads.php'; // WfdownloadsRequest class
 include_once WFDOWNLOADS_ROOT_PATH . '/class/breadcrumb.php'; // WfdownloadsBreadcrumb class
 include_once WFDOWNLOADS_ROOT_PATH . '/class/tree.php'; // WfdownloadsObjectTree class
 include_once WFDOWNLOADS_ROOT_PATH . '/class/xoopstree.php'; // WfdownloadsXoopsTree class
@@ -50,7 +49,7 @@ xoops_load('XoopsRequest');
 // MyTextSanitizer object
 $myts = MyTextSanitizer::getInstance();
 
-$debug = false;
+$debug       = false;
 $wfdownloads = WfdownloadsWfdownloads::getInstance($debug);
 
 //This is needed or it will not work in blocks.
@@ -63,7 +62,7 @@ if (is_object($wfdownloads->getModule())) {
 }
 
 // Load Xoops handlers
-$module_handler = xoops_gethandler('module');
-$member_handler = xoops_gethandler('member');
-$notification_handler = &xoops_gethandler('notification');
-$gperm_handler = xoops_gethandler('groupperm');
+$module_handler       = xoops_getHandler('module');
+$member_handler       = xoops_getHandler('member');
+$notification_handler = xoops_getHandler('notification');
+$gperm_handler        = xoops_getHandler('groupperm');

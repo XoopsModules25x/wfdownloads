@@ -16,14 +16,13 @@
  * @package         wfdownload
  * @since           3.23
  * @author          Xoops Development Team
- * @version         svn:$id$
  */
 $currentFile = basename(__FILE__);
 include_once __DIR__ . '/admin_header.php';
 
-if (@$_POST['op'] == 'submit') {
+if (@$_POST['op'] === 'submit') {
     if (!$GLOBALS['xoopsSecurity']->check()) {
-        redirect_header($currentFile, 3, implode('<br />', $GLOBALS['xoopsSecurity']->getErrors()));
+        redirect_header($currentFile, 3, implode('<br>', $GLOBALS['xoopsSecurity']->getErrors()));
         exit();
     }
 
@@ -37,7 +36,6 @@ if (@$_POST['op'] == 'submit') {
 
     include_once __DIR__ . '/admin_footer.php';
     exit();
-
 } else {
     wfdownloads_xoops_cp_header();
     $indexAdmin = new ModuleAdmin();
@@ -45,9 +43,9 @@ if (@$_POST['op'] == 'submit') {
 
     // Swish-e support EXPERIMENTAL
     if (wfdownloads_swishe_check() == true) {
-        echo "OK";
+        echo 'OK';
     } else {
-        echo "NOT OK" . "<br />";
+        echo 'NOT OK' . '<br>';
         include_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
         $form = new XoopsThemeForm(_AM_WFDOWNLOADS_SWISHE_CONFIG, 'config', $currentFile, 'post', true);
         $form->addElement(new XoopsFormHidden('op', 'submit'));
@@ -62,15 +60,15 @@ if (@$_POST['op'] == 'submit') {
     $swisheExePath = $wfdownloads->getConfig('swishe_exe_path');
 
     // check if _binfilter.sh exists
-    echo "{$swisheDocPath}/_binfilter.sh" . "<br />";
-// IN PROGRESS
+    echo "{$swisheDocPath}/_binfilter.sh" . '<br>';
+    // IN PROGRESS
     // check if swish-e.conf exists
-    echo "{$swisheDocPath}/swish-e.conf" . "<br />";
-// IN PROGRESS
+    echo "{$swisheDocPath}/swish-e.conf" . '<br>';
+    // IN PROGRESS
     // check if swish-e exists
-    echo "{$swisheExePath}/swish-e" . "<br />"; // path of swish-e command
-    echo "{$swisheDocPath}/index.swish-e" . "<br />"; // path of swish-e index file
-// IN PROGRESS
+    echo "{$swisheExePath}/swish-e" . '<br>'; // path of swish-e command
+    echo "{$swisheDocPath}/index.swish-e" . '<br>'; // path of swish-e index file
+    // IN PROGRESS
     // Swish-e support EXPERIMENTAL
 
     include_once __DIR__ . '/admin_footer.php';

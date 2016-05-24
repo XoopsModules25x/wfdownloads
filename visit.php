@@ -16,7 +16,6 @@
  * @package         wfdownload
  * @since           3.23
  * @author          Xoops Development Team
- * @version         svn:$id$
  */
 $currentFile = basename(__FILE__);
 include_once __DIR__ . '/header.php';
@@ -40,12 +39,7 @@ $cid    = XoopsRequest::getInt('cid', $downloadObj->getVar('cid'));
 $agreed = XoopsRequest::getBool('agreed', false, 'POST');
 
 // Download not published, expired or taken offline - redirect
-if ($downloadObj->getVar('published') == 0
-    || $downloadObj->getVar('published') > time()
-    || $downloadObj->getVar('offline') == true
-    || ($downloadObj->getVar('expired') != 0 && $downloadObj->getVar('expired') < time())
-    || $downloadObj->getVar('status') == _WFDOWNLOADS_STATUS_WAITING
-) {
+if ($downloadObj->getVar('published') == 0 || $downloadObj->getVar('published') > time() || $downloadObj->getVar('offline') == true || ($downloadObj->getVar('expired') != 0 && $downloadObj->getVar('expired') < time()) || $downloadObj->getVar('status') == _WFDOWNLOADS_STATUS_WAITING) {
     redirect_header('index.php', 3, _MD_WFDOWNLOADS_NODOWNLOAD);
 }
 
@@ -98,14 +92,11 @@ if ($wfdownloads->getConfig('showDowndisclaimer') && $agreed == false) {
     $xoopsTpl->assign('image_header', wfdownloads_headerImage());
 
     $xoopsTpl->assign('submission_disclaimer', false);
-    $xoopsTpl->assign('download_disclaimer', truee);
+    $xoopsTpl->assign('download_disclaimer', true);
     $xoopsTpl->assign('download_disclaimer_content', $myts->displayTarea($wfdownloads->getConfig('downdisclaimer'), true, true, true, true, true));
 
     $xoopsTpl->assign('down_disclaimer', true); // this definition is not removed for backward compatibility issues
-    $xoopsTpl->assign(
-        'downdisclaimer',
-        $myts->displayTarea($wfdownloads->getConfig('downdisclaimer'), true, true, true, true, true)
-    ); // this definition is not removed for backward compatibility issues
+    $xoopsTpl->assign('downdisclaimer', $myts->displayTarea($wfdownloads->getConfig('downdisclaimer'), true, true, true, true, true)); // this definition is not removed for backward compatibility issues
     $xoopsTpl->assign('cancel_location', WFDOWNLOADS_URL . '/index.php'); // this definition is not removed for backward compatibility issues
     $xoopsTpl->assign('agree_location', WFDOWNLOADS_URL . "/{$currentFile}?agree=1&amp;lid={$lid}&amp;cid={$cid}");
     include_once __DIR__ . '/footer.php';
@@ -123,7 +114,7 @@ if ($wfdownloads->getConfig('showDowndisclaimer') && $agreed == false) {
 
     // Download file
     $fileFilename = trim($downloadObj->getVar('filename')); // IN PROGRESS: why 'trim'?
-    if ((!$downloadObj->getVar('url') == '' && !$downloadObj->getVar('url') == 'http://') || $fileFilename == '') {
+    if ((!$downloadObj->getVar('url') == '' && !$downloadObj->getVar('url') === 'http://') || $fileFilename == '') {
         // download is a remote file: download from remote url
         include_once XOOPS_ROOT_PATH . '/header.php';
 
@@ -134,21 +125,21 @@ if ($wfdownloads->getConfig('showDowndisclaimer') && $agreed == false) {
 
         $xoopsTpl->assign('wfdownloads_url', WFDOWNLOADS_URL . '/');
 
-        echo "<div align='center'>" . wfdownloads_headerImage() . "</div>";
+        echo "<div align='center'>" . wfdownloads_headerImage() . '</div>';
         $url = $myts->htmlSpecialChars(preg_replace('/javascript:/si', 'javascript:', $downloadObj->getVar('url')), ENT_QUOTES);
         echo "<h4>\n";
         echo "<img src='" . WFDOWNLOADS_URL . "/assets/images/icon/downloads.gif' align='middle' alt='' title='" . _MD_WFDOWNLOADS_DOWNINPROGRESS . "' /> " . _MD_WFDOWNLOADS_DOWNINPROGRESS . "\n";
         echo "</h4>\n";
-        echo "<div>" . _MD_WFDOWNLOADS_DOWNSTARTINSEC . "</div><br />\n";
-        echo "<div>" . _MD_WFDOWNLOADS_DOWNNOTSTART . "\n";
+        echo '<div>' . _MD_WFDOWNLOADS_DOWNSTARTINSEC . "</div><br>\n";
+        echo '<div>' . _MD_WFDOWNLOADS_DOWNNOTSTART . "\n";
         echo "<a href='{$url}' target='_blank'>" . _MD_WFDOWNLOADS_CLICKHERE . "</a>.\n";
         echo "</div>\n";
 
-        header("Cache-Control: no-store, no-cache, must-revalidate");
-        header("Cache-Control: post-check=0, pre-check=0", false);
-        header("Pragma: no-cache"); // HTTP/1.0
-        header("Expires: Mon, 26 Jul 1997 05:00:00 GMT"); // Date in the past
-        header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT"); // Always modified
+        header('Cache-Control: no-store, no-cache, must-revalidate');
+        header('Cache-Control: post-check=0, pre-check=0', false);
+        header('Pragma: no-cache'); // HTTP/1.0
+        header('Expires: Mon, 26 Jul 1997 05:00:00 GMT'); // Date in the past
+        header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT'); // Always modified
         header("Refresh: 3; url={$url}");
     } elseif (!empty($fileFilename)) {
         // download is a local file: download from filesystem
@@ -157,7 +148,7 @@ if ($wfdownloads->getConfig('showDowndisclaimer') && $agreed == false) {
         }
         // get file informations from filesystem
         $fileFilename  = trim($downloadObj->getVar('filename')); // IN PROGRESS: why 'trim'?
-        $fileMimetype  = ($downloadObj->getVar('filetype') != '') ? $downloadObj->getVar('filetype') : "application/octet-stream";
+        $fileMimetype  = ($downloadObj->getVar('filetype') != '') ? $downloadObj->getVar('filetype') : 'application/octet-stream';
         $filePath      = $wfdownloads->getConfig('uploaddir') . '/' . stripslashes(trim($fileFilename));
         $fileFilesize  = filesize($filePath);
         $fileInfo      = pathinfo($filePath);
@@ -171,11 +162,11 @@ if ($wfdownloads->getConfig('showDowndisclaimer') && $agreed == false) {
             $headerFilename = preg_replace('/\./', '%2e', $headerFilename, substr_count($headerFilename, '.') - 1);
         }
         //
-        header("Pragma: public");
-        header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
-        header("Cache-Control: private", false);
-        header("Content-Length: " . (string)($fileFilesize));
-        header("Content-Transfer-Encoding: binary");
+        header('Pragma: public');
+        header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
+        header('Cache-Control: private', false);
+        header('Content-Length: ' . (string)$fileFilesize);
+        header('Content-Transfer-Encoding: binary');
         header("Content-Type: {$fileMimetype}");
         header("Content-Disposition: attachment; filename={$headerFilename}");
         if (strstr($fileMimetype, 'text/')) {
@@ -189,10 +180,10 @@ if ($wfdownloads->getConfig('showDowndisclaimer') && $agreed == false) {
     } else {
         // download is a broken file: report broken
         include_once XOOPS_ROOT_PATH . '/header.php';
-        echo "<br />";
-        echo "<div align='center'>" . wfdownloads_headerImage() . "</div>";
-        echo "<h4>" . _MD_WFDOWNLOADS_BROKENFILE . "</h4>\n";
-        echo "<div>" . _MD_WFDOWNLOADS_PLEASEREPORT . "\n";
+        echo '<br>';
+        echo "<div align='center'>" . wfdownloads_headerImage() . '</div>';
+        echo '<h4>' . _MD_WFDOWNLOADS_BROKENFILE . "</h4>\n";
+        echo '<div>' . _MD_WFDOWNLOADS_PLEASEREPORT . "\n";
         echo "<a href='" . WFDOWNLOADS_URL . "/brokenfile.php?lid={$lid}'>" . _MD_WFDOWNLOADS_CLICKHERE . "</a>\n";
         echo "</div>\n";
     }

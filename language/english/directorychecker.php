@@ -16,15 +16,14 @@
  * @package         wfdownload
  * @since           3.23
  * @author          Xoops Development Team
- * @version         svn:$id$
  */
 
 define('_DC_WFDOWNLOADS_AVAILABLE', "<span style='color: green;'>Available</span>");
 define('_DC_WFDOWNLOADS_NOTAVAILABLE', "<span style='color: red;'>Not available</span>");
 define('_DC_WFDOWNLOADS_NOTWRITABLE', "<span style='color: red;'>Should have permission ( %d ), but it has ( %d )</span>");
-define('_DC_WFDOWNLOADS_CREATETHEDIR', "Create it");
-define('_DC_WFDOWNLOADS_SETMPERM', "Set the permission");
-define('_DC_WFDOWNLOADS_DIRCREATED', "The directory has been created");
-define('_DC_WFDOWNLOADS_DIRNOTCREATED', "The directory cannot be created");
-define('_DC_WFDOWNLOADS_PERMSET', "The permission has been set");
-define('_DC_WFDOWNLOADS_PERMNOTSET', "The permission cannot be set");
+define('_DC_WFDOWNLOADS_CREATETHEDIR', 'Create it');
+define('_DC_WFDOWNLOADS_SETMPERM', 'Set the permission');
+define('_DC_WFDOWNLOADS_DIRCREATED', 'The directory has been created');
+define('_DC_WFDOWNLOADS_DIRNOTCREATED', 'The directory cannot be created');
+define('_DC_WFDOWNLOADS_PERMSET', 'The permission has been set');
+define('_DC_WFDOWNLOADS_PERMNOTSET', 'The permission cannot be set');

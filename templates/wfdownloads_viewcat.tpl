@@ -258,7 +258,7 @@
             <br/>
         <{/foreach}>
         <!-- End link loop -->
-        <div style="clear:both"></div>
+        <div style="clear:both;"></div>
         <{$pagenav}>
     </div>
 <{/if}>

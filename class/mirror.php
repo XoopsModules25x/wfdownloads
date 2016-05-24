@@ -16,7 +16,6 @@
  * @package         wfdownload
  * @since           3.23
  * @author          Xoops Development Team
- * @version         svn:$id$
  */
 defined('XOOPS_ROOT_PATH') || die('XOOPS root path not defined');
 include_once dirname(__DIR__) . '/include/common.php';
@@ -61,10 +60,10 @@ class WfdownloadsMirror extends XoopsObject
     /**
      * @return XoopsThemeForm
      */
-    function getForm()
+    public function getForm()
     {
         include_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
-        $uid = !empty($GLOBALS['xoopsUser']) ? (int)($GLOBALS['xoopsUser']->getVar('uid')) : 0;
+        $uid = !empty($GLOBALS['xoopsUser']) ? (int)$GLOBALS['xoopsUser']->getVar('uid') : 0;
 
         $form = new XoopsThemeForm(_AM_WFDOWNLOADS_MIRROR_SNEWMNAMEDESC, 'mirrorform', $_SERVER['REQUEST_URI']);
         // title
@@ -74,18 +73,15 @@ class WfdownloadsMirror extends XoopsObject
         // location
         $form->addElement(new XoopsFormText(_AM_WFDOWNLOADS_MIRROR_LOCATION, 'location', 50, 255, $this->getVar('location', 'e')), true);
         // continent
-        $continent_select = new XoopsFormSelect(_AM_WFDOWNLOADS_MIRROR_CONTINENT, "continent", $this->getVar('continent'));
-        $continent_select->addOptionArray(
-            array(
-                _AM_WFDOWNLOADS_CONT1 => _AM_WFDOWNLOADS_CONT1,
-                _AM_WFDOWNLOADS_CONT2 => _AM_WFDOWNLOADS_CONT2,
-                _AM_WFDOWNLOADS_CONT3 => _AM_WFDOWNLOADS_CONT3,
-                _AM_WFDOWNLOADS_CONT4 => _AM_WFDOWNLOADS_CONT4,
-                _AM_WFDOWNLOADS_CONT5 => _AM_WFDOWNLOADS_CONT5,
-                _AM_WFDOWNLOADS_CONT6 => _AM_WFDOWNLOADS_CONT6,
-                _AM_WFDOWNLOADS_CONT7 => _AM_WFDOWNLOADS_CONT7
-            )
-        );
+        $continent_select = new XoopsFormSelect(_AM_WFDOWNLOADS_MIRROR_CONTINENT, 'continent', $this->getVar('continent'));
+        $continent_select->addOptionArray(array(
+                                              _AM_WFDOWNLOADS_CONT1 => _AM_WFDOWNLOADS_CONT1,
+                                              _AM_WFDOWNLOADS_CONT2 => _AM_WFDOWNLOADS_CONT2,
+                                              _AM_WFDOWNLOADS_CONT3 => _AM_WFDOWNLOADS_CONT3,
+                                              _AM_WFDOWNLOADS_CONT4 => _AM_WFDOWNLOADS_CONT4,
+                                              _AM_WFDOWNLOADS_CONT5 => _AM_WFDOWNLOADS_CONT5,
+                                              _AM_WFDOWNLOADS_CONT6 => _AM_WFDOWNLOADS_CONT6,
+                                              _AM_WFDOWNLOADS_CONT7 => _AM_WFDOWNLOADS_CONT7));
         $form->addElement($continent_select);
         // downurl
         $form->addElement(new XoopsFormText(_AM_WFDOWNLOADS_MIRROR_DOWNURL, 'downurl', 50, 255, $this->getVar('downurl', 'e')), true);
@@ -95,9 +91,9 @@ class WfdownloadsMirror extends XoopsObject
         $approve_checkbox->addOption(1, ' ');
         $form->addElement($approve_checkbox);
         // lid
-        $form->addElement(new XoopsFormHidden('lid', (int)($this->getVar('lid'))));
+        $form->addElement(new XoopsFormHidden('lid', (int)$this->getVar('lid')));
         // mirror_id
-        $form->addElement(new XoopsFormHidden('mirror_id', (int)($this->getVar('mirror_id'))));
+        $form->addElement(new XoopsFormHidden('mirror_id', (int)$this->getVar('mirror_id')));
         // uid
         $form->addElement(new XoopsFormHidden('uid', $uid));
         // confirm
@@ -144,9 +140,9 @@ class WfdownloadsMirrorHandler extends XoopsPersistableObjectHandler
     public $wfdownloads = null;
 
     /**
-     * @param null|object $db
+     * @param null|XoopsObject|XoopsDatabase $db
      */
-    public function __construct(&$db)
+    public function __construct(XoopsDatabase $db)
     {
         parent::__construct($db, 'wfdownloads_mirrors', 'WfdownloadsMirror', 'mirror_id', 'title');
         $this->wfdownloads = WfdownloadsWfdownloads::getInstance();

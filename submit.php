@@ -16,17 +16,13 @@
  * @package         wfdownload
  * @since           3.23
  * @author          Xoops Development Team
- * @version         svn:$id$
  */
 $currentFile = basename(__FILE__);
 include_once __DIR__ . '/header.php';
 
 // Check if submissions are allowed
 $isSubmissionAllowed = false;
-if (is_object($GLOBALS['xoopsUser'])
-    && ($wfdownloads->getConfig('submissions') == _WFDOWNLOADS_SUBMISSIONS_DOWNLOAD
-        || $wfdownloads->getConfig('submissions') == _WFDOWNLOADS_SUBMISSIONS_BOTH)
-) {
+if (is_object($GLOBALS['xoopsUser']) && ($wfdownloads->getConfig('submissions') == _WFDOWNLOADS_SUBMISSIONS_DOWNLOAD || $wfdownloads->getConfig('submissions') == _WFDOWNLOADS_SUBMISSIONS_BOTH)) {
     // if user is a registered user
     $groups = $GLOBALS['xoopsUser']->getGroups();
     if (count(array_intersect($wfdownloads->getConfig('submitarts'), $groups)) > 0) {
@@ -34,10 +30,7 @@ if (is_object($GLOBALS['xoopsUser'])
     }
 } else {
     // if user is ANONYMOUS
-    if (!is_object($GLOBALS['xoopsUser'])
-        && ($wfdownloads->getConfig('anonpost') == _WFDOWNLOADS_ANONPOST_DOWNLOAD
-            || $wfdownloads->getConfig('anonpost') == _WFDOWNLOADS_ANONPOST_BOTH)
-    ) {
+    if (!is_object($GLOBALS['xoopsUser']) && ($wfdownloads->getConfig('anonpost') == _WFDOWNLOADS_ANONPOST_DOWNLOAD || $wfdownloads->getConfig('anonpost') == _WFDOWNLOADS_ANONPOST_BOTH)) {
         $isSubmissionAllowed = true;
     } else {
         redirect_header(XOOPS_URL . '/user.php', 5, _MD_WFDOWNLOADS_MUSTREGFIRST);
@@ -64,7 +57,7 @@ $agreed = XoopsRequest::getBool('agreed', false, 'POST');
 $op     = XoopsRequest::getString('op', 'download.form');
 $notify = XoopsRequest::getBool('notify', false);
 
-if ($wfdownloads->getConfig('showdisclaimer') && ($op == 'download.form') && $agreed == false) {
+if ($wfdownloads->getConfig('showdisclaimer') && ($op === 'download.form') && $agreed == false) {
     $op = 'download.disclaimer';
 }
 
@@ -100,10 +93,7 @@ switch ($op) {
         $xoopsTpl->assign('submission_disclaimer_content', $myts->displayTarea($wfdownloads->getConfig('disclaimer'), true, true, true, true, true));
 
         $xoopsTpl->assign('down_disclaimer', false); // this definition is not removed for backward compatibility issues
-        $xoopsTpl->assign(
-            'disclaimer',
-            $myts->displayTarea($wfdownloads->getConfig('disclaimer'), true, true, true, true, true)
-        ); // this definition is not removed for backward compatibility issues
+        $xoopsTpl->assign('disclaimer', $myts->displayTarea($wfdownloads->getConfig('disclaimer'), true, true, true, true, true)); // this definition is not removed for backward compatibility issues
         $xoopsTpl->assign('cancel_location', WFDOWNLOADS_URL . '/index.php'); // this definition is not removed for backward compatibility issues
         if (!isset($_REQUEST['lid'])) {
             $xoopsTpl->assign('agree_location', WFDOWNLOADS_URL . "/{$currentFile}?agreed=1");
@@ -133,7 +123,7 @@ switch ($op) {
             $downloadObj = $wfdownloads->getHandler('download')->create();
             $downloadObj->setVar('cid', $cid);
         }
-// Formulize module support - jpc - start
+        // Formulize module support - jpc - start
         if (isset($_POST['submit_category']) && !empty($_POST['submit_category'])) {
             // two steps form: 2nd step
             $categoryObj = $wfdownloads->getHandler('category')->get($cid);
@@ -143,19 +133,10 @@ switch ($op) {
                 include_once XOOPS_ROOT_PATH . '/modules/formulize/include/formdisplay.php';
                 include_once XOOPS_ROOT_PATH . '/modules/formulize/include/functions.php';
                 $customArray['fid']           = $fid;
-                $customArray['formulize_mgr'] = xoops_getmodulehandler('elements', 'formulize');
+                $customArray['formulize_mgr'] = xoops_getModuleHandler('elements', 'formulize');
                 $customArray['groups']        = $GLOBALS['xoopsUser'] ? $GLOBALS['xoopsUser']->getGroups() : array(0 => XOOPS_GROUP_ANONYMOUS);
-                $customArray['prevEntry']     = getEntryValues( // is a Formulize function
-                    $downloadObj->getVar('formulize_idreq'),
-                    $customArray['formulize_mgr'],
-                    $customArray['groups'],
-                    $fid,
-                    null,
-                    null,
-                    null,
-                    null,
-                    null
-                );
+                $customArray['prevEntry']     = getEntryValues(// is a Formulize function
+                    $downloadObj->getVar('formulize_idreq'), $customArray['formulize_mgr'], $customArray['groups'], $fid, null, null, null, null, null);
                 $customArray['entry']         = $downloadObj->getVar('formulize_idreq');
                 $customArray['go_back']       = '';
                 $customArray['parentLinks']   = '';
@@ -175,7 +156,7 @@ switch ($op) {
             // one step form: 1st step
             $sform = $downloadObj->getForm();
         }
-// Formulize module support - jpc - end
+        // Formulize module support - jpc - end
         $xoopsOption['template_main'] = "{$wfdownloads->getModule()->dirname()}_submit.tpl";
         include_once XOOPS_ROOT_PATH . '/header.php';
 
@@ -206,21 +187,21 @@ switch ($op) {
     case 'download.save':
         // Save submitted download
         if (empty($_FILES['userfile']['name'])) {
-            if ($_POST['url'] && $_POST['url'] != '' && $_POST['url'] != "http://") {
-                $url      = ($_POST['url'] != "http://") ? $_POST['url'] : '';
+            if ($_POST['url'] && $_POST['url'] != '' && $_POST['url'] !== 'http://') {
+                $url      = ($_POST['url'] !== 'http://') ? $_POST['url'] : '';
                 $filename = '';
                 $filetype = '';
             } else {
-                $url      = ($_POST['url'] != "http://") ? $_POST['url'] : '';
+                $url      = ($_POST['url'] !== 'http://') ? $_POST['url'] : '';
                 $filename = $_POST['filename'];
                 $filetype = $_POST['filetype'];
             }
-            $size  = ((empty($_POST['size']) || !is_numeric($_POST['size']))) ? 0 : (int)$_POST['size'];
+            $size  = empty($_POST['size']) || !is_numeric($_POST['size']) ? 0 : (int)$_POST['size'];
             $title = trim($_POST['title']);
         } else {
             $isAdmin  = wfdownloads_userIsAdmin();
             $down     = wfdownloads_uploading($_FILES, $wfdownloads->getConfig('uploaddir'), '', $currentFile, 0, false, $isAdmin);
-            $url      = ($_POST['url'] != "http://") ? $_POST['url'] : '';
+            $url      = ($_POST['url'] !== 'http://') ? $_POST['url'] : '';
             $size     = $down['size'];
             $filename = $down['filename'];
             $filetype = $_FILES['userfile']['type'];
@@ -240,11 +221,7 @@ switch ($op) {
         $screenshot1 = '';
         if (isset($_FILES['screenshot']['name']) && !empty($_FILES['screenshot']['name'])) {
             $screenshot1 = strtolower($_FILES['screenshot']['name']);
-            $uploader    = new XoopsMediaImgUploader(
-                $uploadDirectory, $allowedMimetypes, $wfdownloads->getConfig(
-                    'maxfilesize'
-                ), $wfdownloads->getConfig('maximgwidth'), $wfdownloads->getConfig('maximgheight')
-            );
+            $uploader    = new XoopsMediaImgUploader($uploadDirectory, $allowedMimetypes, $wfdownloads->getConfig('maxfilesize'), $wfdownloads->getConfig('maximgwidth'), $wfdownloads->getConfig('maximgheight'));
             if (!$uploader->fetchMedia($_POST['xoops_upload_file'][1]) && !$uploader->upload()) {
                 @unlink($uploadDirectory . $screenshot1);
                 redirect_header($currentFile, 1, $uploader->getErrors());
@@ -256,11 +233,7 @@ switch ($op) {
         if ($wfdownloads->getConfig('max_screenshot') >= 2) {
             if (isset($_FILES['screenshot2']['name']) && !empty($_FILES['screenshot2']['name'])) {
                 $screenshot2 = strtolower($_FILES['screenshot2']['name']);
-                $uploader    = new XoopsMediaImgUploader(
-                    $uploadDirectory, $allowedMimetypes, $wfdownloads->getConfig(
-                        'maxfilesize'
-                    ), $wfdownloads->getConfig('maximgwidth'), $wfdownloads->getConfig('maximgheight')
-                );
+                $uploader    = new XoopsMediaImgUploader($uploadDirectory, $allowedMimetypes, $wfdownloads->getConfig('maxfilesize'), $wfdownloads->getConfig('maximgwidth'), $wfdownloads->getConfig('maximgheight'));
                 if (!$uploader->fetchMedia($_POST['xoops_upload_file'][2]) && !$uploader->upload()) {
                     @unlink($uploadDirectory . $screenshot2);
                     redirect_header($currentFile, 1, $uploader->getErrors());
@@ -273,11 +246,7 @@ switch ($op) {
         if ($wfdownloads->getConfig('max_screenshot') >= 3) {
             if (isset($_FILES['screenshot3']['name']) && !empty($_FILES['screenshot3']['name'])) {
                 $screenshot3 = strtolower($_FILES['screenshot3']['name']);
-                $uploader    = new XoopsMediaImgUploader(
-                    $uploadDirectory, $allowedMimetypes, $wfdownloads->getConfig(
-                        'maxfilesize'
-                    ), $wfdownloads->getConfig('maximgwidth'), $wfdownloads->getConfig('maximgheight')
-                );
+                $uploader    = new XoopsMediaImgUploader($uploadDirectory, $allowedMimetypes, $wfdownloads->getConfig('maxfilesize'), $wfdownloads->getConfig('maximgwidth'), $wfdownloads->getConfig('maximgheight'));
                 if (!$uploader->fetchMedia($_POST['xoops_upload_file'][3]) && !$uploader->upload()) {
                     @unlink($uploadDirectory . $screenshot3);
                     redirect_header($currentFile, 1, $uploader->getErrors());
@@ -290,11 +259,7 @@ switch ($op) {
         if ($wfdownloads->getConfig('max_screenshot') >= 4) {
             if (isset($_FILES['screenshot4']['name']) && !empty($_FILES['screenshot4']['name'])) {
                 $screenshot4 = strtolower($_FILES['screenshot4']['name']);
-                $uploader    = new XoopsMediaImgUploader(
-                    $uploadDirectory, $allowedMimetypes, $wfdownloads->getConfig(
-                        'maxfilesize'
-                    ), $wfdownloads->getConfig('maximgwidth'), $wfdownloads->getConfig('maximgheight')
-                );
+                $uploader    = new XoopsMediaImgUploader($uploadDirectory, $allowedMimetypes, $wfdownloads->getConfig('maxfilesize'), $wfdownloads->getConfig('maximgwidth'), $wfdownloads->getConfig('maximgheight'));
                 if (!$uploader->fetchMedia($_POST['xoops_upload_file'][4]) && !$uploader->upload()) {
                     @unlink($uploadDirectory . $screenshot4);
                     redirect_header($currentFile, 1, $uploader->getErrors());
@@ -305,9 +270,7 @@ switch ($op) {
 
         if ($lid > 0) {
             $isANewRecord = false;
-            if ($wfdownloads->getConfig('autoapprove') == _WFDOWNLOADS_AUTOAPPROVE_DOWNLOAD
-                || $wfdownloads->getConfig('autoapprove') == _WFDOWNLOADS_AUTOAPPROVE_BOTH
-            ) {
+            if ($wfdownloads->getConfig('autoapprove') == _WFDOWNLOADS_AUTOAPPROVE_DOWNLOAD || $wfdownloads->getConfig('autoapprove') == _WFDOWNLOADS_AUTOAPPROVE_BOTH) {
                 $downloadObj = $wfdownloads->getHandler('download')->get($lid);
             } else {
                 $downloadObj = $wfdownloads->getHandler('modification')->create();
@@ -316,9 +279,7 @@ switch ($op) {
         } else {
             $isANewRecord = true;
             $downloadObj  = $wfdownloads->getHandler('download')->create();
-            if ($wfdownloads->getConfig('autoapprove') == _WFDOWNLOADS_AUTOAPPROVE_DOWNLOAD
-                || $wfdownloads->getConfig('autoapprove') == _WFDOWNLOADS_AUTOAPPROVE_BOTH
-            ) {
+            if ($wfdownloads->getConfig('autoapprove') == _WFDOWNLOADS_AUTOAPPROVE_DOWNLOAD || $wfdownloads->getConfig('autoapprove') == _WFDOWNLOADS_AUTOAPPROVE_BOTH) {
                 $downloadObj->setVar('published', time());
                 $downloadObj->setVar('status', _WFDOWNLOADS_STATUS_APPROVED);
             } else {
@@ -327,7 +288,7 @@ switch ($op) {
             }
         }
 
-// Formulize module support (2006/05/04) jpc - start
+        // Formulize module support (2006/05/04) jpc - start
         if (wfdownloads_checkModule('formulize')) {
             // Now that the $downloadObj object has been instantiated, handle the Formulize part of the submission...
             $categoryObj = $wfdownloads->getHandler('category')->get($cid);
@@ -335,7 +296,7 @@ switch ($op) {
             if ($fid) {
                 include_once XOOPS_ROOT_PATH . '/modules/formulize/include/formread.php';
                 include_once XOOPS_ROOT_PATH . '/modules/formulize/include/functions.php';
-                $formulizeElements_handler = xoops_getmodulehandler('elements', 'formulize');
+                $formulizeElements_handler = xoops_getModuleHandler('elements', 'formulize');
                 if ($lid) {
                     $entries[$fid][0] = $downloadObj->getVar('formulize_idreq');
                     if ($entries[$fid][0]) {
@@ -356,25 +317,17 @@ switch ($op) {
                 $owner_groups =& $member_handler->getGroupsByUser($owner, false);
                 $uid          = is_object($GLOBALS['xoopsUser']) ? (int)$GLOBALS['xoopsUser']->getVar('uid') : 0;
                 $groups       = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : array(0 => XOOPS_GROUP_ANONYMOUS);
-                $entries      = handleSubmission( // is a Formulize function
-                    $formulizeElements_handler,
-                    $entries,
-                    $uid,
-                    $owner,
-                    $fid,
-                    $owner_groups,
-                    $groups,
-                    'new'
-                ); // 'new' causes xoops token check to be skipped, since Wfdownloads should be doing that
+                $entries      = handleSubmission(// is a Formulize function
+                    $formulizeElements_handler, $entries, $uid, $owner, $fid, $owner_groups, $groups, 'new'); // 'new' causes xoops token check to be skipped, since Wfdownloads should be doing that
                 if (!$owner) {
                     $id_req = $entries[$fid][0];
                     $downloadObj->setVar('formulize_idreq', $id_req);
                 }
             }
         }
-// Formulize module support (2006/05/04) jpc - end
+        // Formulize module support (2006/05/04) jpc - end
 
-        if (!empty($_POST['homepage']) || $_POST['homepage'] != 'http://') {
+        if (!empty($_POST['homepage']) || $_POST['homepage'] !== 'http://') {
             $downloadObj->setVar('homepage', formatURL(trim($_POST['homepage'])));
             $downloadObj->setVar('homepagetitle', trim($_POST['homepagetitle']));
         }
@@ -401,9 +354,7 @@ switch ($op) {
             $tags['CATEGORY_NAME'] = $categoryObj->getVar('title');
             $tags['CATEGORY_URL']  = WFDOWNLOADS_URL . "/viewcat.php?cid={$cid}";
 
-            if ($wfdownloads->getConfig('autoapprove') == _WFDOWNLOADS_AUTOAPPROVE_DOWNLOAD
-                || $wfdownloads->getConfig('autoapprove') == _WFDOWNLOADS_AUTOAPPROVE_BOTH
-            ) {
+            if ($wfdownloads->getConfig('autoapprove') == _WFDOWNLOADS_AUTOAPPROVE_DOWNLOAD || $wfdownloads->getConfig('autoapprove') == _WFDOWNLOADS_AUTOAPPROVE_BOTH) {
                 // Then this change will be automatically approved, so the notification needs to go out.
                 $notification_handler->triggerEvent('global', 0, 'filemodified', $tags);
                 $notification_handler->triggerEvent('category', $cid, 'filemodified', $tags);
@@ -438,15 +389,15 @@ switch ($op) {
         $downloadObj->setVar('requirements', trim($_POST['requirements']));
         $forumid = (isset($_POST['forumid']) && $_POST['forumid'] > 0) ? (int)$_POST['forumid'] : 0;
         $downloadObj->setVar('forumid', $forumid);
-        $limitations = isset($_POST['limitations']) ? $myts->addslashes($_POST['limitations']) : '';
+        $limitations = isset($_POST['limitations']) ? $myts->addSlashes($_POST['limitations']) : '';
         $downloadObj->setVar('limitations', $limitations);
-        $versiontypes = isset($_POST['versiontypes']) ? $myts->addslashes($_POST['versiontypes']) : '';
+        $versiontypes = isset($_POST['versiontypes']) ? $myts->addSlashes($_POST['versiontypes']) : '';
         $downloadObj->setVar('versiontypes', $versiontypes);
-        $dhistory        = isset($_POST['dhistory']) ? $myts->addslashes($_POST['dhistory']) : '';
-        $dhistoryhistory = isset($_POST['dhistoryaddedd']) ? $myts->addslashes($_POST['dhistoryaddedd']) : '';
+        $dhistory        = isset($_POST['dhistory']) ? $myts->addSlashes($_POST['dhistory']) : '';
+        $dhistoryhistory = isset($_POST['dhistoryaddedd']) ? $myts->addSlashes($_POST['dhistoryaddedd']) : '';
         if ($lid > 0 && !empty($dhistoryhistory)) {
             $dhistory = $dhistory . "\n\n";
-            $dhistory .= "<b>" . formatTimestamp(time(), $wfdownloads->getConfig('dateformat')) . "</b>\n\n";
+            $dhistory .= '<b>' . formatTimestamp(time(), $wfdownloads->getConfig('dateformat')) . "</b>\n\n";
             $dhistory .= $dhistoryhistory;
         }
         $downloadObj->setVar('dhistory', $dhistory);
@@ -478,9 +429,7 @@ switch ($op) {
             $tags['CATEGORY_NAME'] = $categoryObj->getVar('title');
             $tags['CATEGORY_URL']  = WFDOWNLOADS_URL . "/viewcat.php?cid={$cid}";
 
-            if ($wfdownloads->getConfig('autoapprove') == _WFDOWNLOADS_AUTOAPPROVE_DOWNLOAD
-                || $wfdownloads->getConfig('autoapprove') == _WFDOWNLOADS_AUTOAPPROVE_BOTH
-            ) {
+            if ($wfdownloads->getConfig('autoapprove') == _WFDOWNLOADS_AUTOAPPROVE_DOWNLOAD || $wfdownloads->getConfig('autoapprove') == _WFDOWNLOADS_AUTOAPPROVE_BOTH) {
                 $notification_handler->triggerEvent('global', 0, 'new_file', $tags);
                 $notification_handler->triggerEvent('category', $cid, 'new_file', $tags);
                 redirect_header('index.php', 2, _MD_WFDOWNLOADS_ISAPPROVED);
@@ -496,9 +445,7 @@ switch ($op) {
             }
             exit();
         } else {
-            if ($wfdownloads->getConfig('autoapprove') == _WFDOWNLOADS_AUTOAPPROVE_DOWNLOAD
-                || $wfdownloads->getConfig('autoapprove') == _WFDOWNLOADS_AUTOAPPROVE_BOTH
-            ) {
+            if ($wfdownloads->getConfig('autoapprove') == _WFDOWNLOADS_AUTOAPPROVE_DOWNLOAD || $wfdownloads->getConfig('autoapprove') == _WFDOWNLOADS_AUTOAPPROVE_BOTH) {
                 $notifypub = (isset($_POST['notifypub']) && $_POST['notifypub'] == true);
                 $downloadObj->setVar('notifypub', $notifypub);
                 $downloadObj->setVar('ipaddress', $_SERVER['REMOTE_ADDR']);
@@ -527,7 +474,6 @@ switch ($op) {
                 $notification_handler->triggerEvent('global', 0, 'file_modify', $tags);
                 redirect_header('index.php', 2, _MD_WFDOWNLOADS_THANKSFORINFO);
             }
-
         }
         break;
 }

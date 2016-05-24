@@ -16,7 +16,6 @@
  * @package         wfdownload
  * @since           3.23
  * @author          Xoops Development Team
- * @version         svn:$id$
  */
 
 /**
@@ -38,8 +37,8 @@ function wfdownloads_top_show($options)
 {
     $wfdownloads = WfdownloadsWfdownloads::getInstance();
 
-    $groups = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : array(0 => XOOPS_GROUP_ANONYMOUS);
-    $gperm_handler = xoops_gethandler('groupperm');
+    $groups                   = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : array(0 => XOOPS_GROUP_ANONYMOUS);
+    $gperm_handler            = xoops_getHandler('groupperm');
     $allowedDownCategoriesIds = $gperm_handler->getItemIds('WFDownCatPerm', $groups, $wfdownloads->getModule()->mid());
 
     $block = array();
@@ -55,17 +54,17 @@ function wfdownloads_top_show($options)
 
     foreach ($downloadObjs as $downloadObj) {
         $download = $downloadObj->toArray();
-        if (!in_array((int) $download['cid'], $allowedDownCategoriesIds)) {
+        if (!in_array((int)$download['cid'], $allowedDownCategoriesIds)) {
             continue;
         }
-        $download['title'] = xoops_substr($download['title'], 0, ($options[2] - 1));
-        $download['id'] = (int) $download['lid'];
-        if ($options[0] == 'published') {
+        $download['title'] = xoops_substr($download['title'], 0, $options[2] - 1);
+        $download['id']    = (int)$download['lid'];
+        if ($options[0] === 'published') {
             $download['date'] = formatTimestamp($download['published'], $wfdownloads->getConfig('dateformat'));
         } else {
             $download['date'] = formatTimestamp($download['date'], $wfdownloads->getConfig('dateformat'));
         }
-        $download['dirname'] = $wfdownloads->getModule()->dirname();
+        $download['dirname']  = $wfdownloads->getModule()->dirname();
         $block['downloads'][] = $download;
     }
 
@@ -79,11 +78,11 @@ function wfdownloads_top_show($options)
  */
 function wfdownloads_top_edit($options)
 {
-    $form = "" . _MB_WFDOWNLOADS_DISP . "&nbsp;";
-    $form .= "<input type='hidden' name='options[]' value='" . ($options[0] == 'published') ? 'published' : 'hits' . "' />";
-    $form .= "<input type='text' name='options[]' value='" . $options[1] . "' />&nbsp;" . _MB_WFDOWNLOADS_FILES . "";
-    $form .= "<br />";
-    $form .= "" . _MB_WFDOWNLOADS_CHARS . "&nbsp;<input type='text' name='options[]' value='" . $options[2] . "' />&nbsp;" . _MB_WFDOWNLOADS_LENGTH . "";
+    $form = '' . _MB_WFDOWNLOADS_DISP . '&nbsp;';
+    $form .= "<input type='hidden' name='options[]' value='" . (($options[0] === 'published') ? 'published' : 'hits') . "' />";
+    $form .= "<input type='text' name='options[]' value='" . $options[1] . "' />&nbsp;" . _MB_WFDOWNLOADS_FILES . '';
+    $form .= '<br>';
+    $form .= '' . _MB_WFDOWNLOADS_CHARS . "&nbsp;<input type='text' name='options[]' value='" . $options[2] . "' />&nbsp;" . _MB_WFDOWNLOADS_LENGTH . '';
 
     return $form;
 }

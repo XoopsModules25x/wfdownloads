@@ -17,7 +17,6 @@
  * @subpackage      Utils
  * @since           1.0
  * @author          trabis <lusopoemas@gmail.com>
- * @version         $Id:$
  */
 defined('XOOPS_ROOT_PATH') || die('XOOPS root path not defined');
 
@@ -26,20 +25,20 @@ defined('XOOPS_ROOT_PATH') || die('XOOPS root path not defined');
  */
 class WfdownloadsWfdownloads
 {
-    var $dirname;
-    var $module;
-    var $handler;
-    var $config;
-    var $debug;
-    var $debugArray = array();
+    public $dirname;
+    public $module;
+    public $handler;
+    public $config;
+    public $debug;
+    public $debugArray = array();
 
     /**
      * @param $debug
      */
     protected function __construct($debug)
     {
-        $this->debug = $debug;
-        $this->dirname =  basename(dirname(__DIR__));
+        $this->debug   = $debug;
+        $this->dirname = basename(dirname(__DIR__));
     }
 
     /**
@@ -47,17 +46,17 @@ class WfdownloadsWfdownloads
      *
      * @return WfdownloadsWfdownloads
      */
-    static function &getInstance($debug = false)
+    public static function getInstance($debug = false)
     {
-        static $instance = false;
-        if (!$instance) {
-            $instance = new self($debug);
+        static $instance;
+        if (!isset($instance)) {
+            $instance = new static($debug);
         }
 
         return $instance;
     }
 
-    function &getModule()
+    public function &getModule()
     {
         if ($this->module == null) {
             $this->initModule();
@@ -71,13 +70,13 @@ class WfdownloadsWfdownloads
      *
      * @return null
      */
-    function getConfig($name = null)
+    public function getConfig($name = null)
     {
         if ($this->config == null) {
             $this->initConfig();
         }
         if (!$name) {
-            $this->addLog("Getting all config");
+            $this->addLog('Getting all config');
 
             return $this->config;
         }
@@ -97,7 +96,7 @@ class WfdownloadsWfdownloads
      *
      * @return mixed
      */
-    function setConfig($name = null, $value = null)
+    public function setConfig($name = null, $value = null)
     {
         if ($this->config == null) {
             $this->initConfig();
@@ -113,7 +112,7 @@ class WfdownloadsWfdownloads
      *
      * @return mixed
      */
-    function &getHandler($name)
+    public function &getHandler($name)
     {
         if (!isset($this->handler[$name . '_handler'])) {
             $this->initHandler($name);
@@ -123,29 +122,29 @@ class WfdownloadsWfdownloads
         return $this->handler[$name . '_handler'];
     }
 
-    function initModule()
+    public function initModule()
     {
         global $xoopsModule;
         if (isset($xoopsModule) && is_object($xoopsModule) && $xoopsModule->getVar('dirname') == $this->dirname) {
             $this->module = $xoopsModule;
         } else {
-            $hModule = xoops_gethandler('module');
+            $hModule      = xoops_getHandler('module');
             $this->module = $hModule->getByDirname($this->dirname);
         }
         $this->addLog('INIT MODULE');
     }
 
-    function initConfig()
+    public function initConfig()
     {
         $this->addLog('INIT CONFIG');
-        $hModConfig = xoops_gethandler('config');
+        $hModConfig   = xoops_getHandler('config');
         $this->config = $hModConfig->getConfigsByCat(0, $this->getModule()->getVar('mid'));
     }
 
     /**
      * @param $name
      */
-    function initHandler($name)
+    public function initHandler($name)
     {
         $this->addLog('INIT ' . $name . ' HANDLER');
         $this->handler[$name . '_handler'] = xoops_getModuleHandler($name, $this->dirname);
@@ -154,7 +153,7 @@ class WfdownloadsWfdownloads
     /**
      * @param $log
      */
-    function addLog($log)
+    public function addLog($log)
     {
         if ($this->debug) {
             if (is_object($GLOBALS['xoopsLogger'])) {

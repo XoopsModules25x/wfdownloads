@@ -16,7 +16,6 @@
  * @package         wfdownload
  * @since           3.23
  * @author          Xoops Development Team
- * @version         svn:$id$
  */
 defined('XOOPS_ROOT_PATH') || die('XOOPS root path not defined');
 include_once dirname(__DIR__) . '/include/common.php';
@@ -76,9 +75,9 @@ class WfdownloadsCategory extends XoopsObject
      *
      * @return XoopsThemeForm
      */
-    function getForm($action = false)
+    public function getForm($action = false)
     {
-        $gperm_handler = xoops_gethandler('groupperm');
+        $gperm_handler = xoops_getHandler('groupperm');
 
         if ($action === false) {
             $action = $_SERVER['REQUEST_URI'];
@@ -94,34 +93,34 @@ class WfdownloadsCategory extends XoopsObject
         $form->addElement(new XoopsFormText(_AM_WFDOWNLOADS_FCATEGORY_TITLE, 'title', 50, 255, $this->getVar('title', 'e')), true);
         // category: pid
         if (wfdownloads_categoriesCount() > 0) {
-            $categoryObjs = $this->wfdownloads->getHandler('category')->getObjects();
+            $categoryObjs     = $this->wfdownloads->getHandler('category')->getObjects();
             $categoryObjsTree = new XoopsObjectTree($categoryObjs, 'cid', 'pid');
             $form->addElement(new XoopsFormLabel(_AM_WFDOWNLOADS_FCATEGORY_SUBCATEGORY, $categoryObjsTree->makeSelBox('pid', 'title', '-', $this->getVar('pid', 'e'), true)));
         }
         // category: weight
         $form->addElement(new XoopsFormText(_AM_WFDOWNLOADS_FCATEGORY_WEIGHT, 'weight', 11, 11, $this->getVar('weight')), false);
         // permission: WFDownCatPerm
-        $groups = $gperm_handler->getGroupIds('WFDownCatPerm', $this->getVar('cid'), $this->wfdownloads->getModule()->mid());
+        $groups             = $gperm_handler->getGroupIds('WFDownCatPerm', $this->getVar('cid'), $this->wfdownloads->getModule()->mid());
         $groups_down_select = new XoopsFormSelectGroup(_AM_WFDOWNLOADS_FCATEGORY_GROUPPROMPT, 'groups', true, $groups, 5, true);
         $groups_down_select->setDescription(_AM_WFDOWNLOADS_FCATEGORY_GROUPPROMPT_DESC);
         $form->addElement($groups_down_select);
         // permission: WFUpCatPerm
-        $up_groups = $gperm_handler->getGroupIds('WFUpCatPerm', $this->getVar('cid'), $this->wfdownloads->getModule()->mid());
+        $up_groups        = $gperm_handler->getGroupIds('WFUpCatPerm', $this->getVar('cid'), $this->wfdownloads->getModule()->mid());
         $groups_up_select = new XoopsFormSelectGroup(_AM_WFDOWNLOADS_FCATEGORY_GROUPPROMPT_UP, 'up_groups', true, $up_groups, 5, true);
         $groups_up_select->setDescription(_AM_WFDOWNLOADS_FCATEGORY_GROUPPROMPT_UP_DESC);
         $form->addElement($groups_up_select);
         // category: imgurl
         $imgurl_path = $this->getVar('imgurl') ? $this->wfdownloads->getConfig('catimage') . '/' . $this->getVar('imgurl') : WFDOWNLOADS_IMAGES_URL . '/blank.gif';
-        $imgurl_tray = new XoopsFormElementTray(_AM_WFDOWNLOADS_FCATEGORY_CIMAGE, '<br />');
-            $imgurl_tray->addElement(new XoopsFormLabel(_AM_WFDOWNLOADS_DOWN_FUPLOADPATH, XOOPS_ROOT_PATH . '/' . $this->wfdownloads->getConfig('catimage')));
-            $imgurl_tray->addElement(new XoopsFormLabel(_AM_WFDOWNLOADS_DOWN_FUPLOADURL, XOOPS_URL . '/' . $this->wfdownloads->getConfig('catimage')));
-                $graph_array = WfsLists::getListTypeAsArray(XOOPS_ROOT_PATH . '/' . $this->wfdownloads->getConfig('catimage'), 'images');
-                $imgurl_select = new XoopsFormSelect('', 'imgurl', $this->getVar('imgurl'));
-                $imgurl_select->addOptionArray($graph_array);
-                $imgurl_select->setExtra("onchange='showImgSelected(\"image\", \"imgurl\", \"" . $this->wfdownloads->getConfig('catimage') . "\", \"\", \"" . XOOPS_URL . "\")'");
-            $imgurl_tray->addElement($imgurl_select, false);
-            $imgurl_tray->addElement(new XoopsFormLabel( '', "<img src='" . XOOPS_URL . "/" . $imgurl_path . "' name='image' id='image' alt='' />"));
-            $imgurl_tray->addElement(new XoopsFormFile(_AM_WFDOWNLOADS_BUPLOAD , 'uploadfile', 0), false);
+        $imgurl_tray = new XoopsFormElementTray(_AM_WFDOWNLOADS_FCATEGORY_CIMAGE, '<br>');
+        $imgurl_tray->addElement(new XoopsFormLabel(_AM_WFDOWNLOADS_DOWN_FUPLOADPATH, XOOPS_ROOT_PATH . '/' . $this->wfdownloads->getConfig('catimage')));
+        $imgurl_tray->addElement(new XoopsFormLabel(_AM_WFDOWNLOADS_DOWN_FUPLOADURL, XOOPS_URL . '/' . $this->wfdownloads->getConfig('catimage')));
+        $graph_array   =& WfsLists::getListTypeAsArray(XOOPS_ROOT_PATH . '/' . $this->wfdownloads->getConfig('catimage'), 'images');
+        $imgurl_select = new XoopsFormSelect('', 'imgurl', $this->getVar('imgurl'));
+        $imgurl_select->addOptionArray($graph_array);
+        $imgurl_select->setExtra("onchange='showImgSelected(\"image\", \"imgurl\", \"" . $this->wfdownloads->getConfig('catimage') . "\", \"\", \"" . XOOPS_URL . "\")'");
+        $imgurl_tray->addElement($imgurl_select, false);
+        $imgurl_tray->addElement(new XoopsFormLabel('', "<img src='" . XOOPS_URL . '/' . $imgurl_path . "' name='image' id='image' alt='' />"));
+        $imgurl_tray->addElement(new XoopsFormFile(_AM_WFDOWNLOADS_BUPLOAD, 'uploadfile', 0), false);
         $form->addElement($imgurl_tray);
         // category: description
         $description_textarea = new XoopsFormDhtmlTextArea(_AM_WFDOWNLOADS_FCATEGORY_DESCRIPTION, 'description', $this->getVar('description', 'e'), 15, 60);
@@ -150,13 +149,13 @@ class WfdownloadsCategory extends XoopsObject
         $breaks_checkbox->addOption(1, _AM_WFDOWNLOADS_ALLOWBREAK);
         $options_tray->addElement($breaks_checkbox);
         $form->addElement($options_tray);
-// Formulize module support (2006/05/04) jpc - start
+        // Formulize module support (2006/05/04) jpc - start
         // category: formulize_fid
         if (wfdownloads_checkModule('formulize')) {
             if (file_exists(XOOPS_ROOT_PATH . '/modules/formulize/include/functions.php')) {
                 include_once XOOPS_ROOT_PATH . '/modules/formulize/include/functions.php';
-                $fids = allowedForms(); // is a Formulize function
-                $fids_select = array();
+                $fids           = allowedForms(); // is a Formulize function
+                $fids_select    = array();
                 $fids_select[0] = _AM_WFDOWNLOADS_FFS_STANDARD_FORM;
                 foreach ($fids as $fid) {
                     $fids_select[$fid] = getFormTitle($fid); // is a Formulize function
@@ -167,7 +166,7 @@ class WfdownloadsCategory extends XoopsObject
                 $form->addElement($formulize_forms);
             }
         }
-// Formulize module support (2006/05/04) jpc - end
+        // Formulize module support (2006/05/04) jpc - end
         // form: buttons
         $button_tray = new XoopsFormElementTray('', '');
         $button_tray->addElement(new XoopsFormHidden('op', 'category.save'));
@@ -206,13 +205,13 @@ class WfdownloadsCategoryHandler extends XoopsPersistableObjectHandler
      */
     public $wfdownloads = null;
 
-    var $allCategories = false;
-    var $topCategories = false;
+    public $allCategories = false;
+    public $topCategories = false;
 
     /**
-     * @param null|object $db
+     * @param null|XoopsObject|XoopsDatabase $db
      */
-    public function __construct(&$db)
+    public function __construct(XoopsDatabase $db)
     {
         parent::__construct($db, 'wfdownloads_cat', 'WfdownloadsCategory', 'cid', 'title');
         $this->wfdownloads = WfdownloadsWfdownloads::getInstance();
@@ -225,10 +224,10 @@ class WfdownloadsCategoryHandler extends XoopsPersistableObjectHandler
      *
      * @return mixed|string
      */
-    function getNicePath($cid, $root_filename = 'index.php', $item_filename = 'viewcat.php?op=')
+    public function getNicePath($cid, $root_filename = 'index.php', $item_filename = 'viewcat.php?op=')
     {
         include_once WFDOWNLOADS_ROOT_PATH . '/class/xoopstree.php';
-        $mytree = new WfdownloadsXoopsTree($this->table, $this->keyName, 'pid');
+        $mytree     = new WfdownloadsXoopsTree($this->table, $this->keyName, 'pid');
         $pathString = $mytree->getNicePathFromId($cid, $this->identifierName, $item_filename);
 
         /**
@@ -236,7 +235,7 @@ class WfdownloadsCategoryHandler extends XoopsPersistableObjectHandler
          */
         $pathString = trim($pathString);
         $pathString = str_replace(':', '>', $pathString);
-//      $pathString = substr($pathString, 0, strlen($pathString) - 13); // not needed now with fixed icms core! but required for XOOPS
+        //      $pathString = substr($pathString, 0, strlen($pathString) - 13); // not needed now with fixed icms core! but required for XOOPS
         return $pathString;
     }
 
@@ -248,11 +247,11 @@ class WfdownloadsCategoryHandler extends XoopsPersistableObjectHandler
      *
      * @return array
      */
-    function getUserCategories($id_as_key = false, $as_object = true)
+    public function getUserCategories($id_as_key = false, $as_object = true)
     {
-        $gperm_handler = xoops_gethandler('groupperm');
+        $gperm_handler = xoops_getHandler('groupperm');
 
-        $groups = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : array(0 => XOOPS_GROUP_ANONYMOUS);
+        $groups                   = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : array(0 => XOOPS_GROUP_ANONYMOUS);
         $allowedDownCategoriesIds = $gperm_handler->getItemIds('WFDownCatPerm', $groups, $this->wfdownloads->getModule()->mid());
 
         return $this->getObjects(new Criteria('cid', '(' . implode(',', $allowedDownCategoriesIds) . ')', 'IN'), $id_as_key, $as_object);
@@ -266,11 +265,11 @@ class WfdownloadsCategoryHandler extends XoopsPersistableObjectHandler
      *
      * @return array
      */
-    function getUserDownCategories($id_as_key = false, $as_object = true)
+    public function getUserDownCategories($id_as_key = false, $as_object = true)
     {
-        $gperm_handler = xoops_gethandler('groupperm');
+        $gperm_handler = xoops_getHandler('groupperm');
 
-        $groups = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : array(0 => XOOPS_GROUP_ANONYMOUS);
+        $groups                   = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : array(0 => XOOPS_GROUP_ANONYMOUS);
         $allowedDownCategoriesIds = $gperm_handler->getItemIds('WFDownCatPerm', $groups, $this->wfdownloads->getModule()->mid());
 
         return $this->getObjects(new Criteria('cid', '(' . implode(',', $allowedDownCategoriesIds) . ')', 'IN'), $id_as_key, $as_object);
@@ -282,11 +281,11 @@ class WfdownloadsCategoryHandler extends XoopsPersistableObjectHandler
      *
      * @return array
      */
-    function getUserUpCategories($id_as_key = false, $as_object = true)
+    public function getUserUpCategories($id_as_key = false, $as_object = true)
     {
-        $gperm_handler = xoops_gethandler('groupperm');
+        $gperm_handler = xoops_getHandler('groupperm');
 
-        $groups = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : XOOPS_GROUP_ANONYMOUS;
+        $groups                 = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : XOOPS_GROUP_ANONYMOUS;
         $allowedUpCategoriesIds = $gperm_handler->getItemIds('WFUpCatPerm', $groups, $this->wfdownloads->getModule()->mid());
 
         return $this->getObjects(new Criteria('cid', '(' . implode(',', $allowedUpCategoriesIds) . ')', 'IN'), $id_as_key, $as_object);
@@ -297,9 +296,9 @@ class WfdownloadsCategoryHandler extends XoopsPersistableObjectHandler
      *
      * @return array
      */
-    function getChildCats($category)
+    public function getChildCats($category)
     {
-        $categoryObjs = $this->getObjects();
+        $categoryObjs =& $this->getObjects();
         include_once XOOPS_ROOT_PATH . '/class/tree.php';
         $categoryObjsTree = new XoopsObjectTree($categoryObjs, $this->keyName, 'pid');
 
@@ -309,10 +308,10 @@ class WfdownloadsCategoryHandler extends XoopsPersistableObjectHandler
     /**
      * @return array
      */
-    function getAllSubcatsTopParentCid()
+    public function getAllSubcatsTopParentCid()
     {
         if (!$this->allCategories) {
-            $this->allCategories = $this->getObjects(null, true);
+            $this->allCategories =& $this->getObjects(null, true);
         }
 
         include_once XOOPS_ROOT_PATH . '/class/tree.php';
@@ -326,53 +325,53 @@ class WfdownloadsCategoryHandler extends XoopsPersistableObjectHandler
                 $allsubcats_linked_totop[$cid] = $cid;
             } else {
                 // is not a top category
-                $topParentCategoryObj = end($parentCategoryObjs);
+                $topParentCategoryObj          = end($parentCategoryObjs);
                 $allsubcats_linked_totop[$cid] = $topParentCategoryObj->getVar($cid);
             }
             unset($parentCategoryObjs);
         }
 
         return $allsubcats_linked_totop;
-/*
-        $categoryObjsTreeNodes = $categoryObjsTree->getTree();
+        /*
+                $categoryObjsTreeNodes = $categoryObjsTree->getTree();
 
-        // Let's create an array where key will be cid of the top categories and
-        // value will be an array containing all the cid of its subcategories
-        // If value = 0, then this topcat does not have any subcats
-        $topCategories = array();
-        foreach ($categoryObjsTreeNodes[0]['child'] as $topCategory_cid) {
-            if (!isset($this->topCategories[$topCategory_cid])) {
-                $this->topCategories[$topCategory_cid] = $topCategory_cid;
-            }
-            foreach ($categoryObjsTree->getAllChild($topCategory_cid) as $key => $childCategory) {
-                $childCategory_cids[] = $childCategory->getVar('cid');
-            }
-            $childCategory_cids = isset($childCategory_cids) ? $childCategory_cids : 0;
-            $topCategories[$topCategory_cid] = $childCategory_cids;
-            unset($childCategory_cids);
-        }
-
-        // Now we need to create another array where key will be all subcategories cid and
-        // value will be the cid of its top most category
-        $allsubcats_linked_totop = array();
-
-        foreach ($topCategories as $topCategory_cid => $childCategory_cids) {
-            if ($childCategory_cids == 0) {
-                $allsubcats_linked_totop[$topCategory_cid] = $topCategory_cid;
-            } else {
-                foreach ($childCategory_cids as $childCategory_cid) {
-                    $allsubcats_linked_totop[$childCategory_cid] = $topCategory_cid;
+                // Let's create an array where key will be cid of the top categories and
+                // value will be an array containing all the cid of its subcategories
+                // If value = 0, then this topcat does not have any subcats
+                $topCategories = array();
+                foreach ($categoryObjsTreeNodes[0]['child'] as $topCategory_cid) {
+                    if (!isset($this->topCategories[$topCategory_cid])) {
+                        $this->topCategories[$topCategory_cid] = $topCategory_cid;
+                    }
+                    foreach ($categoryObjsTree->getAllChild($topCategory_cid) as $key => $childCategory) {
+                        $childCategory_cids[] = $childCategory->getVar('cid');
+                    }
+                    $childCategory_cids = isset($childCategory_cids) ? $childCategory_cids : 0;
+                    $topCategories[$topCategory_cid] = $childCategory_cids;
+                    unset($childCategory_cids);
                 }
-            }
-        }
 
-        // Finally, let's finish by adding to this array, all the top categories which values
-        // will be their cid
-          foreach ($topCategories as $topCategory_cid) {
-            $allsubcats_linked_totop[$topCategory_cid] = $topCategory_cid;
-        }
+                // Now we need to create another array where key will be all subcategories cid and
+                // value will be the cid of its top most category
+                $allsubcats_linked_totop = array();
 
-        return $allsubcats_linked_totop;
-*/
+                foreach ($topCategories as $topCategory_cid => $childCategory_cids) {
+                    if ($childCategory_cids == 0) {
+                        $allsubcats_linked_totop[$topCategory_cid] = $topCategory_cid;
+                    } else {
+                        foreach ($childCategory_cids as $childCategory_cid) {
+                            $allsubcats_linked_totop[$childCategory_cid] = $topCategory_cid;
+                        }
+                    }
+                }
+
+                // Finally, let's finish by adding to this array, all the top categories which values
+                // will be their cid
+                  foreach ($topCategories as $topCategory_cid) {
+                    $allsubcats_linked_totop[$topCategory_cid] = $topCategory_cid;
+                }
+
+                return $allsubcats_linked_totop;
+        */
     }
 }

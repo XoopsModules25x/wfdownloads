@@ -16,7 +16,6 @@
  * @package         wfdownload
  * @since           3.23
  * @author          Xoops Development Team
- * @version         svn:$id$
  */
 $currentFile = basename(__FILE__);
 include_once __DIR__ . '/admin_header.php';
@@ -34,8 +33,8 @@ switch ($op) {
             }
             break;
     */
-    case "mimetype.edit" :
-    case "mimetype.add" :
+    case 'mimetype.edit' :
+    case 'mimetype.add' :
         wfdownloads_xoops_cp_header();
         $indexAdmin = new ModuleAdmin();
         echo $indexAdmin->addNavigation($currentFile);
@@ -47,14 +46,13 @@ switch ($op) {
 
         echo "<fieldset>\n";
         echo "<legend style='font-weight: bold; color: #900;'>" . _AM_WFDOWNLOADS_MIME_CREATEF . '/' . _AM_WFDOWNLOADS_MIME_MODIFYF . "</legend>\n";
-        echo "<div>" . _AM_WFDOWNLOADS_MIME_INFOTEXT . "</div>\n";
+        echo '<div>' . _AM_WFDOWNLOADS_MIME_INFOTEXT . "</div>\n";
         echo "</fieldset>\n";
 
         if (isset($_REQUEST['mime_id'])) {
             $mimetypeObj = $wfdownloads->getHandler('mimetype')->get($_REQUEST['mime_id']);
         } else {
             $mimetypeObj = $wfdownloads->getHandler('mimetype')->create();
-
         }
         $form = $mimetypeObj->getForm();
         $form->display();
@@ -65,20 +63,17 @@ switch ($op) {
         $fileext_text->setDescription(_AM_WFDOWNLOADS_MIME_EXTFIND_DESC);
         $extform->addElement($fileext_text);
         $button_open = new XoopsFormButton('', '', _AM_WFDOWNLOADS_MIME_FINDIT, 'button');
-        $button_open->setExtra(
-            'onclick="document.getElementById(\'filext_iframe\').src = \'http://filext.com/detaillist.php?extdetail=\' + this.form.elements.fileext.value"'
-        );
+        $button_open->setExtra('onclick="document.getElementById(\'filext_iframe\').src = \'http://filext.com/detaillist.php?extdetail=\' + this.form.elements.fileext.value"');
         $extform->addElement($button_open);
         $extform->addElement($button_tray);
         $extform->display();
 
-        echo "<iframe src='http://filext.com/detaillist.php?extdetail=" . $mimetypeObj->getVar('mime_ext')
-            . "' id='filext_iframe' name='filext_iframe' class='outer' style='width:100%; height:400px;'></iframe>";
+        echo "<iframe src='http://filext.com/detaillist.php?extdetail=" . $mimetypeObj->getVar('mime_ext') . "' id='filext_iframe' name='filext_iframe' class='outer' style='width:100%; height:400px;'></iframe>";
 
         xoops_cp_footer();
         break;
 
-    case "mimetype.save" :
+    case 'mimetype.save' :
         $mime_id = XoopsRequest::getInt('mime_id', 0, 'POST');
         if (!$mimetypeObj = $wfdownloads->getHandler('mimetype')->get($mime_id)) {
             redirect_header($currentFile, 4, _AM_WFDOWNLOADS_ERROR_MIMETYPENOTFOUND);
@@ -91,14 +86,14 @@ switch ($op) {
         $mimetypeObj->setVar('mime_admin', (int)$_POST['mime_admin']);
         $mimetypeObj->setVar('mime_user', (int)$_POST['mime_user']);
         if (!$wfdownloads->getHandler('mimetype')->insert($mimetypeObj)) {
-            $error = "Could not update mimetype information";
+            $error = 'Could not update mimetype information';
             trigger_error($error, E_USER_ERROR);
         }
         $dbupted = ($mime_id == 0) ? _AM_WFDOWNLOADS_MIME_CREATED : _AM_WFDOWNLOADS_MIME_MODIFIED;
         redirect_header($currentFile, 1, $dbupted);
         break;
 
-    case "mimetype.update" :
+    case 'mimetype.update' :
         $mime_id = XoopsRequest::getInt('mime_id', 0);
         if (!$mimetypeObj = $wfdownloads->getHandler('mimetype')->get($mime_id)) {
             redirect_header($currentFile, 4, _AM_WFDOWNLOADS_ERROR_MIMETYPENOTFOUND);
@@ -122,13 +117,13 @@ switch ($op) {
         if (!$wfdownloads->getHandler('mimetype')->insert($mimetypeObj, true)) {
             trigger_error($error, E_USER_ERROR);
         }
-        redirect_header("{$currentFile}?start=" . (int)($_GET['start']) . "", 0, _AM_WFDOWNLOADS_MIME_MODIFIED);
+        redirect_header("{$currentFile}?start=" . (int)$_GET['start'] . '', 0, _AM_WFDOWNLOADS_MIME_MODIFIED);
         break;
 
-    case "mimetypes.update" :
+    case 'mimetypes.update' :
         $mime_admin = XoopsRequest::getBool('admin', false);
         $mime_user  = XoopsRequest::getBool('user', false);
-        $type_all   = (int)($_GET['type_all']);
+        $type_all   = (int)$_GET['type_all'];
 
         if ($mime_admin == true) {
             $field = 'mime_admin';
@@ -139,13 +134,13 @@ switch ($op) {
         $criteria->setStart($start);
         $criteria->setLimit(20);
         if (!$wfdownloads->getHandler('mimetype')->updateAll($field, $type_all, $criteria, true)) {
-            $error = "Could not update mimetype information";
+            $error = 'Could not update mimetype information';
             trigger_error($error, E_USER_ERROR);
         }
-        redirect_header("{$currentFile}?start=" . (int)($_GET['start']) . "", 1, _AM_WFDOWNLOADS_MIME_MODIFIED);
+        redirect_header("{$currentFile}?start=" . (int)$_GET['start'] . '', 1, _AM_WFDOWNLOADS_MIME_MODIFIED);
         break;
 
-    case "mimetype.delete" :
+    case 'mimetype.delete' :
         $mime_id = XoopsRequest::getInt('mime_id', 0);
         $ok      = XoopsRequest::getBool('ok', false, 'POST');
         if (!$mimetypeObj = $wfdownloads->getHandler('mimetype')->get($mime_id)) {
@@ -165,17 +160,12 @@ switch ($op) {
             }
         } else {
             wfdownloads_xoops_cp_header();
-            xoops_confirm(
-                array('op' => 'mimetype.delete', 'mime_id' => $mime_id, 'ok' => true),
-                $currentFile,
-                _AM_WFDOWNLOADS_MIME_DELETETHIS . "<br /><br>" . $mimetypeObj->getVar('mime_name'),
-                _AM_WFDOWNLOADS_MIME_DELETE
-            );
+            xoops_confirm(array('op' => 'mimetype.delete', 'mime_id' => $mime_id, 'ok' => true), $currentFile, _AM_WFDOWNLOADS_MIME_DELETETHIS . '<br><br>' . $mimetypeObj->getVar('mime_name'), _AM_WFDOWNLOADS_MIME_DELETE);
             xoops_cp_footer();
         }
         break;
 
-    case "mimetypes.list" :
+    case 'mimetypes.list' :
     default :
         $start = XoopsRequest::getInt('start', 0);
 

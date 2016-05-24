@@ -16,7 +16,6 @@
  * @package         wfdownload
  * @since           3.23
  * @author          Xoops Development Team
- * @version         svn:$id$
  */
 defined('XOOPS_ROOT_PATH') || die('XOOPS root path not defined');
 include_once dirname(__DIR__) . '/include/common.php';
@@ -39,12 +38,12 @@ function wfdownloads_search($queryArray, $andor, $limit, $offset, $userId = 0, $
 
     $userGroups = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : array(0 => XOOPS_GROUP_ANONYMOUS);
 
-    $gperm_handler = xoops_gethandler('groupperm');
+    $gperm_handler            = xoops_getHandler('groupperm');
     $allowedDownCategoriesIds = $gperm_handler->getItemIds('WFDownCatPerm', $userGroups, $wfdownloads->getModule()->mid());
 
     $criteria = new CriteriaCompo(new Criteria('cid', '(' . implode(',', $allowedDownCategoriesIds) . ')', 'IN'));
     if ($userId != 0) {
-        $criteria->add(new Criteria('submitter', (int) $userId));
+        $criteria->add(new Criteria('submitter', (int)$userId));
     }
 
     // changed and added - start - April 23, 2006 - jwe
@@ -59,47 +58,47 @@ function wfdownloads_search($queryArray, $andor, $limit, $offset, $userId = 0, $
         // $userId != 0 added August 13 2007 -- ACCOUNTS FOR CASES WHERE THERE ARE NO QUERY TERMS BUT A USER ID IS PASSED -- FREEFORM SOLUTIONS
         if ($queryArray_count == 0) {
             $queryArray_count = 1; // AUGUST 13 2007 -- MAKE COUNT EQUAL 1 SINCE WE HAVE TO DO AT LEAST ONE SEARCH (BASED ON USER ID) EVEN IF THERE ARE NO QUERY TERMS -- FREEFORM SOLUTIONS
-            $queryArray = array();
+            $queryArray       = array();
         }
 
-// Formulize module support - jpc - start
-/*
-        // queryarray[0] now handled inside loop -- perhaps this "0 out of loop, 1 and up inside loop" approach was an unsuccessful attempt to fix the "unset" bug.  Interesting that subcrit was unset prior to the FOR loop.
-        $subCriteria = new CriteriaCompo(new Criteria("title", "%".$queryArray[0]."%", 'LIKE'), 'OR');
-        $subCriteria->add(new Criteria("description", "%".$queryArray[0]."%", 'LIKE'), 'OR');
-        $criteria->add($subCriteria);
-        unset($subCriteria);
+        // Formulize module support - jpc - start
+        /*
+                // queryarray[0] now handled inside loop -- perhaps this "0 out of loop, 1 and up inside loop" approach was an unsuccessful attempt to fix the "unset" bug.  Interesting that subcrit was unset prior to the FOR loop.
+                $subCriteria = new CriteriaCompo(new Criteria("title", "%".$queryArray[0]."%", 'LIKE'), 'OR');
+                $subCriteria->add(new Criteria("description", "%".$queryArray[0]."%", 'LIKE'), 'OR');
+                $criteria->add($subCriteria);
+                unset($subCriteria);
 
-        $allSubCriterias = new CriteriaCompo(); // added to fix bug related to nesting of ( )
-        for ($i = 0;$i < $queryArray_count;++$i) { // 1 changed to 0 so everything happens in one loop now
-            $subCriteria = new CriteriaCompo(new Criteria("title", "%".$queryArray[$i]."%", 'LIKE'), 'OR');
-            $subCriteria->add(new Criteria("description", "%".$queryArray[$i]."%", 'LIKE'), 'OR');
-            $allSubCriterias->add($subCriteria, $andor); // $criteria changed to $allSubCriterias to fix bug
-            unset($subCriteria); // added to fix bug
-        }
-        $criteria->add($allSubCriterias); // added to fix bug
+                $allSubCriterias = new CriteriaCompo(); // added to fix bug related to nesting of ( )
+                for ($i = 0;$i < $queryArray_count;++$i) { // 1 changed to 0 so everything happens in one loop now
+                    $subCriteria = new CriteriaCompo(new Criteria("title", "%".$queryArray[$i]."%", 'LIKE'), 'OR');
+                    $subCriteria->add(new Criteria("description", "%".$queryArray[$i]."%", 'LIKE'), 'OR');
+                    $allSubCriterias->add($subCriteria, $andor); // $criteria changed to $allSubCriterias to fix bug
+                    unset($subCriteria); // added to fix bug
+                }
+                $criteria->add($allSubCriterias); // added to fix bug
 
-There are two bugs in the above code: all subcrits need to be added to the main
-criteria as a group, so it was a bug to have them added one at a time as they
-were, since the nesting of the () in the rendered where clause is incorrect also
-there was a bug which caused only the first and last items in the query array to
-be processed, and the last item would be processed multiple times.  ie: terms
-"green, orange, black" resulted in a search for "green, black, black" -- this
-"bug" was introduced with php 4.4.0 (and some version of 5 as well) after a
-change in how objects are managed in memory or something like that.
-The fix is to specifically unset the $subCriteria object at the end of each
-iteration of the loop. The same bug hit Liase, Formulaire and Formulize.
-You can see the structure of the query by printing the output of $criteria's
-render or renderWhere method ( ie: print $criteria->renderWhere(); )
-However, the whole approach to handling queries has been changed, so the above
-code is unused.  It is included here for reference with regard to the bugs
-mentioned above.
-With custom forms, because a multi term query using AND could have some terms
-match only custom form fields and other terms match only native Wfdownloads
-fields, each term must be evaluated independently,
-across both modules, and then if an AND operator is in effect, the intersection
-of the results is returned.  If OR is in effect, then all results are returned.
-*/
+        There are two bugs in the above code: all subcrits need to be added to the main
+        criteria as a group, so it was a bug to have them added one at a time as they
+        were, since the nesting of the () in the rendered where clause is incorrect also
+        there was a bug which caused only the first and last items in the query array to
+        be processed, and the last item would be processed multiple times.  ie: terms
+        "green, orange, black" resulted in a search for "green, black, black" -- this
+        "bug" was introduced with php 4.4.0 (and some version of 5 as well) after a
+        change in how objects are managed in memory or something like that.
+        The fix is to specifically unset the $subCriteria object at the end of each
+        iteration of the loop. The same bug hit Liase, Formulaire and Formulize.
+        You can see the structure of the query by printing the output of $criteria's
+        render or renderWhere method ( ie: print $criteria->renderWhere(); )
+        However, the whole approach to handling queries has been changed, so the above
+        code is unused.  It is included here for reference with regard to the bugs
+        mentioned above.
+        With custom forms, because a multi term query using AND could have some terms
+        match only custom form fields and other terms match only native Wfdownloads
+        fields, each term must be evaluated independently,
+        across both modules, and then if an AND operator is in effect, the intersection
+        of the results is returned.  If OR is in effect, then all results are returned.
+        */
         // Determine what the custom forms are that need searching, if any
         if (wfdownloads_checkModule('formulize')) {
             $fids = array();
@@ -126,12 +125,12 @@ of the results is returned.  If OR is in effect, then all results are returned.
         // Loop through all query terms
         for ($i = 0; $i < $queryArray_count; ++$i) {
             // Make a copy of the $criteria for use with this term only
-            $queryCriteria = clone($criteria);
+            $queryCriteria = clone$criteria;
 
             // Setup criteria for searching the title and description fields of Wfdownloads for the current term
             $allSubCriterias = new CriteriaCompo();
-            $thisSearchTerm = count($queryArray) > 0 ? $queryArray[$i] : '';
-            $subCriteria = new CriteriaCompo();
+            $thisSearchTerm  = count($queryArray) > 0 ? $queryArray[$i] : '';
+            $subCriteria     = new CriteriaCompo();
             $subCriteria->add(new Criteria('title', '%' . $thisSearchTerm . '%', 'LIKE'), 'OR'); // search in title field
             $subCriteria->add(new Criteria('description', '%' . $thisSearchTerm . '%', 'LIKE'), 'OR'); // search in description fiels
             $allSubCriterias->add($subCriteria, $andor);
@@ -143,27 +142,27 @@ of the results is returned.  If OR is in effect, then all results are returned.
             if (wfdownloads_checkModule('formulize')) {
                 foreach ($fids as $fid) {
                     if (!isset($formulizeElements_handler)) {
-                        $formulizeElements_handler = xoops_getmodulehandler('elements', 'formulize');
+                        $formulizeElements_handler = xoops_getModuleHandler('elements', 'formulize');
                     }
                     include_once XOOPS_ROOT_PATH . '/modules/formulize/include/extract.php';
                     // Setup the filter string based on the elements in the form and the current query term
                     $formulizeElements = $formulizeElements_handler->getObjects2($formulizeElementCriteria, $fid);
-                    $filter_string = '';
-                    $indexer = 0;
-                    $start = 1;
+                    $filter_string     = '';
+                    $indexer           = 0;
+                    $start             = 1;
                     foreach ($formulizeElements as $formulizeElement) {
                         if ($start) {
-                            $filter_string = $formulizeElement->getVar('ele_id') . "/**/" . $queryArray[$i];
-                            $start = 0;
+                            $filter_string = $formulizeElement->getVar('ele_id') . '/**/' . $queryArray[$i];
+                            $start         = 0;
                         } else {
-                            $filter_string .= "][" . $formulizeElement->getVar('ele_id') . "/**/" . $queryArray[$i];
+                            $filter_string .= '][' . $formulizeElement->getVar('ele_id') . '/**/' . $queryArray[$i];
                         }
                     }
                     unset($formulizeElements);
 
                     // Query for the ids of the records in the form that match the queryarray
-                    $data = getData('', $fid, $filter_string, 'OR'); // is a 'formulize' function
-                    $formHandle = getFormHandleFromEntry($data[0], 'uid'); // is a 'formulize' function
+                    $data           = getData('', $fid, $filter_string, 'OR'); // is a 'formulize' function
+                    $formHandle     = getFormHandleFromEntry($data[0], 'uid'); // is a 'formulize' function
                     $temp_saved_ids = array();
                     foreach ($data as $entry) {
                         // Gather all IDs for this $fid
@@ -176,7 +175,7 @@ of the results is returned.  If OR is in effect, then all results are returned.
                     unset($data);
                 } // end of foreach $fids
             }
-// Formulize module support - jpc - end
+            // Formulize module support - jpc - end
             // Make a criteria object that includes the custom form ids that were found, if any
             if (count($saved_ids) > 0 && is_array($saved_ids)) {
                 $subs_plus_custom = new CriteriaCompo(new Criteria('formulize_idreq', '(' . implode(',', $saved_ids) . ')', 'IN'));
@@ -197,12 +196,12 @@ of the results is returned.  If OR is in effect, then all results are returned.
             // Make an array of the downloads based on the lid, and a separate list of all the lids found (the separate list is used in the case of an AND operator to derive an intersection of the hits across all search terms -- and it is used to determine the start and limit points of the main results array for an OR query)
             $downloads_lids = array();
             foreach ($tempDownloadObjs as $tempDownloadObj) {
-                $downloadObjs[(int) $tempDownloadObj->getVar('lid')] = $tempDownloadObj;
-                $downloads_lids[] = (int) $tempDownloadObj->getVar('lid');
+                $downloadObjs[(int)$tempDownloadObj->getVar('lid')] = $tempDownloadObj;
+                $downloads_lids[]                                   = (int)$tempDownloadObj->getVar('lid');
             }
 
             // Do an intersection of the found lids if the operator is AND
-            if ($andor == 'AND') {
+            if ($andor === 'AND') {
                 if (!isset($downloads_lids)) {
                     $downloads_lids[] = '';
                 }
@@ -217,7 +216,7 @@ of the results is returned.  If OR is in effect, then all results are returned.
     } // end of if there are query terms
 
     // If an AND operator was used, cull the $downloadObjs array based on the intersection found
-    if ($andor == 'AND') {
+    if ($andor === 'AND') {
         foreach ($downloadObjs as $lid => $downloadObj) {
             if (!in_array($lid, $downloads_intersect)) {
                 unset($downloadObjs[$lid]);
@@ -228,60 +227,60 @@ of the results is returned.  If OR is in effect, then all results are returned.
         $limitOffsetIndex = $downloads_lids;
     }
 
-    $ret = array();
-    $i = 0;
+    $ret        = array();
+    $i          = 0;
     $storedLids = array();
 
     // foreach (array_keys($downloadObjs) as $i)
-    for ($x = $offset; ($i < $limit && $x < count($limitOffsetIndex)); ++$x) {
+    for ($x = $offset; $i < $limit && $x < count($limitOffsetIndex); ++$x) {
         $lid = $limitOffsetIndex[$x];
         $obj = $downloadObjs[$lid];
         if (is_object($obj) && !isset($storedLids[$lid])) {
             $storedLids[$lid] = true;
             $ret[$i]['image'] = 'assets/images/size2.gif';
-            $ret[$i]['link'] = "singlefile.php?cid={$obj->getVar('cid')}&amp;lid={$lid}";
+            $ret[$i]['link']  = "singlefile.php?cid={$obj->getVar('cid')}&amp;lid={$lid}";
             $ret[$i]['title'] = $obj->getVar('title');
-            $ret[$i]['time'] = $obj->getVar('published');
-            $ret[$i]['uid'] = $obj->getVar('submitter');
+            $ret[$i]['time']  = $obj->getVar('published');
+            $ret[$i]['uid']   = $obj->getVar('submitter');
             ++$i;
         }
     }
 
-/*
-    // Swish-e support EXPERIMENTAL
-    if (($wfdownloads->getConfig('enable_swishe') == true) && wfdownloads_swishe_check() == true) {
-// IN PROGRESS
-        $swisheCriteria = new CriteriaCompo(new Criteria('cid', '(' . implode(',', $allowedDownCategoriesIds) . ')', 'IN'));
-        if ($userId != 0) {
-            $swisheCriteria->add(new Criteria('submitter', (int) $userId));
-        }
-        if ($andor = 'AND') {
-            $swisheQueryWords = implode (' AND ', $queryArray);
-        } elseif ($andor = 'OR') {
-            $swisheQueryWords = implode (' OR ', $queryArray);
-        } else {
-            $swisheQueryWords = '';
-        }
-        if (strlen($swisheQueryWords) > 0) {
-            $swisheSearchResults = wfdownloads_swishe_search($swisheQueryWords);
-            foreach ($swisheSearchResults as $swisheSearchResult) {
-                $tempSwisheCriteria = clone($swisheCriteria);
-                $tempSwisheCriteria->add(new Criteria('filename', $swisheSearchResult['file_path']));
-                $tempDownloadObjs = $wfdownloads->getHandler('download')->getActiveDownloads($tempSwisheCriteria);
-                $tempDownloadObj = $tempDownloadObjs[0];
-                if (is_object($tempDownloadObj)) {
-                    $tempRet['image'] = "assets/images/size2.gif";
-                    $tempRet['link'] = "singlefile.php?cid={$tempDownloadObj->getVar('cid')}&amp;lid={$tempDownloadObj->getVar('lid')}";
-                    $tempRet['title'] = $tempDownloadObj->getVar('title');
-                    $tempRet['time'] = $tempDownloadObj->getVar('published');
-                    $tempRet['uid'] = $tempDownloadObj->getVar('submitter');
-// IN PROGRESS
+    /*
+        // Swish-e support EXPERIMENTAL
+        if (($wfdownloads->getConfig('enable_swishe') == true) && wfdownloads_swishe_check() == true) {
+    // IN PROGRESS
+            $swisheCriteria = new CriteriaCompo(new Criteria('cid', '(' . implode(',', $allowedDownCategoriesIds) . ')', 'IN'));
+            if ($userId != 0) {
+                $swisheCriteria->add(new Criteria('submitter', (int) $userId));
+            }
+            if ($andor = 'AND') {
+                $swisheQueryWords = implode (' AND ', $queryArray);
+            } elseif ($andor = 'OR') {
+                $swisheQueryWords = implode (' OR ', $queryArray);
+            } else {
+                $swisheQueryWords = '';
+            }
+            if (strlen($swisheQueryWords) > 0) {
+                $swisheSearchResults = wfdownloads_swishe_search($swisheQueryWords);
+                foreach ($swisheSearchResults as $swisheSearchResult) {
+                    $tempSwisheCriteria = clone($swisheCriteria);
+                    $tempSwisheCriteria->add(new Criteria('filename', $swisheSearchResult['file_path']));
+                    $tempDownloadObjs = $wfdownloads->getHandler('download')->getActiveDownloads($tempSwisheCriteria);
+                    $tempDownloadObj = $tempDownloadObjs[0];
+                    if (is_object($tempDownloadObj)) {
+                        $tempRet['image'] = "assets/images/size2.gif";
+                        $tempRet['link'] = "singlefile.php?cid={$tempDownloadObj->getVar('cid')}&amp;lid={$tempDownloadObj->getVar('lid')}";
+                        $tempRet['title'] = $tempDownloadObj->getVar('title');
+                        $tempRet['time'] = $tempDownloadObj->getVar('published');
+                        $tempRet['uid'] = $tempDownloadObj->getVar('submitter');
+    // IN PROGRESS
+                    }
                 }
             }
         }
-    }
-    // Swish-e support EXPERIMENTAL
-*/
+        // Swish-e support EXPERIMENTAL
+    */
 
     return $ret;
 }

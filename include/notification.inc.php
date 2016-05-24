@@ -16,7 +16,6 @@
  * @package         wfdownload
  * @since           3.23
  * @author          Xoops Development Team
- * @version         svn:$id$
  *
  * @param $category
  * @param $item_id
@@ -27,38 +26,38 @@ function wfdownloads_notify_iteminfo($category, $item_id)
 {
     global $xoopsModule, $xoopsModuleConfig;
 
-    if (empty($xoopsModule) || $xoopsModule->dirname() != 'wfdownloads') {
-        $module_handler = xoops_gethandler('module');
-        $module = $module_handler->getByDirname('wfdownloads');
-        $config_handler = xoops_gethandler('config');
-        $config = $config_handler->getConfigsByCat(0, (int) $module->mid());
+    if (empty($xoopsModule) || $xoopsModule->dirname() !== 'wfdownloads') {
+        $module_handler = xoops_getHandler('module');
+        $module         = $module_handler->getByDirname('wfdownloads');
+        $config_handler = xoops_getHandler('config');
+        $config         = $config_handler->getConfigsByCat(0, (int)$module->mid());
     } else {
         $module = $xoopsModule;
         $config = $xoopsModuleConfig;
     }
-    if ($category == 'global') {
+    if ($category === 'global') {
         $item['name'] = '';
-        $item['url'] = '';
+        $item['url']  = '';
 
         return $item;
     }
-    if ($category == 'category') {
+    if ($category === 'category') {
         // Assume we have a valid category id
-        $sql = "SELECT title FROM " . $GLOBALS['xoopsDB']->prefix('wfdownloads_cat') . " WHERE cid = '" . (int) $item_id . "'";
-        $result = $GLOBALS['xoopsDB']->query($sql); // TODO: error check
+        $sql          = 'SELECT title FROM ' . $GLOBALS['xoopsDB']->prefix('wfdownloads_cat') . " WHERE cid = '" . (int)$item_id . "'";
+        $result       = $GLOBALS['xoopsDB']->query($sql); // TODO: error check
         $result_array = $GLOBALS['xoopsDB']->fetchArray($result);
         $item['name'] = $result_array['title'];
-        $item['url'] = WFDOWNLOADS_URL . '/viewcat.php?cid=' . (int) $item_id;
+        $item['url']  = WFDOWNLOADS_URL . '/viewcat.php?cid=' . (int)$item_id;
 
         return $item;
     }
-    if ($category == 'file') {
+    if ($category === 'file') {
         // Assume we have a valid file id
-        $sql = "SELECT cid,title FROM " . $GLOBALS['xoopsDB']->prefix('wfdownloads_downloads') . " WHERE lid = '" . (int) $item_id . "'";
-        $result = $GLOBALS['xoopsDB']->query($sql); // TODO: error check
+        $sql          = 'SELECT cid,title FROM ' . $GLOBALS['xoopsDB']->prefix('wfdownloads_downloads') . " WHERE lid = '" . (int)$item_id . "'";
+        $result       = $GLOBALS['xoopsDB']->query($sql); // TODO: error check
         $result_array = $GLOBALS['xoopsDB']->fetchArray($result);
         $item['name'] = $result_array['title'];
-        $item['url'] = WFDOWNLOADS_URL . '/singlefile.php?cid=' . (int) $result_array['cid'] . '&amp;lid=' . (int) $item_id;
+        $item['url']  = WFDOWNLOADS_URL . '/singlefile.php?cid=' . (int)$result_array['cid'] . '&amp;lid=' . (int)$item_id;
 
         return $item;
     }

@@ -16,14 +16,13 @@
  * @package         wfdownload
  * @since           3.23
  * @author          Xoops Development Team
- * @version         svn:$id$
  */
 $currentFile = basename(__FILE__);
 include_once __DIR__ . '/admin_header.php';
 
-if (@$_POST['op'] == 'submit') {
+if (@$_POST['op'] === 'submit') {
     if (!$GLOBALS['xoopsSecurity']->check()) {
-        redirect_header($currentFile, 3, implode('<br />', $GLOBALS['xoopsSecurity']->getErrors()));
+        redirect_header($currentFile, 3, implode('<br>', $GLOBALS['xoopsSecurity']->getErrors()));
         exit();
     }
 
@@ -44,10 +43,9 @@ if (@$_POST['op'] == 'submit') {
     }
 
     $patterns = array(
-        strtolower(WFDOWNLOADS_DIRNAME) => strtolower($cloneDirname),
-        strtoupper(WFDOWNLOADS_DIRNAME) => strtoupper($cloneDirname),
-        ucfirst(strtolower(WFDOWNLOADS_DIRNAME)) => ucfirst(strtolower($cloneDirname))
-    );
+        strtolower(WFDOWNLOADS_DIRNAME)          => strtolower($cloneDirname),
+        strtoupper(WFDOWNLOADS_DIRNAME)          => strtoupper($cloneDirname),
+        ucfirst(strtolower(WFDOWNLOADS_DIRNAME)) => ucfirst(strtolower($cloneDirname)));
 
     $patKeys   = array_keys($patterns);
     $patValues = array_values($patterns);
@@ -56,10 +54,7 @@ if (@$_POST['op'] == 'submit') {
 
     $message = '';
     if (is_dir(XOOPS_ROOT_PATH . '/modules/' . strtolower($cloneDirname))) {
-        $message .= sprintf(
-                _AM_WFDOWNLOADS_CLONE_CONGRAT,
-                "<a href='" . XOOPS_URL . "/modules/system/admin.php?fct=modulesadmin&op=installlist'>" . ucfirst(strtolower($cloneDirname)) . "</a>"
-            ) . "<br />\n";
+        $message .= sprintf(_AM_WFDOWNLOADS_CLONE_CONGRAT, "<a href='" . XOOPS_URL . "/modules/system/admin.php?fct=modulesadmin&op=installlist'>" . ucfirst(strtolower($cloneDirname)) . '</a>') . "<br>\n";
         if (!$logocreated) {
             $message .= _AM_WFDOWNLOADS_CLONE_IMAGEFAIL;
         }
@@ -73,13 +68,12 @@ if (@$_POST['op'] == 'submit') {
     echo $message;
     include_once __DIR__ . '/admin_footer.php';
     exit();
-
 } else {
     wfdownloads_xoops_cp_header();
     $indexAdmin = new ModuleAdmin();
     echo $indexAdmin->addNavigation($currentFile);
-    include_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
-    $form = new XoopsThemeForm(sprintf(_AM_WFDOWNLOADS_CLONE_TITLE, $wfdownloads->getModule()->getVar('name', 'E')), 'clone', $currentFile, 'post', true);
+    xoops_load('XoopsFormLoader');
+    $form              = new XoopsThemeForm(sprintf(_AM_WFDOWNLOADS_CLONE_TITLE, $wfdownloads->getModule()->getVar('name', 'E')), 'clone', $currentFile, 'post', true);
     $cloneDirname_text = new XoopsFormText(_AM_WFDOWNLOADS_CLONE_NAME, 'clonedirname', 18, 18, '');
     $cloneDirname_text->setDescription(_AM_WFDOWNLOADS_CLONE_NAME_DSC);
     $form->addElement($cloneDirname_text, true);
@@ -105,9 +99,9 @@ function wfdownloads_cloneFileDir($path)
         // create new dir
         mkdir($newPath);
         // check all files in dir, and process it
-        if ($handle = opendir($path)) {
-            while ($file = readdir($handle)) {
-                if ($file != '.' && $file != '..' && $file != '.svn') {
+        if (false !== ($handle = opendir($path))) {
+            while (false !== ($file = readdir($handle))) {
+                if ($file !== '.' && $file !== '..' && $file !== '.svn') {
                     wfdownloads_cloneFileDir("{$path}/{$file}");
                 }
             }
@@ -144,8 +138,7 @@ function wfdownloads_createLogo($dirname)
             'imagefilledrectangle',
             'imagejpeg',
             'imagedestroy',
-            'imageftbbox'
-        );
+            'imageftbbox');
         foreach ($required_functions as $func) {
             if (!function_exists($func)) {
                 return false;
@@ -165,7 +158,7 @@ function wfdownloads_createLogo($dirname)
     $greyColor = imagecolorallocate($imageModule, 237, 237, 237);
     imagefilledrectangle($imageModule, 5, 35, 85, 46, $greyColor);
     // Write text
-    $textColor = imagecolorallocate($imageModule, 0, 0, 0);
+    $textColor       = imagecolorallocate($imageModule, 0, 0, 0);
     $space_to_border = (80 - strlen($dirname) * 6.5) / 2;
     imagefttext($imageModule, 8.5, 0, $space_to_border, 45, $textColor, $font, ucfirst($dirname), array());
     // Set transparency color

@@ -35,7 +35,7 @@
         <{/if}>
     </h3>
 
-    <div style="float:right; width:35%">
+    <div style="float:right; width:35%;">
         <span style="font-size: small;">
             <div style="margin-left: 10px; margin-right: 10px; padding: 4px; background-color:#e6e6e6; border-color:#999999;" class="outer">
                 <div><span style="font-weight: bold;"><{$smarty.const._MD_WFDOWNLOADS_SUBMITTER}>:</span>&nbsp;<{$download.submitter}></div>
@@ -77,7 +77,7 @@
 
                 <div style="margin-left: 10px; margin-right: 10px; padding: 4px; background-color:#e6e6e6; border-color:#999999;" class="outer">
                     <span style="font-weight: bold;"><{$smarty.const._MD_WFDOWNLOADS_PREVIEW}></span>
-                    <audio id="preview-player" src="<{$file_url}>" type="<{$download.filetype}>" controls="controls" style="width:100%">
+                    <audio id="preview-player" src="<{$file_url}>" type="<{$download.filetype}>" controls="controls" style="width:100%;">
                     </audio>
                     <script>
                         $('audio#preview-player').mediaelementplayer();
@@ -112,7 +112,7 @@
                             enableAutosize    : false
                         });
                     </script>
-                    <div style="clear:both"></div>
+                    <div style="clear:both;"></div>
                 </div>
                 <br>
             <{/if}>
@@ -204,7 +204,7 @@
             <span style="font-weight: bold;"><{$key+1}></span>
             <div><a href="<{$xoops_url}>/<{$shots_dir}>/<{$screenshot.filename}>" class="magnific_zoom" rel="<{$download.title}>">
                     <img src="<{$screenshot.thumb_url}>" alt="<{$smarty.const._MD_WFDOWNLOADS_SCREENSHOTCLICK}>"
-                         title="<{$smarty.const._MD_WFDOWNLOADS_SCREENSHOTCLICK}>" style="border: 1px solid black"/></a>
+                         title="<{$smarty.const._MD_WFDOWNLOADS_SCREENSHOTCLICK}>" style="border: 1px solid black;"/></a>
             </div>
             <div>
                 <a href="<{$screenshot.thumb_url}>" rel="external"><{$lang_screenshot_click}></a>
@@ -246,7 +246,7 @@
         <br>
     <{/if}>
 
-    <div style="clear:both"></div>
+    <div style="clear:both;"></div>
 </div>
 
 <{* Formulize module support (2006/05/04) jpc - start *}>

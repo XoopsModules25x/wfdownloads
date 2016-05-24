@@ -16,7 +16,6 @@
  * @package         wfdownload
  * @since           3.23
  * @author          Xoops Development Team
- * @version         svn:$id$
  */
 $currentFile = basename(__FILE__);
 include_once __DIR__ . '/admin_header.php';
@@ -49,7 +48,7 @@ switch ($op) {
 
             wfdownloads_xoops_cp_header();
 
-            include_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
+            xoops_load('XoopsFormLoader');
             $sform = new XoopsThemeForm(_AM_WFDOWNLOADS_CCATEGORY_MOVE, 'move', xoops_getenv('PHP_SELF'));
 
             $categoryObjs     = $wfdownloads->getHandler('category')->getObjects();
@@ -91,15 +90,15 @@ switch ($op) {
     case 'addCat':
         $cid          = XoopsRequest::getInt('cid', 0, 'POST');
         $pid          = XoopsRequest::getInt('pid', 0, 'POST');
-        $weight       = (isset($_POST['weight']) && $_POST['weight'] > 0) ? (int)$_POST["weight"] : 0;
+        $weight       = (isset($_POST['weight']) && $_POST['weight'] > 0) ? (int)$_POST['weight'] : 0;
         $down_groups  = isset($_POST['groups']) ? $_POST['groups'] : array();
         $up_groups    = isset($_POST['up_groups']) ? $_POST['up_groups'] : array();
-        $spotlighthis = (isset($_POST['lid'])) ? (int)$_POST['lid'] : 0;
+        $spotlighthis = isset($_POST['lid']) ? (int)$_POST['lid'] : 0;
         $spotlighttop = (isset($_POST['spotlighttop']) && ($_POST['spotlighttop'] == 1)) ? 1 : 0;
 
         include_once XOOPS_ROOT_PATH . '/class/uploader.php';
         $allowedMimetypes = array('image/gif', 'image/jpeg', 'image/pjpeg', 'image/x-png', 'image/png');
-        $imgurl           = 'blank.png';
+        $imgUrl           = 'blank.png';
         $maxFileSize      = $wfdownloads->getConfig('maxfilesize');
         $maxImgWidth      = $wfdownloads->getConfig('maximgwidth');
         $maxImgHeight     = $wfdownloads->getConfig('maximgheight');
@@ -112,10 +111,10 @@ switch ($op) {
                 $errors = $uploader->getErrors();
                 redirect_header('javascript:history.go(-1)', 3, $errors);
             } else {
-                $imgurl = $uploader->getSavedFileName();
+                $imgUrl = $uploader->getSavedFileName();
             }
         } else {
-            $imgurl = (isset($_POST['imgurl']) && $_POST['imgurl'] != 'blank.png') ? $myts->addslashes($_POST['imgurl']) : '';
+            $imgUrl = (isset($_POST['imgurl']) && $_POST['imgurl'] !== 'blank.png') ? $myts->addSlashes($_POST['imgurl']) : '';
         }
 
         if (!$cid) {
@@ -131,7 +130,7 @@ switch ($op) {
         $categoryObj->setVar('title', $_POST['title']);
         $categoryObj->setVar('pid', $pid);
         $categoryObj->setVar('weight', $weight);
-        $categoryObj->setVar('imgurl', $imgurl);
+        $categoryObj->setVar('imgurl', $imgUrl);
         $categoryObj->setVar('description', $_POST['description']);
         $categoryObj->setVar('summary', $_POST['summary']);
         $categoryObj->setVar('dohtml', isset($_POST['dohtml']));
@@ -139,12 +138,12 @@ switch ($op) {
         $categoryObj->setVar('doxcode', isset($_POST['doxcode']));
         $categoryObj->setVar('doimage', isset($_POST['doimage']));
         $categoryObj->setVar('dobr', isset($_POST['dobr']));
-// Formulize module support (2006/05/04) jpc - start
+        // Formulize module support (2006/05/04) jpc - start
         if (wfdownloads_checkModule('formulize')) {
-            $formulize_fid = (isset($_POST['formulize_fid'])) ? (int)$_POST['formulize_fid'] : 0;
+            $formulize_fid = isset($_POST['formulize_fid']) ? (int)$_POST['formulize_fid'] : 0;
             $categoryObj->setVar('formulize_fid', $formulize_fid);
         }
-// Formulize module support (2006/05/04) jpc - end
+        // Formulize module support (2006/05/04) jpc - end
         $categoryObj->setVar('spotlighthis', $spotlighthis);
         $categoryObj->setVar('spotlighttop', $spotlighttop);
 
@@ -161,7 +160,7 @@ switch ($op) {
             $tags                  = array();
             $tags['CATEGORY_NAME'] = $_POST['title'];
             $tags['CATEGORY_URL']  = WFDOWNLOADS_URL . '/viewcat.php?cid=' . $newid;
-            $notification_handler  = xoops_gethandler('notification');
+            $notification_handler  = xoops_getHandler('notification');
             $notification_handler->triggerEvent('global', 0, 'new_category', $tags);
             $database_mess = _AM_WFDOWNLOADS_CCATEGORY_CREATED;
         } else {

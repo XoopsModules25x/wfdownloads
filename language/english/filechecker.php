@@ -16,16 +16,15 @@
  * @package         wfdownload
  * @since           3.23
  * @author          Xoops Development Team
- * @version         svn:$id$
  */
 
 define('_FC_WFDOWNLOADS_AVAILABLE', "<span style='color: green;'>Available</span>");
 define('_FC_WFDOWNLOADS_NOTAVAILABLE', "<span style='color: red;'>Not available</span>");
 define('_FC_WFDOWNLOADS_NOTWRITABLE', "<span style='color: red;'>Should have permission ( %d ), but it has ( %d )</span>");
-define('_FC_WFDOWNLOADS_COPYTHEFILE', "Copy it");
-define('_FC_WFDOWNLOADS_CREATETHEFILE', "Create it");
-define('_FC_WFDOWNLOADS_SETMPERM', "Set the permission");
-define('_FC_WFDOWNLOADS_FILECOPIED', "The file has been copied");
-define('_FC_WFDOWNLOADS_FILENOTCOPIED', "The file cannot be copied");
-define('_FC_WFDOWNLOADS_PERMSET', "The permission has been set");
-define('_FC_WFDOWNLOADS_PERMNOTSET', "The permission cannot be set");
+define('_FC_WFDOWNLOADS_COPYTHEFILE', 'Copy it');
+define('_FC_WFDOWNLOADS_CREATETHEFILE', 'Create it');
+define('_FC_WFDOWNLOADS_SETMPERM', 'Set the permission');
+define('_FC_WFDOWNLOADS_FILECOPIED', 'The file has been copied');
+define('_FC_WFDOWNLOADS_FILENOTCOPIED', 'The file cannot be copied');
+define('_FC_WFDOWNLOADS_PERMSET', 'The permission has been set');
+define('_FC_WFDOWNLOADS_PERMNOTSET', 'The permission cannot be set');

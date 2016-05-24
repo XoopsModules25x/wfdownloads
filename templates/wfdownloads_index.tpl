@@ -3,7 +3,7 @@
 <{if count($categories) gt 0}>
 <div>
     <h3><{$smarty.const._MD_WFDOWNLOADS_MAINLISTING}></h3>
-    <br />
+    <br>
     <!-- Start category loop -->
 <{foreach item=category from=$categories}>
     <div>
@@ -22,7 +22,7 @@
                                                             alt="<{$smarty.const._MD_WFDOWNLOADS_SUBMITDOWNLOAD}>"/></a>
         <{/if}>
         </div>
-        <img src="<{$category.image_URL}>" alt="<{$category.alttext}>" title="<{$category.alttext}>"/><br />
+        <img src="<{$category.image_URL}>" alt="<{$category.alttext}>" title="<{$category.alttext}>"/><br>
     <{if ($category.days) == ''}>
         <!-- No downloads -->
     <{else}>
@@ -41,18 +41,18 @@
         </div>
     <{/if}>
     </div>
-    <br />
+    <br>
 <{/foreach}>
     <!-- End category loop -->
 </div>
 
-<br />
+<br>
 
 <div>
     <span style="font-size: small;"><{$lang_thereare}></span>
 </div>
 
-<br />
+<br>
 
 <div>
     <span style="font-size: small;">
@@ -73,12 +73,12 @@
 </a>
 <{/if}>
 
-<br />
+<br>
 
 <div align="<{$catarray.indexfooteralign}>">
     <{$catarray.indexfooter}>
 </div>
 
-<br />
+<br>
 
 <{include file='db:wfdownloads_footer.tpl'}>

@@ -16,22 +16,21 @@
  * @package         wfdownload
  * @since           3.23
  * @author          Xoops Development Team
- * @version         svn:$id$
  */
 $currentFile = basename(__FILE__);
 include_once __DIR__ . '/admin_header.php';
 
 $op = XoopsRequest::getString('op', 'votes.list');
 switch ($op) {
-    case "vote.delete":
+    case 'vote.delete':
         $rid = XoopsRequest::getInt('rid', 0);
         $lid = XoopsRequest::getInt('lid', 0);
-        $wfdownloads->getHandler('rating')->deleteAll(new Criteria("ratingid", $rid), true);
+        $wfdownloads->getHandler('rating')->deleteAll(new Criteria('ratingid', $rid), true);
         wfdownloads_updateRating($lid);
         redirect_header($currentFile, 1, _AM_WFDOWNLOADS_VOTEDELETED);
         break;
 
-    case "votes.list":
+    case 'votes.list':
     default:
         $start         = XoopsRequest::getInt('start', 0);
         $useravgrating = '0';
@@ -42,12 +41,12 @@ switch ($op) {
         $ratings_count = $wfdownloads->getHandler('rating')->getCount($criteria);
         $criteria->setSort('ratingtimestamp');
         $criteria->setOrder('DESC');
-        $criteria->setStart($start);;
+        $criteria->setStart($start);
         $criteria->setLimit(20);
         $ratingObjs = $wfdownloads->getHandler('rating')->getObjects($criteria);
 
         $useravgrating = $wfdownloads->getHandler('rating')->getUserAverage();
-        $useravgrating = number_format($useravgrating["avg"], 2);
+        $useravgrating = number_format($useravgrating['avg'], 2);
 
         wfdownloads_xoops_cp_header();
         $indexAdmin = new ModuleAdmin();
@@ -60,10 +59,7 @@ switch ($op) {
             foreach ($ratingObjs as $ratingObj) {
                 $lids[] = $ratingObj->getVar('lid');
             }
-            $downloads = $wfdownloads->getHandler('download')->getObjects(
-                new Criteria("lid", "(" . implode(',', array_unique($lids)) . ")", "IN"),
-                true
-            );
+            $downloads = $wfdownloads->getHandler('download')->getObjects(new Criteria('lid', '(' . implode(',', array_unique($lids)) . ')', 'IN'), true);
             foreach ($ratingObjs as $ratingObj) {
                 $rating_array                    = $ratingObj->toArray();
                 $rating_array['formatted_date']  = XoopsLocal::formatTimestamp($ratingObj->getVar('ratingtimestamp'), 'l');

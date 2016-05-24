@@ -16,20 +16,19 @@
  * @package         wfdownload
  * @since           3.23
  * @author          Xoops Development Team
- * @version         svn:$id$
  */
 
-define('_CO_WFDOWNLOADS_ENABLED', "Enabled");
-define('_CO_WFDOWNLOADS_DISABLED', "Disabled");
-define('_CO_WFDOWNLOADS_MIRROR', "Mirror");
-define('_CO_WFDOWNLOADS_MIRRORS', "Mirrors");
-define('_CO_WFDOWNLOADS_MIRRORS_LIST', "Mirrors list");
-define('_CO_WFDOWNLOADS_REVIEW', "Review");
-define('_CO_WFDOWNLOADS_REVIEWS', "Reviews");
-define('_CO_WFDOWNLOADS_REVIEWS_LIST', "Reviews list");
-define('_CO_WFDOWNLOADS_DATE', "Date");
-define('_CO_WFDOWNLOADS_STATUS', "Status");
-define('_CO_WFDOWNLOADS_ACTIONS', "Actions");
-define('_CO_WFDOWNLOADS_LEGEND', "Legend");
-define('_CO_WFDOWNLOADS_ERROR_NOCATEGORY', "Error: non-existent category");
-define('_CO_WFDOWNLOADS_ERROR_NODOWNLOAD', "Error: non-existent download");
+define('_CO_WFDOWNLOADS_ENABLED', 'Enabled');
+define('_CO_WFDOWNLOADS_DISABLED', 'Disabled');
+define('_CO_WFDOWNLOADS_MIRROR', 'Mirror');
+define('_CO_WFDOWNLOADS_MIRRORS', 'Mirrors');
+define('_CO_WFDOWNLOADS_MIRRORS_LIST', 'Mirrors list');
+define('_CO_WFDOWNLOADS_REVIEW', 'Review');
+define('_CO_WFDOWNLOADS_REVIEWS', 'Reviews');
+define('_CO_WFDOWNLOADS_REVIEWS_LIST', 'Reviews list');
+define('_CO_WFDOWNLOADS_DATE', 'Date');
+define('_CO_WFDOWNLOADS_STATUS', 'Status');
+define('_CO_WFDOWNLOADS_ACTIONS', 'Actions');
+define('_CO_WFDOWNLOADS_LEGEND', 'Legend');
+define('_CO_WFDOWNLOADS_ERROR_NOCATEGORY', 'Error: non-existent category');
+define('_CO_WFDOWNLOADS_ERROR_NODOWNLOAD', 'Error: non-existent download');

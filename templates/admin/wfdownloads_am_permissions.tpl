@@ -3,7 +3,7 @@
     <{$smarty.const._AM_WFDOWNLOADS_PERM_PERMSNOTE}>
 </fieldset>
 
-<br />
+<br>
 
 <fieldset>
     <legend style='font-weight: bold; color: #900;'><{$smarty.const._AM_WFDOWNLOADS_PERM_CPERMISSIONS}></legend>

@@ -17,18 +17,17 @@
  * @package         wfdownload
  * @since           3.23
  * @author          Xoops Development Team
- * @version         svn:$id$
  */
 class WfsLists
 {
-    var $value;
-    var $selected;
-    var $path = 'uploads';
-    var $size;
-    var $emptyselect;
-    var $type;
-    var $prefix;
-    var $suffix;
+    public $value;
+    public $selected;
+    public $path = 'uploads';
+    public $size;
+    public $emptyselect;
+    public $type;
+    public $prefix;
+    public $suffix;
 
     /**
      * $value:
@@ -52,13 +51,13 @@ class WfsLists
      * @param string $suffix
      */
 
-    function __construct($path = 'uploads', $value = null, $selected = '', $size = 1, $emptyselect = 0, $type = 0, $prefix = '', $suffix = '')
+    public function __construct($path = 'uploads', $value = null, $selected = '', $size = 1, $emptyselect = 0, $type = 0, $prefix = '', $suffix = '')
     {
         $this->value       = $value;
         $this->selection   = $selected;
         $this->path        = $path;
         $this->size        = (int)$size;
-        $this->emptyselect = ($emptyselect) ? 0 : 1;
+        $this->emptyselect = $emptyselect ? 0 : 1;
         $this->type        = $type;
     }
 
@@ -67,21 +66,21 @@ class WfsLists
      *
      * @return string
      */
-    function &getarray($this_array)
+    public function &getarray($this_array)
     {
         $ret = "<select size='" . $this->size() . "' name='$this->value()'>";
         if ($this->emptyselect) {
             $ret .= "<option value='" . $this->value() . "'>----------------------</option>";
         }
         foreach ($this_array as $content) {
-            $opt_selected = "";
+            $opt_selected = '';
 
-            if ($content[0] == $this->selected()) {
+            if ($content[0] == $this->isSelected()) {
                 $opt_selected = "selected='selected'";
             }
-            $ret .= "<option value='" . $content . "' $opt_selected>" . $content . "</option>";
+            $ret .= "<option value='" . $content . "' $opt_selected>" . $content . '</option>';
         }
-        $ret .= "</select>";
+        $ret .= '</select>';
 
         return $ret;
     }
@@ -93,13 +92,13 @@ class WfsLists
      *
      * @return array
      */
-    function &getDirListAsArray($dirname)
+    public function &getDirListAsArray($dirname)
     {
         $dirlist = array();
         if (is_dir($dirname) && $handle = opendir($dirname)) {
             while (false !== ($file = readdir($handle))) {
                 if (!preg_match("/^[.]{1,2}$/", $file)) {
-                    if (strtolower($file) != 'cvs' && is_dir($dirname . $file)) {
+                    if (strtolower($file) !== 'cvs' && is_dir($dirname . $file)) {
                         $dirlist[$file] = $file;
                     }
                 }
@@ -120,7 +119,7 @@ class WfsLists
      *
      * @return array
      */
-    static function &getListTypeAsArray($dirname, $type = '', $prefix = '', $noselection = 1)
+    public static function &getListTypeAsArray($dirname, $type = '', $prefix = '', $noselection = 1)
     {
         $filelist = array();
         switch (trim($type)) {
@@ -144,15 +143,15 @@ class WfsLists
                 break;
         }
 
-        if (substr($dirname, -1) == '/') {
+        if (substr($dirname, -1) === '/') {
             $dirname = substr($dirname, 0, -1);
         }
 
         if (is_dir($dirname) && $handle = opendir($dirname)) {
             while (false !== ($file = readdir($handle))) {
                 if (!preg_match("/^[.]{1,2}$/", $file) && preg_match("/$types$/i", $file) && is_file($dirname . '/' . $file)) {
-                    if (strtolower($file) == 'blank.png') {
-                        Continue;
+                    if (strtolower($file) === 'blank.png') {
+                        continue;
                     }
                     $file            = $prefix . $file;
                     $filelist[$file] = $file;
@@ -169,12 +168,12 @@ class WfsLists
     /**
      * @return null
      */
-    function value()
+    public function value()
     {
         return $this->value;
     }
 
-    function selected()
+    public function isSelected()
     {
         return $this->selected;
     }
@@ -182,7 +181,7 @@ class WfsLists
     /**
      * @return string
      */
-    function paths()
+    public function paths()
     {
         return $this->path;
     }
@@ -190,7 +189,7 @@ class WfsLists
     /**
      * @return int
      */
-    function size()
+    public function size()
     {
         return $this->size;
     }
@@ -198,7 +197,7 @@ class WfsLists
     /**
      * @return int
      */
-    function emptyselect()
+    public function emptyselect()
     {
         return $this->emptyselect;
     }
@@ -206,17 +205,17 @@ class WfsLists
     /**
      * @return int
      */
-    function type()
+    public function type()
     {
         return $this->type;
     }
 
-    function prefix()
+    public function prefix()
     {
         return $this->prefix;
     }
 
-    function suffix()
+    public function suffix()
     {
         return $this->suffix;
     }

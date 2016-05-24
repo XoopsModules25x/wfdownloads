@@ -8,32 +8,32 @@
 
 
 <{if $catarray.imageheader != ""}>
-<br />
+<br>
 <div class="wfdownloads_head_catimageheader"><{$catarray.imageheader}></div>
-<br />
+<br>
 <{/if}>
 
 <{if $down.imageheader != ""}>
-<br />
+<br>
 <div class="wfdownloads_head_downimageheader"><{$down.imageheader}></div>
-<br />
+<br>
 <{/if}>
 
 <{if $imageheader != ""}>
-<br />
+<br>
 <div class="wfdownloads_head_imageheader"><{$imageheader}></div>
-<br />
+<br>
 <{/if}>
 
 <{if $catarray.indexheader}>
 <div class="wfdownloads_head_catindexheader" align="<{$catarray.indexheaderalign}>"><p><{$catarray.indexheader}></p></div>
-<br />
+<br>
 <{/if}>
 <{if $catarray.letters}>
 <div class="wfdownloads_head_catletters" align="center"><{$catarray.letters}></div>
-<br />
+<br>
 <{/if}>
 <{if $catarray.toolbar}>
 <div class="wfdownloads_head_cattoolbar" align="center"><{$catarray.toolbar}></div>
-<br />
+<br>
 <{/if}>

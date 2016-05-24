@@ -16,7 +16,6 @@
  * @package         wfdownload
  * @since           3.23
  * @author          Xoops Development Team
- * @version         svn:$id$
  */
 $currentFile = basename(__FILE__);
 include_once __DIR__ . '/header.php';
@@ -35,8 +34,8 @@ include_once XOOPS_ROOT_PATH . '/class/template.php';
 $xoopsTpl = new XoopsTpl();
 
 // Find case
-$case = 'all';
-$categoryObj = $wfdownloads->getHandler('category')->get((int) $_REQUEST['cid']);
+$case        = 'all';
+$categoryObj = $wfdownloads->getHandler('category')->get((int)$_REQUEST['cid']);
 
 $groups = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : array(0 => XOOPS_GROUP_ANONYMOUS);
 
@@ -58,12 +57,12 @@ switch ($case) {
         break;
 
     case 'category':
-        $cache_prefix = 'wfd|catfeed|' . $feed_type . '|' . (int) $categoryObj->getVar('cid');
+        $cache_prefix = 'wfd|catfeed|' . $feed_type . '|' . (int)$categoryObj->getVar('cid');
         break;
 }
 
 $xoopsTpl->caching        = true;
-$xoopsTpl->cache_lifetime = $GLOBALS['xoopsConfig']['module_cache'][(int) $wfdownloads->getModule()->mid()];
+$xoopsTpl->cache_lifetime = $GLOBALS['xoopsConfig']['module_cache'][(int)$wfdownloads->getModule()->mid()];
 if (!$xoopsTpl->is_cached('db:' . $xoopsOption['template_main'], $cache_prefix)) {
     // Get content
     $limit = 30;
@@ -76,25 +75,25 @@ if (!$xoopsTpl->is_cached('db:' . $xoopsOption['template_main'], $cache_prefix))
     switch ($case) {
         default:
         case 'all':
-            $shorthand = 'all';
-            $title = $GLOBALS['xoopsConfig']['sitename'] . ' - ' . htmlspecialchars($wfdownloads->getModule()->getVar('name'), ENT_QUOTES);
-            $desc = $GLOBALS['xoopsConfig']['slogan'];
+            $shorthand   = 'all';
+            $title       = $GLOBALS['xoopsConfig']['sitename'] . ' - ' . htmlspecialchars($wfdownloads->getModule()->getVar('name'), ENT_QUOTES);
+            $desc        = $GLOBALS['xoopsConfig']['slogan'];
             $channel_url = XOOPS_URL . '/modules/' . $wfdownloads->getModule()->getVat('dirname') . '/rss.php';
 
             $criteria->add(new Criteria('cid', '(' . implode(',', $allowedDownCategoriesIds) . ')', 'IN'));
             $downloadObjs = $wfdownloads->getHandler('download')->getObjects($criteria);
-            $id = 0;
+            $id           = 0;
             break;
 
         case 'category':
-            $shorthand = 'cat';
-            $title = $GLOBALS['xoopsConfig']['sitename'] . ' - ' . htmlspecialchars($categoryObj->getVar('title'), ENT_QUOTES);
-            $desc = $GLOBALS['xoopsConfig']['slogan'] . ' - ' . htmlspecialchars($categoryObj->getVar('title'), ENT_QUOTES);
-            $channel_url = XOOPS_URL . '/modules/' . $wfdownloads->getModule()->getVat('dirname') . '/rss.php?cid=' . (int) $categoryObj->getVar('cid');
+            $shorthand   = 'cat';
+            $title       = $GLOBALS['xoopsConfig']['sitename'] . ' - ' . htmlspecialchars($categoryObj->getVar('title'), ENT_QUOTES);
+            $desc        = $GLOBALS['xoopsConfig']['slogan'] . ' - ' . htmlspecialchars($categoryObj->getVar('title'), ENT_QUOTES);
+            $channel_url = XOOPS_URL . '/modules/' . $wfdownloads->getModule()->getVat('dirname') . '/rss.php?cid=' . (int)$categoryObj->getVar('cid');
 
-            $criteria->add(new Criteria('cid', (int) $categoryObj->getVar('cid')));
+            $criteria->add(new Criteria('cid', (int)$categoryObj->getVar('cid')));
             $downloadObjs = $wfdownloads->getHandler('download')->getObjects($criteria);
-            $id = $categoryObj->getVar('categoryid');
+            $id           = $categoryObj->getVar('categoryid');
             break;
     }
 
@@ -124,42 +123,34 @@ if (!$xoopsTpl->is_cached('db:' . $xoopsOption['template_main'], $cache_prefix))
 
         // Assign items to template
         foreach ($downloadObjs as $downloadObj) {
-            $item = $downloadObj;
-            $link = $url . 'singlefile.php?lid=' . (int) $item->getVar('lid');
-            $title = htmlspecialchars($item->getVar('title', 'n'));
+            $item   = $downloadObj;
+            $link   = $url . 'singlefile.php?lid=' . (int)$item->getVar('lid');
+            $title  = htmlspecialchars($item->getVar('title', 'n'));
             $teaser = htmlspecialchars($item->getVar('summary', 'n'));
-            $author = isset($users[$item->getVar('submitter')]) ? isset($users[$item->getVar('submitter')]) : $GLOBALS['xoopsConfig']['anonymous'];
+            $author = isset($users[$item->getVar('submitter')]) ?: $GLOBALS['xoopsConfig']['anonymous'];
 
-            $xoopsTpl->append(
-                'items',
-                array(
-                     'title' => xoops_utf8_encode($title),
-                     'author' => xoops_utf8_encode($author),
-                     'link' => $link,
-                     'guid' => $link,
-                     'is_permalink' => false,
-                     'pubdate' => formatTimestamp($item->getVar('published'), $feed_type),
-                     'dc_date' => formatTimestamp($item->getVar('published'), 'd/m H:i'),
-                     'description' => xoops_utf8_encode($teaser)
-                )
-            );
+            $xoopsTpl->append('items', array(
+                                         'title'        => xoops_utf8_encode($title),
+                                         'author'       => xoops_utf8_encode($author),
+                                         'link'         => $link,
+                                         'guid'         => $link,
+                                         'is_permalink' => false,
+                                         'pubdate'      => formatTimestamp($item->getVar('published'), $feed_type),
+                                         'dc_date'      => formatTimestamp($item->getVar('published'), 'd/m H:i'),
+                                         'description'  => xoops_utf8_encode($teaser)));
         }
     } else {
         $excuse_title = 'No items!';
-        $excuse = 'There are no items for this feed!';
-        $art_title = htmlspecialchars($excuse_title, ENT_QUOTES);
-        $art_teaser = htmlspecialchars($excuse, ENT_QUOTES);
-        $xoopsTpl->append(
-            'items',
-            array(
-                 'title' => xoops_utf8_encode($art_title),
-                 'link' => $url,
-                 'guid' => $url,
-                 'pubdate' => formatTimestamp(time(), $feed_type),
-                 'dc_date' => formatTimestamp(time(), 'd/m H:i'),
-                 'description' => xoops_utf8_encode($art_teaser)
-            )
-        );
+        $excuse       = 'There are no items for this feed!';
+        $art_title    = htmlspecialchars($excuse_title, ENT_QUOTES);
+        $art_teaser   = htmlspecialchars($excuse, ENT_QUOTES);
+        $xoopsTpl->append('items', array(
+                                     'title'       => xoops_utf8_encode($art_title),
+                                     'link'        => $url,
+                                     'guid'        => $url,
+                                     'pubdate'     => formatTimestamp(time(), $feed_type),
+                                     'dc_date'     => formatTimestamp(time(), 'd/m H:i'),
+                                     'description' => xoops_utf8_encode($art_teaser)));
     }
 }
 

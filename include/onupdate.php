@@ -16,7 +16,6 @@
  * @package         wfdownload
  * @since           3.23
  * @author          Xoops Development Team
- * @version         svn:$id$
  */
 defined('XOOPS_ROOT_PATH') || die('XOOPS root path not defined');
 include_once __DIR__ . '/common.php';
@@ -65,61 +64,60 @@ function update_tables_to_323($module)
 
     // update wfdownloads_downloads table
     $download_fields = array(
-        "lid"             => array("Type" => "int(11) unsigned NOT NULL auto_increment", "Default" => false),
-        "cid"             => array("Type" => "int(5) unsigned NOT NULL default '0'", "Default" => true),
-        "title"           => array("Type" => "varchar(255) NOT NULL default ''", "Default" => true),
-        "url"             => array("Type" => "varchar(255) NOT NULL default ''", "Default" => true),
-        "filename"        => array("Type" => "varchar(150) NOT NULL default ''", "Default" => true),
-        "filetype"        => array("Type" => "varchar(100) NOT NULL default ''", "Default" => true),
-        "homepage"        => array("Type" => "varchar(100) NOT NULL default ''", "Default" => true),
-        "version"         => array("Type" => "varchar(20) NOT NULL default ''", "Default" => true),
-        "size"            => array("Type" => "int(8) NOT NULL default '0'", "Default" => true),
-        "platform"        => array("Type" => "varchar(50) NOT NULL default ''", "Default" => true),
-        "screenshot"      => array("Type" => "varchar(255) NOT NULL default ''", "Default" => true),
-        "screenshot2"     => array("Type" => "varchar(255) NOT NULL default ''", "Default" => true),
-        "screenshot3"     => array("Type" => "varchar(255) NOT NULL default ''", "Default" => true),
-        "screenshot4"     => array("Type" => "varchar(255) NOT NULL default ''", "Default" => true),
-        "submitter"       => array("Type" => "int(11) NOT NULL default '0'", "Default" => true),
-        "publisher"       => array("Type" => "varchar(255) NOT NULL default ''", "Default" => true),
-        "status"          => array("Type" => "tinyint(2) NOT NULL default '" . _WFDOWNLOADS_STATUS_WAITING . "'", "Default" => true),
-        "date"            => array("Type" => "int(10) NOT NULL default '0'", "Default" => true),
-        "hits"            => array("Type" => "int(11) unsigned NOT NULL default '0'", "Default" => true),
-        "rating"          => array("Type" => "double(6,4) NOT NULL default '0.0000'", "Default" => true),
-        "votes"           => array("Type" => "int(11) unsigned NOT NULL default '0'", "Default" => true),
-        "comments"        => array("Type" => "int(11) unsigned NOT NULL default '0'", "Default" => true),
-        "license"         => array("Type" => "varchar(255) NOT NULL default ''", "Default" => true),
-        "mirror"          => array("Type" => "varchar(255) NOT NULL default ''", "Default" => true),
-        "price"           => array("Type" => "varchar(10) NOT NULL default 'Free'", "Default" => true),
-        "paypalemail"     => array("Type" => "varchar(255) NOT NULL default ''", "Default" => true),
-        "features"        => array("Type" => "text NOT NULL", "Default" => false),
-        "requirements"    => array("Type" => "text NOT NULL", "Default" => false),
-        "homepagetitle"   => array("Type" => "varchar(255) NOT NULL default ''", "Default" => true),
-        "forumid"         => array("Type" => "int(11) NOT NULL default '0'", "Default" => true),
-        "limitations"     => array("Type" => "varchar(255) NOT NULL default '30 day trial'", "Default" => true),
-        "versiontypes"    => array("Type" => "varchar(255) NOT NULL default 'None'", "Default" => true),
-        "dhistory"        => array("Type" => "text NOT NULL", "Default" => false),
-        'published'       => array("Type" => "int(11) NOT NULL default '1089662528'", "Default" => true),
-        "expired"         => array("Type" => "int(10) NOT NULL default '0'", "Default" => true),
-        "updated"         => array("Type" => "int(11) NOT NULL default '0'", "Default" => true),
-        "offline"         => array("Type" => "tinyint(1) NOT NULL default '0'", "Default" => true),
-        "description"     => array("Type" => "text NOT NULL", "Default" => false),
-        "ipaddress"       => array("Type" => "varchar(120) NOT NULL default '0'", "Default" => true),
-        "notifypub"       => array("Type" => "int(1) NOT NULL default '0'", "Default" => true),
-        "summary"         => array("Type" => "text NOT NULL", "Default" => false),
-        "formulize_idreq" => array("Type" => "int(5) NOT NULL default '0'", "Default" => true),
+        'lid'             => array('Type' => 'int(11) unsigned NOT NULL auto_increment', 'Default' => false),
+        'cid'             => array('Type' => "int(5) unsigned NOT NULL default '0'", 'Default' => true),
+        'title'           => array('Type' => "varchar(255) NOT NULL default ''", 'Default' => true),
+        'url'             => array('Type' => "varchar(255) NOT NULL default ''", 'Default' => true),
+        'filename'        => array('Type' => "varchar(150) NOT NULL default ''", 'Default' => true),
+        'filetype'        => array('Type' => "varchar(100) NOT NULL default ''", 'Default' => true),
+        'homepage'        => array('Type' => "varchar(100) NOT NULL default ''", 'Default' => true),
+        'version'         => array('Type' => "varchar(20) NOT NULL default ''", 'Default' => true),
+        'size'            => array('Type' => "int(8) NOT NULL default '0'", 'Default' => true),
+        'platform'        => array('Type' => "varchar(50) NOT NULL default ''", 'Default' => true),
+        'screenshot'      => array('Type' => "varchar(255) NOT NULL default ''", 'Default' => true),
+        'screenshot2'     => array('Type' => "varchar(255) NOT NULL default ''", 'Default' => true),
+        'screenshot3'     => array('Type' => "varchar(255) NOT NULL default ''", 'Default' => true),
+        'screenshot4'     => array('Type' => "varchar(255) NOT NULL default ''", 'Default' => true),
+        'submitter'       => array('Type' => "int(11) NOT NULL default '0'", 'Default' => true),
+        'publisher'       => array('Type' => "varchar(255) NOT NULL default ''", 'Default' => true),
+        'status'          => array('Type' => "tinyint(2) NOT NULL default '" . _WFDOWNLOADS_STATUS_WAITING . "'", 'Default' => true),
+        'date'            => array('Type' => "int(10) NOT NULL default '0'", 'Default' => true),
+        'hits'            => array('Type' => "int(11) unsigned NOT NULL default '0'", 'Default' => true),
+        'rating'          => array('Type' => "double(6,4) NOT NULL default '0.0000'", 'Default' => true),
+        'votes'           => array('Type' => "int(11) unsigned NOT NULL default '0'", 'Default' => true),
+        'comments'        => array('Type' => "int(11) unsigned NOT NULL default '0'", 'Default' => true),
+        'license'         => array('Type' => "varchar(255) NOT NULL default ''", 'Default' => true),
+        'mirror'          => array('Type' => "varchar(255) NOT NULL default ''", 'Default' => true),
+        'price'           => array('Type' => "varchar(10) NOT NULL default 'Free'", 'Default' => true),
+        'paypalemail'     => array('Type' => "varchar(255) NOT NULL default ''", 'Default' => true),
+        'features'        => array('Type' => 'text NOT NULL', 'Default' => false),
+        'requirements'    => array('Type' => 'text NOT NULL', 'Default' => false),
+        'homepagetitle'   => array('Type' => "varchar(255) NOT NULL default ''", 'Default' => true),
+        'forumid'         => array('Type' => "int(11) NOT NULL default '0'", 'Default' => true),
+        'limitations'     => array('Type' => "varchar(255) NOT NULL default '30 day trial'", 'Default' => true),
+        'versiontypes'    => array('Type' => "varchar(255) NOT NULL default 'None'", 'Default' => true),
+        'dhistory'        => array('Type' => 'text NOT NULL', 'Default' => false),
+        'published'       => array('Type' => "int(11) NOT NULL default '1089662528'", 'Default' => true),
+        'expired'         => array('Type' => "int(10) NOT NULL default '0'", 'Default' => true),
+        'updated'         => array('Type' => "int(11) NOT NULL default '0'", 'Default' => true),
+        'offline'         => array('Type' => "tinyint(1) NOT NULL default '0'", 'Default' => true),
+        'description'     => array('Type' => 'text NOT NULL', 'Default' => false),
+        'ipaddress'       => array('Type' => "varchar(120) NOT NULL default '0'", 'Default' => true),
+        'notifypub'       => array('Type' => "int(1) NOT NULL default '0'", 'Default' => true),
+        'summary'         => array('Type' => 'text NOT NULL', 'Default' => false),
+        'formulize_idreq' => array('Type' => "int(5) NOT NULL default '0'", 'Default' => true),
         // added 3.23
-        "screenshots"     => array("Type" => "text NOT NULL", "Default" => true),
-        "dohtml"          => array("Type" => "tinyint(1) NOT NULL default '0'", "Default" => true),
-        "dosmiley"        => array("Type" => "tinyint(1) NOT NULL default '1'", "Default" => true),
-        "doxcode"         => array("Type" => "tinyint(1) NOT NULL default '1'", "Default" => true),
-        "doimage"         => array("Type" => "tinyint(1) NOT NULL default '1'", "Default" => true),
-        "dobr"            => array("Type" => "tinyint(1) NOT NULL default '1'", "Default" => true)
-    );
+        'screenshots'     => array('Type' => 'text NOT NULL', 'Default' => true),
+        'dohtml'          => array('Type' => "tinyint(1) NOT NULL default '0'", 'Default' => true),
+        'dosmiley'        => array('Type' => "tinyint(1) NOT NULL default '1'", 'Default' => true),
+        'doxcode'         => array('Type' => "tinyint(1) NOT NULL default '1'", 'Default' => true),
+        'doimage'         => array('Type' => "tinyint(1) NOT NULL default '1'", 'Default' => true),
+        'dobr'            => array('Type' => "tinyint(1) NOT NULL default '1'", 'Default' => true));
     //$renamed_fields = array(
     //    "old_name" => "new_name"
     //);
-    echo "<br /><span style='font-weight: bold;'>Checking Download table</span><br />";
-    $download_handler = xoops_getmodulehandler('download', 'wfdownloads');
+    echo "<br><span style='font-weight: bold;'>Checking Download table</span><br>";
+    $download_handler = xoops_getModuleHandler('download', 'wfdownloads');
     $download_table   = new WfdownloadsTable('wfdownloads_downloads');
     $fields           = get_table_info($download_handler->table, $download_fields);
     // check for renamed fields
@@ -127,7 +125,7 @@ function update_tables_to_323($module)
     // check for updated fields
     update_table($download_fields, $fields, $download_table);
     if ($dbupdater->updateTable($download_table)) {
-        echo "Downloads table updated<br />";
+        echo 'Downloads table updated<br>';
     }
     unset($fields);
     // populate screenshots with screenshot, screenshot2, screenshot3, screenshot4 values
@@ -145,65 +143,64 @@ function update_tables_to_323($module)
 
     // update wfdownloads_mod table
     $mod_fields = array(
-        "requestid"       => array("Type" => "int(11) NOT NULL auto_increment", "Default" => false),
+        'requestid'       => array('Type' => 'int(11) NOT NULL auto_increment', 'Default' => false),
         //
-        "modifysubmitter" => array("Type" => "int(11) NOT NULL default '0'", "Default" => true),
-        "requestdate"     => array("Type" => "int(11) NOT NULL default '0'", "Default" => true),
+        'modifysubmitter' => array('Type' => "int(11) NOT NULL default '0'", 'Default' => true),
+        'requestdate'     => array('Type' => "int(11) NOT NULL default '0'", 'Default' => true),
         //
-        "lid"             => array("Type" => "int(11) unsigned NOT NULL default '0'", "Default" => true),
-        "cid"             => array("Type" => "int(5) unsigned NOT NULL default '0'", "Default" => true),
-        "title"           => array("Type" => "varchar(255) NOT NULL default ''", "Default" => true),
-        "url"             => array("Type" => "varchar(255) NOT NULL default ''", "Default" => true),
-        "filename"        => array("Type" => "varchar(150) NOT NULL default ''", "Default" => true),
-        "filetype"        => array("Type" => "varchar(100) NOT NULL default ''", "Default" => true),
-        "homepage"        => array("Type" => "varchar(255) NOT NULL default ''", "Default" => true),
-        "version"         => array("Type" => "varchar(20) NOT NULL default ''", "Default" => true),
-        "size"            => array("Type" => "int(8) NOT NULL default '0'", "Default" => true),
-        "platform"        => array("Type" => "varchar(50) NOT NULL default ''", "Default" => true),
-        "screenshot"      => array("Type" => "varchar(255) NOT NULL default ''", "Default" => true),
-        "screenshot2"     => array("Type" => "varchar(255) NOT NULL default ''", "Default" => true),
-        "screenshot3"     => array("Type" => "varchar(255) NOT NULL default ''", "Default" => true),
-        "screenshot4"     => array("Type" => "varchar(255) NOT NULL default ''", "Default" => true),
-        "submitter"       => array("Type" => "int(11) NOT NULL default '0'", "Default" => true),
-        "publisher"       => array("Type" => "text NOT NULL", "Default" => false),
-        "status"          => array("Type" => "tinyint(2) NOT NULL default '" . _WFDOWNLOADS_STATUS_WAITING . "'", "Default" => true),
-        "date"            => array("Type" => "int(10) NOT NULL default '0'", "Default" => true),
-        "hits"            => array("Type" => "int(11) unsigned NOT NULL default '0'", "Default" => true),
-        "rating"          => array("Type" => "double(6,4) NOT NULL default '0.0000'", "Default" => true),
-        "votes"           => array("Type" => "int(11) unsigned NOT NULL default '0'", "Default" => true),
-        "comments"        => array("Type" => "int(11) unsigned NOT NULL default '0'", "Default" => true),
-        "license"         => array("Type" => "varchar(255) NOT NULL default ''", "Default" => true),
-        "mirror"          => array("Type" => "varchar(255) NOT NULL default ''", "Default" => true),
-        "price"           => array("Type" => "varchar(10) NOT NULL default 'Free'", "Default" => true),
-        "paypalemail"     => array("Type" => "varchar(255) NOT NULL default ''", "Default" => true),
-        "features"        => array("Type" => "text NOT NULL", "Default" => false),
-        "requirements"    => array("Type" => "text NOT NULL", "Default" => false),
-        "homepagetitle"   => array("Type" => "varchar(255) NOT NULL default ''", "Default" => true),
-        "forumid"         => array("Type" => "int(11) NOT NULL default '0'", "Default" => true),
-        "limitations"     => array("Type" => "varchar(255) NOT NULL default '30 day trial'", "Default" => true),
-        "versiontypes"    => array("Type" => "varchar(255) NOT NULL default 'None'", "Default" => true),
-        "dhistory"        => array("Type" => "text NOT NULL", "Default" => false),
-        'published'       => array("Type" => "int(10) NOT NULL default '0'", "Default" => true),
-        "expired"         => array("Type" => "int(10) NOT NULL default '0'", "Default" => true),
-        "updated"         => array("Type" => "int(11) NOT NULL default '0'", "Default" => true),
-        "offline"         => array("Type" => "tinyint(1) NOT NULL default '0'", "Default" => true),
-        "summary"         => array("Type" => "text NOT NULL", "Default" => false),
-        "description"     => array("Type" => "text NOT NULL", "Default" => false),
+        'lid'             => array('Type' => "int(11) unsigned NOT NULL default '0'", 'Default' => true),
+        'cid'             => array('Type' => "int(5) unsigned NOT NULL default '0'", 'Default' => true),
+        'title'           => array('Type' => "varchar(255) NOT NULL default ''", 'Default' => true),
+        'url'             => array('Type' => "varchar(255) NOT NULL default ''", 'Default' => true),
+        'filename'        => array('Type' => "varchar(150) NOT NULL default ''", 'Default' => true),
+        'filetype'        => array('Type' => "varchar(100) NOT NULL default ''", 'Default' => true),
+        'homepage'        => array('Type' => "varchar(255) NOT NULL default ''", 'Default' => true),
+        'version'         => array('Type' => "varchar(20) NOT NULL default ''", 'Default' => true),
+        'size'            => array('Type' => "int(8) NOT NULL default '0'", 'Default' => true),
+        'platform'        => array('Type' => "varchar(50) NOT NULL default ''", 'Default' => true),
+        'screenshot'      => array('Type' => "varchar(255) NOT NULL default ''", 'Default' => true),
+        'screenshot2'     => array('Type' => "varchar(255) NOT NULL default ''", 'Default' => true),
+        'screenshot3'     => array('Type' => "varchar(255) NOT NULL default ''", 'Default' => true),
+        'screenshot4'     => array('Type' => "varchar(255) NOT NULL default ''", 'Default' => true),
+        'submitter'       => array('Type' => "int(11) NOT NULL default '0'", 'Default' => true),
+        'publisher'       => array('Type' => 'text NOT NULL', 'Default' => false),
+        'status'          => array('Type' => "tinyint(2) NOT NULL default '" . _WFDOWNLOADS_STATUS_WAITING . "'", 'Default' => true),
+        'date'            => array('Type' => "int(10) NOT NULL default '0'", 'Default' => true),
+        'hits'            => array('Type' => "int(11) unsigned NOT NULL default '0'", 'Default' => true),
+        'rating'          => array('Type' => "double(6,4) NOT NULL default '0.0000'", 'Default' => true),
+        'votes'           => array('Type' => "int(11) unsigned NOT NULL default '0'", 'Default' => true),
+        'comments'        => array('Type' => "int(11) unsigned NOT NULL default '0'", 'Default' => true),
+        'license'         => array('Type' => "varchar(255) NOT NULL default ''", 'Default' => true),
+        'mirror'          => array('Type' => "varchar(255) NOT NULL default ''", 'Default' => true),
+        'price'           => array('Type' => "varchar(10) NOT NULL default 'Free'", 'Default' => true),
+        'paypalemail'     => array('Type' => "varchar(255) NOT NULL default ''", 'Default' => true),
+        'features'        => array('Type' => 'text NOT NULL', 'Default' => false),
+        'requirements'    => array('Type' => 'text NOT NULL', 'Default' => false),
+        'homepagetitle'   => array('Type' => "varchar(255) NOT NULL default ''", 'Default' => true),
+        'forumid'         => array('Type' => "int(11) NOT NULL default '0'", 'Default' => true),
+        'limitations'     => array('Type' => "varchar(255) NOT NULL default '30 day trial'", 'Default' => true),
+        'versiontypes'    => array('Type' => "varchar(255) NOT NULL default 'None'", 'Default' => true),
+        'dhistory'        => array('Type' => 'text NOT NULL', 'Default' => false),
+        'published'       => array('Type' => "int(10) NOT NULL default '0'", 'Default' => true),
+        'expired'         => array('Type' => "int(10) NOT NULL default '0'", 'Default' => true),
+        'updated'         => array('Type' => "int(11) NOT NULL default '0'", 'Default' => true),
+        'offline'         => array('Type' => "tinyint(1) NOT NULL default '0'", 'Default' => true),
+        'summary'         => array('Type' => 'text NOT NULL', 'Default' => false),
+        'description'     => array('Type' => 'text NOT NULL', 'Default' => false),
         // ???
-        "formulize_idreq" => array("Type" => "int(5) NOT NULL default '0'", "Default" => true),
+        'formulize_idreq' => array('Type' => "int(5) NOT NULL default '0'", 'Default' => true),
         // added 3.23
-        "screenshots"     => array("Type" => "text NOT NULL", "Default" => true),
-        "dohtml"          => array("Type" => "tinyint(1) NOT NULL default '0'", "Default" => true),
-        "dosmiley"        => array("Type" => "tinyint(1) NOT NULL default '1'", "Default" => true),
-        "doxcode"         => array("Type" => "tinyint(1) NOT NULL default '1'", "Default" => true),
-        "doimage"         => array("Type" => "tinyint(1) NOT NULL default '1'", "Default" => true),
-        "dobr"            => array("Type" => "tinyint(1) NOT NULL default '1'", "Default" => true)
-    );
+        'screenshots'     => array('Type' => 'text NOT NULL', 'Default' => true),
+        'dohtml'          => array('Type' => "tinyint(1) NOT NULL default '0'", 'Default' => true),
+        'dosmiley'        => array('Type' => "tinyint(1) NOT NULL default '1'", 'Default' => true),
+        'doxcode'         => array('Type' => "tinyint(1) NOT NULL default '1'", 'Default' => true),
+        'doimage'         => array('Type' => "tinyint(1) NOT NULL default '1'", 'Default' => true),
+        'dobr'            => array('Type' => "tinyint(1) NOT NULL default '1'", 'Default' => true));
     //$renamed_fields = array(
     //    "old_name" => "new_name"
     //);
-    echo "<br /><span style='font-weight: bold;'>Checking Modified Downloads table</span><br />";
-    $mod_handler = xoops_getmodulehandler('modification', 'wfdownloads');
+    echo "<br><span style='font-weight: bold;'>Checking Modified Downloads table</span><br>";
+    $mod_handler = xoops_getModuleHandler('modification', 'wfdownloads');
     $mod_table   = new WfdownloadsTable('wfdownloads_mod');
     $fields      = get_table_info($mod_handler->table, $mod_fields);
     // check for renamed fields
@@ -211,10 +208,9 @@ function update_tables_to_323($module)
     // check for updated fields
     update_table($mod_fields, $fields, $mod_table);
     if ($dbupdater->updateTable($mod_table)) {
-        echo "Modified Downloads table updated <br />";
+        echo 'Modified Downloads table updated <br>';
     }
     unset($fields);
-
 }
 
 // =========================================================================================
@@ -226,12 +222,12 @@ function update_tables_to_323($module)
  */
 function update_permissions_to_323($module)
 {
-    $gperm_handler    = xoops_gethandler('groupperm');
-    $category_handler = xoops_getmodulehandler('category', $module->dirname());
+    $gperm_handler    = xoops_getHandler('groupperm');
+    $category_handler = xoops_getModuleHandler('category', $module->dirname());
 
     $cids = $category_handler->getIds();
     if (count($cids) > 0) {
-        echo "<br /><span style='font-weight: bold;'>Adding upload permissions to categories</span><br />";
+        echo "<br><span style='font-weight: bold;'>Adding upload permissions to categories</span><br>";
         foreach ($cids as $cid) {
             $down_groups_ids = $gperm_handler->getGroupIds('WFDownCatPerm', $cid, $module->mid());
             foreach ($down_groups_ids as $down_group_id) {
@@ -240,7 +236,7 @@ function update_permissions_to_323($module)
             }
         }
     } else {
-        echo "<br /><span style='font-weight: bold;'>No categories, no permissions</span><br />";
+        echo "<br><span style='font-weight: bold;'>No categories, no permissions</span><br>";
     }
 }
 
@@ -256,26 +252,23 @@ function update_tables_to_322($module)
     $dbupdater = new WfdownloadsDbupdater();
 
     // create wfdownloads_meta table
-    if (!wfdownloads_tableExists('wfdownloads_meta')) {
+    if (!wfdownloads_TableExists('wfdownloads_meta')) {
         $table = new WfdownloadsTable('wfdownloads_meta');
-        $table->setStructure(
-            "CREATE TABLE %s (
+        $table->setStructure("CREATE TABLE %s (
                 metakey varchar(50) NOT NULL default '',
                 metavalue varchar(255) NOT NULL default '',
                 PRIMARY KEY (metakey))
-                ENGINE=MyISAM;"
-        );
+                ENGINE=MyISAM;");
         $table->setData(sprintf("'version', %s", round($GLOBALS['xoopsModule']->getVar('version') / 100, 2)));
         if ($dbupdater->updateTable($table)) {
-            echo "wfdownloads_meta table created<br />";
+            echo 'wfdownloads_meta table created<br>';
         }
     }
 
     // create wfdownloads_mirror table
-    if (!wfdownloads_tableExists('wfdownloads_mirrors')) {
+    if (!wfdownloads_TableExists('wfdownloads_mirrors')) {
         $table = new WfdownloadsTable('wfdownloads_mirrors');
-        $table->setStructure(
-            "CREATE TABLE %s (
+        $table->setStructure("CREATE TABLE %s (
                 mirror_id int(11) unsigned NOT NULL auto_increment,
                 lid int(11) NOT NULL default '0',
                 title varchar(255) NOT NULL default '',
@@ -288,200 +281,191 @@ function update_tables_to_322($module)
                 uid int(10) NOT NULL default '0',
                 PRIMARY KEY  (mirror_id),
                 KEY categoryid (lid))
-                ENGINE=MyISAM;"
-        );
+                ENGINE=MyISAM;");
         if ($dbupdater->updateTable($table)) {
-            echo "wfdownloads_mirrors table created<br />";
+            echo 'wfdownloads_mirrors table created<br>';
         }
     }
 
     // create wfdownloads_ip_log table
-    if (!wfdownloads_tableExists('wfdownloads_ip_log')) {
+    if (!wfdownloads_TableExists('wfdownloads_ip_log')) {
         $table = new WfdownloadsTable('wfdownloads_ip_log');
-        $table->setStructure(
-            "CREATE TABLE %s (
+        $table->setStructure("CREATE TABLE %s (
                 ip_logid int(11) NOT NULL auto_increment,
                 lid int(11) NOT NULL default '0',
                 uid int(11) NOT NULL default '0',
                 date int(11) NOT NULL default '0',
                 ip_address varchar(20) NOT NULL default '',
                 PRIMARY KEY  (ip_logid)
-                ENGINE=MyISAM;"
-        );
+                ENGINE=MyISAM;");
         if ($dbupdater->updateTable($table)) {
-            echo "wfdownloads_mirrors table created<br />";
+            echo 'wfdownloads_mirrors table created<br>';
         }
     }
 
     // update wfdownloads_downloads table
     $download_fields = array(
-        "lid"             => array("Type" => "int(11) unsigned NOT NULL auto_increment", "Default" => false),
-        "cid"             => array("Type" => "int(5) unsigned NOT NULL default '0'", "Default" => true),
-        "title"           => array("Type" => "varchar(255) NOT NULL default ''", "Default" => true),
-        "url"             => array("Type" => "varchar(255) NOT NULL default ''", "Default" => true),
-        "filename"        => array("Type" => "varchar(150) NOT NULL default ''", "Default" => true),
-        "filetype"        => array("Type" => "varchar(100) NOT NULL default ''", "Default" => true),
-        "homepage"        => array("Type" => "varchar(100) NOT NULL default ''", "Default" => true),
-        "version"         => array("Type" => "varchar(20) NOT NULL default ''", "Default" => true),
-        "size"            => array("Type" => "int(8) NOT NULL default '0'", "Default" => true),
-        "platform"        => array("Type" => "varchar(50) NOT NULL default ''", "Default" => true),
-        "screenshot"      => array("Type" => "varchar(255) NOT NULL default ''", "Default" => true),
-        "screenshot2"     => array("Type" => "varchar(255) NOT NULL default ''", "Default" => true),
-        "screenshot3"     => array("Type" => "varchar(255) NOT NULL default ''", "Default" => true),
-        "screenshot4"     => array("Type" => "varchar(255) NOT NULL default ''", "Default" => true),
-        "submitter"       => array("Type" => "int(11) NOT NULL default '0'", "Default" => true),
-        "publisher"       => array("Type" => "varchar(255) NOT NULL default ''", "Default" => true),
-        "status"          => array("Type" => "tinyint(2) NOT NULL default '" . _WFDOWNLOADS_STATUS_WAITING . "'", "Default" => true),
-        "date"            => array("Type" => "int(10) NOT NULL default '0'", "Default" => true),
-        "hits"            => array("Type" => "int(11) unsigned NOT NULL default '0'", "Default" => true),
-        "rating"          => array("Type" => "double(6,4) NOT NULL default '0.0000'", "Default" => true),
-        "votes"           => array("Type" => "int(11) unsigned NOT NULL default '0'", "Default" => true),
-        "comments"        => array("Type" => "int(11) unsigned NOT NULL default '0'", "Default" => true),
-        "license"         => array("Type" => "varchar(255) NOT NULL default ''", "Default" => true),
-        "mirror"          => array("Type" => "varchar(255) NOT NULL default ''", "Default" => true),
-        "price"           => array("Type" => "varchar(10) NOT NULL default 'Free'", "Default" => true),
-        "paypalemail"     => array("Type" => "varchar(255) NOT NULL default ''", "Default" => true),
-        "features"        => array("Type" => "text NOT NULL", "Default" => false),
-        "requirements"    => array("Type" => "text NOT NULL", "Default" => false),
-        "homepagetitle"   => array("Type" => "varchar(255) NOT NULL default ''", "Default" => true),
-        "forumid"         => array("Type" => "int(11) NOT NULL default '0'", "Default" => true),
-        "limitations"     => array("Type" => "varchar(255) NOT NULL default '30 day trial'", "Default" => true),
-        "versiontypes"    => array("Type" => "varchar(255) NOT NULL default 'None'", "Default" => true),
-        "dhistory"        => array("Type" => "text NOT NULL", "Default" => false),
-        'published'       => array("Type" => "int(11) NOT NULL default '1089662528'", "Default" => true),
-        "expired"         => array("Type" => "int(10) NOT NULL default '0'", "Default" => true),
-        "updated"         => array("Type" => "int(11) NOT NULL default '0'", "Default" => true),
-        "offline"         => array("Type" => "tinyint(1) NOT NULL default '0'", "Default" => true),
-        "description"     => array("Type" => "text NOT NULL", "Default" => false),
-        "ipaddress"       => array("Type" => "varchar(120) NOT NULL default '0'", "Default" => true),
-        "notifypub"       => array("Type" => "int(1) NOT NULL default '0'", "Default" => true),
-        "summary"         => array("Type" => "text NOT NULL", "Default" => false),
-        "formulize_idreq" => array("Type" => "int(5) NOT NULL default '0'", "Default" => true)
-    );
+        'lid'             => array('Type' => 'int(11) unsigned NOT NULL auto_increment', 'Default' => false),
+        'cid'             => array('Type' => "int(5) unsigned NOT NULL default '0'", 'Default' => true),
+        'title'           => array('Type' => "varchar(255) NOT NULL default ''", 'Default' => true),
+        'url'             => array('Type' => "varchar(255) NOT NULL default ''", 'Default' => true),
+        'filename'        => array('Type' => "varchar(150) NOT NULL default ''", 'Default' => true),
+        'filetype'        => array('Type' => "varchar(100) NOT NULL default ''", 'Default' => true),
+        'homepage'        => array('Type' => "varchar(100) NOT NULL default ''", 'Default' => true),
+        'version'         => array('Type' => "varchar(20) NOT NULL default ''", 'Default' => true),
+        'size'            => array('Type' => "int(8) NOT NULL default '0'", 'Default' => true),
+        'platform'        => array('Type' => "varchar(50) NOT NULL default ''", 'Default' => true),
+        'screenshot'      => array('Type' => "varchar(255) NOT NULL default ''", 'Default' => true),
+        'screenshot2'     => array('Type' => "varchar(255) NOT NULL default ''", 'Default' => true),
+        'screenshot3'     => array('Type' => "varchar(255) NOT NULL default ''", 'Default' => true),
+        'screenshot4'     => array('Type' => "varchar(255) NOT NULL default ''", 'Default' => true),
+        'submitter'       => array('Type' => "int(11) NOT NULL default '0'", 'Default' => true),
+        'publisher'       => array('Type' => "varchar(255) NOT NULL default ''", 'Default' => true),
+        'status'          => array('Type' => "tinyint(2) NOT NULL default '" . _WFDOWNLOADS_STATUS_WAITING . "'", 'Default' => true),
+        'date'            => array('Type' => "int(10) NOT NULL default '0'", 'Default' => true),
+        'hits'            => array('Type' => "int(11) unsigned NOT NULL default '0'", 'Default' => true),
+        'rating'          => array('Type' => "double(6,4) NOT NULL default '0.0000'", 'Default' => true),
+        'votes'           => array('Type' => "int(11) unsigned NOT NULL default '0'", 'Default' => true),
+        'comments'        => array('Type' => "int(11) unsigned NOT NULL default '0'", 'Default' => true),
+        'license'         => array('Type' => "varchar(255) NOT NULL default ''", 'Default' => true),
+        'mirror'          => array('Type' => "varchar(255) NOT NULL default ''", 'Default' => true),
+        'price'           => array('Type' => "varchar(10) NOT NULL default 'Free'", 'Default' => true),
+        'paypalemail'     => array('Type' => "varchar(255) NOT NULL default ''", 'Default' => true),
+        'features'        => array('Type' => 'text NOT NULL', 'Default' => false),
+        'requirements'    => array('Type' => 'text NOT NULL', 'Default' => false),
+        'homepagetitle'   => array('Type' => "varchar(255) NOT NULL default ''", 'Default' => true),
+        'forumid'         => array('Type' => "int(11) NOT NULL default '0'", 'Default' => true),
+        'limitations'     => array('Type' => "varchar(255) NOT NULL default '30 day trial'", 'Default' => true),
+        'versiontypes'    => array('Type' => "varchar(255) NOT NULL default 'None'", 'Default' => true),
+        'dhistory'        => array('Type' => 'text NOT NULL', 'Default' => false),
+        'published'       => array('Type' => "int(11) NOT NULL default '1089662528'", 'Default' => true),
+        'expired'         => array('Type' => "int(10) NOT NULL default '0'", 'Default' => true),
+        'updated'         => array('Type' => "int(11) NOT NULL default '0'", 'Default' => true),
+        'offline'         => array('Type' => "tinyint(1) NOT NULL default '0'", 'Default' => true),
+        'description'     => array('Type' => 'text NOT NULL', 'Default' => false),
+        'ipaddress'       => array('Type' => "varchar(120) NOT NULL default '0'", 'Default' => true),
+        'notifypub'       => array('Type' => "int(1) NOT NULL default '0'", 'Default' => true),
+        'summary'         => array('Type' => 'text NOT NULL', 'Default' => false),
+        'formulize_idreq' => array('Type' => "int(5) NOT NULL default '0'", 'Default' => true));
     $renamed_fields  = array(
-        "logourl" => "screenshot"
-    );
-    echo "<br /><span style='font-weight: bold;'>Checking Download table</span><br />";
-    $download_handler = xoops_getmodulehandler('download', 'wfdownloads');
+        'logourl' => 'screenshot');
+    echo "<br><span style='font-weight: bold;'>Checking Download table</span><br>";
+    $download_handler = xoops_getModuleHandler('download', 'wfdownloads');
     $download_table   = new WfdownloadsTable('wfdownloads_downloads');
     $fields           = get_table_info($download_handler->table, $download_fields);
     // check for renamed fields
     rename_fields($download_table, $renamed_fields, $fields, $download_fields);
     update_table($download_fields, $fields, $download_table);
     if ($dbupdater->updateTable($download_table)) {
-        echo "Downloads table updated<br />";
+        echo 'Downloads table updated<br>';
     }
     unset($fields);
 
     // update wfdownloads_mod table
     $mod_fields     = array(
-        "requestid"       => array("Type" => "int(11) NOT NULL auto_increment", "Default" => false),
+        'requestid'       => array('Type' => 'int(11) NOT NULL auto_increment', 'Default' => false),
         //
-        "modifysubmitter" => array("Type" => "int(11) NOT NULL default '0'", "Default" => true),
-        "requestdate"     => array("Type" => "int(11) NOT NULL default '0'", "Default" => true),
+        'modifysubmitter' => array('Type' => "int(11) NOT NULL default '0'", 'Default' => true),
+        'requestdate'     => array('Type' => "int(11) NOT NULL default '0'", 'Default' => true),
         //
-        "lid"             => array("Type" => "int(11) unsigned NOT NULL default '0'", "Default" => true),
-        "cid"             => array("Type" => "int(5) unsigned NOT NULL default '0'", "Default" => true),
-        "title"           => array("Type" => "varchar(255) NOT NULL default ''", "Default" => true),
-        "url"             => array("Type" => "varchar(255) NOT NULL default ''", "Default" => true),
-        "filename"        => array("Type" => "varchar(150) NOT NULL default ''", "Default" => true),
-        "filetype"        => array("Type" => "varchar(100) NOT NULL default ''", "Default" => true),
-        "homepage"        => array("Type" => "varchar(255) NOT NULL default ''", "Default" => true),
-        "version"         => array("Type" => "varchar(20) NOT NULL default ''", "Default" => true),
-        "size"            => array("Type" => "int(8) NOT NULL default '0'", "Default" => true),
-        "platform"        => array("Type" => "varchar(50) NOT NULL default ''", "Default" => true),
-        "screenshot"      => array("Type" => "varchar(255) NOT NULL default ''", "Default" => true),
-        "screenshot2"     => array("Type" => "varchar(255) NOT NULL default ''", "Default" => true),
-        "screenshot3"     => array("Type" => "varchar(255) NOT NULL default ''", "Default" => true),
-        "screenshot4"     => array("Type" => "varchar(255) NOT NULL default ''", "Default" => true),
-        "submitter"       => array("Type" => "int(11) NOT NULL default '0'", "Default" => true),
-        "publisher"       => array("Type" => "text NOT NULL", "Default" => false),
-        "status"          => array("Type" => "tinyint(2) NOT NULL default '" . _WFDOWNLOADS_STATUS_WAITING . "'", "Default" => true),
-        "date"            => array("Type" => "int(10) NOT NULL default '0'", "Default" => true),
-        "hits"            => array("Type" => "int(11) unsigned NOT NULL default '0'", "Default" => true),
-        "rating"          => array("Type" => "double(6,4) NOT NULL default '0.0000'", "Default" => true),
-        "votes"           => array("Type" => "int(11) unsigned NOT NULL default '0'", "Default" => true),
-        "comments"        => array("Type" => "int(11) unsigned NOT NULL default '0'", "Default" => true),
-        "license"         => array("Type" => "varchar(255) NOT NULL default ''", "Default" => true),
-        "mirror"          => array("Type" => "varchar(255) NOT NULL default ''", "Default" => true),
-        "price"           => array("Type" => "varchar(10) NOT NULL default 'Free'", "Default" => true),
-        "paypalemail"     => array("Type" => "varchar(255) NOT NULL default ''", "Default" => true),
-        "features"        => array("Type" => "text NOT NULL", "Default" => false),
-        "requirements"    => array("Type" => "text NOT NULL", "Default" => false),
-        "homepagetitle"   => array("Type" => "varchar(255) NOT NULL default ''", "Default" => true),
-        "forumid"         => array("Type" => "int(11) NOT NULL default '0'", "Default" => true),
-        "limitations"     => array("Type" => "varchar(255) NOT NULL default '30 day trial'", "Default" => true),
-        "versiontypes"    => array("Type" => "varchar(255) NOT NULL default 'None'", "Default" => true),
-        "dhistory"        => array("Type" => "text NOT NULL", "Default" => false),
-        'published'       => array("Type" => "int(10) NOT NULL default '0'", "Default" => true),
-        "expired"         => array("Type" => "int(10) NOT NULL default '0'", "Default" => true),
-        "updated"         => array("Type" => "int(11) NOT NULL default '0'", "Default" => true),
-        "offline"         => array("Type" => "tinyint(1) NOT NULL default '0'", "Default" => true),
-        "summary"         => array("Type" => "text NOT NULL", "Default" => false),
-        "description"     => array("Type" => "text NOT NULL", "Default" => false),
+        'lid'             => array('Type' => "int(11) unsigned NOT NULL default '0'", 'Default' => true),
+        'cid'             => array('Type' => "int(5) unsigned NOT NULL default '0'", 'Default' => true),
+        'title'           => array('Type' => "varchar(255) NOT NULL default ''", 'Default' => true),
+        'url'             => array('Type' => "varchar(255) NOT NULL default ''", 'Default' => true),
+        'filename'        => array('Type' => "varchar(150) NOT NULL default ''", 'Default' => true),
+        'filetype'        => array('Type' => "varchar(100) NOT NULL default ''", 'Default' => true),
+        'homepage'        => array('Type' => "varchar(255) NOT NULL default ''", 'Default' => true),
+        'version'         => array('Type' => "varchar(20) NOT NULL default ''", 'Default' => true),
+        'size'            => array('Type' => "int(8) NOT NULL default '0'", 'Default' => true),
+        'platform'        => array('Type' => "varchar(50) NOT NULL default ''", 'Default' => true),
+        'screenshot'      => array('Type' => "varchar(255) NOT NULL default ''", 'Default' => true),
+        'screenshot2'     => array('Type' => "varchar(255) NOT NULL default ''", 'Default' => true),
+        'screenshot3'     => array('Type' => "varchar(255) NOT NULL default ''", 'Default' => true),
+        'screenshot4'     => array('Type' => "varchar(255) NOT NULL default ''", 'Default' => true),
+        'submitter'       => array('Type' => "int(11) NOT NULL default '0'", 'Default' => true),
+        'publisher'       => array('Type' => 'text NOT NULL', 'Default' => false),
+        'status'          => array('Type' => "tinyint(2) NOT NULL default '" . _WFDOWNLOADS_STATUS_WAITING . "'", 'Default' => true),
+        'date'            => array('Type' => "int(10) NOT NULL default '0'", 'Default' => true),
+        'hits'            => array('Type' => "int(11) unsigned NOT NULL default '0'", 'Default' => true),
+        'rating'          => array('Type' => "double(6,4) NOT NULL default '0.0000'", 'Default' => true),
+        'votes'           => array('Type' => "int(11) unsigned NOT NULL default '0'", 'Default' => true),
+        'comments'        => array('Type' => "int(11) unsigned NOT NULL default '0'", 'Default' => true),
+        'license'         => array('Type' => "varchar(255) NOT NULL default ''", 'Default' => true),
+        'mirror'          => array('Type' => "varchar(255) NOT NULL default ''", 'Default' => true),
+        'price'           => array('Type' => "varchar(10) NOT NULL default 'Free'", 'Default' => true),
+        'paypalemail'     => array('Type' => "varchar(255) NOT NULL default ''", 'Default' => true),
+        'features'        => array('Type' => 'text NOT NULL', 'Default' => false),
+        'requirements'    => array('Type' => 'text NOT NULL', 'Default' => false),
+        'homepagetitle'   => array('Type' => "varchar(255) NOT NULL default ''", 'Default' => true),
+        'forumid'         => array('Type' => "int(11) NOT NULL default '0'", 'Default' => true),
+        'limitations'     => array('Type' => "varchar(255) NOT NULL default '30 day trial'", 'Default' => true),
+        'versiontypes'    => array('Type' => "varchar(255) NOT NULL default 'None'", 'Default' => true),
+        'dhistory'        => array('Type' => 'text NOT NULL', 'Default' => false),
+        'published'       => array('Type' => "int(10) NOT NULL default '0'", 'Default' => true),
+        'expired'         => array('Type' => "int(10) NOT NULL default '0'", 'Default' => true),
+        'updated'         => array('Type' => "int(11) NOT NULL default '0'", 'Default' => true),
+        'offline'         => array('Type' => "tinyint(1) NOT NULL default '0'", 'Default' => true),
+        'summary'         => array('Type' => 'text NOT NULL', 'Default' => false),
+        'description'     => array('Type' => 'text NOT NULL', 'Default' => false),
         // ???
-        "formulize_idreq" => array("Type" => "int(5) NOT NULL default '0'", "Default" => true)
-    );
+        'formulize_idreq' => array('Type' => "int(5) NOT NULL default '0'", 'Default' => true));
     $renamed_fields = array(
-        "logourl" => "screenshot"
-    );
-    echo "<br /><span style='font-weight: bold;'>Checking Modified Downloads table</span><br />";
-    $mod_handler = xoops_getmodulehandler('modification', 'wfdownloads');
+        'logourl' => 'screenshot');
+    echo "<br><span style='font-weight: bold;'>Checking Modified Downloads table</span><br>";
+    $mod_handler = xoops_getModuleHandler('modification', 'wfdownloads');
     $mod_table   = new WfdownloadsTable('wfdownloads_mod');
     $fields      = get_table_info($mod_handler->table, $mod_fields);
     rename_fields($mod_table, $renamed_fields, $fields, $mod_fields);
     update_table($mod_fields, $fields, $mod_table);
     if ($dbupdater->updateTable($mod_table)) {
-        echo "Modified Downloads table updated <br />";
+        echo 'Modified Downloads table updated <br>';
     }
     unset($fields);
 
     // update wfdownloads_cat table
     $cat_fields = array(
-        "cid"           => array("Type" => "int(5) unsigned NOT NULL auto_increment", "Default" => false),
-        "pid"           => array("Type" => "int(5) unsigned NOT NULL default '0'", "Default" => true),
-        "title"         => array("Type" => "varchar(255) NOT NULL default ''", "Default" => true),
-        "imgurl"        => array("Type" => "varchar(255) NOT NULL default ''", "Default" => true),
-        "description"   => array("Type" => "text NOT NULL default ''", "Default" => true),
-        "total"         => array("Type" => "int(11) NOT NULL default '0'", "Default" => true),
-        "summary"       => array("Type" => "text NOT NULL", "Default" => false),
-        "spotlighttop"  => array("Type" => "int(11) NOT NULL default '0'", "Default" => true),
-        "spotlighthis"  => array("Type" => "int(11) NOT NULL default '0'", "Default" => true),
-        "dohtml"        => array("Type" => "tinyint(1) NOT NULL default '1'", "Default" => true),
-        "dosmiley"      => array("Type" => "tinyint(1) NOT NULL default '1'", "Default" => true),
-        "doxcode"       => array("Type" => "tinyint(1) NOT NULL default '1'", "Default" => true),
-        "doimage"       => array("Type" => "tinyint(1) NOT NULL default '1'", "Default" => true),
-        "dobr"          => array("Type" => "tinyint(1) NOT NULL default '1'", "Default" => true),
-        "weight"        => array("Type" => "int(11) NOT NULL default '0'", "Default" => true),
-        "formulize_fid" => array("Type" => "int(5) NOT NULL default '0'", "Default" => true)
-    );
-    echo "<br /><span style='font-weight: bold;'>Checking Category table</span><br />";
-    $cat_handler = xoops_getmodulehandler('category', 'wfdownloads');
+        'cid'           => array('Type' => 'int(5) unsigned NOT NULL auto_increment', 'Default' => false),
+        'pid'           => array('Type' => "int(5) unsigned NOT NULL default '0'", 'Default' => true),
+        'title'         => array('Type' => "varchar(255) NOT NULL default ''", 'Default' => true),
+        'imgurl'        => array('Type' => "varchar(255) NOT NULL default ''", 'Default' => true),
+        'description'   => array('Type' => "text NOT NULL default ''", 'Default' => true),
+        'total'         => array('Type' => "int(11) NOT NULL default '0'", 'Default' => true),
+        'summary'       => array('Type' => 'text NOT NULL', 'Default' => false),
+        'spotlighttop'  => array('Type' => "int(11) NOT NULL default '0'", 'Default' => true),
+        'spotlighthis'  => array('Type' => "int(11) NOT NULL default '0'", 'Default' => true),
+        'dohtml'        => array('Type' => "tinyint(1) NOT NULL default '1'", 'Default' => true),
+        'dosmiley'      => array('Type' => "tinyint(1) NOT NULL default '1'", 'Default' => true),
+        'doxcode'       => array('Type' => "tinyint(1) NOT NULL default '1'", 'Default' => true),
+        'doimage'       => array('Type' => "tinyint(1) NOT NULL default '1'", 'Default' => true),
+        'dobr'          => array('Type' => "tinyint(1) NOT NULL default '1'", 'Default' => true),
+        'weight'        => array('Type' => "int(11) NOT NULL default '0'", 'Default' => true),
+        'formulize_fid' => array('Type' => "int(5) NOT NULL default '0'", 'Default' => true));
+    echo "<br><span style='font-weight: bold;'>Checking Category table</span><br>";
+    $cat_handler = xoops_getModuleHandler('category', 'wfdownloads');
     $cat_table   = new WfdownloadsTable('wfdownloads_cat');
     $fields      = get_table_info($cat_handler->table, $cat_fields);
     update_table($cat_fields, $fields, $cat_table);
     if ($dbupdater->updateTable($cat_table)) {
-        echo "Category table updated<br />";
+        echo 'Category table updated<br>';
     }
     unset($fields);
 
     // update wfdownloads_broken table
     $broken_fields = array(
-        "reportid"     => array("Type" => "int(5) NOT NULL auto_increment", "Default" => false),
-        "lid"          => array("Type" => "int(11) NOT NULL default '0'", "Default" => true),
-        "sender"       => array("Type" => "int(11) NOT NULL default '0'", "Default" => true),
-        "ip"           => array("Type" => "varchar(20) NOT NULL default ''", "Default" => true),
-        "date"         => array("Type" => "varchar(11) NOT NULL default '0'", "Default" => true),
-        "confirmed"    => array("Type" => "tinyint(1) NOT NULL default '0'", "Default" => true),
-        "acknowledged" => array("Type" => "tinyint(1) NOT NULL default '0'", "Default" => true)
-    );
-    echo "<br /><span style='font-weight: bold;'>Checking Broken Report table</span><br />";
-    $broken_handler = xoops_getmodulehandler('report', 'wfdownloads');
+        'reportid'     => array('Type' => 'int(5) NOT NULL auto_increment', 'Default' => false),
+        'lid'          => array('Type' => "int(11) NOT NULL default '0'", 'Default' => true),
+        'sender'       => array('Type' => "int(11) NOT NULL default '0'", 'Default' => true),
+        'ip'           => array('Type' => "varchar(20) NOT NULL default ''", 'Default' => true),
+        'date'         => array('Type' => "varchar(11) NOT NULL default '0'", 'Default' => true),
+        'confirmed'    => array('Type' => "tinyint(1) NOT NULL default '0'", 'Default' => true),
+        'acknowledged' => array('Type' => "tinyint(1) NOT NULL default '0'", 'Default' => true));
+    echo "<br><span style='font-weight: bold;'>Checking Broken Report table</span><br>";
+    $broken_handler = xoops_getModuleHandler('report', 'wfdownloads');
     $broken_table   = new WfdownloadsTable('wfdownloads_broken');
     $fields         = get_table_info($broken_handler->table, $broken_fields);
     update_table($broken_fields, $fields, $broken_table);
     if ($dbupdater->updateTable($broken_table)) {
-        echo "Broken Reports table updated<br />";
+        echo 'Broken Reports table updated<br>';
     }
     unset($fields);
 }
@@ -497,12 +481,12 @@ function update_tables_to_322($module)
 function invert_nohtm_dohtml_values()
 {
     $ret         = array();
-    $cat_handler = xoops_getmodulehandler('category', 'wfdownloads');
-    $result      = $GLOBALS['xoopsDB']->query("SHOW COLUMNS FROM " . $cat_handler->table);
-    while ($existing_field = $GLOBALS['xoopsDB']->fetchArray($result)) {
+    $cat_handler = xoops_getModuleHandler('category', 'wfdownloads');
+    $result      = $GLOBALS['xoopsDB']->query('SHOW COLUMNS FROM ' . $cat_handler->table);
+    while (false !== ($existing_field = $GLOBALS['xoopsDB']->fetchArray($result))) {
         $fields[$existing_field['Field']] = $existing_field['Type'];
     }
-    if (in_array("nohtml", array_keys($fields))) {
+    if (in_array('nohtml', array_keys($fields))) {
         $dbupdater = new WfdownloadsDbupdater();
         //Invert column values
         // alter options in wfdownloads_cat
@@ -551,19 +535,19 @@ function invert_nohtm_dohtml_values()
 function update_table($new_fields, $existing_fields, &$table)
 {
     foreach ($new_fields as $field => $fieldinfo) {
-        $type = $fieldinfo["Type"];
+        $type = $fieldinfo['Type'];
         if (!in_array($field, array_keys($existing_fields))) {
             //Add field as it is missing
             $table->addNewField($field, $type);
             //$GLOBALS['xoopsDB']->query("ALTER TABLE " . $table . " ADD " . $field . " " . $type);
-            //echo $field . "(" . $type . ") <FONT COLOR='##22DD51'>Added</FONT><br />";
+            //echo $field . "(" . $type . ") <FONT COLOR='##22DD51'>Added</FONT><br>";
         } elseif ($existing_fields[$field] != $type) {
-            $table->addAlteredField($field, $field . " " . $type);
+            $table->addAlteredField($field, $field . ' ' . $type);
             // check $fields[$field]['type'] for things like "int(10) unsigned"
             //$GLOBALS['xoopsDB']->query("ALTER TABLE " . $table . " CHANGE " . $field . " " . $field . " " . $type);
-            //echo $field . " <FONT COLOR='#FF6600'>Changed to</FONT> " . $type . "<br />";
+            //echo $field . " <FONT COLOR='#FF6600'>Changed to</FONT> " . $type . "<br>";
         } else {
-            //echo $field . " <FONT COLOR='#0033FF'>Uptodate</FONT><br />";
+            //echo $field . " <FONT COLOR='#0033FF'>Uptodate</FONT><br>";
         }
     }
 }
@@ -579,14 +563,14 @@ function update_table($new_fields, $existing_fields, &$table)
  */
 function get_table_info($table, $default_fields)
 {
-    $result = $GLOBALS['xoopsDB']->query("SHOW COLUMNS FROM " . $table);
-    while ($existing_field = $GLOBALS['xoopsDB']->fetchArray($result)) {
+    $result = $GLOBALS['xoopsDB']->query('SHOW COLUMNS FROM ' . $table);
+    while (false !== ($existing_field = $GLOBALS['xoopsDB']->fetchArray($result))) {
         $fields[$existing_field['Field']] = $existing_field['Type'];
-        if ($existing_field['Null'] != "YES") {
-            $fields[$existing_field['Field']] .= " NOT NULL";
+        if ($existing_field['Null'] !== 'YES') {
+            $fields[$existing_field['Field']] .= ' NOT NULL';
         }
         if ($existing_field['Extra']) {
-            $fields[$existing_field['Field']] .= " " . $existing_field['Extra'];
+            $fields[$existing_field['Field']] .= ' ' . $existing_field['Extra'];
         }
         if ($default_fields[$existing_field['Field']]['Default']) {
             $fields[$existing_field['Field']] .= " default '" . $existing_field['Default'] . "'";
@@ -611,10 +595,10 @@ function rename_fields(&$table, $renamed_fields, &$fields, $new_fields)
     foreach (array_keys($fields) as $field) {
         if (in_array($field, array_keys($renamed_fields))) {
             $new_field_name = $renamed_fields[$field];
-            $new_field_type = $new_fields[$new_field_name]["Type"];
-            $table->addAltered($field, $new_field_name . " " . $new_field_type);
+            $new_field_type = $new_fields[$new_field_name]['Type'];
+            $table->addAltered($field, $new_field_name . ' ' . $new_field_type);
             //$GLOBALS['xoopsDB']->query("ALTER TABLE " . $table . " CHANGE " . $field . " " . $new_field_name . " " . $new_field_type);
-            //echo $field." Renamed to ". $new_field_name . "<br />";
+            //echo $field." Renamed to ". $new_field_name . "<br>";
             $fields[$new_field_name] = $new_field_type;
         }
     }

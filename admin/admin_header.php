@@ -16,7 +16,6 @@
  * @package         wfdownload
  * @since           3.23
  * @author          Xoops Development Team
- * @version         svn:$id$
  */
 include_once dirname(dirname(dirname(__DIR__))) . '/mainfile.php';
 include_once dirname(__DIR__) . '/include/common.php';
@@ -24,8 +23,8 @@ include_once dirname(__DIR__) . '/include/common.php';
 // Include xoops admin header
 include_once XOOPS_ROOT_PATH . '/include/cp_header.php';
 
-$pathIcon16 = XOOPS_URL . '/' . $wfdownloads->getModule()->getInfo('icons16');
-$pathIcon32 = XOOPS_URL . '/' . $wfdownloads->getModule()->getInfo('icons32');
+$pathIcon16      = XOOPS_URL . '/' . $wfdownloads->getModule()->getInfo('icons16');
+$pathIcon32      = XOOPS_URL . '/' . $wfdownloads->getModule()->getInfo('icons32');
 $pathModuleAdmin = XOOPS_ROOT_PATH . '/' . $wfdownloads->getModule()->getInfo('dirmoduleadmin');
 require_once $pathModuleAdmin . '/moduleadmin/moduleadmin.php';
 

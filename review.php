@@ -16,7 +16,6 @@
  * @package         wfdownload
  * @since           3.23
  * @author          Xoops Development Team
- * @version         svn:$id$
  */
 $currentFile = basename(__FILE__);
 include_once __DIR__ . '/header.php';
@@ -33,12 +32,7 @@ if (empty($categoryObj)) {
 }
 
 // Download not published, expired or taken offline - redirect
-if ($downloadObj->getVar('published') == 0
-    || $downloadObj->getVar('published') > time()
-    || $downloadObj->getVar('offline') == true
-    || ($downloadObj->getVar('expired') != 0 && $downloadObj->getVar('expired') < time())
-    || $downloadObj->getVar('status') == _WFDOWNLOADS_STATUS_WAITING
-) {
+if ($downloadObj->getVar('published') == 0 || $downloadObj->getVar('published') > time() || $downloadObj->getVar('offline') == true || ($downloadObj->getVar('expired') != 0 && $downloadObj->getVar('expired') < time()) || $downloadObj->getVar('status') == _WFDOWNLOADS_STATUS_WAITING) {
     redirect_header('index.php', 3, _MD_WFDOWNLOADS_NODOWNLOAD);
 }
 
@@ -57,7 +51,7 @@ $categoryObjsTree = new XoopsObjectTree($wfdownloads->getHandler('category')->ge
 $breadcrumb       = new WfdownloadsBreadcrumb();
 $breadcrumb->addLink($wfdownloads->getModule()->getVar('name'), WFDOWNLOADS_URL);
 foreach (array_reverse($categoryObjsTree->getAllParent($cid)) as $parentCategory) {
-    $breadcrumb->addLink($parentCategory->getVar('title'), "viewcat.php?cid=" . $parentCategory->getVar('cid'));
+    $breadcrumb->addLink($parentCategory->getVar('title'), 'viewcat.php?cid=' . $parentCategory->getVar('cid'));
 }
 $breadcrumb->addLink($categoryObj->getVar('title'), "viewcat.php?cid={$cid}");
 $breadcrumb->addLink($downloadObj->getVar('title'), "singlefile.php?lid={$lid}");
@@ -79,7 +73,7 @@ switch ($op) {
         $xoopsTpl->assign('wfdownloads_url', WFDOWNLOADS_URL . '/');
 
         // Generate content header
-        $sql                     = "SELECT * FROM " . $GLOBALS['xoopsDB']->prefix('wfdownloads_indexpage') . " ";
+        $sql                     = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('wfdownloads_indexpage') . ' ';
         $head_arr                = $GLOBALS['xoopsDB']->fetchArray($GLOBALS['xoopsDB']->query($sql));
         $catarray['imageheader'] = wfdownloads_headerImage();
         $xoopsTpl->assign('catarray', $catarray);
@@ -119,7 +113,7 @@ switch ($op) {
         $navbar['navbar'] = $pagenav->renderNav();
         $xoopsTpl->assign('navbar', $navbar);
 
-        $xoopsTpl->assign('categoryPath', $pathstring . " > " . $download_array['title']);
+        $xoopsTpl->assign('categoryPath', $pathstring . ' > ' . $download_array['title']);
         $xoopsTpl->assign('module_home', wfdownloads_module_home(true));
 
         include_once __DIR__ . '/footer.php';
@@ -144,13 +138,13 @@ switch ($op) {
             $reviewObj->setVar('rated', (int)$_POST['rated']);
             $reviewObj->setVar('date', time());
             $reviewObj->setVar('uid', $reviewerUid);
-            $submit = (wfdownloads_userIsAdmin() ? wfdownloads_userIsAdmin() : ($wfdownloads->getConfig('rev_approve')) ? true : false);
+            $submit = (wfdownloads_userIsAdmin() ?: $wfdownloads->getConfig('rev_approve') ? true : false);
             $reviewObj->setVar('submit', $submit);
 
             if (!$wfdownloads->getHandler('review')->insert($reviewObj)) {
                 redirect_header('index.php', 3, _MD_WFDOWNLOADS_ERROR_CREATEREVIEW);
             } else {
-                $databaseMessage = ($submit) ? _MD_WFDOWNLOADS_ISAPPROVED : _MD_WFDOWNLOADS_ISNOTAPPROVED;
+                $databaseMessage = $submit ? _MD_WFDOWNLOADS_ISAPPROVED : _MD_WFDOWNLOADS_ISNOTAPPROVED;
                 redirect_header('index.php', 2, $databaseMessage);
             }
         } else {
@@ -167,8 +161,8 @@ switch ($op) {
             $breadcrumb->addLink(_MD_WFDOWNLOADS_REVIEWTHISFILE, '');
             echo $breadcrumb->render();
 
-            echo "<div align='center'>" . wfdownloads_headerImage() . "</div><br />\n";
-            echo "<div>" . _MD_WFDOWNLOADS_REV_SNEWMNAMEDESC . "</div>\n";
+            echo "<div align='center'>" . wfdownloads_headerImage() . "</div><br>\n";
+            echo '<div>' . _MD_WFDOWNLOADS_REV_SNEWMNAMEDESC . "</div>\n";
 
             // Generate form
             include_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
@@ -178,20 +172,17 @@ switch ($op) {
             $sform->addElement($title_text, true);
             $rating_select = new XoopsFormSelect(_MD_WFDOWNLOADS_REV_RATING, 'rated', '10');
             //$rating_select->setDescription(_MD_WFDOWNLOADS_REV_RATING_DESC);
-            $rating_select->addOptionArray(
-                array(
-                    '1'  => 1,
-                    '2'  => 2,
-                    '3'  => 3,
-                    '4'  => 4,
-                    '5'  => 5,
-                    '6'  => 6,
-                    '7'  => 7,
-                    '8'  => 8,
-                    '9'  => 9,
-                    '10' => 10
-                )
-            );
+            $rating_select->addOptionArray(array(
+                                               '1'  => 1,
+                                               '2'  => 2,
+                                               '3'  => 3,
+                                               '4'  => 4,
+                                               '5'  => 5,
+                                               '6'  => 6,
+                                               '7'  => 7,
+                                               '8'  => 8,
+                                               '9'  => 9,
+                                               '10' => 10));
             $sform->addElement($rating_select);
             $review_textarea = new XoopsFormDhtmlTextArea(_MD_WFDOWNLOADS_REV_DESCRIPTION, 'review', '', 15, 60);
             //$review_textarea->setDescription(_MD_WFDOWNLOADS_REV_DESCRIPTION_DESC);

@@ -16,7 +16,6 @@
  * @package         wfdownload
  * @since           3.23
  * @author          Xoops Development Team
- * @version         svn:$id$
  */
 // CONFIG displayicons
 define('_WFDOWNLOADS_DISPLAYICONS_ICON', 1);

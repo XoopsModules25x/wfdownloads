@@ -16,7 +16,6 @@
  * @package         wfdownload
  * @since           3.23
  * @author          Xoops Development Team
- * @version         svn:$id$
  */
 $currentFile = basename(__FILE__);
 include_once __DIR__ . '/admin_header.php';
@@ -84,8 +83,8 @@ switch ($op) {
         // IN PROGRESS
         // IN PROGRESS NEW FROM HERE
 
-        echo "<div><b>" . _AM_WFDOWNLOADS_MOD_MODPOSTER . "</b> $submittername</div>";
-        echo "<div><b>" . _AM_WFDOWNLOADS_MOD_MODIFYSUBMITTER . "</b> $modifyname</div>";
+        echo '<div><b>' . _AM_WFDOWNLOADS_MOD_MODPOSTER . "</b> $submittername</div>";
+        echo '<div><b>' . _AM_WFDOWNLOADS_MOD_MODIFYSUBMITTER . "</b> $modifyname</div>";
 
         $mcform = new WfdownloadsMulticolumnsThemeForm('', 'modificationform', $currentFile);
 
@@ -142,13 +141,13 @@ switch ($op) {
                 case 'cid':
                     $category_list = $wfdownloads->getHandler('category')->getObjects(new Criteria('cid', $downloadObj->getVar($key)));
                     if (!isset($category_list[0])) {
-                        continue;
+                        continue 2;
                     }
                     $downloadContent = $category_list[0]->getVar('title', 'e');
                     //
                     $category_list = $wfdownloads->getHandler('category')->getObjects(new Criteria('cid', $modificationObj->getVar($key)));
                     if (!isset($category_list[0])) {
-                        continue;
+                        continue 2;
                     }
                     $modificationContent = $category_list[0]->getVar('title', 'e');
                     break;
@@ -161,8 +160,7 @@ switch ($op) {
                     }
                     //
                     if ($modificationContent != '') {
-                        $modificationContent
-                            = "<img src='" . XOOPS_URL . "/{$wfdownloads->getConfig('screenshots')}/{$modificationContent}' width='{$wfdownloads->getConfig('shotwidth')}' alt='' title='' />";
+                        $modificationContent = "<img src='" . XOOPS_URL . "/{$wfdownloads->getConfig('screenshots')}/{$modificationContent}' width='{$wfdownloads->getConfig('shotwidth')}' alt='' title='' />";
                     }
                     break;
                 case 'screenshots':
@@ -197,26 +195,26 @@ switch ($op) {
                 case 'requirements':
                     if ($downloadContent != '') {
                         $downrequirements = explode('|', trim($downloadContent));
-                        $downloadContent  = "<ul>";
+                        $downloadContent  = '<ul>';
                         foreach ($downrequirements as $bi) {
                             $downloadContent .= "<li>{$bi}</li>";
                         }
-                        $downloadContent .= "</ul>";
+                        $downloadContent .= '</ul>';
                     }
                     //
                     if ($modificationContent != '') {
                         $downrequirements    = explode('|', trim($modificationContent));
-                        $modificationContent = "<ul>";
+                        $modificationContent = '<ul>';
                         foreach ($downrequirements as $bi) {
                             $modificationContent .= "<li>{$bi}</li>";
                         }
-                        $modificationContent .= "</ul>";
+                        $modificationContent .= '</ul>';
                     }
                     break;
                 case 'dhistory':
-                    $downloadContent = $myts->displayTarea($downloadContent, true, false, false, false, true);
+                    $downloadContent =& $myts->displayTarea($downloadContent, true, false, false, false, true);
                     //
-                    $modificationContent = $myts->displayTarea($modificationContent, true, false, false, false, true);
+                    $modificationContent =& $myts->displayTarea($modificationContent, true, false, false, false, true);
                     break;
                 case 'summary':
                 case 'description':
@@ -236,7 +234,7 @@ switch ($op) {
             }
             $mcform->addElement($caption, false, $i, 0);
             if ($downloadContent != $modificationContent) {
-                $modificationContent = "<span style='color:red'>" . $modificationContent . "</span>";
+                $modificationContent = "<span style='color:red;'>" . $modificationContent . '</span>';
             }
             $downloadFormElement     = new XoopsFormLabel('', $downloadContent);
             $modificationFormElement = new XoopsFormLabel('', $modificationContent);
@@ -333,12 +331,7 @@ switch ($op) {
             }
         } else {
             wfdownloads_xoops_cp_header();
-            xoops_confirm(
-                array('op' => 'modification.ignore', 'requestid' => $requestid, 'ok' => true, 'title' => $title),
-                $currentFile,
-                _AM_WFDOWNLOADS_MOD_REALLYIGNOREDTHIS . "<br /><br>" . $title,
-                _DELETE
-            );
+            xoops_confirm(array('op' => 'modification.ignore', 'requestid' => $requestid, 'ok' => true, 'title' => $title), $currentFile, _AM_WFDOWNLOADS_MOD_REALLYIGNOREDTHIS . '<br><br>' . $title, _DELETE);
             xoops_cp_footer();
         }
         break;
@@ -366,10 +359,7 @@ switch ($op) {
                 $lids[] = $reportObj->getVar('lid');
                 $uids[] = $reportObj->getVar('sender');
             }
-            $downloadObjs = $wfdownloads->getHandler('download')->getObjects(
-                new Criteria('lid', '(' . implode(',', array_unique($lids)) . ')', 'IN'),
-                true
-            );
+            $downloadObjs = $wfdownloads->getHandler('download')->getObjects(new Criteria('lid', '(' . implode(',', array_unique($lids)) . ')', 'IN'), true);
             foreach (array_keys($downloadObjs) as $i) {
                 $uids[] = $downloadObjs[$i]->getVar('submitter');
             }
@@ -383,9 +373,7 @@ switch ($op) {
                     $report_array['download_lid']    = $downloadObj->getVar('lid');
                     $report_array['download_cid']    = $downloadObj->getVar('cid');
                     $report_array['download_title']  = $downloadObj->getVar('title');
-                    $submitter                       = isset($users[$downloadObjs[$reportObj->getVar('lid')]->getVar('submitter')]) ? $users[$downloadObjs[$reportObj->getVar('lid')]->getVar(
-                        'submitter'
-                    )] : false;
+                    $submitter                       = isset($users[$downloadObjs[$reportObj->getVar('lid')]->getVar('submitter')]) ? $users[$downloadObjs[$reportObj->getVar('lid')]->getVar('submitter')] : false;
                     $report_array['submitter_email'] = is_object($submitter) ? $submitter->getVar('email') : '';
                     $report_array['submitter_uname'] = is_object($submitter) ? $submitter->getVar('uname') : $GLOBALS['xoopsConfig']['anonymous'];
                 } else {
@@ -412,7 +400,7 @@ switch ($op) {
         $criteria            = new CriteriaCompo();
         $criteria->setLimit($wfdownloads->getConfig('admin_perpage'));
         $criteria->setStart($start_modification);
-        $criteria->setSort("requestdate");
+        $criteria->setSort('requestdate');
         $modificationObjs = $wfdownloads->getHandler('modification')->getObjects($criteria);
 
         $GLOBALS['xoopsTpl']->assign('modifications_count', $modifications_count);
@@ -420,7 +408,7 @@ switch ($op) {
         if ($modifications_count > 0) {
             foreach ($modificationObjs as $modificationObj) {
                 $modification_array                    = $modificationObj->toArray();
-                $modification_array['title']           = ($modificationObj->getVar('title'));
+                $modification_array['title']           = $modificationObj->getVar('title');
                 $modification_array['submitter_uname'] = XoopsUserUtility::getUnameFromId($modificationObj->getVar('submitter'));
                 $modification_array['formatted_date']  = XoopsLocal::formatTimestamp($modificationObj->getVar('requestdate'), 'l');
                 $downloadObj                           = $wfdownloads->getHandler('download')->get($modificationObj->getVar('lid'));
@@ -429,11 +417,7 @@ switch ($op) {
             }
             //Include page navigation
             include_once XOOPS_ROOT_PATH . '/class/pagenav.php';
-            $pagenav_modification = new XoopsPageNav(
-                $modifications_count, $wfdownloads->getConfig(
-                    'admin_perpage'
-                ), $start_modification, 'start_modification'
-            );
+            $pagenav_modification = new XoopsPageNav($modifications_count, $wfdownloads->getConfig('admin_perpage'), $start_modification, 'start_modification');
             $GLOBALS['xoopsTpl']->assign('modifications_pagenav', $pagenav_modification->renderNav());
         }
 

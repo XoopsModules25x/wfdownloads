@@ -16,7 +16,6 @@
  * @package         wfdownload
  * @since           3.23
  * @author          Xoops Development Team
- * @version         svn:$id$
  */
 defined('XOOPS_ROOT_PATH') || die('XOOPS root path not defined');
 include_once dirname(__DIR__) . '/include/common.php';
@@ -38,7 +37,7 @@ class WfdownloadsReport extends XoopsObject
     public function __construct($id = null)
     {
         $this->wfdownloads = WfdownloadsWfdownloads::getInstance();
-        $this->db = XoopsDatabaseFactory::getDatabaseConnection();
+        $this->db          = XoopsDatabaseFactory::getDatabaseConnection();
         $this->initVar('reportid', XOBJ_DTYPE_INT);
         $this->initVar('lid', XOBJ_DTYPE_INT);
         $this->initVar('sender', XOBJ_DTYPE_INT);
@@ -68,9 +67,9 @@ class WfdownloadsReportHandler extends XoopsPersistableObjectHandler
     public $wfdownloads = null;
 
     /**
-     * @param null|object $db
+     * @param null|XoopsObject|XoopsDatabase $db
      */
-    public function __construct(&$db)
+    public function __construct(XoopsDatabase $db)
     {
         parent::__construct($db, 'wfdownloads_broken', 'WfdownloadsReport', 'reportid');
         $this->wfdownloads = WfdownloadsWfdownloads::getInstance();

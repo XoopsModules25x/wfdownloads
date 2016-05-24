@@ -5,7 +5,7 @@
     <{$download.description}>
 </div>
 
-<br />
+<br>
 
 <div>
     <ul>

@@ -10,7 +10,7 @@
 <{/if}>
 </div>
 
-<br />
+<br>
 
 <{if $download_disclaimer == true}>
 <form action="visit.php" method="post">
@@ -19,8 +19,8 @@
 <{/if}>
     <div align="center">
         <span style="font-weight: bold;"><{$smarty.const._MD_WFDOWNLOADS_DOYOUAGREE}></span>
-        <br />
-        <br />
+        <br>
+        <br>
         <input type='submit' class='formButton' value='<{$smarty.const._MD_WFDOWNLOADS_AGREE}>' alt='<{$smarty.const._MD_WFDOWNLOADS_AGREE}>' />
         <input type='hidden' name='agreed' value='1' />
         &nbsp;
@@ -29,6 +29,6 @@
         <input type='hidden' name='cid' value='<{$cid}>' />
     </div>
 </form>
-<br />
+<br>
 
 <{include file='db:wfdownloads_footer.tpl'}>

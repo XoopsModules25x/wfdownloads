@@ -16,7 +16,6 @@
  * @author      lucio <lucio.rota@gmail.com>
  * @package     Wfdownloads
  * @since       3.23
- * @version     $Id:$
  */
 
 defined('XOOPS_ROOT_PATH') || die('XOOPS root path not defined');
@@ -40,7 +39,7 @@ class WfdownloadsObjectTree extends XoopsObjectTree
      * @return string
     @access private
      */
-    function _makeSelBoxOptionsArray($fieldName, $key, &$optionsArray, $prefix_orig, $prefix_curr = '')
+    public function _makeSelBoxOptionsArray($fieldName, $key, &$optionsArray, $prefix_orig, $prefix_curr = '')
     {
         if ($key > 0) {
             $value                = $this->_tree[$key]['obj']->getVar($this->_myId);
@@ -66,7 +65,7 @@ class WfdownloadsObjectTree extends XoopsObjectTree
      *
      * @return array $optionsArray   Associative array of value->name pairs, useful for {@link XoopsFormSelect}->addOptionArray method
      */
-    function makeSelBoxOptionsArray($fieldName, $prefix = '-', $addEmptyOption = false, $key = 0)
+    public function makeSelBoxOptionsArray($fieldName, $prefix = '-', $addEmptyOption = false, $key = 0)
     {
         $optionsArray = array();
         if ($addEmptyOption) {
@@ -75,5 +74,4 @@ class WfdownloadsObjectTree extends XoopsObjectTree
 
         return $this->_makeSelBoxOptionsArray($fieldName, $key, $optionsArray, $prefix);
     }
-
 }
