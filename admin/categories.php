@@ -43,7 +43,7 @@ switch ($op) {
     case 'category.move':
     case 'move':
         $ok = XoopsRequest::getBool('ok', false, 'POST');
-        if ($ok == false) {
+        if (false === $ok) {
             $cid = XoopsRequest::getInt('cid', 0);
 
             wfdownloads_xoops_cp_header();
@@ -160,8 +160,8 @@ switch ($op) {
             $tags                  = array();
             $tags['CATEGORY_NAME'] = $_POST['title'];
             $tags['CATEGORY_URL']  = WFDOWNLOADS_URL . '/viewcat.php?cid=' . $newid;
-            $notification_handler  = xoops_getHandler('notification');
-            $notification_handler->triggerEvent('global', 0, 'new_category', $tags);
+            $notificationHandler   = xoops_getHandler('notification');
+            $notificationHandler->triggerEvent('global', 0, 'new_category', $tags);
             $database_mess = _AM_WFDOWNLOADS_CCATEGORY_CREATED;
         } else {
             $database_mess = _AM_WFDOWNLOADS_CCATEGORY_MODIFIED;

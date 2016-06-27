@@ -52,7 +52,8 @@ class WfdownloadsBreadcrumb
     {
         $this->_bread[] = array(
             'link'  => $link,
-            'title' => $title);
+            'title' => $title
+        );
     }
 
     /**

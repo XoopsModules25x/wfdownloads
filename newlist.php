@@ -42,7 +42,7 @@ $breadcrumb = new WfdownloadsBreadcrumb();
 $breadcrumb->addLink($wfdownloads->getModule()->getVar('name'), WFDOWNLOADS_URL);
 
 // Get number of downloads...
-$allowedCategories = $gperm_handler->getItemIds('WFDownCatPerm', $groups, $wfdownloads->getModule()->mid());
+$allowedCategories = $gpermHandler->getItemIds('WFDownCatPerm', $groups, $wfdownloads->getModule()->mid());
 // ... in the last week
 $oneWeekAgo       = strtotime('-1 week'); //$oneWeekAgo = time() - 3600*24*7; //@TODO: Change to strtotime (TODAY-1week);
 $criteria         = new Criteria('published', $oneWeekAgo, '>=');

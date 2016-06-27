@@ -37,11 +37,11 @@ if ($downloadObj->getVar('published') == 0 || $downloadObj->getVar('published') 
 }
 
 // Check permissions
-if ($wfdownloads->getConfig('enable_reviews') == false && !wfdownloads_userIsAdmin()) {
+if ($wfdownloads->getConfig('enable_reviews') === false && !wfdownloads_userIsAdmin()) {
     redirect_header('index.php', 3, _NOPERM);
 }
 $userGroups = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : array(0 => XOOPS_GROUP_ANONYMOUS);
-if (!$gperm_handler->checkRight('WFDownCatPerm', $cid, $userGroups, $wfdownloads->getModule()->mid())) {
+if (!$gpermHandler->checkRight('WFDownCatPerm', $cid, $userGroups, $wfdownloads->getModule()->mid())) {
     redirect_header('index.php', 3, _NOPERM);
 }
 
@@ -120,7 +120,7 @@ switch ($op) {
         break;
 
     case 'review.add':
-    default :
+    default:
         // Check if ANONYMOUS user can review
         if (!is_object($GLOBALS['xoopsUser']) && !$wfdownloads->getConfig('rev_anonpost')) {
             redirect_header(XOOPS_URL . '/user.php', 1, _MD_WFDOWNLOADS_MUSTREGFIRST);
@@ -182,7 +182,8 @@ switch ($op) {
                                                '7'  => 7,
                                                '8'  => 8,
                                                '9'  => 9,
-                                               '10' => 10));
+                                               '10' => 10
+                                           ));
             $sform->addElement($rating_select);
             $review_textarea = new XoopsFormDhtmlTextArea(_MD_WFDOWNLOADS_REV_DESCRIPTION, 'review', '', 15, 60);
             //$review_textarea->setDescription(_MD_WFDOWNLOADS_REV_DESCRIPTION_DESC);

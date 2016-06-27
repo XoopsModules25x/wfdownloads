@@ -24,12 +24,12 @@ xoops_loadLanguage('admin', $wfdownloads->getModule()->dirname());
 include_once WFDOWNLOADS_ROOT_PATH . '/class/dbupdater.php';
 
 /**
- * @param $xoopsModule
- * @param $previousVersion
+ * @param XoopsModule $xoopsModule
+ * @param             $previousVersion
  *
  * @return bool
  */
-function xoops_module_update_wfdownloads(&$xoopsModule, $previousVersion)
+function xoops_module_update_wfdownloads(XoopsModule $xoopsModule, $previousVersion)
 {
     ob_start();
     invert_nohtm_dohtml_values();
@@ -112,7 +112,8 @@ function update_tables_to_323($module)
         'dosmiley'        => array('Type' => "tinyint(1) NOT NULL default '1'", 'Default' => true),
         'doxcode'         => array('Type' => "tinyint(1) NOT NULL default '1'", 'Default' => true),
         'doimage'         => array('Type' => "tinyint(1) NOT NULL default '1'", 'Default' => true),
-        'dobr'            => array('Type' => "tinyint(1) NOT NULL default '1'", 'Default' => true));
+        'dobr'            => array('Type' => "tinyint(1) NOT NULL default '1'", 'Default' => true)
+    );
     //$renamed_fields = array(
     //    "old_name" => "new_name"
     //);
@@ -195,7 +196,8 @@ function update_tables_to_323($module)
         'dosmiley'        => array('Type' => "tinyint(1) NOT NULL default '1'", 'Default' => true),
         'doxcode'         => array('Type' => "tinyint(1) NOT NULL default '1'", 'Default' => true),
         'doimage'         => array('Type' => "tinyint(1) NOT NULL default '1'", 'Default' => true),
-        'dobr'            => array('Type' => "tinyint(1) NOT NULL default '1'", 'Default' => true));
+        'dobr'            => array('Type' => "tinyint(1) NOT NULL default '1'", 'Default' => true)
+    );
     //$renamed_fields = array(
     //    "old_name" => "new_name"
     //);
@@ -222,17 +224,17 @@ function update_tables_to_323($module)
  */
 function update_permissions_to_323($module)
 {
-    $gperm_handler    = xoops_getHandler('groupperm');
+    $gpermHandler     = xoops_getHandler('groupperm');
     $category_handler = xoops_getModuleHandler('category', $module->dirname());
 
     $cids = $category_handler->getIds();
     if (count($cids) > 0) {
         echo "<br><span style='font-weight: bold;'>Adding upload permissions to categories</span><br>";
         foreach ($cids as $cid) {
-            $down_groups_ids = $gperm_handler->getGroupIds('WFDownCatPerm', $cid, $module->mid());
+            $down_groups_ids = $gpermHandler->getGroupIds('WFDownCatPerm', $cid, $module->mid());
             foreach ($down_groups_ids as $down_group_id) {
-                //$gperm_handler->deleteByModule($module->mid(), 'WFUpCatPerm', $cid);
-                $gperm_handler->addRight('WFUpCatPerm', $cid, $down_group_id, $module->mid());
+                //$gpermHandler->deleteByModule($module->mid(), 'WFUpCatPerm', $cid);
+                $gpermHandler->addRight('WFUpCatPerm', $cid, $down_group_id, $module->mid());
             }
         }
     } else {
@@ -346,9 +348,11 @@ function update_tables_to_322($module)
         'ipaddress'       => array('Type' => "varchar(120) NOT NULL default '0'", 'Default' => true),
         'notifypub'       => array('Type' => "int(1) NOT NULL default '0'", 'Default' => true),
         'summary'         => array('Type' => 'text NOT NULL', 'Default' => false),
-        'formulize_idreq' => array('Type' => "int(5) NOT NULL default '0'", 'Default' => true));
+        'formulize_idreq' => array('Type' => "int(5) NOT NULL default '0'", 'Default' => true)
+    );
     $renamed_fields  = array(
-        'logourl' => 'screenshot');
+        'logourl' => 'screenshot'
+    );
     echo "<br><span style='font-weight: bold;'>Checking Download table</span><br>";
     $download_handler = xoops_getModuleHandler('download', 'wfdownloads');
     $download_table   = new WfdownloadsTable('wfdownloads_downloads');
@@ -408,9 +412,11 @@ function update_tables_to_322($module)
         'summary'         => array('Type' => 'text NOT NULL', 'Default' => false),
         'description'     => array('Type' => 'text NOT NULL', 'Default' => false),
         // ???
-        'formulize_idreq' => array('Type' => "int(5) NOT NULL default '0'", 'Default' => true));
+        'formulize_idreq' => array('Type' => "int(5) NOT NULL default '0'", 'Default' => true)
+    );
     $renamed_fields = array(
-        'logourl' => 'screenshot');
+        'logourl' => 'screenshot'
+    );
     echo "<br><span style='font-weight: bold;'>Checking Modified Downloads table</span><br>";
     $mod_handler = xoops_getModuleHandler('modification', 'wfdownloads');
     $mod_table   = new WfdownloadsTable('wfdownloads_mod');
@@ -439,7 +445,8 @@ function update_tables_to_322($module)
         'doimage'       => array('Type' => "tinyint(1) NOT NULL default '1'", 'Default' => true),
         'dobr'          => array('Type' => "tinyint(1) NOT NULL default '1'", 'Default' => true),
         'weight'        => array('Type' => "int(11) NOT NULL default '0'", 'Default' => true),
-        'formulize_fid' => array('Type' => "int(5) NOT NULL default '0'", 'Default' => true));
+        'formulize_fid' => array('Type' => "int(5) NOT NULL default '0'", 'Default' => true)
+    );
     echo "<br><span style='font-weight: bold;'>Checking Category table</span><br>";
     $cat_handler = xoops_getModuleHandler('category', 'wfdownloads');
     $cat_table   = new WfdownloadsTable('wfdownloads_cat');
@@ -458,7 +465,8 @@ function update_tables_to_322($module)
         'ip'           => array('Type' => "varchar(20) NOT NULL default ''", 'Default' => true),
         'date'         => array('Type' => "varchar(11) NOT NULL default '0'", 'Default' => true),
         'confirmed'    => array('Type' => "tinyint(1) NOT NULL default '0'", 'Default' => true),
-        'acknowledged' => array('Type' => "tinyint(1) NOT NULL default '0'", 'Default' => true));
+        'acknowledged' => array('Type' => "tinyint(1) NOT NULL default '0'", 'Default' => true)
+    );
     echo "<br><span style='font-weight: bold;'>Checking Broken Report table</span><br>";
     $broken_handler = xoops_getModuleHandler('report', 'wfdownloads');
     $broken_table   = new WfdownloadsTable('wfdownloads_broken');

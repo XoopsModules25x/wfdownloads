@@ -41,7 +41,7 @@ if ($wfdownloads->getConfig('enable_mirrors') == false && !wfdownloads_userIsAdm
     redirect_header('index.php', 3, _NOPERM);
 }
 $userGroups = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : array(0 => XOOPS_GROUP_ANONYMOUS);
-if (!$gperm_handler->checkRight('WFDownCatPerm', $cid, $userGroups, $wfdownloads->getModule()->mid())) {
+if (!$gpermHandler->checkRight('WFDownCatPerm', $cid, $userGroups, $wfdownloads->getModule()->mid())) {
     redirect_header('index.php', 3, _NOPERM);
 }
 
@@ -99,7 +99,10 @@ switch ($op) {
         $xoopsTpl->assign('down_arr', $download_array);
 
         $add_mirror = false;
-        if (!is_object($GLOBALS['xoopsUser']) && ($wfdownloads->getConfig('anonpost') == _WFDOWNLOADS_ANONPOST_MIRROR || $wfdownloads->getConfig('anonpost') == _WFDOWNLOADS_ANONPOST_BOTH) && ($wfdownloads->getConfig('submissions') == _WFDOWNLOADS_SUBMISSIONS_MIRROR || $wfdownloads->getConfig('submissions') == _WFDOWNLOADS_SUBMISSIONS_BOTH)) {
+        if (!is_object($GLOBALS['xoopsUser']) && ($wfdownloads->getConfig('anonpost') == _WFDOWNLOADS_ANONPOST_MIRROR || $wfdownloads->getConfig('anonpost') == _WFDOWNLOADS_ANONPOST_BOTH)
+            && ($wfdownloads->getConfig('submissions') == _WFDOWNLOADS_SUBMISSIONS_MIRROR
+                || $wfdownloads->getConfig('submissions') == _WFDOWNLOADS_SUBMISSIONS_BOTH)
+        ) {
             $add_mirror = true;
         } elseif (is_object($GLOBALS['xoopsUser']) && ($wfdownloads->getConfig('submissions') == _WFDOWNLOADS_SUBMISSIONS_MIRROR || $wfdownloads->getConfig('submissions') == _WFDOWNLOADS_SUBMISSIONS_BOTH || $GLOBALS['xoopsUser']->isAdmin())) {
             $add_mirror = true;
@@ -157,10 +160,9 @@ switch ($op) {
             $mirrorObj->setVar('lid', (int)$_POST['lid']);
             $mirrorObj->setVar('uid', $mirroruserUid);
             $mirrorObj->setVar('date', time());
+            $approve = true;
             if (($wfdownloads->getConfig('autoapprove') == _WFDOWNLOADS_AUTOAPPROVE_NONE || $wfdownloads->getConfig('autoapprove') == _WFDOWNLOADS_AUTOAPPROVE_DOWNLOAD) && !$wfdownloads_isAdmin) {
                 $approve = false;
-            } else {
-                $approve = true;
             }
             $submit = $approve ? true : false;
             $mirrorObj->setVar('submit', $submit);
@@ -208,7 +210,8 @@ switch ($op) {
                                                   _MD_WFDOWNLOADS_CONT4 => _MD_WFDOWNLOADS_CONT4,
                                                   _MD_WFDOWNLOADS_CONT5 => _MD_WFDOWNLOADS_CONT5,
                                                   _MD_WFDOWNLOADS_CONT6 => _MD_WFDOWNLOADS_CONT6,
-                                                  _MD_WFDOWNLOADS_CONT7 => _MD_WFDOWNLOADS_CONT7));
+                                                  _MD_WFDOWNLOADS_CONT7 => _MD_WFDOWNLOADS_CONT7
+                                              ));
             $sform->addElement($continent_select);
             $downurl_text = new XoopsFormText(_MD_WFDOWNLOADS_MIRROR_DOWNURL, 'downurl', 50, 255);
             $downurl_text->setDescription(_MD_WFDOWNLOADS_MIRROR_DOWNURL_DESC);

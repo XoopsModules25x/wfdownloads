@@ -59,7 +59,7 @@ if ($newDownloads_count > 0) {
     $indexAdmin->addInfoBoxLine(_AM_WFDOWNLOADS_MINDEX_DOWNSUMMARY, '<infolabel>' . _AM_WFDOWNLOADS_SNEWFILESVAL . '</infolabel>', $newDownloads_count, 'green');
 }
 // Reviews
-if ($wfdownloads->getConfig('enable_reviews') == false) {
+if ($wfdownloads->getConfig('enable_reviews') === false) {
     $indexAdmin->addInfoBoxLine(_AM_WFDOWNLOADS_MINDEX_DOWNSUMMARY, '<infolabel>' . _AM_WFDOWNLOADS_SREVIEWS . '</infolabel>', _CO_WFDOWNLOADS_DISABLED, 'red');
 } elseif ($newReviews_count > 0) {
     $indexAdmin->addInfoBoxLine(_AM_WFDOWNLOADS_MINDEX_DOWNSUMMARY, '<infolabel><a href="reviews.php">' . _AM_WFDOWNLOADS_SREVIEWS . '</a></infolabel>', $newReviews_count, 'green');
@@ -67,7 +67,7 @@ if ($wfdownloads->getConfig('enable_reviews') == false) {
     $indexAdmin->addInfoBoxLine(_AM_WFDOWNLOADS_MINDEX_DOWNSUMMARY, '<infolabel>' . _AM_WFDOWNLOADS_SREVIEWS . '</infolabel>', $newReviews_count, 'green');
 }
 // Ratings
-if ($wfdownloads->getConfig('enable_ratings') == false) {
+if ($wfdownloads->getConfig('enable_ratings') === false) {
     $indexAdmin->addInfoBoxLine(_AM_WFDOWNLOADS_MINDEX_DOWNSUMMARY, '<infolabel>' . _AM_WFDOWNLOADS_SVOTES . '</infolabel>', _CO_WFDOWNLOADS_DISABLED, 'red');
 } elseif ($votes_count > 0) {
     $indexAdmin->addInfoBoxLine(_AM_WFDOWNLOADS_MINDEX_DOWNSUMMARY, '<infolabel><a href="ratings.php">' . _AM_WFDOWNLOADS_SVOTES . '</a></infolabel>', $votes_count, 'green');
@@ -81,7 +81,7 @@ if ($modificationRequests_count > 0) {
     $indexAdmin->addInfoBoxLine(_AM_WFDOWNLOADS_MINDEX_DOWNSUMMARY, '<infolabel>' . _AM_WFDOWNLOADS_SMODREQUEST . '</infolabel>', $modificationRequests_count, 'green');
 }
 // Brokens reports
-if ($wfdownloads->getConfig('enable_brokenreports') == false) {
+if ($wfdownloads->getConfig('enable_brokenreports') === false) {
     $indexAdmin->addInfoBoxLine(_AM_WFDOWNLOADS_MINDEX_DOWNSUMMARY, '<infolabel>' . _AM_WFDOWNLOADS_SBROKENSUBMIT . '</infolabel>', _CO_WFDOWNLOADS_DISABLED, 'red');
 } elseif ($brokenDownloads_count > 0) {
     $indexAdmin->addInfoBoxLine(_AM_WFDOWNLOADS_MINDEX_DOWNSUMMARY, '<infolabel><a href="reportsmodifications.php">' . _AM_WFDOWNLOADS_SBROKENSUBMIT . '</a></infolabel>', $brokenDownloads_count, 'green');
@@ -89,7 +89,7 @@ if ($wfdownloads->getConfig('enable_brokenreports') == false) {
     $indexAdmin->addInfoBoxLine(_AM_WFDOWNLOADS_MINDEX_DOWNSUMMARY, '<infolabel>' . _AM_WFDOWNLOADS_SBROKENSUBMIT . '</infolabel>', $brokenDownloads_count, 'green');
 }
 // Mirrors
-if ($wfdownloads->getConfig('enable_mirrors') == false) {
+if ($wfdownloads->getConfig('enable_mirrors') === false) {
     $indexAdmin->addInfoBoxLine(_AM_WFDOWNLOADS_MINDEX_DOWNSUMMARY, '<infolabel>' . _AM_WFDOWNLOADS_SMIRRORS . '</infolabel>', _CO_WFDOWNLOADS_DISABLED, 'red');
 } elseif ($newMirrors_count > 0) {
     $indexAdmin->addInfoBoxLine(_AM_WFDOWNLOADS_MINDEX_DOWNSUMMARY, '<infolabel><a href="mirrors.php">' . _AM_WFDOWNLOADS_SMIRRORS . '</a></infolabel>', $newMirrors_count, 'green');

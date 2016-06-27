@@ -81,7 +81,8 @@ class WfdownloadsMirror extends XoopsObject
                                               _AM_WFDOWNLOADS_CONT4 => _AM_WFDOWNLOADS_CONT4,
                                               _AM_WFDOWNLOADS_CONT5 => _AM_WFDOWNLOADS_CONT5,
                                               _AM_WFDOWNLOADS_CONT6 => _AM_WFDOWNLOADS_CONT6,
-                                              _AM_WFDOWNLOADS_CONT7 => _AM_WFDOWNLOADS_CONT7));
+                                              _AM_WFDOWNLOADS_CONT7 => _AM_WFDOWNLOADS_CONT7
+                                          ));
         $form->addElement($continent_select);
         // downurl
         $form->addElement(new XoopsFormText(_AM_WFDOWNLOADS_MIRROR_DOWNURL, 'downurl', 50, 255, $this->getVar('downurl', 'e')), true);

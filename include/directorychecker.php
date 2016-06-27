@@ -44,7 +44,7 @@ class DirectoryChecker
         if (empty($path)) {
             return false;
         }
-        if (is_null($redirectFile)) {
+        if (null === $redirectFile) {
             $redirectFile = $_SERVER['PHP_SELF'];
         }
         if (!@is_dir($path)) {

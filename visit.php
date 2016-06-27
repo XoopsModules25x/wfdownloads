@@ -45,11 +45,11 @@ if ($downloadObj->getVar('published') == 0 || $downloadObj->getVar('published') 
 
 // Check permissions
 $groups = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : array(0 => XOOPS_GROUP_ANONYMOUS);
-if (!$gperm_handler->checkRight('WFDownCatPerm', $cid, $groups, $wfdownloads->getModule()->mid())) {
+if (!$gpermHandler->checkRight('WFDownCatPerm', $cid, $groups, $wfdownloads->getModule()->mid())) {
     redirect_header('index.php', 3, _NOPERM);
 }
 
-if ($agreed == false) {
+if ($agreed === false) {
     if ($wfdownloads->getConfig('check_host')) {
         $isAGoodHost  = false;
         $referer      = parse_url(xoops_getenv('HTTP_REFERER'));
@@ -66,7 +66,7 @@ if ($agreed == false) {
     }
 }
 
-if ($wfdownloads->getConfig('showDowndisclaimer') && $agreed == false) {
+if ($wfdownloads->getConfig('showDowndisclaimer') && $agreed === false) {
     $xoopsOption['template_main'] = "{$wfdownloads->getModule()->dirname()}_disclaimer.tpl";
     include_once XOOPS_ROOT_PATH . '/header.php';
 
@@ -114,7 +114,7 @@ if ($wfdownloads->getConfig('showDowndisclaimer') && $agreed == false) {
 
     // Download file
     $fileFilename = trim($downloadObj->getVar('filename')); // IN PROGRESS: why 'trim'?
-    if ((!$downloadObj->getVar('url') == '' && !$downloadObj->getVar('url') === 'http://') || $fileFilename == '') {
+    if ((!$downloadObj->getVar('url') === '' && !$downloadObj->getVar('url') === 'http://') || $fileFilename == '') {
         // download is a remote file: download from remote url
         include_once XOOPS_ROOT_PATH . '/header.php';
 
@@ -148,7 +148,7 @@ if ($wfdownloads->getConfig('showDowndisclaimer') && $agreed == false) {
         }
         // get file informations from filesystem
         $fileFilename  = trim($downloadObj->getVar('filename')); // IN PROGRESS: why 'trim'?
-        $fileMimetype  = ($downloadObj->getVar('filetype') != '') ? $downloadObj->getVar('filetype') : 'application/octet-stream';
+        $fileMimetype  = ($downloadObj->getVar('filetype') !== '') ? $downloadObj->getVar('filetype') : 'application/octet-stream';
         $filePath      = $wfdownloads->getConfig('uploaddir') . '/' . stripslashes(trim($fileFilename));
         $fileFilesize  = filesize($filePath);
         $fileInfo      = pathinfo($filePath);
@@ -156,9 +156,9 @@ if ($wfdownloads->getConfig('showDowndisclaimer') && $agreed == false) {
         $fileExtension = $fileInfo['extension'];
 
         $headerFilename = strtolower(strrev(substr(strrev($fileFilename), 0, strpos(strrev($fileFilename), '--'))));
-        $headerFilename = ($headerFilename == '') ? $fileFilename : $headerFilename;
+        $headerFilename = ($headerFilename === '') ? $fileFilename : $headerFilename;
         // MSIE Bug fix
-        if (strstr($_SERVER['HTTP_USER_AGENT'], 'MSIE')) {
+        if (false !== strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE')) {
             $headerFilename = preg_replace('/\./', '%2e', $headerFilename, substr_count($headerFilename, '.') - 1);
         }
         //
@@ -169,7 +169,7 @@ if ($wfdownloads->getConfig('showDowndisclaimer') && $agreed == false) {
         header('Content-Transfer-Encoding: binary');
         header("Content-Type: {$fileMimetype}");
         header("Content-Disposition: attachment; filename={$headerFilename}");
-        if (strstr($fileMimetype, 'text/')) {
+        if (false !== strpos($fileMimetype, 'text/')) {
             // downladed file is not binary
             wfdownloads_download($filePath, false, true);
         } else {

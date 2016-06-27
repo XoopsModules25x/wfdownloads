@@ -210,12 +210,12 @@ class WfsLists
         return $this->type;
     }
 
-    public function prefix()
+    public function getPrefix()
     {
         return $this->prefix;
     }
 
-    public function suffix()
+    public function getSuffix()
     {
         return $this->suffix;
     }

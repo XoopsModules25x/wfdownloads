@@ -46,10 +46,10 @@ class FileChecker
         if (empty($file_path)) {
             return false;
         }
-        if (is_null($redirectFile)) {
+        if (null === $redirectFile) {
             $redirectFile = $_SERVER['PHP_SELF'];
         }
-        if (is_null($original_file_path)) {
+        if (null === $original_file_path) {
             if (self::fileExists($file_path)) {
                 $path_status = "<img src='$pathIcon16/1.png' >";
                 $path_status .= "$file_path (" . _FC_WFDOWNLOADS_AVAILABLE . ') ';

@@ -42,7 +42,7 @@ if (@$_POST['op'] === 'submit') {
     echo $indexAdmin->addNavigation($currentFile);
 
     // Swish-e support EXPERIMENTAL
-    if (wfdownloads_swishe_check() == true) {
+    if (wfdownloads_swishe_check() === true) {
         echo 'OK';
     } else {
         echo 'NOT OK' . '<br>';

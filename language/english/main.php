@@ -29,7 +29,8 @@ define('_MD_WFDOWNLOADS_THANKSFORINFO', 'Thank you for your submission. You will
 define('_MD_WFDOWNLOADS_ISAPPROVED', 'Thank you for your submission. Your request has been approved and will now appear in our listing.');
 define('_MD_WFDOWNLOADS_THANKSFORHELP', "Thank you for helping to maintain this directory's integrity.");
 define('_MD_WFDOWNLOADS_FORSECURITY', 'For security reasons your user name and IP address will also be temporarily recorded.');
-define('_MD_WFDOWNLOADS_NOPERMISETOLINK', "This file doesn't belong to the site you came from <br><br>Please e-mail the webmaster of the site you came from and tell him: <br><span style='font-weight: bold;'>NOT TO LEECH OTHER SITES LINKS!</span> <br><br><span style='font-weight: bold;'>Definition of a Leecher:</span> One who is too lazy to link from his own server or steals other people's hard work and makes it look like his own <br><br>  Your IP address <span style='font-weight: bold;'>has been logged</span>.");
+define('_MD_WFDOWNLOADS_NOPERMISETOLINK',
+       "This file doesn't belong to the site you came from <br><br>Please e-mail the webmaster of the site you came from and tell him: <br><span style='font-weight: bold;'>NOT TO LEECH OTHER SITES LINKS!</span> <br><br><span style='font-weight: bold;'>Definition of a Leecher:</span> One who is too lazy to link from his own server or steals other people's hard work and makes it look like his own <br><br>  Your IP address <span style='font-weight: bold;'>has been logged</span>.");
 define('_MD_WFDOWNLOADS_SUMMARY', 'Summary');
 define('_MD_WFDOWNLOADS_DESCRIPTION', 'Description');
 define('_MD_WFDOWNLOADS_SUBMITCATHEAD', 'Submit download form');
@@ -324,7 +325,8 @@ function wfdownloads_alphabet()
         'W',
         'X',
         'Y',
-        'Z');
+        'Z'
+    );
 
     return $alphabet;
 }

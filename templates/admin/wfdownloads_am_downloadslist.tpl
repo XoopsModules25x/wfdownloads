@@ -103,7 +103,7 @@
     <{/if}>
 </fieldset>
 
-<br/>
+<br>
 
 <fieldset>
     <legend style='font-weight: bold; color: #900;'><{$smarty.const._AM_WFDOWNLOADS_MINDEX_NEWDOWN}></legend>
@@ -143,11 +143,11 @@
     <{/if}>
 </fieldset>
 
-<br/>
+<br>
 
 <fieldset>
     <legend style='font-weight: bold; color: #900;'><{$smarty.const._AM_WFDOWNLOADS_MINDEX_AUTOPUBLISHEDDOWN}></legend>
-    <br/>
+    <br>
     <{if ($autopublished_downloads_count == 0)}>
         <{$smarty.const._AM_WFDOWNLOADS_MINDEX_NODOWNLOADSFOUND}>
     <{else}>
@@ -201,11 +201,11 @@
     <{/if}>
 </fieldset>
 
-<br/>
+<br>
 
 <fieldset>
     <legend style='font-weight: bold; color: #900;'><{$smarty.const._AM_WFDOWNLOADS_MINDEX_EXPIREDDOWN}></legend>
-    <br/>
+    <br>
     <{if ($expired_downloads_count == 0)}>
         <{$smarty.const._AM_WFDOWNLOADS_MINDEX_NODOWNLOADSFOUND}>
     <{else}>
@@ -259,11 +259,11 @@
     <{/if}>
 </fieldset>
 
-<br/>
+<br>
 
 <fieldset>
     <legend style='font-weight: bold; color: #900;'><{$smarty.const._AM_WFDOWNLOADS_MINDEX_OFFLINEDOWN}></legend>
-    <br/>
+    <br>
     <{if ($offline_downloads_count == 0)}>
         <{$smarty.const._AM_WFDOWNLOADS_MINDEX_NODOWNLOADSFOUND}>
     <{else}>
@@ -317,13 +317,13 @@
     <{/if}>
 </fieldset>
 
-<br/>
+<br>
 
 <fieldset>
     <legend style='font-weight: bold; color: #900;'><{$smarty.const._AM_WFDOWNLOADS_MINDEX_BATCHFILES}></legend>
-    <br/>
+    <br>
     <{$smarty.const._AM_WFDOWNLOADS_MINDEX_BATCHPATH}>: <{$batch_path}>
-    <br/>
+    <br>
     <{if ($batch_files_count == 0)}>
     <{$smarty.const._AM_WFDOWNLOADS_MINDEX_NOBATCHFILESFOUND}>
     <{else}>

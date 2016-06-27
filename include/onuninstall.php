@@ -23,20 +23,20 @@ include_once __DIR__ . '/common.php';
 xoops_loadLanguage('admin', $wfdownloads->getModule()->dirname());
 
 /**
- * @param $xoopsModule
+ * @param XoopsModule $xoopsModule
  *
  * @return bool
  */
-function xoops_module_pre_uninstall_wfdownloads(&$xoopsModule)
+function xoops_module_pre_uninstall_wfdownloads(XoopsModule $xoopsModule)
 {
     // NOP
     return true;
 }
 
 /**
- * @param $xoopsModule
+ * @param XoopsModule $xoopsModule
  */
-function xoops_module_uninstall_wfdownloads(&$xoopsModule)
+function xoops_module_uninstall_wfdownloads(XoopsModule $xoopsModule)
 {
     // NOP
 }

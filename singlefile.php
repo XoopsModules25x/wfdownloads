@@ -33,7 +33,7 @@ if (empty($categoryObj)) {
 
 // Check permissions
 $userGroups = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : array(0 => XOOPS_GROUP_ANONYMOUS);
-if (!$gperm_handler->checkRight('WFDownCatPerm', $cid, $userGroups, $wfdownloads->getModule()->mid())) {
+if (!$gpermHandler->checkRight('WFDownCatPerm', $cid, $userGroups, $wfdownloads->getModule()->mid())) {
     if (in_array(XOOPS_GROUP_ANONYMOUS, $userGroups)) {
         redirect_header(XOOPS_URL . '/user.php', 3, _MD_WFDOWNLOADS_NEEDLOGINVIEW);
     } else {
@@ -63,9 +63,10 @@ $xoTheme->addStylesheet(WFDOWNLOADS_URL . '/assets/css/module.css');
 $xoopsTpl->assign('wfdownloads_url', WFDOWNLOADS_URL . '/');
 
 // Making the category image and title available in the template
-if (($categoryObj->getVar('imgurl') != '') && is_file(XOOPS_ROOT_PATH . '/' . $wfdownloads->getConfig('catimage') . '/' . $categoryObj->getVar('imgurl'))) {
+if (($categoryObj->getVar('imgurl') !== '') && is_file(XOOPS_ROOT_PATH . '/' . $wfdownloads->getConfig('catimage') . '/' . $categoryObj->getVar('imgurl'))) {
     if ($wfdownloads->getConfig('usethumbs') && function_exists('gd_info')) {
-        $imgurl = wfdownloads_createThumb($categoryObj->getVar('imgurl'), $wfdownloads->getConfig('catimage'), 'thumbs', $wfdownloads->getConfig('cat_imgwidth'), $wfdownloads->getConfig('cat_imgheight'), $wfdownloads->getConfig('imagequality'), $wfdownloads->getConfig('updatethumbs'), $wfdownloads->getConfig('keepaspect'));
+        $imgurl = wfdownloads_createThumb($categoryObj->getVar('imgurl'), $wfdownloads->getConfig('catimage'), 'thumbs', $wfdownloads->getConfig('cat_imgwidth'), $wfdownloads->getConfig('cat_imgheight'), $wfdownloads->getConfig('imagequality'), $wfdownloads->getConfig('updatethumbs'),
+                                          $wfdownloads->getConfig('keepaspect'));
     } else {
         $imgurl = XOOPS_URL . '/' . $wfdownloads->getConfig('catimage') . '/' . $categoryObj->getVar('imgurl');
     }
@@ -89,7 +90,7 @@ if (wfdownloads_checkModule('formulize') && $formulize_idreq) {
     $xoopsTpl->assign('custom_form', true);
     include_once XOOPS_ROOT_PATH . '/modules/formulize/include/extract.php';
     // get the form id and id_req of the user's entry
-    $formulizeModule = $module_handler->getByDirname('formulize');
+    $formulizeModule = $moduleHandler->getByDirname('formulize');
     $formulizeConfig = $config_handler->getConfigsByCat(0, $formulizeModule->mid());
 
     $formulize_fid = $categoryObj->getVar('formulize_fid');
@@ -155,9 +156,12 @@ if (wfdownloads_checkModule('formulize') && $formulize_idreq) {
 
 $use_mirrors = $wfdownloads->getConfig('enable_mirrors');
 $add_mirror  = false;
-if (!is_object($GLOBALS['xoopsUser']) && $use_mirrors == true && ($wfdownloads->getConfig('anonpost') == _WFDOWNLOADS_ANONPOST_MIRROR || $wfdownloads->getConfig('anonpost') == _WFDOWNLOADS_ANONPOST_BOTH) && ($wfdownloads->getConfig('submissions') == _WFDOWNLOADS_SUBMISSIONS_MIRROR || $wfdownloads->getConfig('submissions') == _WFDOWNLOADS_SUBMISSIONS_BOTH)) {
+if (!is_object($GLOBALS['xoopsUser']) && $use_mirrors === true && ($wfdownloads->getConfig('anonpost') == _WFDOWNLOADS_ANONPOST_MIRROR || $wfdownloads->getConfig('anonpost') == _WFDOWNLOADS_ANONPOST_BOTH)
+    && ($wfdownloads->getConfig('submissions') == _WFDOWNLOADS_SUBMISSIONS_MIRROR
+        || $wfdownloads->getConfig('submissions') == _WFDOWNLOADS_SUBMISSIONS_BOTH)
+) {
     $add_mirror = true;
-} elseif (is_object($GLOBALS['xoopsUser']) && $use_mirrors == true && ($wfdownloads->getConfig('submissions') == _WFDOWNLOADS_SUBMISSIONS_MIRROR || $wfdownloads->getConfig('submissions') == _WFDOWNLOADS_SUBMISSIONS_BOTH || wfdownloads_userIsAdmin())) {
+} elseif (is_object($GLOBALS['xoopsUser']) && $use_mirrors === true && ($wfdownloads->getConfig('submissions') == _WFDOWNLOADS_SUBMISSIONS_MIRROR || $wfdownloads->getConfig('submissions') == _WFDOWNLOADS_SUBMISSIONS_BOTH || wfdownloads_userIsAdmin())) {
     $add_mirror = true;
 }
 
@@ -241,7 +245,7 @@ $xoopsTpl->assign('use_brokenreports', $wfdownloads->getConfig('enable_brokenrep
 $xoopsTpl->assign('use_rss', $wfdownloads->getConfig('enablerss'));
 
 // Copyright
-if ($wfdownloads->getConfig('copyright') == true) {
+if ($wfdownloads->getConfig('copyright') === true) {
     $xoopsTpl->assign('lang_copyright', $downloadObj->getVar('title') . ' &copy; ' . _MD_WFDOWNLOADS_COPYRIGHT . ' ' . formatTimestamp(time(), 'Y'));
 }
 $xoopsTpl->assign('down', $downloadInfo); // this definition is not removed for backward compatibility issues

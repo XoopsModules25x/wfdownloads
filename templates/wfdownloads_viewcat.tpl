@@ -25,17 +25,17 @@
     <{/if}>
     <{if $category_image_URL}>
         <img src="<{$category_image_URL}>" alt="<{$category_title}>" title="<{$category_title}>"/>
-        <br/>
+        <br>
     <{/if}>
     <{$category_description}>
 </div>
 
-<br/>
+<br>
 
 <{if $subcategories}>
     <div>
         <h3><{$smarty.const._MD_WFDOWNLOADS_SUBCATEGORIESLISTING}></h3>
-        <br/>
+        <br>
         <!-- Start category loop -->
         <{foreach item=subcategory from=$subcategories}>
             <div>
@@ -55,12 +55,12 @@
                                                                            alt="<{$smarty.const._MD_WFDOWNLOADS_SUBMITDOWNLOAD}>"/></a>
                     <{/if}>
                 </div>
-                <{if $subcategory.image_URL != ''}><img src="<{$subcategory.image_URL}>" alt="<{$subcategory.title}>" title="<{$subcategory.title}>"/><br/><{/if}>
+                <{if $subcategory.image_URL != ''}><img src="<{$subcategory.image_URL}>" alt="<{$subcategory.title}>" title="<{$subcategory.title}>"/><br><{/if}>
                 <div title="<{$smarty.const._MD_WFDOWNLOADS_CSUMMARY}>">
                     <{$subcategory.summary}>
                 </div>
             </div>
-            <br/>
+            <br>
         <{/foreach}>
     </div>
 <{/if}>
@@ -69,7 +69,7 @@
     <{$category_path}>
 </div>
 
-<br/>
+<br>
 
 <{if $downloads}>
     <div>
@@ -248,14 +248,14 @@
                 </div>
             </div>
         <{/if}>
-        <br/>
+        <br>
         <{$pagenav}>
         <!-- Start link loop -->
         <{foreach item=download from=$downloads}>
             <div>
                 <{include file="db:wfdownloads_download.tpl" download=$download}>
             </div>
-            <br/>
+            <br>
         <{/foreach}>
         <!-- End link loop -->
         <div style="clear:both;"></div>

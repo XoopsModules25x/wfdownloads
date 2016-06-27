@@ -33,8 +33,8 @@ switch ($op) {
             }
             break;
     */
-    case 'mimetype.edit' :
-    case 'mimetype.add' :
+    case 'mimetype.edit':
+    case 'mimetype.add':
         wfdownloads_xoops_cp_header();
         $indexAdmin = new ModuleAdmin();
         echo $indexAdmin->addNavigation($currentFile);
@@ -73,7 +73,7 @@ switch ($op) {
         xoops_cp_footer();
         break;
 
-    case 'mimetype.save' :
+    case 'mimetype.save':
         $mime_id = XoopsRequest::getInt('mime_id', 0, 'POST');
         if (!$mimetypeObj = $wfdownloads->getHandler('mimetype')->get($mime_id)) {
             redirect_header($currentFile, 4, _AM_WFDOWNLOADS_ERROR_MIMETYPENOTFOUND);
@@ -93,22 +93,22 @@ switch ($op) {
         redirect_header($currentFile, 1, $dbupted);
         break;
 
-    case 'mimetype.update' :
+    case 'mimetype.update':
         $mime_id = XoopsRequest::getInt('mime_id', 0);
         if (!$mimetypeObj = $wfdownloads->getHandler('mimetype')->get($mime_id)) {
             redirect_header($currentFile, 4, _AM_WFDOWNLOADS_ERROR_MIMETYPENOTFOUND);
             exit();
         }
 
-        if (isset($_REQUEST['admin']) && $_REQUEST['admin'] == true) {
-            if ($mimetypeObj->getVar('mime_admin') == true) {
+        if (isset($_REQUEST['admin']) && $_REQUEST['admin'] === true) {
+            if ($mimetypeObj->getVar('mime_admin') === true) {
                 $mimetypeObj->setVar('mime_admin', false);
             } else {
                 $mimetypeObj->setVar('mime_admin', true);
             }
         }
-        if (isset($_REQUEST['user']) && $_REQUEST['user'] == true) {
-            if ($mimetypeObj->getVar('mime_user') == true) {
+        if (isset($_REQUEST['user']) && $_REQUEST['user'] === true) {
+            if ($mimetypeObj->getVar('mime_user') === true) {
                 $mimetypeObj->setVar('mime_user', false);
             } else {
                 $mimetypeObj->setVar('mime_user', true);
@@ -120,15 +120,14 @@ switch ($op) {
         redirect_header("{$currentFile}?start=" . (int)$_GET['start'] . '', 0, _AM_WFDOWNLOADS_MIME_MODIFIED);
         break;
 
-    case 'mimetypes.update' :
+    case 'mimetypes.update':
         $mime_admin = XoopsRequest::getBool('admin', false);
         $mime_user  = XoopsRequest::getBool('user', false);
         $type_all   = (int)$_GET['type_all'];
 
-        if ($mime_admin == true) {
+        $field = 'mime_user';
+        if ($mime_admin === true) {
             $field = 'mime_admin';
-        } else {
-            $field = 'mime_user';
         }
         $criteria = new CriteriaCompo();
         $criteria->setStart($start);
@@ -140,7 +139,7 @@ switch ($op) {
         redirect_header("{$currentFile}?start=" . (int)$_GET['start'] . '', 1, _AM_WFDOWNLOADS_MIME_MODIFIED);
         break;
 
-    case 'mimetype.delete' :
+    case 'mimetype.delete':
         $mime_id = XoopsRequest::getInt('mime_id', 0);
         $ok      = XoopsRequest::getBool('ok', false, 'POST');
         if (!$mimetypeObj = $wfdownloads->getHandler('mimetype')->get($mime_id)) {
@@ -165,8 +164,8 @@ switch ($op) {
         }
         break;
 
-    case 'mimetypes.list' :
-    default :
+    case 'mimetypes.list':
+    default:
         $start = XoopsRequest::getInt('start', 0);
 
         // Get mimetypes (20 per page)

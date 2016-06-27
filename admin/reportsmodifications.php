@@ -125,9 +125,9 @@ switch ($op) {
                 case 'published':
                 case 'expired':
                 case 'updated':
-                    $downloadContent = ($downloadContent != false) ? XoopsLocal::formatTimestamp($downloadContent, 'l') : _NO;
+                    $downloadContent = ($downloadContent !== false) ? XoopsLocal::formatTimestamp($downloadContent, 'l') : _NO;
                     //
-                    $modificationContent = ($modificationContent != false) ? XoopsLocal::formatTimestamp($modificationContent, 'l') : _NO;
+                    $modificationContent = ($modificationContent !== false) ? XoopsLocal::formatTimestamp($modificationContent, 'l') : _NO;
                     break;
                 case 'platform':
                 case 'license':
@@ -155,31 +155,30 @@ switch ($op) {
                 case 'screenshot2':
                 case 'screenshot3':
                 case 'screenshot4':
-                    if ($downloadContent != '') {
+                    if ($downloadContent !== '') {
                         $downloadContent = "<img src='" . XOOPS_URL . "/{$wfdownloads->getConfig('screenshots')}/{$downloadContent}' width='{$wfdownloads->getConfig('shotwidth')}' alt='' title='' />";
                     }
                     //
-                    if ($modificationContent != '') {
+                    if ($modificationContent !== '') {
                         $modificationContent = "<img src='" . XOOPS_URL . "/{$wfdownloads->getConfig('screenshots')}/{$modificationContent}' width='{$wfdownloads->getConfig('shotwidth')}' alt='' title='' />";
                     }
                     break;
                 case 'screenshots':
                     $downloadScreenshots     = $downloadContent;
                     $modificationScreenshots = $modificationContent;
-                    unset($downloadContent);
-                    unset($modificationContent);
+                    unset($downloadContent, $modificationContent);
                     $downloadContent     = '';
                     $modificationContent = '';
                     foreach ($downloadScreenshots as $key => $value) {
                         $downloadScreenshot     = $downloadScreenshots[$key];
                         $modificationScreenshot = $modificationScreenshots[$key];
-                        if ($downloadScreenshot != '') {
+                        if ($downloadScreenshot !== '') {
                             $downloadContent += "<img src='" . XOOPS_URL . "/{$wfdownloads->getConfig('screenshots')}/{$downloadScreenshot}' width='{$wfdownloads->getConfig(
                                     'shotwidth'
                                 )}' alt='' title='' />";
                         }
                         //
-                        if ($modificationContent != '') {
+                        if ($modificationContent !== '') {
                             $modificationContent += "<img src='" . XOOPS_URL . "/{$wfdownloads->getConfig('screenshots')}/{$modificationScreenshot}' width='{$wfdownloads->getConfig(
                                     'shotwidth'
                                 )}' alt='' title='' />";
@@ -193,7 +192,7 @@ switch ($op) {
                     break;
                 case 'features':
                 case 'requirements':
-                    if ($downloadContent != '') {
+                    if ($downloadContent !== '') {
                         $downrequirements = explode('|', trim($downloadContent));
                         $downloadContent  = '<ul>';
                         foreach ($downrequirements as $bi) {
@@ -202,7 +201,7 @@ switch ($op) {
                         $downloadContent .= '</ul>';
                     }
                     //
-                    if ($modificationContent != '') {
+                    if ($modificationContent !== '') {
                         $downrequirements    = explode('|', trim($modificationContent));
                         $modificationContent = '<ul>';
                         foreach ($downrequirements as $bi) {
@@ -275,10 +274,9 @@ switch ($op) {
         $modificationObj = $wfdownloads->getHandler('modification')->get($requestid);
         $downloadObj     = $wfdownloads->getHandler('download')->get($modificationObj->getVar('lid'));
 
+        $raiseModifyEvents = true;
         if ($modificationObj->getVar('version') == $downloadObj->getVar('version')) {
             $raiseModifyEvents = false;
-        } else {
-            $raiseModifyEvents = true;
         }
         /* end add block */
         $wfdownloads->getHandler('modification')->approveModification($_POST['requestid']);
@@ -297,9 +295,9 @@ switch ($op) {
             $tags['CATEGORY_NAME'] = $category->getVar('title');
             $tags['CATEGORY_URL']  = WFDOWNLOADS_URL . '/viewcat.php?cid=' . $cid;
 
-            $notification_handler->triggerEvent('global', 0, 'filemodified', $tags);
-            $notification_handler->triggerEvent('category', $cid, 'filemodified', $tags);
-            $notification_handler->triggerEvent('file', $lid, 'filemodified', $tags);
+            $notificationHandler->triggerEvent('global', 0, 'filemodified', $tags);
+            $notificationHandler->triggerEvent('category', $cid, 'filemodified', $tags);
+            $notificationHandler->triggerEvent('file', $lid, 'filemodified', $tags);
         }
         /* end add block */
 
@@ -363,7 +361,7 @@ switch ($op) {
             foreach (array_keys($downloadObjs) as $i) {
                 $uids[] = $downloadObjs[$i]->getVar('submitter');
             }
-            $users = $member_handler->getUsers(new Criteria('uid', '(' . implode(',', array_unique($uids)) . ')', 'IN'), true);
+            $users = $memberHandler->getUsers(new Criteria('uid', '(' . implode(',', array_unique($uids)) . ')', 'IN'), true);
 
             foreach ($reportObjs as $reportObj) {
                 $report_array = $reportObj->toArray();

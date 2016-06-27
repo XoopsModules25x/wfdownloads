@@ -78,7 +78,8 @@ class WfdownloadsReview extends XoopsObject
                                            '7'  => 7,
                                            '8'  => 8,
                                            '9'  => 9,
-                                           '10' => 10));
+                                           '10' => 10
+                                       ));
         $form->addElement($rating_select);
         // review: review
         $form->addElement(new XoopsFormDhtmlTextArea(_AM_WFDOWNLOADS_REV_FDESCRIPTION, 'review', $this->getVar('review', 'e'), 15, 60), true);

@@ -29,7 +29,7 @@ include_once __DIR__ . '/common.php';
 /**
  * This function transforms a numerical size (like 2048) to a letteral size (like 2MB)
  *
- * @param integer $bytes     numerical size
+ * @param integer $bytes numerical size
  * @param integer $precision
  *
  * @return string letteral size
@@ -104,7 +104,7 @@ function wfdownloads_sizeToBytes1024($size)
  * It's recursive because it doesn't stop with the one directory,
  * it just keeps going through all of the directories in the folder you specify.
  *
- * @param string $path  path to the directory to make
+ * @param string $path path to the directory to make
  * @param int    $level
  *
  * @return array
@@ -272,7 +272,7 @@ function wfdownloads_delDir($dir, $if_not_empty = true)
     if (!file_exists($dir)) {
         return true;
     }
-    if ($if_not_empty == true) {
+    if ($if_not_empty === true) {
         if (!is_dir($dir)) {
             return unlink($dir);
         }
@@ -312,8 +312,8 @@ function wfdownloads_checkModule($dirname)
     if (!xoops_isActiveModule($dirname)) {
         return false;
     }
-    $module_handler = xoops_getHandler('module');
-    $module         = $module_handler->getByDirname($dirname);
+    $moduleHandler = xoops_getHandler('module');
+    $module        = $moduleHandler->getByDirname($dirname);
 
     return $module->getVar('version');
 }
@@ -562,7 +562,7 @@ function wfdownloads_getCurrentUrls()
     $httpHost    = $_SERVER['HTTP_HOST'];
     $queryString = $_SERVER['QUERY_STRING'];
 
-    if ($queryString != '') {
+    if ($queryString !== '') {
         $queryString = '?' . $queryString;
     }
     $currentURL          = $http . $httpHost . $phpSelf . $queryString;
@@ -657,24 +657,22 @@ function wfdownloads_seo_title($title = '')
  * @param $id
  * @param $permName
  *
- * @internal param $perm_name
- *
  * @return bool
  */
 function wfdownloads_savePermissions($groups, $id, $permName)
 {
     $wfdownloads = WfdownloadsWfdownloads::getInstance();
 
-    $id            = (int)$id;
-    $result        = true;
-    $mid           = $wfdownloads->getModule()->mid();
-    $gperm_handler = xoops_getHandler('groupperm');
+    $id           = (int)$id;
+    $result       = true;
+    $mid          = $wfdownloads->getModule()->mid();
+    $gpermHandler = xoops_getHandler('groupperm');
     // First, if the permissions are already there, delete them
-    $gperm_handler->deleteByModule($mid, $permName, $id);
+    $gpermHandler->deleteByModule($mid, $permName, $id);
     // Save the new permissions
     if (is_array($groups)) {
         foreach ($groups as $group_id) {
-            $gperm_handler->addRight($permName, $id, $group_id, $mid);
+            $gpermHandler->addRight($permName, $id, $group_id, $mid);
         }
     }
 
@@ -700,7 +698,7 @@ function wfdownloads_toolbar()
         $isSubmissionAllowed = true;
     }
     $toolbar = '[ ';
-    if ($isSubmissionAllowed == true) {
+    if ($isSubmissionAllowed === true) {
         $category_suffix = !empty($_GET['cid']) ? '?cid=' . (int)$_GET['cid'] : ''; //Added by Lankford
         $toolbar .= "<a href='submit.php{$category_suffix}'>" . _MD_WFDOWNLOADS_SUBMITDOWNLOAD . '</a> | ';
     }
@@ -746,11 +744,11 @@ function wfdownloads_serverStats()
         }
     }
     //
-    $safemode = ini_get('safe_mode') ? _AM_WFDOWNLOADS_DOWN_ON . _AM_WFDOWNLOADS_DOWN_SAFEMODEPROBLEMS : _AM_WFDOWNLOADS_DOWN_OFF;
-    $html .= '<li>' . _AM_WFDOWNLOADS_DOWN_SAFEMODESTATUS . $safemode;
+    //    $safemode = ini_get('safe_mode') ? _AM_WFDOWNLOADS_DOWN_ON . _AM_WFDOWNLOADS_DOWN_SAFEMODEPROBLEMS : _AM_WFDOWNLOADS_DOWN_OFF;
+    //    $html .= '<li>' . _AM_WFDOWNLOADS_DOWN_SAFEMODESTATUS . $safemode;
     //
-    $registerglobals = (!ini_get('register_globals')) ? "<span style=\"color: green;\">" . _AM_WFDOWNLOADS_DOWN_OFF . '</span>' : "<span style=\"color: red;\">" . _AM_WFDOWNLOADS_DOWN_ON . '</span>';
-    $html .= '<li>' . _AM_WFDOWNLOADS_DOWN_REGISTERGLOBALS . $registerglobals;
+    //    $registerglobals = (!ini_get('register_globals')) ? "<span style=\"color: green;\">" . _AM_WFDOWNLOADS_DOWN_OFF . '</span>' : "<span style=\"color: red;\">" . _AM_WFDOWNLOADS_DOWN_ON . '</span>';
+    //    $html .= '<li>' . _AM_WFDOWNLOADS_DOWN_REGISTERGLOBALS . $registerglobals;
     //
     $downloads = ini_get('file_uploads') ? "<span style=\"color: green;\">" . _AM_WFDOWNLOADS_DOWN_ON . '</span>' : "<span style=\"color: red;\">" . _AM_WFDOWNLOADS_DOWN_OFF . '</span>';
     $html .= '<li>' . _AM_WFDOWNLOADS_DOWN_SERVERUPLOADSTATUS . $downloads;
@@ -991,10 +989,10 @@ function wfdownloads_updateRating($lid)
  */
 function wfdownloads_categoriesCount()
 {
-    $gperm_handler            = xoops_getHandler('groupperm');
+    $gpermHandler             = xoops_getHandler('groupperm');
     $wfdownloads              = WfdownloadsWfdownloads::getInstance();
     $groups                   = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : array(0 => XOOPS_GROUP_ANONYMOUS);
-    $allowedDownCategoriesIds = $gperm_handler->getItemIds('WFDownCatPerm', $groups, $wfdownloads->getModule()->mid());
+    $allowedDownCategoriesIds = $gpermHandler->getItemIds('WFDownCatPerm', $groups, $wfdownloads->getModule()->mid());
 
     return count($allowedDownCategoriesIds);
 }
@@ -1002,11 +1000,9 @@ function wfdownloads_categoriesCount()
 /**
  * wfdownloads_getTotalDownloads()
  *
- * @param int $cids
+ * @param int|array of integer $cids
  *
- * @internal param \OR $integer array of integer $cids
- *
- * @return the total number of items in items table that are accociated with a given table $table id
+ * @return total number of items in items table that are associated with a given table $table id
  */
 function wfdownloads_getTotalDownloads($cids = 0)
 {
@@ -1097,9 +1093,6 @@ function wfdownloads_displayImage($image = '', $href = '', $imgSource = '', $alt
  * @param bool|int $update
  * @param integer  $aspect
  *
- * @internal param $img_name
- * @internal param $img_path
- * @internal param $img_savepath
  * @return string
  */
 function wfdownloads_createThumb($imgName, $imgPath, $imgSavePath, $width = 100, $height = 100, $quality = 100, $update = false, $aspect = 1)
@@ -1287,13 +1280,13 @@ function wfdownloads_getDownloadTime($size = 0, $gmodem = 1, $gisdn = 1, $gdsl =
                 }
                 $asout[$i] = '<b>' . $amname[$i] . '</b>' . $asout[$i];
                 if ($i < 4) {
-                    $asout[$i] = $asout[$i] . ' | ';
+                    $asout[$i] .= ' | ';
                 }
             }
         }
         $dltime = '';
         for ($i = 0; $i < 5; ++$i) {
-            $dltime = $dltime . $asout[$i];
+            $dltime .= $asout[$i];
         }
     }
 
@@ -1323,7 +1316,7 @@ function wfdownloads_allowedMimetypes($fileName, $isAdmin = true)
 
     $ext      = ltrim(strrchr($fileName, '.'), '.');
     $criteria = new CriteriaCompo(new Criteria('mime_ext', strtolower($ext)));
-    if ($isAdmin == true) {
+    if ($isAdmin === true) {
         $criteria->add(new Criteria('mime_admin', true));
     } else {
         $criteria->add(new Criteria('mime_user', true));
@@ -1385,8 +1378,8 @@ function wfdownloads_uploading($filename, $uploadDirectory = 'uploads', $allowed
         $errors = 'MIME type not allowed';
         redirect_header($redirectURL, 4, $errors);
     }
-    $uploadDirectory = $uploadDirectory . '/';
-    $file_name       = $_FILES['userfile']['name'];
+    $uploadDirectory .= '/';
+    $file_name = $_FILES['userfile']['name'];
     //Admin can upload files of any size
     if (wfdownloads_userIsAdmin()) {
         $maxFileSize = wfdownloads_return_bytes(ini_get('upload_max_filesize'));
@@ -1449,7 +1442,7 @@ function wfdownloads_download($filePath, $isBinary = true, $retBytes = true)
     $buffer       = '';
     $bytesCounter = 0;
 
-    if ($isBinary == true) {
+    if ($isBinary === true) {
         $handler = fopen($filePath, 'rb');
     } else {
         $handler = fopen($filePath, 'r');
@@ -1501,10 +1494,9 @@ function wfdownloads_largeDownload($filePath, $fileMimetype)
         $fileExtrension      = $fileInfo['extension'];
         $default_contentType = 'application/octet-stream';
         // to find and use specific content type, check out this IANA page : http://www.iana.org/assignments/media-types/media-types.xhtml
+        $contentType = $default_contentType;
         if (false !== ($fileMimetype = !'')) {
             $contentType = $fileMimetype;
-        } else {
-            $contentType = $default_contentType;
         }
         if (file_exists($filePath)) {
             $size   = filesize($filePath);
@@ -1573,10 +1565,9 @@ function wfdownloads_getForum($selectedForumId)
     echo "<option value='0'>----------------------</option>";
     $result = $GLOBALS['xoopsDB']->query('SELECT forum_name, forum_id FROM ' . $GLOBALS['xoopsDB']->prefix('bb_forums') . ' ORDER BY forum_id');
     while (false !== (list($forumName, $forumId) = $GLOBALS['xoopsDB']->fetchRow($result))) {
+        $optionSelected = '';
         if ($forumId == $selectedForumId) {
             $optionSelected = "selected='selected'";
-        } else {
-            $optionSelected = '';
         }
         echo "<option value='{$forumId}' {$optionSelected}>{$forumName}</option>";
     }
@@ -1874,7 +1865,7 @@ function wfdownloads_swishe_search($swisheQueryWords)
                 $line    = preg_replace('/[[:blank:]]/', "\t", $line); // replace every space with a tab
 
                 list($relevance, $result_url, $result_title, $file_size) = explode("\t", $line); // split the line into an array by tabs; assign variable names to each column
-                $relevance          = $relevance / 10; // format relevance as a percentage for search results
+                $relevance /= 10; // format relevance as a percentage for search results
                 $full_path_and_file = $result_url;
                 $result_url         = trim(substr($result_url, $swisheDocPath_strlen - 1, strlen($result_url)));
                 $file_path          = strright($result_url, strlen($result_url) - 2);
@@ -1883,7 +1874,8 @@ function wfdownloads_swishe_search($swisheQueryWords)
                     'result_url'   => $result_url,
                     'result_title' => $result_title,
                     'file_size'    => $file_size,
-                    'file_path'    => $file_path);
+                    'file_path'    => $file_path
+                );
             }
         }
         // close the shell pipe

@@ -77,7 +77,7 @@ class WfdownloadsCategory extends XoopsObject
      */
     public function getForm($action = false)
     {
-        $gperm_handler = xoops_getHandler('groupperm');
+        $gpermHandler = xoops_getHandler('groupperm');
 
         if ($action === false) {
             $action = $_SERVER['REQUEST_URI'];
@@ -100,12 +100,12 @@ class WfdownloadsCategory extends XoopsObject
         // category: weight
         $form->addElement(new XoopsFormText(_AM_WFDOWNLOADS_FCATEGORY_WEIGHT, 'weight', 11, 11, $this->getVar('weight')), false);
         // permission: WFDownCatPerm
-        $groups             = $gperm_handler->getGroupIds('WFDownCatPerm', $this->getVar('cid'), $this->wfdownloads->getModule()->mid());
+        $groups             = $gpermHandler->getGroupIds('WFDownCatPerm', $this->getVar('cid'), $this->wfdownloads->getModule()->mid());
         $groups_down_select = new XoopsFormSelectGroup(_AM_WFDOWNLOADS_FCATEGORY_GROUPPROMPT, 'groups', true, $groups, 5, true);
         $groups_down_select->setDescription(_AM_WFDOWNLOADS_FCATEGORY_GROUPPROMPT_DESC);
         $form->addElement($groups_down_select);
         // permission: WFUpCatPerm
-        $up_groups        = $gperm_handler->getGroupIds('WFUpCatPerm', $this->getVar('cid'), $this->wfdownloads->getModule()->mid());
+        $up_groups        = $gpermHandler->getGroupIds('WFUpCatPerm', $this->getVar('cid'), $this->wfdownloads->getModule()->mid());
         $groups_up_select = new XoopsFormSelectGroup(_AM_WFDOWNLOADS_FCATEGORY_GROUPPROMPT_UP, 'up_groups', true, $up_groups, 5, true);
         $groups_up_select->setDescription(_AM_WFDOWNLOADS_FCATEGORY_GROUPPROMPT_UP_DESC);
         $form->addElement($groups_up_select);
@@ -249,10 +249,10 @@ class WfdownloadsCategoryHandler extends XoopsPersistableObjectHandler
      */
     public function getUserCategories($id_as_key = false, $as_object = true)
     {
-        $gperm_handler = xoops_getHandler('groupperm');
+        $gpermHandler = xoops_getHandler('groupperm');
 
         $groups                   = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : array(0 => XOOPS_GROUP_ANONYMOUS);
-        $allowedDownCategoriesIds = $gperm_handler->getItemIds('WFDownCatPerm', $groups, $this->wfdownloads->getModule()->mid());
+        $allowedDownCategoriesIds = $gpermHandler->getItemIds('WFDownCatPerm', $groups, $this->wfdownloads->getModule()->mid());
 
         return $this->getObjects(new Criteria('cid', '(' . implode(',', $allowedDownCategoriesIds) . ')', 'IN'), $id_as_key, $as_object);
     }
@@ -267,10 +267,10 @@ class WfdownloadsCategoryHandler extends XoopsPersistableObjectHandler
      */
     public function getUserDownCategories($id_as_key = false, $as_object = true)
     {
-        $gperm_handler = xoops_getHandler('groupperm');
+        $gpermHandler = xoops_getHandler('groupperm');
 
         $groups                   = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : array(0 => XOOPS_GROUP_ANONYMOUS);
-        $allowedDownCategoriesIds = $gperm_handler->getItemIds('WFDownCatPerm', $groups, $this->wfdownloads->getModule()->mid());
+        $allowedDownCategoriesIds = $gpermHandler->getItemIds('WFDownCatPerm', $groups, $this->wfdownloads->getModule()->mid());
 
         return $this->getObjects(new Criteria('cid', '(' . implode(',', $allowedDownCategoriesIds) . ')', 'IN'), $id_as_key, $as_object);
     }
@@ -283,10 +283,10 @@ class WfdownloadsCategoryHandler extends XoopsPersistableObjectHandler
      */
     public function getUserUpCategories($id_as_key = false, $as_object = true)
     {
-        $gperm_handler = xoops_getHandler('groupperm');
+        $gpermHandler = xoops_getHandler('groupperm');
 
         $groups                 = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : XOOPS_GROUP_ANONYMOUS;
-        $allowedUpCategoriesIds = $gperm_handler->getItemIds('WFUpCatPerm', $groups, $this->wfdownloads->getModule()->mid());
+        $allowedUpCategoriesIds = $gpermHandler->getItemIds('WFUpCatPerm', $groups, $this->wfdownloads->getModule()->mid());
 
         return $this->getObjects(new Criteria('cid', '(' . implode(',', $allowedUpCategoriesIds) . ')', 'IN'), $id_as_key, $as_object);
     }

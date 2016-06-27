@@ -62,7 +62,7 @@ if (is_object($wfdownloads->getModule())) {
 }
 
 // Load Xoops handlers
-$module_handler       = xoops_getHandler('module');
-$member_handler       = xoops_getHandler('member');
-$notification_handler = xoops_getHandler('notification');
-$gperm_handler        = xoops_getHandler('groupperm');
+$moduleHandler       = xoops_getHandler('module');
+$memberHandler       = xoops_getHandler('member');
+$notificationHandler = xoops_getHandler('notification');
+$gpermHandler        = xoops_getHandler('groupperm');

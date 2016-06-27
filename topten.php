@@ -23,7 +23,7 @@ include_once __DIR__ . '/header.php';
 $xoopsOption['template_main'] = "{$wfdownloads->getModule()->dirname()}_topten.tpl";
 
 // Check permissions
-if (($_GET['list'] === 'rate') && $wfdownloads->getConfig('enable_ratings') == false && !wfdownloads_userIsAdmin()) {
+if (($_GET['list'] === 'rate') && $wfdownloads->getConfig('enable_ratings') === false && !wfdownloads_userIsAdmin()) {
     redirect_header('index.php', 3, _NOPERM);
 }
 $groups = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : array(0 => XOOPS_GROUP_ANONYMOUS);
@@ -56,7 +56,7 @@ $categoryObjs = $wfdownloads->getHandler('category')->getObjects();
 
 $categoryObjsTree     = new XoopsObjectTree($categoryObjs, 'cid', 'pid');
 $mainCategoryObjs     = $categoryObjsTree->getFirstChild(0);
-$allowedCategoriesIds = $gperm_handler->getItemIds('WFDownCatPerm', $groups, $wfdownloads->getModule()->mid());
+$allowedCategoriesIds = $gpermHandler->getItemIds('WFDownCatPerm', $groups, $wfdownloads->getModule()->mid());
 
 $e        = 0;
 $rankings = array();
@@ -102,7 +102,8 @@ foreach ($mainCategoryObjs as $mainCategoryObj) {
                     'category' => implode('/', $parentCategory_titles),
                     'hits'     => $downloadObjs[$k]->getVar('hits'),
                     'rating'   => number_format($downloadObjs[$k]->getVar('rating'), 2),
-                    'votes'    => $downloadObjs[$k]->getVar('votes'));
+                    'votes'    => $downloadObjs[$k]->getVar('votes')
+                );
                 ++$rank;
             }
             ++$e;

@@ -27,22 +27,22 @@ define('INDEX_FILE_PATH', XOOPS_ROOT_PATH . '/uploads/index.html');
 define('BLANK_FILE_PATH', XOOPS_ROOT_PATH . '/uploads/blank.gif');
 
 /**
- * @param $xoopsModule
+ * @param XoopsModule $xoopsModule
  *
  * @return bool
  */
-function xoops_module_pre_install_wfdownloads(&$xoopsModule)
+function xoops_module_pre_install_wfdownloads(XoopsModule $xoopsModule)
 {
     // NOP
     return true;
 }
 
 /**
- * @param $xoopsModule
+ * @param XoopsModule $xoopsModule
  *
  * @return bool
  */
-function xoops_module_install_wfdownloads(&$xoopsModule)
+function xoops_module_install_wfdownloads(XoopsModule $xoopsModule)
 {
     // get module config values
     $hModConfig  = xoops_getHandler('config');

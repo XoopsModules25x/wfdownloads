@@ -41,7 +41,7 @@ $categoryObjs = $wfdownloads->getHandler('category')->getUserUpCategories();
 if (count($categoryObjs) == 0) {
     $isSubmissionAllowed = false;
 }
-if ($isSubmissionAllowed == false) {
+if ($isSubmissionAllowed === false) {
     redirect_header('index.php', 5, _MD_WFDOWNLOADS_NOTALLOWESTOSUBMIT);
 }
 // Check posts if user is not an ADMIN
@@ -57,7 +57,7 @@ $agreed = XoopsRequest::getBool('agreed', false, 'POST');
 $op     = XoopsRequest::getString('op', 'download.form');
 $notify = XoopsRequest::getBool('notify', false);
 
-if ($wfdownloads->getConfig('showdisclaimer') && ($op === 'download.form') && $agreed == false) {
+if ($wfdownloads->getConfig('showdisclaimer') && ($op === 'download.form') && $agreed === false) {
     $op = 'download.disclaimer';
 }
 
@@ -145,7 +145,7 @@ switch ($op) {
                 } else {
                     $owner = getEntryOwner($customArray['entry'], $fid); // is a Formulize function
                 }
-                $owner_groups                = $member_handler->getGroupsByUser($owner, false);
+                $owner_groups                = $memberHandler->getGroupsByUser($owner, false);
                 $customArray['owner_groups'] = $owner_groups;
             }
             $sform = $downloadObj->getForm($customArray);
@@ -187,7 +187,7 @@ switch ($op) {
     case 'download.save':
         // Save submitted download
         if (empty($_FILES['userfile']['name'])) {
-            if ($_POST['url'] && $_POST['url'] != '' && $_POST['url'] !== 'http://') {
+            if ($_POST['url'] && $_POST['url'] !== '' && $_POST['url'] !== 'http://') {
                 $url      = ($_POST['url'] !== 'http://') ? $_POST['url'] : '';
                 $filename = '';
                 $filetype = '';
@@ -314,7 +314,7 @@ switch ($op) {
                     $entries[$fid][0] = '';
                     $owner            = '';
                 }
-                $owner_groups =& $member_handler->getGroupsByUser($owner, false);
+                $owner_groups = $memberHandler->getGroupsByUser($owner, false);
                 $uid          = is_object($GLOBALS['xoopsUser']) ? (int)$GLOBALS['xoopsUser']->getVar('uid') : 0;
                 $groups       = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : array(0 => XOOPS_GROUP_ANONYMOUS);
                 $entries      = handleSubmission(// is a Formulize function
@@ -356,9 +356,9 @@ switch ($op) {
 
             if ($wfdownloads->getConfig('autoapprove') == _WFDOWNLOADS_AUTOAPPROVE_DOWNLOAD || $wfdownloads->getConfig('autoapprove') == _WFDOWNLOADS_AUTOAPPROVE_BOTH) {
                 // Then this change will be automatically approved, so the notification needs to go out.
-                $notification_handler->triggerEvent('global', 0, 'filemodified', $tags);
-                $notification_handler->triggerEvent('category', $cid, 'filemodified', $tags);
-                $notification_handler->triggerEvent('file', $lid, 'filemodified', $tags);
+                $notificationHandler->triggerEvent('global', 0, 'filemodified', $tags);
+                $notificationHandler->triggerEvent('category', $cid, 'filemodified', $tags);
+                $notificationHandler->triggerEvent('file', $lid, 'filemodified', $tags);
             }
         }
         /* End add block */
@@ -396,7 +396,7 @@ switch ($op) {
         $dhistory        = isset($_POST['dhistory']) ? $myts->addSlashes($_POST['dhistory']) : '';
         $dhistoryhistory = isset($_POST['dhistoryaddedd']) ? $myts->addSlashes($_POST['dhistoryaddedd']) : '';
         if ($lid > 0 && !empty($dhistoryhistory)) {
-            $dhistory = $dhistory . "\n\n";
+            $dhistory .= "\n\n";
             $dhistory .= '<b>' . formatTimestamp(time(), $wfdownloads->getConfig('dateformat')) . "</b>\n\n";
             $dhistory .= $dhistoryhistory;
         }
@@ -411,7 +411,7 @@ switch ($op) {
                 $screenshot4 = '';
         */
         if ($lid == 0) {
-            $notifypub = (isset($_POST['notifypub']) && $_POST['notifypub'] == true);
+            $notifypub = (isset($_POST['notifypub']) && $_POST['notifypub'] === true);
             $downloadObj->setVar('notifypub', $notifypub);
             $downloadObj->setVar('ipaddress', $_SERVER['REMOTE_ADDR']);
 
@@ -430,23 +430,23 @@ switch ($op) {
             $tags['CATEGORY_URL']  = WFDOWNLOADS_URL . "/viewcat.php?cid={$cid}";
 
             if ($wfdownloads->getConfig('autoapprove') == _WFDOWNLOADS_AUTOAPPROVE_DOWNLOAD || $wfdownloads->getConfig('autoapprove') == _WFDOWNLOADS_AUTOAPPROVE_BOTH) {
-                $notification_handler->triggerEvent('global', 0, 'new_file', $tags);
-                $notification_handler->triggerEvent('category', $cid, 'new_file', $tags);
+                $notificationHandler->triggerEvent('global', 0, 'new_file', $tags);
+                $notificationHandler->triggerEvent('category', $cid, 'new_file', $tags);
                 redirect_header('index.php', 2, _MD_WFDOWNLOADS_ISAPPROVED);
             } else {
                 $tags['WAITINGFILES_URL'] = WFDOWNLOADS_URL . '/admin/downloads.php';
-                $notification_handler->triggerEvent('global', 0, 'file_submit', $tags);
-                $notification_handler->triggerEvent('category', $cid, 'file_submit', $tags);
+                $notificationHandler->triggerEvent('global', 0, 'file_submit', $tags);
+                $notificationHandler->triggerEvent('category', $cid, 'file_submit', $tags);
                 if ($notify) {
                     include_once XOOPS_ROOT_PATH . '/include/notification_constants.php';
-                    $notification_handler->subscribe('file', $newid, 'approve', XOOPS_NOTIFICATION_MODE_SENDONCETHENDELETE);
+                    $notificationHandler->subscribe('file', $newid, 'approve', XOOPS_NOTIFICATION_MODE_SENDONCETHENDELETE);
                 }
                 redirect_header('index.php', 2, _MD_WFDOWNLOADS_THANKSFORINFO);
             }
             exit();
         } else {
             if ($wfdownloads->getConfig('autoapprove') == _WFDOWNLOADS_AUTOAPPROVE_DOWNLOAD || $wfdownloads->getConfig('autoapprove') == _WFDOWNLOADS_AUTOAPPROVE_BOTH) {
-                $notifypub = (isset($_POST['notifypub']) && $_POST['notifypub'] == true);
+                $notifypub = (isset($_POST['notifypub']) && $_POST['notifypub'] === true);
                 $downloadObj->setVar('notifypub', $notifypub);
                 $downloadObj->setVar('ipaddress', $_SERVER['REMOTE_ADDR']);
                 $downloadObj->setVar('updated', time());
@@ -458,7 +458,7 @@ switch ($op) {
                 $categoryObj           = $wfdownloads->getHandler('category')->get($cid);
                 $tags['CATEGORY_NAME'] = $categoryObj->getVar('title');
                 $tags['CATEGORY_URL']  = WFDOWNLOADS_URL . "/viewcat.php?cid={$cid}";
-                $notification_handler->triggerEvent('global', 0, 'file_modify', $tags);
+                $notificationHandler->triggerEvent('global', 0, 'file_modify', $tags);
                 redirect_header('index.php', 2, _MD_WFDOWNLOADS_ISAPPROVED);
             } else {
                 $updated = (isset($_POST['up_dated']) && $_POST['up_dated'] == 0) ? 0 : time();
@@ -471,7 +471,7 @@ switch ($op) {
                 }
                 $tags                      = array();
                 $tags['MODIFYREPORTS_URL'] = WFDOWNLOADS_URL . '/admin/reportsmodifications.php';
-                $notification_handler->triggerEvent('global', 0, 'file_modify', $tags);
+                $notificationHandler->triggerEvent('global', 0, 'file_modify', $tags);
                 redirect_header('index.php', 2, _MD_WFDOWNLOADS_THANKSFORINFO);
             }
         }

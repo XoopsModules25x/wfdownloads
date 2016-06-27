@@ -30,11 +30,11 @@ $groups = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() 
 
 // Check permissions
 if (in_array(XOOPS_GROUP_ANONYMOUS, $groups)) {
-    if (!$gperm_handler->checkRight('WFDownCatPerm', $cid, $groups, $wfdownloads->getModule()->mid())) {
+    if (!$gpermHandler->checkRight('WFDownCatPerm', $cid, $groups, $wfdownloads->getModule()->mid())) {
         redirect_header(XOOPS_URL . '/user.php', 3, _MD_WFDOWNLOADS_NEEDLOGINVIEW);
     }
 } else {
-    if (!$gperm_handler->checkRight('WFDownCatPerm', $cid, $groups, $wfdownloads->getModule()->mid())) {
+    if (!$gpermHandler->checkRight('WFDownCatPerm', $cid, $groups, $wfdownloads->getModule()->mid())) {
         redirect_header('index.php', 3, _NOPERM);
     }
 }
@@ -61,8 +61,8 @@ if (empty($categoryObj)) {
 }
 
 // Get download/upload permissions
-$allowedDownCategoriesIds = $gperm_handler->getItemIds('WFDownCatPerm', $groups, $wfdownloads->getModule()->mid());
-$allowedUpCategoriesIds   = $gperm_handler->getItemIds('WFUpCatPerm', $groups, $wfdownloads->getModule()->mid());
+$allowedDownCategoriesIds = $gpermHandler->getItemIds('WFDownCatPerm', $groups, $wfdownloads->getModule()->mid());
+$allowedUpCategoriesIds   = $gpermHandler->getItemIds('WFUpCatPerm', $groups, $wfdownloads->getModule()->mid());
 
 $xoopsOption['template_main'] = "{$wfdownloads->getModule()->dirname()}_viewcat.tpl";
 include_once XOOPS_ROOT_PATH . '/header.php';
@@ -122,7 +122,7 @@ $breadcrumb->addLink($wfdownloads->getModule()->getVar('name'), WFDOWNLOADS_URL)
 foreach (array_reverse($categoryObjsTree->getAllParent($cid)) as $parentCategoryObj) {
     $breadcrumb->addLink($parentCategoryObj->getVar('title'), 'viewcat.php?cid=' . $parentCategoryObj->getVar('cid'));
 }
-if ($categoryObj->getVar('title') != '') {
+if ($categoryObj->getVar('title') !== '') {
     $breadcrumb->addLink($categoryObj->getVar('title'), '');
 }
 if (isset($_GET['list'])) {
@@ -148,9 +148,10 @@ if (is_array($allSubCategoryObjs) > 0 && !isset($_GET['list']) && !isset($_GET['
         $subsubCategoryObjs = $categoryObjsTree->getAllChild($subCategoryObj->getVar('cid'));
 
         // ----- added for subcat images -----
-        if (($subCategoryObj->getVar('imgurl') != '') && is_file(XOOPS_ROOT_PATH . '/' . $wfdownloads->getConfig('catimage') . '/' . $subCategoryObj->getVar('imgurl'))) {
+        if (($subCategoryObj->getVar('imgurl') !== '') && is_file(XOOPS_ROOT_PATH . '/' . $wfdownloads->getConfig('catimage') . '/' . $subCategoryObj->getVar('imgurl'))) {
             if ($wfdownloads->getConfig('usethumbs') && function_exists('gd_info')) {
-                $imageURL = wfdownloads_createThumb($subCategoryObj->getVar('imgurl'), $wfdownloads->getConfig('catimage'), 'thumbs', $wfdownloads->getConfig('cat_imgwidth'), $wfdownloads->getConfig('cat_imgheight'), $wfdownloads->getConfig('imagequality'), $wfdownloads->getConfig('updatethumbs'), $wfdownloads->getConfig('keepaspect'));
+                $imageURL = wfdownloads_createThumb($subCategoryObj->getVar('imgurl'), $wfdownloads->getConfig('catimage'), 'thumbs', $wfdownloads->getConfig('cat_imgwidth'), $wfdownloads->getConfig('cat_imgheight'), $wfdownloads->getConfig('imagequality'), $wfdownloads->getConfig('updatethumbs'),
+                                                    $wfdownloads->getConfig('keepaspect'));
             } else {
                 $imageURL = XOOPS_URL . '/' . $wfdownloads->getConfig('catimage') . '/' . $subCategoryObj->getVar('imgurl');
             }
@@ -170,7 +171,8 @@ if (is_array($allSubCategoryObjs) > 0 && !isset($_GET['list']) && !isset($_GET['
                         'image'           => $imageURL,
                         'image_URL'       => $imageURL,
                         'count'           => $download_count, // this definition is not removed for backward compatibility issues
-                        'downloads_count' => $download_count);
+                        'downloads_count' => $download_count
+                    );
                 }
             }
         } else {
@@ -181,20 +183,21 @@ if (is_array($allSubCategoryObjs) > 0 && !isset($_GET['list']) && !isset($_GET['
         $download_count = 0;
 
         $xoopsTpl->append('subcategories', array(
-                                             'title'               => $subCategoryObj->getVar('title'),
-                                             'image'               => $imageURL, // this definition is not removed for backward compatibility issues
-                                             'image_URL'           => $imageURL,
-                                             'id'                  => $subCategoryObj->getVar('cid'), // this definition is not removed for backward compatibility issues
-                                             'cid'                 => $subCategoryObj->getVar('cid'),
-                                             'allowed_download'    => in_array($subCategoryObj->getVar('cid'), $allowedDownCategoriesIds),
-                                             'allowed_upload'      => $isSubmissionAllowed && in_array($subCategoryObj->getVar('cid'), $allowedUpCategoriesIds),
-                                             'summary'             => $subCategoryObj->getVar('summary'),
-                                             'infercategories'     => $infercategories,
-                                             'subcategories'       => $infercategories,
-                                             'totallinks'          => $catdowncount, // this definition is not removed for backward compatibility issues
-                                             'downloads_count'     => $catdowncount,
-                                             'count'               => $scount, // this definition is not removed for backward compatibility issues
-                                             'subcategories_count' => $catdowncount));
+            'title'               => $subCategoryObj->getVar('title'),
+            'image'               => $imageURL, // this definition is not removed for backward compatibility issues
+            'image_URL'           => $imageURL,
+            'id'                  => $subCategoryObj->getVar('cid'), // this definition is not removed for backward compatibility issues
+            'cid'                 => $subCategoryObj->getVar('cid'),
+            'allowed_download'    => in_array($subCategoryObj->getVar('cid'), $allowedDownCategoriesIds),
+            'allowed_upload'      => $isSubmissionAllowed && in_array($subCategoryObj->getVar('cid'), $allowedUpCategoriesIds),
+            'summary'             => $subCategoryObj->getVar('summary'),
+            'infercategories'     => $infercategories,
+            'subcategories'       => $infercategories,
+            'totallinks'          => $catdowncount, // this definition is not removed for backward compatibility issues
+            'downloads_count'     => $catdowncount,
+            'count'               => $scount, // this definition is not removed for backward compatibility issues
+            'subcategories_count' => $catdowncount
+        ));
         ++$scount;
     }
 }
@@ -206,9 +209,10 @@ if (isset($cid) && $cid > 0 && isset($categoryObjs[$cid])) {
     $xoopsTpl->assign('category_allowed_upload', in_array($cid, $allowedUpCategoriesIds));
 
     // Making the category image and title available in the template
-    if (($categoryObjs[$cid]->getVar('imgurl') != '') && is_file(XOOPS_ROOT_PATH . '/' . $wfdownloads->getConfig('catimage') . '/' . $categoryObjs[$cid]->getVar('imgurl'))) {
+    if (($categoryObjs[$cid]->getVar('imgurl') !== '') && is_file(XOOPS_ROOT_PATH . '/' . $wfdownloads->getConfig('catimage') . '/' . $categoryObjs[$cid]->getVar('imgurl'))) {
         if ($wfdownloads->getConfig('usethumbs') && function_exists('gd_info')) {
-            $imageURL = wfdownloads_createThumb($categoryObjs[$cid]->getVar('imgurl'), $wfdownloads->getConfig('catimage'), 'thumbs', $wfdownloads->getConfig('cat_imgwidth'), $wfdownloads->getConfig('cat_imgheight'), $wfdownloads->getConfig('imagequality'), $wfdownloads->getConfig('updatethumbs'), $wfdownloads->getConfig('keepaspect'));
+            $imageURL = wfdownloads_createThumb($categoryObjs[$cid]->getVar('imgurl'), $wfdownloads->getConfig('catimage'), 'thumbs', $wfdownloads->getConfig('cat_imgwidth'), $wfdownloads->getConfig('cat_imgheight'), $wfdownloads->getConfig('imagequality'), $wfdownloads->getConfig('updatethumbs'),
+                                                $wfdownloads->getConfig('keepaspect'));
         } else {
             $imageURL = XOOPS_URL . '/' . $wfdownloads->getConfig('catimage') . '/' . $categoryObjs[$cid]->getVar('imgurl');
         }
@@ -289,10 +293,11 @@ $xoopsTpl->assign('use_ratings', $wfdownloads->getConfig('enable_ratings'));
 $xoopsTpl->assign('use_reviews', $wfdownloads->getConfig('enable_reviews'));
 $xoopsTpl->assign('use_rss', $wfdownloads->getConfig('enablerss'));
 
-if ($wfdownloads->getConfig('enablerss') == true && $downloads_count > 0) {
+if ($wfdownloads->getConfig('enablerss') === true && $downloads_count > 0) {
     $rsslink_URL = WFDOWNLOADS_URL . "/rss.php?cid={$cid}";
     $xoopsTpl->assign('category_rssfeed_URL', $rsslink_URL);
-    $rsslink = "<a href='" . $rsslink_URL . "' title='" . _MD_WFDOWNLOADS_LEGENDTEXTCATRSS . "'><img src='" . XOOPS_URL . '/modules/' . $wfdownloads->getModule()->getVar('dirname') . "/assets/images/icon/rss.gif' border='0' alt='" . _MD_WFDOWNLOADS_LEGENDTEXTCATRSS . "' title='" . _MD_WFDOWNLOADS_LEGENDTEXTCATRSS . "'></a>";
+    $rsslink = "<a href='" . $rsslink_URL . "' title='" . _MD_WFDOWNLOADS_LEGENDTEXTCATRSS . "'><img src='" . XOOPS_URL . '/modules/' . $wfdownloads->getModule()->getVar('dirname') . "/assets/images/icon/rss.gif' border='0' alt='" . _MD_WFDOWNLOADS_LEGENDTEXTCATRSS . "' title='"
+               . _MD_WFDOWNLOADS_LEGENDTEXTCATRSS . "'></a>";
     $xoopsTpl->assign('cat_rssfeed_link', $rsslink); // this definition is not removed for backward compatibility issues
 }
 

@@ -45,7 +45,8 @@ if (@$_POST['op'] === 'submit') {
     $patterns = array(
         strtolower(WFDOWNLOADS_DIRNAME)          => strtolower($cloneDirname),
         strtoupper(WFDOWNLOADS_DIRNAME)          => strtoupper($cloneDirname),
-        ucfirst(strtolower(WFDOWNLOADS_DIRNAME)) => ucfirst(strtolower($cloneDirname)));
+        ucfirst(strtolower(WFDOWNLOADS_DIRNAME)) => ucfirst(strtolower($cloneDirname))
+    );
 
     $patKeys   = array_keys($patterns);
     $patValues = array_values($patterns);
@@ -138,7 +139,8 @@ function wfdownloads_createLogo($dirname)
             'imagefilledrectangle',
             'imagejpeg',
             'imagedestroy',
-            'imageftbbox');
+            'imageftbbox'
+        );
         foreach ($required_functions as $func) {
             if (!function_exists($func)) {
                 return false;

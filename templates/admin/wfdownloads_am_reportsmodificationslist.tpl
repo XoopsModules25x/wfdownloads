@@ -10,22 +10,22 @@
     <p>
         <img src="<{xoModuleIcons16 1.png}>" title="<{$smarty.const._AM_WFDOWNLOADS_BROKEN_IGNORE_ALT}>"
              alt="<{$smarty.const._AM_WFDOWNLOADS_BROKEN_IGNORE_ALT}>"/> <{$smarty.const._AM_WFDOWNLOADS_BROKEN_IGNOREDESC}>
-        <br/>
+        <br>
         <img src="<{xoModuleIcons16 edit.png}>" title="<{$smarty.const._AM_WFDOWNLOADS_BROKEN_EDIT_ALT}>"
              alt="<{$smarty.const._AM_WFDOWNLOADS_BROKEN_EDIT_ALT}>"/> <{$smarty.const._AM_WFDOWNLOADS_BROKEN_EDITDESC}>
-        <br/>
+        <br>
         <img src="<{xoModuleIcons16 delete.png}>" title="<{$smarty.const._AM_WFDOWNLOADS_BROKEN_DELETE_ALT}>"
              alt="<{$smarty.const._AM_WFDOWNLOADS_BROKEN_DELETE_ALT}>"/> <{$smarty.const._AM_WFDOWNLOADS_BROKEN_DELETEDESC}>
-        <br/>
+        <br>
         <img src="<{xoModuleIcons16 1.png}>" title="<{$smarty.const._AM_WFDOWNLOADS_BROKEN_ACK_ALT}>"
              alt="<{$smarty.const._AM_WFDOWNLOADS_BROKEN_ACK_ALT}>"/> <{$smarty.const._AM_WFDOWNLOADS_BROKEN_ACKDESC}>
-        <br/>
+        <br>
         <img src="<{xoModuleIcons16 1.png}>" title="<{$smarty.const._AM_WFDOWNLOADS_BROKEN_CONFIRM_ALT}>"
              alt="<{$smarty.const._AM_WFDOWNLOADS_BROKEN_CONFIRM_ALT}>"/> <{$smarty.const._AM_WFDOWNLOADS_BROKEN_CONFIRMDESC}>
     </p>
 </fieldset>
 
-<br/>
+<br>
 
 <fieldset>
     <legend style='font-weight: bold; color: #900;'><{$smarty.const._AM_WFDOWNLOADS_BROKEN_REPORTS}></legend>
@@ -104,7 +104,7 @@
     <{/if}>
 </fieldset>
 
-<br/>
+<br>
 
 <fieldset>
     <legend style='font-weight: bold;'><{$smarty.const._AM_WFDOWNLOADS_MOD_MODREQUESTSINFO}></legend>
@@ -115,10 +115,10 @@
     <p>
         <img src="<{xoModuleIcons16 1.png}>" title="<{$smarty.const._AM_WFDOWNLOADS_MOD_APPROVE_ALT}>"
              alt="<{$smarty.const._AM_WFDOWNLOADS_MOD_APPROVE_ALT}>"/> <{$smarty.const._AM_WFDOWNLOADS_MOD_APPROVEDESC}>
-        <br/>
+        <br>
         <img src="<{xoModuleIcons16 view.png}>" title="<{$smarty.const._AM_WFDOWNLOADS_MOD_VIEW_ALT}>"
              alt="<{$smarty.const._AM_WFDOWNLOADS_MOD_VIEW_ALT}>"/> <{$smarty.const._AM_WFDOWNLOADS_MOD_VIEWDESC}>
-        <br/>
+        <br>
         <img src="<{xoModuleIcons16 delete.png}>" title="<{$smarty.const._AM_WFDOWNLOADS_MOD_IGNORE_ALT}>"
              alt="<{$smarty.const._AM_WFDOWNLOADS_MOD_IGNORE_ALT}>"/> <{$smarty.const._AM_WFDOWNLOADS_MOD_IGNOREDESC}>
     </p>

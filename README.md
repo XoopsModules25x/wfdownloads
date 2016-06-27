@@ -10,7 +10,7 @@
 
 wfDownloads module for [XOOPS CMS](http://xoops.org) is a download module for XOOPS. You can create a download section with multiple categories and sub-categories. You decide which groups are allowed to upload which type of files separately.
 
-[![Tutorial Available](http://xoops.org/images/tutorial-available-blue.svg)](https://www.gitbook.com/book/xoops/xoops-wfdownloads/) Tutorial: see [here](https://www.gitbook.com/book/xoops/xoops-wfdownloads/).
+[![Tutorial Available](http://xoops.org/images/tutorial-available-blue.svg)](https://www.gitbook.com/book/xoops/xoops-wfdownloads/) Tutorial: see [GitBook](https://www.gitbook.com/book/xoops/xoops-wfdownloads/).
 To contribute to the Tutorial, [fork it on GitHub](https://github.com/XoopsDocs/wfdownloads-tutorial)
 
 [![Translations on Transifex](http://xoops.org/images/translations-transifex-blue.svg)](https://www.transifex.com/xoops)

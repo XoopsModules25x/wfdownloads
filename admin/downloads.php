@@ -114,7 +114,7 @@ switch ($op) {
                     } else {
                         $owner = getEntryOwner($customArray['entry'], $fid); // is a Formulize function
                     }
-                    $ownerGroups                 = $member_handler->getGroupsByUser($owner, false);
+                    $ownerGroups                 = $memberHandler->getGroupsByUser($owner, false);
                     $customArray['owner_groups'] = $ownerGroups;
                 }
                 $sform = $downloadObj->getAdminForm($title22, $customArray);
@@ -261,7 +261,7 @@ switch ($op) {
         }
         // Define URL
         if (empty($_FILES['userfile']['name'])) {
-            if ($_POST['url'] && $_POST['url'] != '' && $_POST['url'] !== 'http://') {
+            if ($_POST['url'] && $_POST['url'] !== '' && $_POST['url'] !== 'http://') {
                 $url      = ($_POST['url'] !== 'http://') ? $_POST['url'] : '';
                 $filename = '';
                 $filetype = '';
@@ -324,9 +324,9 @@ switch ($op) {
 
             if ($wfdownloads->getConfig('autoapprove') == _WFDOWNLOADS_AUTOAPPROVE_DOWNLOAD || $wfdownloads->getConfig('autoapprove') == _WFDOWNLOADS_AUTOAPPROVE_BOTH) {
                 // Then this change will be automatically approved, so the notification needs to go out.
-                $notification_handler->triggerEvent('global', 0, 'filemodified', $tags);
-                $notification_handler->triggerEvent('category', $cid, 'filemodified', $tags);
-                $notification_handler->triggerEvent('file', $lid, 'filemodified', $tags);
+                $notificationHandler->triggerEvent('global', 0, 'filemodified', $tags);
+                $notificationHandler->triggerEvent('category', $cid, 'filemodified', $tags);
+                $notificationHandler->triggerEvent('file', $lid, 'filemodified', $tags);
             }
         }
         /* End add block */
@@ -367,8 +367,8 @@ switch ($op) {
         $dhistoryhistory = isset($_POST['dhistoryaddedd']) ? $_POST['dhistoryaddedd'] : '';
 
         if ($lid > 0 && !empty($dhistoryhistory)) {
-            $dhistory = $dhistory . "\n\n";
-            $time     = time();
+            $dhistory .= "\n\n";
+            $time = time();
             $dhistory .= _AM_WFDOWNLOADS_FILE_HISTORYVERS . $version . _AM_WFDOWNLOADS_FILE_HISTORDATE . XoopsLocal::formatTimestamp($time, 'l') . "\n\n";
             $dhistory .= $dhistoryhistory;
         }
@@ -382,10 +382,10 @@ switch ($op) {
         }
         $downloadObj->setVar('updated', $updated);
 
-        $offline = ($_POST['offline'] == true) ? true : false;
+        $offline = ($_POST['offline'] === true) ? true : false;
         $downloadObj->setVar('offline', $offline);
-        $approved  = (isset($_POST['approved']) && $_POST['approved'] == true) ? true : false;
-        $notifypub = (isset($_POST['notifypub']) && $_POST['notifypub'] == true);
+        $approved  = (isset($_POST['approved']) && $_POST['approved'] === true) ? true : false;
+        $notifypub = (isset($_POST['notifypub']) && $_POST['notifypub'] === true);
 
         $expiredate = 0;
         if (!$lid) {
@@ -445,7 +445,7 @@ switch ($op) {
                     $entries[$fid][0] = '';
                     $owner            = '';
                 }
-                $ownerGroups = $member_handler->getGroupsByUser($owner, false);
+                $ownerGroups = $memberHandler->getGroupsByUser($owner, false);
                 $uid         = !empty($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getVar('uid') : 0;
                 $groups      = $GLOBALS['xoopsUser'] ? $GLOBALS['xoopsUser']->getGroups() : array(0 => XOOPS_GROUP_ANONYMOUS);
                 $entries     = handleSubmission($formulizeElements_handler, $entries, $uid, $owner, $fid, $ownerGroups, $groups, 'new'); // "new" causes xoops token check to be skipped, since Wfdownloads should be doing that
@@ -465,8 +465,8 @@ switch ($op) {
             $tags['FILE_URL']      = WFDOWNLOADS_URL . "/singlefile.php?cid={$cid}&amp;lid={$newid}";
             $tags['CATEGORY_NAME'] = $categoryObj->getVar('title');
             $tags['CATEGORY_URL']  = WFDOWNLOADS_URL . "/viewcat.php?cid={$cid}";
-            $notification_handler->triggerEvent('global', 0, 'new_file', $tags);
-            $notification_handler->triggerEvent('category', $cid, 'new_file', $tags);
+            $notificationHandler->triggerEvent('global', 0, 'new_file', $tags);
+            $notificationHandler->triggerEvent('category', $cid, 'new_file', $tags);
         }
         if ($lid && $approved && $notifypub) {
             $tags                  = array();
@@ -475,9 +475,9 @@ switch ($op) {
             $categoryObj           = $wfdownloads->getHandler('category')->get($cid);
             $tags['CATEGORY_NAME'] = $categoryObj->getVar('title');
             $tags['CATEGORY_URL']  = WFDOWNLOADS_URL . '/viewcat.php?cid=' . $cid;
-            $notification_handler->triggerEvent('global', 0, 'new_file', $tags);
-            $notification_handler->triggerEvent('category', $cid, 'new_file', $tags);
-            $notification_handler->triggerEvent('file', $lid, 'approve', $tags);
+            $notificationHandler->triggerEvent('global', 0, 'new_file', $tags);
+            $notificationHandler->triggerEvent('category', $cid, 'new_file', $tags);
+            $notificationHandler->triggerEvent('file', $lid, 'approve', $tags);
         }
         $message = (!$lid) ? _AM_WFDOWNLOADS_FILE_NEWFILEUPLOAD : _AM_WFDOWNLOADS_FILE_FILEMODIFIEDUPDATE;
         $message = ($lid && !$_POST['was_published'] && $approved) ? _AM_WFDOWNLOADS_FILE_FILEAPPROVED : $message;
@@ -567,10 +567,10 @@ switch ($op) {
         $tags['FILE_URL']      = WFDOWNLOADS_URL . "/singlefile.php?cid={$cid}&amp;lid={$lid}";
         $tags['CATEGORY_NAME'] = $categoryObj->getVar('title');
         $tags['CATEGORY_URL']  = WFDOWNLOADS_URL . "/viewcat.php?cid={$cid}";
-        $notification_handler->triggerEvent('global', 0, 'new_file', $tags);
-        $notification_handler->triggerEvent('category', $cid, 'new_file', $tags);
+        $notificationHandler->triggerEvent('global', 0, 'new_file', $tags);
+        $notificationHandler->triggerEvent('category', $cid, 'new_file', $tags);
         if ($downloadObj->getVar('notifypub')) {
-            $notification_handler->triggerEvent('file', $lid, 'approve', $tags);
+            $notificationHandler->triggerEvent('file', $lid, 'approve', $tags);
         }
         redirect_header($currentFile, 1, _AM_WFDOWNLOADS_SUB_NEWFILECREATED);
         break;
@@ -588,7 +588,7 @@ switch ($op) {
         $filter_date_condition           = XoopsRequest::getString('filter_date_condition', '<');
         // check filter conditions
         if ($op === 'downloads.filter') {
-            if ($filter_title == '' && $filter_category_title == '' && is_null($filter_submitter)) {
+            if ($filter_title === '' && $filter_category_title == '' && null === $filter_submitter) {
                 $op = 'downloads.list';
             }
         }
@@ -621,7 +621,7 @@ switch ($op) {
             $criteria = new CriteriaCompo();
             if ($op === 'downloads.filter') {
                 // Evaluate title criteria
-                if ($filter_title != '') {
+                if ($filter_title !== '') {
                     if ($filter_title_condition === 'LIKE') {
                         $criteria->add(new Criteria('title', "%{$filter_title}%", 'LIKE'));
                     } else {
@@ -629,7 +629,7 @@ switch ($op) {
                     }
                 }
                 // Evaluate cid criteria
-                if ($filter_category_title != '') {
+                if ($filter_category_title !== '') {
                     if ($filter_category_title_condition === 'LIKE') {
                         $cids = $wfdownloads->getHandler('category')->getIds(new Criteria('title', "%{$filter_category_title}%", 'LIKE'));
                         $criteria->add(new Criteria('cid', '(' . implode(',', $cids) . ')', 'IN'));
@@ -639,7 +639,7 @@ switch ($op) {
                     }
                 }
                 // Evaluate submitter criteria
-                if (!is_null($filter_submitter)) {
+                if (!null === $filter_submitter) {
                     $criteria->add(new Criteria('submitter', '(' . implode(',', $filter_submitter) . ')', 'IN'));
                 }
                 // Evaluate date criteria
@@ -921,7 +921,7 @@ switch ($op) {
         // Get all logged users
         $uidArray = array();
         foreach ($ip_logObjs as $ip_logObj) {
-            if ($ip_logObj->getVar('uid') != 0 && $ip_logObj->getVar('uid') != '') {
+            if ($ip_logObj->getVar('uid') != 0 && $ip_logObj->getVar('uid') !== '') {
                 $uidArray[] = $ip_logObj->getVar('uid');
             }
         }
@@ -929,7 +929,7 @@ switch ($op) {
         if (!empty($uidArray)) {
             $criteria->add(new Criteria('uid', '(' . implode(', ', $uidArray) . ')', 'IN'));
         }
-        $userList = $member_handler->getUserList($criteria);
+        $userList = $memberHandler->getUserList($criteria);
         if (empty($ip_logObjs)) {
             // NOP
         } else {

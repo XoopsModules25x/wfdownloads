@@ -19,8 +19,8 @@
  */
 defined('XOOPS_ROOT_PATH') || die('XOOPS root path not defined');
 
-//$module_handler = xoops_getHandler('module');
-//$module = $module_handler->getByDirname(basename(dirname(__DIR__)));
+//$moduleHandler = xoops_getHandler('module');
+//$module = $moduleHandler->getByDirname(basename(dirname(__DIR__)));
 include_once dirname(__DIR__) . '/include/common.php';
 $wfdownloads = WfdownloadsWfdownloads::getInstance();
 $pathIcon32  = '../../' . $wfdownloads->getModule()->getInfo('icons32');
@@ -33,49 +33,57 @@ $adminmenu[] = array(
     'title' => _MI_WFDOWNLOADS_MENU_HOME,
     'desc'  => _MI_WFDOWNLOADS_MENU_HOME,
     'link'  => 'admin/index.php',
-    'icon'  => $pathIcon32 . '/home.png');
+    'icon'  => $pathIcon32 . '/home.png'
+);
 
 $adminmenu[] = array(
     'title' => _MI_WFDOWNLOADS_MENU_CATEGORIES,
     'desc'  => _MI_WFDOWNLOADS_MENU_CATEGORIES,
     'link'  => 'admin/categories.php',
-    'icon'  => $pathIcon32 . '/category.png');
+    'icon'  => $pathIcon32 . '/category.png'
+);
 
 $adminmenu[] = array(
     'title' => _MI_WFDOWNLOADS_MENU_DOWNLOADS,
     'desc'  => _MI_WFDOWNLOADS_MENU_DOWNLOADS,
     'link'  => 'admin/downloads.php',
-    'icon'  => $pathIcon32 . '/download.png');
+    'icon'  => $pathIcon32 . '/download.png'
+);
 
 $adminmenu[] = array(
     'title' => _MI_WFDOWNLOADS_MENU_REVIEWS,
     'desc'  => _MI_WFDOWNLOADS_MENU_REVIEWS,
     'link'  => 'admin/reviews.php',
-    'icon'  => $pathIcon32 . '/translations.png');
+    'icon'  => $pathIcon32 . '/translations.png'
+);
 
 $adminmenu[] = array(
     'title' => _MI_WFDOWNLOADS_MENU_RATINGS,
     'desc'  => _MI_WFDOWNLOADS_MENU_RATINGS,
     'link'  => 'admin/ratings.php',
-    'icon'  => $pathIcon32 . '/button_ok.png');
+    'icon'  => $pathIcon32 . '/button_ok.png'
+);
 
 $adminmenu[] = array(
     'title' => _MI_WFDOWNLOADS_MENU_REPORTSMODIFICATIONS,
     'desc'  => _MI_WFDOWNLOADS_MENU_REPORTSMODIFICATIONS,
     'link'  => 'admin/reportsmodifications.php',
-    'icon'  => $pathIcon32 . '/alert.png');
+    'icon'  => $pathIcon32 . '/alert.png'
+);
 
 $adminmenu[] = array(
     'title' => _MI_WFDOWNLOADS_MENU_MIRRORS,
     'desc'  => _MI_WFDOWNLOADS_MENU_MIRRORS,
     'link'  => 'admin/mirrors.php',
-    'icon'  => $pathIcon32 . '/list.png');
+    'icon'  => $pathIcon32 . '/list.png'
+);
 
 $adminmenu[] = array(
     'title' => _MI_WFDOWNLOADS_MENU_INDEXPAGE,
     'desc'  => _MI_WFDOWNLOADS_MENU_INDEXPAGE,
     'link'  => 'admin/indexpage.php',
-    'icon'  => $pathIcon32 . '/index.png');
+    'icon'  => $pathIcon32 . '/index.png'
+);
 
 /*
 // Swish-e support EXPERIMENTAL
@@ -94,34 +102,40 @@ $adminmenu[] = array(
     'title' => _MI_WFDOWNLOADS_MENU_IMAGES,
     'desc'  => _MI_WFDOWNLOADS_MENU_IMAGES,
     'link'  => 'admin/images.php',
-    'icon'  => $pathIcon32 . '/photo.png');
+    'icon'  => $pathIcon32 . '/photo.png'
+);
 
 $adminmenu[] = array(
     'title' => _MI_WFDOWNLOADS_MENU_MIMETYPES,
     'desc'  => _MI_WFDOWNLOADS_MENU_MIMETYPES,
     'link'  => 'admin/mimetypes.php',
-    'icon'  => $pathIcon32 . '/type.png');
+    'icon'  => $pathIcon32 . '/type.png'
+);
 
 $adminmenu[] = array(
     'title' => _MI_WFDOWNLOADS_MENU_PERMISSIONS,
     'desc'  => _MI_WFDOWNLOADS_MENU_PERMISSIONS,
     'link'  => 'admin/permissions.php',
-    'icon'  => $pathIcon32 . '/permissions.png');
+    'icon'  => $pathIcon32 . '/permissions.png'
+);
 
 $adminmenu[] = array(
     'title' => _MI_WFDOWNLOADS_MENU_IMPORT,
     'desc'  => _MI_WFDOWNLOADS_MENU_IMPORT,
     'link'  => 'admin/import.php',
-    'icon'  => $pathIcon32 . '/database_go.png');
+    'icon'  => $pathIcon32 . '/database_go.png'
+);
 
 $adminmenu[] = array(
     'title' => _MI_WFDOWNLOADS_MENU_CLONE,
     'desc'  => _MI_WFDOWNLOADS_MENU_CLONE,
     'link'  => 'admin/clone.php',
-    'icon'  => './assets/images/icon32/editcopy.png');
+    'icon'  => './assets/images/icon32/editcopy.png'
+);
 
 $adminmenu[] = array(
     'title' => _MI_WFDOWNLOADS_MENU_ABOUT,
     'desc'  => _MI_WFDOWNLOADS_MENU_ABOUT,
     'link'  => 'admin/about.php',
-    'icon'  => $pathIcon32 . '/about.png');
+    'icon'  => $pathIcon32 . '/about.png'
+);

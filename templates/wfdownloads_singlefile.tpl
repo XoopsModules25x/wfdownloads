@@ -18,19 +18,19 @@
         <{if ($download.isadmin == true) }>
             <a href="admin/downloads.php?op=download.edit&amp;lid=<{$download.id}>">
                 <img src="<{xoModuleIcons16 edit.png}>"
-                    title="<{$smarty.const._EDIT}>"
-                    alt="<{$smarty.const._EDIT}>"/>
+                     title="<{$smarty.const._EDIT}>"
+                     alt="<{$smarty.const._EDIT}>"/>
             </a>
             <a href="admin/downloads.php?op=download.delete&amp;lid=<{$download.id}>">
                 <img src="<{xoModuleIcons16 delete.png}>"
-                    title="<{$smarty.const._DELETE}>"
-                    alt="<{$smarty.const._DELETE}>"/>
+                     title="<{$smarty.const._DELETE}>"
+                     alt="<{$smarty.const._DELETE}>"/>
             </a>
         <{elseif ($download.issubmitter == true && $download.has_custom_fields == false)}>
             <a href="submit.php?op=download.edit&amp;lid=<{$download.id}>">
                 <img src="<{xoModuleIcons16 edit.png}>"
-                    title="<{$smarty.const._EDIT}>"
-                    alt="<{$smarty.const._EDIT}>"/>
+                     title="<{$smarty.const._EDIT}>"
+                     alt="<{$smarty.const._EDIT}>"/>
             </a>
         <{/if}>
     </h3>
@@ -73,7 +73,9 @@
                 </div>
                 <br>
 
-                                <{elseif @in_array($download.filetype, array('audio/mpeg', 'audio/mp3', 'audio/ogg'))}>
+
+                                                    <{elseif @in_array($download.filetype, array('audio/mpeg', 'audio/mp3', 'audio/ogg'))}>
+
 
                 <div style="margin-left: 10px; margin-right: 10px; padding: 4px; background-color:#e6e6e6; border-color:#999999;" class="outer">
                     <span style="font-weight: bold;"><{$smarty.const._MD_WFDOWNLOADS_PREVIEW}></span>
@@ -85,7 +87,9 @@
                 </div>
                 <br>
 
-                                <{elseif @in_array($download.filetype, array('application/pdf'))}>
+
+                                                    <{elseif @in_array($download.filetype, array('application/pdf'))}>
+
 
                 <div style="margin-left: 10px; margin-right: 10px; padding: 4px; background-color:#e6e6e6; border-color:#999999;" class="outer">
                     <span style="font-weight: bold;"><{$smarty.const._MD_WFDOWNLOADS_PREVIEW}></span>
@@ -96,7 +100,9 @@
                 </div>
                 <br>
 
-                                <{elseif @in_array($download.filetype, array('video/flv', 'application/octet-stream', 'video/x-flv', 'video/mp4', 'video/ogg', 'video/x-m4v'))}>
+
+                                                    <{elseif @in_array($download.filetype, array('video/flv', 'application/octet-stream', 'video/x-flv', 'video/mp4', 'video/ogg', 'video/x-m4v'))}>
+
 
                 <div style="margin-left: 10px; margin-right: 10px; padding: 4px; background-color:#e6e6e6; border-color:#999999;" class="outer">
                     <span style="font-weight: bold;"><{$smarty.const._MD_WFDOWNLOADS_PREVIEW}></span>
@@ -105,11 +111,11 @@
                     <script>
                         $('video#preview-player').mediaelementplayer({
                             // if the <video width> is not specified, this is the default
-                            defaultVideoWidth : 240,
+                            defaultVideoWidth: 240,
                             // if the <video height> is not specified, this is the default
                             defaultVideoHeight: 135,
                             // enables Flash and Silverlight to resize to content size
-                            enableAutosize    : false
+                            enableAutosize: false
                         });
                     </script>
                     <div style="clear:both;"></div>
@@ -198,20 +204,20 @@
     <br>
 
     <{if $show_screenshot == true}>
-    <{foreach key=key item=screenshot from=$download.screenshots}>
-    <{if $screenshot.filename}>
-        <div style="margin-left: 10px; margin-right: 10px; padding: 4px;">
-            <span style="font-weight: bold;"><{$key+1}></span>
-            <div><a href="<{$xoops_url}>/<{$shots_dir}>/<{$screenshot.filename}>" class="magnific_zoom" rel="<{$download.title}>">
-                    <img src="<{$screenshot.thumb_url}>" alt="<{$smarty.const._MD_WFDOWNLOADS_SCREENSHOTCLICK}>"
-                         title="<{$smarty.const._MD_WFDOWNLOADS_SCREENSHOTCLICK}>" style="border: 1px solid black;"/></a>
-            </div>
-            <div>
-                <a href="<{$screenshot.thumb_url}>" rel="external"><{$lang_screenshot_click}></a>
-            </div>
-        </div>
-    <{/if}>
-    <{/foreach}>
+        <{foreach key=key item=screenshot from=$download.screenshots}>
+            <{if $screenshot.filename}>
+                <div style="margin-left: 10px; margin-right: 10px; padding: 4px;">
+                    <span style="font-weight: bold;"><{$key+1}></span>
+                    <div><a href="<{$xoops_url}>/<{$shots_dir}>/<{$screenshot.filename}>" class="magnific_zoom" rel="<{$download.title}>">
+                            <img src="<{$screenshot.thumb_url}>" alt="<{$smarty.const._MD_WFDOWNLOADS_SCREENSHOTCLICK}>"
+                                 title="<{$smarty.const._MD_WFDOWNLOADS_SCREENSHOTCLICK}>" style="border: 1px solid black;"/></a>
+                    </div>
+                    <div>
+                        <a href="<{$screenshot.thumb_url}>" rel="external"><{$lang_screenshot_click}></a>
+                    </div>
+                </div>
+            <{/if}>
+        <{/foreach}>
         <br>
     <{/if}>
 
@@ -251,19 +257,19 @@
 
 <{* Formulize module support (2006/05/04) jpc - start *}>
 <{if $custom_form}>
-<{foreach item=custom_field from=$custom_fields}>
-    <div style="margin-left: 0; margin-right: 10px; padding: 4px; background-color:#e6e6e6; border-color:#999999;" class="outer">
-    <span style="font-weight: bold;"><{$custom_field.caption}></span>:
-    <br>
-    <{foreach item=value from=$custom_field.values name=valueloop}>
-        <{$value}>
-        <{if !$smarty.foreach.valueloop.last}>
+    <{foreach item=custom_field from=$custom_fields}>
+        <div style="margin-left: 0; margin-right: 10px; padding: 4px; background-color:#e6e6e6; border-color:#999999;" class="outer">
+            <span style="font-weight: bold;"><{$custom_field.caption}></span>:
             <br>
-        <{/if}>
+            <{foreach item=value from=$custom_field.values name=valueloop}>
+                <{$value}>
+                <{if !$smarty.foreach.valueloop.last}>
+                    <br>
+                <{/if}>
+            <{/foreach}>
+        </div>
+        <br>
     <{/foreach}>
-    </div>
-    <br>
-<{/foreach}>
 <{else}>
     <!-- no custom form -->
 <{/if}>
@@ -275,27 +281,27 @@
         <a href="mirror.php?cid=<{$download.cid}>&amp;lid=<{$download.id}>"><{$smarty.const._MD_WFDOWNLOADS_ADDMIRROR}></a>
         &nbsp;|&nbsp;
     <{/if}>
-    <{if $download.use_reviews == 1}>
-        <a href="review.php?cid=<{$download.cid}>&amp;lid=<{$download.id}>"><{$smarty.const._MD_WFDOWNLOADS_REVIEWTHISFILE}></a>
-        &nbsp;|&nbsp;
-    <{/if}>
-    <{if $download.use_ratings == 1}>
-        <a href="ratefile.php?cid=<{$download.cid}>&amp;lid=<{$download.id}>"><{$smarty.const._MD_WFDOWNLOADS_RATETHISFILE}></a>
-        &nbsp;|&nbsp;
-    <{/if}>
-    <{if $download.useradminlink == true}>
-        <a href="submit.php?cid=<{$download.cid}>&amp;lid=<{$download.id}>"><{$smarty.const._MD_WFDOWNLOADS_MODIFY}></a>
-        &nbsp;|&nbsp;
-    <{/if}>
-    <{if $download.use_brokenreports == 1}>
-        <a href="brokenfile.php?cid=<{$download.cid}>&amp;lid=<{$download.id}>"><{$smarty.const._MD_WFDOWNLOADS_REPORTBROKEN}></a>
-        &nbsp;|&nbsp;
-    <{/if}>
-    <a target="_top" href="mailto:?subject=<{$download.mail_subject}>&amp;body=<{$download.mail_body}>"><{$smarty.const._MD_WFDOWNLOADS_TELLAFRIEND}></a>
-    <{if $com_rule <> 0}>
-        &nbsp;|&nbsp;
-        <a href="#comments"><{$smarty.const._COMMENTS}> (<{$download.comments}>)</a>
-    <{/if}>
+        <{if $download.use_reviews == 1}>
+            <a href="review.php?cid=<{$download.cid}>&amp;lid=<{$download.id}>"><{$smarty.const._MD_WFDOWNLOADS_REVIEWTHISFILE}></a>
+            &nbsp;|&nbsp;
+        <{/if}>
+        <{if $download.use_ratings == 1}>
+            <a href="ratefile.php?cid=<{$download.cid}>&amp;lid=<{$download.id}>"><{$smarty.const._MD_WFDOWNLOADS_RATETHISFILE}></a>
+            &nbsp;|&nbsp;
+        <{/if}>
+        <{if $download.useradminlink == true}>
+            <a href="submit.php?cid=<{$download.cid}>&amp;lid=<{$download.id}>"><{$smarty.const._MD_WFDOWNLOADS_MODIFY}></a>
+            &nbsp;|&nbsp;
+        <{/if}>
+        <{if $download.use_brokenreports == 1}>
+            <a href="brokenfile.php?cid=<{$download.cid}>&amp;lid=<{$download.id}>"><{$smarty.const._MD_WFDOWNLOADS_REPORTBROKEN}></a>
+            &nbsp;|&nbsp;
+        <{/if}>
+        <a target="_top" href="mailto:?subject=<{$download.mail_subject}>&amp;body=<{$download.mail_body}>"><{$smarty.const._MD_WFDOWNLOADS_TELLAFRIEND}></a>
+        <{if $com_rule <> 0}>
+            &nbsp;|&nbsp;
+            <a href="#comments"><{$smarty.const._COMMENTS}> (<{$download.comments}>)</a>
+        <{/if}>
     </span>
 </div>
 
@@ -306,11 +312,11 @@
 <{if $download.use_reviews == 1}>
     <div style="font-weight: bold;"><{$smarty.const._MD_WFDOWNLOADS_USERREVIEWSTITLE}></div>
     <div style="padding: 3px; margin:3px;">
-    <{if ($review_amount > 0)}>
-        <a href="review.php?op=reviews.list&amp;cid=<{$download.cid}>&amp;lid=<{$download.id}>"><{$smarty.const._MD_WFDOWNLOADS_USERREVIEWS|replace:'%s':$download.title}></a>
-    <{else}>
-        <a href="review.php?op=review.add&amp;cid=<{$download.cid}>&amp;lid=<{$download.id}>"><{$smarty.const._MD_WFDOWNLOADS_NOUSERREVIEWS|replace:'%s':$download.title}></a>
-    <{/if}>
+        <{if ($review_amount > 0)}>
+            <a href="review.php?op=reviews.list&amp;cid=<{$download.cid}>&amp;lid=<{$download.id}>"><{$smarty.const._MD_WFDOWNLOADS_USERREVIEWS|replace:'%s':$download.title}></a>
+        <{else}>
+            <a href="review.php?op=review.add&amp;cid=<{$download.cid}>&amp;lid=<{$download.id}>"><{$smarty.const._MD_WFDOWNLOADS_NOUSERREVIEWS|replace:'%s':$download.title}></a>
+        <{/if}>
     </div>
     <br>
 <{/if}>
@@ -319,11 +325,11 @@
 <{if $download.use_mirrors == 1 && $download.mirrors_num >= 1}>
     <div style="font-weight: bold;"><{$smarty.const._MD_WFDOWNLOADS_USERMIRRORSTITLE}></div>
     <div style="padding: 3px; margin:3px;">
-    <{if ($mirror_amount > 0)}>
-        <a href="<{$xoops_url}>/modules/wfdownloads/mirror.php?op=mirrors.list&amp;cid=<{$download.cid}>&amp;lid=<{$download.id}>"><{$smarty.const._MD_WFDOWNLOADS_USERMIRRORS|replace:'%s':$download.title}></a>
-    <{else}>
-        <a href="<{$xoops_url}>/modules/wfdownloads/mirror.php?op=mirror.add&amp;cid=<{$download.cid}>&amp;lid=<{$download.id}>"><{$smarty.const._MD_WFDOWNLOADS_NOUSERMIRRORS|replace:'%s':$download.title}></a>
-    <{/if}>
+        <{if ($mirror_amount > 0)}>
+            <a href="<{$xoops_url}>/modules/wfdownloads/mirror.php?op=mirrors.list&amp;cid=<{$download.cid}>&amp;lid=<{$download.id}>"><{$smarty.const._MD_WFDOWNLOADS_USERMIRRORS|replace:'%s':$download.title}></a>
+        <{else}>
+            <a href="<{$xoops_url}>/modules/wfdownloads/mirror.php?op=mirror.add&amp;cid=<{$download.cid}>&amp;lid=<{$download.id}>"><{$smarty.const._MD_WFDOWNLOADS_NOUSERMIRRORS|replace:'%s':$download.title}></a>
+        <{/if}>
     </div>
     <br>
 <{/if}>
@@ -332,14 +338,14 @@
 <div>
     <span style="font-weight: bold;"><{$smarty.const._MD_WFDOWNLOADS_OTHERBYUID}> <{$download.submitter}></span>
     <ul>
-    <{foreach item=download_by_user from=$downloads_by_user}>
-        <li>
-            <a href="<{$xoops_url}>/modules/wfdownloads/singlefile.php?cid=<{$download_by_user.cid}>&amp;lid=<{$download_by_user.lid}>">
-                <{$download_by_user.title}>
-            </a>
-            (<{$download_by_user.published}>)
-        </li>
-    <{/foreach}>
+        <{foreach item=download_by_user from=$downloads_by_user}>
+            <li>
+                <a href="<{$xoops_url}>/modules/wfdownloads/singlefile.php?cid=<{$download_by_user.cid}>&amp;lid=<{$download_by_user.lid}>">
+                    <{$download_by_user.title}>
+                </a>
+                (<{$download_by_user.published}>)
+            </li>
+        <{/foreach}>
     </ul>
 </div>
 

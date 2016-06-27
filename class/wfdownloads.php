@@ -49,16 +49,19 @@ class WfdownloadsWfdownloads
     public static function getInstance($debug = false)
     {
         static $instance;
-        if (!isset($instance)) {
+        if (null === $instance) {
             $instance = new static($debug);
         }
 
         return $instance;
     }
 
+    /**
+     * @return null
+     */
     public function &getModule()
     {
-        if ($this->module == null) {
+        if ($this->module === null) {
             $this->initModule();
         }
 
@@ -72,7 +75,7 @@ class WfdownloadsWfdownloads
      */
     public function getConfig($name = null)
     {
-        if ($this->config == null) {
+        if ($this->config === null) {
             $this->initConfig();
         }
         if (!$name) {
@@ -98,7 +101,7 @@ class WfdownloadsWfdownloads
      */
     public function setConfig($name = null, $value = null)
     {
-        if ($this->config == null) {
+        if ($this->config === null) {
             $this->initConfig();
         }
         $this->config[$name] = $value;

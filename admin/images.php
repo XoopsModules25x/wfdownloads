@@ -36,7 +36,7 @@ if (!is_dir(XOOPS_ROOT_PATH . '/' . $wfdownloads->getConfig('catimage'))) {
 $op = XoopsRequest::getString('op', 'images.list');
 switch ($op) {
     case 'image.upload':
-        if ($_FILES['uploadfile']['name'] != '') {
+        if ($_FILES['uploadfile']['name'] !== '') {
             if (file_exists(XOOPS_ROOT_PATH . '/' . $_POST['uploadpath'] . '/' . $_FILES['uploadfile']['name'])) {
                 redirect_header($currentFile, 2, _AM_WFDOWNLOADS_DOWN_IMAGEEXIST);
             }
@@ -98,15 +98,18 @@ switch ($op) {
         $dirArray  = array(
             1 => $wfdownloads->getConfig('catimage'),
             2 => $wfdownloads->getConfig('screenshots'),
-            3 => $wfdownloads->getConfig('mainimagedir'));
+            3 => $wfdownloads->getConfig('mainimagedir')
+        );
         $nameArray = array(
             1 => _AM_WFDOWNLOADS_DOWN_CATIMAGE,
             2 => _AM_WFDOWNLOADS_DOWN_SCREENSHOTS,
-            3 => _AM_WFDOWNLOADS_DOWN_MAINIMAGEDIR);
+            3 => _AM_WFDOWNLOADS_DOWN_MAINIMAGEDIR
+        );
         $listArray = array(
             1 => _AM_WFDOWNLOADS_DOWN_FCATIMAGE,
             2 => _AM_WFDOWNLOADS_DOWN_FSCREENSHOTS,
-            3 => _AM_WFDOWNLOADS_DOWN_FMAINIMAGEDIR);
+            3 => _AM_WFDOWNLOADS_DOWN_FMAINIMAGEDIR
+        );
 
         $pathList = isset($listArray[$rootPath]) ? $nameArray[$rootPath] : '';
         $nameList = isset($listArray[$rootPath]) ? $nameArray[$rootPath] : '';

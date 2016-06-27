@@ -40,7 +40,7 @@ $categoryObj = $wfdownloads->getHandler('category')->get((int)$_REQUEST['cid']);
 $groups = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : array(0 => XOOPS_GROUP_ANONYMOUS);
 
 // Get download permissions
-$allowedDownCategoriesIds = $gperm_handler->getItemIds('WFDownCatPerm', $groups, $wfdownloads->getModule()->mid());
+$allowedDownCategoriesIds = $gpermHandler->getItemIds('WFDownCatPerm', $groups, $wfdownloads->getModule()->mid());
 
 if (!$categoryObj->isNew()) {
     if (!in_array($categoryObj->getVar('cid'), $allowedDownCategoriesIds)) {
@@ -118,7 +118,7 @@ if (!$xoopsTpl->is_cached('db:' . $xoopsOption['template_main'], $cache_prefix))
             $uids[] = $downloadObj->getVar('submitter');
         }
         if (count($uids) > 0) {
-            $users = $member_handler->getUserList(new Criteria('uid', '(' . implode(',', array_unique($uids)) . ')', 'IN'));
+            $users = $memberHandler->getUserList(new Criteria('uid', '(' . implode(',', array_unique($uids)) . ')', 'IN'));
         }
 
         // Assign items to template
@@ -130,14 +130,15 @@ if (!$xoopsTpl->is_cached('db:' . $xoopsOption['template_main'], $cache_prefix))
             $author = isset($users[$item->getVar('submitter')]) ?: $GLOBALS['xoopsConfig']['anonymous'];
 
             $xoopsTpl->append('items', array(
-                                         'title'        => xoops_utf8_encode($title),
-                                         'author'       => xoops_utf8_encode($author),
-                                         'link'         => $link,
-                                         'guid'         => $link,
-                                         'is_permalink' => false,
-                                         'pubdate'      => formatTimestamp($item->getVar('published'), $feed_type),
-                                         'dc_date'      => formatTimestamp($item->getVar('published'), 'd/m H:i'),
-                                         'description'  => xoops_utf8_encode($teaser)));
+                'title'        => xoops_utf8_encode($title),
+                'author'       => xoops_utf8_encode($author),
+                'link'         => $link,
+                'guid'         => $link,
+                'is_permalink' => false,
+                'pubdate'      => formatTimestamp($item->getVar('published'), $feed_type),
+                'dc_date'      => formatTimestamp($item->getVar('published'), 'd/m H:i'),
+                'description'  => xoops_utf8_encode($teaser)
+            ));
         }
     } else {
         $excuse_title = 'No items!';
@@ -145,12 +146,13 @@ if (!$xoopsTpl->is_cached('db:' . $xoopsOption['template_main'], $cache_prefix))
         $art_title    = htmlspecialchars($excuse_title, ENT_QUOTES);
         $art_teaser   = htmlspecialchars($excuse, ENT_QUOTES);
         $xoopsTpl->append('items', array(
-                                     'title'       => xoops_utf8_encode($art_title),
-                                     'link'        => $url,
-                                     'guid'        => $url,
-                                     'pubdate'     => formatTimestamp(time(), $feed_type),
-                                     'dc_date'     => formatTimestamp(time(), 'd/m H:i'),
-                                     'description' => xoops_utf8_encode($art_teaser)));
+            'title'       => xoops_utf8_encode($art_title),
+            'link'        => $url,
+            'guid'        => $url,
+            'pubdate'     => formatTimestamp(time(), $feed_type),
+            'dc_date'     => formatTimestamp(time(), 'd/m H:i'),
+            'description' => xoops_utf8_encode($art_teaser)
+        ));
     }
 }
 

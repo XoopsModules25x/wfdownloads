@@ -88,8 +88,7 @@ class WfdownloadsModification extends WfdownloadsDownload
         $this->initVar('dobr', XOBJ_DTYPE_INT, true); // boolean
 
         //Obsolete
-        unset($this->vars['ipaddress']);
-        unset($this->vars['notifypub']);
+        unset($this->vars['ipaddress'], $this->vars['notifypub']);
 
         if (isset($id)) {
             $item = $this->wfdownloads->getHandler('item')->get($id);

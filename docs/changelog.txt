@@ -74,6 +74,7 @@
 - updated function visibility (mamba)
 - small changes based on testing tool feedback (mamba)
 - code cosmetics (mamba)
+- Default value is hidden in else branch (mamba)
 
 
 - TODO: Swish-e files indexing support

@@ -84,7 +84,7 @@
 <div>
     <span style="font-size: small;">
         <{$smarty.const._MD_WFDOWNLOADS_SUBMITTER}>:&nbsp;<{$download.submitter}>
-        <br/>
+        <br>
         <{$lang_subdate}>:&nbsp;<{$download.updated}>
     </span>
 </div>

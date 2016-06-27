@@ -27,8 +27,8 @@ function wfdownloads_notify_iteminfo($category, $item_id)
     global $xoopsModule, $xoopsModuleConfig;
 
     if (empty($xoopsModule) || $xoopsModule->dirname() !== 'wfdownloads') {
-        $module_handler = xoops_getHandler('module');
-        $module         = $module_handler->getByDirname('wfdownloads');
+        $moduleHandler = xoops_getHandler('module');
+        $module         = $moduleHandler->getByDirname('wfdownloads');
         $config_handler = xoops_getHandler('config');
         $config         = $config_handler->getConfigsByCat(0, (int)$module->mid());
     } else {

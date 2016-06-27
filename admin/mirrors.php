@@ -129,7 +129,7 @@ switch ($op) {
                 $uids_waiting[] = $mirror_waiting->getVar('uid');
             }
             $downloads = $wfdownloads->getHandler('download')->getObjects(new Criteria('lid', '(' . implode(',', array_unique($lids_waiting)) . ')', 'IN'), true, false);
-            $users     = $member_handler->getUserList(new Criteria('uid', '(' . implode(',', $uids_waiting) . ')'));
+            $users     = $memberHandler->getUserList(new Criteria('uid', '(' . implode(',', $uids_waiting) . ')'));
             foreach ($mirrors_waiting as $mirror_waiting) {
                 $mirror_waiting_array                    = $mirror_waiting->toArray();
                 $mirror_waiting_array['download_title']  = isset($downloads[$mirror_waiting->getVar('lid')]) ? $downloads[$mirror_waiting->getVar('lid')]['title'] : '';
@@ -149,7 +149,7 @@ switch ($op) {
                 $uids_published[] = $mirror_published->getVar('uid');
             }
             $downloads = $wfdownloads->getHandler('download')->getObjects(new Criteria('lid', '(' . implode(',', array_unique($lids_published)) . ')', 'IN'), true, false);
-            $users     = $member_handler->getUserList(new Criteria('uid', '(' . implode(',', $uids_published) . ')'));
+            $users     = $memberHandler->getUserList(new Criteria('uid', '(' . implode(',', $uids_published) . ')'));
             foreach ($mirrors_published as $mirror_published) {
                 $mirror_published_array                    = $mirror_published->toArray();
                 $mirror_published_array['download_title']  = isset($downloads[$mirror_published->getVar('lid')]) ? $downloads[$mirror_published->getVar('lid')]['title'] : '';

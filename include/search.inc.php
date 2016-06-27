@@ -38,8 +38,8 @@ function wfdownloads_search($queryArray, $andor, $limit, $offset, $userId = 0, $
 
     $userGroups = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : array(0 => XOOPS_GROUP_ANONYMOUS);
 
-    $gperm_handler            = xoops_getHandler('groupperm');
-    $allowedDownCategoriesIds = $gperm_handler->getItemIds('WFDownCatPerm', $userGroups, $wfdownloads->getModule()->mid());
+    $gpermHandler             = xoops_getHandler('groupperm');
+    $allowedDownCategoriesIds = $gpermHandler->getItemIds('WFDownCatPerm', $userGroups, $wfdownloads->getModule()->mid());
 
     $criteria = new CriteriaCompo(new Criteria('cid', '(' . implode(',', $allowedDownCategoriesIds) . ')', 'IN'));
     if ($userId != 0) {
@@ -171,8 +171,7 @@ function wfdownloads_search($queryArray, $andor, $limit, $offset, $userId = 0, $
                         unset($found_ids);
                     }
                     $saved_ids = array_merge($saved_ids, $temp_saved_ids); // merge this $fid's IDs with IDs from all previous $fids
-                    unset($temp_saved_ids);
-                    unset($data);
+                    unset($temp_saved_ids, $data);
                 } // end of foreach $fids
             }
             // Formulize module support - jpc - end
@@ -181,9 +180,7 @@ function wfdownloads_search($queryArray, $andor, $limit, $offset, $userId = 0, $
                 $subs_plus_custom = new CriteriaCompo(new Criteria('formulize_idreq', '(' . implode(',', $saved_ids) . ')', 'IN'));
                 $subs_plus_custom->add($allSubCriterias, 'OR');
                 $queryCriteria->add($subs_plus_custom);
-                unset($allSubCriterias);
-                unset($subs_plus_custom);
-                unset($saved_ids);
+                unset($allSubCriterias, $subs_plus_custom, $saved_ids);
             } else {
                 $queryCriteria->add($allSubCriterias);
                 unset($allSubCriterias);

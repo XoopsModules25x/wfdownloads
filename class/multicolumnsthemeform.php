@@ -81,18 +81,17 @@ class WfdownloadsMulticolumnsThemeForm extends XoopsForm
      * Add an element to the form
      *
      * @param XoopsObject $formElement
-     * @param bool   $required    is this a "required" element?
-     * @param int    $row         two-dimensional array (matrix) row (0 first key)
-     * @param int    $column      two-dimensional array (matrix) column (0 first key)
+     * @param bool        $required is this a "required" element?
+     * @param int         $row      two-dimensional array (matrix) row (0 first key)
+     * @param int         $column   two-dimensional array (matrix) column (0 first key)
      *
-     * @internal param $object $ &$formElement    reference to a {@link XoopsFormElement}
      */
     public function addElement($formElement, $required = false, $row = null, $column = null)
     {
-        if (is_null($row)) {
+        if (null === $row) {
             $row = $this->_rows;
         }
-        if (is_null($column)) {
+        if (null === $column) {
             $column = ($this->_columns == 0) ? $this->_columns : $this->_columns - 1;
         } // add new element as new row of the last column
         if (is_string($formElement)) {
@@ -205,23 +204,22 @@ class WfdownloadsMulticolumnsThemeForm extends XoopsForm
             $ret .= '<tr>';
             for ($column = 0; $column < $this->_columns; ++$column) {
                 $ret .= "<td class='{$class}'>";
+                $ele = '&nbsp;';
                 if (isset($this->_elements[$row][$column])) {
                     $ele = $this->_elements[$row][$column];
-                } else {
-                    $ele = '&nbsp;';
                 }
                 if (!is_object($ele)) {
                     $ret .= $ele;
                 } elseif (!$ele->isHidden()) {
                     if (!$ele->getNocolspan()) {
                         //$ret .= '<tr valign="top" align="left"><td class="head">';
-                        if (($caption = $ele->getCaption()) != '') {
+                        if (($caption = $ele->getCaption()) !== '') {
                             $ret .= "<div class='xoops-form-element-caption" . ($ele->isRequired() ? '-required' : '') . "'>";
                             $ret .= "<span class='caption-text'>{$caption}</span>";
                             $ret .= "<span class='caption-marker'>*</span>";
                             $ret .= '</div>';
                         }
-                        if (($desc = $ele->getDescription()) != '') {
+                        if (($desc = $ele->getDescription()) !== '') {
                             $ret .= "<div class='xoops-form-element-help'>{$desc}</div>";
                         }
                         //$ret .= '</td><td class="' . $class . '">';
@@ -229,7 +227,7 @@ class WfdownloadsMulticolumnsThemeForm extends XoopsForm
                         //$ret .= '</td></tr>' . NWLINE;
                     } else {
                         //$ret .= '<tr valign="top" align="left"><td class="head" colspan="2">';
-                        if (($caption = $ele->getCaption()) != '') {
+                        if (($caption = $ele->getCaption()) !== '') {
                             $ret .= "<div class='xoops-form-element-caption" . ($ele->isRequired() ? '-required' : '') . "'>";
                             $ret .= "<span class='caption-text'>{$caption}</span>";
                             $ret .= "<span class='caption-marker'>*</span>";
