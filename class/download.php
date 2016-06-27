@@ -146,7 +146,7 @@ class WfdownloadsDownload extends XoopsObject
             && $use_mirrors === true
         ) {
             $add_mirror = true;
-        } elseif (is_object($GLOBALS['xoopsUser']) && ($this->wfdownloads->getConfig('submissions') == _WFDOWNLOADS_SUBMISSIONS_MIRROR || $this->wfdownloads->getConfig('submissions') == _WFDOWNLOADS_SUBMISSIONS_BOTH || WfdownloadsUtilities::userIsAdmin()) && $use_mirrors == true) {
+        } elseif (is_object($GLOBALS['xoopsUser']) && ($this->wfdownloads->getConfig('submissions') == _WFDOWNLOADS_SUBMISSIONS_MIRROR || $this->wfdownloads->getConfig('submissions') == _WFDOWNLOADS_SUBMISSIONS_BOTH || WfdownloadsUtilities::userIsAdmin()) && $use_mirrors === true) {
             $add_mirror = true;
         }
         $download['add_mirror']  = $add_mirror;

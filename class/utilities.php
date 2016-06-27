@@ -1063,7 +1063,7 @@ class WfdownloadsUtilities
         $gdlib = function_exists('gd_info') ? "<span style=\"color: green;\">" . _AM_WFDOWNLOADS_DOWN_GDON . '</span>' : "<span style=\"color: red;\">" . _AM_WFDOWNLOADS_DOWN_GDOFF . '</span>';
         $html .= '<li>' . _AM_WFDOWNLOADS_DOWN_GDLIBSTATUS . $gdlib;
         if (function_exists('gd_info')) {
-            if (true == $gdlib = gd_info()) {
+            if (true === $gdlib = gd_info()) {
                 $html .= '<li>' . _AM_WFDOWNLOADS_DOWN_GDLIBVERSION . '<b>' . $gdlib['GD Version'] . '</b>';
             }
         }
@@ -1424,7 +1424,7 @@ class WfdownloadsUtilities
         $wfdownloads = WfdownloadsWfdownloads::getInstance();
 
         // Paths
-        if ($wfdownloads->getConfig('usethumbs') == false) {
+        if ($wfdownloads->getConfig('usethumbs') === false) {
             $imageURL = XOOPS_URL . "/{$imgPath}/{$imgName}";
 
             return $imageURL;
@@ -1433,7 +1433,7 @@ class WfdownloadsUtilities
         $saveFile  = "{$imgPath}/{$imgSavePath}/{$width}x{$height}_{$imgName}";
         $savePath  = XOOPS_ROOT_PATH . '/' . $saveFile;
         // Return the image if no update and image exists
-        if ($update == false && file_exists($savePath)) {
+        if ($update === false && file_exists($savePath)) {
             return XOOPS_URL . '/' . $saveFile;
         }
         // Original image info
