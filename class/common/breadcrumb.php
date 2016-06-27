@@ -48,7 +48,7 @@ class WfdownloadsBreadcrumb
     public function __construct()
     {
         $this->wfdownloads = WfdownloadsWfdownloads::getInstance();
-        $this->dirname = basename(dirname(dirname(__DIR__)));
+        $this->dirname     = basename(dirname(dirname(__DIR__)));
     }
 
     /**
@@ -57,12 +57,12 @@ class WfdownloadsBreadcrumb
      * @param string $title
      * @param string $link
      */
-    public function addLink( $title='', $link='' )
+    public function addLink($title = '', $link = '')
     {
         $this->_bread[] = array(
             'link'  => $link,
             'title' => $title
-            );
+        );
     }
 
     /**
@@ -76,13 +76,13 @@ class WfdownloadsBreadcrumb
         if (!isset($GLOBALS['xoTheme']) || !is_object($GLOBALS['xoTheme'])) {
             include_once $GLOBALS['xoops']->path('/class/theme.php');
             $GLOBALS['xoTheme'] = new xos_opal_Theme();
-            }
+        }
         require_once $GLOBALS['xoops']->path('/class/template.php');
         $breadcrumbTpl = new XoopsTpl();
         $breadcrumbTpl->assign('breadcrumb', $this->_bread);
-// IN PROGRESS
-// IN PROGRESS
-// IN PROGRESS
+        // IN PROGRESS
+        // IN PROGRESS
+        // IN PROGRESS
         $ret .= $breadcrumbTpl->fetch("db:{$this->wfdownloads->getModule()->dirname()}_co_breadcrumb.tpl");
         unset($breadcrumbTpl);
 
