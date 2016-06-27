@@ -45,22 +45,22 @@ class DirectoryChecker
         if (empty($path)) {
             return false;
         }
-        if (is_null($redirectFile)) {
+        if (null === $redirectFile) {
             $redirectFile = $_SERVER['PHP_SELF'];
         }
         if (!@is_dir($path)) {
             $path_status = "<img src='$pathIcon16/0.png' >";
-            $path_status .= "$path (" . _DC_WFDOWNLOADS_NOTAVAILABLE . ") ";
+            $path_status .= "$path (" . _DC_WFDOWNLOADS_NOTAVAILABLE . ') ';
             $path_status .= "<form action='" . $_SERVER['PHP_SELF'] . "' method='post'>";
             $path_status .= "<input type='hidden' name='op' value='createdir'>";
             $path_status .= "<input type='hidden' name='path' value='$path'>";
             $path_status .= "<input type='hidden' name='redirect' value='$redirectFile'>";
-            $path_status .= "<button class='submit' onClick='this.form.submit();'>" . _DC_WFDOWNLOADS_CREATETHEDIR . "</button>";
-            $path_status .= "</form>";
+            $path_status .= "<button class='submit' onClick='this.form.submit();'>" . _DC_WFDOWNLOADS_CREATETHEDIR . '</button>';
+            $path_status .= '</form>';
         } elseif (@is_writable($path)) {
             $path_status = "<img src='$pathIcon16/1.png' >";
-            $path_status .= "$path (" . _DC_WFDOWNLOADS_AVAILABLE . ") ";
-            $currentMode = (substr(decoct(fileperms($path)), 2));
+            $path_status .= "$path (" . _DC_WFDOWNLOADS_AVAILABLE . ') ';
+            $currentMode = substr(decoct(fileperms($path)), 2);
             if ($currentMode != decoct($mode)) {
                 $path_status = "<img src='$pathIcon16/0.png' >";
                 $path_status .= $path . sprintf(_DC_WFDOWNLOADS_NOTWRITABLE, decoct($mode), $currentMode);
@@ -69,11 +69,11 @@ class DirectoryChecker
                 $path_status .= "<input type='hidden' name='mode' value='$mode'>";
                 $path_status .= "<input type='hidden' name='path' value='$path'>";
                 $path_status .= "<input type='hidden' name='redirect' value='$redirectFile'>";
-                $path_status .= "<button class='submit' onClick='this.form.submit();'>" . _DC_WFDOWNLOADS_SETMPERM . "</button>";
-                $path_status .= "</form>";
+                $path_status .= "<button class='submit' onClick='this.form.submit();'>" . _DC_WFDOWNLOADS_SETMPERM . '</button>';
+                $path_status .= '</form>';
             }
         } else {
-            $currentMode = (substr(decoct(fileperms($path)), 2));
+            $currentMode = substr(decoct(fileperms($path)), 2);
             $path_status = "<img src='$pathIcon16/0.png' >";
             $path_status .= $path . sprintf(_DC_WFDOWNLOADS_NOTWRITABLE, decoct($mode), $currentMode);
             $path_status .= "<form action='" . $_SERVER['PHP_SELF'] . "' method='post'>";
@@ -81,8 +81,8 @@ class DirectoryChecker
             $path_status .= "<input type='hidden' name='mode' value='$mode'>";
             $path_status .= "<input type='hidden' name='path' value='$path'>";
             $path_status .= "<input type='hidden' name='redirect' value='$redirectFile'>";
-            $path_status .= "<button class='submit' onClick='this.form.submit();'>" . _DC_WFDOWNLOADS_SETMPERM . "</button>";
-            $path_status .= "</form>";
+            $path_status .= "<button class='submit' onClick='this.form.submit();'>" . _DC_WFDOWNLOADS_SETMPERM . '</button>';
+            $path_status .= '</form>';
         }
 
         return $path_status;
@@ -111,7 +111,7 @@ class DirectoryChecker
     {
         $target = str_replace('..', '', $target);
 
-        return @chmod($target, (int) $mode);
+        return @chmod($target, (int)$mode);
     }
 
     /**
@@ -125,7 +125,7 @@ class DirectoryChecker
     }
 }
 
-$op = (isset($_POST['op'])) ? $_POST['op'] : "";
+$op = isset($_POST['op']) ? $_POST['op'] : '';
 switch ($op) {
     case 'createdir':
         if (isset($_POST['path'])) {
@@ -134,7 +134,7 @@ switch ($op) {
         if (isset($_POST['redirect'])) {
             $redirect = $_POST['redirect'];
         }
-        $msg = (DirectoryChecker::createDirectory($path)) ? _DC_WFDOWNLOADS_DIRCREATED : _DC_WFDOWNLOADS_DIRNOTCREATED;
+        $msg = DirectoryChecker::createDirectory($path) ? _DC_WFDOWNLOADS_DIRCREATED : _DC_WFDOWNLOADS_DIRNOTCREATED;
         redirect_header($redirect, 2, $msg . ': ' . $path);
         exit();
         break;
@@ -148,7 +148,7 @@ switch ($op) {
         if (isset($_POST['mode'])) {
             $mode = $_POST['mode'];
         }
-        $msg = (DirectoryChecker::setDirectoryPermissions($path, $mode)) ? _DC_WFDOWNLOADS_PERMSET : _DC_WFDOWNLOADS_PERMNOTSET;
+        $msg = DirectoryChecker::setDirectoryPermissions($path, $mode) ? _DC_WFDOWNLOADS_PERMSET : _DC_WFDOWNLOADS_PERMNOTSET;
         redirect_header($redirect, 2, $msg . ': ' . $path);
         exit();
         break;

@@ -16,7 +16,6 @@
  * @package         wfdownload
  * @since           3.23
  * @author          Xoops Development Team
- * @version         svn:$id$
  */
 $currentFile = basename(__FILE__);
 include_once __DIR__ . '/admin_header.php';
@@ -25,32 +24,17 @@ include_once XOOPS_ROOT_PATH . '/class/xoopsform/grouppermform.php';
 
 if ($wfdownloads->getHandler('category')->getCount() == 0) {
     redirect_header('categories.php', 1, _AM_WFDOWNLOADS_CCATEGORY_NOEXISTS);
-    exit();
 }
 $categoryObjObjs = $wfdownloads->getHandler('category')->getObjects();
 
-$WFDownCatPermForm = new XoopsGroupPermForm(
-    _AM_WFDOWNLOADS_FCATEGORY_GROUPPROMPT,
-    $wfdownloads->getModule()->mid(),
-    'WFDownCatPerm',
-    _AM_WFDOWNLOADS_PERM_CSELECTPERMISSIONS,
-    "admin/{$currentFile}",
-    true
-);
-$WFUpCatPermForm   = new XoopsGroupPermForm(
-    _AM_WFDOWNLOADS_FCATEGORY_GROUPPROMPT_UP,
-    $wfdownloads->getModule()->mid(),
-    'WFUpCatPerm',
-    _AM_WFDOWNLOADS_PERM_CSELECTPERMISSIONS_UP,
-    "admin/{$currentFile}",
-    true
-);
+$WFDownCatPermForm = new XoopsGroupPermForm(_AM_WFDOWNLOADS_FCATEGORY_GROUPPROMPT, $wfdownloads->getModule()->mid(), 'WFDownCatPerm', _AM_WFDOWNLOADS_PERM_CSELECTPERMISSIONS, "admin/{$currentFile}", true);
+$WFUpCatPermForm   = new XoopsGroupPermForm(_AM_WFDOWNLOADS_FCATEGORY_GROUPPROMPT_UP, $wfdownloads->getModule()->mid(), 'WFUpCatPerm', _AM_WFDOWNLOADS_PERM_CSELECTPERMISSIONS_UP, "admin/{$currentFile}", true);
 foreach ($categoryObjObjs as $categoryObj) {
     $WFDownCatPermForm->addItem($categoryObj->getVar('cid'), $categoryObj->getVar('title'), $categoryObj->getVar('pid'));
     $WFUpCatPermForm->addItem($categoryObj->getVar('cid'), $categoryObj->getVar('title'), $categoryObj->getVar('pid'));
 }
 
-wfdownloads_xoops_cp_header();
+WfdownloadsUtilities::myxoops_cp_header();
 $indexAdmin = new ModuleAdmin();
 echo $indexAdmin->addNavigation($currentFile);
 

@@ -16,7 +16,6 @@
  * @package         wfdownload
  * @since           3.23
  * @author          Xoops Development Team
- * @version         svn:$id$
  */
 /**
  * !
@@ -33,7 +32,7 @@
  * echo $uploader->getErrors();
  * } else {
  * echo '<h4>File uploaded successfully!</h4>'
- * echo 'Saved as: ' . $uploader->getSavedFileName() . '<br />';
+ * echo 'Saved as: ' . $uploader->getSavedFileName() . '<br>';
  * echo 'Full path: ' . $uploader->getSavedDestination();
  * }
  * } else {
@@ -57,7 +56,7 @@
  *               echo $uploader->getErrors();
  *            } else {
  *               echo '<h4>File uploaded successfully!</h4>'
- *               echo 'Saved as: ' . $uploader->getSavedFileName() . '<br />';
+ *               echo 'Saved as: ' . $uploader->getSavedFileName() . '<br>';
  *               echo 'Full path: ' . $uploader->getSavedDestination();
  *            }
  * } else {
@@ -65,12 +64,12 @@
  * }
  * </code>
  *
- * @package kernel
- * @subpackage core
- * @author Kazumi Ono <onokazu@xoops.org>
+ * @package       kernel
+ * @subpackage    core
+ * @author        Kazumi Ono <onokazu@xoops.org>
  * @copyright (c) 2000-2003 The Xoops Project - www.xoops.org
  */
-mt_srand((double) microtime() * 1000000);
+mt_srand((double)microtime() * 1000000);
 //require_once XOOPS_ROOT_PATH . '/modules/wfdownloads/class/uploader.php';
 require_once XOOPS_ROOT_PATH . '/class/uploader.php';
 
@@ -87,10 +86,8 @@ class XoopsMediaImgUploader extends XoopsMediaUploader
      * @param int       $maxFileSize
      * @param int       $maxWidth
      * @param int       $maxHeight
-     *
-     * @internal param int $cmodvalue
      */
-    function __construct($uploadDir, $allowedMimeTypes = 0, $maxFileSize, $maxWidth = 0, $maxHeight = 0)
+    public function __construct($uploadDir, $allowedMimeTypes = 0, $maxFileSize, $maxWidth = 0, $maxHeight = 0)
     {
         parent::__construct($uploadDir, $allowedMimeTypes, $maxFileSize, $maxWidth, $maxHeight);
         $this->randomfilename = false;

@@ -16,7 +16,6 @@
  * @package         wfdownload
  * @since           3.23
  * @author          Xoops Development Team
- * @version         svn:$id$
  */
 
 defined('XOOPS_ROOT_PATH') || die('XOOPS root path not defined');
@@ -31,7 +30,7 @@ include_once __DIR__ . '/common.php';
 function wfdownloads_com_update($download_id, $commentCount)
 {
     $wfdownloads = WfdownloadsWfdownloads::getInstance();
-    $wfdownloads->getHandler('download')->updateAll('comments', (int) $commentCount, new Criteria('lid', (int) $download_id));
+    $wfdownloads->getHandler('download')->updateAll('comments', (int)$commentCount, new Criteria('lid', (int)$download_id));
 }
 
 /**

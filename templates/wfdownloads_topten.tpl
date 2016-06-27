@@ -25,7 +25,7 @@
 <{/foreach}>
   <!-- End links loop-->
 </table>
-<br />
+<br>
 <{/foreach}>
 <!-- End ranking loop -->
 <{include file='db:wfdownloads_footer.tpl'}>

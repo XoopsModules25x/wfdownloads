@@ -57,25 +57,25 @@ class WfdownloadsChoiceByLetter
     /**
      * Constructor
      *
-     * @param object        $objHandler {@link XoopsPersistableObjectHandler}
-     * @param object        $criteria {@link CriteriaElement}
-     * @param string        $field_name search by field
-     * @param array         $alphabet array of alphabet letters
-     * @param string        $arg_name item on the current page
-     * @param string        $url
-     * @param string        $extra_arg Additional arguments to pass in the URL
-     * @param boolean       $caseSensitive
+     * @param XoopsPersistableObjectHandler $objHandler {@link XoopsPersistableObjectHandler}
+     * @param CriteriaElement               $criteria   {@link CriteriaElement}
+     * @param string                        $field_name search by field
+     * @param array                         $alphabet   array of alphabet letters
+     * @param string                        $arg_name   item on the current page
+     * @param string                        $url
+     * @param string                        $extra_arg  Additional arguments to pass in the URL
+     * @param boolean                       $caseSensitive
      */
     public function __construct($objHandler, $criteria = null, $field_name = null, $alphabet = array(), $arg_name = 'letter', $url = null, $extra_arg = '', $caseSensitive = false)
     {
         $this->wfdownloads = WfdownloadsWfdownloads::getInstance();
-        $this->objHandler = $objHandler;
-        $this->criteria = is_null($criteria) ? new CriteriaCompo() : $criteria;
-        $this->field_name = is_null($field_name) ? $this->objHandler->identifierName : $field_name;
-        $this->alphabet = (count($alphabet) > 0) ? $alphabet : range('a', 'z'); // is there a way to get locale alphabet?
-        $this->arg_name = $arg_name;
-        $this->url = is_null($url) ? $_SERVER['PHP_SELF'] : $url;
-        if ($extra_arg != '' && (substr($extra_arg, - 5) != '&amp;' || substr($extra_arg, - 1) != '&')) {
+        $this->objHandler  = $objHandler;
+        $this->criteria    = null === $criteria ? new CriteriaCompo() : $criteria;
+        $this->field_name  = null === $field_name ? $this->objHandler->identifierName : $field_name;
+        $this->alphabet    = (count($alphabet) > 0) ? $alphabet : range('a', 'z'); // is there a way to get locale alphabet?
+        $this->arg_name    = $arg_name;
+        $this->url         = null === $url ? $_SERVER['PHP_SELF'] : $url;
+        if ($extra_arg !== '' && (substr($extra_arg, -5) !== '&amp;' || substr($extra_arg, -1) !== '&')) {
             $this->extra = '&amp;' . $extra_arg;
         }
         $this->caseSensitive = $caseSensitive;
@@ -91,9 +91,9 @@ class WfdownloadsChoiceByLetter
         $ret = '';
         //
         if (!$this->caseSensitive) {
-            $this->criteria->setGroupby('UPPER(LEFT(' . $this->field_name . ',1))');
+            $this->criteria->setGroupBy('UPPER(LEFT(' . $this->field_name . ',1))');
         } else {
-            $this->criteria->setGroupby('LEFT(' . $this->field_name . ',1)');
+            $this->criteria->setGroupBy('LEFT(' . $this->field_name . ',1)');
         }
         $countsByLetters = $this->objHandler->getCounts($this->criteria);
         // fill alphabet array
@@ -103,22 +103,22 @@ class WfdownloadsChoiceByLetter
             if (!$this->caseSensitive) {
                 if (isset($countsByLetters[strtoupper($letter)])) {
                     $letter_array['letter'] = $letter;
-                    $letter_array['count'] = $countsByLetters[strtoupper($letter)];
-                    $letter_array['url'] = $this->url . '?' . $this->arg_name . '=' . $letter . $this->extra;
+                    $letter_array['count']  = $countsByLetters[strtoupper($letter)];
+                    $letter_array['url']    = $this->url . '?' . $this->arg_name . '=' . $letter . $this->extra;
                 } else {
                     $letter_array['letter'] = $letter;
-                    $letter_array['count'] = 0;
-                    $letter_array['url'] = "";
+                    $letter_array['count']  = 0;
+                    $letter_array['url']    = '';
                 }
             } else {
                 if (isset($countsByLetters[$letter])) {
                     $letter_array['letter'] = $letter;
-                    $letter_array['count'] = $countsByLetters[$letter];
-                    $letter_array['url'] = $this->url . '?' . $this->arg_name . '=' . $letter . $this->extra;
+                    $letter_array['count']  = $countsByLetters[$letter];
+                    $letter_array['url']    = $this->url . '?' . $this->arg_name . '=' . $letter . $this->extra;
                 } else {
                     $letter_array['letter'] = $letter;
-                    $letter_array['count'] = 0;
-                    $letter_array['url'] = "";
+                    $letter_array['count']  = 0;
+                    $letter_array['url']    = '';
                 }
             }
             $alphabet_array[$letter] = $letter_array;
@@ -130,12 +130,12 @@ class WfdownloadsChoiceByLetter
             $GLOBALS['xoTheme'] = new xos_opal_Theme();
         }
         require_once $GLOBALS['xoops']->path('/class/template.php');
-        $choiceByLetterTpl = new XoopsTpl();
+        $choiceByLetterTpl          = new XoopsTpl();
         $choiceByLetterTpl->caching = false; // Disable cache
         $choiceByLetterTpl->assign('alphabet', $alphabet_array);
-// IN PROGRESS
-// IN PROGRESS
-// IN PROGRESS
+        // IN PROGRESS
+        // IN PROGRESS
+        // IN PROGRESS
         $ret .= $choiceByLetterTpl->fetch("db:{$this->wfdownloads->getModule()->dirname()}_co_choicebyletter.tpl");
         unset($choiceByLetterTpl);
 

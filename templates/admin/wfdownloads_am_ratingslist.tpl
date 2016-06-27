@@ -17,7 +17,7 @@
     </p>
 </fieldset>
 
-<br/>
+<br>
 
 <fieldset>
     <legend style='font-weight: bold; color: #900;'><{$smarty.const._AM_WFDOWNLOADS_VOTE_VOTES}></legend>

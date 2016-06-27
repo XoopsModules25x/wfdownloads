@@ -5,11 +5,12 @@
     <{$down_arr.description}>
 </div>
 
-<br />
+<br>
 
 <div><{$lang_review_found}></div>
 
-<br />
+<br>
+
 <table class="wfdownloads_reviews_reviewlist" cellspacing="0">
     <tr>
         <th><{$smarty.const._MD_WFDOWNLOADS_REVIEWER}></th>
@@ -25,7 +26,7 @@
         <td><img src="<{$xoops_url}>/modules/<{$smarty.const._WFDOWNLOADS_DIRNAME}>/assets/images/icon/<{$review.rated_img}>" alt="" title="" /></td>
         <td>
             <span class="wfdownloads_reviews_revlisttitle">"<{$review.title}>"</span>
-            <br />
+            <br>
             <span class="wfdownloads_reviews_revlistrev"><{$review.review}></span>
         </td>
     </tr>
@@ -38,7 +39,7 @@
 </div>
 <{/if}>
 
-<br />
+<br>
 
 <a href="<{$xoops_url}>/modules/wfdownloads/review.php?cid=<{$down_arr.cid}>&amp;lid=<{$down_arr.lid}>"><{$smarty.const._MD_WFDOWNLOADS_ADDREVIEW}></a>
 

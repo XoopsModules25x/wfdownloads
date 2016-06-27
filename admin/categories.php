@@ -16,7 +16,6 @@
  * @package         wfdownload
  * @since           3.23
  * @author          Xoops Development Team
- * @version         svn:$id$
  */
 $currentFile = basename(__FILE__);
 include_once __DIR__ . '/admin_header.php';
@@ -24,19 +23,15 @@ include_once __DIR__ . '/admin_header.php';
 // Check directories
 if (!is_dir($wfdownloads->getConfig('uploaddir'))) {
     redirect_header('index.php', 4, _AM_WFDOWNLOADS_ERROR_UPLOADDIRNOTEXISTS);
-    exit();
 }
 if (!is_dir(XOOPS_ROOT_PATH . '/' . $wfdownloads->getConfig('mainimagedir'))) {
     redirect_header('index.php', 4, _AM_WFDOWNLOADS_ERROR_MAINIMAGEDIRNOTEXISTS);
-    exit();
 }
 if (!is_dir(XOOPS_ROOT_PATH . '/' . $wfdownloads->getConfig('screenshots'))) {
     redirect_header('index.php', 4, _AM_WFDOWNLOADS_ERROR_SCREENSHOTSDIRNOTEXISTS);
-    exit();
 }
 if (!is_dir(XOOPS_ROOT_PATH . '/' . $wfdownloads->getConfig('catimage'))) {
     redirect_header('index.php', 4, _AM_WFDOWNLOADS_ERROR_CATIMAGEDIRNOTEXISTS);
-    exit();
 }
 
 $op = XoopsRequest::getString('op', 'categories.list');
@@ -44,10 +39,10 @@ switch ($op) {
     case 'category.move':
     case 'move':
         $ok = XoopsRequest::getBool('ok', false, 'POST');
-        if ($ok == false) {
+        if (false === $ok) {
             $cid = XoopsRequest::getInt('cid', 0);
 
-            wfdownloads_xoops_cp_header();
+            WfdownloadsUtilities::myxoops_cp_header();
 
             xoops_load('XoopsFormLoader');
             $sform = new XoopsThemeForm(_AM_WFDOWNLOADS_CCATEGORY_MOVE, 'move', xoops_getenv('PHP_SELF'));
@@ -83,7 +78,6 @@ switch ($op) {
                 trigger_error($error, E_USER_ERROR);
             }
             redirect_header($currentFile, 1, _AM_WFDOWNLOADS_CCATEGORY_MODIFY_MOVED);
-            exit();
         }
         break;
 
@@ -91,10 +85,10 @@ switch ($op) {
     case 'addCat':
         $cid          = XoopsRequest::getInt('cid', 0, 'POST');
         $pid          = XoopsRequest::getInt('pid', 0, 'POST');
-        $weight       = (isset($_POST['weight']) && $_POST['weight'] > 0) ? (int)$_POST["weight"] : 0;
+        $weight       = (isset($_POST['weight']) && $_POST['weight'] > 0) ? (int)$_POST['weight'] : 0;
         $down_groups  = isset($_POST['groups']) ? $_POST['groups'] : array();
         $up_groups    = isset($_POST['up_groups']) ? $_POST['up_groups'] : array();
-        $spotlighthis = (isset($_POST['lid'])) ? (int)$_POST['lid'] : 0;
+        $spotlighthis = isset($_POST['lid']) ? (int)$_POST['lid'] : 0;
         $spotlighttop = (isset($_POST['spotlighttop']) && ($_POST['spotlighttop'] == 1)) ? 1 : 0;
 
         include_once XOOPS_ROOT_PATH . '/class/uploader.php';
@@ -115,14 +109,14 @@ switch ($op) {
                 $imgUrl = $uploader->getSavedFileName();
             }
         } else {
-            $imgUrl = (isset($_POST['imgurl']) && $_POST['imgurl'] != 'blank.png') ? $myts->addslashes($_POST['imgurl']) : '';
+            $imgUrl = (isset($_POST['imgurl']) && $_POST['imgurl'] !== 'blank.png') ? $myts->addSlashes($_POST['imgurl']) : '';
         }
 
         if (!$cid) {
             $categoryObj = $wfdownloads->getHandler('category')->create();
         } else {
             $categoryObj = $wfdownloads->getHandler('category')->get($cid);
-            $childcats = $wfdownloads->getHandler('category')->getChildCats($categoryObj);
+            $childcats   = $wfdownloads->getHandler('category')->getChildCats($categoryObj);
             if ($pid == $cid || in_array($pid, array_keys($childcats))) {
                 $categoryObj->setErrors(_AM_WFDOWNLOADS_CCATEGORY_CHILDASPARENT);
             }
@@ -139,12 +133,12 @@ switch ($op) {
         $categoryObj->setVar('doxcode', isset($_POST['doxcode']));
         $categoryObj->setVar('doimage', isset($_POST['doimage']));
         $categoryObj->setVar('dobr', isset($_POST['dobr']));
-// Formulize module support (2006/05/04) jpc - start
-        if (wfdownloads_checkModule('formulize')) {
-            $formulize_fid = (isset($_POST['formulize_fid'])) ? (int)$_POST['formulize_fid'] : 0;
+        // Formulize module support (2006/05/04) jpc - start
+        if (WfdownloadsUtilities::checkModule('formulize')) {
+            $formulize_fid = isset($_POST['formulize_fid']) ? (int)$_POST['formulize_fid'] : 0;
             $categoryObj->setVar('formulize_fid', $formulize_fid);
         }
-// Formulize module support (2006/05/04) jpc - end
+        // Formulize module support (2006/05/04) jpc - end
         $categoryObj->setVar('spotlighthis', $spotlighthis);
         $categoryObj->setVar('spotlighttop', $spotlighttop);
 
@@ -155,19 +149,19 @@ switch ($op) {
             if ($cid == 0) {
                 $newid = (int)$categoryObj->getVar('cid');
             }
-            wfdownloads_savePermissions($down_groups, $newid, 'WFDownCatPerm');
-            wfdownloads_savePermissions($up_groups, $newid, 'WFUpCatPerm');
+            WfdownloadsUtilities::savePermissions($down_groups, $newid, 'WFDownCatPerm');
+            WfdownloadsUtilities::savePermissions($up_groups, $newid, 'WFUpCatPerm');
             // Notify of new category
             $tags                  = array();
             $tags['CATEGORY_NAME'] = $_POST['title'];
             $tags['CATEGORY_URL']  = WFDOWNLOADS_URL . '/viewcat.php?cid=' . $newid;
-            $notification_handler  = xoops_gethandler('notification');
-            $notification_handler->triggerEvent('global', 0, 'new_category', $tags);
+            $notificationHandler   = xoops_getHandler('notification');
+            $notificationHandler->triggerEvent('global', 0, 'new_category', $tags);
             $database_mess = _AM_WFDOWNLOADS_CCATEGORY_CREATED;
         } else {
             $database_mess = _AM_WFDOWNLOADS_CCATEGORY_MODIFIED;
-            wfdownloads_savePermissions($down_groups, $cid, 'WFDownCatPerm');
-            wfdownloads_savePermissions($up_groups, $cid, 'WFUpCatPerm');
+            WfdownloadsUtilities::savePermissions($down_groups, $cid, 'WFDownCatPerm');
+            WfdownloadsUtilities::savePermissions($up_groups, $cid, 'WFUpCatPerm');
         }
         redirect_header($currentFile, 1, $database_mess);
         break;
@@ -212,9 +206,8 @@ switch ($op) {
             }
 
             redirect_header($currentFile, 1, _AM_WFDOWNLOADS_CCATEGORY_DELETED);
-            exit();
         } else {
-            wfdownloads_xoops_cp_header();
+            WfdownloadsUtilities::myxoops_cp_header();
             xoops_confirm(array('op' => 'category.delete', 'cid' => $cid, 'ok' => true), $currentFile, _AM_WFDOWNLOADS_CCATEGORY_AREUSURE);
             xoops_cp_footer();
         }
@@ -223,7 +216,7 @@ switch ($op) {
     case 'category.add':
     case 'category.edit':
     case 'modCat':
-        wfdownloads_xoops_cp_header();
+        WfdownloadsUtilities::myxoops_cp_header();
         $indexAdmin = new ModuleAdmin();
         echo $indexAdmin->addNavigation($currentFile);
 
@@ -245,7 +238,7 @@ switch ($op) {
     case 'categories.list':
     case 'main':
     default:
-        wfdownloads_xoops_cp_header();
+        WfdownloadsUtilities::myxoops_cp_header();
         $indexAdmin = new ModuleAdmin();
         echo $indexAdmin->addNavigation($currentFile);
 
@@ -253,9 +246,9 @@ switch ($op) {
         $adminMenu->addItemButton(_AM_WFDOWNLOADS_CCATEGORY_CREATENEW, "{$currentFile}?op=category.add", 'add');
         echo $adminMenu->renderButton();
 
-        $totalCategories = wfdownloads_categoriesCount();
+        $totalCategories = WfdownloadsUtilities::categoriesCount();
         if ($totalCategories > 0) {
-            $sorted_categories = wfdownloads_sortCategories();
+            $sorted_categories = WfdownloadsUtilities::sortCategories();
             $GLOBALS['xoopsTpl']->assign('sorted_categories', $sorted_categories);
             $GLOBALS['xoopsTpl']->assign('token', $GLOBALS['xoopsSecurity']->getTokenHTML());
             $GLOBALS['xoopsTpl']->display("db:{$wfdownloads->getModule()->dirname()}_am_categorieslist.tpl");
@@ -282,7 +275,6 @@ switch ($op) {
                 unset($categoryObj);
             }
             redirect_header($currentFile, 1, _AM_WFDOWNLOADS_CATEGORIES_REORDERED);
-            exit();
         }
         break;
 }

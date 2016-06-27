@@ -10,7 +10,6 @@
                 <th><{$smarty.const._AM_WFDOWNLOADS_MINDEX_ID}></th>
                 <th><{$smarty.const._AM_WFDOWNLOADS_MINDEX_TITLE}></th>
                 <th><{$smarty.const._AM_WFDOWNLOADS_FCATEGORY_TITLE}></th>
-                <th><{$smarty.const._MD_WFDOWNLOADS_WEIGHT}></th>
                 <th><{$smarty.const._AM_WFDOWNLOADS_MINDEX_POSTER}></th>
                 <th><{$smarty.const._AM_WFDOWNLOADS_MINDEX_SUBMITTED}></th>
                 <th><{$smarty.const._AM_WFDOWNLOADS_MINDEX_ONLINESTATUS}></th>
@@ -36,7 +35,6 @@
                         </select>
                         <input id='filter_category_title' type='text' value='<{$filter_category_title}>' maxlength='100' size='15' title='' name='filter_category_title'>
                     </td>
-                    <td>&nbsp;</td>
                     <td><{$filter_submitter_select}></td>
                     <td>
                         <{*
@@ -70,7 +68,6 @@
                     <td>
                         <a href='../viewcat.php?cid=<{$download.cid}>'><{$download.category_title}></a>
                     </td>
-                    <td><{$download.weight}></td>
                     <td><{$download.submitter_uname}></td>
                     <td><{$download.published_formatted}></td>
                     <td align='center'>
@@ -106,7 +103,7 @@
     <{/if}>
 </fieldset>
 
-<br/>
+<br>
 
 <fieldset>
     <legend style='font-weight: bold; color: #900;'><{$smarty.const._AM_WFDOWNLOADS_MINDEX_NEWDOWN}></legend>
@@ -146,11 +143,11 @@
     <{/if}>
 </fieldset>
 
-<br/>
+<br>
 
 <fieldset>
     <legend style='font-weight: bold; color: #900;'><{$smarty.const._AM_WFDOWNLOADS_MINDEX_AUTOPUBLISHEDDOWN}></legend>
-    <br/>
+    <br>
     <{if ($autopublished_downloads_count == 0)}>
         <{$smarty.const._AM_WFDOWNLOADS_MINDEX_NODOWNLOADSFOUND}>
     <{else}>
@@ -204,11 +201,11 @@
     <{/if}>
 </fieldset>
 
-<br/>
+<br>
 
 <fieldset>
     <legend style='font-weight: bold; color: #900;'><{$smarty.const._AM_WFDOWNLOADS_MINDEX_EXPIREDDOWN}></legend>
-    <br/>
+    <br>
     <{if ($expired_downloads_count == 0)}>
         <{$smarty.const._AM_WFDOWNLOADS_MINDEX_NODOWNLOADSFOUND}>
     <{else}>
@@ -262,11 +259,11 @@
     <{/if}>
 </fieldset>
 
-<br/>
+<br>
 
 <fieldset>
     <legend style='font-weight: bold; color: #900;'><{$smarty.const._AM_WFDOWNLOADS_MINDEX_OFFLINEDOWN}></legend>
-    <br/>
+    <br>
     <{if ($offline_downloads_count == 0)}>
         <{$smarty.const._AM_WFDOWNLOADS_MINDEX_NODOWNLOADSFOUND}>
     <{else}>
@@ -320,13 +317,13 @@
     <{/if}>
 </fieldset>
 
-<br/>
+<br>
 
 <fieldset>
     <legend style='font-weight: bold; color: #900;'><{$smarty.const._AM_WFDOWNLOADS_MINDEX_BATCHFILES}></legend>
-    <br/>
+    <br>
     <{$smarty.const._AM_WFDOWNLOADS_MINDEX_BATCHPATH}>: <{$batch_path}>
-    <br/>
+    <br>
     <{if ($batch_files_count == 0)}>
     <{$smarty.const._AM_WFDOWNLOADS_MINDEX_NOBATCHFILESFOUND}>
     <{else}>
