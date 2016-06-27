@@ -63,14 +63,14 @@ if (@$_POST['op'] === 'submit') {
         $message .= _AM_WFDOWNLOADS_CLONE_FAIL;
     }
 
-    wfdownloads_xoops_cp_header();
+    WfdownloadsUtilities::myxoops_cp_header();
     $indexAdmin = new ModuleAdmin();
     echo $indexAdmin->addNavigation($currentFile);
     echo $message;
     include_once __DIR__ . '/admin_footer.php';
     exit();
 } else {
-    wfdownloads_xoops_cp_header();
+    WfdownloadsUtilities::myxoops_cp_header();
     $indexAdmin = new ModuleAdmin();
     echo $indexAdmin->addNavigation($currentFile);
     xoops_load('XoopsFormLoader');

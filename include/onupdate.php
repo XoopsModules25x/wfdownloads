@@ -46,7 +46,7 @@ function xoops_module_update_wfdownloads(XoopsModule $xoopsModule, $previousVers
     } else {
         echo $feedback;
     }
-    wfdownloads_setMeta('version', '3.23'); //Set meta version to current
+    WfdownloadsUtilities::setMeta('version', '3.23'); //Set meta version to current
 
     return true;
 }
@@ -118,9 +118,9 @@ function update_tables_to_323($module)
     //    "old_name" => "new_name"
     //);
     echo "<br><span style='font-weight: bold;'>Checking Download table</span><br>";
-    $download_handler = xoops_getModuleHandler('download', 'wfdownloads');
+    $downloadHandler = xoops_getModuleHandler('download', 'wfdownloads');
     $download_table   = new WfdownloadsTable('wfdownloads_downloads');
-    $fields           = get_table_info($download_handler->table, $download_fields);
+    $fields           = get_table_info($downloadHandler->table, $download_fields);
     // check for renamed fields
     //rename_fields($download_table, $renamed_fields, $fields, $download_fields);
     // check for updated fields
@@ -130,7 +130,7 @@ function update_tables_to_323($module)
     }
     unset($fields);
     // populate screenshots with screenshot, screenshot2, screenshot3, screenshot4 values
-    $downloadsObjs = $download_handler->getObjects();
+    $downloadsObjs = $downloadHandler->getObjects();
     foreach ($downloadsObjs as $downloadsObj) {
         $screenshots   = array();
         $screenshots[] = $downloadsObj->getVar('screenshot');
@@ -139,7 +139,7 @@ function update_tables_to_323($module)
         $screenshots[] = $downloadsObj->getVar('screenshot4');
         $downloadsObj->setVar('screenshots', $screenshots);
         unset($screenshots);
-        $download_handler->insert($downloadsObj);
+        $downloadHandler->insert($downloadsObj);
     }
 
     // update wfdownloads_mod table
@@ -202,9 +202,9 @@ function update_tables_to_323($module)
     //    "old_name" => "new_name"
     //);
     echo "<br><span style='font-weight: bold;'>Checking Modified Downloads table</span><br>";
-    $mod_handler = xoops_getModuleHandler('modification', 'wfdownloads');
+    $modificationHandler = xoops_getModuleHandler('modification', 'wfdownloads');
     $mod_table   = new WfdownloadsTable('wfdownloads_mod');
-    $fields      = get_table_info($mod_handler->table, $mod_fields);
+    $fields      = get_table_info($modificationHandler->table, $mod_fields);
     // check for renamed fields
     //rename_fields($mod_table, $renamed_fields, $fields, $mod_fields);
     // check for updated fields
@@ -225,9 +225,9 @@ function update_tables_to_323($module)
 function update_permissions_to_323($module)
 {
     $gpermHandler     = xoops_getHandler('groupperm');
-    $category_handler = xoops_getModuleHandler('category', $module->dirname());
+    $wfdCategoriesHandler = xoops_getModuleHandler('category', $module->dirname());
 
-    $cids = $category_handler->getIds();
+    $cids = $wfdCategoriesHandler->getIds();
     if (count($cids) > 0) {
         echo "<br><span style='font-weight: bold;'>Adding upload permissions to categories</span><br>";
         foreach ($cids as $cid) {
@@ -254,7 +254,7 @@ function update_tables_to_322($module)
     $dbupdater = new WfdownloadsDbupdater();
 
     // create wfdownloads_meta table
-    if (!wfdownloads_TableExists('wfdownloads_meta')) {
+    if (!WfdownloadsUtilities::tableExists('wfdownloads_meta')) {
         $table = new WfdownloadsTable('wfdownloads_meta');
         $table->setStructure("CREATE TABLE %s (
                 metakey varchar(50) NOT NULL default '',
@@ -268,7 +268,7 @@ function update_tables_to_322($module)
     }
 
     // create wfdownloads_mirror table
-    if (!wfdownloads_TableExists('wfdownloads_mirrors')) {
+    if (!WfdownloadsUtilities::tableExists('wfdownloads_mirrors')) {
         $table = new WfdownloadsTable('wfdownloads_mirrors');
         $table->setStructure("CREATE TABLE %s (
                 mirror_id int(11) unsigned NOT NULL auto_increment,
@@ -290,7 +290,7 @@ function update_tables_to_322($module)
     }
 
     // create wfdownloads_ip_log table
-    if (!wfdownloads_TableExists('wfdownloads_ip_log')) {
+    if (!WfdownloadsUtilities::tableExists('wfdownloads_ip_log')) {
         $table = new WfdownloadsTable('wfdownloads_ip_log');
         $table->setStructure("CREATE TABLE %s (
                 ip_logid int(11) NOT NULL auto_increment,
@@ -354,9 +354,9 @@ function update_tables_to_322($module)
         'logourl' => 'screenshot'
     );
     echo "<br><span style='font-weight: bold;'>Checking Download table</span><br>";
-    $download_handler = xoops_getModuleHandler('download', 'wfdownloads');
+    $downloadHandler = xoops_getModuleHandler('download', 'wfdownloads');
     $download_table   = new WfdownloadsTable('wfdownloads_downloads');
-    $fields           = get_table_info($download_handler->table, $download_fields);
+    $fields           = get_table_info($downloadHandler->table, $download_fields);
     // check for renamed fields
     rename_fields($download_table, $renamed_fields, $fields, $download_fields);
     update_table($download_fields, $fields, $download_table);
@@ -418,9 +418,9 @@ function update_tables_to_322($module)
         'logourl' => 'screenshot'
     );
     echo "<br><span style='font-weight: bold;'>Checking Modified Downloads table</span><br>";
-    $mod_handler = xoops_getModuleHandler('modification', 'wfdownloads');
+    $modificationHandler = xoops_getModuleHandler('modification', 'wfdownloads');
     $mod_table   = new WfdownloadsTable('wfdownloads_mod');
-    $fields      = get_table_info($mod_handler->table, $mod_fields);
+    $fields      = get_table_info($modificationHandler->table, $mod_fields);
     rename_fields($mod_table, $renamed_fields, $fields, $mod_fields);
     update_table($mod_fields, $fields, $mod_table);
     if ($dbupdater->updateTable($mod_table)) {
@@ -448,9 +448,9 @@ function update_tables_to_322($module)
         'formulize_fid' => array('Type' => "int(5) NOT NULL default '0'", 'Default' => true)
     );
     echo "<br><span style='font-weight: bold;'>Checking Category table</span><br>";
-    $cat_handler = xoops_getModuleHandler('category', 'wfdownloads');
+    $wfdCategoriesHandler = xoops_getModuleHandler('category', 'wfdownloads');
     $cat_table   = new WfdownloadsTable('wfdownloads_cat');
-    $fields      = get_table_info($cat_handler->table, $cat_fields);
+    $fields      = get_table_info($wfdCategoriesHandler->table, $cat_fields);
     update_table($cat_fields, $fields, $cat_table);
     if ($dbupdater->updateTable($cat_table)) {
         echo 'Category table updated<br>';
@@ -468,9 +468,9 @@ function update_tables_to_322($module)
         'acknowledged' => array('Type' => "tinyint(1) NOT NULL default '0'", 'Default' => true)
     );
     echo "<br><span style='font-weight: bold;'>Checking Broken Report table</span><br>";
-    $broken_handler = xoops_getModuleHandler('report', 'wfdownloads');
+    $brokenHandler = xoops_getModuleHandler('report', 'wfdownloads');
     $broken_table   = new WfdownloadsTable('wfdownloads_broken');
-    $fields         = get_table_info($broken_handler->table, $broken_fields);
+    $fields         = get_table_info($brokenHandler->table, $broken_fields);
     update_table($broken_fields, $fields, $broken_table);
     if ($dbupdater->updateTable($broken_table)) {
         echo 'Broken Reports table updated<br>';
@@ -489,8 +489,8 @@ function update_tables_to_322($module)
 function invert_nohtm_dohtml_values()
 {
     $ret         = array();
-    $cat_handler = xoops_getModuleHandler('category', 'wfdownloads');
-    $result      = $GLOBALS['xoopsDB']->query('SHOW COLUMNS FROM ' . $cat_handler->table);
+    $wfdCategoriesHandler = xoops_getModuleHandler('category', 'wfdownloads');
+    $result      = $GLOBALS['xoopsDB']->query('SHOW COLUMNS FROM ' . $wfdCategoriesHandler->table);
     while (false !== ($existing_field = $GLOBALS['xoopsDB']->fetchArray($result))) {
         $fields[$existing_field['Field']] = $existing_field['Type'];
     }

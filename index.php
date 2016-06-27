@@ -73,7 +73,7 @@ $xoopsTpl->assign('wfdownloads_url', WFDOWNLOADS_URL . '/');
 $breadcrumb = new WfdownloadsBreadcrumb();
 $breadcrumb->addLink($wfdownloads->getModule()->getVar('name'), WFDOWNLOADS_URL);
 
-$xoopsTpl->assign('module_home', wfdownloads_module_home(false)); // this definition is not removed for backward compatibility issues
+$xoopsTpl->assign('module_home', WfdownloadsUtilities::module_home(false)); // this definition is not removed for backward compatibility issues
 $xoopsTpl->assign('wfdownloads_breadcrumb', $breadcrumb->render());
 
 $categoryCriteria = new CriteriaCompo();
@@ -86,7 +86,7 @@ $categoryObjsTree = new XoopsObjectTree($categoryObjs, 'cid', 'pid');
 // Generate content header
 $sql                          = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('wfdownloads_indexpage') . ' ';
 $head_arr                     = $GLOBALS['xoopsDB']->fetchArray($GLOBALS['xoopsDB']->query($sql));
-$catarray['imageheader']      = wfdownloads_headerImage();
+$catarray['imageheader']      = WfdownloadsUtilities::headerImage();
 $catarray['indexheaderalign'] = $head_arr['indexheaderalign'];
 $catarray['indexfooteralign'] = $head_arr['indexfooteralign'];
 $html                         = $head_arr['nohtml'] ? 1 : 0;
@@ -96,15 +96,15 @@ $images                       = $head_arr['noimages'] ? 1 : 0;
 $breaks                       = $head_arr['nobreak'] ? 1 : 0;
 $catarray['indexheader']      =& $myts->displayTarea($head_arr['indexheader'], $html, $smiley, $xcodes, $images, $breaks);
 $catarray['indexfooter']      =& $myts->displayTarea($head_arr['indexfooter'], $html, $smiley, $xcodes, $images, $breaks);
-$catarray['letters']          = wfdownloads_lettersChoice();
-$catarray['toolbar']          = wfdownloads_toolbar();
+$catarray['letters']          = WfdownloadsUtilities::lettersChoice();
+$catarray['toolbar']          = WfdownloadsUtilities::toolbar();
 $xoopsTpl->assign('catarray', $catarray);
 
 // Begin Main page download info
 $chcount = 0;
 $countin = 0;
 
-$listings = wfdownloads_getTotalDownloads($allowedDownCategoriesIds);
+$listings = WfdownloadsUtilities::getTotalDownloads($allowedDownCategoriesIds);
 
 // Get total amount of categories
 $total_cat = count($allowedDownCategoriesIds);
@@ -189,11 +189,11 @@ foreach (array_keys($mainCategoryObjs) as $i) {
                 }
             }
         }
-        $isNewImage = wfdownloads_isNewImage($publishdate);
+        $isNewImage = WfdownloadsUtilities::isNewImage($publishdate);
         if (($mainCategoryObjs[$i]->getVar('imgurl') !== '') && is_file(XOOPS_ROOT_PATH . '/' . $wfdownloads->getConfig('catimage') . '/' . $mainCategoryObjs[$i]->getVar('imgurl'))) {
             if ($wfdownloads->getConfig('usethumbs') && function_exists('gd_info')) {
                 $imageURL =
-                    wfdownloads_createThumb($mainCategoryObjs[$i]->getVar('imgurl'), $wfdownloads->getConfig('catimage'), 'thumbs', $wfdownloads->getConfig('cat_imgwidth'), $wfdownloads->getConfig('cat_imgheight'), $wfdownloads->getConfig('imagequality'), $wfdownloads->getConfig('updatethumbs'),
+                    WfdownloadsUtilities::createThumb($mainCategoryObjs[$i]->getVar('imgurl'), $wfdownloads->getConfig('catimage'), 'thumbs', $wfdownloads->getConfig('cat_imgwidth'), $wfdownloads->getConfig('cat_imgheight'), $wfdownloads->getConfig('imagequality'), $wfdownloads->getConfig('updatethumbs'),
                                             $wfdownloads->getConfig('keepaspect'));
             } else {
                 $imageURL = XOOPS_URL . '/' . $wfdownloads->getConfig('catimage') . '/' . $mainCategoryObjs[$i]->getVar('imgurl');

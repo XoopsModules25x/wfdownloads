@@ -77,7 +77,7 @@ if ($wfdownloads->getConfig('showDowndisclaimer') && $agreed === false) {
 
     $xoopsTpl->assign('wfdownloads_url', WFDOWNLOADS_URL . '/');
 
-    $catarray['imageheader'] = wfdownloads_headerImage();
+    $catarray['imageheader'] = WfdownloadsUtilities::headerImage();
     $xoopsTpl->assign('catarray', $catarray);
 
     // Breadcrumb
@@ -89,7 +89,7 @@ if ($wfdownloads->getConfig('showDowndisclaimer') && $agreed === false) {
     $xoopsTpl->assign('lid', $lid);
     $xoopsTpl->assign('cid', $cid);
 
-    $xoopsTpl->assign('image_header', wfdownloads_headerImage());
+    $xoopsTpl->assign('image_header', WfdownloadsUtilities::headerImage());
 
     $xoopsTpl->assign('submission_disclaimer', false);
     $xoopsTpl->assign('download_disclaimer', true);
@@ -101,7 +101,7 @@ if ($wfdownloads->getConfig('showDowndisclaimer') && $agreed === false) {
     $xoopsTpl->assign('agree_location', WFDOWNLOADS_URL . "/{$currentFile}?agree=1&amp;lid={$lid}&amp;cid={$cid}");
     include_once __DIR__ . '/footer.php';
 } else {
-    if (!wfdownloads_userIsAdmin()) {
+    if (!WfdownloadsUtilities::userIsAdmin()) {
         $wfdownloads->getHandler('download')->incrementHits($lid);
     }
     // Create ip log
@@ -125,7 +125,7 @@ if ($wfdownloads->getConfig('showDowndisclaimer') && $agreed === false) {
 
         $xoopsTpl->assign('wfdownloads_url', WFDOWNLOADS_URL . '/');
 
-        echo "<div align='center'>" . wfdownloads_headerImage() . '</div>';
+        echo "<div align='center'>" . WfdownloadsUtilities::headerImage() . '</div>';
         $url = $myts->htmlSpecialChars(preg_replace('/javascript:/si', 'javascript:', $downloadObj->getVar('url')), ENT_QUOTES);
         echo "<h4>\n";
         echo "<img src='" . WFDOWNLOADS_URL . "/assets/images/icon/downloads.gif' align='middle' alt='' title='" . _MD_WFDOWNLOADS_DOWNINPROGRESS . "' /> " . _MD_WFDOWNLOADS_DOWNINPROGRESS . "\n";
@@ -171,17 +171,17 @@ if ($wfdownloads->getConfig('showDowndisclaimer') && $agreed === false) {
         header("Content-Disposition: attachment; filename={$headerFilename}");
         if (false !== strpos($fileMimetype, 'text/')) {
             // downladed file is not binary
-            wfdownloads_download($filePath, false, true);
+            WfdownloadsUtilities::download($filePath, false, true);
         } else {
             // downladed file is binary
-            wfdownloads_download($filePath, true, true);
+            WfdownloadsUtilities::download($filePath, true, true);
         }
         exit();
     } else {
         // download is a broken file: report broken
         include_once XOOPS_ROOT_PATH . '/header.php';
         echo '<br>';
-        echo "<div align='center'>" . wfdownloads_headerImage() . '</div>';
+        echo "<div align='center'>" . WfdownloadsUtilities::headerImage() . '</div>';
         echo '<h4>' . _MD_WFDOWNLOADS_BROKENFILE . "</h4>\n";
         echo '<div>' . _MD_WFDOWNLOADS_PLEASEREPORT . "\n";
         echo "<a href='" . WFDOWNLOADS_URL . "/brokenfile.php?lid={$lid}'>" . _MD_WFDOWNLOADS_CLICKHERE . "</a>\n";

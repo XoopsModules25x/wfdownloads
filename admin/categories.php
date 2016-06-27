@@ -46,7 +46,7 @@ switch ($op) {
         if (false === $ok) {
             $cid = XoopsRequest::getInt('cid', 0);
 
-            wfdownloads_xoops_cp_header();
+            WfdownloadsUtilities::myxoops_cp_header();
 
             xoops_load('XoopsFormLoader');
             $sform = new XoopsThemeForm(_AM_WFDOWNLOADS_CCATEGORY_MOVE, 'move', xoops_getenv('PHP_SELF'));
@@ -139,7 +139,7 @@ switch ($op) {
         $categoryObj->setVar('doimage', isset($_POST['doimage']));
         $categoryObj->setVar('dobr', isset($_POST['dobr']));
         // Formulize module support (2006/05/04) jpc - start
-        if (wfdownloads_checkModule('formulize')) {
+        if (WfdownloadsUtilities::checkModule('formulize')) {
             $formulize_fid = isset($_POST['formulize_fid']) ? (int)$_POST['formulize_fid'] : 0;
             $categoryObj->setVar('formulize_fid', $formulize_fid);
         }
@@ -154,8 +154,8 @@ switch ($op) {
             if ($cid == 0) {
                 $newid = (int)$categoryObj->getVar('cid');
             }
-            wfdownloads_savePermissions($down_groups, $newid, 'WFDownCatPerm');
-            wfdownloads_savePermissions($up_groups, $newid, 'WFUpCatPerm');
+            WfdownloadsUtilities::savePermissions($down_groups, $newid, 'WFDownCatPerm');
+            WfdownloadsUtilities::savePermissions($up_groups, $newid, 'WFUpCatPerm');
             // Notify of new category
             $tags                  = array();
             $tags['CATEGORY_NAME'] = $_POST['title'];
@@ -165,8 +165,8 @@ switch ($op) {
             $database_mess = _AM_WFDOWNLOADS_CCATEGORY_CREATED;
         } else {
             $database_mess = _AM_WFDOWNLOADS_CCATEGORY_MODIFIED;
-            wfdownloads_savePermissions($down_groups, $cid, 'WFDownCatPerm');
-            wfdownloads_savePermissions($up_groups, $cid, 'WFUpCatPerm');
+            WfdownloadsUtilities::savePermissions($down_groups, $cid, 'WFDownCatPerm');
+            WfdownloadsUtilities::savePermissions($up_groups, $cid, 'WFUpCatPerm');
         }
         redirect_header($currentFile, 1, $database_mess);
         break;
@@ -213,7 +213,7 @@ switch ($op) {
             redirect_header($currentFile, 1, _AM_WFDOWNLOADS_CCATEGORY_DELETED);
             exit();
         } else {
-            wfdownloads_xoops_cp_header();
+            WfdownloadsUtilities::myxoops_cp_header();
             xoops_confirm(array('op' => 'category.delete', 'cid' => $cid, 'ok' => true), $currentFile, _AM_WFDOWNLOADS_CCATEGORY_AREUSURE);
             xoops_cp_footer();
         }
@@ -222,7 +222,7 @@ switch ($op) {
     case 'category.add':
     case 'category.edit':
     case 'modCat':
-        wfdownloads_xoops_cp_header();
+        WfdownloadsUtilities::myxoops_cp_header();
         $indexAdmin = new ModuleAdmin();
         echo $indexAdmin->addNavigation($currentFile);
 
@@ -244,7 +244,7 @@ switch ($op) {
     case 'categories.list':
     case 'main':
     default:
-        wfdownloads_xoops_cp_header();
+        WfdownloadsUtilities::myxoops_cp_header();
         $indexAdmin = new ModuleAdmin();
         echo $indexAdmin->addNavigation($currentFile);
 
@@ -252,9 +252,9 @@ switch ($op) {
         $adminMenu->addItemButton(_AM_WFDOWNLOADS_CCATEGORY_CREATENEW, "{$currentFile}?op=category.add", 'add');
         echo $adminMenu->renderButton();
 
-        $totalCategories = wfdownloads_categoriesCount();
+        $totalCategories = WfdownloadsUtilities::categoriesCount();
         if ($totalCategories > 0) {
-            $sorted_categories = wfdownloads_sortCategories();
+            $sorted_categories = WfdownloadsUtilities::sortCategories();
             $GLOBALS['xoopsTpl']->assign('sorted_categories', $sorted_categories);
             $GLOBALS['xoopsTpl']->assign('token', $GLOBALS['xoopsSecurity']->getTokenHTML());
             $GLOBALS['xoopsTpl']->display("db:{$wfdownloads->getModule()->dirname()}_am_categorieslist.tpl");

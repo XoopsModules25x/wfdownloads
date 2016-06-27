@@ -35,7 +35,7 @@ foreach ($categoryObjObjs as $categoryObj) {
     $WFUpCatPermForm->addItem($categoryObj->getVar('cid'), $categoryObj->getVar('title'), $categoryObj->getVar('pid'));
 }
 
-wfdownloads_xoops_cp_header();
+WfdownloadsUtilities::myxoops_cp_header();
 $indexAdmin = new ModuleAdmin();
 echo $indexAdmin->addNavigation($currentFile);
 

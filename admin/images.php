@@ -78,7 +78,7 @@ switch ($op) {
                 redirect_header($currentFile, 1, _AM_WFDOWNLOADS_DOWN_NOFILEERROR);
                 exit();
             }
-            wfdownloads_xoops_cp_header();
+            WfdownloadsUtilities::myxoops_cp_header();
             xoops_confirm(array('op' => 'image.delete', 'uploadpath' => $_POST['uploadpath'], 'downfile' => $_POST['downfile'], 'ok' => true), $currentFile, _AM_WFDOWNLOADS_DOWN_DELETEFILE . '<br><br>' . $_POST['downfile'], _AM_WFDOWNLOADS_BDELETE);
             include_once __DIR__ . '/admin_footer.php';
         }
@@ -91,7 +91,7 @@ switch ($op) {
         $displayImage = '';
         $rootPath     = XoopsRequest::getInt('rootpath', 0);
 
-        wfdownloads_xoops_cp_header();
+        WfdownloadsUtilities::myxoops_cp_header();
         $indexAdmin = new ModuleAdmin();
         echo $indexAdmin->addNavigation($currentFile);
 
@@ -163,6 +163,6 @@ switch ($op) {
             $iform->addElement($dup_tray);
         }
         $iform->display();
-        echo wfdownloads_serverStats();
+        echo WfdownloadsUtilities::serverStats();
         include_once __DIR__ . '/admin_footer.php';
 }

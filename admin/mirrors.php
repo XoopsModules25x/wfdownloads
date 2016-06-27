@@ -41,7 +41,7 @@ switch ($op) {
                 exit();
             }
         } else {
-            wfdownloads_xoops_cp_header();
+            WfdownloadsUtilities::myxoops_cp_header();
             xoops_confirm(array('op' => 'del_mirror', 'mirror_id' => $mirror_id, 'ok' => true), $currentFile, _AM_WFDOWNLOADS_FILE_REALLYDELETEDTHIS . '<br><br>' . $mirrorObj->getVar('title'), _AM_WFDOWNLOADS_BDELETE);
             xoops_cp_footer();
         }
@@ -60,7 +60,7 @@ switch ($op) {
             redirect_header($currentFile, 1, sprintf(_AM_WFDOWNLOADS_MIRROR_MIRROR_UPDATED, $mirrorObj->getVar('title')));
             exit();
         } else {
-            wfdownloads_xoops_cp_header();
+            WfdownloadsUtilities::myxoops_cp_header();
             xoops_confirm(array('op' => 'mirror.approve', 'mirror_id' => $mirror_id, 'ok' => true), $currentFile, _AM_WFDOWNLOADS_MIRROR_APPROVETHIS . '<br><br>' . $mirrorObj->getVar('title'), _AM_WFDOWNLOADS_MIRROR_APPROVETHIS);
             xoops_cp_footer();
         }
@@ -72,7 +72,7 @@ switch ($op) {
             redirect_header($currentFile, 4, _AM_WFDOWNLOADS_ERROR_MIRRORNOTFOUND);
             exit();
         }
-        wfdownloads_xoops_cp_header();
+        WfdownloadsUtilities::myxoops_cp_header();
         $sform = $mirrorObj->getForm();
         $sform->display();
         xoops_cp_footer();
@@ -97,7 +97,7 @@ switch ($op) {
 
     case 'mirrors.list':
     default:
-        wfdownloads_xoops_cp_header();
+        WfdownloadsUtilities::myxoops_cp_header();
         $indexAdmin = new ModuleAdmin();
         echo $indexAdmin->addNavigation($currentFile);
 

@@ -32,7 +32,7 @@ include_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
 include_once XOOPS_ROOT_PATH . '/class/tree.php';
 include_once XOOPS_ROOT_PATH . '/class/pagenav.php';
 
-include_once WFDOWNLOADS_ROOT_PATH . '/include/functions.php';
+include_once WFDOWNLOADS_ROOT_PATH . '/class/utilities.php';
 include_once WFDOWNLOADS_ROOT_PATH . '/include/constants.php';
 include_once WFDOWNLOADS_ROOT_PATH . '/class/session.php'; // WfdownloadsSession class
 include_once WFDOWNLOADS_ROOT_PATH . '/class/wfdownloads.php'; // WfdownloadsWfdownloads class
@@ -58,7 +58,7 @@ global $wfdownloads_isAdmin;
 // Load only if module is installed
 if (is_object($wfdownloads->getModule())) {
     // Find if the user is admin of the module
-    $wfdownloads_isAdmin = wfdownloads_userIsAdmin();
+    $wfdownloads_isAdmin = WfdownloadsUtilities::userIsAdmin();
 }
 
 // Load Xoops handlers

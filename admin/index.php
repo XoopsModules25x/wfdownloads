@@ -30,7 +30,7 @@ xoops_cp_header();
 $indexAdmin = new ModuleAdmin();
 
 //--------------------------
-$categories_count           = wfdownloads_categoriesCount();
+$categories_count           = WfdownloadsUtilities::categoriesCount();
 $votes_count                = $wfdownloads->getHandler('rating')->getCount();
 $brokenDownloads_count      = $wfdownloads->getHandler('report')->getCount();
 $modificationRequests_count = $wfdownloads->getHandler('modification')->getCount();
@@ -97,11 +97,11 @@ if ($wfdownloads->getConfig('enable_mirrors') === false) {
     $indexAdmin->addInfoBoxLine(_AM_WFDOWNLOADS_MINDEX_DOWNSUMMARY, '<infolabel>' . _AM_WFDOWNLOADS_SMIRRORS . '</infolabel>', $newMirrors_count, 'green');
 }
 // module max file size
-$indexAdmin->addInfoBoxLine(_AM_WFDOWNLOADS_MINDEX_DOWNSUMMARY, '<infolabel>' . _AM_WFDOWNLOADS_DOWN_MODULE_MAXFILESIZE . '</infolabel>', wfdownloads_bytesToSize1024($wfdownloads->getConfig('maxfilesize')), 'green');
+$indexAdmin->addInfoBoxLine(_AM_WFDOWNLOADS_MINDEX_DOWNSUMMARY, '<infolabel>' . _AM_WFDOWNLOADS_DOWN_MODULE_MAXFILESIZE . '</infolabel>', WfdownloadsUtilities::bytesToSize1024($wfdownloads->getConfig('maxfilesize')), 'green');
 // upload file size limit
 // get max file size (setup and php.ini)
 $phpiniMaxFileSize = min((int)ini_get('upload_max_filesize'), (int)ini_get('post_max_size'), (int)ini_get('memory_limit')) * 1024 * 1024; // bytes
-$maxFileSize       = wfdownloads_bytesToSize1024(min($wfdownloads->getConfig('maxfilesize'), $phpiniMaxFileSize));
+$maxFileSize       = WfdownloadsUtilities::bytesToSize1024(min($wfdownloads->getConfig('maxfilesize'), $phpiniMaxFileSize));
 $indexAdmin->addInfoBoxLine(_AM_WFDOWNLOADS_MINDEX_DOWNSUMMARY, '<infolabel>' . _AM_WFDOWNLOADS_UPLOAD_MAXFILESIZE . '</infolabel>', $maxFileSize, 'green');
 
 //------ check directories ---------------
@@ -109,7 +109,7 @@ $indexAdmin->addInfoBoxLine(_AM_WFDOWNLOADS_MINDEX_DOWNSUMMARY, '<infolabel>' . 
 $indexAdmin->addConfigBoxLine('');
 $redirectFile = $_SERVER['PHP_SELF'];
 
-if (!wfdownloads_checkModule('formulize')) {
+if (!WfdownloadsUtilities::checkModule('formulize')) {
     $indexAdmin->addConfigBoxLine(_AM_WFDOWNLOADS_FORMULIZE_NOT_AVILABLE);
 } else {
     $indexAdmin->addConfigBoxLine(_AM_WFDOWNLOADS_FORMULIZE_AVAILABLE);
@@ -149,6 +149,6 @@ $indexAdmin->addConfigBoxLine(FileChecker::getFileStatus($path . 'thumbs' . '/' 
 
 echo $indexAdmin->addNavigation(basename(__FILE__));
 echo $indexAdmin->renderIndex();
-echo wfdownloads_serverStats();
+echo WfdownloadsUtilities::serverStats();
 
 include_once __DIR__ . '/admin_footer.php';

@@ -37,7 +37,7 @@ if ($downloadObj->getVar('published') == 0 || $downloadObj->getVar('published') 
 }
 
 // Check permissions
-if ($wfdownloads->getConfig('enable_mirrors') == false && !wfdownloads_userIsAdmin()) {
+if ($wfdownloads->getConfig('enable_mirrors') == false && !WfdownloadsUtilities::userIsAdmin()) {
     redirect_header('index.php', 3, _NOPERM);
 }
 $userGroups = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : array(0 => XOOPS_GROUP_ANONYMOUS);
@@ -75,7 +75,7 @@ switch ($op) {
         // Generate content header
         $sql                     = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('wfdownloads_indexpage') . ' ';
         $head_arr                = $GLOBALS['xoopsDB']->fetchArray($GLOBALS['xoopsDB']->query($sql));
-        $catarray['imageheader'] = wfdownloads_headerImage();
+        $catarray['imageheader'] = WfdownloadsUtilities::headerImage();
         $xoopsTpl->assign('catarray', $catarray);
         $xoopsTpl->assign('category_path', $wfdownloads->getHandler('category')->getNicePath($cid));
         $xoopsTpl->assign('category_id', $cid);
@@ -112,7 +112,7 @@ switch ($op) {
             $mirror_array = $mirrorObj->toArray();
             if ($wfdownloads->getConfig('enable_onlinechk') == 1) {
                 $serverURL                = str_replace('http://', '', trim($mirror_array['homeurl']));
-                $mirror_array['isonline'] = wfdownloads_mirrorOnline($serverURL);
+                $mirror_array['isonline'] = WfdownloadsUtilities::mirrorOnline($serverURL);
             } else {
                 $mirror_array['isonline'] = 2;
             }
@@ -129,7 +129,7 @@ switch ($op) {
         $xoopsTpl->assign('navbar', $navbar);
 
         $xoopsTpl->assign('categoryPath', $pathstring . ' > ' . $download_array['title']);
-        $xoopsTpl->assign('module_home', wfdownloads_module_home(true));
+        $xoopsTpl->assign('module_home', WfdownloadsUtilities::module_home(true));
 
         include_once __DIR__ . '/footer.php';
         break;
@@ -187,7 +187,7 @@ switch ($op) {
             $breadcrumb->addLink(_MD_WFDOWNLOADS_ADDMIRROR, '');
             echo $breadcrumb->render();
 
-            echo "<div align='center'>" . wfdownloads_headerImage() . "</div><br>\n";
+            echo "<div align='center'>" . WfdownloadsUtilities::headerImage() . "</div><br>\n";
             echo '<div>' . _MD_WFDOWNLOADS_MIRROR_SNEWMNAMEDESC . "</div>\n";
 
             // Generate form

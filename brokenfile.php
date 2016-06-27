@@ -37,7 +37,7 @@ if ($downloadObj->getVar('published') == 0 || $downloadObj->getVar('published') 
 }
 
 // Check permissions
-if ($wfdownloads->getConfig('enable_brokenreports') === false && !wfdownloads_userIsAdmin()) {
+if ($wfdownloads->getConfig('enable_brokenreports') === false && !WfdownloadsUtilities::userIsAdmin()) {
     redirect_header('index.php', 3, _NOPERM);
 }
 
@@ -117,7 +117,7 @@ switch ($op) {
             include_once XOOPS_ROOT_PATH . '/header.php';
 
             // Begin Main page Heading etc
-            $catarray['imageheader'] = wfdownloads_headerImage();
+            $catarray['imageheader'] = WfdownloadsUtilities::headerImage();
             $xoopsTpl->assign('catarray', $catarray);
 
             $xoTheme->addScript(XOOPS_URL . '/browse.php?Frameworks/jquery/jquery.js');

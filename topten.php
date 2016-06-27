@@ -23,7 +23,7 @@ include_once __DIR__ . '/header.php';
 $xoopsOption['template_main'] = "{$wfdownloads->getModule()->dirname()}_topten.tpl";
 
 // Check permissions
-if (($_GET['list'] === 'rate') && $wfdownloads->getConfig('enable_ratings') === false && !wfdownloads_userIsAdmin()) {
+if (($_GET['list'] === 'rate') && $wfdownloads->getConfig('enable_ratings') === false && !WfdownloadsUtilities::userIsAdmin()) {
     redirect_header('index.php', 3, _NOPERM);
 }
 $groups = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : array(0 => XOOPS_GROUP_ANONYMOUS);
@@ -45,9 +45,9 @@ $sort         = (isset($_GET['list']) && in_array($_GET['list'], $action_array))
 $thisselected = $action_array[$sort];
 $sortDB       = $list_array[$thisselected];
 
-$catarray['imageheader'] = wfdownloads_headerImage();
-$catarray['letters']     = wfdownloads_lettersChoice();
-$catarray['toolbar']     = wfdownloads_toolbar();
+$catarray['imageheader'] = WfdownloadsUtilities::headerImage();
+$catarray['letters']     = WfdownloadsUtilities::lettersChoice();
+$catarray['toolbar']     = WfdownloadsUtilities::toolbar();
 $xoopsTpl->assign('catarray', $catarray);
 
 $arr = array();
@@ -126,6 +126,6 @@ if ($_GET['list'] === 'rate') {
     $xoopsTpl->assign('categoryPath', _MD_WFDOWNLOADS_DOWNLOAD_MOST_POPULAR);
 }
 
-$xoopsTpl->assign('module_home', wfdownloads_module_home(true));
+$xoopsTpl->assign('module_home', WfdownloadsUtilities::module_home(true));
 
 include_once __DIR__ . '/footer.php';

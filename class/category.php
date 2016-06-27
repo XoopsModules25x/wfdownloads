@@ -92,7 +92,7 @@ class WfdownloadsCategory extends XoopsObject
         // category: title
         $form->addElement(new XoopsFormText(_AM_WFDOWNLOADS_FCATEGORY_TITLE, 'title', 50, 255, $this->getVar('title', 'e')), true);
         // category: pid
-        if (wfdownloads_categoriesCount() > 0) {
+        if (WfdownloadsUtilities::categoriesCount() > 0) {
             $categoryObjs     = $this->wfdownloads->getHandler('category')->getObjects();
             $categoryObjsTree = new XoopsObjectTree($categoryObjs, 'cid', 'pid');
             $form->addElement(new XoopsFormLabel(_AM_WFDOWNLOADS_FCATEGORY_SUBCATEGORY, $categoryObjsTree->makeSelBox('pid', 'title', '-', $this->getVar('pid', 'e'), true)));
@@ -151,7 +151,7 @@ class WfdownloadsCategory extends XoopsObject
         $form->addElement($options_tray);
         // Formulize module support (2006/05/04) jpc - start
         // category: formulize_fid
-        if (wfdownloads_checkModule('formulize')) {
+        if (WfdownloadsUtilities::checkModule('formulize')) {
             if (file_exists(XOOPS_ROOT_PATH . '/modules/formulize/include/functions.php')) {
                 include_once XOOPS_ROOT_PATH . '/modules/formulize/include/functions.php';
                 $fids           = allowedForms(); // is a Formulize function

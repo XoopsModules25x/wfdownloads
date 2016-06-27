@@ -82,7 +82,7 @@ switch ($op) {
         $result = $GLOBALS['xoopsDB']->query($sql);
         list($indeximage, $indexheading, $indexheader, $indexfooter, $nohtml, $nosmiley, $noxcodes, $noimages, $nobreak, $indexheaderalign, $indexfooteralign) = $GLOBALS['xoopsDB']->fetchrow($result);
 
-        wfdownloads_xoops_cp_header();
+        WfdownloadsUtilities::myxoops_cp_header();
         $indexAdmin = new ModuleAdmin();
         echo $indexAdmin->addNavigation(basename(__FILE__));
 

@@ -336,8 +336,8 @@ $modversion['templates'][] = array(
 // ------------------- Preferences -------------------
 
 xoops_load('XoopsEditorHandler');
-$editor_handler         = XoopsEditorHandler::getInstance();
-$editorList             = array_flip($editor_handler->getList());
+$editorHandler         = XoopsEditorHandler::getInstance();
+$editorList             = array_flip($editorHandler->getList());
 $modversion['config'][] = array(
     'name'        => 'editor_options',
     'title'       => '_MI_WFDOWNLOADS_EDITOR',

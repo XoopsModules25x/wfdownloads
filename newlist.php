@@ -32,9 +32,9 @@ $xoopsTpl->assign('wfdownloads_url', WFDOWNLOADS_URL . '/');
 
 $groups = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : array(0 => XOOPS_GROUP_ANONYMOUS);
 
-$catArray['imageheader'] = wfdownloads_headerImage();
-$catArray['letters']     = wfdownloads_lettersChoice();
-$catArray['toolbar']     = wfdownloads_toolbar();
+$catArray['imageheader'] = WfdownloadsUtilities::headerImage();
+$catArray['letters']     = WfdownloadsUtilities::lettersChoice();
+$catArray['toolbar']     = WfdownloadsUtilities::toolbar();
 $xoopsTpl->assign('catarray', $catArray);
 
 // Breadcrumb
@@ -100,5 +100,5 @@ if (isset($days)) {
 // Breadcrumb
 $xoopsTpl->assign('wfdownloads_breadcrumb', $breadcrumb->render());
 
-$xoopsTpl->assign('module_home', wfdownloads_module_home(true));
+$xoopsTpl->assign('module_home', WfdownloadsUtilities::module_home(true));
 include_once __DIR__ . '/footer.php';

@@ -90,7 +90,7 @@ if (!isset($_GET['list']) && !isset($_GET['selectdate'])) {
 }
 
 // Formulize module support (2006/05/04) jpc - start
-if (wfdownloads_checkModule('formulize')) {
+if (WfdownloadsUtilities::checkModule('formulize')) {
     $formulize_fid = $categoryObj->getVar('formulize_fid');
     if ($formulize_fid) {
         $xoopsTpl->assign('custom_form', true);
@@ -101,13 +101,13 @@ if (wfdownloads_checkModule('formulize')) {
 // Formulize module support (2006/05/04) jpc - end
 
 // Generate Header
-$catArray['imageheader'] = wfdownloads_headerImage();
-$catArray['letters']     = wfdownloads_lettersChoice();
-$catArray['toolbar']     = wfdownloads_toolbar();
+$catArray['imageheader'] = WfdownloadsUtilities::headerImage();
+$catArray['letters']     = WfdownloadsUtilities::lettersChoice();
+$catArray['toolbar']     = WfdownloadsUtilities::toolbar();
 $xoopsTpl->assign('catarray', $catArray);
 
 $xoopsTpl->assign('categoryPath', $wfdownloads->getHandler('category')->getNicePath($cid)); // this definition is not removed for backward compatibility issues
-$xoopsTpl->assign('module_home', wfdownloads_module_home(true)); // this definition is not removed for backward compatibility issues
+$xoopsTpl->assign('module_home', WfdownloadsUtilities::module_home(true)); // this definition is not removed for backward compatibility issues
 
 // Get categories tree
 $criteria = new CriteriaCompo();
@@ -134,7 +134,7 @@ $xoopsTpl->assign('wfdownloads_breadcrumb', $breadcrumb->render());
 $allSubCategoryObjs = $categoryObjsTree->getFirstChild($cid);
 
 if (is_array($allSubCategoryObjs) > 0 && !isset($_GET['list']) && !isset($_GET['selectdate'])) {
-    $listings = wfdownloads_getTotalDownloads($allowedDownCategoriesIds);
+    $listings = WfdownloadsUtilities::getTotalDownloads($allowedDownCategoriesIds);
     $scount   = 1;
     foreach ($allSubCategoryObjs as $subCategoryObj) {
         $download_count = 0;
@@ -150,7 +150,7 @@ if (is_array($allSubCategoryObjs) > 0 && !isset($_GET['list']) && !isset($_GET['
         // ----- added for subcat images -----
         if (($subCategoryObj->getVar('imgurl') !== '') && is_file(XOOPS_ROOT_PATH . '/' . $wfdownloads->getConfig('catimage') . '/' . $subCategoryObj->getVar('imgurl'))) {
             if ($wfdownloads->getConfig('usethumbs') && function_exists('gd_info')) {
-                $imageURL = wfdownloads_createThumb($subCategoryObj->getVar('imgurl'), $wfdownloads->getConfig('catimage'), 'thumbs', $wfdownloads->getConfig('cat_imgwidth'), $wfdownloads->getConfig('cat_imgheight'), $wfdownloads->getConfig('imagequality'), $wfdownloads->getConfig('updatethumbs'),
+                $imageURL = WfdownloadsUtilities::createThumb($subCategoryObj->getVar('imgurl'), $wfdownloads->getConfig('catimage'), 'thumbs', $wfdownloads->getConfig('cat_imgwidth'), $wfdownloads->getConfig('cat_imgheight'), $wfdownloads->getConfig('imagequality'), $wfdownloads->getConfig('updatethumbs'),
                                                     $wfdownloads->getConfig('keepaspect'));
             } else {
                 $imageURL = XOOPS_URL . '/' . $wfdownloads->getConfig('catimage') . '/' . $subCategoryObj->getVar('imgurl');
@@ -211,7 +211,7 @@ if (isset($cid) && $cid > 0 && isset($categoryObjs[$cid])) {
     // Making the category image and title available in the template
     if (($categoryObjs[$cid]->getVar('imgurl') !== '') && is_file(XOOPS_ROOT_PATH . '/' . $wfdownloads->getConfig('catimage') . '/' . $categoryObjs[$cid]->getVar('imgurl'))) {
         if ($wfdownloads->getConfig('usethumbs') && function_exists('gd_info')) {
-            $imageURL = wfdownloads_createThumb($categoryObjs[$cid]->getVar('imgurl'), $wfdownloads->getConfig('catimage'), 'thumbs', $wfdownloads->getConfig('cat_imgwidth'), $wfdownloads->getConfig('cat_imgheight'), $wfdownloads->getConfig('imagequality'), $wfdownloads->getConfig('updatethumbs'),
+            $imageURL = WfdownloadsUtilities::createThumb($categoryObjs[$cid]->getVar('imgurl'), $wfdownloads->getConfig('catimage'), 'thumbs', $wfdownloads->getConfig('cat_imgwidth'), $wfdownloads->getConfig('cat_imgheight'), $wfdownloads->getConfig('imagequality'), $wfdownloads->getConfig('updatethumbs'),
                                                 $wfdownloads->getConfig('keepaspect'));
         } else {
             $imageURL = XOOPS_URL . '/' . $wfdownloads->getConfig('catimage') . '/' . $categoryObjs[$cid]->getVar('imgurl');

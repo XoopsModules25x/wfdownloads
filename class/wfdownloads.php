@@ -117,12 +117,12 @@ class WfdownloadsWfdownloads
      */
     public function &getHandler($name)
     {
-        if (!isset($this->handler[$name . '_handler'])) {
+        if (!isset($this->handler[$name . 'Handler'])) {
             $this->initHandler($name);
         }
         $this->addLog("Getting handler '{$name}'");
 
-        return $this->handler[$name . '_handler'];
+        return $this->handler[$name . 'Handler'];
     }
 
     public function initModule()
@@ -150,7 +150,7 @@ class WfdownloadsWfdownloads
     public function initHandler($name)
     {
         $this->addLog('INIT ' . $name . ' HANDLER');
-        $this->handler[$name . '_handler'] = xoops_getModuleHandler($name, $this->dirname);
+        $this->handler[$name . 'Handler'] = xoops_getModuleHandler($name, $this->dirname);
     }
 
     /**

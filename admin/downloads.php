@@ -43,7 +43,7 @@ switch ($op) {
     case 'download.edit':
     case 'download.add':
     case 'Download':
-        wfdownloads_xoops_cp_header();
+        WfdownloadsUtilities::myxoops_cp_header();
         $indexAdmin = new ModuleAdmin();
         echo $indexAdmin->addNavigation($currentFile);
 
@@ -91,7 +91,7 @@ switch ($op) {
             }
 
             // Formulize module support (2006/05/04) jpc - start
-            if (!wfdownloads_checkModule('formulize')) {
+            if (!WfdownloadsUtilities::checkModule('formulize')) {
                 // one step form: 1st step
                 $sform = $downloadObj->getAdminForm($title);
             } elseif (isset($_POST['submit_category']) && !empty($_POST['submit_category'])) {
@@ -109,7 +109,7 @@ switch ($op) {
                     $customArray['entry']         = $downloadObj->getVar('formulize_idreq');
                     $customArray['go_back']       = '';
                     $customArray['parentLinks']   = '';
-                    if (wfdownloads_checkModule('formulize') < 300) {
+                    if (WfdownloadsUtilities::checkModule('formulize') < 300) {
                         $owner = getEntryOwner($customArray['entry']); // is a Formulize function
                     } else {
                         $owner = getEntryOwner($customArray['entry'], $fid); // is a Formulize function
@@ -421,16 +421,16 @@ switch ($op) {
         $categoryObj = $wfdownloads->getHandler('category')->get($cid);
 
         // Formulize module support (2006/05/04) jpc - start
-        if (wfdownloads_checkModule('formulize')) {
+        if (WfdownloadsUtilities::checkModule('formulize')) {
             $fid = $categoryObj->getVar('formulize_fid');
             if ($fid) {
                 include_once XOOPS_ROOT_PATH . '/modules/formulize/include/formread.php';
                 include_once XOOPS_ROOT_PATH . '/modules/formulize/include/functions.php';
-                $formulizeElements_handler = xoops_getModuleHandler('elements', 'formulize');
+                $formulizeElementsHandler = xoops_getModuleHandler('elements', 'formulize');
                 if ($lid) {
                     $entries[$fid][0] = $downloadObj->getVar('formulize_idreq');
                     if ($entries[$fid][0]) {
-                        if (wfdownloads_checkModule('formulize') < 300) {
+                        if (WfdownloadsUtilities::checkModule('formulize') < 300) {
                             $owner = getEntryOwner($entries[$fid][0]); // is a Formulize function
                         } else {
                             $owner = getEntryOwner($entries[$fid][0], $fid); // is a Formulize function
@@ -448,7 +448,7 @@ switch ($op) {
                 $ownerGroups = $memberHandler->getGroupsByUser($owner, false);
                 $uid         = !empty($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getVar('uid') : 0;
                 $groups      = $GLOBALS['xoopsUser'] ? $GLOBALS['xoopsUser']->getGroups() : array(0 => XOOPS_GROUP_ANONYMOUS);
-                $entries     = handleSubmission($formulizeElements_handler, $entries, $uid, $owner, $fid, $ownerGroups, $groups, 'new'); // "new" causes xoops token check to be skipped, since Wfdownloads should be doing that
+                $entries     = handleSubmission($formulizeElementsHandler, $entries, $uid, $owner, $fid, $ownerGroups, $groups, 'new'); // "new" causes xoops token check to be skipped, since Wfdownloads should be doing that
                 if (!$owner) {
                     $id_req = $entries[$fid][0];
                     $downloadObj->setVar('formulize_idreq', $id_req);
@@ -508,7 +508,7 @@ switch ($op) {
                 echo $downloadObj->getHtmlErrors();
             }
         } else {
-            wfdownloads_xoops_cp_header();
+            WfdownloadsUtilities::myxoops_cp_header();
             xoops_confirm(array('op' => 'download.delete', 'lid' => $lid, 'ok' => true, 'title' => $title), $currentFile, _AM_WFDOWNLOADS_FILE_REALLYDELETEDTHIS . '<br><br>' . $title, _DELETE);
             xoops_cp_footer();
         }
@@ -518,14 +518,14 @@ switch ($op) {
     case 'delVote':
         $ratingObj = $wfdownloads->getHandler('rating')->get($_GET['rid']);
         if ($wfdownloads->getHandler('rating')->delete($ratingObj, true)) {
-            wfdownloads_updateRating((int)$ratingObj->getVar('lid'));
+            WfdownloadsUtilities::updateRating((int)$ratingObj->getVar('lid'));
         }
         redirect_header($currentFile, 1, _AM_WFDOWNLOADS_VOTE_VOTEDELETED);
         break;
 
     // Formulize module support (2006/05/04) jpc - start
     case 'patch_formulize':
-        if (wfdownloads_checkModule('formulize')) {
+        if (WfdownloadsUtilities::checkModule('formulize')) {
             if (!isset($_POST['patch_formulize'])) {
                 print "<form action=\"{$currentFile}?op=patch_formulize\" method=post>";
                 print "<input type = submit name=patch_formulize value=\"Apply Patch for Formulize\">";
@@ -603,12 +603,12 @@ switch ($op) {
         $start_expired       = XoopsRequest::getInt('start_expired', 0);
         $start_offline       = XoopsRequest::getInt('start_offline', 0);
 
-        $totalCategoriesCount = wfdownloads_categoriesCount();
+        $totalCategoriesCount = WfdownloadsUtilities::categoriesCount();
         $categoryObjs         = $wfdownloads->getHandler('category')->getObjects(null, true, false);
 
         $totalDownloadsCount = $wfdownloads->getHandler('download')->getCount();
 
-        wfdownloads_xoops_cp_header();
+        WfdownloadsUtilities::myxoops_cp_header();
         $indexAdmin = new ModuleAdmin();
         echo $indexAdmin->addNavigation($currentFile);
 
@@ -793,7 +793,7 @@ switch ($op) {
         $extensionToMime = include $GLOBALS['xoops']->path('include/mimetypes.inc.php');
         $batchPath       = $wfdownloads->getConfig('batchdir');
         $GLOBALS['xoopsTpl']->assign('batch_path', $batchPath);
-        $batchFiles      = wfdownloads_getFiles($batchPath . '/');
+        $batchFiles      = WfdownloadsUtilities::getFiles($batchPath . '/');
         $batchFilesCount = count($batchFiles);
         $GLOBALS['xoopsTpl']->assign('batch_files_count', $batchFilesCount);
         if ($batchFilesCount > 0) {
@@ -801,7 +801,7 @@ switch ($op) {
                 $batchFile_array              = array();
                 $batchFile_array['id']        = $key;
                 $batchFile_array['filename']  = $batchFile;
-                $batchFile_array['size']      = wfdownloads_bytesToSize1024(filesize($batchPath . '/' . $batchFile));
+                $batchFile_array['size']      = WfdownloadsUtilities::bytesToSize1024(filesize($batchPath . '/' . $batchFile));
                 $batchFile_array['extension'] = pathinfo($batchFile, PATHINFO_EXTENSION);
                 $batchFile_array['mimetype']  = $extensionToMime[pathinfo($batchFile, PATHINFO_EXTENSION)];
                 $GLOBALS['xoopsTpl']->append('batch_files', $batchFile_array);
@@ -819,7 +819,7 @@ switch ($op) {
 
         $extensionToMime = include $GLOBALS['xoops']->path('include/mimetypes.inc.php');
         $batchPath       = $wfdownloads->getConfig('batchdir');
-        $batchFiles      = wfdownloads_getFiles($batchPath . '/');
+        $batchFiles      = WfdownloadsUtilities::getFiles($batchPath . '/');
 
         if (!isset($batchFiles[$batchid]) || !is_file($batchPath . '/' . $batchFiles[$batchid])) {
             redirect_header($currentFile, 4, _AM_WFDOWNLOADS_ERROR_BATCHFILENOTFOUND);
@@ -832,7 +832,7 @@ switch ($op) {
         $savedFileName = preg_replace('/[^a-zA-Z0-9\._-]/', '', $savedFileName);
         $savedFileName = uniqid(time()) . '--' . $savedFileName;
 
-        if (!wfdownloads_copyFile($batchPath . '/' . $batchFile, $wfdownloads->getConfig('uploaddir') . '/' . $savedFileName)) {
+        if (!WfdownloadsUtilities::copyFile($batchPath . '/' . $batchFile, $wfdownloads->getConfig('uploaddir') . '/' . $savedFileName)) {
             redirect_header($currentFile, 4, _AM_WFDOWNLOADS_ERROR_BATCHFILENOTCOPIED);
         }
 
@@ -850,12 +850,12 @@ switch ($op) {
         $downloadObj->setVar('publisher', $GLOBALS['xoopsUser']->getVar('uid', 'e'));
 
         if (!$wfdownloads->getHandler('download')->insert($downloadObj)) {
-            wfdownloads_delFile($wfdownloads->getConfig('uploaddir') . '/' . $savedFileName);
+            WfdownloadsUtilities::delFile($wfdownloads->getConfig('uploaddir') . '/' . $savedFileName);
             redirect_header($currentFile, 4, _AM_WFDOWNLOADS_ERROR_BATCHFILENOTADDED);
         }
         $newid = (int)$downloadObj->getVar('lid');
         // Delete batch file
-        wfdownloads_delFile($batchPath . '/' . $batchFile);
+        WfdownloadsUtilities::delFile($batchPath . '/' . $batchFile);
         redirect_header("{$currentFile}?op=download.edit&lid={$newid}", 3, _AM_WFDOWNLOADS_BATCHFILE_MOVEDEDITNOW);
         break;
 
@@ -864,7 +864,7 @@ switch ($op) {
         $ok      = XoopsRequest::getBool('ok', false, 'POST');
 
         $batchPath  = $wfdownloads->getConfig('batchdir');
-        $batchFiles = wfdownloads_getFiles($batchPath);
+        $batchFiles = WfdownloadsUtilities::getFiles($batchPath);
 
         if (!isset($batchFiles[$batchid]) || !is_file($batchPath . '/' . $batchFiles[$batchid])) {
             redirect_header($currentFile, 4, _AM_WFDOWNLOADS_ERROR_BATCHFILENOTFOUND);
@@ -876,9 +876,9 @@ switch ($op) {
                 redirect_header($currentFile, 3, implode(',', $GLOBALS['xoopsSecurity']->getErrors()));
             }
             $file = $batchPath . '/' . $batchFiles[$batchid];
-            wfdownloads_delFile($file);
+            WfdownloadsUtilities::delFile($file);
         } else {
-            wfdownloads_xoops_cp_header();
+            WfdownloadsUtilities::myxoops_cp_header();
             xoops_confirm(array('op' => 'batchfile.delete', 'batchid' => $batchid, 'ok' => true, 'title' => $title), $currentFile, _AM_WFDOWNLOADS_FILE_REALLYDELETEDTHIS . '<br><br>' . $title, _DELETE);
             xoops_cp_footer();
         }
@@ -890,7 +890,7 @@ switch ($op) {
             header('Location index.php');
         }
 
-        wfdownloads_xoops_cp_header();
+        WfdownloadsUtilities::myxoops_cp_header();
         $indexAdmin = new ModuleAdmin();
         echo $indexAdmin->addNavigation($currentFile);
 

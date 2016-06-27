@@ -23,9 +23,19 @@ defined('XOOPS_ROOT_PATH') || die('XOOPS root path not defined');
 //$module = $moduleHandler->getByDirname(basename(dirname(__DIR__)));
 include_once dirname(__DIR__) . '/include/common.php';
 $wfdownloads = WfdownloadsWfdownloads::getInstance();
-$pathIcon32  = '../../' . $wfdownloads->getModule()->getInfo('icons32');
+//$pathIcon32  = '../../' . $wfdownloads->getModule()->getInfo('icons32');
 
-xoops_loadLanguage('modinfo', $wfdownloads->getModule()->dirname());
+$moduleDirName = basename(dirname(__DIR__));
+$moduleHandler = xoops_getHandler('module');
+$module        = $moduleHandler->getByDirname($moduleDirName);
+$pathIcon32    = '../../' . $module->getInfo('icons32');
+
+//xoops_loadLanguage('modinfo', $wfdownloads->getModule()->dirname());
+
+xoops_loadLanguage('modinfo', $module->dirname());
+
+$xoopsModuleAdminPath = XOOPS_ROOT_PATH . '/' . $module->getInfo('dirmoduleadmin');
+include_once $xoopsModuleAdminPath . '/moduleadmin/language/english/main.php';
 
 $adminmenu = array();
 

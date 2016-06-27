@@ -26,7 +26,7 @@ switch ($op) {
         $rid = XoopsRequest::getInt('rid', 0);
         $lid = XoopsRequest::getInt('lid', 0);
         $wfdownloads->getHandler('rating')->deleteAll(new Criteria('ratingid', $rid), true);
-        wfdownloads_updateRating($lid);
+        WfdownloadsUtilities::updateRating($lid);
         redirect_header($currentFile, 1, _AM_WFDOWNLOADS_VOTEDELETED);
         break;
 
@@ -48,7 +48,7 @@ switch ($op) {
         $useravgrating = $wfdownloads->getHandler('rating')->getUserAverage();
         $useravgrating = number_format($useravgrating['avg'], 2);
 
-        wfdownloads_xoops_cp_header();
+        WfdownloadsUtilities::myxoops_cp_header();
         $indexAdmin = new ModuleAdmin();
         echo $indexAdmin->addNavigation($currentFile);
 

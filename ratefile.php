@@ -37,7 +37,7 @@ if ($downloadObj->getVar('published') === false || $downloadObj->getVar('publish
 }
 
 // Check permissions
-if ($wfdownloads->getConfig('enable_ratings') === false && !wfdownloads_userIsAdmin()) {
+if ($wfdownloads->getConfig('enable_ratings') === false && !WfdownloadsUtilities::userIsAdmin()) {
     redirect_header('index.php', 3, _NOPERM);
 }
 // Breadcrumb
@@ -104,7 +104,7 @@ switch ($op) {
             $ratingObj->setVar('ratingtimestamp', time());
             if ($wfdownloads->getHandler('rating')->insert($ratingObj)) {
                 // All is well. Calculate Score & Add to Summary (for quick retrieval & sorting) to DB.
-                wfdownloads_updateRating($lid);
+                WfdownloadsUtilities::updateRating($lid);
                 $thankyouMessage = _MD_WFDOWNLOADS_VOTEAPPRE . '<br>' . sprintf(_MD_WFDOWNLOADS_THANKYOU, $GLOBALS['xoopsConfig']['sitename']);
                 redirect_header("singlefile.php?cid={$cid}&amp;lid={$lid}", 4, $thankyouMessage);
             } else {
@@ -156,7 +156,7 @@ switch ($op) {
             $xoopsTpl->assign('voteform', $sform->render());
             $xoopsTpl->assign('download', array('lid' => $lid, 'cid' => $cid, 'title' => $downloadObj->getVar('title'), 'description' => $downloadObj->getVar('description')));
 
-            $xoopsTpl->assign('file', array('id' => $lid, 'lid' => $lid, 'cid' => $cid, 'title' => $downloadObj->getVar('title'), 'imageheader' => wfdownloads_headerImage())); // this definition is not removed for backward compatibility issues
+            $xoopsTpl->assign('file', array('id' => $lid, 'lid' => $lid, 'cid' => $cid, 'title' => $downloadObj->getVar('title'), 'imageheader' => WfdownloadsUtilities::headerImage())); // this definition is not removed for backward compatibility issues
             include_once __DIR__ . '/footer.php';
         }
         break;
