@@ -16,7 +16,6 @@
  * @package         wfdownload
  * @since           3.23
  * @author          Xoops Development Team
- * @version         svn:$id$
  */
 defined('XOOPS_ROOT_PATH') || die('XOOPS root path not defined');
 include_once dirname(__DIR__) . '/include/common.php';
@@ -38,7 +37,7 @@ class WfdownloadsIP_Log extends XoopsObject
     public function __construct($id = null)
     {
         $this->wfdownloads = WfdownloadsWfdownloads::getInstance();
-        $this->db = XoopsDatabaseFactory::getDatabaseConnection();
+        $this->db          = XoopsDatabaseFactory::getDatabaseConnection();
         $this->initVar('ip_logid', XOBJ_DTYPE_INT);
         $this->initVar('ip_address', XOBJ_DTYPE_TXTBOX);
         $this->initVar('date', XOBJ_DTYPE_INT);
@@ -66,9 +65,9 @@ class WfdownloadsIP_LogHandler extends XoopsPersistableObjectHandler
     public $wfdownloads = null;
 
     /**
-     * @param null|object $db
+     * @param null|XoopsObject|XoopsDatabase $db
      */
-    public function __construct(&$db)
+    public function __construct(XoopsDatabase $db)
     {
         parent::__construct($db, 'wfdownloads_ip_log', 'WfdownloadsIP_Log', 'ip_logid');
         $this->wfdownloads = WfdownloadsWfdownloads::getInstance();

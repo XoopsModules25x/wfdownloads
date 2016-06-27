@@ -16,7 +16,6 @@
  * @package         wfdownload
  * @since           3.23
  * @author          Xoops Development Team
- * @version         svn:$id$
  */
 $currentFile = basename(__FILE__);
 include_once __DIR__ . '/admin_header.php';
@@ -24,19 +23,15 @@ include_once __DIR__ . '/admin_header.php';
 // Check directories
 if (!is_dir($wfdownloads->getConfig('uploaddir'))) {
     redirect_header('index.php', 4, _AM_WFDOWNLOADS_ERROR_UPLOADDIRNOTEXISTS);
-    exit();
 }
 if (!is_dir(XOOPS_ROOT_PATH . '/' . $wfdownloads->getConfig('mainimagedir'))) {
     redirect_header('index.php', 4, _AM_WFDOWNLOADS_ERROR_MAINIMAGEDIRNOTEXISTS);
-    exit();
 }
 if (!is_dir(XOOPS_ROOT_PATH . '/' . $wfdownloads->getConfig('screenshots'))) {
     redirect_header('index.php', 4, _AM_WFDOWNLOADS_ERROR_SCREENSHOTSDIRNOTEXISTS);
-    exit();
 }
 if (!is_dir(XOOPS_ROOT_PATH . '/' . $wfdownloads->getConfig('catimage'))) {
     redirect_header('index.php', 4, _AM_WFDOWNLOADS_ERROR_CATIMAGEDIRNOTEXISTS);
-    exit();
 }
 
 $op = XoopsRequest::getString('op', 'downloads.list');
@@ -44,7 +39,7 @@ switch ($op) {
     case 'download.edit':
     case 'download.add':
     case 'Download':
-        wfdownloads_xoops_cp_header();
+        WfdownloadsUtilities::myxoops_cp_header();
         $indexAdmin = new ModuleAdmin();
         echo $indexAdmin->addNavigation($currentFile);
 
@@ -59,43 +54,41 @@ switch ($op) {
             // Allowed mimetypes list
             echo "<fieldset><legend style='font-weight: bold; color: #900;'>" . _AM_WFDOWNLOADS_FILE_ALLOWEDAMIME . "</legend>\n";
             echo "<div style='padding: 8px;'>\n";
-            $criteria       = new Criteria("mime_admin", true);
+            $criteria       = new Criteria('mime_admin', true);
             $mimetypes      = $wfdownloads->getHandler('mimetype')->getList($criteria);
             $allowMimetypes = implode(' | ', $mimetypes);
             echo $allowMimetypes;
             echo "</div>\n";
-            echo "</fieldset><br />\n";
+            echo "</fieldset><br>\n";
 
             if ($lid) {
                 // edit download
                 if (!$downloadObj = $wfdownloads->getHandler('download')->get($lid)) {
                     redirect_header($currentFile, 4, _AM_WFDOWNLOADS_DOWN_ERROR_FILENOTFOUND);
-                    exit();
                 }
                 $cid = $downloadObj->getVar('cid');
                 if (!$categoryObj = $wfdownloads->getHandler('category')->get($cid)) {
                     redirect_header($currentFile, 4, _AM_WFDOWNLOADS_DOWN_ERROR_CATEGORYNOTFOUND);
-                    exit();
                 }
-                $title   = preg_replace("/{category}/", $categoryObj->getVar('title'), _AM_WFDOWNLOADS_FILE_EDIT);
-                $title12 = preg_replace("/{category}/", $categoryObj->getVar('title'), _AM_WFDOWNLOADS_FFS_1STEP);
-                $title22 = preg_replace("/{category}/", $categoryObj->getVar('title'), _AM_WFDOWNLOADS_FFS_EDITDOWNLOADTITLE);
+                $title   = preg_replace('/{category}/', $categoryObj->getVar('title'), _AM_WFDOWNLOADS_FILE_EDIT);
+                $title12 = preg_replace('/{category}/', $categoryObj->getVar('title'), _AM_WFDOWNLOADS_FFS_1STEP);
+                $title22 = preg_replace('/{category}/', $categoryObj->getVar('title'), _AM_WFDOWNLOADS_FFS_EDITDOWNLOADTITLE);
             } else {
                 // create download
                 $downloadObj = $wfdownloads->getHandler('download')->create();
                 $cid         = XoopsRequest::getInt('cid', 0, 'POST');
                 $categoryObj = $wfdownloads->getHandler('category')->get($cid);
                 $downloadObj->setVar('cid', $cid);
-                $title   = preg_replace("/{category}/", $categoryObj->getVar('title'), _AM_WFDOWNLOADS_FILE_CREATE);
-                $title12 = preg_replace("/{category}/", $categoryObj->getVar('title'), _AM_WFDOWNLOADS_FFS_1STEP);
-                $title22 = preg_replace("/{category}/", $categoryObj->getVar('title'), _AM_WFDOWNLOADS_FFS_DOWNLOADTITLE);
+                $title   = preg_replace('/{category}/', $categoryObj->getVar('title'), _AM_WFDOWNLOADS_FILE_CREATE);
+                $title12 = preg_replace('/{category}/', $categoryObj->getVar('title'), _AM_WFDOWNLOADS_FFS_1STEP);
+                $title22 = preg_replace('/{category}/', $categoryObj->getVar('title'), _AM_WFDOWNLOADS_FFS_DOWNLOADTITLE);
             }
 
-// Formulize module support (2006/05/04) jpc - start
-            if (!wfdownloads_checkModule('formulize')) {
+            // Formulize module support (2006/05/04) jpc - start
+            if (!WfdownloadsUtilities::checkModule('formulize')) {
                 // one step form: 1st step
                 $sform = $downloadObj->getAdminForm($title);
-            } elseif ((isset($_POST['submit_category']) && !empty($_POST['submit_category']))) {
+            } elseif (isset($_POST['submit_category']) && !empty($_POST['submit_category'])) {
                 // two steps form: 2nd step
                 $fid         = $categoryObj->getVar('formulize_fid');
                 $customArray = array();
@@ -103,29 +96,19 @@ switch ($op) {
                     include_once XOOPS_ROOT_PATH . '/modules/formulize/include/formdisplay.php';
                     include_once XOOPS_ROOT_PATH . '/modules/formulize/include/functions.php';
                     $customArray['fid']           = $fid;
-                    $customArray['formulize_mgr'] = xoops_getmodulehandler('elements', 'formulize');
+                    $customArray['formulize_mgr'] = xoops_getModuleHandler('elements', 'formulize');
                     $customArray['groups']        = $GLOBALS['xoopsUser'] ? $GLOBALS['xoopsUser']->getGroups() : array(0 => XOOPS_GROUP_ANONYMOUS);
-                    $customArray['prevEntry']     = getEntryValues(
-                    // is a Formulize function
-                        $downloadObj->getVar('formulize_idreq'),
-                        $customArray['formulize_mgr'],
-                        $customArray['groups'],
-                        $fid,
-                        null,
-                        null,
-                        null,
-                        null,
-                        null
-                    );
+                    $customArray['prevEntry']     = getEntryValues(// is a Formulize function
+                        $downloadObj->getVar('formulize_idreq'), $customArray['formulize_mgr'], $customArray['groups'], $fid, null, null, null, null, null);
                     $customArray['entry']         = $downloadObj->getVar('formulize_idreq');
                     $customArray['go_back']       = '';
                     $customArray['parentLinks']   = '';
-                    if (wfdownloads_checkModule('formulize') < 300) {
+                    if (WfdownloadsUtilities::checkModule('formulize') < 300) {
                         $owner = getEntryOwner($customArray['entry']); // is a Formulize function
                     } else {
                         $owner = getEntryOwner($customArray['entry'], $fid); // is a Formulize function
                     }
-                    $ownerGroups                 = $member_handler->getGroupsByUser($owner, false);
+                    $ownerGroups                 = $memberHandler->getGroupsByUser($owner, false);
                     $customArray['owner_groups'] = $ownerGroups;
                 }
                 $sform = $downloadObj->getAdminForm($title22, $customArray);
@@ -133,11 +116,10 @@ switch ($op) {
                 // two steps form: 1st step
                 $sform = $downloadObj->getCategoryForm($title12);
             }
-// Formulize module support (2006/05/04) jpc - end
+            // Formulize module support (2006/05/04) jpc - end
             $sform->display();
         } else {
             redirect_header('categories.php', 1, _AM_WFDOWNLOADS_CCATEGORY_NOEXISTS);
-            exit();
         }
 
         // Vote data list/manager
@@ -158,11 +140,11 @@ switch ($op) {
             $anonUserCriteria->setOrder('DESC');
 
             echo "<fieldset><legend style='font-weight: bold; color: #900;'>" . _AM_WFDOWNLOADS_VOTE_RATINGINFOMATION . "</legend>\n";
-            echo "<div style='padding: 8px;'><b>" . _AM_WFDOWNLOADS_VOTE_TOTALVOTES . "</b>{$ratingCount}<br /><br />\n";
+            echo "<div style='padding: 8px;'><b>" . _AM_WFDOWNLOADS_VOTE_TOTALVOTES . "</b>{$ratingCount}<br><br>\n";
 
             printf(_AM_WFDOWNLOADS_VOTE_REGUSERVOTES, $regUserRatingCount);
 
-            echo "<br />";
+            echo '<br>';
 
             printf(_AM_WFDOWNLOADS_VOTE_ANONUSERVOTES, $anonUserRatingCount);
 
@@ -181,14 +163,14 @@ switch ($op) {
                 ";
 
             if ($regUserRatingCount == 0) {
-                echo "<tr><td colspan='7' class='even'><b>" . _AM_WFDOWNLOADS_VOTE_NOREGVOTES . "</b></td></tr>";
+                echo "<tr><td colspan='7' class='even'><b>" . _AM_WFDOWNLOADS_VOTE_NOREGVOTES . '</b></td></tr>';
             } else {
                 foreach ($regUserRatingObjs as $regUserRatingObj) {
                     $uids[] = $regUserRatingObj->getVar('ratinguser');
                 }
 
                 $criteria = new Criteria('ratinguser', '(' . implode(',', $uids) . ')', 'IN');
-                $criteria->setGroupby('ratinguser');
+                $criteria->setGroupBy('ratinguser');
                 $userRatings = $wfdownloads->getHandler('rating')->getUserAverage($criteria);
 
                 foreach ($regUserRatingObjs as $regUserRatingObj) {
@@ -212,7 +194,7 @@ switch ($op) {
             }
             echo "
                 </table>\n
-                <br />\n
+                <br>\n
                 <table width='100%' cellspacing='1' cellpadding='2' class='outer'>\n
                 <tr>\n
                 <th>" . _AM_WFDOWNLOADS_VOTE_USER . "</td>\n
@@ -225,7 +207,7 @@ switch ($op) {
                 </tr>\n
                 ";
             if ($anonUserRatingCount == 0) {
-                echo "<tr><td colspan='7' class='even'><b>" . _AM_WFDOWNLOADS_VOTE_NOUNREGVOTES . "</b></td></tr>";
+                echo "<tr><td colspan='7' class='even'><b>" . _AM_WFDOWNLOADS_VOTE_NOUNREGVOTES . '</b></td></tr>';
             } else {
                 $criteria           = new Criteria('ratinguser', 0);
                 $userRatings        = $wfdownloads->getHandler('rating')->getUserAverage($criteria);
@@ -272,14 +254,14 @@ switch ($op) {
         }
         // Define URL
         if (empty($_FILES['userfile']['name'])) {
-            if ($_POST['url'] && $_POST['url'] != '' && $_POST['url'] != 'http://') {
-                $url      = ($_POST['url'] != 'http://') ? $_POST['url'] : '';
+            if ($_POST['url'] && $_POST['url'] !== '' && $_POST['url'] !== 'http://') {
+                $url      = ($_POST['url'] !== 'http://') ? $_POST['url'] : '';
                 $filename = '';
                 $filetype = '';
                 // Get size from form
                 $size = (empty($_POST['size']) || !is_numeric($_POST['size'])) ? 0 : (int)$_POST['size'];
             } else {
-                $url      = ($_POST['url'] != 'http://') ? $_POST['url'] : '';
+                $url      = ($_POST['url'] !== 'http://') ? $_POST['url'] : '';
                 $filename = $_POST['filename'];
                 $filetype = $_POST['filetype'];
                 $filePath = $wfdownloads->getConfig('uploaddir') . '/' . $filename;
@@ -291,7 +273,7 @@ switch ($op) {
             $downloadObj->setVar('filetype', $filetype);
         } else {
             $down  = wfdownloads_uploading($_FILES, $wfdownloads->getConfig('uploaddir'), '', $currentFile, 0, false, true);
-            $url   = ($_POST['url'] != 'http://') ? $_POST['url'] : '';
+            $url   = ($_POST['url'] !== 'http://') ? $_POST['url'] : '';
             $size  = $down['size'];
             $title = $_FILES['userfile']['name'];
 
@@ -306,12 +288,12 @@ switch ($op) {
         }
         // Get data from form
         $screenshots   = array();
-        $screenshots[] = ($_POST['screenshot'] != 'blank.png') ? $_POST['screenshot'] : '';
-        $screenshots[] = ($_POST['screenshot2'] != 'blank.png') ? $_POST['screenshot2'] : '';
-        $screenshots[] = ($_POST['screenshot3'] != 'blank.png') ? $_POST['screenshot3'] : '';
-        $screenshots[] = ($_POST['screenshot4'] != 'blank.png') ? $_POST['screenshot4'] : '';
+        $screenshots[] = ($_POST['screenshot'] !== 'blank.png') ? $_POST['screenshot'] : '';
+        $screenshots[] = ($_POST['screenshot2'] !== 'blank.png') ? $_POST['screenshot2'] : '';
+        $screenshots[] = ($_POST['screenshot3'] !== 'blank.png') ? $_POST['screenshot3'] : '';
+        $screenshots[] = ($_POST['screenshot4'] !== 'blank.png') ? $_POST['screenshot4'] : '';
 
-        if (!empty($_POST['homepage']) || $_POST['homepage'] != 'http://') {
+        if (!empty($_POST['homepage']) || $_POST['homepage'] !== 'http://') {
             $downloadObj->setVar('homepage', trim($_POST['homepage']));
             $downloadObj->setVar('homepagetitle', trim($_POST['homepagetitle']));
         }
@@ -333,20 +315,17 @@ switch ($op) {
             $tags['CATEGORY_NAME'] = $categoryObj->getVar('title');
             $tags['CATEGORY_URL']  = WFDOWNLOADS_URL . "/viewcat.php?cid='{$cid}";
 
-            if ($wfdownloads->getConfig('autoapprove') == _WFDOWNLOADS_AUTOAPPROVE_DOWNLOAD
-                || $wfdownloads->getConfig('autoapprove') == _WFDOWNLOADS_AUTOAPPROVE_BOTH
-            ) {
+            if ($wfdownloads->getConfig('autoapprove') == _WFDOWNLOADS_AUTOAPPROVE_DOWNLOAD || $wfdownloads->getConfig('autoapprove') == _WFDOWNLOADS_AUTOAPPROVE_BOTH) {
                 // Then this change will be automatically approved, so the notification needs to go out.
-                $notification_handler->triggerEvent('global', 0, 'filemodified', $tags);
-                $notification_handler->triggerEvent('category', $cid, 'filemodified', $tags);
-                $notification_handler->triggerEvent('file', $lid, 'filemodified', $tags);
+                $notificationHandler->triggerEvent('global', 0, 'filemodified', $tags);
+                $notificationHandler->triggerEvent('category', $cid, 'filemodified', $tags);
+                $notificationHandler->triggerEvent('file', $lid, 'filemodified', $tags);
             }
         }
         /* End add block */
         $downloadObj->setVar('version', $version);
         $downloadObj->setVar('url', $url);
         $downloadObj->setVar('cid', $cid);
-        $downloadObj->setVar('weight', $_POST['weight']);
         $downloadObj->setVar('title', $title);
         $downloadObj->setVar('status', $status);
         $downloadObj->setVar('size', $size);
@@ -372,17 +351,17 @@ switch ($op) {
         $downloadObj->setVar('license', trim($_POST['license']));
         $downloadObj->setVar('features', trim($_POST['features']));
         $downloadObj->setVar('requirements', trim($_POST['requirements']));
-        $limitations = (isset($_POST['limitations'])) ? $_POST['limitations'] : '';
+        $limitations = isset($_POST['limitations']) ? $_POST['limitations'] : '';
         $downloadObj->setVar('limitations', $limitations);
-        $versiontypes = (isset($_POST['versiontypes'])) ? $_POST['versiontypes'] : '';
+        $versiontypes = isset($_POST['versiontypes']) ? $_POST['versiontypes'] : '';
         $downloadObj->setVar('versiontypes', $versiontypes);
 
-        $dhistory        = (isset($_POST['dhistory'])) ? $_POST['dhistory'] : '';
-        $dhistoryhistory = (isset($_POST['dhistoryaddedd'])) ? $_POST['dhistoryaddedd'] : '';
+        $dhistory        = isset($_POST['dhistory']) ? $_POST['dhistory'] : '';
+        $dhistoryhistory = isset($_POST['dhistoryaddedd']) ? $_POST['dhistoryaddedd'] : '';
 
         if ($lid > 0 && !empty($dhistoryhistory)) {
-            $dhistory = $dhistory . "\n\n";
-            $time     = time();
+            $dhistory .= "\n\n";
+            $time = time();
             $dhistory .= _AM_WFDOWNLOADS_FILE_HISTORYVERS . $version . _AM_WFDOWNLOADS_FILE_HISTORDATE . XoopsLocal::formatTimestamp($time, 'l') . "\n\n";
             $dhistory .= $dhistoryhistory;
         }
@@ -396,10 +375,10 @@ switch ($op) {
         }
         $downloadObj->setVar('updated', $updated);
 
-        $offline = ($_POST['offline'] == true) ? true : false;
+        $offline = ($_POST['offline'] === true) ? true : false;
         $downloadObj->setVar('offline', $offline);
-        $approved  = (isset($_POST['approved']) && $_POST['approved'] == true) ? true : false;
-        $notifypub = (isset($_POST['notifypub']) && $_POST['notifypub'] == true);
+        $approved  = (isset($_POST['approved']) && $_POST['approved'] === true) ? true : false;
+        $notifypub = (isset($_POST['notifypub']) && $_POST['notifypub'] === true);
 
         $expiredate = 0;
         if (!$lid) {
@@ -412,17 +391,13 @@ switch ($op) {
             $publishdate = time();
         }
         if (isset($_POST['publishdateactivate'])) {
-            $obj = DateTime::createFromFormat(_SHORTDATESTRING, $_POST['published']['date']);
-            $obj->setTime(0, 0, 0);
-            $publishdate = $obj->getTimestamp() + $_POST['published']['time'];
+            $publishdate = strtotime($_POST['published']['date']) + $_POST['published']['time'];
         }
         if ($_POST['clearpublish']) {
             $publishdate = $downloadObj->getVar('published');
         }
         if (isset($_POST['expiredateactivate'])) {
-            $obj = DateTime::createFromFormat(_SHORTDATESTRING, $_POST['expired']['date']);
-            $obj->setTime(0, 0, 0);
-            $expiredate = $obj->getTimestamp() + $_POST['expired']['time'];
+            $expiredate = strtotime($_POST['expired']['date']) + $_POST['expired']['time'];
         }
         if ($_POST['clearexpire']) {
             $expiredate = '0';
@@ -438,17 +413,17 @@ switch ($op) {
 
         $categoryObj = $wfdownloads->getHandler('category')->get($cid);
 
-// Formulize module support (2006/05/04) jpc - start
-        if (wfdownloads_checkModule('formulize')) {
+        // Formulize module support (2006/05/04) jpc - start
+        if (WfdownloadsUtilities::checkModule('formulize')) {
             $fid = $categoryObj->getVar('formulize_fid');
             if ($fid) {
                 include_once XOOPS_ROOT_PATH . '/modules/formulize/include/formread.php';
                 include_once XOOPS_ROOT_PATH . '/modules/formulize/include/functions.php';
-                $formulizeElements_handler = xoops_getmodulehandler('elements', 'formulize');
+                $formulizeElementsHandler = xoops_getModuleHandler('elements', 'formulize');
                 if ($lid) {
                     $entries[$fid][0] = $downloadObj->getVar('formulize_idreq');
                     if ($entries[$fid][0]) {
-                        if (wfdownloads_checkModule('formulize') < 300) {
+                        if (WfdownloadsUtilities::checkModule('formulize') < 300) {
                             $owner = getEntryOwner($entries[$fid][0]); // is a Formulize function
                         } else {
                             $owner = getEntryOwner($entries[$fid][0], $fid); // is a Formulize function
@@ -463,26 +438,17 @@ switch ($op) {
                     $entries[$fid][0] = '';
                     $owner            = '';
                 }
-                $ownerGroups = $member_handler->getGroupsByUser($owner, false);
+                $ownerGroups = $memberHandler->getGroupsByUser($owner, false);
                 $uid         = !empty($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getVar('uid') : 0;
                 $groups      = $GLOBALS['xoopsUser'] ? $GLOBALS['xoopsUser']->getGroups() : array(0 => XOOPS_GROUP_ANONYMOUS);
-                $entries     = handleSubmission(
-                    $formulizeElements_handler,
-                    $entries,
-                    $uid,
-                    $owner,
-                    $fid,
-                    $ownerGroups,
-                    $groups,
-                    'new'
-                ); // "new" causes xoops token check to be skipped, since Wfdownloads should be doing that
+                $entries     = handleSubmission($formulizeElementsHandler, $entries, $uid, $owner, $fid, $ownerGroups, $groups, 'new'); // "new" causes xoops token check to be skipped, since Wfdownloads should be doing that
                 if (!$owner) {
                     $id_req = $entries[$fid][0];
                     $downloadObj->setVar('formulize_idreq', $id_req);
                 }
             }
         }
-// Formulize module support (2006/05/04) jpc - end
+        // Formulize module support (2006/05/04) jpc - end
         $wfdownloads->getHandler('download')->insert($downloadObj);
         $newid = (int)$downloadObj->getVar('lid');
         // Send notifications
@@ -492,8 +458,8 @@ switch ($op) {
             $tags['FILE_URL']      = WFDOWNLOADS_URL . "/singlefile.php?cid={$cid}&amp;lid={$newid}";
             $tags['CATEGORY_NAME'] = $categoryObj->getVar('title');
             $tags['CATEGORY_URL']  = WFDOWNLOADS_URL . "/viewcat.php?cid={$cid}";
-            $notification_handler->triggerEvent('global', 0, 'new_file', $tags);
-            $notification_handler->triggerEvent('category', $cid, 'new_file', $tags);
+            $notificationHandler->triggerEvent('global', 0, 'new_file', $tags);
+            $notificationHandler->triggerEvent('category', $cid, 'new_file', $tags);
         }
         if ($lid && $approved && $notifypub) {
             $tags                  = array();
@@ -502,9 +468,9 @@ switch ($op) {
             $categoryObj           = $wfdownloads->getHandler('category')->get($cid);
             $tags['CATEGORY_NAME'] = $categoryObj->getVar('title');
             $tags['CATEGORY_URL']  = WFDOWNLOADS_URL . '/viewcat.php?cid=' . $cid;
-            $notification_handler->triggerEvent('global', 0, 'new_file', $tags);
-            $notification_handler->triggerEvent('category', $cid, 'new_file', $tags);
-            $notification_handler->triggerEvent('file', $lid, 'approve', $tags);
+            $notificationHandler->triggerEvent('global', 0, 'new_file', $tags);
+            $notificationHandler->triggerEvent('category', $cid, 'new_file', $tags);
+            $notificationHandler->triggerEvent('file', $lid, 'approve', $tags);
         }
         $message = (!$lid) ? _AM_WFDOWNLOADS_FILE_NEWFILEUPLOAD : _AM_WFDOWNLOADS_FILE_FILEMODIFIEDUPDATE;
         $message = ($lid && !$_POST['was_published'] && $approved) ? _AM_WFDOWNLOADS_FILE_FILEAPPROVED : $message;
@@ -517,7 +483,6 @@ switch ($op) {
         $ok  = XoopsRequest::getBool('ok', false, 'POST');
         if (!$downloadObj = $wfdownloads->getHandler('download')->get($lid)) {
             redirect_header($currentFile, 4, _AM_WFDOWNLOADS_ERROR_DOWNLOADNOTFOUND);
-            exit();
         }
         $title = $downloadObj->getVar('title');
         if ($ok === true) {
@@ -535,13 +500,8 @@ switch ($op) {
                 echo $downloadObj->getHtmlErrors();
             }
         } else {
-            wfdownloads_xoops_cp_header();
-            xoops_confirm(
-                array('op' => 'download.delete', 'lid' => $lid, 'ok' => true, 'title' => $title),
-                $currentFile,
-                _AM_WFDOWNLOADS_FILE_REALLYDELETEDTHIS . "<br /><br>" . $title,
-                _DELETE
-            );
+            WfdownloadsUtilities::myxoops_cp_header();
+            xoops_confirm(array('op' => 'download.delete', 'lid' => $lid, 'ok' => true, 'title' => $title), $currentFile, _AM_WFDOWNLOADS_FILE_REALLYDELETEDTHIS . '<br><br>' . $title, _DELETE);
             xoops_cp_footer();
         }
         break;
@@ -550,38 +510,37 @@ switch ($op) {
     case 'delVote':
         $ratingObj = $wfdownloads->getHandler('rating')->get($_GET['rid']);
         if ($wfdownloads->getHandler('rating')->delete($ratingObj, true)) {
-            wfdownloads_updateRating((int)$ratingObj->getVar('lid'));
+            WfdownloadsUtilities::updateRating((int)$ratingObj->getVar('lid'));
         }
         redirect_header($currentFile, 1, _AM_WFDOWNLOADS_VOTE_VOTEDELETED);
         break;
 
-// Formulize module support (2006/05/04) jpc - start
+    // Formulize module support (2006/05/04) jpc - start
     case 'patch_formulize':
-        if (wfdownloads_checkModule('formulize')) {
+        if (WfdownloadsUtilities::checkModule('formulize')) {
             if (!isset($_POST['patch_formulize'])) {
                 print "<form action=\"{$currentFile}?op=patch_formulize\" method=post>";
                 print "<input type = submit name=patch_formulize value=\"Apply Patch for Formulize\">";
-                print "</form>";
+                print '</form>';
             } else {
-                $sqls[] = "ALTER TABLE " . $GLOBALS['xoopsDB']->prefix('wfdownloads_cat') . " ADD formulize_fid int(5) NOT NULL default '0';";
-                $sqls[] = "ALTER TABLE " . $GLOBALS['xoopsDB']->prefix('wfdownloads_downloads') . " ADD formulize_idreq int(5) NOT NULL default '0';";
+                $sqls[] = 'ALTER TABLE ' . $GLOBALS['xoopsDB']->prefix('wfdownloads_cat') . " ADD formulize_fid int(5) NOT NULL default '0';";
+                $sqls[] = 'ALTER TABLE ' . $GLOBALS['xoopsDB']->prefix('wfdownloads_downloads') . " ADD formulize_idreq int(5) NOT NULL default '0';";
                 foreach ($sqls as $sql) {
                     if (!$result = $GLOBALS['xoopsDB']->queryF($sql)) {
-                        exit("Error patching for Formulize.<br>SQL dump:<br>" . $sql . "<br>Please contact <a href=support@freeformsolutions.ca>Freeform Solutions</a> for assistance.");
+                        exit('Error patching for Formulize.<br>SQL dump:<br>' . $sql . '<br>Please contact <a href=support@freeformsolutions.ca>Freeform Solutions</a> for assistance.');
                     }
                 }
-                print "Patching for Formulize completed.";
+                print 'Patching for Formulize completed.';
             }
         }
         break;
-// Formulize module support (2006/05/04) jpc - end
+    // Formulize module support (2006/05/04) jpc - end
 
     case 'newdownload.approve':
     case 'approve':
         $lid = XoopsRequest::getInt('lid', 0);
         if (!$downloadObj = $wfdownloads->getHandler('download')->get($lid)) {
             redirect_header($currentFile, 4, _AM_WFDOWNLOADS_ERROR_DOWNLOADNOTFOUND);
-            exit();
         }
         // Update the database
         $downloadObj->setVar('published', time());
@@ -599,10 +558,10 @@ switch ($op) {
         $tags['FILE_URL']      = WFDOWNLOADS_URL . "/singlefile.php?cid={$cid}&amp;lid={$lid}";
         $tags['CATEGORY_NAME'] = $categoryObj->getVar('title');
         $tags['CATEGORY_URL']  = WFDOWNLOADS_URL . "/viewcat.php?cid={$cid}";
-        $notification_handler->triggerEvent('global', 0, 'new_file', $tags);
-        $notification_handler->triggerEvent('category', $cid, 'new_file', $tags);
+        $notificationHandler->triggerEvent('global', 0, 'new_file', $tags);
+        $notificationHandler->triggerEvent('category', $cid, 'new_file', $tags);
         if ($downloadObj->getVar('notifypub')) {
-            $notification_handler->triggerEvent('file', $lid, 'approve', $tags);
+            $notificationHandler->triggerEvent('file', $lid, 'approve', $tags);
         }
         redirect_header($currentFile, 1, _AM_WFDOWNLOADS_SUB_NEWFILECREATED);
         break;
@@ -610,8 +569,6 @@ switch ($op) {
     case 'downloads.list':
     case 'downloads.filter':
     default :
-        xoops_load('XoopsPageNav');
-        //
         // get filter conditions
         $filter_title_condition          = XoopsRequest::getString('filter_title_condition', '=');
         $filter_title                    = XoopsRequest::getString('filter_title', '');
@@ -621,45 +578,50 @@ switch ($op) {
         $filter_date                     = XoopsRequest::getArray('filter_date', null);
         $filter_date_condition           = XoopsRequest::getString('filter_date_condition', '<');
         // check filter conditions
-        if ($op == 'downloads.filter') {
-            if ($filter_title == '' && $filter_category_title == '' && is_null($filter_submitter)) {
+        if ($op === 'downloads.filter') {
+            if ($filter_title === '' && $filter_category_title == '' && null === $filter_submitter) {
                 $op = 'downloads.list';
             }
         }
-        //
+
+        include_once XOOPS_ROOT_PATH . '/class/pagenav.php';
+
+        $categoryObjs = $wfdownloads->getHandler('category')->getObjects();
+
         $start_published     = XoopsRequest::getInt('start_published', 0);
         $start_new           = XoopsRequest::getInt('start_new', 0);
         $start_autopublished = XoopsRequest::getInt('start_autopublished', 0);
         $start_expired       = XoopsRequest::getInt('start_expired', 0);
         $start_offline       = XoopsRequest::getInt('start_offline', 0);
-        //
-        $totalCategoriesCount = wfdownloads_categoriesCount();
-        $categories = $wfdownloads->getHandler('category')->getObjects(null, true, false); // as array
+
+        $totalCategoriesCount = WfdownloadsUtilities::categoriesCount();
+        $categoryObjs         = $wfdownloads->getHandler('category')->getObjects(null, true, false);
+
         $totalDownloadsCount = $wfdownloads->getHandler('download')->getCount();
-        //
-        wfdownloads_xoops_cp_header();
+
+        WfdownloadsUtilities::myxoops_cp_header();
         $indexAdmin = new ModuleAdmin();
         echo $indexAdmin->addNavigation($currentFile);
 
         $adminMenu = new ModuleAdmin();
-        $adminMenu->addItemButton(_AM_WFDOWNLOADS_FILE_CREATE, $currentFile . "?op=download.add", 'add');
+        $adminMenu->addItemButton(_AM_WFDOWNLOADS_FILE_CREATE, $currentFile . '?op=download.add', 'add');
         echo $adminMenu->renderButton();
 
         if ($totalDownloadsCount > 0) {
             // Published Downloads
             $criteria = new CriteriaCompo();
-            if ($op == 'downloads.filter') {
+            if ($op === 'downloads.filter') {
                 // Evaluate title criteria
-                if ($filter_title != '') {
-                    if ($filter_title_condition == 'LIKE') {
+                if ($filter_title !== '') {
+                    if ($filter_title_condition === 'LIKE') {
                         $criteria->add(new Criteria('title', "%{$filter_title}%", 'LIKE'));
                     } else {
                         $criteria->add(new Criteria('title', $filter_title, '='));
                     }
                 }
                 // Evaluate cid criteria
-                if ($filter_category_title != '') {
-                    if ($filter_category_title_condition == 'LIKE') {
+                if ($filter_category_title !== '') {
+                    if ($filter_category_title_condition === 'LIKE') {
                         $cids = $wfdownloads->getHandler('category')->getIds(new Criteria('title', "%{$filter_category_title}%", 'LIKE'));
                         $criteria->add(new Criteria('cid', '(' . implode(',', $cids) . ')', 'IN'));
                     } else {
@@ -668,7 +630,7 @@ switch ($op) {
                     }
                 }
                 // Evaluate submitter criteria
-                if (!is_null($filter_submitter)) {
+                if (!null === $filter_submitter) {
                     $criteria->add(new Criteria('submitter', '(' . implode(',', $filter_submitter) . ')', 'IN'));
                 }
                 // Evaluate date criteria
@@ -689,7 +651,7 @@ switch ($op) {
                 foreach ($publishedDownloadObjs as $publishedDownloadObj) {
                     $publishedDownload_array                        = $publishedDownloadObj->toArray();
                     $publishedDownload_array['title_html']          = $myts->htmlSpecialChars(trim($publishedDownload_array['title']));
-                    $publishedDownload_array['category_title']      = $categories[$publishedDownload_array['cid']]['title'];
+                    $publishedDownload_array['category_title']      = $categoryObjs[$publishedDownload_array['cid']]['title'];
                     $publishedDownload_array['submitter_uname']     = XoopsUserUtility::getUnameFromId($publishedDownload_array['submitter']);
                     $publishedDownload_array['published_formatted'] = XoopsLocal::formatTimestamp($publishedDownload_array['published'], 'l');
                     $GLOBALS['xoopsTpl']->append('published_downloads', $publishedDownload_array);
@@ -712,7 +674,7 @@ switch ($op) {
                 $submitter_select->addOption($submitter_uid, $submitter_uname);
             }
             $GLOBALS['xoopsTpl']->assign('filter_submitter_select', $submitter_select->render());
-            $date_select = new XoopsFormDateTime (null, 'filter_date', 15, time(), false);
+            $date_select = new XoopsFormDateTime(null, 'filter_date', 15, time(), false);
             $GLOBALS['xoopsTpl']->assign('filter_date_select', $date_select->render());
             $GLOBALS['xoopsTpl']->assign('filter_date_condition', $filter_date_condition);
 
@@ -766,11 +728,7 @@ switch ($op) {
                     $GLOBALS['xoopsTpl']->append('autopublished_downloads', $autopublishedDownload_array);
                 }
             }
-            $pagenav = new XoopsPageNav(
-                $autopublishedDownloadCount, $wfdownloads->getConfig(
-                    'admin_perpage'
-                ), $start_autopublished, 'start_autopublished'
-            );
+            $pagenav = new XoopsPageNav($autopublishedDownloadCount, $wfdownloads->getConfig('admin_perpage'), $start_autopublished, 'start_autopublished');
             $GLOBALS['xoopsTpl']->assign('autopublished_downloads_pagenav', $pagenav->renderNav());
 
             // Expired downloads
@@ -826,7 +784,7 @@ switch ($op) {
         $extensionToMime = include $GLOBALS['xoops']->path('include/mimetypes.inc.php');
         $batchPath       = $wfdownloads->getConfig('batchdir');
         $GLOBALS['xoopsTpl']->assign('batch_path', $batchPath);
-        $batchFiles      = wfdownloads_getFiles($batchPath . '/');
+        $batchFiles      = WfdownloadsUtilities::getFiles($batchPath . '/');
         $batchFilesCount = count($batchFiles);
         $GLOBALS['xoopsTpl']->assign('batch_files_count', $batchFilesCount);
         if ($batchFilesCount > 0) {
@@ -834,7 +792,7 @@ switch ($op) {
                 $batchFile_array              = array();
                 $batchFile_array['id']        = $key;
                 $batchFile_array['filename']  = $batchFile;
-                $batchFile_array['size']      = wfdownloads_bytesToSize1024(filesize($batchPath . '/' . $batchFile));
+                $batchFile_array['size']      = WfdownloadsUtilities::bytesToSize1024(filesize($batchPath . '/' . $batchFile));
                 $batchFile_array['extension'] = pathinfo($batchFile, PATHINFO_EXTENSION);
                 $batchFile_array['mimetype']  = $extensionToMime[pathinfo($batchFile, PATHINFO_EXTENSION)];
                 $GLOBALS['xoopsTpl']->append('batch_files', $batchFile_array);
@@ -852,20 +810,19 @@ switch ($op) {
 
         $extensionToMime = include $GLOBALS['xoops']->path('include/mimetypes.inc.php');
         $batchPath       = $wfdownloads->getConfig('batchdir');
-        $batchFiles      = wfdownloads_getFiles($batchPath . '/');
+        $batchFiles      = WfdownloadsUtilities::getFiles($batchPath . '/');
 
         if (!isset($batchFiles[$batchid]) || !is_file($batchPath . '/' . $batchFiles[$batchid])) {
             redirect_header($currentFile, 4, _AM_WFDOWNLOADS_ERROR_BATCHFILENOTFOUND);
-            exit();
         }
         $batchFile = $batchFiles[$batchid];
 
-        $savedFileName = iconv('UTF-8', "ASCII//TRANSLIT", $batchFile);
+        $savedFileName = iconv('UTF-8', 'ASCII//TRANSLIT', $batchFile);
         $savedFileName = preg_replace('!\s+!', '_', $savedFileName);
         $savedFileName = preg_replace('/[^a-zA-Z0-9\._-]/', '', $savedFileName);
         $savedFileName = uniqid(time()) . '--' . $savedFileName;
 
-        if (!wfdownloads_copyFile($batchPath . '/' . $batchFile, $wfdownloads->getConfig('uploaddir') . '/' . $savedFileName)) {
+        if (!WfdownloadsUtilities::copyFile($batchPath . '/' . $batchFile, $wfdownloads->getConfig('uploaddir') . '/' . $savedFileName)) {
             redirect_header($currentFile, 4, _AM_WFDOWNLOADS_ERROR_BATCHFILENOTCOPIED);
         }
 
@@ -883,12 +840,12 @@ switch ($op) {
         $downloadObj->setVar('publisher', $GLOBALS['xoopsUser']->getVar('uid', 'e'));
 
         if (!$wfdownloads->getHandler('download')->insert($downloadObj)) {
-            wfdownloads_delFile($wfdownloads->getConfig('uploaddir') . '/' . $savedFileName);
+            WfdownloadsUtilities::delFile($wfdownloads->getConfig('uploaddir') . '/' . $savedFileName);
             redirect_header($currentFile, 4, _AM_WFDOWNLOADS_ERROR_BATCHFILENOTADDED);
         }
         $newid = (int)$downloadObj->getVar('lid');
         // Delete batch file
-        wfdownloads_delFile($batchPath . '/' . $batchFile);
+        WfdownloadsUtilities::delFile($batchPath . '/' . $batchFile);
         redirect_header("{$currentFile}?op=download.edit&lid={$newid}", 3, _AM_WFDOWNLOADS_BATCHFILE_MOVEDEDITNOW);
         break;
 
@@ -897,11 +854,10 @@ switch ($op) {
         $ok      = XoopsRequest::getBool('ok', false, 'POST');
 
         $batchPath  = $wfdownloads->getConfig('batchdir');
-        $batchFiles = wfdownloads_getFiles($batchPath);
+        $batchFiles = WfdownloadsUtilities::getFiles($batchPath);
 
         if (!isset($batchFiles[$batchid]) || !is_file($batchPath . '/' . $batchFiles[$batchid])) {
             redirect_header($currentFile, 4, _AM_WFDOWNLOADS_ERROR_BATCHFILENOTFOUND);
-            exit();
         }
         $title = $batchFiles[$batchid];
         if ($ok === true) {
@@ -909,15 +865,10 @@ switch ($op) {
                 redirect_header($currentFile, 3, implode(',', $GLOBALS['xoopsSecurity']->getErrors()));
             }
             $file = $batchPath . '/' . $batchFiles[$batchid];
-            wfdownloads_delFile($file);
+            WfdownloadsUtilities::delFile($file);
         } else {
-            wfdownloads_xoops_cp_header();
-            xoops_confirm(
-                array('op' => 'batchfile.delete', 'batchid' => $batchid, 'ok' => true, 'title' => $title),
-                $currentFile,
-                _AM_WFDOWNLOADS_FILE_REALLYDELETEDTHIS . "<br /><br>" . $title,
-                _DELETE
-            );
+            WfdownloadsUtilities::myxoops_cp_header();
+            xoops_confirm(array('op' => 'batchfile.delete', 'batchid' => $batchid, 'ok' => true, 'title' => $title), $currentFile, _AM_WFDOWNLOADS_FILE_REALLYDELETEDTHIS . '<br><br>' . $title, _DELETE);
             xoops_cp_footer();
         }
         break;
@@ -928,12 +879,12 @@ switch ($op) {
             header('Location index.php');
         }
 
-        wfdownloads_xoops_cp_header();
+        WfdownloadsUtilities::myxoops_cp_header();
         $indexAdmin = new ModuleAdmin();
         echo $indexAdmin->addNavigation($currentFile);
 
         $adminMenu = new ModuleAdmin();
-        $adminMenu->addItemButton(_AM_WFDOWNLOADS_FILE_CREATE, $currentFile . "?op=download.add", 'add');
+        $adminMenu->addItemButton(_AM_WFDOWNLOADS_FILE_CREATE, $currentFile . '?op=download.add', 'add');
         echo $adminMenu->renderButton();
 
         // Get ip logs
@@ -959,7 +910,7 @@ switch ($op) {
         // Get all logged users
         $uidArray = array();
         foreach ($ip_logObjs as $ip_logObj) {
-            if ($ip_logObj->getVar('uid') != 0 && $ip_logObj->getVar('uid') != '') {
+            if ($ip_logObj->getVar('uid') != 0 && $ip_logObj->getVar('uid') !== '') {
                 $uidArray[] = $ip_logObj->getVar('uid');
             }
         }
@@ -967,15 +918,13 @@ switch ($op) {
         if (!empty($uidArray)) {
             $criteria->add(new Criteria('uid', '(' . implode(', ', $uidArray) . ')', 'IN'));
         }
-        $userList = $member_handler->getUserList($criteria);
+        $userList = $memberHandler->getUserList($criteria);
         if (empty($ip_logObjs)) {
             // NOP
         } else {
             foreach ($ip_logObjs as $ip_logObj) {
                 $ip_log_array          = $ip_logObj->toArray();
-                $ip_log_array['uname'] = XoopsUserUtility::getUnameFromId(
-                    $ip_log_array['uid']
-                );
+                $ip_log_array['uname'] = XoopsUserUtility::getUnameFromId($ip_log_array['uid']);
                 //($ip_log_array['uid'] != 0) ? $userList[$ip_log_array['uid']] : _AM_WFDOWNLOADS_ANONYMOUS;
                 $ip_log_array['date_formatted'] = formatTimestamp($ip_log_array['date']);
                 $GLOBALS['xoopsTpl']->append('ip_logs', $ip_log_array);

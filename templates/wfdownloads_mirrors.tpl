@@ -5,11 +5,11 @@
     <{$down_arr.description}>
 </div>
 
-<br />
+<br>
 
 <div><{$lang_mirror_found}></div>
 
-<br />
+<br>
 
 <table class="wfdownloads_mirrors" cellspacing="0">
     <tr>
@@ -51,11 +51,11 @@
         <td>
             <span style="font-size: small;">
             <{$smarty.const._CO_WFDOWNLOADS_LEGEND}>
-            <br />
+            <br>
             <img src="<{xoModuleIcons16 green.gif}>" />&nbsp;<{$smarty.const._MD_WFDOWNLOADS_MIRROR_ONLINE}>
-            <br />
+            <br>
             <img src="<{xoModuleIcons16 red.gif}>" />&nbsp;<{$smarty.const._MD_WFDOWNLOADS_MIRROR_OFFLINE}>
-            <br />
+            <br>
             <img src="<{xoModuleIcons16 green_off.gif}>" />&nbsp;<{$smarty.const._MD_WFDOWNLOADS_MIRROR_DISABLED}>
             </span>
         </td>
@@ -68,7 +68,7 @@
 <{/if}>
 
 <{if $mirror.add_mirror == 1}>
-    <br />
+    <br>
     <a href="<{$xoops_url}>/modules/wfdownloads/mirror.php?cid=<{$down_arr.cid}>&amp;lid=<{$down_arr.lid}>"><{$smarty.const._MD_WFDOWNLOADS_ADDMIRROR}></a>
 <{/if}>
 

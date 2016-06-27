@@ -1,13 +1,3 @@
-<{php}>
-    /** add JQuery */
-    global $xoTheme;
-    $xoTheme->addScript("browse.php?Frameworks/jquery/jquery.js");
-    // magnific
-    $xoTheme->addScript("" . $xoops_url . "/modules/wfdownloads/assets/js/magnific/jquery.magnific-popup.min.js");
-    $xoTheme->addStylesheet("" . $xoops_url . "/modules/wfdownloads/assets/js/magnific/magnific-popup.css");
-    $this->assign('xoops_module_header', $xoTheme->renderMetas(null, true));
-<{/php}>
-
 <{include file='db:wfdownloads_header.tpl'}>
 
 <div>
@@ -35,17 +25,17 @@
     <{/if}>
     <{if $category_image_URL}>
         <img src="<{$category_image_URL}>" alt="<{$category_title}>" title="<{$category_title}>"/>
-        <br/>
+        <br>
     <{/if}>
     <{$category_description}>
 </div>
 
-<br/>
+<br>
 
 <{if $subcategories}>
     <div>
         <h3><{$smarty.const._MD_WFDOWNLOADS_SUBCATEGORIESLISTING}></h3>
-        <br/>
+        <br>
         <!-- Start category loop -->
         <{foreach item=subcategory from=$subcategories}>
             <div>
@@ -65,12 +55,12 @@
                                                                            alt="<{$smarty.const._MD_WFDOWNLOADS_SUBMITDOWNLOAD}>"/></a>
                     <{/if}>
                 </div>
-                <{if $subcategory.image_URL != ''}><img src="<{$subcategory.image_URL}>" alt="<{$subcategory.title}>" title="<{$subcategory.title}>"/><br/><{/if}>
+                <{if $subcategory.image_URL != ''}><img src="<{$subcategory.image_URL}>" alt="<{$subcategory.title}>" title="<{$subcategory.title}>"/><br><{/if}>
                 <div title="<{$smarty.const._MD_WFDOWNLOADS_CSUMMARY}>">
                     <{$subcategory.summary}>
                 </div>
             </div>
-            <br/>
+            <br>
         <{/foreach}>
     </div>
 <{/if}>
@@ -79,7 +69,7 @@
     <{$category_path}>
 </div>
 
-<br/>
+<br>
 
 <{if $downloads}>
     <div>
@@ -255,37 +245,20 @@
                            title="<{$smarty.const._MD_WFDOWNLOADS_SIZEHTOL}>"><{$smarty.const._MD_WFDOWNLOADS_SIZE}>&nbsp;<img
                                     src="<{xoModuleIcons16 down.gif}>" alt="&darr;"></a>
                     <{/if}>
-                    |
-                    <{if ($orderby == "weightA")}>
-                        <span class='button_green' title="<{$smarty.const._MD_WFDOWNLOADS_WEIGHTLTOH}>"><{$smarty.const._MD_WFDOWNLOADS_WEIGHT}>&nbsp;<img
-                                    src="<{xoModuleIcons16 up.gif}>" alt="&uarr;"></span>
-                    <{else}>
-                        <a class='button_grey' href="viewcat.php?cid=<{$category_cid}>&amp;orderby=weightA"
-                           title="<{$smarty.const._MD_WFDOWNLOADS_WEIGHTLTOH}>"><{$smarty.const._MD_WFDOWNLOADS_WEIGHT}>&nbsp;<img
-                                    src="<{xoModuleIcons16 up.gif}>" alt="&uarr;"></a>
-                    <{/if}>
-                    <{if ($orderby == "weightD")}>
-                        <span class='button_green' title="<{$smarty.const._MD_WFDOWNLOADS_WEIGHTHTOL}>"><{$smarty.const._MD_WFDOWNLOADS_WEIGHT}>&nbsp;<img
-                                    src="<{xoModuleIcons16 down.gif}>" alt="&darr;"></span>
-                    <{else}>
-                        <a class='button_grey' href="viewcat.php?cid=<{$category_cid}>&amp;orderby=weightD"
-                           title="<{$smarty.const._MD_WFDOWNLOADS_WEIGHTHTOL}>"><{$smarty.const._MD_WFDOWNLOADS_WEIGHT}>&nbsp;<img
-                                    src="<{xoModuleIcons16 down.gif}>" alt="&darr;"></a>
-                    <{/if}>
                 </div>
             </div>
         <{/if}>
-        <br/>
+        <br>
         <{$pagenav}>
         <!-- Start link loop -->
         <{foreach item=download from=$downloads}>
             <div>
                 <{include file="db:wfdownloads_download.tpl" download=$download}>
             </div>
-            <br/>
+            <br>
         <{/foreach}>
         <!-- End link loop -->
-        <div style="clear:both"></div>
+        <div style="clear:both;"></div>
         <{$pagenav}>
     </div>
 <{/if}>
@@ -298,46 +271,3 @@
 <{/if}>
 
 <{include file='db:wfdownloads_footer.tpl'}>
-
-<script type="text/javascript">
-    $('.magnific_zoom').magnificPopup({
-        type               : 'image',
-        image              : {
-            cursor     : 'mfp-zoom-out-cur',
-            titleSrc   : "title",
-            verticalFit: true,
-            tError     : '<{$smarty.const._MD_WFDOWNLOADS_MAGNIFIC_image_tError}>' // Error message
-        },
-        iframe             : {
-            patterns: {
-                youtube : {
-                    index: 'youtube.com/',
-                    id   : 'v=',
-                    src  : '//www.youtube.com/embed/%id%?autoplay=1'
-                }, vimeo: {
-                    index: 'vimeo.com/',
-                    id   : '/',
-                    src  : '//player.vimeo.com/video/%id%?autoplay=1'
-                }, gmaps: {
-                    index: '//maps.google.',
-                    src  : '%id%&output=embed'
-                }
-            }
-        },
-        preloader          : true,
-        showCloseBtn       : true,
-        closeBtnInside     : false,
-        closeOnContentClick: true,
-        closeOnBgClick     : true,
-        enableEscapeKey    : true,
-        modal              : false,
-        alignTop           : false,
-        mainClass          : 'mfp-img-mobile mfp-fade',
-        zoom               : {
-            enabled : true,
-            duration: 300,
-            easing  : 'ease-in-out'
-        },
-        removalDelay       : 200
-    });
-</script>

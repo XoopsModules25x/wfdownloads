@@ -16,7 +16,6 @@
  * @package         wfdownload
  * @since           3.23
  * @author          Xoops Development Team
- * @version         svn:$id$
  */
 defined('XOOPS_ROOT_PATH') || die('XOOPS root path not defined');
 include_once dirname(__DIR__) . '/include/common.php';
@@ -38,7 +37,7 @@ class WfdownloadsRating extends XoopsObject
     public function __construct($id = null)
     {
         $this->wfdownloads = WfdownloadsWfdownloads::getInstance();
-        $this->db = XoopsDatabaseFactory::getDatabaseConnection();
+        $this->db          = XoopsDatabaseFactory::getDatabaseConnection();
         $this->initVar('ratingid', XOBJ_DTYPE_INT);
         $this->initVar('lid', XOBJ_DTYPE_INT);
         $this->initVar('ratinguser', XOBJ_DTYPE_INT);
@@ -67,9 +66,9 @@ class WfdownloadsRatingHandler extends XoopsPersistableObjectHandler
     public $wfdownloads = null;
 
     /**
-     * @param null|object $db
+     * @param null|XoopsObject|XoopsDatabase $db
      */
-    public function __construct(&$db)
+    public function __construct(XoopsDatabase $db)
     {
         parent::__construct($db, 'wfdownloads_votedata', 'WfdownloadsRating', 'ratingid');
         $this->wfdownloads = WfdownloadsWfdownloads::getInstance();
@@ -78,16 +77,16 @@ class WfdownloadsRatingHandler extends XoopsPersistableObjectHandler
     /**
      * Get average ratings of users matching a condition
      *
-     * @param object $criteria {@link CriteriaElement} to match
+     * @param CriteriaElement $criteria {@link CriteriaElement} to match
      *
      * @return array/int
      */
-    function getUserAverage($criteria = null)
+    public function getUserAverage($criteria = null)
     {
         $groupby = false;
         $field   = '';
         if (isset($criteria) && is_subclass_of($criteria, 'criteriaelement')) {
-            if ($criteria->groupby != '') {
+            if ($criteria->groupby !== '') {
                 $groupby = true;
                 $field   = $criteria->groupby . ', '; //Not entirely secure unless you KNOW that no criteria's groupby clause is going to be mis-used
             }
@@ -96,7 +95,7 @@ class WfdownloadsRatingHandler extends XoopsPersistableObjectHandler
         $sql .= " FROM {$this->table}";
         if (isset($criteria) && is_subclass_of($criteria, 'criteriaelement')) {
             $sql .= ' ' . $criteria->renderWhere();
-            if ($criteria->groupby != '') {
+            if ($criteria->groupby !== '') {
                 $sql .= $criteria->getGroupby();
             }
         }
@@ -104,18 +103,18 @@ class WfdownloadsRatingHandler extends XoopsPersistableObjectHandler
         if (!$result) {
             return 0;
         }
-        if ($groupby == false) {
+        if ($groupby === false) {
             list($average, $count) = $this->db->fetchRow($result);
 
             return array(
-                'avg' => $average,
+                'avg'   => $average,
                 'count' => $count
             );
         } else {
             $ret = array();
-            while (list($id, $average, $count) = $this->db->fetchRow($result)) {
+            while (false !== (list($id, $average, $count) = $this->db->fetchRow($result))) {
                 $ret[$id] = array(
-                    'avg'=> $average,
+                    'avg'   => $average,
                     'count' => $count
                 );
             }

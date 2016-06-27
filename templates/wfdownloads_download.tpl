@@ -25,28 +25,28 @@
         <{if $download.screenshots.0.filename != ''}>
             <div>
                 <a href="<{$xoops_url}>/<{$shots_dir}>/<{$download.screenshots.0.filename}>" class="magnific_zoom" rel="<{$download.title}>">
-                    <img src="<{$download.screenshots.0.thumb_url}>" alt="<{$download.title}>" title="<{$download.title}>" style='border: 1px solid black'/>
+                    <img src="<{$download.screenshots.0.thumb_url}>" alt="<{$download.title}>" title="<{$download.title}>" style='border: 1px solid black;'/>
                 </a>
             </div>
         <{/if}>
         <{if $download.screenshots.1.filename != '' && $viewcat != true}>
             <div>
                 <a href="<{$xoops_url}>/<{$shots_dir}>/<{$download.screenshots.1.filename}>" class="magnific_zoom" rel="<{$download.title}>">
-                    <img src="<{$download.screenshots.1.thumb_url}>" alt="<{$download.title}>" title="<{$download.title}>" style='border: 1px solid black'/>
+                    <img src="<{$download.screenshots.1.thumb_url}>" alt="<{$download.title}>" title="<{$download.title}>" style='border: 1px solid black;'/>
                 </a>
             </div>
         <{/if}>
         <{if $download.screenshots.2.filename != '' && $viewcat != true}>
             <div>
                 <a href="<{$xoops_url}>/<{$shots_dir}>/<{$download.screenshots.2.filename}>" class="magnific_zoom" rel="<{$download.title}>">
-                    <img src="<{$download.screenshots.2.thumb_url}>" alt="<{$download.title}>" title="<{$download.title}>" style='border: 1px solid black'/>
+                    <img src="<{$download.screenshots.2.thumb_url}>" alt="<{$download.title}>" title="<{$download.title}>" style='border: 1px solid black;'/>
                 </a>
             </div>
         <{/if}>
         <{if $download.screenshots.3.filename != '' && $viewcat != true}>
             <div>
                 <a href="<{$xoops_url}>/<{$shots_dir}>/<{$download.screenshots.3.filename}>" class="magnific_zoom" rel="<{$download.title}>">
-                    <img src="<{$download.screenshots.3.thumb_url}>" alt="<{$download.title}>" title="<{$download.title}>" style='border: 1px solid black'/>
+                    <img src="<{$download.screenshots.3.thumb_url}>" alt="<{$download.title}>" title="<{$download.title}>" style='border: 1px solid black;'/>
                 </a>
             </div>
         <{/if}>
@@ -84,7 +84,7 @@
 <div>
     <span style="font-size: small;">
         <{$smarty.const._MD_WFDOWNLOADS_SUBMITTER}>:&nbsp;<{$download.submitter}>
-        <br/>
+        <br>
         <{$lang_subdate}>:&nbsp;<{$download.updated}>
     </span>
 </div>

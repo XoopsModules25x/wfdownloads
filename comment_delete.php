@@ -16,7 +16,6 @@
  * @package         wfdownload
  * @since           3.23
  * @author          Xoops Development Team
- * @version         svn:$id$
  */
-include_once '../../mainfile.php';
+include_once dirname(dirname(__DIR__)) . '/mainfile.php';
 include_once XOOPS_ROOT_PATH . '/include/comment_delete.php';

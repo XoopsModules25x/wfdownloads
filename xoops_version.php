@@ -16,7 +16,6 @@
  * @package         wfdownload
  * @since           3.23
  * @author          Xoops Development Team
- * @version         svn:$id$
  */
 
 defined('XOOPS_ROOT_PATH') || die('XOOPS root path not defined');
@@ -28,11 +27,11 @@ $modversion['author']      = 'XOOPS Development Team';
 $modversion['credits']     = 'This module was originally based on Mydownloads, and refactored by Catzwolf and the WF-Projects team. Then it became a project of The SmartFactory who continued the excellent work started by the WF-Projects team.';
 $modversion['help']        = 'page=help';
 $modversion['license']     = 'GNU GPL 2.0 or later';
-$modversion['license_url'] = "http://www.gnu.org/licenses/gpl-2.0.html";
+$modversion['license_url'] = 'http://www.gnu.org/licenses/gpl-2.0.html';
 $modversion['official']    = false;
 $modversion['dirname']     = basename(__DIR__);
 
-include_once XOOPS_ROOT_PATH . "/modules/" . $modversion['dirname'] . "/include/constants.php";
+include_once XOOPS_ROOT_PATH . '/modules/' . $modversion['dirname'] . '/include/constants.php';
 
 // Path and name of the module’s logo
 $modversion['image'] = 'assets/images/module_logo.png';
@@ -42,18 +41,18 @@ $modversion['onInstall']   = 'include/oninstall.php';
 $modversion['onUpdate']    = 'include/onupdate.php';
 $modversion['onUninstall'] = 'include/onuninstall.php';
 
-$modversion['date']         = '2015-02-18';
-$modversion['release_date'] = '2015-02-18';
+$modversion['date']         = '2014-11-22';
+$modversion['release_date'] = '2016/05/22';
 $modversion['status']       = 'RC5';
 $modversion['teammembers']  = 'Bender, David, FrankBlack, Xpider, M0nty, Mithrandir, Marcan, felix[fx2024], Sudhaker, Jegelstaff';
 
 // About
-$modversion["module_status"]       = "RC5";
-$modversion['releasedate']         = '2015-02-03';
-$modversion["module_website_url"]  = "http://www.xoops.org/";
-$modversion["module_website_name"] = "XOOPS";
-$modversion['min_php']             = '5.3.7';
-$modversion['min_xoops']           = '2.5.7.1';
+$modversion['module_status']       = 'RC5';
+$modversion['releasedate']         = '2016-05-22';
+$modversion['module_website_url']  = 'http://www.xoops.org/';
+$modversion['module_website_name'] = 'XOOPS';
+$modversion['min_php']             = '5.5';
+$modversion['min_xoops']           = '2.5.8';
 $modversion['min_admin']           = '1.1';
 $modversion['min_db']              = array(
     'mysql'  => '5.0.7',
@@ -66,53 +65,53 @@ $modversion['icons32']             = 'Frameworks/moduleclasses/icons/32';
 // Help files
 $i                                     = 0;
 $modversion['helpsection'][$i]['name'] = _MI_WFDOWNLOADS_HELP_OVERVIEW;
-$modversion['helpsection'][$i]['link'] = "page=help";
+$modversion['helpsection'][$i]['link'] = 'page=help';
 ++$i;
 $modversion['helpsection'][$i]['name'] = _MI_WFDOWNLOADS_HELP_INSTALL;
-$modversion['helpsection'][$i]['link'] = "page=install";
+$modversion['helpsection'][$i]['link'] = 'page=install';
 ++$i;
 $modversion['helpsection'][$i]['name'] = _MI_WFDOWNLOADS_HELP_TIPSTRICKS;
-$modversion['helpsection'][$i]['link'] = "page=tips_tricks";
+$modversion['helpsection'][$i]['link'] = 'page=tips_tricks';
 ++$i;
 $modversion['helpsection'][$i]['name'] = _MI_WFDOWNLOADS_HELP_IMPORT;
-$modversion['helpsection'][$i]['link'] = "page=help3";
+$modversion['helpsection'][$i]['link'] = 'page=help3';
 ++$i;
 $modversion['helpsection'][$i]['name'] = _MI_WFDOWNLOADS_HELP_UPDATE1;
-$modversion['helpsection'][$i]['link'] = "page=help4";
+$modversion['helpsection'][$i]['link'] = 'page=help4';
 ++$i;
 $modversion['helpsection'][$i]['name'] = _MI_WFDOWNLOADS_HELP_UPDATE2;
-$modversion['helpsection'][$i]['link'] = "page=help5";
+$modversion['helpsection'][$i]['link'] = 'page=help5';
 ++$i;
 $modversion['helpsection'][$i]['name'] = _MI_WFDOWNLOADS_HELP_UPDATE3;
-$modversion['helpsection'][$i]['link'] = "page=help6";
+$modversion['helpsection'][$i]['link'] = 'page=help6';
 
 /*
 * added by Liquid. Based on code by Marcan
 */
-$modversion['author_realname']     = "The SmartFactory";
-$modversion['author_website_url']  = "http://www.smartfactory.ca";
-$modversion['author_website_name'] = "The SmartFactory";
-$modversion['author_email']        = "info@smartfactory.ca";
-$modversion['demo_site_url']       = "http://smartfactory.ca/modules/wfdownloads/";
-$modversion['demo_site_name']      = "SmartFactory.ca";
-$modversion['support_site_url']    = "http://smartfactory.ca/modules/newbb/viewforum.php?forum=12";
-$modversion['support_site_name']   = "SmartFactory.ca";
-$modversion['submit_bug']          = "http://dev.xoops.org/modules/xfmod/tracker/?group_id=1289&atid=1325";
-$modversion['submit_feature']      = "http://dev.xoops.org/modules/xfmod/tracker/?group_id=1289&atid=1328";
+$modversion['author_realname']     = 'The SmartFactory';
+$modversion['author_website_url']  = 'http://www.smartfactory.ca';
+$modversion['author_website_name'] = 'The SmartFactory';
+$modversion['author_email']        = 'info@smartfactory.ca';
+$modversion['demo_site_url']       = 'http://smartfactory.ca/modules/wfdownloads/';
+$modversion['demo_site_name']      = 'SmartFactory.ca';
+$modversion['support_site_url']    = 'http://smartfactory.ca/modules/newbb/viewforum.php?forum=12';
+$modversion['support_site_name']   = 'SmartFactory.ca';
+$modversion['submit_bug']          = 'http://dev.xoops.org/modules/xfmod/tracker/?group_id=1289&atid=1325';
+$modversion['submit_feature']      = 'http://dev.xoops.org/modules/xfmod/tracker/?group_id=1289&atid=1328';
 
 $modversion['warning']        = _MI_WFDOWNLOADS_WARNINGTEXT;
 $modversion['author_credits'] = _MI_WFDOWNLOADS_AUTHOR_CREDITSTEXT;
 
 // Admin things
 $modversion['hasAdmin']   = true;
-$modversion['adminindex'] = "admin/index.php";
-$modversion['adminmenu']  = "admin/menu.php";
+$modversion['adminindex'] = 'admin/index.php';
+$modversion['adminmenu']  = 'admin/menu.php';
 // If you want your module has a sub menu in system menu set it to 1
 $modversion['system_menu'] = true;
 
 // Sql file (must contain sql generated by phpMyAdmin or phpPgAdmin)
 // All tables should not have any prefix!
-$modversion['sqlfile']['mysql'] = "sql/mysql.sql";
+$modversion['sqlfile']['mysql'] = 'sql/mysql.sql';
 // Tables created by sql file (without prefix!)
 
 $modversion['tables'] = array(
@@ -131,8 +130,8 @@ $modversion['tables'] = array(
 
 // Search
 $modversion['hasSearch']      = true;
-$modversion['search']['file'] = "include/search.inc.php";
-$modversion['search']['func'] = $modversion["dirname"] . '_search';
+$modversion['search']['file'] = 'include/search.inc.php';
+$modversion['search']['func'] = $modversion['dirname'] . '_search';
 
 // Menu
 $modversion['hasMain']     = true;
@@ -142,10 +141,7 @@ global $xoopsModule, $xoopsModuleConfig;
 // check if submission is allowed
 $isSubmissionAllowed = false;
 if (is_object($xoopsModule) && $xoopsModule->dirname() == $modversion['dirname'] && $xoopsModule->isactive()) {
-    if (is_object($GLOBALS['xoopsUser'])
-        && ($xoopsModuleConfig['submissions'] == _WFDOWNLOADS_SUBMISSIONS_DOWNLOAD
-            || $xoopsModuleConfig['submissions'] == _WFDOWNLOADS_SUBMISSIONS_BOTH)
-    ) {
+    if (is_object($GLOBALS['xoopsUser']) && ($xoopsModuleConfig['submissions'] == _WFDOWNLOADS_SUBMISSIONS_DOWNLOAD || $xoopsModuleConfig['submissions'] == _WFDOWNLOADS_SUBMISSIONS_BOTH)) {
         // if user is a registered user
         $groups = $GLOBALS['xoopsUser']->getGroups();
         if (count(array_intersect($xoopsModuleConfig['submitarts'], $groups)) > 0) {
@@ -162,45 +158,45 @@ $i = 0;
 if ($isSubmissionAllowed) {
     ++$i;
     $modversion['sub'][$i]['name'] = _MI_WFDOWNLOADS_SMNAME1;
-    $category_suffix               = (!empty($_GET['cid'])) ? "?cid=" . intval($_GET['cid']) : ""; //Added by Lankford on 2008/2/20
+    $category_suffix               = (!empty($_GET['cid'])) ? '?cid=' . (int)$_GET['cid'] : ''; //Added by Lankford on 2008/2/20
     $modversion['sub'][$i]['url']  = "submit.php{$category_suffix}";
 }
 
 // ------------------- Menu -------------------
 $modversion['sub'][] = array(
     'name' => _MI_WFDOWNLOADS_SMNAME2,
-    'url'  => "topten.php?list=hit"
+    'url'  => 'topten.php?list=hit'
 );
 $modversion['sub'][] = array(
     'name' => _MI_WFDOWNLOADS_SMNAME3,
-    'url'  => "topten.php?list=rate"
+    'url'  => 'topten.php?list=rate'
 );
 
 // Blocks
 $i                                       = 0;
-$modversion['blocks'][$i]['file']        = "top.php";
+$modversion['blocks'][$i]['file']        = 'top.php';
 $modversion['blocks'][$i]['name']        = _MI_WFDOWNLOADS_BNAME1;
-$modversion['blocks'][$i]['description'] = "Shows recently added download files";
-$modversion['blocks'][$i]['show_func']   = $modversion['dirname'] . "_top_show";
-$modversion['blocks'][$i]['edit_func']   = $modversion['dirname'] . "_top_edit";
-$modversion['blocks'][$i]['options']     = "published|10|19";
-$modversion['blocks'][$i]['template']    = $modversion['dirname'] . "_mb_new.tpl";
+$modversion['blocks'][$i]['description'] = 'Shows recently added download files';
+$modversion['blocks'][$i]['show_func']   = $modversion['dirname'] . '_top_show';
+$modversion['blocks'][$i]['edit_func']   = $modversion['dirname'] . '_top_edit';
+$modversion['blocks'][$i]['options']     = 'published|10|19';
+$modversion['blocks'][$i]['template']    = $modversion['dirname'] . '_mb_new.tpl';
 ++$i;
-$modversion['blocks'][$i]['file']        = "top.php";
+$modversion['blocks'][$i]['file']        = 'top.php';
 $modversion['blocks'][$i]['name']        = _MI_WFDOWNLOADS_BNAME2;
-$modversion['blocks'][$i]['description'] = "Shows most downloaded files";
-$modversion['blocks'][$i]['show_func']   = $modversion['dirname'] . "_top_show";
-$modversion['blocks'][$i]['edit_func']   = $modversion['dirname'] . "_top_edit";
-$modversion['blocks'][$i]['options']     = "hits|10|19";
-$modversion['blocks'][$i]['template']    = $modversion['dirname'] . "_mb_top.tpl";
+$modversion['blocks'][$i]['description'] = 'Shows most downloaded files';
+$modversion['blocks'][$i]['show_func']   = $modversion['dirname'] . '_top_show';
+$modversion['blocks'][$i]['edit_func']   = $modversion['dirname'] . '_top_edit';
+$modversion['blocks'][$i]['options']     = 'hits|10|19';
+$modversion['blocks'][$i]['template']    = $modversion['dirname'] . '_mb_top.tpl';
 ++$i;
-$modversion['blocks'][$i]['file']        = "top_by_cat.php";
+$modversion['blocks'][$i]['file']        = 'top_by_cat.php';
 $modversion['blocks'][$i]['name']        = _MI_WFDOWNLOADS_BNAME3;
-$modversion['blocks'][$i]['description'] = "Shows most downloaded files by top categories";
-$modversion['blocks'][$i]['show_func']   = $modversion['dirname'] . "_top_by_cat_show";
-$modversion['blocks'][$i]['edit_func']   = $modversion['dirname'] . "_top_by_cat_edit";
-$modversion['blocks'][$i]['options']     = "hits|10|19";
-$modversion['blocks'][$i]['template']    = $modversion['dirname'] . "_mb_top_by_cat.tpl";
+$modversion['blocks'][$i]['description'] = 'Shows most downloaded files by top categories';
+$modversion['blocks'][$i]['show_func']   = $modversion['dirname'] . '_top_by_cat_show';
+$modversion['blocks'][$i]['edit_func']   = $modversion['dirname'] . '_top_by_cat_edit';
+$modversion['blocks'][$i]['options']     = 'hits|10|19';
+$modversion['blocks'][$i]['template']    = $modversion['dirname'] . '_mb_top_by_cat.tpl';
 
 // Comments
 $modversion['hasComments']             = true;
@@ -329,23 +325,19 @@ $modversion['templates'][] = array(
 // Common templates
 $modversion['templates'][] = array(
     'file'        => $modversion['dirname'] . '_co_breadcrumb.tpl',
-    'type'        => 'class/common',
     'description' => ''
 );
 
 $modversion['templates'][] = array(
-    'file'        => $modversion['dirname'] . '_co_choicebyletter.tpl',
-    'type'        => 'class/common',
+    'file'        => $modversion['dirname'] . '_co_letterschoice.tpl',
     'description' => ''
 );
-
-
 
 // ------------------- Preferences -------------------
 
 xoops_load('XoopsEditorHandler');
-$editor_handler         = XoopsEditorHandler::getInstance();
-$editorList             = array_flip($editor_handler->getList());
+$editorHandler         = XoopsEditorHandler::getInstance();
+$editorList             = array_flip($editorHandler->getList());
 $modversion['config'][] = array(
     'name'        => 'editor_options',
     'title'       => '_MI_WFDOWNLOADS_EDITOR',
@@ -913,9 +905,7 @@ $modversion['config'][] = array(
         _MI_WFDOWNLOADS_RATING . $qa     => 'rating ASC',
         _MI_WFDOWNLOADS_RATING . $qd     => 'rating DESC',
         _MI_WFDOWNLOADS_POPULARITY . $qa => 'hits ASC',
-        _MI_WFDOWNLOADS_POPULARITY . $qd => 'hits DESC',
-        _MI_WFDOWNLOADS_WEIGHT . $qa => 'weight ASC',
-        _MI_WFDOWNLOADS_WEIGHT . $qd => 'weight DESC'
+        _MI_WFDOWNLOADS_POPULARITY . $qd => 'hits DESC'
     ),
     'default'     => 'title ASC'
 );
@@ -958,37 +948,37 @@ $modversion['config'][] = array(
     'description' => '_MI_WFDOWNLOADS_PLATFORMDSC',
     'formtype'    => 'textarea',
     'valuetype'   => 'array',
-    'default'     => 'None|Windows|Unix|Mac|Xoops 2.5.5|Xoops 2.5.6|Xoops 2.5.7|Xoops 2.6.0|Other'
+    'default'     => 'None|Windows|Unix|Mac|XOOPS 2.5.5|XOOPS 2.5.6|XOOPS 2.5.7|XOOPS 2.5.8|XOOPS 2.6.0|Other'
 );
 
-$license                = array();
-$license[]              = 'None';
-$license[]              = 'Apache License (v. 1.1) ';
-$license[]              = 'Apple Public Source License (v. 2.0)';
-$license[]              = 'Berkeley Database License ';
-$license[]              = 'BSD License (Original)';
-$license[]              = 'Common Public License';
-$license[]              = 'FreeBSD Copyright (Modifizierte BSD-Lizenz) ';
-$license[]              = 'GNU Emacs General Public License';
-$license[]              = 'GNU Free Documentation License (FDL) (v. 1.2)';
-$license[]              = 'GNU General Public License (GPL) (v. 1.0)';
-$license[]              = 'GNU General Public License (GPL) (v. 2.0)';
-$license[]              = 'GNU General Public License (GPL) (v. 3.0)';
-$license[]              = 'GNU Lesser General Public License (LGPL) (v. 2.1)';
-$license[]              = 'GNU Library General Public License (LGPL) (v. 2.0)';
-$license[]              = 'Microsoft Shared Source License';
-$license[]              = 'MIT License';
-$license[]              = 'Mozilla Public License (v. 1.1)';
-$license[]              = 'Open Software License (OSL) (v. 1.0)';
-$license[]              = 'Open Software License (OSL) (v. 1.1)';
-$license[]              = 'Open Software License (OSL) (v. 2.0)';
-$license[]              = 'Open Public License';
-$license[]              = 'Open RTLinux Patent License (v. 1.0)';
-$license[]              = 'PHP License (v. 3.0)';
-$license[]              = 'W3C Software Notice and License';
-$license[]              = 'Wide Open License (WOL)';
-$license[]              = 'X.Net License';
-$license[]              = 'X Window System License';
+$license   = array();
+$license[] = 'None';
+$license[] = 'Apache License (v. 1.1) ';
+$license[] = 'Apple Public Source License (v. 2.0)';
+$license[] = 'Berkeley Database License ';
+$license[] = 'BSD License (Original)';
+$license[] = 'Common Public License';
+$license[] = 'FreeBSD Copyright (Modifizierte BSD-Lizenz) ';
+$license[] = 'GNU Emacs General Public License';
+$license[] = 'GNU Free Documentation License (FDL) (v. 1.2)';
+$license[] = 'GNU General Public License (GPL) (v. 1.0)';
+$license[] = 'GNU General Public License (GPL) (v. 2.0)';
+$license[] = 'GNU General Public License (GPL) (v. 3.0)';
+$license[] = 'GNU Lesser General Public License (LGPL) (v. 2.1)';
+$license[] = 'GNU Library General Public License (LGPL) (v. 2.0)';
+$license[] = 'Microsoft Shared Source License';
+$license[] = 'MIT License';
+$license[] = 'Mozilla Public License (v. 1.1)';
+$license[] = 'Open Software License (OSL) (v. 1.0)';
+$license[] = 'Open Software License (OSL) (v. 1.1)';
+$license[] = 'Open Software License (OSL) (v. 2.0)';
+$license[] = 'Open Public License';
+$license[] = 'Open RTLinux Patent License (v. 1.0)';
+$license[] = 'PHP License (v. 3.0)';
+$license[] = 'W3C Software Notice and License';
+$license[] = 'Wide Open License (WOL)';
+$license[] = 'X.Net License';
+$license[] = 'X Window System License';
 
 $modversion['config'][] = array(
     'name'        => 'license',

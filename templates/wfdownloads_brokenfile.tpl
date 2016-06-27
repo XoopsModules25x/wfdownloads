@@ -5,24 +5,24 @@
     <{$download.description}>
 </div>
 
-<br />
+<br>
 
 <{if ($brokenreportexists)}>
 <div>
     <h4><{$smarty.const._MD_WFDOWNLOADS_RESOURCEREPORTED}></h4>
     <p>
         <{$smarty.const._MD_WFDOWNLOADS_RESOURCEREPORTED}>
-        <br />
+        <br>
         <span style="font-weight: bold;"><{$smarty.const._MD_WFDOWNLOADS_FILETITLE}></span><{$broken.title}>
-        <br />
+        <br>
         <span style="font-weight: bold;"><{$smarty.const._MD_WFDOWNLOADS_RESOURCEID}></span><{$broken.id}>
-        <br />
+        <br>
         <span style="font-weight: bold;"><{$smarty.const._MD_WFDOWNLOADS_REPORTER}></span> <{$broken.reporter}>
-        <br />
+        <br>
         <span style="font-weight: bold;"><{$smarty.const._MD_WFDOWNLOADS_DATEREPORTED}></span> <{$broken.date}>
-        <br />
+        <br>
         <span style="font-weight: bold;"><{$smarty.const._MD_WFDOWNLOADS_WEBMASTERACKNOW}></span> <{$broken.acknowledged}>
-        <br />
+        <br>
         <span style="font-weight: bold;"><{$smarty.const._MD_WFDOWNLOADS_WEBMASTERCONFIRM}></span> <{$broken.confirmed}>
     </p>
 </div>
@@ -36,11 +36,11 @@
     </ul>
     <p>
         <span style="font-weight: bold;"><{$smarty.const._MD_WFDOWNLOADS_HOMEPAGEC}></span><{$down.homepage}>
-        <br />
+        <br>
         <span style="font-weight: bold;"><{$smarty.const._MD_WFDOWNLOADS_FILETITLE}></span><{$down.title}>
-        <br />
+        <br>
         <span style="font-weight: bold;"><{$smarty.const._MD_WFDOWNLOADS_PUBLISHER}>:</span> <{$down.publisher}>
-        <br /><span style="font-weight: bold;"><{$lang_subdate}>:</span> <{$down.updated}>
+        <br><span style="font-weight: bold;"><{$lang_subdate}>:</span> <{$down.updated}>
     </p>
     <{$reportform}>
 </div>

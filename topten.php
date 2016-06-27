@@ -16,7 +16,6 @@
  * @package         wfdownload
  * @since           3.23
  * @author          Xoops Development Team
- * @version         svn:$id$
  */
 $currentFile = basename(__FILE__);
 include_once __DIR__ . '/header.php';
@@ -24,7 +23,7 @@ include_once __DIR__ . '/header.php';
 $xoopsOption['template_main'] = "{$wfdownloads->getModule()->dirname()}_topten.tpl";
 
 // Check permissions
-if (($_GET['list'] == 'rate') && $wfdownloads->getConfig('enable_ratings') == false && !wfdownloads_userIsAdmin()) {
+if (($_GET['list'] === 'rate') && $wfdownloads->getConfig('enable_ratings') === false && !WfdownloadsUtilities::userIsAdmin()) {
     redirect_header('index.php', 3, _NOPERM);
 }
 $groups = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : array(0 => XOOPS_GROUP_ANONYMOUS);
@@ -39,39 +38,33 @@ $xoTheme->addStylesheet(WFDOWNLOADS_URL . '/assets/css/module.css');
 $xoopsTpl->assign('wfdownloads_url', WFDOWNLOADS_URL . '/');
 
 $action_array = array('hit' => 0, 'rate' => 1);
-$list_array = array('hits', 'rating');
-$lang_array = array(_MD_WFDOWNLOADS_HITS, _MD_WFDOWNLOADS_RATING);
+$list_array   = array('hits', 'rating');
+$lang_array   = array(_MD_WFDOWNLOADS_HITS, _MD_WFDOWNLOADS_RATING);
 
-$sort = (isset($_GET['list']) && in_array($_GET['list'], $action_array)) ? $_GET['list'] : 'hit';
+$sort         = (isset($_GET['list']) && in_array($_GET['list'], $action_array)) ? $_GET['list'] : 'hit';
 $thisselected = $action_array[$sort];
-$sortDB = $list_array[$thisselected];
+$sortDB       = $list_array[$thisselected];
 
-// template: catarray
-$catArray = array();
-$catArray['imageheader'] = wfdownloads_headerImage();
-$downloadCriteria = $wfdownloads->getHandler('download')->getActiveCriteria();
-$alphabet = array_merge(range('1', '9'), range('A', 'Z'));
-$letterChoice = new WfdownloadsChoiceByLetter($wfdownloads->getHandler('download'), $downloadCriteria, 'title', $alphabet, 'list', 'viewcat.php', '', false);
-$catArray['letters'] = $letterChoice->render();
-unset($downloadCriteria);
-$catArray['toolbar'] = wfdownloads_toolbar();
-$xoopsTpl->assign('catarray', $catArray);
+$catarray['imageheader'] = WfdownloadsUtilities::headerImage();
+$catarray['letters']     = WfdownloadsUtilities::lettersChoice();
+$catarray['toolbar']     = WfdownloadsUtilities::toolbar();
+$xoopsTpl->assign('catarray', $catarray);
 
 $arr = array();
 
 $categoryObjs = $wfdownloads->getHandler('category')->getObjects();
 
-$categoryObjsTree = new XoopsObjectTree($categoryObjs, 'cid', 'pid');
-$mainCategoryObjs = $categoryObjsTree->getFirstChild(0);
-$allowedCategoriesIds = $gperm_handler->getItemIds('WFDownCatPerm', $groups, $wfdownloads->getModule()->mid());
+$categoryObjsTree     = new XoopsObjectTree($categoryObjs, 'cid', 'pid');
+$mainCategoryObjs     = $categoryObjsTree->getFirstChild(0);
+$allowedCategoriesIds = $gpermHandler->getItemIds('WFDownCatPerm', $groups, $wfdownloads->getModule()->mid());
 
-$e = 0;
+$e        = 0;
 $rankings = array();
 foreach ($mainCategoryObjs as $mainCategoryObj) {
-    $cid = (int) $mainCategoryObj->getVar('cid');
+    $cid = (int)$mainCategoryObj->getVar('cid');
     if (in_array($cid, $allowedCategoriesIds)) {
         $allSubCategoryObjs = $categoryObjsTree->getAllChild($cid);
-        $cids = array(); //initialise array
+        $cids               = array(); //initialise array
         if (count($allSubCategoryObjs) > 0) {
             foreach ($allSubCategoryObjs as $allSubCategoryObj) {
                 $cids[] = $allSubCategoryObj->getVar('cid');
@@ -84,7 +77,7 @@ foreach ($mainCategoryObjs as $mainCategoryObj) {
         $criteria->setOrder('DESC');
         $criteria->setLimit(10);
         $downloadObjs = $wfdownloads->getHandler('download')->getActiveDownloads($criteria);
-        $filecount = count($downloadObjs);
+        $filecount    = count($downloadObjs);
 
         if ($filecount > 0) {
             $rankings[$e]['title'] = $mainCategoryObj->getVar('title');
@@ -92,24 +85,24 @@ foreach ($mainCategoryObjs as $mainCategoryObj) {
 
             foreach (array_keys($downloadObjs) as $k) {
                 $parentCategory_titles = array();
-                $parentCategoryObjs = $categoryObjsTree->getAllParent($downloadObjs[$k]->getVar('cid'));
+                $parentCategoryObjs    = $categoryObjsTree->getAllParent($downloadObjs[$k]->getVar('cid'));
                 if (count($parentCategoryObjs) > 0) {
                     foreach ($parentCategoryObjs as $parentCategoryObj) {
                         $parentCategory_titles[] = $parentCategoryObj->getVar('title');
                     }
                 }
-                $thisCategoryObj = $categoryObjsTree->getByKey($downloadObjs[$k]->getVar('cid'));
+                $thisCategoryObj         =& $categoryObjsTree->getByKey($downloadObjs[$k]->getVar('cid'));
                 $parentCategory_titles[] = $thisCategoryObj->getVar('title');
 
                 $rankings[$e]['file'][] = array(
-                    'id' => (int) $downloadObjs[$k]->getVar('lid'),
-                    'cid' => (int) $downloadObjs[$k]->getVar('cid'),
-                    'rank' => $rank,
-                    'title' => $downloadObjs[$k]->getVar('title'),
+                    'id'       => (int)$downloadObjs[$k]->getVar('lid'),
+                    'cid'      => (int)$downloadObjs[$k]->getVar('cid'),
+                    'rank'     => $rank,
+                    'title'    => $downloadObjs[$k]->getVar('title'),
                     'category' => implode('/', $parentCategory_titles),
-                    'hits' => $downloadObjs[$k]->getVar('hits'),
-                    'rating' => number_format($downloadObjs[$k]->getVar('rating'), 2),
-                    'votes' => $downloadObjs[$k]->getVar('votes')
+                    'hits'     => $downloadObjs[$k]->getVar('hits'),
+                    'rating'   => number_format($downloadObjs[$k]->getVar('rating'), 2),
+                    'votes'    => $downloadObjs[$k]->getVar('votes')
                 );
                 ++$rank;
             }
@@ -127,12 +120,12 @@ $breadcrumb->addLink($wfdownloads->getModule()->getVar('name'), WFDOWNLOADS_URL)
 $breadcrumb->addLink($lang_array[$thisselected], '');
 $xoopsTpl->assign('wfdownloads_breadcrumb', $breadcrumb->render());
 
-if ($_GET['list'] == 'rate') {
+if ($_GET['list'] === 'rate') {
     $xoopsTpl->assign('categoryPath', _MD_WFDOWNLOADS_DOWNLOAD_MOST_RATED);
 } else {
     $xoopsTpl->assign('categoryPath', _MD_WFDOWNLOADS_DOWNLOAD_MOST_POPULAR);
 }
 
-$xoopsTpl->assign('module_home', wfdownloads_module_home(true));
+$xoopsTpl->assign('module_home', WfdownloadsUtilities::module_home(true));
 
 include_once __DIR__ . '/footer.php';

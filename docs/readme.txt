@@ -1,5 +1,5 @@
 /**
-* $Id: readme.txt,v 1.3 2006/04/11 20:50:34 malanciault Exp $
+* 
 * Module: Wfdownloads
 * Author: The SmartFactory
 * Licence: GNU

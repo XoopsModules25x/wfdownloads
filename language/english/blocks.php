@@ -16,11 +16,10 @@
  * @package         wfdownload
  * @since           3.23
  * @author          Xoops Development Team
- * @version         svn:$id$
  */
 
 // Blocks
-define('_MB_WFDOWNLOADS_DISP', "Display");
-define('_MB_WFDOWNLOADS_FILES', "Files");
-define('_MB_WFDOWNLOADS_CHARS', "Length of the title");
-define('_MB_WFDOWNLOADS_LENGTH', " characters");
+define('_MB_WFDOWNLOADS_DISP', 'Display');
+define('_MB_WFDOWNLOADS_FILES', 'Files');
+define('_MB_WFDOWNLOADS_CHARS', 'Length of the title');
+define('_MB_WFDOWNLOADS_LENGTH', ' characters');

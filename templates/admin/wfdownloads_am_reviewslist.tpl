@@ -14,16 +14,16 @@
     <p>
         <img src="<{xoModuleIcons16 1.png}>" title="<{$smarty.const._AM_WFDOWNLOADS_AREVIEWS_APPROVE_ALT}>"
              alt="<{$smarty.const._AM_WFDOWNLOADS_AREVIEWS_APPROVE_ALT}>"/> <{$smarty.const._AM_WFDOWNLOADS_AREVIEWS_APPROVE_DESC}>
-        <br/>
+        <br>
         <img src="<{xoModuleIcons16 edit.png}>" title="<{$smarty.const._AM_WFDOWNLOADS_AREVIEWS_EDIT_ALT}>"
              alt="<{$smarty.const._AM_WFDOWNLOADS_AREVIEWS_EDIT_ALT}>"/> <{$smarty.const._AM_WFDOWNLOADS_AREVIEWS_EDIT_DESC}>
-        <br/>
+        <br>
         <img src="<{xoModuleIcons16 delete.png}>" title="<{$smarty.const._AM_WFDOWNLOADS_AREVIEWS_DELETE_ALT}>"
              alt="<{$smarty.const._AM_WFDOWNLOADS_AREVIEWS_DELETE_ALT}>"/> <{$smarty.const._AM_WFDOWNLOADS_AREVIEWS_DELETE_DESC}>
     </p>
 </fieldset>
 
-<br/>
+<br>
 
 <fieldset>
     <legend style='font-weight: bold; color: #900;'><{$smarty.const._AM_WFDOWNLOADS_REV_REVIEW_WAITING}></legend>
@@ -74,7 +74,7 @@
     <{/if}>
 </fieldset>
 
-<br/>
+<br>
 
 <fieldset>
     <legend style='font-weight: bold; color: #900;'><{$smarty.const._AM_WFDOWNLOADS_REV_REVIEW_PUBLISHED}></legend>

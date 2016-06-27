@@ -16,7 +16,6 @@
  * @package         wfdownload
  * @since           3.23
  * @author          Xoops Development Team
- * @version         svn:$id$
  */
 defined('XOOPS_ROOT_PATH') || die('XOOPS root path not defined');
 include_once dirname(__DIR__) . '/include/common.php';
@@ -78,8 +77,8 @@ class WfdownloadsModification extends WfdownloadsDownload
         $this->initVar('offline', XOBJ_DTYPE_INT, false); // boolean
         $this->initVar('summary', XOBJ_DTYPE_TXTAREA, '');
         $this->initVar('description', XOBJ_DTYPE_TXTAREA, '');
-//        $this->initVar('ipaddress', XOBJ_DTYPE_TXTBOX, '');
-//        $this->initVar('notifypub', XOBJ_DTYPE_INT, 0);
+        //        $this->initVar('ipaddress', XOBJ_DTYPE_TXTBOX, '');
+        //        $this->initVar('notifypub', XOBJ_DTYPE_INT, 0);
         // added 3.23
         $this->initVar('screenshots', XOBJ_DTYPE_ARRAY, array()); // IN PROGRESS
         $this->initVar('dohtml', XOBJ_DTYPE_INT, false); // boolean
@@ -87,11 +86,9 @@ class WfdownloadsModification extends WfdownloadsDownload
         $this->initVar('doxcode', XOBJ_DTYPE_INT, true); // boolean
         $this->initVar('doimage', XOBJ_DTYPE_INT, true); // boolean
         $this->initVar('dobr', XOBJ_DTYPE_INT, true); // boolean
-        $this->initVar('weight', XOBJ_DTYPE_INT, 0);
 
         //Obsolete
-        unset($this->vars['ipaddress']);
-        unset($this->vars['notifypub']);
+        unset($this->vars['ipaddress'], $this->vars['notifypub']);
 
         if (isset($id)) {
             $item = $this->wfdownloads->getHandler('item')->get($id);
@@ -114,9 +111,9 @@ class WfdownloadsModificationHandler extends XoopsPersistableObjectHandler
     public $wfdownloads = null;
 
     /**
-     * @param null|object $db
+     * @param null|XoopsObject|XoopsDatabase $db
      */
-    public function __construct(&$db)
+    public function __construct(XoopsDatabase $db)
     {
         parent::__construct($db, 'wfdownloads_mod', 'WfdownloadsModification', 'requestid', 'title');
         $this->wfdownloads = WfdownloadsWfdownloads::getInstance();
@@ -127,11 +124,10 @@ class WfdownloadsModificationHandler extends XoopsPersistableObjectHandler
      *
      * @return bool
      */
-    function approveModification($requestid)
+    public function approveModification($requestid)
     {
         $sql = "UPDATE {$this->table} m, {$this->wfdownloads->getHandler('download')->table} d";
-        $sql
-            .= " SET
+        $sql .= " SET
             d.cid = m.cid,
             d.title = m.title,
             d.url = m.url,
@@ -164,8 +160,7 @@ class WfdownloadsModificationHandler extends XoopsPersistableObjectHandler
             d.dosmiley = m.dosmiley,
             d.doxcode = m.doxcode,
             d.doimage = m.doimage,
-            d.dobr = m.dobr,
-            d.weight = m.weight";
+            d.dobr = m.dobr";
         $sql .= " WHERE d.lid = m.lid AND m.requestid='{$requestid}'";
         if ($this->db->query($sql)) {
             return $this->deleteAll(new Criteria('requestid', (int)$requestid));

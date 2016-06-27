@@ -15,7 +15,6 @@
  * @package         wfdownload
  * @since           3.23
  * @author          WF-Sections, Xoops Development Team, luciorota
- * @version         svn:$Id$
  */
 .wfdownloads_headertable {
     padding: 0;
@@ -125,7 +124,7 @@ h4 {
 }
 
 .wfdownloads_head_catindexheader {
-    /*	text-align:	center;  do not uncomment (will stop index alignment option working)  */
+    /*  text-align: center;  do not uncomment (will stop index alignment option working)  */
 }
 
 .wfdownloads_head_catletters {
@@ -225,7 +224,7 @@ h4 {
 
 /* ---------- download.html ---------- */
 .wfdownloads_down_title {
-    padding-top: 2.0em
+    padding-top: 2.0em;
 }
 
 .wfdownloads_down_top_r {
@@ -310,7 +309,7 @@ h4 {
 
 /* ---------- singlefile.html ---------- */
 .wfdownloads_single_title {
-    padding-top: 2.0em
+    padding-top: 2.0em;
 }
 
 .wfdownloads_single_title a {
@@ -499,7 +498,7 @@ tr.wfdownloads_mirrors_end {
     text-align: left;
     width: 80%;
     background-color: #BEC8D1;
-    /*	border-right: 1px solid #000000; */
+    /*  border-right: 1px solid #000000; */
     border-bottom: 2px solid #000000;
 }
 

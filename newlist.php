@@ -16,7 +16,6 @@
  * @package         wfdownload
  * @since           3.23
  * @author          Xoops Development Team
- * @version         svn:$id$
  */
 $currentFile = basename(__FILE__);
 include_once __DIR__ . '/header.php';
@@ -25,36 +24,32 @@ $xoopsOption['template_main'] = "{$wfdownloads->getModule()->dirname()}_newlisti
 include_once XOOPS_ROOT_PATH . '/header.php';
 
 $xoTheme->addScript(XOOPS_URL . '/browse.php?Frameworks/jquery/jquery.js');
+$xoTheme->addScript(WFDOWNLOADS_URL . '/assets/js/magnific/jquery.magnific-popup.min.js');
+$xoTheme->addStylesheet(WFDOWNLOADS_URL . '/assets/js/magnific/magnific-popup.css');
 $xoTheme->addStylesheet(WFDOWNLOADS_URL . '/assets/css/module.css');
 
 $xoopsTpl->assign('wfdownloads_url', WFDOWNLOADS_URL . '/');
 
 $groups = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : array(0 => XOOPS_GROUP_ANONYMOUS);
 
-// template: catarray
-$catArray = array();
-$catArray['imageheader'] = wfdownloads_headerImage();
-$downloadCriteria = $wfdownloads->getHandler('download')->getActiveCriteria();
-$alphabet = array_merge(range('1', '9'), range('A', 'Z'));
-$letterChoice = new WfdownloadsChoiceByLetter($wfdownloads->getHandler('download'), $downloadCriteria, 'title', $alphabet, 'list', 'viewcat.php', '', false);
-$catArray['letters'] = $letterChoice->render();
-unset($downloadCriteria);
-$catArray['toolbar'] = wfdownloads_toolbar();
+$catArray['imageheader'] = WfdownloadsUtilities::headerImage();
+$catArray['letters']     = WfdownloadsUtilities::lettersChoice();
+$catArray['toolbar']     = WfdownloadsUtilities::toolbar();
 $xoopsTpl->assign('catarray', $catArray);
 
-// template: breadcrumb
+// Breadcrumb
 $breadcrumb = new WfdownloadsBreadcrumb();
 $breadcrumb->addLink($wfdownloads->getModule()->getVar('name'), WFDOWNLOADS_URL);
 
 // Get number of downloads...
-$allowedCategories = $gperm_handler->getItemIds('WFDownCatPerm', $groups, $wfdownloads->getModule()->mid());
+$allowedCategories = $gpermHandler->getItemIds('WFDownCatPerm', $groups, $wfdownloads->getModule()->mid());
 // ... in the last week
-$oneWeekAgo = strtotime('-1 week'); //$oneWeekAgo = time() - 3600*24*7; //@TODO: Change to strtotime (TODAY-1week);
-$criteria = new Criteria('published', $oneWeekAgo, ">=");
+$oneWeekAgo       = strtotime('-1 week'); //$oneWeekAgo = time() - 3600*24*7; //@TODO: Change to strtotime (TODAY-1week);
+$criteria         = new Criteria('published', $oneWeekAgo, '>=');
 $allWeekDownloads = $wfdownloads->getHandler('download')->getActiveCount($criteria);
 // ... in the last month
-$oneMonthAgo = strtotime('-1 month'); //$one_month_ago = time() - 3600*24*7; //@TODO: Change to strtotime (TODAY-1month);
-$criteria = new Criteria('published', $oneMonthAgo, ">=");
+$oneMonthAgo       = strtotime('-1 month'); //$one_month_ago = time() - 3600*24*7; //@TODO: Change to strtotime (TODAY-1month);
+$criteria          = new Criteria('published', $oneMonthAgo, '>=');
 $allMonthDownloads = $wfdownloads->getHandler('download')->getActiveCount($criteria);
 $xoopsTpl->assign('allweekdownloads', $allWeekDownloads);
 $xoopsTpl->assign('allmonthdownloads', $allMonthDownloads);
@@ -62,7 +57,7 @@ $xoopsTpl->assign('allmonthdownloads', $allMonthDownloads);
 // Get latest downloads
 $criteria = new CriteriaCompo(new Criteria('offline', 0));
 if (isset($_GET['newdownloadshowdays'])) {
-    $days = (int) $_GET['newdownloadshowdays'];
+    $days       = (int)$_GET['newdownloadshowdays'];
     $days_limit = array(7, 14, 30);
     if (in_array($days, $days_limit)) {
         $xoopsTpl->assign('newdownloadshowdays', $days);
@@ -93,13 +88,10 @@ if ($wfdownloads->getConfig('screenshot') == 1) {
     $xoopsTpl->assign('viewcat', true);
 }
 if (isset($days)) {
-    $which_new_downloads = " > " . sprintf(_MD_WFDOWNLOADS_NEWDOWNLOADS_INTHELAST, (int) $days);
-    $xoopsTpl->assign(
-        'categoryPath',
-        '<a href="' . WFDOWNLOADS_URL . '/newlist.php">' . _MD_WFDOWNLOADS_NEWDOWNLOADS . '</a>' . $which_new_downloads
-    );
+    $which_new_downloads = ' > ' . sprintf(_MD_WFDOWNLOADS_NEWDOWNLOADS_INTHELAST, (int)$days);
+    $xoopsTpl->assign('categoryPath', '<a href="' . WFDOWNLOADS_URL . '/newlist.php">' . _MD_WFDOWNLOADS_NEWDOWNLOADS . '</a>' . $which_new_downloads);
     $breadcrumb->addLink(_MD_WFDOWNLOADS_LATESTLIST, $currentFile);
-    $breadcrumb->addLink(sprintf(_MD_WFDOWNLOADS_NEWDOWNLOADS_INTHELAST, (int) $days), '');
+    $breadcrumb->addLink(sprintf(_MD_WFDOWNLOADS_NEWDOWNLOADS_INTHELAST, (int)$days), '');
 } else {
     $xoopsTpl->assign('categoryPath', _MD_WFDOWNLOADS_NEWDOWNLOADS);
     $breadcrumb->addLink(_MD_WFDOWNLOADS_LATESTLIST, '');
@@ -108,5 +100,5 @@ if (isset($days)) {
 // Breadcrumb
 $xoopsTpl->assign('wfdownloads_breadcrumb', $breadcrumb->render());
 
-$xoopsTpl->assign('module_home', wfdownloads_module_home(true));
+$xoopsTpl->assign('module_home', WfdownloadsUtilities::module_home(true));
 include_once __DIR__ . '/footer.php';
