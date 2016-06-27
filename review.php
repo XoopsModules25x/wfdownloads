@@ -124,7 +124,6 @@ switch ($op) {
         // Check if ANONYMOUS user can review
         if (!is_object($GLOBALS['xoopsUser']) && !$wfdownloads->getConfig('rev_anonpost')) {
             redirect_header(XOOPS_URL . '/user.php', 1, _MD_WFDOWNLOADS_MUSTREGFIRST);
-            exit();
         }
 
         // Get review poster 'uid'

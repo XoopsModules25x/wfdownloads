@@ -23,19 +23,15 @@ include_once __DIR__ . '/admin_header.php';
 // Check directories
 if (!is_dir($wfdownloads->getConfig('uploaddir'))) {
     redirect_header('index.php', 4, _AM_WFDOWNLOADS_ERROR_UPLOADDIRNOTEXISTS);
-    exit();
 }
 if (!is_dir(XOOPS_ROOT_PATH . '/' . $wfdownloads->getConfig('mainimagedir'))) {
     redirect_header('index.php', 4, _AM_WFDOWNLOADS_ERROR_MAINIMAGEDIRNOTEXISTS);
-    exit();
 }
 if (!is_dir(XOOPS_ROOT_PATH . '/' . $wfdownloads->getConfig('screenshots'))) {
     redirect_header('index.php', 4, _AM_WFDOWNLOADS_ERROR_SCREENSHOTSDIRNOTEXISTS);
-    exit();
 }
 if (!is_dir(XOOPS_ROOT_PATH . '/' . $wfdownloads->getConfig('catimage'))) {
     redirect_header('index.php', 4, _AM_WFDOWNLOADS_ERROR_CATIMAGEDIRNOTEXISTS);
-    exit();
 }
 
 $op = XoopsRequest::getString('op', 'categories.list');
@@ -82,7 +78,6 @@ switch ($op) {
                 trigger_error($error, E_USER_ERROR);
             }
             redirect_header($currentFile, 1, _AM_WFDOWNLOADS_CCATEGORY_MODIFY_MOVED);
-            exit();
         }
         break;
 
@@ -211,7 +206,6 @@ switch ($op) {
             }
 
             redirect_header($currentFile, 1, _AM_WFDOWNLOADS_CCATEGORY_DELETED);
-            exit();
         } else {
             WfdownloadsUtilities::myxoops_cp_header();
             xoops_confirm(array('op' => 'category.delete', 'cid' => $cid, 'ok' => true), $currentFile, _AM_WFDOWNLOADS_CCATEGORY_AREUSURE);
@@ -281,7 +275,6 @@ switch ($op) {
                 unset($categoryObj);
             }
             redirect_header($currentFile, 1, _AM_WFDOWNLOADS_CATEGORIES_REORDERED);
-            exit();
         }
         break;
 }

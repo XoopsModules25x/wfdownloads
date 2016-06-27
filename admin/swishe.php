@@ -23,7 +23,6 @@ include_once __DIR__ . '/admin_header.php';
 if (@$_POST['op'] === 'submit') {
     if (!$GLOBALS['xoopsSecurity']->check()) {
         redirect_header($currentFile, 3, implode('<br>', $GLOBALS['xoopsSecurity']->getErrors()));
-        exit();
     }
 
     WfdownloadsUtilities::myxoops_cp_header();

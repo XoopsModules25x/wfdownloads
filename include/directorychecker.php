@@ -135,7 +135,6 @@ switch ($op) {
         }
         $msg = DirectoryChecker::createDirectory($path) ? _DC_WFDOWNLOADS_DIRCREATED : _DC_WFDOWNLOADS_DIRNOTCREATED;
         redirect_header($redirect, 2, $msg . ': ' . $path);
-        exit();
         break;
     case 'setdirperm':
         if (isset($_POST['path'])) {
@@ -149,6 +148,5 @@ switch ($op) {
         }
         $msg = DirectoryChecker::setDirectoryPermissions($path, $mode) ? _DC_WFDOWNLOADS_PERMSET : _DC_WFDOWNLOADS_PERMNOTSET;
         redirect_header($redirect, 2, $msg . ': ' . $path);
-        exit();
         break;
 }

@@ -27,7 +27,6 @@ switch ($op) {
         $ok        = XoopsRequest::getBool('ok', false, 'POST');
         if (!$reviewObj = $wfdownloads->getHandler('review')->get($review_id)) {
             redirect_header($currentFile, 4, _AM_WFDOWNLOADS_ERROR_REVIEWNOTFOUND);
-            exit();
         }
         if ($ok === true) {
             if (!$GLOBALS['xoopsSecurity']->check()) {
@@ -35,7 +34,6 @@ switch ($op) {
             }
             if ($wfdownloads->getHandler('review')->delete($reviewObj)) {
                 redirect_header($currentFile, 1, sprintf(_AM_WFDOWNLOADS_FILE_FILEWASDELETED, $reviewObj->getVar('title')));
-                exit();
             } else {
                 echo $reviewObj->getHtmlErrors();
                 exit();
@@ -52,13 +50,11 @@ switch ($op) {
         $ok        = XoopsRequest::getBool('ok', false, 'POST');
         if (!$reviewObj = $wfdownloads->getHandler('review')->get($review_id)) {
             redirect_header($currentFile, 4, _AM_WFDOWNLOADS_ERROR_REVIEWNOTFOUND);
-            exit();
         }
         if ($ok === true) {
             $reviewObj->setVar('submit', 1); // true
             $wfdownloads->getHandler('review')->insert($reviewObj);
             redirect_header($currentFile, 1, sprintf(_AM_WFDOWNLOADS_REV_REVIEW_UPDATED, $reviewObj->getVar('title')));
-            exit();
         } else {
             WfdownloadsUtilities::myxoops_cp_header();
             xoops_confirm(array('op' => 'review.approve', 'review_id' => $reviewObj->getVar('review_id'), 'ok' => true), $currentFile, _AM_WFDOWNLOADS_REVIEW_APPROVETHIS . '<br><br>' . $reviewObj->getVar('title'), _AM_WFDOWNLOADS_REVIEW_APPROVETHIS);
@@ -70,7 +66,6 @@ switch ($op) {
         $review_id = XoopsRequest::getInt('review_id', 0);
         if (!$reviewObj = $wfdownloads->getHandler('review')->get($review_id)) {
             redirect_header($currentFile, 4, _AM_WFDOWNLOADS_ERROR_REVIEWNOTFOUND);
-            exit();
         }
         WfdownloadsUtilities::myxoops_cp_header();
         $indexAdmin = new ModuleAdmin();
@@ -84,7 +79,6 @@ switch ($op) {
         $review_id = XoopsRequest::getInt('review_id', 0);
         if (!$reviewObj = $wfdownloads->getHandler('review')->get($review_id)) {
             redirect_header($currentFile, 4, _AM_WFDOWNLOADS_ERROR_REVIEWNOTFOUND);
-            exit();
         }
         $reviewObj->setVar('title', trim($_POST['title']));
         $reviewObj->setVar('review', trim($_POST['review']));
@@ -92,7 +86,6 @@ switch ($op) {
         $reviewObj->setVar('submit', (int)$_POST['approve']);
         $wfdownloads->getHandler('review')->insert($reviewObj);
         redirect_header($currentFile, 1, _AM_WFDOWNLOADS_REV_REVIEW_UPDATED);
-        exit();
         break;
 
     case 'reviews.list':

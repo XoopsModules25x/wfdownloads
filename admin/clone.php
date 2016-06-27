@@ -23,7 +23,6 @@ include_once __DIR__ . '/admin_header.php';
 if (@$_POST['op'] === 'submit') {
     if (!$GLOBALS['xoopsSecurity']->check()) {
         redirect_header($currentFile, 3, implode('<br>', $GLOBALS['xoopsSecurity']->getErrors()));
-        exit();
     }
 
     $cloneDirname = $_POST['clonedirname'];
@@ -31,7 +30,6 @@ if (@$_POST['op'] === 'submit') {
     // Check if name is valid
     if (empty($cloneDirname) || preg_match('/[^a-zA-Z0-9\_\-]/', $cloneDirname)) {
         redirect_header($currentFile, 3, sprintf(_AM_WFDOWNLOADS_CLONE_INVALIDNAME, $cloneDirname));
-        exit();
     }
     // Check wether the cloned module exists or not
     if ($cloneDirname && is_dir(XOOPS_ROOT_PATH . '/modules/' . $cloneDirname)) {

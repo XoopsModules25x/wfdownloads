@@ -23,19 +23,15 @@ include_once __DIR__ . '/admin_header.php';
 // Check directories
 if (!is_dir($wfdownloads->getConfig('uploaddir'))) {
     redirect_header('index.php', 4, _AM_WFDOWNLOADS_ERROR_UPLOADDIRNOTEXISTS);
-    exit();
 }
 if (!is_dir(XOOPS_ROOT_PATH . '/' . $wfdownloads->getConfig('mainimagedir'))) {
     redirect_header('index.php', 4, _AM_WFDOWNLOADS_ERROR_MAINIMAGEDIRNOTEXISTS);
-    exit();
 }
 if (!is_dir(XOOPS_ROOT_PATH . '/' . $wfdownloads->getConfig('screenshots'))) {
     redirect_header('index.php', 4, _AM_WFDOWNLOADS_ERROR_SCREENSHOTSDIRNOTEXISTS);
-    exit();
 }
 if (!is_dir(XOOPS_ROOT_PATH . '/' . $wfdownloads->getConfig('catimage'))) {
     redirect_header('index.php', 4, _AM_WFDOWNLOADS_ERROR_CATIMAGEDIRNOTEXISTS);
-    exit();
 }
 
 $op = XoopsRequest::getString('op', 'import.menu');
@@ -47,7 +43,6 @@ switch ($op) {
             import_mydownloads_to_wfdownloads();
             // Downloads imported
             redirect_header($currentFile, 1, _AM_WFDOWNLOADS_IMPORT_IMPORT_OK);
-            exit();
         } else {
             WfdownloadsUtilities::myxoops_cp_header();
             xoops_confirm(array('op' => 'import.MyDownloads', 'ok' => true), $currentFile, _AM_WFDOWNLOADS_IMPORT_RUSURE);

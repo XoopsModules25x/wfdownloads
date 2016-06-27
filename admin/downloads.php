@@ -23,19 +23,15 @@ include_once __DIR__ . '/admin_header.php';
 // Check directories
 if (!is_dir($wfdownloads->getConfig('uploaddir'))) {
     redirect_header('index.php', 4, _AM_WFDOWNLOADS_ERROR_UPLOADDIRNOTEXISTS);
-    exit();
 }
 if (!is_dir(XOOPS_ROOT_PATH . '/' . $wfdownloads->getConfig('mainimagedir'))) {
     redirect_header('index.php', 4, _AM_WFDOWNLOADS_ERROR_MAINIMAGEDIRNOTEXISTS);
-    exit();
 }
 if (!is_dir(XOOPS_ROOT_PATH . '/' . $wfdownloads->getConfig('screenshots'))) {
     redirect_header('index.php', 4, _AM_WFDOWNLOADS_ERROR_SCREENSHOTSDIRNOTEXISTS);
-    exit();
 }
 if (!is_dir(XOOPS_ROOT_PATH . '/' . $wfdownloads->getConfig('catimage'))) {
     redirect_header('index.php', 4, _AM_WFDOWNLOADS_ERROR_CATIMAGEDIRNOTEXISTS);
-    exit();
 }
 
 $op = XoopsRequest::getString('op', 'downloads.list');
@@ -69,12 +65,10 @@ switch ($op) {
                 // edit download
                 if (!$downloadObj = $wfdownloads->getHandler('download')->get($lid)) {
                     redirect_header($currentFile, 4, _AM_WFDOWNLOADS_DOWN_ERROR_FILENOTFOUND);
-                    exit();
                 }
                 $cid = $downloadObj->getVar('cid');
                 if (!$categoryObj = $wfdownloads->getHandler('category')->get($cid)) {
                     redirect_header($currentFile, 4, _AM_WFDOWNLOADS_DOWN_ERROR_CATEGORYNOTFOUND);
-                    exit();
                 }
                 $title   = preg_replace('/{category}/', $categoryObj->getVar('title'), _AM_WFDOWNLOADS_FILE_EDIT);
                 $title12 = preg_replace('/{category}/', $categoryObj->getVar('title'), _AM_WFDOWNLOADS_FFS_1STEP);
@@ -126,7 +120,6 @@ switch ($op) {
             $sform->display();
         } else {
             redirect_header('categories.php', 1, _AM_WFDOWNLOADS_CCATEGORY_NOEXISTS);
-            exit();
         }
 
         // Vote data list/manager
@@ -490,7 +483,6 @@ switch ($op) {
         $ok  = XoopsRequest::getBool('ok', false, 'POST');
         if (!$downloadObj = $wfdownloads->getHandler('download')->get($lid)) {
             redirect_header($currentFile, 4, _AM_WFDOWNLOADS_ERROR_DOWNLOADNOTFOUND);
-            exit();
         }
         $title = $downloadObj->getVar('title');
         if ($ok === true) {
@@ -549,7 +541,6 @@ switch ($op) {
         $lid = XoopsRequest::getInt('lid', 0);
         if (!$downloadObj = $wfdownloads->getHandler('download')->get($lid)) {
             redirect_header($currentFile, 4, _AM_WFDOWNLOADS_ERROR_DOWNLOADNOTFOUND);
-            exit();
         }
         // Update the database
         $downloadObj->setVar('published', time());
@@ -823,7 +814,6 @@ switch ($op) {
 
         if (!isset($batchFiles[$batchid]) || !is_file($batchPath . '/' . $batchFiles[$batchid])) {
             redirect_header($currentFile, 4, _AM_WFDOWNLOADS_ERROR_BATCHFILENOTFOUND);
-            exit();
         }
         $batchFile = $batchFiles[$batchid];
 
@@ -868,7 +858,6 @@ switch ($op) {
 
         if (!isset($batchFiles[$batchid]) || !is_file($batchPath . '/' . $batchFiles[$batchid])) {
             redirect_header($currentFile, 4, _AM_WFDOWNLOADS_ERROR_BATCHFILENOTFOUND);
-            exit();
         }
         $title = $batchFiles[$batchid];
         if ($ok === true) {

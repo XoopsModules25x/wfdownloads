@@ -27,7 +27,6 @@ switch ($op) {
         $ok        = XoopsRequest::getBool('ok', false, 'POST');
         if (!$mirrorObj = $wfdownloads->getHandler('mirror')->get($mirror_id)) {
             redirect_header($currentFile, 4, _AM_WFDOWNLOADS_ERROR_MIRRORNOTFOUND);
-            exit();
         }
         if ($ok === true) {
             if (!$GLOBALS['xoopsSecurity']->check()) {
@@ -35,7 +34,6 @@ switch ($op) {
             }
             if ($wfdownloads->getHandler('mirror')->delete($mirrorObj)) {
                 redirect_header($currentFile, 1, sprintf(_AM_WFDOWNLOADS_FILE_FILEWASDELETED, $mirrorObj->getVar('title')));
-                exit();
             } else {
                 echo $mirrorObj->getHtmlErrors();
                 exit();
@@ -52,13 +50,11 @@ switch ($op) {
         $ok        = XoopsRequest::getBool('ok', false, 'POST');
         if (!$mirrorObj = $wfdownloads->getHandler('mirror')->get($mirror_id)) {
             redirect_header($currentFile, 4, _AM_WFDOWNLOADS_ERROR_MIRRORNOTFOUND);
-            exit();
         }
         if ($ok === true) {
             $mirrorObj->setVar('submit', true);
             $wfdownloads->getHandler('mirror')->insert($mirrorObj);
             redirect_header($currentFile, 1, sprintf(_AM_WFDOWNLOADS_MIRROR_MIRROR_UPDATED, $mirrorObj->getVar('title')));
-            exit();
         } else {
             WfdownloadsUtilities::myxoops_cp_header();
             xoops_confirm(array('op' => 'mirror.approve', 'mirror_id' => $mirror_id, 'ok' => true), $currentFile, _AM_WFDOWNLOADS_MIRROR_APPROVETHIS . '<br><br>' . $mirrorObj->getVar('title'), _AM_WFDOWNLOADS_MIRROR_APPROVETHIS);
@@ -70,7 +66,6 @@ switch ($op) {
         $mirror_id = XoopsRequest::getInt('mirror_id', 0);
         if (!$mirrorObj = $wfdownloads->getHandler('mirror')->get($mirror_id)) {
             redirect_header($currentFile, 4, _AM_WFDOWNLOADS_ERROR_MIRRORNOTFOUND);
-            exit();
         }
         WfdownloadsUtilities::myxoops_cp_header();
         $sform = $mirrorObj->getForm();
@@ -82,7 +77,6 @@ switch ($op) {
         $mirror_id = XoopsRequest::getInt('mirror_id', 0);
         if (!$mirrorObj = $wfdownloads->getHandler('mirror')->get($mirror_id)) {
             redirect_header($currentFile, 4, _AM_WFDOWNLOADS_ERROR_MIRRORNOTFOUND);
-            exit();
         }
         $mirrorObj->setVar('title', trim($_POST['title']));
         $mirrorObj->setVar('homeurl', formatURL(trim($_POST['homeurl'])));
@@ -92,7 +86,6 @@ switch ($op) {
         $mirrorObj->setVar('submit', (int)$_POST['approve']);
         $wfdownloads->getHandler('mirror')->insert($mirrorObj);
         redirect_header($currentFile, 1, _AM_WFDOWNLOADS_MIRROR_MIRROR_UPDATED);
-        exit();
         break;
 
     case 'mirrors.list':

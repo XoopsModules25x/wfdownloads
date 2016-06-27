@@ -23,19 +23,15 @@ include_once __DIR__ . '/header.php';
 // Check directories
 if (!is_dir($wfdownloads->getConfig('uploaddir'))) {
     redirect_header(XOOPS_URL, 4, _MD_WFDOWNLOADS_ERROR_UPLOADDIRNOTEXISTS);
-    exit();
 }
 if (!is_dir(XOOPS_ROOT_PATH . '/' . $wfdownloads->getConfig('mainimagedir'))) {
     redirect_header(XOOPS_URL, 4, _MD_WFDOWNLOADS_ERROR_MAINIMAGEDIRNOTEXISTS);
-    exit();
 }
 if (!is_dir(XOOPS_ROOT_PATH . '/' . $wfdownloads->getConfig('screenshots'))) {
     redirect_header(XOOPS_URL, 4, _MD_WFDOWNLOADS_ERROR_SCREENSHOTSDIRNOTEXISTS);
-    exit();
 }
 if (!is_dir(XOOPS_ROOT_PATH . '/' . $wfdownloads->getConfig('catimage'))) {
     redirect_header(XOOPS_URL, 4, _MD_WFDOWNLOADS_ERROR_CATIMAGEDIRNOTEXISTS);
-    exit();
 }
 
 $groups = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : array(0 => XOOPS_GROUP_ANONYMOUS);
@@ -114,12 +110,12 @@ $count            = 0;
 
 // Comparison functions for uasort()
 /**
- * @param $categoryObj_a
- * @param $categoryObj_b
+ * @param WfdownloadsCategory $categoryObj_a
+ * @param WfdownloadsCategory $categoryObj_b
  *
  * @return int
  */
-function categoriesCompareCid($categoryObj_a, $categoryObj_b)
+function categoriesCompareCid(WfdownloadsCategory $categoryObj_a, WfdownloadsCategory $categoryObj_b)
 {
     if ($categoryObj_a->getVar('cid') == $categoryObj_b->getVar('cid')) {
         return 0;
@@ -129,12 +125,12 @@ function categoriesCompareCid($categoryObj_a, $categoryObj_b)
 }
 
 /**
- * @param $categoryObj_a
- * @param $categoryObj_b
+ * @param WfdownloadsCategory $categoryObj_a
+ * @param WfdownloadsCategory $categoryObj_b
  *
  * @return int
  */
-function categoriesCompareTitle($categoryObj_a, $categoryObj_b)
+function categoriesCompareTitle(WfdownloadsCategory $categoryObj_a, WfdownloadsCategory $categoryObj_b)
 {
     if ($categoryObj_a->getVar('title') == $categoryObj_b->getVar('title')) {
         return 0;
@@ -144,12 +140,12 @@ function categoriesCompareTitle($categoryObj_a, $categoryObj_b)
 }
 
 /**
- * @param $categoryObj_a
- * @param $categoryObj_b
+ * @param WfdownloadsCategory $categoryObj_a
+ * @param WfdownloadsCategory $categoryObj_b
  *
  * @return int
  */
-function categoriesCompareWeight($categoryObj_a, $categoryObj_b)
+function categoriesCompareWeight(WfdownloadsCategory $categoryObj_a, WfdownloadsCategory $categoryObj_b)
 {
     if ($categoryObj_a->getVar('weight') == $categoryObj_b->getVar('weight')) {
         return 0;

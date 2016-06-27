@@ -68,8 +68,6 @@ switch ($op) {
         $sql .= " nobreak='{$nobreak}' ";
         $GLOBALS['xoopsDB']->query($sql);
         redirect_header(WFDOWNLOADS_URL . '/admin/indexpage.php', 1, _AM_WFDOWNLOADS_IPAGE_UPDATED);
-        exit();
-
         break;
 
     case 'indexpage.form':

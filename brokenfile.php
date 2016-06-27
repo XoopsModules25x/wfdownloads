@@ -107,7 +107,6 @@ switch ($op) {
                     $xoopsMailer->setSubject($subject);
                     $xoopsMailer->send();
                     redirect_header('index.php', 2, _MD_WFDOWNLOADS_BROKENREPORTED);
-                    exit();
                 } else {
                     echo $reportObj->getHtmlErrors();
                 }

@@ -22,15 +22,12 @@ include_once __DIR__ . '/admin_header.php';
 
 if (!is_dir(XOOPS_ROOT_PATH . '/' . $wfdownloads->getConfig('mainimagedir'))) {
     redirect_header('index.php', 4, _AM_WFDOWNLOADS_ERROR_MAINIMAGEDIRNOTEXISTS);
-    exit();
 }
 if (!is_dir(XOOPS_ROOT_PATH . '/' . $wfdownloads->getConfig('screenshots'))) {
     redirect_header('index.php', 4, _AM_WFDOWNLOADS_ERROR_SCREENSHOTSDIRNOTEXISTS);
-    exit();
 }
 if (!is_dir(XOOPS_ROOT_PATH . '/' . $wfdownloads->getConfig('catimage'))) {
     redirect_header('index.php', 4, _AM_WFDOWNLOADS_ERROR_CATIMAGEDIRNOTEXISTS);
-    exit();
 }
 
 $op = XoopsRequest::getString('op', 'images.list');
@@ -52,10 +49,8 @@ switch ($op) {
             $uploader = new XoopsMediaImgUploader($uploadDir . '/', $allowedMimetypes, $maxFileSize, $maxImgWidth, $maxImgHeight);
 
             redirect_header($currentFile, 2, _AM_WFDOWNLOADS_DOWN_IMAGEUPLOAD);
-            exit();
         } else {
             redirect_header($currentFile, 2, _AM_WFDOWNLOADS_DOWN_NOIMAGEEXIST);
-            exit();
         }
         break;
 
@@ -76,7 +71,6 @@ switch ($op) {
         } else {
             if (empty($_POST['downfile'])) {
                 redirect_header($currentFile, 1, _AM_WFDOWNLOADS_DOWN_NOFILEERROR);
-                exit();
             }
             WfdownloadsUtilities::myxoops_cp_header();
             xoops_confirm(array('op' => 'image.delete', 'uploadpath' => $_POST['uploadpath'], 'downfile' => $_POST['downfile'], 'ok' => true), $currentFile, _AM_WFDOWNLOADS_DOWN_DELETEFILE . '<br><br>' . $_POST['downfile'], _AM_WFDOWNLOADS_BDELETE);

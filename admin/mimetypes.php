@@ -77,7 +77,6 @@ switch ($op) {
         $mime_id = XoopsRequest::getInt('mime_id', 0, 'POST');
         if (!$mimetypeObj = $wfdownloads->getHandler('mimetype')->get($mime_id)) {
             redirect_header($currentFile, 4, _AM_WFDOWNLOADS_ERROR_MIMETYPENOTFOUND);
-            exit();
         }
 
         $mimetypeObj->setVar('mime_ext', $_POST['mime_ext']);
@@ -97,7 +96,6 @@ switch ($op) {
         $mime_id = XoopsRequest::getInt('mime_id', 0);
         if (!$mimetypeObj = $wfdownloads->getHandler('mimetype')->get($mime_id)) {
             redirect_header($currentFile, 4, _AM_WFDOWNLOADS_ERROR_MIMETYPENOTFOUND);
-            exit();
         }
 
         if (isset($_REQUEST['admin']) && $_REQUEST['admin'] === true) {
@@ -144,7 +142,6 @@ switch ($op) {
         $ok      = XoopsRequest::getBool('ok', false, 'POST');
         if (!$mimetypeObj = $wfdownloads->getHandler('mimetype')->get($mime_id)) {
             redirect_header($currentFile, 4, _AM_WFDOWNLOADS_ERROR_MIMETYPENOTFOUND);
-            exit();
         }
         if ($ok === true) {
             if (!$GLOBALS['xoopsSecurity']->check()) {
@@ -152,7 +149,6 @@ switch ($op) {
             }
             if ($wfdownloads->getHandler('mimetype')->delete($mimetypeObj)) {
                 redirect_header($currentFile, 1, sprintf(_AM_WFDOWNLOADS_MIME_MIMEDELETED, $mimetypeObj->getVar('mime_name')));
-                exit();
             } else {
                 echo $mimetypeObj->getHtmlErrors();
                 exit();

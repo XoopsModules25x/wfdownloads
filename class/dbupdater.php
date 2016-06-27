@@ -545,13 +545,11 @@ class WfdownloadsDbupdater
     /**
      * Use to update a table
      *
-     * @param XoopsObject $table {@link WfdownloadsTable} that will be updated
-     *
-     * @see WfdownloadsTable
+     * @param WfdownloadsTable $table {@link WfdownloadsTable} that will be updated
      *
      * @return bool true if success, false if an error occured
      */
-    public function updateTable($table)
+    public function updateTable(WfdownloadsTable $table)
     {
         $ret = true;
         echo '<ul>';

@@ -155,6 +155,5 @@ switch ($op) {
         }
         $msg = FileChecker::copyFile($original_file_path, $file_path) ? _FC_WFDOWNLOADS_FILECOPIED : _FC_WFDOWNLOADS_FILENOTCOPIED;
         redirect_header($redirect, 2, $msg . ': ' . $file_path);
-        exit();
         break;
 }

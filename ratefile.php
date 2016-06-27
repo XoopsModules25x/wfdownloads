@@ -65,13 +65,11 @@ switch ($op) {
             // Check if Rating is Null
             if ($rating === '--') {
                 redirect_header("?cid={$cid}&amp;lid={$lid}", 4, _MD_WFDOWNLOADS_NORATING);
-                exit();
             }
             if ($ratinguserUid != 0) {
                 // Check if Download POSTER is voting (UNLESS Anonymous users allowed to post)
                 if ($downloadObj->getVar('submitter') == $ratinguserUid) {
                     redirect_header(WFDOWNLOADS_URL . "/singlefile.php?cid={$cid}&amp;lid={$lid}", 4, _MD_WFDOWNLOADS_CANTVOTEOWN);
-                    exit();
                 }
                 // Check if REG user is trying to vote twice.
                 $criteria = new CriteriaCompo(new Criteria('lid', $lid));
@@ -79,7 +77,6 @@ switch ($op) {
                 $ratingsCount = $wfdownloads->getHandler('rating')->getCount($criteria);
                 if ($ratingsCount > 0) {
                     redirect_header("singlefile.php?cid={$cid}&amp;lid={$lid}", 4, _MD_WFDOWNLOADS_VOTEONCE);
-                    exit();
                 }
             } else {
                 // Check if ANONYMOUS user is trying to vote more than once per day (only 1 anonymous from an IP in a single day).
@@ -92,7 +89,6 @@ switch ($op) {
                 $anonymousVotesCount = $wfdownloads->getHandler('rating')->getCount($criteria);
                 if ($anonymousVotesCount > 0) {
                     redirect_header("singlefile.php?cid={$cid}&amp;lid={$lid}", 4, _MD_WFDOWNLOADS_VOTEONCE);
-                    exit();
                 }
             }
             // All is well. Add to Line Item Rate to DB.

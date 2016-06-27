@@ -220,9 +220,9 @@ function update_tables_to_323($module)
 // add 'WFUpCatPerm' permission where is set 'WFDownCatPerm' permission
 // =========================================================================================
 /**
- * @param $module
+ * @param XoopsModule $module
  */
-function update_permissions_to_323($module)
+function update_permissions_to_323(XoopsModule $module)
 {
     $gpermHandler     = xoops_getHandler('groupperm');
     $wfdCategoriesHandler = xoops_getModuleHandler('category', $module->dirname());
@@ -540,7 +540,7 @@ function invert_nohtm_dohtml_values()
  *
  * @return void
  */
-function update_table($new_fields, $existing_fields, &$table)
+function update_table($new_fields, $existing_fields, WfDownloadsTable $table)
 {
     foreach ($new_fields as $field => $fieldinfo) {
         $type = $fieldinfo['Type'];
@@ -598,7 +598,7 @@ function get_table_info($table, $default_fields)
  *
  * @return array
  */
-function rename_fields(&$table, $renamed_fields, &$fields, $new_fields)
+function rename_fields(WfDownloadsTable $table, $renamed_fields, &$fields, $new_fields)
 {
     foreach (array_keys($fields) as $field) {
         if (in_array($field, array_keys($renamed_fields))) {

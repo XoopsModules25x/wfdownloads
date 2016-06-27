@@ -310,7 +310,6 @@ switch ($op) {
         $ok        = XoopsRequest::getBool('ok', false, 'POST');
         if (!$modificationObj = $wfdownloads->getHandler('modification')->get($requestid)) {
             redirect_header($currentFile, 4, _AM_WFDOWNLOADS_MOD_NOTFOUND);
-            exit();
         }
         $title = $modificationObj->getVar('title');
         if ($ok === true) {

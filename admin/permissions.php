@@ -24,7 +24,6 @@ include_once XOOPS_ROOT_PATH . '/class/xoopsform/grouppermform.php';
 
 if ($wfdownloads->getHandler('category')->getCount() == 0) {
     redirect_header('categories.php', 1, _AM_WFDOWNLOADS_CCATEGORY_NOEXISTS);
-    exit();
 }
 $categoryObjObjs = $wfdownloads->getHandler('category')->getObjects();
 
