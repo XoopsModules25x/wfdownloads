@@ -63,7 +63,6 @@ class WfdownloadsUtilities
             return false;
         }
 
-
         //        try {
         //            if (!is_dir($folder)) {
         //                throw new \RuntimeException(sprintf('Unable to copy file as: %s ', $folder));
@@ -339,7 +338,6 @@ class WfdownloadsUtilities
         //end of fx2024 code
     }
 
-
     // ====================== START ===================================
 
     /**
@@ -351,7 +349,7 @@ class WfdownloadsUtilities
     /**
      * This function transforms a numerical size (like 2048) to a letteral size (like 2MB)
      *
-     * @param integer $bytes numerical size
+     * @param integer $bytes     numerical size
      * @param integer $precision
      *
      * @return string letteral size
@@ -426,7 +424,7 @@ class WfdownloadsUtilities
      * It's recursive because it doesn't stop with the one directory,
      * it just keeps going through all of the directories in the folder you specify.
      *
-     * @param string $path path to the directory to make
+     * @param string $path  path to the directory to make
      * @param int    $level
      *
      * @return array
@@ -1678,7 +1676,7 @@ class WfdownloadsUtilities
     }
 
     /**
-     * wfdownloads_uploading()
+     * uploading()
      *
      * @param string  $filename
      * @param string  $uploadDirectory
@@ -1691,7 +1689,7 @@ class WfdownloadsUtilities
      *
      * @return array
      **/
-    public static function wfdownloads_uploading($filename, $uploadDirectory = 'uploads', $allowedMimetypes = array(), $redirectURL = 'index.php', $num = 0, $redirect = false, $isAdmin = true, $onlyImages = false)
+    public static function uploading($filename, $uploadDirectory = 'uploads', $allowedMimetypes = array(), $redirectURL = 'index.php', $num = 0, $redirect = false, $isAdmin = true, $onlyImages = false)
     {
         $wfdownloads = WfdownloadsWfdownloads::getInstance();
         $file        = array();
@@ -2123,7 +2121,8 @@ class WfdownloadsUtilities
         function strright($str, $num_chars)
         {
             $str_length = strlen($str);
-            return substr($str, ($str_length - $num_chars), $str_length);
+
+            return substr($str, $str_length - $num_chars, $str_length);
         }
 
         $wfdownloads = WfdownloadsWfdownloads::getInstance();

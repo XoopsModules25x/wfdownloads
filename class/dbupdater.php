@@ -195,7 +195,7 @@ class WfdownloadsTable
     /**
      * Invert values 0 to 1 and 1 to 0
      *
-     * @param string $name name of the field
+     * @param string $name     name of the field
      * @param        $newValue
      * @param        $oldValue
      *
@@ -591,7 +591,7 @@ class WfdownloadsDbupdater
         //felix
         // If table has updated field values, update the table
         if ($table->getUpdatedWhere()) {
-            $ret = $table->UpdateWhereValues($table) && $ret;
+            $ret = $table->updateWhereValues($table) && $ret;
         }
 
         echo '</ul>';

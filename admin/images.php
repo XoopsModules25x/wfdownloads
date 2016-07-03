@@ -43,7 +43,7 @@ switch ($op) {
             $maxImgHeight     = $wfdownloads->getConfig('maximgheight');
             $uploadDir        = XOOPS_ROOT_PATH . '/' . $_POST['uploadpath'];
             $screenShot       = strtolower($_FILES['uploadfile']['name']);
-            wfdownloads_uploading($screenShot, XOOPS_ROOT_PATH . '/' . $_POST['uploadpath'], $allowedMimetypes, $currentFile, 1, false, true);
+            WfdownloadsUtilities::uploading($screenShot, XOOPS_ROOT_PATH . '/' . $_POST['uploadpath'], $allowedMimetypes, $currentFile, 1, false, true);
 
             include_once WFDOWNLOADS_ROOT_PATH . '/class/img_uploader.php';
             $uploader = new XoopsMediaImgUploader($uploadDir . '/', $allowedMimetypes, $maxFileSize, $maxImgWidth, $maxImgHeight);
