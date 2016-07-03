@@ -209,7 +209,7 @@ class WfdownloadsCategoryHandler extends XoopsPersistableObjectHandler
     public $topCategories = false;
 
     /**
-     * @param null|XoopsObject|XoopsDatabase $db
+     * @param null|XoopsDatabase $db
      */
     public function __construct(XoopsDatabase $db)
     {

@@ -536,11 +536,11 @@ function invert_nohtm_dohtml_values()
  *
  * @param array            $new_fields
  * @param array            $existing_fields
- * @param WfDownloadsTable $table
+ * @param WfdownloadsTable $table
  *
  * @return void
  */
-function update_table($new_fields, $existing_fields, WfDownloadsTable $table)
+function update_table($new_fields, $existing_fields, WfdownloadsTable $table)
 {
     foreach ($new_fields as $field => $fieldinfo) {
         $type = $fieldinfo['Type'];
@@ -591,14 +591,14 @@ function get_table_info($table, $default_fields)
 /**
  * Renames fields in a table and updates the existing fields array to reflect it.
  *
- * @param WfDownloadsTable $table
+ * @param WfdownloadsTable $table
  * @param array            $renamed_fields
  * @param array            $fields
  * @param array            $new_fields
  *
  * @return array
  */
-function rename_fields(WfDownloadsTable $table, $renamed_fields, &$fields, $new_fields)
+function rename_fields(WfdownloadsTable $table, $renamed_fields, &$fields, $new_fields)
 {
     foreach (array_keys($fields) as $field) {
         if (in_array($field, array_keys($renamed_fields))) {
