@@ -200,7 +200,7 @@ switch ($op) {
             $title = trim($_POST['title']);
         } else {
             $isAdmin  = WfdownloadsUtilities::userIsAdmin();
-            $down     = wfdownloads_uploading($_FILES, $wfdownloads->getConfig('uploaddir'), '', $currentFile, 0, false, $isAdmin);
+            $down     = WfdownloadsUtilities::uploading($_FILES, $wfdownloads->getConfig('uploaddir'), '', $currentFile, 0, false, $isAdmin);
             $url      = ($_POST['url'] !== 'http://') ? $_POST['url'] : '';
             $size     = $down['size'];
             $filename = $down['filename'];

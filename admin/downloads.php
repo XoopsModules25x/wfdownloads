@@ -177,7 +177,7 @@ switch ($op) {
                     $formatted_date = XoopsLocal::formatTimestamp($regUserRatingObj->getVar('ratingtimestamp'), 'l');
                     $userAvgRating  = isset($userRatings[$regUserRatingObj->getVar('ratinguser')]) ? $userRatings[$regUserRatingObj->getVar('ratinguser')]['avg'] : 0;
                     $userVotes      = isset($userRatings[$regUserRatingObj->getVar('ratinguser')]) ? $userRatings[$regUserRatingObj->getVar('ratinguser')]['count'] : 0;
-                    $ratingUserName = XoopsUser:: getUnameFromId($regUserRatingObj->getVar('ratinguser'));
+                    $ratingUserName = XoopsUser::getUnameFromId($regUserRatingObj->getVar('ratinguser'));
 
                     echo "
                         <tr><td class='head'>$ratingUserName</td>\n
@@ -272,7 +272,7 @@ switch ($op) {
             $downloadObj->setVar('filename', $filename);
             $downloadObj->setVar('filetype', $filetype);
         } else {
-            $down  = wfdownloads_uploading($_FILES, $wfdownloads->getConfig('uploaddir'), '', $currentFile, 0, false, true);
+            $down  = WfdownloadsUtilities::uploading($_FILES, $wfdownloads->getConfig('uploaddir'), '', $currentFile, 0, false, true);
             $url   = ($_POST['url'] !== 'http://') ? $_POST['url'] : '';
             $size  = $down['size'];
             $title = $_FILES['userfile']['name'];

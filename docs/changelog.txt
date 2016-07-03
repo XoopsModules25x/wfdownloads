@@ -76,6 +76,7 @@
 - code cosmetics (mamba)
 - Default value is hidden in else branch (mamba)
 - moved functions to Utilities class (mamba)
+- fixed bug with upload (Cesagonchu/mamba)
 
 
 - TODO: Swish-e files indexing support

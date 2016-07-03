@@ -1676,7 +1676,7 @@ class WfdownloadsUtilities
     }
 
     /**
-     * wfdownloads_uploading()
+     * uploading()
      *
      * @param string  $filename
      * @param string  $uploadDirectory
@@ -1689,7 +1689,7 @@ class WfdownloadsUtilities
      *
      * @return array
      **/
-    public static function wfdownloads_uploading($filename, $uploadDirectory = 'uploads', $allowedMimetypes = array(), $redirectURL = 'index.php', $num = 0, $redirect = false, $isAdmin = true, $onlyImages = false)
+    public static function uploading($filename, $uploadDirectory = 'uploads', $allowedMimetypes = array(), $redirectURL = 'index.php', $num = 0, $redirect = false, $isAdmin = true, $onlyImages = false)
     {
         $wfdownloads = WfdownloadsWfdownloads::getInstance();
         $file        = array();
