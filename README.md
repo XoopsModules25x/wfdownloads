@@ -7,6 +7,7 @@
 [![SensioLabsInsight](https://insight.sensiolabs.com/projects/67218996-ceab-42dc-b191-34fba88ab542/mini.png)](https://insight.sensiolabs.com/projects/67218996-ceab-42dc-b191-34fba88ab542)
 [![Latest Pre-Resease](https://img.shields.io/github/tag/XoopsModules25x/wfdownloads.svg?style=flat)](https://github.com/XoopsModules25x/wfdownloads/tags/)
 [![Latest Version](https://img.shields.io/github/release/XoopsModules25x/wfdownloads.svg?style=flat)](https://github.com/XoopsModules25x/wfdownloads/releases/)
+[![todofy badge](https://todofy.org/b/mambax7/wfdownloads)](https://todofy.org/r/mambax7/wfdownloads)
 
 wfDownloads module for [XOOPS CMS](http://xoops.org) is a download module for XOOPS. You can create a download section with multiple categories and sub-categories. You decide which groups are allowed to upload which type of files separately.
 
