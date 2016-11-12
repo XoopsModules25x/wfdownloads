@@ -23,8 +23,8 @@ include_once __DIR__ . '/admin_header.php';
 define('INDEX_FILE_PATH', XOOPS_ROOT_PATH . '/uploads/index.html');
 define('BLANK_FILE_PATH', XOOPS_ROOT_PATH . '/uploads/blank.gif');
 
-include_once dirname(__DIR__) . '/include/directorychecker.php';
-include_once dirname(__DIR__) . '/include/filechecker.php';
+include_once __DIR__ . '/../class/common/directorychecker.php';
+include_once __DIR__ . '/../class/common/filechecker.php';
 
 xoops_cp_header();
 $indexAdmin = new ModuleAdmin();

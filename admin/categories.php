@@ -109,7 +109,8 @@ switch ($op) {
                 $imgUrl = $uploader->getSavedFileName();
             }
         } else {
-            $imgUrl = (isset($_POST['imgurl']) && $_POST['imgurl'] !== 'blank.png') ? $myts->addSlashes($_POST['imgurl']) : '';
+            $imgUrl = (isset($_POST['imgurl'])
+                       && $_POST['imgurl'] !== 'blank.png') ? $myts->addSlashes($_POST['imgurl']) : '';
         }
 
         if (!$cid) {

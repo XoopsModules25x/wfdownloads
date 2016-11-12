@@ -17,11 +17,10 @@
  * @since           3.23
  * @author          trabis <lusopoemas@gmail.com>
  * @author          Harry Fuecks (PHP Anthology Volume II)
- * @version         $Id: session.php 10283 2012-11-28 13:39:36Z trabis $
  */
 defined('XOOPS_ROOT_PATH') || die('XOOPS root path not defined');
 
-include_once dirname(dirname(__DIR__)) . '/include/common.php';
+include_once __DIR__ . '/../include/common.php';
 
 /**
  * Class WfdownloadsSession
@@ -98,7 +97,7 @@ class WfdownloadsSession
     /**
      * @return WfdownloadsSession
      */
-    public static function &getInstance()
+    public static function getInstance()
     {
         static $_sess;
         if (!isset($_sess)) {

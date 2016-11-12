@@ -47,12 +47,17 @@ if ($downloadObj->isNew()) {
 }
 
 // If Download not published, expired or taken offline - redirect
-if ($downloadObj->getVar('published') == 0 || $downloadObj->getVar('published') > time() || $downloadObj->getVar('offline') === true || ($downloadObj->getVar('expired') != 0 && $downloadObj->getVar('expired') < time()) || $downloadObj->getVar('status') == _WFDOWNLOADS_STATUS_WAITING) {
+if ($downloadObj->getVar('published') == 0 || $downloadObj->getVar('published') > time()
+    || $downloadObj->getVar('offline') == true
+    || ($downloadObj->getVar('expired') != 0
+        && $downloadObj->getVar('expired') < time())
+    || $downloadObj->getVar('status') == _WFDOWNLOADS_STATUS_WAITING
+) {
     redirect_header('index.php', 3, _MD_WFDOWNLOADS_NODOWNLOAD);
 }
 
 // Load Template
-$xoopsOption['template_main'] = "{$wfdownloads->getModule()->dirname()}_singlefile.tpl";
+$GLOBALS['xoopsOption']['template_main'] = "{$wfdownloads->getModule()->dirname()}_singlefile.tpl";
 include_once XOOPS_ROOT_PATH . '/header.php';
 
 $xoTheme->addScript(XOOPS_URL . '/browse.php?Frameworks/jquery/jquery.js');
@@ -63,7 +68,9 @@ $xoTheme->addStylesheet(WFDOWNLOADS_URL . '/assets/css/module.css');
 $xoopsTpl->assign('wfdownloads_url', WFDOWNLOADS_URL . '/');
 
 // Making the category image and title available in the template
-if (($categoryObj->getVar('imgurl') !== '') && is_file(XOOPS_ROOT_PATH . '/' . $wfdownloads->getConfig('catimage') . '/' . $categoryObj->getVar('imgurl'))) {
+if (($categoryObj->getVar('imgurl') != '')
+    && is_file(XOOPS_ROOT_PATH . '/' . $wfdownloads->getConfig('catimage') . '/' . $categoryObj->getVar('imgurl'))
+) {
     if ($wfdownloads->getConfig('usethumbs') && function_exists('gd_info')) {
         $imgurl = WfdownloadsUtilities::createThumb($categoryObj->getVar('imgurl'), $wfdownloads->getConfig('catimage'), 'thumbs', $wfdownloads->getConfig('cat_imgwidth'), $wfdownloads->getConfig('cat_imgheight'), $wfdownloads->getConfig('imagequality'), $wfdownloads->getConfig('updatethumbs'),
                                           $wfdownloads->getConfig('keepaspect'));
@@ -91,7 +98,7 @@ if (WfdownloadsUtilities::checkModule('formulize') && $formulize_idreq) {
     include_once XOOPS_ROOT_PATH . '/modules/formulize/include/extract.php';
     // get the form id and id_req of the user's entry
     $formulizeModule = $moduleHandler->getByDirname('formulize');
-    $formulizeConfig = $configHandler->getConfigsByCat(0, $formulizeModule->mid());
+    $formulizeConfig =& $configHandler->getConfigsByCat(0, $formulizeModule->mid());
 
     $formulize_fid = $categoryObj->getVar('formulize_fid');
 

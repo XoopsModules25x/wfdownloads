@@ -80,7 +80,7 @@ class WfdownloadsMulticolumnsThemeForm extends XoopsForm
     /**
      * Add an element to the form
      *
-     * @param XoopsObject $formElement
+     * @param XoopsFormElement $formElement
      * @param bool        $required is this a "required" element?
      * @param int         $row      two-dimensional array (matrix) row (0 first key)
      * @param int         $column   two-dimensional array (matrix) column (0 first key)

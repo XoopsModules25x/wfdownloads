@@ -18,7 +18,7 @@
  * @author          Xoops Development Team
  */
 defined('XOOPS_ROOT_PATH') || die('XOOPS root path not defined');
-include_once dirname(__DIR__) . '/include/common.php';
+include_once __DIR__ . '/../include/common.php';
 
 require_once XOOPS_ROOT_PATH . '/modules/wfdownloads/class/download.php';
 
@@ -32,7 +32,7 @@ class WfdownloadsModification extends WfdownloadsDownload
      */
     public function __construct($id = null)
     {
-        $this->WfdownloadsDownload();
+        parent::__construct();
         $this->initVar('requestid', XOBJ_DTYPE_INT);
         //
         $this->initVar('modifysubmitter', XOBJ_DTYPE_INT, 0);

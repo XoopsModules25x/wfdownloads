@@ -29,7 +29,7 @@ CREATE TABLE wfdownloads_mimetypes (
 ) ENGINE=MyISAM;
 */
 defined('XOOPS_ROOT_PATH') || die('XOOPS root path not defined');
-include_once dirname(__DIR__) . '/include/common.php';
+include_once __DIR__ . '/../include/common.php';
 
 /**
  * Class WfdownloadsMimetype

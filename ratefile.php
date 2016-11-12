@@ -32,7 +32,11 @@ if (empty($categoryObj)) {
 }
 
 // Download not published, expired or taken offline - redirect
-if ($downloadObj->getVar('published') === false || $downloadObj->getVar('published') > time() || $downloadObj->getVar('offline') === true || ($downloadObj->getVar('expired') != 0 && $downloadObj->getVar('expired') < time())) {
+if ($downloadObj->getVar('published') == false || $downloadObj->getVar('published') > time()
+    || $downloadObj->getVar('offline') == true
+    || ($downloadObj->getVar('expired') != 0
+        && $downloadObj->getVar('expired') < time())
+) {
     redirect_header('index.php', 3, _MD_WFDOWNLOADS_NODOWNLOAD);
 }
 
@@ -107,7 +111,7 @@ switch ($op) {
                 echo $ratingObj->getHtmlErrors();
             }
         } else {
-            $xoopsOption['template_main'] = "{$wfdownloads->getModule()->dirname()}_ratefile.tpl";
+            $GLOBALS['xoopsOption']['template_main'] = "{$wfdownloads->getModule()->dirname()}_ratefile.tpl";
             include_once XOOPS_ROOT_PATH . '/header.php';
 
             $xoTheme->addScript(XOOPS_URL . '/browse.php?Frameworks/jquery/jquery.js');
@@ -150,9 +154,20 @@ switch ($op) {
             $button_tray->addElement($cancel_button);
             $sform->addElement($button_tray);
             $xoopsTpl->assign('voteform', $sform->render());
-            $xoopsTpl->assign('download', array('lid' => $lid, 'cid' => $cid, 'title' => $downloadObj->getVar('title'), 'description' => $downloadObj->getVar('description')));
+            $xoopsTpl->assign('download', array(
+                'lid'         => $lid,
+                'cid'         => $cid,
+                'title'       => $downloadObj->getVar('title'),
+                'description' => $downloadObj->getVar('description')
+            ));
 
-            $xoopsTpl->assign('file', array('id' => $lid, 'lid' => $lid, 'cid' => $cid, 'title' => $downloadObj->getVar('title'), 'imageheader' => WfdownloadsUtilities::headerImage())); // this definition is not removed for backward compatibility issues
+            $xoopsTpl->assign('file', array(
+                'id'          => $lid,
+                'lid'         => $lid,
+                'cid'         => $cid,
+                'title'       => $downloadObj->getVar('title'),
+                'imageheader' => wfdownloads_headerImage()
+            )); // this definition is not removed for backward compatibility issues
             include_once __DIR__ . '/footer.php';
         }
         break;

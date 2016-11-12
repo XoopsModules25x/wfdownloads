@@ -33,7 +33,7 @@ if (!is_dir(XOOPS_ROOT_PATH . '/' . $wfdownloads->getConfig('catimage'))) {
 $op = XoopsRequest::getString('op', 'images.list');
 switch ($op) {
     case 'image.upload':
-        if ($_FILES['uploadfile']['name'] !== '') {
+        if ($_FILES['uploadfile']['name'] != '') {
             if (file_exists(XOOPS_ROOT_PATH . '/' . $_POST['uploadpath'] . '/' . $_FILES['uploadfile']['name'])) {
                 redirect_header($currentFile, 2, _AM_WFDOWNLOADS_DOWN_IMAGEEXIST);
             }

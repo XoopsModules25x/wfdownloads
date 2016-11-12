@@ -1,3 +1,19 @@
+<b><u>=> Version 3.23 Final (2016-11-12)</u></b>
+- removed "@version" (mamba)
+- XOOPS 2.5.8 and PHP 7 (mamba)
+- standardization with addNavigation(basename(__FILE__)) (mamba)
+- removed unneeded double quotes and parenthesis (mamba)
+- improved type comparison (mamba)
+- standardization with <br> (mamba)
+- updated function visibility (mamba)
+- small changes based on testing tool feedback (mamba)
+- code cosmetics (mamba)
+- Default value is hidden in else branch (mamba)
+- moved functions to Utilities class (mamba)
+- fixed bug with upload (Cesagonchu/mamba)
+- started XMF conversion (mamba)
+
+
 <b><u>=> Version 3.23 RC5 (2016-05-22)</u></b>
 - fixed: use DateTime object instead of strtotime function (luciorota)
 - fixed: source code for HTML5/CSS3 (mamba)
@@ -64,20 +80,6 @@
 - removed: unupgraded languages from repository (luciorota)
 - removed: unused templates (luciorota)
 - removed: unused images files (luciorota)
-
-- removed "@version" (mamba)
-- XOOPS 2.5.8 and PHP 7 (mamba)
-- standardization with addNavigation(basename(__FILE__)) (mamba)
-- removed unneeded double quotes and parenthesis (mamba)
-- improved type comparison (mamba)
-- standardization with <br> (mamba)
-- updated function visibility (mamba)
-- small changes based on testing tool feedback (mamba)
-- code cosmetics (mamba)
-- Default value is hidden in else branch (mamba)
-- moved functions to Utilities class (mamba)
-- fixed bug with upload (Cesagonchu/mamba)
-
 
 - TODO: Swish-e files indexing support
 

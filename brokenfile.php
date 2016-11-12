@@ -32,7 +32,12 @@ if (empty($categoryObj)) {
 }
 
 // Download not published, expired or taken offline - redirect
-if ($downloadObj->getVar('published') == 0 || $downloadObj->getVar('published') > time() || $downloadObj->getVar('offline') === true || ($downloadObj->getVar('expired') == true && $downloadObj->getVar('expired') < time()) || $downloadObj->getVar('status') == _WFDOWNLOADS_STATUS_WAITING) {
+if ($downloadObj->getVar('published') == 0 || $downloadObj->getVar('published') > time()
+    || $downloadObj->getVar('offline') == true
+    || ($downloadObj->getVar('expired') == true
+        && $downloadObj->getVar('expired') < time())
+    || $downloadObj->getVar('status') == _WFDOWNLOADS_STATUS_WAITING
+) {
     redirect_header('index.php', 3, _MD_WFDOWNLOADS_NODOWNLOAD);
 }
 
@@ -88,7 +93,7 @@ switch ($op) {
                     $title   = $downloadObj->getVar('title');
                     $subject = _MD_WFDOWNLOADS_BROKENREPORTED;
 
-                    $xoopsMailer = &getMailer();
+                    $xoopsMailer = &xoops_getMailer();
                     $xoopsMailer->useMail();
                     $template_dir = WFDOWNLOADS_ROOT_PATH . '/language/' . $GLOBALS['xoopsConfig']['language'] . '/mail_template';
 
@@ -112,7 +117,7 @@ switch ($op) {
                 }
             }
         } else {
-            $xoopsOption['template_main'] = "{$wfdownloads->getModule()->dirname()}_brokenfile.tpl";
+            $GLOBALS['xoopsOption']['template_main'] = "{$wfdownloads->getModule()->dirname()}_brokenfile.tpl";
             include_once XOOPS_ROOT_PATH . '/header.php';
 
             // Begin Main page Heading etc
@@ -144,7 +149,12 @@ switch ($op) {
             $button_tray->addElement($cancel_button);
             $sform->addElement($button_tray);
             $xoopsTpl->assign('reportform', $sform->render());
-            $xoopsTpl->assign('download', array('lid' => $lid, 'cid' => $cid, 'title' => $downloadObj->getVar('title'), 'description' => $downloadObj->getVar('description')));
+            $xoopsTpl->assign('download', array(
+                'lid'         => $lid,
+                'cid'         => $cid,
+                'title'       => $downloadObj->getVar('title'),
+                'description' => $downloadObj->getVar('description')
+            ));
 
             $criteria = new Criteria('lid', $lid);
 

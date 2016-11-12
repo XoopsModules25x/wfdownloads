@@ -16,14 +16,16 @@
  * @package         wfdownload
  * @since           3.23
  * @author          Xoops Development Team
- * @version         svn:$id$
  */
+
+use Xmf\Language;
 
 //defined('XOOPS_ROOT_PATH') || die('XOOPS root path not defined');
 
-require_once dirname(dirname(dirname(dirname(__DIR__)))) . '/include/cp_header.php';
-$mydirname = basename(dirname(dirname(__DIR__)));
-xoops_loadLanguage('directorychecker', $mydirname);
+require_once __DIR__ . '/../../../../include/cp_header.php';
+$moduleDirName = basename(dirname(dirname(__DIR__)));
+Language::load('directorychecker', $moduleDirName);
+
 
 /**
  * Class DirectoryChecker
@@ -136,7 +138,6 @@ switch ($op) {
         }
         $msg = DirectoryChecker::createDirectory($path) ? _DC_WFDOWNLOADS_DIRCREATED : _DC_WFDOWNLOADS_DIRNOTCREATED;
         redirect_header($redirect, 2, $msg . ': ' . $path);
-        exit();
         break;
     case 'setdirperm':
         if (isset($_POST['path'])) {
@@ -150,6 +151,5 @@ switch ($op) {
         }
         $msg = DirectoryChecker::setDirectoryPermissions($path, $mode) ? _DC_WFDOWNLOADS_PERMSET : _DC_WFDOWNLOADS_PERMNOTSET;
         redirect_header($redirect, 2, $msg . ': ' . $path);
-        exit();
         break;
 }

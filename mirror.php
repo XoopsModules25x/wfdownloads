@@ -32,7 +32,12 @@ if (empty($categoryObj)) {
 }
 
 // Download not published, expired or taken offline - redirect
-if ($downloadObj->getVar('published') == 0 || $downloadObj->getVar('published') > time() || $downloadObj->getVar('offline') === true || ($downloadObj->getVar('expired') != 0 && $downloadObj->getVar('expired') < time()) || $downloadObj->getVar('status') == _WFDOWNLOADS_STATUS_WAITING) {
+if ($downloadObj->getVar('published') == 0 || $downloadObj->getVar('published') > time()
+    || $downloadObj->getVar('offline') == true
+    || ($downloadObj->getVar('expired') != 0
+        && $downloadObj->getVar('expired') < time())
+    || $downloadObj->getVar('status') == _WFDOWNLOADS_STATUS_WAITING
+) {
     redirect_header('index.php', 3, _MD_WFDOWNLOADS_NODOWNLOAD);
 }
 
@@ -62,7 +67,7 @@ switch ($op) {
     case 'list': // this case is not removed for backward compatibility issues
         $start = XoopsRequest::getInt('start', 0);
 
-        $xoopsOption['template_main'] = "{$wfdownloads->getModule()->dirname()}_mirrors.tpl";
+        $GLOBALS['xoopsOption']['template_main'] = "{$wfdownloads->getModule()->dirname()}_mirrors.tpl";
         include_once XOOPS_ROOT_PATH . '/header.php';
 
         $xoTheme->addScript(XOOPS_URL . '/browse.php?Frameworks/jquery/jquery.js');
@@ -99,12 +104,18 @@ switch ($op) {
         $xoopsTpl->assign('down_arr', $download_array);
 
         $add_mirror = false;
-        if (!is_object($GLOBALS['xoopsUser']) && ($wfdownloads->getConfig('anonpost') == _WFDOWNLOADS_ANONPOST_MIRROR || $wfdownloads->getConfig('anonpost') == _WFDOWNLOADS_ANONPOST_BOTH)
+        if (!is_object($GLOBALS['xoopsUser'])
+            && ($wfdownloads->getConfig('anonpost') == _WFDOWNLOADS_ANONPOST_MIRROR
+                || $wfdownloads->getConfig('anonpost') == _WFDOWNLOADS_ANONPOST_BOTH)
             && ($wfdownloads->getConfig('submissions') == _WFDOWNLOADS_SUBMISSIONS_MIRROR
                 || $wfdownloads->getConfig('submissions') == _WFDOWNLOADS_SUBMISSIONS_BOTH)
         ) {
             $add_mirror = true;
-        } elseif (is_object($GLOBALS['xoopsUser']) && ($wfdownloads->getConfig('submissions') == _WFDOWNLOADS_SUBMISSIONS_MIRROR || $wfdownloads->getConfig('submissions') == _WFDOWNLOADS_SUBMISSIONS_BOTH || $GLOBALS['xoopsUser']->isAdmin())) {
+        } elseif (is_object($GLOBALS['xoopsUser'])
+                  && ($wfdownloads->getConfig('submissions') == _WFDOWNLOADS_SUBMISSIONS_MIRROR
+                      || $wfdownloads->getConfig('submissions') == _WFDOWNLOADS_SUBMISSIONS_BOTH
+                      || $GLOBALS['xoopsUser']->isAdmin())
+        ) {
             $add_mirror = true;
         }
 
@@ -137,11 +148,18 @@ switch ($op) {
     case 'mirror.add':
     default:
         // Check if ANONYMOUS user can post mirrors
-        if (!is_object($GLOBALS['xoopsUser']) && ($wfdownloads->getConfig('anonpost') == _WFDOWNLOADS_ANONPOST_NONE || $wfdownloads->getConfig('anonpost') == _WFDOWNLOADS_ANONPOST_DOWNLOAD)) {
+        if (!is_object($GLOBALS['xoopsUser'])
+            && ($wfdownloads->getConfig('anonpost') == _WFDOWNLOADS_ANONPOST_NONE
+                || $wfdownloads->getConfig('anonpost') == _WFDOWNLOADS_ANONPOST_DOWNLOAD)
+        ) {
             redirect_header(XOOPS_URL . '/user.php', 1, _MD_WFDOWNLOADS_MUSTREGFIRST);
         }
         // Check if user can submit mirrors
-        if (is_object($GLOBALS['xoopsUser']) && ($wfdownloads->getConfig('submissions') == _WFDOWNLOADS_SUBMISSIONS_NONE || $wfdownloads->getConfig('submissions') == _WFDOWNLOADS_SUBMISSIONS_DOWNLOAD) && !$GLOBALS['xoopsUser']->isAdmin()) {
+        if (is_object($GLOBALS['xoopsUser'])
+            && ($wfdownloads->getConfig('submissions') == _WFDOWNLOADS_SUBMISSIONS_NONE
+                || $wfdownloads->getConfig('submissions') == _WFDOWNLOADS_SUBMISSIONS_DOWNLOAD)
+            && !$GLOBALS['xoopsUser']->isAdmin()
+        ) {
             redirect_header('index.php', 1, _MD_WFDOWNLOADS_MIRROR_NOTALLOWESTOSUBMIT);
         }
 

@@ -16,14 +16,15 @@
  * @package         wfdownload
  * @since           3.23
  * @author          Xoops Development Team
- * @version         svn:$id$
  */
+
+use Xmf\Language;
 
 //defined('XOOPS_ROOT_PATH') || die('XOOPS root path not defined');
 
-require_once dirname(dirname(dirname(dirname(__DIR__)))) . '/include/cp_header.php';
-$mydirname = basename(dirname(dirname(__DIR__)));
-xoops_loadLanguage('filechecker', $mydirname);
+require_once __DIR__ . '/../../../../include/cp_header.php';
+$moduleDirName = basename(dirname(dirname(__DIR__)));
+Language::load('filechecker', $moduleDirName);
 
 /**
  * Class FileChecker
@@ -156,6 +157,5 @@ switch ($op) {
         }
         $msg = FileChecker::copyFile($original_file_path, $file_path) ? _FC_WFDOWNLOADS_FILECOPIED : _FC_WFDOWNLOADS_FILENOTCOPIED;
         redirect_header($redirect, 2, $msg . ': ' . $file_path);
-        exit();
         break;
 }

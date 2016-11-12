@@ -20,6 +20,7 @@
 
 defined('XOOPS_ROOT_PATH') || die('XOOPS root path not defined');
 
+//xoops_load('XoopsObjectTree');
 include_once XOOPS_ROOT_PATH . '/class/tree.php';
 
 /**

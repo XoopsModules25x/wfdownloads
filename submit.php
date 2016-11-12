@@ -22,7 +22,10 @@ include_once __DIR__ . '/header.php';
 
 // Check if submissions are allowed
 $isSubmissionAllowed = false;
-if (is_object($GLOBALS['xoopsUser']) && ($wfdownloads->getConfig('submissions') == _WFDOWNLOADS_SUBMISSIONS_DOWNLOAD || $wfdownloads->getConfig('submissions') == _WFDOWNLOADS_SUBMISSIONS_BOTH)) {
+if (is_object($GLOBALS['xoopsUser'])
+    && ($wfdownloads->getConfig('submissions') == _WFDOWNLOADS_SUBMISSIONS_DOWNLOAD
+        || $wfdownloads->getConfig('submissions') == _WFDOWNLOADS_SUBMISSIONS_BOTH)
+) {
     // if user is a registered user
     $groups = $GLOBALS['xoopsUser']->getGroups();
     if (count(array_intersect($wfdownloads->getConfig('submitarts'), $groups)) > 0) {
@@ -30,7 +33,10 @@ if (is_object($GLOBALS['xoopsUser']) && ($wfdownloads->getConfig('submissions') 
     }
 } else {
     // if user is ANONYMOUS
-    if (!is_object($GLOBALS['xoopsUser']) && ($wfdownloads->getConfig('anonpost') == _WFDOWNLOADS_ANONPOST_DOWNLOAD || $wfdownloads->getConfig('anonpost') == _WFDOWNLOADS_ANONPOST_BOTH)) {
+    if (!is_object($GLOBALS['xoopsUser'])
+        && ($wfdownloads->getConfig('anonpost') == _WFDOWNLOADS_ANONPOST_DOWNLOAD
+            || $wfdownloads->getConfig('anonpost') == _WFDOWNLOADS_ANONPOST_BOTH)
+    ) {
         $isSubmissionAllowed = true;
     } else {
         redirect_header(XOOPS_URL . '/user.php', 5, _MD_WFDOWNLOADS_MUSTREGFIRST);
@@ -64,7 +70,7 @@ if ($wfdownloads->getConfig('showdisclaimer') && ($op === 'download.form') && $a
 switch ($op) {
     case 'download.disclaimer':
         // Show disclaimers
-        $xoopsOption['template_main'] = "{$wfdownloads->getModule()->dirname()}_disclaimer.tpl";
+        $GLOBALS['xoopsOption']['template_main'] = "{$wfdownloads->getModule()->dirname()}_disclaimer.tpl";
         include_once XOOPS_ROOT_PATH . '/header.php';
 
         $xoTheme->addScript(XOOPS_URL . '/browse.php?Frameworks/jquery/jquery.js');
@@ -157,7 +163,7 @@ switch ($op) {
             $sform = $downloadObj->getForm();
         }
         // Formulize module support - jpc - end
-        $xoopsOption['template_main'] = "{$wfdownloads->getModule()->dirname()}_submit.tpl";
+        $GLOBALS['xoopsOption']['template_main'] = "{$wfdownloads->getModule()->dirname()}_submit.tpl";
         include_once XOOPS_ROOT_PATH . '/header.php';
 
         $xoTheme->addScript(XOOPS_URL . '/browse.php?Frameworks/jquery/jquery.js');
@@ -187,7 +193,7 @@ switch ($op) {
     case 'download.save':
         // Save submitted download
         if (empty($_FILES['userfile']['name'])) {
-            if ($_POST['url'] && $_POST['url'] !== '' && $_POST['url'] !== 'http://') {
+            if ($_POST['url'] && $_POST['url'] != '' && $_POST['url'] !== 'http://') {
                 $url      = ($_POST['url'] !== 'http://') ? $_POST['url'] : '';
                 $filename = '';
                 $filetype = '';
@@ -270,7 +276,9 @@ switch ($op) {
 
         if ($lid > 0) {
             $isANewRecord = false;
-            if ($wfdownloads->getConfig('autoapprove') == _WFDOWNLOADS_AUTOAPPROVE_DOWNLOAD || $wfdownloads->getConfig('autoapprove') == _WFDOWNLOADS_AUTOAPPROVE_BOTH) {
+            if ($wfdownloads->getConfig('autoapprove') == _WFDOWNLOADS_AUTOAPPROVE_DOWNLOAD
+                || $wfdownloads->getConfig('autoapprove') == _WFDOWNLOADS_AUTOAPPROVE_BOTH
+            ) {
                 $downloadObj = $wfdownloads->getHandler('download')->get($lid);
             } else {
                 $downloadObj = $wfdownloads->getHandler('modification')->create();
@@ -279,7 +287,9 @@ switch ($op) {
         } else {
             $isANewRecord = true;
             $downloadObj  = $wfdownloads->getHandler('download')->create();
-            if ($wfdownloads->getConfig('autoapprove') == _WFDOWNLOADS_AUTOAPPROVE_DOWNLOAD || $wfdownloads->getConfig('autoapprove') == _WFDOWNLOADS_AUTOAPPROVE_BOTH) {
+            if ($wfdownloads->getConfig('autoapprove') == _WFDOWNLOADS_AUTOAPPROVE_DOWNLOAD
+                || $wfdownloads->getConfig('autoapprove') == _WFDOWNLOADS_AUTOAPPROVE_BOTH
+            ) {
                 $downloadObj->setVar('published', time());
                 $downloadObj->setVar('status', _WFDOWNLOADS_STATUS_APPROVED);
             } else {

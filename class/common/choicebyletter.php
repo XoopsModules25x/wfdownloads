@@ -23,7 +23,7 @@
  * echo $choicebyletter->render();
  */
 defined('XOOPS_ROOT_PATH') || die('XOOPS root path not defined');
-include_once dirname(dirname(__DIR__)) . '/include/common.php';
+include_once __DIR__ . '/../../include/common.php';
 
 /**
  * Class WfdownloadsChoiceByLetter
@@ -66,8 +66,16 @@ class WfdownloadsChoiceByLetter
      * @param string                        $extra_arg  Additional arguments to pass in the URL
      * @param boolean                       $caseSensitive
      */
-    public function __construct($objHandler, $criteria = null, $field_name = null, $alphabet = array(), $arg_name = 'letter', $url = null, $extra_arg = '', $caseSensitive = false)
-    {
+    public function __construct(
+        $objHandler,
+        $criteria = null,
+        $field_name = null,
+        $alphabet = array(),
+        $arg_name = 'letter',
+        $url = null,
+        $extra_arg = '',
+        $caseSensitive = false
+    ) {
         $this->wfdownloads = WfdownloadsWfdownloads::getInstance();
         $this->objHandler  = $objHandler;
         $this->criteria    = null === $criteria ? new CriteriaCompo() : $criteria;

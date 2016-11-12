@@ -67,7 +67,7 @@ if ($agreed === false) {
 }
 
 if ($wfdownloads->getConfig('showDowndisclaimer') && $agreed === false) {
-    $xoopsOption['template_main'] = "{$wfdownloads->getModule()->dirname()}_disclaimer.tpl";
+    $GLOBALS['xoopsOption']['template_main'] = "{$wfdownloads->getModule()->dirname()}_disclaimer.tpl";
     include_once XOOPS_ROOT_PATH . '/header.php';
 
     $xoTheme->addScript(XOOPS_URL . '/browse.php?Frameworks/jquery/jquery.js');
@@ -114,7 +114,7 @@ if ($wfdownloads->getConfig('showDowndisclaimer') && $agreed === false) {
 
     // Download file
     $fileFilename = trim($downloadObj->getVar('filename')); // IN PROGRESS: why 'trim'?
-    if ((!$downloadObj->getVar('url') === '' && !$downloadObj->getVar('url') === 'http://') || $fileFilename == '') {
+    if ((!$downloadObj->getVar('url') == '' && !$downloadObj->getVar('url') === 'http://') || $fileFilename == '') {
         // download is a remote file: download from remote url
         include_once XOOPS_ROOT_PATH . '/header.php';
 
@@ -148,7 +148,7 @@ if ($wfdownloads->getConfig('showDowndisclaimer') && $agreed === false) {
         }
         // get file informations from filesystem
         $fileFilename  = trim($downloadObj->getVar('filename')); // IN PROGRESS: why 'trim'?
-        $fileMimetype  = ($downloadObj->getVar('filetype') !== '') ? $downloadObj->getVar('filetype') : 'application/octet-stream';
+        $fileMimetype  = ($downloadObj->getVar('filetype') != '') ? $downloadObj->getVar('filetype') : 'application/octet-stream';
         $filePath      = $wfdownloads->getConfig('uploaddir') . '/' . stripslashes(trim($fileFilename));
         $fileFilesize  = filesize($filePath);
         $fileInfo      = pathinfo($filePath);
@@ -156,7 +156,7 @@ if ($wfdownloads->getConfig('showDowndisclaimer') && $agreed === false) {
         $fileExtension = $fileInfo['extension'];
 
         $headerFilename = strtolower(strrev(substr(strrev($fileFilename), 0, strpos(strrev($fileFilename), '--'))));
-        $headerFilename = ($headerFilename === '') ? $fileFilename : $headerFilename;
+        $headerFilename = ($headerFilename == '') ? $fileFilename : $headerFilename;
         // MSIE Bug fix
         if (false !== strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE')) {
             $headerFilename = preg_replace('/\./', '%2e', $headerFilename, substr_count($headerFilename, '.') - 1);

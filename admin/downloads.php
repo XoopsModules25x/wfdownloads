@@ -254,7 +254,7 @@ switch ($op) {
         }
         // Define URL
         if (empty($_FILES['userfile']['name'])) {
-            if ($_POST['url'] && $_POST['url'] !== '' && $_POST['url'] !== 'http://') {
+            if ($_POST['url'] && $_POST['url'] != '' && $_POST['url'] !== 'http://') {
                 $url      = ($_POST['url'] !== 'http://') ? $_POST['url'] : '';
                 $filename = '';
                 $filetype = '';
@@ -579,7 +579,7 @@ switch ($op) {
         $filter_date_condition           = XoopsRequest::getString('filter_date_condition', '<');
         // check filter conditions
         if ($op === 'downloads.filter') {
-            if ($filter_title === '' && $filter_category_title == '' && null === $filter_submitter) {
+            if ($filter_title == '' && $filter_category_title == '' && null === $filter_submitter) {
                 $op = 'downloads.list';
             }
         }
@@ -612,7 +612,7 @@ switch ($op) {
             $criteria = new CriteriaCompo();
             if ($op === 'downloads.filter') {
                 // Evaluate title criteria
-                if ($filter_title !== '') {
+                if ($filter_title != '') {
                     if ($filter_title_condition === 'LIKE') {
                         $criteria->add(new Criteria('title', "%{$filter_title}%", 'LIKE'));
                     } else {
@@ -620,7 +620,7 @@ switch ($op) {
                     }
                 }
                 // Evaluate cid criteria
-                if ($filter_category_title !== '') {
+                if ($filter_category_title != '') {
                     if ($filter_category_title_condition === 'LIKE') {
                         $cids = $wfdownloads->getHandler('category')->getIds(new Criteria('title', "%{$filter_category_title}%", 'LIKE'));
                         $criteria->add(new Criteria('cid', '(' . implode(',', $cids) . ')', 'IN'));
@@ -910,7 +910,7 @@ switch ($op) {
         // Get all logged users
         $uidArray = array();
         foreach ($ip_logObjs as $ip_logObj) {
-            if ($ip_logObj->getVar('uid') != 0 && $ip_logObj->getVar('uid') !== '') {
+            if ($ip_logObj->getVar('uid') != 0 && $ip_logObj->getVar('uid') != '') {
                 $uidArray[] = $ip_logObj->getVar('uid');
             }
         }

@@ -20,44 +20,39 @@
 
 defined('XOOPS_ROOT_PATH') || die('XOOPS root path not defined');
 
-$modversion['name']        = _MI_WFDOWNLOADS_NAME;
-$modversion['version']     = 3.23;
-$modversion['description'] = _MI_WFDOWNLOADS_DESC;
-$modversion['author']      = 'XOOPS Development Team';
-$modversion['credits']     = 'This module was originally based on Mydownloads, and refactored by Catzwolf and the WF-Projects team. Then it became a project of The SmartFactory who continued the excellent work started by the WF-Projects team.';
-$modversion['help']        = 'page=help';
-$modversion['license']     = 'GNU GPL 2.0 or later';
-$modversion['license_url'] = 'http://www.gnu.org/licenses/gpl-2.0.html';
-$modversion['official']    = false;
-$modversion['dirname']     = basename(__DIR__);
+$modversion['version']       = 3.24;
+$modversion['module_status'] = 'Beta 1';
+$modversion['releasedate']   = '2016-11-12';
+$modversion['name']          = _MI_WFDOWNLOADS_NAME;
+$modversion['description']   = _MI_WFDOWNLOADS_DESC;
+$modversion['author']        = 'XOOPS Development Team';
+$modversion['credits']       = 'This module was originally based on Mydownloads, and refactored by Catzwolf and the WF-Projects team. Then it became a project of The SmartFactory who continued the excellent work started by the WF-Projects team.';
+$modversion['help']          = 'page=help';
+$modversion['license']       = 'GNU GPL 2.0 or later';
+$modversion['license_url']   = 'http://www.gnu.org/licenses/gpl-2.0.html';
+$modversion['official']      = false;
+$modversion['dirname']       = basename(__DIR__);
 
 include_once XOOPS_ROOT_PATH . '/modules/' . $modversion['dirname'] . '/include/constants.php';
 
 // Path and name of the module’s logo
-$modversion['image'] = 'assets/images/module_logo.png';
+$modversion['image'] = 'assets/images/logoModule.png';
 
 // Install, update, unistall
 $modversion['onInstall']   = 'include/oninstall.php';
 $modversion['onUpdate']    = 'include/onupdate.php';
 $modversion['onUninstall'] = 'include/onuninstall.php';
 
-$modversion['date']         = '2014-11-22';
-$modversion['release_date'] = '2016/05/22';
-$modversion['status']       = 'RC5';
-$modversion['teammembers']  = 'Bender, David, FrankBlack, Xpider, M0nty, Mithrandir, Marcan, felix[fx2024], Sudhaker, Jegelstaff';
-
-// About
-$modversion['module_status']       = 'RC5';
-$modversion['releasedate']         = '2016-05-22';
+$modversion['date']                = '2014-11-22';
+$modversion['release_date']        = '2016/05/22';
+$modversion['status']              = 'RC5';
+$modversion['teammembers']         = 'Bender, David, FrankBlack, Xpider, M0nty, Mithrandir, Marcan, felix[fx2024], Sudhaker, Jegelstaff';
 $modversion['module_website_url']  = 'http://www.xoops.org/';
 $modversion['module_website_name'] = 'XOOPS';
 $modversion['min_php']             = '5.5';
 $modversion['min_xoops']           = '2.5.8';
-$modversion['min_admin']           = '1.1';
-$modversion['min_db']              = array(
-    'mysql'  => '5.0.7',
-    'mysqli' => '5.0.7'
-);
+$modversion['min_admin']           = '1.2';
+$modversion['min_db']              = array('mysql' => '5.1');
 $modversion['dirmoduleadmin']      = 'Frameworks/moduleclasses';
 $modversion['icons16']             = 'Frameworks/moduleclasses/icons/16';
 $modversion['icons32']             = 'Frameworks/moduleclasses/icons/32';
@@ -141,7 +136,10 @@ global $xoopsModule, $xoopsModuleConfig;
 // check if submission is allowed
 $isSubmissionAllowed = false;
 if (is_object($xoopsModule) && $xoopsModule->dirname() == $modversion['dirname'] && $xoopsModule->isactive()) {
-    if (is_object($GLOBALS['xoopsUser']) && ($xoopsModuleConfig['submissions'] == _WFDOWNLOADS_SUBMISSIONS_DOWNLOAD || $xoopsModuleConfig['submissions'] == _WFDOWNLOADS_SUBMISSIONS_BOTH)) {
+    if (is_object($GLOBALS['xoopsUser'])
+        && ($xoopsModuleConfig['submissions'] == _WFDOWNLOADS_SUBMISSIONS_DOWNLOAD
+            || $xoopsModuleConfig['submissions'] == _WFDOWNLOADS_SUBMISSIONS_BOTH)
+    ) {
         // if user is a registered user
         $groups = $GLOBALS['xoopsUser']->getGroups();
         if (count(array_intersect($xoopsModuleConfig['submitarts'], $groups)) > 0) {
@@ -149,7 +147,9 @@ if (is_object($xoopsModule) && $xoopsModule->dirname() == $modversion['dirname']
         }
     } else {
         // if user is anonymous
-        if ($xoopsModuleConfig['anonpost'] == _WFDOWNLOADS_ANONPOST_DOWNLOAD || $xoopsModuleConfig['anonpost'] == _WFDOWNLOADS_ANONPOST_BOTH) {
+        if ($xoopsModuleConfig['anonpost'] == _WFDOWNLOADS_ANONPOST_DOWNLOAD
+            || $xoopsModuleConfig['anonpost'] == _WFDOWNLOADS_ANONPOST_BOTH
+        ) {
             $isSubmissionAllowed = true;
         }
     }
@@ -948,7 +948,7 @@ $modversion['config'][] = array(
     'description' => '_MI_WFDOWNLOADS_PLATFORMDSC',
     'formtype'    => 'textarea',
     'valuetype'   => 'array',
-    'default'     => 'None|Windows|Unix|Mac|XOOPS 2.5.5|XOOPS 2.5.6|XOOPS 2.5.7|XOOPS 2.5.8|XOOPS 2.6.0|Other'
+    'default'     => 'None|Windows|Unix|Mac|XOOPS 2.5.5|XOOPS 2.5.6|XOOPS 2.5.7|XOOPS 2.5.8|XOOPS 2.5.9|XOOPS 2.6.0|Other'
 );
 
 $license   = array();

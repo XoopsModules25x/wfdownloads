@@ -18,12 +18,10 @@
  * @author          Xoops Development Team
  */
 include_once __DIR__ . '/admin_header.php';
-
 xoops_cp_header();
 
-$aboutAdmin = new ModuleAdmin();
-
-echo $aboutAdmin->addNavigation(basename(__FILE__));
-echo $aboutAdmin->renderAbout('6KJ7RW5DR3VTJ', false);
+echo $adminObject->displayNavigation(basename(__FILE__));
+\Xmf\Module\Admin::setPaypal('6KJ7RW5DR3VTJ');
+echo $adminObject->renderAbout(false);
 
 include_once __DIR__ . '/admin_footer.php';

@@ -27,7 +27,7 @@ if (function_exists('mb_http_output')) {
 $feed_type = 'rss';
 $contents  = ob_get_clean();
 header('Content-Type:text/xml; charset=utf-8');
-$xoopsOption['template_main'] = 'system_' . $feed_type . '.tpl';
+$GLOBALS['xoopsOption']['template_main'] = 'system_' . $feed_type . '.tpl';
 error_reporting(0);
 
 include_once XOOPS_ROOT_PATH . '/class/template.php';

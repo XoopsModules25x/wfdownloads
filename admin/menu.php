@@ -17,27 +17,10 @@
  * @since           3.23
  * @author          Xoops Development Team
  */
-defined('XOOPS_ROOT_PATH') || die('XOOPS root path not defined');
+use Xmf\Module\Admin;
 
-//$moduleHandler = xoops_getHandler('module');
-//$module = $moduleHandler->getByDirname(basename(dirname(__DIR__)));
-include_once dirname(__DIR__) . '/include/common.php';
-$wfdownloads = WfdownloadsWfdownloads::getInstance();
-//$pathIcon32  = '../../' . $wfdownloads->getModule()->getInfo('icons32');
-
+$pathIcon32 = Admin::menuIconPath('');
 $moduleDirName = basename(dirname(__DIR__));
-$moduleHandler = xoops_getHandler('module');
-$module        = $moduleHandler->getByDirname($moduleDirName);
-$pathIcon32    = '../../' . $module->getInfo('icons32');
-
-//xoops_loadLanguage('modinfo', $wfdownloads->getModule()->dirname());
-
-xoops_loadLanguage('modinfo', $module->dirname());
-
-$xoopsModuleAdminPath = XOOPS_ROOT_PATH . '/' . $module->getInfo('dirmoduleadmin');
-include_once $xoopsModuleAdminPath . '/moduleadmin/language/english/main.php';
-
-$adminmenu = array();
 
 $adminmenu[] = array(
     'title' => _MI_WFDOWNLOADS_MENU_HOME,

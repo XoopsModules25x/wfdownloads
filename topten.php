@@ -20,7 +20,7 @@
 $currentFile = basename(__FILE__);
 include_once __DIR__ . '/header.php';
 
-$xoopsOption['template_main'] = "{$wfdownloads->getModule()->dirname()}_topten.tpl";
+$GLOBALS['xoopsOption']['template_main'] = "{$wfdownloads->getModule()->dirname()}_topten.tpl";
 
 // Check permissions
 if (($_GET['list'] === 'rate') && $wfdownloads->getConfig('enable_ratings') === false && !WfdownloadsUtilities::userIsAdmin()) {

@@ -41,7 +41,10 @@ if (in_array(XOOPS_GROUP_ANONYMOUS, $groups)) {
 
 // Check if submission is allowed
 $isSubmissionAllowed = false;
-if (is_object($GLOBALS['xoopsUser']) && ($wfdownloads->getConfig('submissions') == _WFDOWNLOADS_SUBMISSIONS_DOWNLOAD || $wfdownloads->getConfig('submissions') == _WFDOWNLOADS_SUBMISSIONS_BOTH)) {
+if (is_object($GLOBALS['xoopsUser'])
+    && ($wfdownloads->getConfig('submissions') == _WFDOWNLOADS_SUBMISSIONS_DOWNLOAD
+        || $wfdownloads->getConfig('submissions') == _WFDOWNLOADS_SUBMISSIONS_BOTH)
+) {
     // if user is a registered user
     $groups = $GLOBALS['xoopsUser']->getGroups();
     if (count(array_intersect($wfdownloads->getConfig('submitarts'), $groups)) > 0) {
@@ -49,7 +52,9 @@ if (is_object($GLOBALS['xoopsUser']) && ($wfdownloads->getConfig('submissions') 
     }
 } else {
     // if user is anonymous
-    if ($wfdownloads->getConfig('anonpost') == _WFDOWNLOADS_ANONPOST_DOWNLOAD || $wfdownloads->getConfig('anonpost') == _WFDOWNLOADS_ANONPOST_BOTH) {
+    if ($wfdownloads->getConfig('anonpost') == _WFDOWNLOADS_ANONPOST_DOWNLOAD
+        || $wfdownloads->getConfig('anonpost') == _WFDOWNLOADS_ANONPOST_BOTH
+    ) {
         $isSubmissionAllowed = true;
     }
 }
@@ -64,7 +69,7 @@ if (empty($categoryObj)) {
 $allowedDownCategoriesIds = $gpermHandler->getItemIds('WFDownCatPerm', $groups, $wfdownloads->getModule()->mid());
 $allowedUpCategoriesIds   = $gpermHandler->getItemIds('WFUpCatPerm', $groups, $wfdownloads->getModule()->mid());
 
-$xoopsOption['template_main'] = "{$wfdownloads->getModule()->dirname()}_viewcat.tpl";
+$GLOBALS['xoopsOption']['template_main'] = "{$wfdownloads->getModule()->dirname()}_viewcat.tpl";
 include_once XOOPS_ROOT_PATH . '/header.php';
 
 $xoTheme->addScript(XOOPS_URL . '/browse.php?Frameworks/jquery/jquery.js');
@@ -122,7 +127,7 @@ $breadcrumb->addLink($wfdownloads->getModule()->getVar('name'), WFDOWNLOADS_URL)
 foreach (array_reverse($categoryObjsTree->getAllParent($cid)) as $parentCategoryObj) {
     $breadcrumb->addLink($parentCategoryObj->getVar('title'), 'viewcat.php?cid=' . $parentCategoryObj->getVar('cid'));
 }
-if ($categoryObj->getVar('title') !== '') {
+if ($categoryObj->getVar('title') != '') {
     $breadcrumb->addLink($categoryObj->getVar('title'), '');
 }
 if (isset($_GET['list'])) {

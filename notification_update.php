@@ -17,5 +17,5 @@
  * @since           3.23
  * @author          Xoops Development Team
  */
-include_once dirname(dirname(__DIR__)) . '/mainfile.php';
+include_once __DIR__ . '/../../mainfile.php';
 include_once XOOPS_ROOT_PATH . '/include/notification_update.php';

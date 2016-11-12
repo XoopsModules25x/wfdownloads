@@ -18,7 +18,7 @@
  * @author          Xoops Development Team
  */
 defined('XOOPS_ROOT_PATH') || die('XOOPS root path not defined');
-include_once dirname(__DIR__) . '/include/common.php';
+include_once __DIR__ . '/../include/common.php';
 
 /**
  * Class WfdownloadsRating
@@ -66,7 +66,7 @@ class WfdownloadsRatingHandler extends XoopsPersistableObjectHandler
     public $wfdownloads = null;
 
     /**
-     * @param null|XoopsDatabase $db
+     * @param null|XoopsObject|XoopsDatabase $db
      */
     public function __construct(XoopsDatabase $db)
     {
@@ -79,14 +79,14 @@ class WfdownloadsRatingHandler extends XoopsPersistableObjectHandler
      *
      * @param CriteriaElement $criteria {@link CriteriaElement} to match
      *
-     * @return array/int
+     * @return array|int
      */
     public function getUserAverage($criteria = null)
     {
         $groupby = false;
         $field   = '';
         if (isset($criteria) && is_subclass_of($criteria, 'criteriaelement')) {
-            if ($criteria->groupby !== '') {
+            if ($criteria->groupby != '') {
                 $groupby = true;
                 $field   = $criteria->groupby . ', '; //Not entirely secure unless you KNOW that no criteria's groupby clause is going to be mis-used
             }
@@ -95,7 +95,7 @@ class WfdownloadsRatingHandler extends XoopsPersistableObjectHandler
         $sql .= " FROM {$this->table}";
         if (isset($criteria) && is_subclass_of($criteria, 'criteriaelement')) {
             $sql .= ' ' . $criteria->renderWhere();
-            if ($criteria->groupby !== '') {
+            if ($criteria->groupby != '') {
                 $sql .= $criteria->getGroupby();
             }
         }

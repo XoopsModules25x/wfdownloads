@@ -18,7 +18,7 @@
  * @author          Xoops Development Team
  */
 defined('XOOPS_ROOT_PATH') || die('XOOPS root path not defined');
-include_once dirname(__DIR__) . '/include/common.php';
+include_once __DIR__ . '/../include/common.php';
 /**
  * @param        $queryArray
  * @param        $andor
@@ -32,8 +32,17 @@ include_once dirname(__DIR__) . '/include/common.php';
  *
  * @return array
  */
-function wfdownloads_search($queryArray, $andor, $limit, $offset, $userId = 0, $categories = array(), $sortBy = 0, $searchIn = '', $extra = '')
-{
+function wfdownloads_search(
+    $queryArray,
+    $andor,
+    $limit,
+    $offset,
+    $userId = 0,
+    $categories = array(),
+    $sortBy = 0,
+    $searchIn = '',
+    $extra = ''
+) {
     $wfdownloads = WfdownloadsWfdownloads::getInstance();
 
     $userGroups = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : array(0 => XOOPS_GROUP_ANONYMOUS);

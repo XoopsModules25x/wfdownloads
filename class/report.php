@@ -18,7 +18,7 @@
  * @author          Xoops Development Team
  */
 defined('XOOPS_ROOT_PATH') || die('XOOPS root path not defined');
-include_once dirname(__DIR__) . '/include/common.php';
+include_once __DIR__ . '/../include/common.php';
 
 /**
  * Class WfdownloadsReport
@@ -67,7 +67,7 @@ class WfdownloadsReportHandler extends XoopsPersistableObjectHandler
     public $wfdownloads = null;
 
     /**
-     * @param null|XoopsDatabase $db
+     * @param null|XoopsObject|XoopsDatabase $db
      */
     public function __construct(XoopsDatabase $db)
     {

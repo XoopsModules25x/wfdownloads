@@ -59,7 +59,7 @@ class WfdownloadsWfdownloads
     /**
      * @return null
      */
-    public function &getModule()
+    public function getModule()
     {
         if ($this->module === null) {
             $this->initModule();
@@ -115,7 +115,7 @@ class WfdownloadsWfdownloads
      *
      * @return mixed
      */
-    public function &getHandler($name)
+    public function getHandler($name)
     {
         if (!isset($this->handler[$name . 'Handler'])) {
             $this->initHandler($name);

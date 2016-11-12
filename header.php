@@ -17,7 +17,7 @@
  * @since           3.23
  * @author          Xoops Development Team
  */
-include_once dirname(dirname(__DIR__)) . '/mainfile.php';
+include_once __DIR__ . '/../../mainfile.php';
 include_once __DIR__ . '/include/common.php';
 
 // uncomment the below line only if you are using Protector 3.x module

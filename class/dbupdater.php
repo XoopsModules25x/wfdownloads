@@ -196,8 +196,8 @@ class WfdownloadsTable
      * Invert values 0 to 1 and 1 to 0
      *
      * @param string $name     name of the field
-     * @param        $newValue
-     * @param        $oldValue
+     * @param string $newValue
+     * @param string $oldValue
      *
      */ //felix
     public function addUpdatedWhere($name, $newValue, $oldValue)

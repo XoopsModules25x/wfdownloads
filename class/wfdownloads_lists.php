@@ -51,8 +51,16 @@ class WfsLists
      * @param string $suffix
      */
 
-    public function __construct($path = 'uploads', $value = null, $selected = '', $size = 1, $emptyselect = 0, $type = 0, $prefix = '', $suffix = '')
-    {
+    public function __construct(
+        $path = 'uploads',
+        $value = null,
+        $selected = '',
+        $size = 1,
+        $emptyselect = 0,
+        $type = 0,
+        $prefix = '',
+        $suffix = ''
+    ) {
         $this->value       = $value;
         $this->selection   = $selected;
         $this->path        = $path;
@@ -76,7 +84,7 @@ class WfsLists
             $opt_selected = '';
 
             if ($content[0] == $this->isSelected()) {
-                $opt_selected = "selected='selected'";
+                $opt_selected = 'selected';
             }
             $ret .= "<option value='" . $content . "' $opt_selected>" . $content . '</option>';
         }
@@ -149,7 +157,9 @@ class WfsLists
 
         if (is_dir($dirname) && $handle = opendir($dirname)) {
             while (false !== ($file = readdir($handle))) {
-                if (!preg_match("/^[.]{1,2}$/", $file) && preg_match("/$types$/i", $file) && is_file($dirname . '/' . $file)) {
+                if (!preg_match("/^[.]{1,2}$/", $file) && preg_match("/$types$/i", $file)
+                    && is_file($dirname . '/' . $file)
+                ) {
                     if (strtolower($file) === 'blank.png') {
                         continue;
                     }

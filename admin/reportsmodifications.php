@@ -97,7 +97,15 @@ switch ($op) {
         // Get common keys
         $commonKeys = array_intersect($downloadKeys, $modificationKeys);
         // Set not allowed keys
-        $notAllowedKeys = array('lid', 'submitter', 'publisher', 'requestid', 'forumid', 'modifysubmitter', 'paypalemail');
+        $notAllowedKeys = array(
+            'lid',
+            'submitter',
+            'publisher',
+            'requestid',
+            'forumid',
+            'modifysubmitter',
+            'paypalemail'
+        );
 
         $i = 0;
         $mcform->addElement(null, false, null, null);
@@ -155,11 +163,11 @@ switch ($op) {
                 case 'screenshot2':
                 case 'screenshot3':
                 case 'screenshot4':
-                    if ($downloadContent !== '') {
+                    if ($downloadContent != '') {
                         $downloadContent = "<img src='" . XOOPS_URL . "/{$wfdownloads->getConfig('screenshots')}/{$downloadContent}' width='{$wfdownloads->getConfig('shotwidth')}' alt='' title='' />";
                     }
                     //
-                    if ($modificationContent !== '') {
+                    if ($modificationContent != '') {
                         $modificationContent = "<img src='" . XOOPS_URL . "/{$wfdownloads->getConfig('screenshots')}/{$modificationContent}' width='{$wfdownloads->getConfig('shotwidth')}' alt='' title='' />";
                     }
                     break;
@@ -172,13 +180,13 @@ switch ($op) {
                     foreach ($downloadScreenshots as $key => $value) {
                         $downloadScreenshot     = $downloadScreenshots[$key];
                         $modificationScreenshot = $modificationScreenshots[$key];
-                        if ($downloadScreenshot !== '') {
+                        if ($downloadScreenshot != '') {
                             $downloadContent += "<img src='" . XOOPS_URL . "/{$wfdownloads->getConfig('screenshots')}/{$downloadScreenshot}' width='{$wfdownloads->getConfig(
                                     'shotwidth'
                                 )}' alt='' title='' />";
                         }
                         //
-                        if ($modificationContent !== '') {
+                        if ($modificationContent != '') {
                             $modificationContent += "<img src='" . XOOPS_URL . "/{$wfdownloads->getConfig('screenshots')}/{$modificationScreenshot}' width='{$wfdownloads->getConfig(
                                     'shotwidth'
                                 )}' alt='' title='' />";
@@ -192,7 +200,7 @@ switch ($op) {
                     break;
                 case 'features':
                 case 'requirements':
-                    if ($downloadContent !== '') {
+                    if ($downloadContent != '') {
                         $downrequirements = explode('|', trim($downloadContent));
                         $downloadContent  = '<ul>';
                         foreach ($downrequirements as $bi) {
@@ -201,7 +209,7 @@ switch ($op) {
                         $downloadContent .= '</ul>';
                     }
                     //
-                    if ($modificationContent !== '') {
+                    if ($modificationContent != '') {
                         $downrequirements    = explode('|', trim($modificationContent));
                         $modificationContent = '<ul>';
                         foreach ($downrequirements as $bi) {

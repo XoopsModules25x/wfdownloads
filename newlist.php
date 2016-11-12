@@ -20,7 +20,7 @@
 $currentFile = basename(__FILE__);
 include_once __DIR__ . '/header.php';
 
-$xoopsOption['template_main'] = "{$wfdownloads->getModule()->dirname()}_newlistindex.tpl";
+$GLOBALS['xoopsOption']['template_main'] = "{$wfdownloads->getModule()->dirname()}_newlistindex.tpl";
 include_once XOOPS_ROOT_PATH . '/header.php';
 
 $xoTheme->addScript(XOOPS_URL . '/browse.php?Frameworks/jquery/jquery.js');

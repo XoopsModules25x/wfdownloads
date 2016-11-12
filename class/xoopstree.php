@@ -65,7 +65,7 @@ class WfdownloadsXoopsTree
         $sel_id = (int)$sel_id;
         $arr    = array();
         $sql    = 'SELECT * FROM ' . $this->table . ' WHERE ' . $this->pid . '=' . $sel_id . '';
-        if ($order !== '') {
+        if ($order != '') {
             $sql .= " ORDER BY $order";
         }
         $result = $this->db->query($sql);
@@ -114,7 +114,7 @@ class WfdownloadsXoopsTree
     {
         $sel_id = (int)$sel_id;
         $sql    = 'SELECT ' . $this->id . ' FROM ' . $this->table . ' WHERE ' . $this->pid . '=' . $sel_id . '';
-        if ($order !== '') {
+        if ($order != '') {
             $sql .= " ORDER BY $order";
         }
         $result = $this->db->query($sql);
@@ -142,7 +142,7 @@ class WfdownloadsXoopsTree
     {
         $sel_id = (int)$sel_id;
         $sql    = 'SELECT ' . $this->pid . ' FROM ' . $this->table . ' WHERE ' . $this->id . '=' . $sel_id . '';
-        if ($order !== '') {
+        if ($order != '') {
             $sql .= " ORDER BY $order";
         }
         $result = $this->db->query($sql);
@@ -197,17 +197,17 @@ class WfdownloadsXoopsTree
      */
     public function makeMySelBox($title, $order = '', $preset_id = 0, $none = 0, $sel_name = '', $onchange = '')
     {
-        if ($sel_name === '') {
+        if ($sel_name == '') {
             $sel_name = $this->id;
         }
         $myts = MyTextSanitizer::getInstance();
         echo "<select name='" . $sel_name . "'";
-        if ($onchange !== '') {
+        if ($onchange != '') {
             echo " onchange='" . $onchange . "'";
         }
         echo ">\n";
         $sql = 'SELECT ' . $this->id . ', ' . $title . ' FROM ' . $this->table . ' WHERE ' . $this->pid . '=0';
-        if ($order !== '') {
+        if ($order != '') {
             $sql .= " ORDER BY $order";
         }
         $result = $this->db->query($sql);
@@ -217,7 +217,7 @@ class WfdownloadsXoopsTree
         while (false !== (list($catid, $name) = $this->db->fetchRow($result))) {
             $sel = '';
             if ($catid == $preset_id) {
-                $sel = " selected='selected'";
+                $sel = ' selected';
             }
             echo "<option value='$catid'$sel>$name</option>\n";
             $sel = '';
@@ -226,7 +226,7 @@ class WfdownloadsXoopsTree
                 $option['prefix'] = str_replace('.', '--', $option['prefix']);
                 $catpath          = $option['prefix'] . '&nbsp;' . $myts->htmlspecialchars($option[$title]);
                 if ($option[$this->id] == $preset_id) {
-                    $sel = " selected='selected'";
+                    $sel = ' selected';
                 }
                 echo "<option value='" . $option[$this->id] . "'$sel>$catpath</option>\n";
                 $sel = '';
@@ -293,17 +293,17 @@ class WfdownloadsXoopsTree
     /**
      * Enter description here...
      *
-     * @param int|\unknown_type    $sel_id
-     * @param string|\unknown_type $order
-     * @param array|\unknown_type  $parray
+     * @param int|mixed    $sel_id
+     * @param string|mixed $order
+     * @param array|mixed  $parray
      *
-     * @return unknown
+     * @return mixed
      */
     public function getAllChild($sel_id = 0, $order = '', $parray = array())
     {
         $sel_id = (int)$sel_id;
         $sql    = 'SELECT * FROM ' . $this->table . ' WHERE ' . $this->pid . '=' . $sel_id . '';
-        if ($order !== '') {
+        if ($order != '') {
             $sql .= " ORDER BY $order";
         }
         $result = $this->db->query($sql);
@@ -322,18 +322,18 @@ class WfdownloadsXoopsTree
     /**
      * Enter description here...
      *
-     * @param int|\unknown_type    $sel_id
-     * @param string|\unknown_type $order
-     * @param array|\unknown_type  $parray
-     * @param string|\unknown_type $r_prefix
+     * @param int|mixed    $sel_id
+     * @param string|mixed $order
+     * @param array|mixed  $parray
+     * @param string|mixed $r_prefix
      *
-     * @return unknown
+     * @return mixed
      */
     public function getChildTreeArray($sel_id = 0, $order = '', $parray = array(), $r_prefix = '')
     {
         $sel_id = (int)$sel_id;
         $sql    = 'SELECT * FROM ' . $this->table . ' WHERE ' . $this->pid . '=' . $sel_id . '';
-        if ($order !== '') {
+        if ($order != '') {
             $sql .= " ORDER BY $order";
         }
         $result = $this->db->query($sql);

@@ -17,23 +17,38 @@
  * @since           3.23
  * @author          Xoops Development Team
  */
+
+use Xmf\Language;
+use Xmf\Module\Admin;
+
+$moduleDirName = basename(dirname(__DIR__));
 include_once dirname(dirname(dirname(__DIR__))) . '/mainfile.php';
-include_once dirname(__DIR__) . '/include/common.php';
+include_once $GLOBALS['xoops']->path('www/include/cp_functions.php');
+include_once $GLOBALS['xoops']->path('www/include/cp_header.php');
+include_once $GLOBALS['xoops']->path('www/class/xoopsformloader.php');
+require __DIR__ . '/../class/utilities.php';
 
-// Include xoops admin header
-include_once XOOPS_ROOT_PATH . '/include/cp_header.php';
+$pathIcon16      = Admin::iconUrl('', 16);
+$pathIcon32      = Admin::iconUrl('', 32);
 
-$pathIcon16      = XOOPS_URL . '/' . $wfdownloads->getModule()->getInfo('icons16');
-$pathIcon32      = XOOPS_URL . '/' . $wfdownloads->getModule()->getInfo('icons32');
-$pathModuleAdmin = XOOPS_ROOT_PATH . '/' . $wfdownloads->getModule()->getInfo('dirmoduleadmin');
-require_once $pathModuleAdmin . '/moduleadmin/moduleadmin.php';
+$myts = MyTextSanitizer::getInstance();
 
-// Load language files
-xoops_loadLanguage('admin', $wfdownloads->getModule()->dirname());
-xoops_loadLanguage('modinfo', $wfdownloads->getModule()->dirname());
-xoops_loadLanguage('main', $wfdownloads->getModule()->dirname());
-
-if (!isset($xoopsTpl) || !is_object($xoopsTpl)) {
-    include_once XOOPS_ROOT_PATH . '/class/template.php';
+if (!isset($GLOBALS['xoopsTpl']) || !($GLOBALS['xoopsTpl'] instanceof XoopsTpl)) {
+    include_once $GLOBALS['xoops']->path('class/template.php');
     $xoopsTpl = new XoopsTpl();
 }
+
+//Module specific elements
+//include_once $GLOBALS['xoops']->path("modules/{$moduleDirName}/include/functions.php");
+//include_once $GLOBALS['xoops']->path("modules/{$moduleDirName}/include/config.php");
+
+//Handlers
+//$XXXHandler = xoops_getModuleHandler('XXX', $moduleDirName);
+
+// Load language files
+Language::load('admin', $moduleDirName);
+Language::load('modinfo', $moduleDirName);
+Language::load('main', $moduleDirName);
+
+//xoops_cp_header();
+$adminObject = Admin::getInstance();
