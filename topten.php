@@ -126,6 +126,6 @@ if ($_GET['list'] === 'rate') {
     $xoopsTpl->assign('categoryPath', _MD_WFDOWNLOADS_DOWNLOAD_MOST_POPULAR);
 }
 
-$xoopsTpl->assign('module_home', WfdownloadsUtilities::module_home(true));
+$xoopsTpl->assign('module_home', WfdownloadsUtilities::moduleHome(true));
 
 include_once __DIR__ . '/footer.php';

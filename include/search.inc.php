@@ -254,7 +254,7 @@ function wfdownloads_search(
 
     /*
         // Swish-e support EXPERIMENTAL
-        if (($wfdownloads->getConfig('enable_swishe') == true) && WfdownloadsUtilities::swishe_check() == true) {
+        if (($wfdownloads->getConfig('enable_swishe') === true) && WfdownloadsUtilities::swishe_check() === true) {
     // IN PROGRESS
             $swisheCriteria = new CriteriaCompo(new Criteria('cid', '(' . implode(',', $allowedDownCategoriesIds) . ')', 'IN'));
             if ($userId != 0) {

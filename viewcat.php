@@ -112,7 +112,7 @@ $catArray['toolbar']     = WfdownloadsUtilities::toolbar();
 $xoopsTpl->assign('catarray', $catArray);
 
 $xoopsTpl->assign('categoryPath', $wfdownloads->getHandler('category')->getNicePath($cid)); // this definition is not removed for backward compatibility issues
-$xoopsTpl->assign('module_home', WfdownloadsUtilities::module_home(true)); // this definition is not removed for backward compatibility issues
+$xoopsTpl->assign('module_home', WfdownloadsUtilities::moduleHome(true)); // this definition is not removed for backward compatibility issues
 
 // Get categories tree
 $criteria = new CriteriaCompo();

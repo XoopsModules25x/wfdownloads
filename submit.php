@@ -109,7 +109,7 @@ switch ($op) {
         }
 
         $xoopsTpl->assign('categoryPath', _MD_WFDOWNLOADS_DISCLAIMERAGREEMENT);
-        $xoopsTpl->assign('module_home', WfdownloadsUtilities::module_home(true));
+        $xoopsTpl->assign('module_home', WfdownloadsUtilities::moduleHome(true));
 
         include_once __DIR__ . '/footer.php';
         exit();
@@ -183,7 +183,7 @@ switch ($op) {
 
         $xoopsTpl->assign('catarray', $catarray);
         $xoopsTpl->assign('categoryPath', _MD_WFDOWNLOADS_SUBMITDOWNLOAD);
-        $xoopsTpl->assign('module_home', WfdownloadsUtilities::module_home(true));
+        $xoopsTpl->assign('module_home', WfdownloadsUtilities::moduleHome(true));
         $xoopsTpl->assign('submit_form', $sform->render());
 
         include_once __DIR__ . '/footer.php';

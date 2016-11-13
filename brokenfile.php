@@ -33,8 +33,8 @@ if (empty($categoryObj)) {
 
 // Download not published, expired or taken offline - redirect
 if ($downloadObj->getVar('published') == 0 || $downloadObj->getVar('published') > time()
-    || $downloadObj->getVar('offline') == true
-    || ($downloadObj->getVar('expired') == true
+    || $downloadObj->getVar('offline') === true
+    || ($downloadObj->getVar('expired') === true
         && $downloadObj->getVar('expired') < time())
     || $downloadObj->getVar('status') == _WFDOWNLOADS_STATUS_WAITING
 ) {

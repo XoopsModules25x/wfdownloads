@@ -100,5 +100,5 @@ if (isset($days)) {
 // Breadcrumb
 $xoopsTpl->assign('wfdownloads_breadcrumb', $breadcrumb->render());
 
-$xoopsTpl->assign('module_home', WfdownloadsUtilities::module_home(true));
+$xoopsTpl->assign('module_home', WfdownloadsUtilities::moduleHome(true));
 include_once __DIR__ . '/footer.php';

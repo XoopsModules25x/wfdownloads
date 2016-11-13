@@ -33,7 +33,7 @@ if (empty($categoryObj)) {
 
 // Download not published, expired or taken offline - redirect
 if ($downloadObj->getVar('published') == 0 || $downloadObj->getVar('published') > time()
-    || $downloadObj->getVar('offline') == true
+    || $downloadObj->getVar('offline') === true
     || ($downloadObj->getVar('expired') != 0
         && $downloadObj->getVar('expired') < time())
     || $downloadObj->getVar('status') == _WFDOWNLOADS_STATUS_WAITING
@@ -140,7 +140,7 @@ switch ($op) {
         $xoopsTpl->assign('navbar', $navbar);
 
         $xoopsTpl->assign('categoryPath', $pathstring . ' > ' . $download_array['title']);
-        $xoopsTpl->assign('module_home', WfdownloadsUtilities::module_home(true));
+        $xoopsTpl->assign('module_home', WfdownloadsUtilities::moduleHome(true));
 
         include_once __DIR__ . '/footer.php';
         break;

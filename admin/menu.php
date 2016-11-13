@@ -80,7 +80,7 @@ $adminmenu[] = array(
 
 /*
 // Swish-e support EXPERIMENTAL
-if ($wfdownloads->getConfig('enable_swishe') == true) {
+if ($wfdownloads->getConfig('enable_swishe') === true) {
 $adminmenu[] = array(
     'title' => _MI_WFDOWNLOADS_MENU_SWISHE,
     'desc'  => _MI_WFDOWNLOADS_MENU_SWISHE,

@@ -55,7 +55,7 @@ if (is_object($GLOBALS['xoopsUser']) && ($wfdownloads->getConfig('submissions') 
 $allowedDownCategoriesIds = $gpermHandler->getItemIds('WFDownCatPerm', $groups, $wfdownloads->getModule()->mid());
 $allowedUpCategoriesIds   = $gpermHandler->getItemIds('WFUpCatPerm', $groups, $wfdownloads->getModule()->mid());
 
-$xoopsOption['template_main'] = "{$wfdownloads->getModule()->dirname()}_index.tpl";
+$GLOBALS['xoopsOption']['template_main'] = "{$wfdownloads->getModule()->dirname()}_index.tpl";
 include_once XOOPS_ROOT_PATH . '/header.php';
 
 $xoTheme->addScript(XOOPS_URL . '/browse.php?Frameworks/jquery/jquery.js');
@@ -69,7 +69,7 @@ $xoopsTpl->assign('wfdownloads_url', WFDOWNLOADS_URL . '/');
 $breadcrumb = new WfdownloadsBreadcrumb();
 $breadcrumb->addLink($wfdownloads->getModule()->getVar('name'), WFDOWNLOADS_URL);
 
-$xoopsTpl->assign('module_home', WfdownloadsUtilities::module_home(false)); // this definition is not removed for backward compatibility issues
+$xoopsTpl->assign('module_home', WfdownloadsUtilities::moduleHome(false)); // this definition is not removed for backward compatibility issues
 $xoopsTpl->assign('wfdownloads_breadcrumb', $breadcrumb->render());
 
 $categoryCriteria = new CriteriaCompo();

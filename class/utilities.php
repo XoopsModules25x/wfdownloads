@@ -752,7 +752,7 @@ class WfdownloadsUtilities
      *
      * @return string
      */
-    public static function module_home($withLink = true)
+    public static function moduleHome($withLink = true)
     {
         $wfdownloads = WfdownloadsWfdownloads::getInstance();
 
@@ -932,15 +932,15 @@ class WfdownloadsUtilities
      *
      * @return string
      */
-    public static function seo_genUrl($op, $id, $title = '')
+    public static function generateSeoUrl($op, $id, $title = '')
     {
         if (defined('SEO_ENABLED')) {
             if (SEO_ENABLED === 'rewrite') {
                 // generate SEO url using htaccess
-                return XOOPS_URL . "/wfdownloads.${op}.${id}/" . self::seo_title($title);
+                return XOOPS_URL . "/wfdownloads.${op}.${id}/" . self::getSeoTitle($title);
             } elseif (SEO_ENABLED === 'path-info') {
                 // generate SEO url using path-info
-                return XOOPS_URL . "/modules/wfdownloads/seo.php/${op}.${id}/" . self::seo_title($title);
+                return XOOPS_URL . "/modules/wfdownloads/seo.php/${op}.${id}/" . self::getSeoTitle($title);
             } else {
                 die('Unknown SEO method.');
             }
@@ -962,7 +962,7 @@ class WfdownloadsUtilities
      * @param  string $title
      * @return string
      */
-    public static function seo_title($title = '')
+    public static function getSeoTitle($title = '')
     {
         $words = preg_split('/[^0-9a-z.]+/', strtolower($title), -1, PREG_SPLIT_NO_EMPTY);
         if (count($words) > 0) {
@@ -1658,7 +1658,7 @@ class WfdownloadsUtilities
      *
      * @return int
      */
-    public static function return_bytes($size_str)
+    public static function returnBytes($size_str)
     {
         switch (substr($size_str, -1)) {
             case 'M':
@@ -1704,7 +1704,7 @@ class WfdownloadsUtilities
         $file_name = $_FILES['userfile']['name'];
         //Admin can upload files of any size
         if (self::userIsAdmin()) {
-            $maxFileSize = self::return_bytes(ini_get('upload_max_filesize'));
+            $maxFileSize = self::returnBytes(ini_get('upload_max_filesize'));
         } else {
             $maxFileSize = $wfdownloads->getConfig('maxfilesize');
         }

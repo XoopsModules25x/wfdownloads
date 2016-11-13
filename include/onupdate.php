@@ -434,7 +434,7 @@ function update_tables_to_322($module)
         'pid'           => array('Type' => "int(5) unsigned NOT NULL default '0'", 'Default' => true),
         'title'         => array('Type' => "varchar(255) NOT NULL default ''", 'Default' => true),
         'imgurl'        => array('Type' => "varchar(255) NOT NULL default ''", 'Default' => true),
-        'description'   => array('Type' => "text NOT NULL default ''", 'Default' => true),
+        'description'   => array('Type' => "text NULL", 'Default' => true),
         'total'         => array('Type' => "int(11) NOT NULL default '0'", 'Default' => true),
         'summary'       => array('Type' => 'text NOT NULL', 'Default' => false),
         'spotlighttop'  => array('Type' => "int(11) NOT NULL default '0'", 'Default' => true),

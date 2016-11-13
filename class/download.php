@@ -145,14 +145,14 @@ class WfdownloadsDownload extends XoopsObject
                 || $this->wfdownloads->getConfig('anonpost') == _WFDOWNLOADS_ANONPOST_BOTH)
             && ($this->wfdownloads->getConfig('submissions') == _WFDOWNLOADS_SUBMISSIONS_MIRROR
                 || $this->wfdownloads->getConfig('submissions') == _WFDOWNLOADS_SUBMISSIONS_BOTH)
-            && $use_mirrors == true
+            && $use_mirrors === true
         ) {
             $add_mirror = true;
         } elseif (is_object($GLOBALS['xoopsUser'])
                   && ($this->wfdownloads->getConfig('submissions') == _WFDOWNLOADS_SUBMISSIONS_MIRROR
                       || $this->wfdownloads->getConfig('submissions') == _WFDOWNLOADS_SUBMISSIONS_BOTH
                       || wfdownloads_userIsAdmin())
-                  && $use_mirrors == true
+                  && $use_mirrors === true
         ) {
             $add_mirror = true;
         }
@@ -182,7 +182,7 @@ class WfdownloadsDownload extends XoopsObject
                     if ($this->getVar('screenshot') // IN PROGRESS
                         && file_exists(XOOPS_ROOT_PATH . '/' . $this->wfdownloads->getConfig('screenshots') . '/' . xoops_trim($this->getVar('screenshot')))
                     ) {
-                        if ($this->wfdownloads->getConfig('usethumbs') == true) {
+                        if ($this->wfdownloads->getConfig('usethumbs') === true) {
                             $download['screenshot_thumb'] = WfdownloadsUtilities::createThumb(
                                 $download['screenshot_full'], $this->wfdownloads->getConfig('screenshots'), 'thumbs',
                                 $this->wfdownloads->getConfig('shotwidth'), $this->wfdownloads->getConfig('shotheight'),
@@ -199,7 +199,7 @@ class WfdownloadsDownload extends XoopsObject
                     if ($this->getVar('screenshot2')
                         && file_exists(XOOPS_ROOT_PATH . '/' . $this->wfdownloads->getConfig('screenshots') . '/' . xoops_trim($this->getVar('screenshot2')))
                     ) {
-                        if ($this->wfdownloads->getConfig('usethumbs') == true) {
+                        if ($this->wfdownloads->getConfig('usethumbs') === true) {
                             $download['screenshot_thumb2'] = WfdownloadsUtilities::createThumb(
                                 $download['screenshot_full2'], $this->wfdownloads->getConfig('screenshots'), 'thumbs',
                                 $this->wfdownloads->getConfig('shotwidth'), $this->wfdownloads->getConfig('shotheight'),
@@ -215,7 +215,7 @@ class WfdownloadsDownload extends XoopsObject
                     if ($this->getVar('screenshot3')
                         && file_exists(XOOPS_ROOT_PATH . '/' . $this->wfdownloads->getConfig('screenshots') . '/' . xoops_trim($this->getVar('screenshot3')))
                     ) {
-                        if ($this->wfdownloads->getConfig('usethumbs') == true) {
+                        if ($this->wfdownloads->getConfig('usethumbs') === true) {
                             $download['screenshot_thumb3'] = WfdownloadsUtilities::createThumb(
                                 $download['screenshot_full3'], $this->wfdownloads->getConfig('screenshots'), 'thumbs',
                                 $this->wfdownloads->getConfig('shotwidth'), $this->wfdownloads->getConfig('shotheight'),
@@ -231,7 +231,7 @@ class WfdownloadsDownload extends XoopsObject
                     if ($this->getVar('screenshot4')
                         && file_exists(XOOPS_ROOT_PATH . '/' . $this->wfdownloads->getConfig('screenshots') . '/' . xoops_trim($this->getVar('screenshot4')))
                     ) {
-                        if ($this->wfdownloads->getConfig('usethumbs') == true) {
+                        if ($this->wfdownloads->getConfig('usethumbs') === true) {
                             $download['screenshot_thumb4'] = WfdownloadsUtilities::createThumb(
                                 $download['screenshot_full4'], $this->wfdownloads->getConfig('screenshots'), 'thumbs',
                                 $this->wfdownloads->getConfig('shotwidth'), $this->wfdownloads->getConfig('shotheight'),

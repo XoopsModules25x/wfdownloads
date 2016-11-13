@@ -32,8 +32,8 @@ if (empty($categoryObj)) {
 }
 
 // Download not published, expired or taken offline - redirect
-if ($downloadObj->getVar('published') == false || $downloadObj->getVar('published') > time()
-    || $downloadObj->getVar('offline') == true
+if ($downloadObj->getVar('published') === false || $downloadObj->getVar('published') > time()
+    || $downloadObj->getVar('offline') === true
     || ($downloadObj->getVar('expired') != 0
         && $downloadObj->getVar('expired') < time())
 ) {
