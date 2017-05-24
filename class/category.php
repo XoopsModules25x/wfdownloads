@@ -298,7 +298,7 @@ class WfdownloadsCategoryHandler extends XoopsPersistableObjectHandler
      */
     public function getChildCats($category)
     {
-        $categoryObjs =& $this->getObjects();
+        $categoryObjs = $this->getObjects();
         include_once XOOPS_ROOT_PATH . '/class/tree.php';
         $categoryObjsTree = new XoopsObjectTree($categoryObjs, $this->keyName, 'pid');
 
@@ -311,7 +311,7 @@ class WfdownloadsCategoryHandler extends XoopsPersistableObjectHandler
     public function getAllSubcatsTopParentCid()
     {
         if (!$this->allCategories) {
-            $this->allCategories =& $this->getObjects(null, true);
+            $this->allCategories = $this->getObjects(null, true);
         }
 
         include_once XOOPS_ROOT_PATH . '/class/tree.php';
