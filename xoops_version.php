@@ -11,7 +11,7 @@
 /**
  * Wfdownloads module
  *
- * @copyright       The XOOPS Project http://sourceforge.net/projects/xoops/
+ * @copyright       XOOPS Project (https://xoops.org)
  * @license         GNU GPL 2 or later (http://www.gnu.org/licenses/gpl-2.0.html)
  * @package         wfdownload
  * @since           3.23
@@ -57,28 +57,19 @@ $modversion['dirmoduleadmin']      = 'Frameworks/moduleclasses';
 $modversion['icons16']             = 'Frameworks/moduleclasses/icons/16';
 $modversion['icons32']             = 'Frameworks/moduleclasses/icons/32';
 
-// Help files
-$i                                     = 0;
-$modversion['helpsection'][$i]['name'] = _MI_WFDOWNLOADS_HELP_OVERVIEW;
-$modversion['helpsection'][$i]['link'] = 'page=help';
-++$i;
-$modversion['helpsection'][$i]['name'] = _MI_WFDOWNLOADS_HELP_INSTALL;
-$modversion['helpsection'][$i]['link'] = 'page=install';
-++$i;
-$modversion['helpsection'][$i]['name'] = _MI_WFDOWNLOADS_HELP_TIPSTRICKS;
-$modversion['helpsection'][$i]['link'] = 'page=tips_tricks';
-++$i;
-$modversion['helpsection'][$i]['name'] = _MI_WFDOWNLOADS_HELP_IMPORT;
-$modversion['helpsection'][$i]['link'] = 'page=help3';
-++$i;
-$modversion['helpsection'][$i]['name'] = _MI_WFDOWNLOADS_HELP_UPDATE1;
-$modversion['helpsection'][$i]['link'] = 'page=help4';
-++$i;
-$modversion['helpsection'][$i]['name'] = _MI_WFDOWNLOADS_HELP_UPDATE2;
-$modversion['helpsection'][$i]['link'] = 'page=help5';
-++$i;
-$modversion['helpsection'][$i]['name'] = _MI_WFDOWNLOADS_HELP_UPDATE3;
-$modversion['helpsection'][$i]['link'] = 'page=help6';
+// ------------------- Help files ------------------- //
+$modversion['helpsection'] = array(
+    array('name' => _MI_WFDOWNLOADS_HELP_OVERVIEW, 'link' => 'page=help'),
+    array('name' => _MI_WFDOWNLOADS_HELP_DISCLAIMER, 'link' => 'page=disclaimer'),
+    array('name' => _MI_WFDOWNLOADS_HELP_LICENSE, 'link' => 'page=license'),
+    array('name' => _MI_WFDOWNLOADS_HELP_SUPPORT, 'link' => 'page=support'),
+    array('name' => _MI_WFDOWNLOADS_HELP_INSTALL, 'link' => 'page=install'),
+    array('name' => _MI_WFDOWNLOADS_HELP_TIPSTRICKS, 'link' => 'page=tips_tricks'),
+    array('name' => _MI_WFDOWNLOADS_HELP_IMPORT, 'link' => 'page=help3'),
+    array('name' => _MI_WFDOWNLOADS_HELP_UPDATE1, 'link' => 'page=help4'),
+    array('name' => _MI_WFDOWNLOADS_HELP_UPDATE2, 'link' => 'page=help5'),
+    array('name' => _MI_WFDOWNLOADS_HELP_UPDATE3, 'link' => 'page=help6'),
+);
 
 /*
 * added by Liquid. Based on code by Marcan

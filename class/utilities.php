@@ -11,7 +11,7 @@
 /**
  * WfdownloadsUtilities Class
  *
- * @copyright   XOOPS Project (http://xoops.org)
+ * @copyright   XOOPS Project (https://xoops.org)
  * @license     http://www.fsf.org/copyleft/gpl.html GNU public license
  * @author      XOOPS Development Team
  * @package     Wfdownloads
@@ -678,7 +678,7 @@ class WfdownloadsUtilities
 
     /**
      * Create download by letter choice bar/menu
-     * updated starting from this idea http://xoops.org/modules/news/article.php?storyid=6497
+     * updated starting from this idea https://xoops.org/modules/news/article.php?storyid=6497
      *
      * @return string html
      *
