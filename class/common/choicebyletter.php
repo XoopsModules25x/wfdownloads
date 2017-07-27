@@ -23,7 +23,7 @@
  * echo $choicebyletter->render();
  */
 defined('XOOPS_ROOT_PATH') || die('XOOPS root path not defined');
-include_once __DIR__ . '/../../include/common.php';
+require_once __DIR__ . '/../../include/common.php';
 
 /**
  * Class WfdownloadsChoiceByLetter
@@ -134,7 +134,7 @@ class WfdownloadsChoiceByLetter
         }
         // render output
         if (!isset($GLOBALS['xoTheme']) || !is_object($GLOBALS['xoTheme'])) {
-            include_once $GLOBALS['xoops']->path('/class/theme.php');
+            require_once $GLOBALS['xoops']->path('/class/theme.php');
             $GLOBALS['xoTheme'] = new xos_opal_Theme();
         }
         require_once $GLOBALS['xoops']->path('/class/template.php');

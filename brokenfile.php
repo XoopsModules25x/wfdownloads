@@ -8,6 +8,7 @@
  but WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
+
 /**
  * Wfdownloads module
  *
@@ -17,15 +18,18 @@
  * @since           3.23
  * @author          Xoops Development Team
  */
-$currentFile = basename(__FILE__);
-include_once __DIR__ . '/header.php';
 
-$lid         = XoopsRequest::getInt('lid', 0);
+use Xmf\Request;
+
+$currentFile = basename(__FILE__);
+require_once __DIR__ . '/header.php';
+
+$lid         = Request::getInt('lid', 0);
 $downloadObj = $wfdownloads->getHandler('download')->get($lid);
 if (empty($downloadObj)) {
     redirect_header('index.php', 3, _CO_WFDOWNLOADS_ERROR_NODOWNLOAD);
 }
-$cid         = XoopsRequest::getInt('cid', $downloadObj->getVar('cid'));
+$cid         = Request::getInt('cid', $downloadObj->getVar('cid'));
 $categoryObj = $wfdownloads->getHandler('category')->get($cid);
 if (empty($categoryObj)) {
     redirect_header('index.php', 3, _CO_WFDOWNLOADS_ERROR_NOCATEGORY);
@@ -36,18 +40,17 @@ if ($downloadObj->getVar('published') == 0 || $downloadObj->getVar('published') 
     || $downloadObj->getVar('offline') === true
     || ($downloadObj->getVar('expired') === true
         && $downloadObj->getVar('expired') < time())
-    || $downloadObj->getVar('status') == _WFDOWNLOADS_STATUS_WAITING
-) {
+    || $downloadObj->getVar('status') == _WFDOWNLOADS_STATUS_WAITING) {
     redirect_header('index.php', 3, _MD_WFDOWNLOADS_NODOWNLOAD);
 }
 
 // Check permissions
-if ($wfdownloads->getConfig('enable_brokenreports') === false && !WfdownloadsUtilities::userIsAdmin()) {
+if ($wfdownloads->getConfig('enable_brokenreports') === false && !WfdownloadsUtility::userIsAdmin()) {
     redirect_header('index.php', 3, _NOPERM);
 }
 
 // Breadcrumb
-include_once XOOPS_ROOT_PATH . '/class/tree.php';
+require_once XOOPS_ROOT_PATH . '/class/tree.php';
 $categoryObjsTree = new XoopsObjectTree($wfdownloads->getHandler('category')->getObjects(), 'cid', 'pid');
 $breadcrumb       = new WfdownloadsBreadcrumb();
 $breadcrumb->addLink($wfdownloads->getModule()->getVar('name'), WFDOWNLOADS_URL);
@@ -57,7 +60,7 @@ foreach (array_reverse($categoryObjsTree->getAllParent($cid)) as $parentCategory
 $breadcrumb->addLink($categoryObj->getVar('title'), "viewcat.php?cid={$cid}");
 $breadcrumb->addLink($downloadObj->getVar('title'), "singlefile.php?lid={$lid}");
 
-$op = XoopsRequest::getString('op', 'report.add');
+$op = Request::getString('op', 'report.add');
 switch ($op) {
     case 'report.add':
     default:
@@ -93,7 +96,7 @@ switch ($op) {
                     $title   = $downloadObj->getVar('title');
                     $subject = _MD_WFDOWNLOADS_BROKENREPORTED;
 
-                    $xoopsMailer = &xoops_getMailer();
+                    $xoopsMailer = xoops_getMailer();
                     $xoopsMailer->useMail();
                     $template_dir = WFDOWNLOADS_ROOT_PATH . '/language/' . $GLOBALS['xoopsConfig']['language'] . '/mail_template';
 
@@ -118,10 +121,10 @@ switch ($op) {
             }
         } else {
             $GLOBALS['xoopsOption']['template_main'] = "{$wfdownloads->getModule()->dirname()}_brokenfile.tpl";
-            include_once XOOPS_ROOT_PATH . '/header.php';
+            require_once XOOPS_ROOT_PATH . '/header.php';
 
             // Begin Main page Heading etc
-            $catarray['imageheader'] = WfdownloadsUtilities::headerImage();
+            $catarray['imageheader'] = WfdownloadsUtility::headerImage();
             $xoopsTpl->assign('catarray', $catarray);
 
             $xoTheme->addScript(XOOPS_URL . '/browse.php?Frameworks/jquery/jquery.js');
@@ -136,8 +139,8 @@ switch ($op) {
             $xoopsTpl->assign('wfdownloads_breadcrumb', $breadcrumb->render());
 
             // Generate form
-            include_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
-            $sform = new XoopsThemeForm(_MD_WFDOWNLOADS_RATETHISFILE, 'reportform', xoops_getenv('PHP_SELF'));
+            require_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
+            $sform = new XoopsThemeForm(_MD_WFDOWNLOADS_RATETHISFILE, 'reportform', xoops_getenv('PHP_SELF'), 'post', true);
             $sform->addElement(new XoopsFormHidden('lid', $lid));
             $sform->addElement(new XoopsFormHidden('cid', $cid));
             $sform->addElement(new XoopsFormHidden('uid', $senderUid));
@@ -189,7 +192,7 @@ switch ($op) {
                 $xoopsTpl->assign('lid', $lid);
                 $xoopsTpl->assign('down', $down);
             }
-            include_once __DIR__ . '/footer.php';
+            require_once __DIR__ . '/footer.php';
         }
         break;
 }

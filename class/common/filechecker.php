@@ -8,6 +8,7 @@
  but WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
+
 /**
  * Wfdownloads module
  *
@@ -24,7 +25,7 @@ use Xmf\Language;
 
 require_once __DIR__ . '/../../../../include/cp_header.php';
 $moduleDirName = basename(dirname(dirname(__DIR__)));
-Language::load('filechecker', $moduleDirName);
+xoops_loadLanguage('filechecker', $moduleDirName);
 
 /**
  * Class FileChecker

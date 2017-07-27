@@ -8,6 +8,7 @@
  but WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
+
 /**
  * Wfdownloads module
  *
@@ -17,14 +18,17 @@
  * @since           3.23
  * @author          Xoops Development Team
  */
-$currentFile = basename(__FILE__);
-include_once __DIR__ . '/admin_header.php';
 
-$op = XoopsRequest::getString('op', 'reviews.list');
+use Xmf\Request;
+
+$currentFile = basename(__FILE__);
+require_once __DIR__ . '/admin_header.php';
+
+$op = Request::getString('op', 'reviews.list');
 switch ($op) {
     case 'review.delete':
-        $review_id = XoopsRequest::getInt('review_id', 0);
-        $ok        = XoopsRequest::getBool('ok', false, 'POST');
+        $review_id = Request::getInt('review_id', 0);
+        $ok        = Request::getBool('ok', false, 'POST');
         if (!$reviewObj = $wfdownloads->getHandler('review')->get($review_id)) {
             redirect_header($currentFile, 4, _AM_WFDOWNLOADS_ERROR_REVIEWNOTFOUND);
         }
@@ -39,15 +43,15 @@ switch ($op) {
                 exit();
             }
         } else {
-            WfdownloadsUtilities::myxoops_cp_header();
+            WfdownloadsUtility::myxoops_cp_header();
             xoops_confirm(array('op' => 'review.delete', 'review_id' => $review_id, 'ok' => true), $currentFile, _AM_WFDOWNLOADS_FILE_REALLYDELETEDTHIS . '<br><br>' . $reviewObj->getVar('title'), _AM_WFDOWNLOADS_BDELETE);
             xoops_cp_footer();
         }
         break;
 
     case 'review.approve':
-        $review_id = XoopsRequest::getInt('review_id', 0);
-        $ok        = XoopsRequest::getBool('ok', false, 'POST');
+        $review_id = Request::getInt('review_id', 0);
+        $ok        = Request::getBool('ok', false, 'POST');
         if (!$reviewObj = $wfdownloads->getHandler('review')->get($review_id)) {
             redirect_header($currentFile, 4, _AM_WFDOWNLOADS_ERROR_REVIEWNOTFOUND);
         }
@@ -56,27 +60,27 @@ switch ($op) {
             $wfdownloads->getHandler('review')->insert($reviewObj);
             redirect_header($currentFile, 1, sprintf(_AM_WFDOWNLOADS_REV_REVIEW_UPDATED, $reviewObj->getVar('title')));
         } else {
-            WfdownloadsUtilities::myxoops_cp_header();
+            WfdownloadsUtility::myxoops_cp_header();
             xoops_confirm(array('op' => 'review.approve', 'review_id' => $reviewObj->getVar('review_id'), 'ok' => true), $currentFile, _AM_WFDOWNLOADS_REVIEW_APPROVETHIS . '<br><br>' . $reviewObj->getVar('title'), _AM_WFDOWNLOADS_REVIEW_APPROVETHIS);
             xoops_cp_footer();
         }
         break;
 
     case 'review.edit':
-        $review_id = XoopsRequest::getInt('review_id', 0);
+        $review_id = Request::getInt('review_id', 0);
         if (!$reviewObj = $wfdownloads->getHandler('review')->get($review_id)) {
             redirect_header($currentFile, 4, _AM_WFDOWNLOADS_ERROR_REVIEWNOTFOUND);
         }
-        WfdownloadsUtilities::myxoops_cp_header();
-        $indexAdmin = new ModuleAdmin();
-        echo $indexAdmin->addNavigation($currentFile);
+        WfdownloadsUtility::myxoops_cp_header();
+        $adminObject = \Xmf\Module\Admin::getInstance();
+        $adminObject->displayNavigation($currentFile);
         $sform = $reviewObj->getForm();
         $sform->display();
         xoops_cp_footer();
         break;
 
     case 'review.save':
-        $review_id = XoopsRequest::getInt('review_id', 0);
+        $review_id = Request::getInt('review_id', 0);
         if (!$reviewObj = $wfdownloads->getHandler('review')->get($review_id)) {
             redirect_header($currentFile, 4, _AM_WFDOWNLOADS_ERROR_REVIEWNOTFOUND);
         }
@@ -90,8 +94,8 @@ switch ($op) {
 
     case 'reviews.list':
     default:
-        $start_waiting   = XoopsRequest::getInt('start_waiting', 0);
-        $start_published = XoopsRequest::getInt('start_published', 0);
+        $start_waiting   = Request::getInt('start_waiting', 0);
+        $start_published = Request::getInt('start_published', 0);
 
         $criteria_waiting = new Criteria('submit', 0); // false
         $waiting_count    = $wfdownloads->getHandler('review')->getCount($criteria_waiting);
@@ -109,9 +113,9 @@ switch ($op) {
         $criteria_published->setStart($start_published);
         $reviews_published = $wfdownloads->getHandler('review')->getObjects($criteria_published);
 
-        WfdownloadsUtilities::myxoops_cp_header();
-        $indexAdmin = new ModuleAdmin();
-        echo $indexAdmin->addNavigation($currentFile);
+        WfdownloadsUtility::myxoops_cp_header();
+        $adminObject = \Xmf\Module\Admin::getInstance();
+        $adminObject->displayNavigation($currentFile);
 
         $GLOBALS['xoopsTpl']->assign('reviews_waiting_count', $waiting_count);
         $GLOBALS['xoopsTpl']->assign('reviews_published_count', $published_count);
@@ -137,7 +141,7 @@ switch ($op) {
                 $GLOBALS['xoopsTpl']->append('reviews_waiting', $review_waiting_array);
             }
             //Include page navigation
-            include_once XOOPS_ROOT_PATH . '/class/pagenav.php';
+            require_once XOOPS_ROOT_PATH . '/class/pagenav.php';
             $pagenav_waiting = new XoopsPageNav($waiting_count, $wfdownloads->getConfig('admin_perpage'), $start_waiting, 'start_waiting');
             $GLOBALS['xoopsTpl']->assign('reviews_waiting_pagenav', $pagenav_waiting->renderNav());
         }
@@ -163,7 +167,7 @@ switch ($op) {
                 $GLOBALS['xoopsTpl']->append('reviews_published', $review_published_array);
             }
             //Include page navigation
-            include_once XOOPS_ROOT_PATH . '/class/pagenav.php';
+            require_once XOOPS_ROOT_PATH . '/class/pagenav.php';
             $pagenav_published = new XoopsPageNav($published_count, $wfdownloads->getConfig('admin_perpage'), $start_published, 'start_published');
             $GLOBALS['xoopsTpl']->assign('reviews_published_pagenav', $pagenav_published->renderNav());
         }
@@ -175,6 +179,6 @@ switch ($op) {
 
         $GLOBALS['xoopsTpl']->display("db:{$wfdownloads->getModule()->dirname()}_am_reviewslist.tpl");
 
-        include_once __DIR__ . '/admin_footer.php';
+        require_once __DIR__ . '/admin_footer.php';
         break;
 }

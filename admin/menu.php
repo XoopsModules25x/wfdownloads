@@ -8,6 +8,7 @@
  but WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
+
 /**
  * Wfdownloads module
  *
@@ -17,10 +18,25 @@
  * @since           3.23
  * @author          Xoops Development Team
  */
-use Xmf\Module\Admin;
 
-$pathIcon32 = Admin::menuIconPath('');
+use Xmf\Module\Admin;
+use Xmf\Module\Helper;
+
+// defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
+
+//$path = dirname(dirname(dirname(__DIR__)));
+//require_once $path . '/mainfile.php';
+
 $moduleDirName = basename(dirname(__DIR__));
+
+if (false !== ($moduleHelper = Helper::getHelper($moduleDirName))) {
+} else {
+    $moduleHelper = Helper::getHelper('system');
+}
+$pathIcon32    = Admin::menuIconPath('');
+$pathModIcon32 = $moduleHelper->getModule()->getInfo('modicons32');
+
+xoops_loadLanguage('modinfo', $moduleDirName);
 
 $adminmenu[] = array(
     'title' => _MI_WFDOWNLOADS_MENU_HOME,

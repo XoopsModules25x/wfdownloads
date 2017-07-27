@@ -21,7 +21,7 @@
 defined('XOOPS_ROOT_PATH') || die('XOOPS root path not defined');
 
 //xoops_load('XoopsObjectTree');
-include_once XOOPS_ROOT_PATH . '/class/tree.php';
+require_once XOOPS_ROOT_PATH . '/class/tree.php';
 
 /**
  * Form element that ...
@@ -43,12 +43,12 @@ class WfdownloadsObjectTree extends XoopsObjectTree
     public function makeSelBoxOptionsArray($fieldName, $key, &$optionsArray, $prefix_orig, $prefix_curr = '')
     {
         if ($key > 0) {
-            $value                = $this->_tree[$key]['obj']->getVar($this->_myId);
-            $optionsArray[$value] = $prefix_curr . $this->_tree[$key]['obj']->getVar($fieldName);
-            $prefix_curr .= $prefix_orig;
+            $value                = $this->tree[$key]['obj']->getVar($this->_myId);
+            $optionsArray[$value] = $prefix_curr . $this->tree[$key]['obj']->getVar($fieldName);
+            $prefix_curr          .= $prefix_orig;
         }
-        if (isset($this->_tree[$key]['child']) && !empty($this->_tree[$key]['child'])) {
-            foreach ($this->_tree[$key]['child'] as $childkey) {
+        if (isset($this->tree[$key]['child']) && !empty($this->tree[$key]['child'])) {
+            foreach ($this->tree[$key]['child'] as $childkey) {
                 $this->makeSelBoxOptionsArray($fieldName, $childkey, $optionsArray, $prefix_orig, $prefix_curr);
             }
         }
@@ -70,9 +70,8 @@ class WfdownloadsObjectTree extends XoopsObjectTree
      * @return array $optionsArray   Associative array of value->name pairs, useful for <a href='psi_element://XoopsFormSelect'>XoopsFormSelect</a>->addOptionArray method
      *                                addOptionArray method
      */
-
     public function makeSelBox($name, $fieldName, $prefix = '-', $selected = '', $addEmptyOption = false, $key = 0, $extra = '')
-//    public function makeSelBox($fieldName, $prefix = '-', $addEmptyOption = false, $key = 0)
+        //    public function makeSelBox($fieldName, $prefix = '-', $addEmptyOption = false, $key = 0)
     {
         $optionsArray = array();
         if ($addEmptyOption) {

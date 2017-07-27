@@ -8,6 +8,7 @@
  but WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
+
 /**
  * Wfdownloads module
  *
@@ -17,11 +18,146 @@
  * @since           3.23
  * @author          Xoops Development Team
  */
+
+use Xmf\Language;
+
+if ((!defined('XOOPS_ROOT_PATH')) || !($GLOBALS['xoopsUser'] instanceof XoopsUser)
+    || !$GLOBALS['xoopsUser']->IsAdmin()) {
+    exit('Restricted access' . PHP_EOL);
+}
+
+/**
+ * @param string $tablename
+ *
+ * @return bool
+ */
+function tableExists($tablename)
+{
+    $result = $GLOBALS['xoopsDB']->queryF("SHOW TABLES LIKE '$tablename'");
+
+    return ($GLOBALS['xoopsDB']->getRowsNum($result) > 0) ? true : false;
+}
+
+/**
+ *
+ * Prepares system prior to attempting to install module
+ * @param XoopsModule $module {@link XoopsModule}
+ *
+ * @return bool true if ready to install, false if not
+ */
+function xoops_module_pre_update_wfdownloads(XoopsModule $module)
+{
+    $moduleDirName = basename(dirname(__DIR__));
+    $className     = ucfirst($moduleDirName) . 'Utility';
+    if (!class_exists($className)) {
+        xoops_load('utility', $moduleDirName);
+    }
+    //check for minimum XOOPS version
+    if (!$className::checkVerXoops($module)) {
+        return false;
+    }
+
+    // check for minimum PHP version
+    if (!$className::checkVerPhp($module)) {
+        return false;
+    }
+
+    return true;
+}
+
+/**
+ *
+ * Performs tasks required during update of the module
+ * @param XoopsModule $module {@link XoopsModule}
+ * @param null        $previousVersion
+ *
+ * @return bool true if update successful, false if not
+ */
+
+function xoops_module_update_wfdownloads(XoopsModule $module, $previousVersion = null)
+{
+    $moduleDirName = basename(dirname(__DIR__));
+
+    if ($previousVersion < 325) {
+        require_once __DIR__ . '/config.php';
+
+        //        $configurator = include __DIR__ . '/config.php';
+        $configurator = new WfdownloadsConfigurator();
+        $classUtility = ucfirst($moduleDirName) . 'Utility';
+        ;
+        if (!class_exists($classUtility)) {
+            xoops_load('utility', $moduleDirName);
+        }
+
+        //delete old HTML templates
+        if (count($configurator->templateFolders) > 0) {
+            foreach ($configurator->templateFolders as $folder) {
+                $templateFolder = $GLOBALS['xoops']->path('modules/' . $moduleDirName . $folder);
+                if (is_dir($templateFolder)) {
+                    $templateList = array_diff(scandir($templateFolder, SCANDIR_SORT_NONE), array('..', '.'));
+                    foreach ($templateList as $k => $v) {
+                        $fileInfo = new SplFileInfo($templateFolder . $v);
+                        if ($fileInfo->getExtension() === 'html' && $fileInfo->getFilename() !== 'index.html') {
+                            if (file_exists($templateFolder . $v)) {
+                                unlink($templateFolder . $v);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        //  ---  DELETE OLD FILES ---------------
+        if (count($configurator->oldFiles) > 0) {
+            //    foreach (array_keys($GLOBALS['uploadFolders']) as $i) {
+            foreach (array_keys($configurator->oldFiles) as $i) {
+                $tempFile = $GLOBALS['xoops']->path('modules/' . $moduleDirName . $configurator->oldFiles[$i]);
+                if (is_file($tempFile)) {
+                    unlink($tempFile);
+                }
+            }
+        }
+
+        //  ---  DELETE OLD FOLDERS ---------------
+        xoops_load('XoopsFile');
+        if (count($configurator->oldFolders) > 0) {
+            //    foreach (array_keys($GLOBALS['uploadFolders']) as $i) {
+            foreach (array_keys($configurator->oldFolders) as $i) {
+                $tempFolder = $GLOBALS['xoops']->path('modules/' . $moduleDirName . $configurator->oldFolders[$i]);
+                /** @var XoopsObjectHandler $folderHandler */
+                $folderHandler = XoopsFile::getHandler('folder', $tempFolder);
+                $folderHandler->delete($tempFolder);
+            }
+        }
+
+        //  ---  CREATE FOLDERS ---------------
+        if (count($configurator->uploadFolders) > 0) {
+            //    foreach (array_keys($GLOBALS['uploadFolders']) as $i) {
+            foreach (array_keys($configurator->uploadFolders) as $i) {
+                $classUtility::createFolder($configurator->uploadFolders[$i]);
+            }
+        }
+
+        //  ---  COPY blank.png FILES ---------------
+        if (count($configurator->blankFiles) > 0) {
+            $file = __DIR__ . '/../assets/images/blank.png';
+            foreach (array_keys($configurator->blankFiles) as $i) {
+                $dest = $configurator->blankFiles[$i] . '/blank.png';
+                $classUtility::copyFile($file, $dest);
+            }
+        }
+
+        //delete .html entries from the tpl table
+        $sql = 'DELETE FROM ' . $GLOBALS['xoopsDB']->prefix('tplfile') . " WHERE `tpl_module` = '" . $module->getVar('dirname', 'n') . "' AND `tpl_file` LIKE '%.html%'";
+        $GLOBALS['xoopsDB']->queryF($sql);
+    }
+}
+
 defined('XOOPS_ROOT_PATH') || die('XOOPS root path not defined');
-include_once __DIR__ . '/common.php';
-//@include_once WFDOWNLOADS_ROOT_PATH . '/language/' . $GLOBALS['xoopsConfig']['language'] . '/admin.php';
+require_once __DIR__ . '/common.php';
+//@require_once WFDOWNLOADS_ROOT_PATH . '/language/' . $GLOBALS['xoopsConfig']['language'] . '/admin.php';
 xoops_loadLanguage('admin', $wfdownloads->getModule()->dirname());
-include_once WFDOWNLOADS_ROOT_PATH . '/class/dbupdater.php';
+require_once WFDOWNLOADS_ROOT_PATH . '/class/dbupdater.php';
 
 /**
  * @param XoopsModule $xoopsModule
@@ -29,7 +165,8 @@ include_once WFDOWNLOADS_ROOT_PATH . '/class/dbupdater.php';
  *
  * @return bool
  */
-function xoops_module_update_wfdownloads(XoopsModule $xoopsModule, $previousVersion)
+
+function xoops_module_update_wfdownloads2(XoopsModule $xoopsModule, $previousVersion)
 {
     ob_start();
     invert_nohtm_dohtml_values();
@@ -46,7 +183,7 @@ function xoops_module_update_wfdownloads(XoopsModule $xoopsModule, $previousVers
     } else {
         echo $feedback;
     }
-    WfdownloadsUtilities::setMeta('version', '3.23'); //Set meta version to current
+    WfdownloadsUtility::setMeta('version', '3.23'); //Set meta version to current
 
     return true;
 }
@@ -90,21 +227,21 @@ function update_tables_to_323($module)
         'mirror'          => array('Type' => "varchar(255) NOT NULL default ''", 'Default' => true),
         'price'           => array('Type' => "varchar(10) NOT NULL default 'Free'", 'Default' => true),
         'paypalemail'     => array('Type' => "varchar(255) NOT NULL default ''", 'Default' => true),
-        'features'        => array('Type' => 'text NOT NULL', 'Default' => false),
-        'requirements'    => array('Type' => 'text NOT NULL', 'Default' => false),
+        'features'        => array('Type' => 'text NULL', 'Default' => false),
+        'requirements'    => array('Type' => 'text NULL', 'Default' => false),
         'homepagetitle'   => array('Type' => "varchar(255) NOT NULL default ''", 'Default' => true),
         'forumid'         => array('Type' => "int(11) NOT NULL default '0'", 'Default' => true),
         'limitations'     => array('Type' => "varchar(255) NOT NULL default '30 day trial'", 'Default' => true),
         'versiontypes'    => array('Type' => "varchar(255) NOT NULL default 'None'", 'Default' => true),
-        'dhistory'        => array('Type' => 'text NOT NULL', 'Default' => false),
+        'dhistory'        => array('Type' => 'text NULL', 'Default' => false),
         'published'       => array('Type' => "int(11) NOT NULL default '1089662528'", 'Default' => true),
         'expired'         => array('Type' => "int(10) NOT NULL default '0'", 'Default' => true),
         'updated'         => array('Type' => "int(11) NOT NULL default '0'", 'Default' => true),
         'offline'         => array('Type' => "tinyint(1) NOT NULL default '0'", 'Default' => true),
-        'description'     => array('Type' => 'text NOT NULL', 'Default' => false),
+        'description'     => array('Type' => 'text NULL', 'Default' => false),
         'ipaddress'       => array('Type' => "varchar(120) NOT NULL default '0'", 'Default' => true),
         'notifypub'       => array('Type' => "int(1) NOT NULL default '0'", 'Default' => true),
-        'summary'         => array('Type' => 'text NOT NULL', 'Default' => false),
+        'summary'         => array('Type' => 'text NULL', 'Default' => false),
         'formulize_idreq' => array('Type' => "int(5) NOT NULL default '0'", 'Default' => true),
         // added 3.23
         'screenshots'     => array('Type' => 'text NOT NULL', 'Default' => true),
@@ -119,8 +256,8 @@ function update_tables_to_323($module)
     //);
     echo "<br><span style='font-weight: bold;'>Checking Download table</span><br>";
     $downloadHandler = xoops_getModuleHandler('download', 'wfdownloads');
-    $download_table   = new WfdownloadsTable('wfdownloads_downloads');
-    $fields           = get_table_info($downloadHandler->table, $download_fields);
+    $download_table  = new WfdownloadsTable('wfdownloads_downloads');
+    $fields          = get_table_info($downloadHandler->table, $download_fields);
     // check for renamed fields
     //rename_fields($download_table, $renamed_fields, $fields, $download_fields);
     // check for updated fields
@@ -164,7 +301,7 @@ function update_tables_to_323($module)
         'screenshot3'     => array('Type' => "varchar(255) NOT NULL default ''", 'Default' => true),
         'screenshot4'     => array('Type' => "varchar(255) NOT NULL default ''", 'Default' => true),
         'submitter'       => array('Type' => "int(11) NOT NULL default '0'", 'Default' => true),
-        'publisher'       => array('Type' => 'text NOT NULL', 'Default' => false),
+        'publisher'       => array('Type' => 'text NULL', 'Default' => false),
         'status'          => array('Type' => "tinyint(2) NOT NULL default '" . _WFDOWNLOADS_STATUS_WAITING . "'", 'Default' => true),
         'date'            => array('Type' => "int(10) NOT NULL default '0'", 'Default' => true),
         'hits'            => array('Type' => "int(11) unsigned NOT NULL default '0'", 'Default' => true),
@@ -175,8 +312,8 @@ function update_tables_to_323($module)
         'mirror'          => array('Type' => "varchar(255) NOT NULL default ''", 'Default' => true),
         'price'           => array('Type' => "varchar(10) NOT NULL default 'Free'", 'Default' => true),
         'paypalemail'     => array('Type' => "varchar(255) NOT NULL default ''", 'Default' => true),
-        'features'        => array('Type' => 'text NOT NULL', 'Default' => false),
-        'requirements'    => array('Type' => 'text NOT NULL', 'Default' => false),
+        'features'        => array('Type' => 'text NULL', 'Default' => false),
+        'requirements'    => array('Type' => 'text NULL', 'Default' => false),
         'homepagetitle'   => array('Type' => "varchar(255) NOT NULL default ''", 'Default' => true),
         'forumid'         => array('Type' => "int(11) NOT NULL default '0'", 'Default' => true),
         'limitations'     => array('Type' => "varchar(255) NOT NULL default '30 day trial'", 'Default' => true),
@@ -186,12 +323,12 @@ function update_tables_to_323($module)
         'expired'         => array('Type' => "int(10) NOT NULL default '0'", 'Default' => true),
         'updated'         => array('Type' => "int(11) NOT NULL default '0'", 'Default' => true),
         'offline'         => array('Type' => "tinyint(1) NOT NULL default '0'", 'Default' => true),
-        'summary'         => array('Type' => 'text NOT NULL', 'Default' => false),
-        'description'     => array('Type' => 'text NOT NULL', 'Default' => false),
+        'summary'         => array('Type' => 'text NULL', 'Default' => false),
+        'description'     => array('Type' => 'text NULL', 'Default' => false),
         // ???
         'formulize_idreq' => array('Type' => "int(5) NOT NULL default '0'", 'Default' => true),
         // added 3.23
-        'screenshots'     => array('Type' => 'text NOT NULL', 'Default' => true),
+        'screenshots'     => array('Type' => 'text NULL', 'Default' => true),
         'dohtml'          => array('Type' => "tinyint(1) NOT NULL default '0'", 'Default' => true),
         'dosmiley'        => array('Type' => "tinyint(1) NOT NULL default '1'", 'Default' => true),
         'doxcode'         => array('Type' => "tinyint(1) NOT NULL default '1'", 'Default' => true),
@@ -203,8 +340,8 @@ function update_tables_to_323($module)
     //);
     echo "<br><span style='font-weight: bold;'>Checking Modified Downloads table</span><br>";
     $modificationHandler = xoops_getModuleHandler('modification', 'wfdownloads');
-    $mod_table   = new WfdownloadsTable('wfdownloads_mod');
-    $fields      = get_table_info($modificationHandler->table, $mod_fields);
+    $mod_table           = new WfdownloadsTable('wfdownloads_mod');
+    $fields              = get_table_info($modificationHandler->table, $mod_fields);
     // check for renamed fields
     //rename_fields($mod_table, $renamed_fields, $fields, $mod_fields);
     // check for updated fields
@@ -224,7 +361,7 @@ function update_tables_to_323($module)
  */
 function update_permissions_to_323(XoopsModule $module)
 {
-    $gpermHandler     = xoops_getHandler('groupperm');
+    $gpermHandler         = xoops_getHandler('groupperm');
     $wfdCategoriesHandler = xoops_getModuleHandler('category', $module->dirname());
 
     $cids = $wfdCategoriesHandler->getIds();
@@ -254,7 +391,7 @@ function update_tables_to_322($module)
     $dbupdater = new WfdownloadsDbupdater();
 
     // create wfdownloads_meta table
-    if (!WfdownloadsUtilities::tableExists('wfdownloads_meta')) {
+    if (!WfdownloadsUtility::tableExists('wfdownloads_meta')) {
         $table = new WfdownloadsTable('wfdownloads_meta');
         $table->setStructure("CREATE TABLE %s (
                 metakey varchar(50) NOT NULL default '',
@@ -268,7 +405,7 @@ function update_tables_to_322($module)
     }
 
     // create wfdownloads_mirror table
-    if (!WfdownloadsUtilities::tableExists('wfdownloads_mirrors')) {
+    if (!WfdownloadsUtility::tableExists('wfdownloads_mirrors')) {
         $table = new WfdownloadsTable('wfdownloads_mirrors');
         $table->setStructure("CREATE TABLE %s (
                 mirror_id int(11) unsigned NOT NULL auto_increment,
@@ -290,7 +427,7 @@ function update_tables_to_322($module)
     }
 
     // create wfdownloads_ip_log table
-    if (!WfdownloadsUtilities::tableExists('wfdownloads_ip_log')) {
+    if (!WfdownloadsUtility::tableExists('wfdownloads_ip_log')) {
         $table = new WfdownloadsTable('wfdownloads_ip_log');
         $table->setStructure("CREATE TABLE %s (
                 ip_logid int(11) NOT NULL auto_increment,
@@ -333,21 +470,21 @@ function update_tables_to_322($module)
         'mirror'          => array('Type' => "varchar(255) NOT NULL default ''", 'Default' => true),
         'price'           => array('Type' => "varchar(10) NOT NULL default 'Free'", 'Default' => true),
         'paypalemail'     => array('Type' => "varchar(255) NOT NULL default ''", 'Default' => true),
-        'features'        => array('Type' => 'text NOT NULL', 'Default' => false),
-        'requirements'    => array('Type' => 'text NOT NULL', 'Default' => false),
+        'features'        => array('Type' => 'text NULL', 'Default' => false),
+        'requirements'    => array('Type' => 'text NULL', 'Default' => false),
         'homepagetitle'   => array('Type' => "varchar(255) NOT NULL default ''", 'Default' => true),
         'forumid'         => array('Type' => "int(11) NOT NULL default '0'", 'Default' => true),
         'limitations'     => array('Type' => "varchar(255) NOT NULL default '30 day trial'", 'Default' => true),
         'versiontypes'    => array('Type' => "varchar(255) NOT NULL default 'None'", 'Default' => true),
-        'dhistory'        => array('Type' => 'text NOT NULL', 'Default' => false),
+        'dhistory'        => array('Type' => 'text NULL', 'Default' => false),
         'published'       => array('Type' => "int(11) NOT NULL default '1089662528'", 'Default' => true),
         'expired'         => array('Type' => "int(10) NOT NULL default '0'", 'Default' => true),
         'updated'         => array('Type' => "int(11) NOT NULL default '0'", 'Default' => true),
         'offline'         => array('Type' => "tinyint(1) NOT NULL default '0'", 'Default' => true),
-        'description'     => array('Type' => 'text NOT NULL', 'Default' => false),
+        'description'     => array('Type' => 'text NULL', 'Default' => false),
         'ipaddress'       => array('Type' => "varchar(120) NOT NULL default '0'", 'Default' => true),
         'notifypub'       => array('Type' => "int(1) NOT NULL default '0'", 'Default' => true),
-        'summary'         => array('Type' => 'text NOT NULL', 'Default' => false),
+        'summary'         => array('Type' => 'text NULL', 'Default' => false),
         'formulize_idreq' => array('Type' => "int(5) NOT NULL default '0'", 'Default' => true)
     );
     $renamed_fields  = array(
@@ -355,8 +492,8 @@ function update_tables_to_322($module)
     );
     echo "<br><span style='font-weight: bold;'>Checking Download table</span><br>";
     $downloadHandler = xoops_getModuleHandler('download', 'wfdownloads');
-    $download_table   = new WfdownloadsTable('wfdownloads_downloads');
-    $fields           = get_table_info($downloadHandler->table, $download_fields);
+    $download_table  = new WfdownloadsTable('wfdownloads_downloads');
+    $fields          = get_table_info($downloadHandler->table, $download_fields);
     // check for renamed fields
     rename_fields($download_table, $renamed_fields, $fields, $download_fields);
     update_table($download_fields, $fields, $download_table);
@@ -387,7 +524,7 @@ function update_tables_to_322($module)
         'screenshot3'     => array('Type' => "varchar(255) NOT NULL default ''", 'Default' => true),
         'screenshot4'     => array('Type' => "varchar(255) NOT NULL default ''", 'Default' => true),
         'submitter'       => array('Type' => "int(11) NOT NULL default '0'", 'Default' => true),
-        'publisher'       => array('Type' => 'text NOT NULL', 'Default' => false),
+        'publisher'       => array('Type' => 'text NULL', 'Default' => false),
         'status'          => array('Type' => "tinyint(2) NOT NULL default '" . _WFDOWNLOADS_STATUS_WAITING . "'", 'Default' => true),
         'date'            => array('Type' => "int(10) NOT NULL default '0'", 'Default' => true),
         'hits'            => array('Type' => "int(11) unsigned NOT NULL default '0'", 'Default' => true),
@@ -398,19 +535,19 @@ function update_tables_to_322($module)
         'mirror'          => array('Type' => "varchar(255) NOT NULL default ''", 'Default' => true),
         'price'           => array('Type' => "varchar(10) NOT NULL default 'Free'", 'Default' => true),
         'paypalemail'     => array('Type' => "varchar(255) NOT NULL default ''", 'Default' => true),
-        'features'        => array('Type' => 'text NOT NULL', 'Default' => false),
-        'requirements'    => array('Type' => 'text NOT NULL', 'Default' => false),
+        'features'        => array('Type' => 'text NULL', 'Default' => false),
+        'requirements'    => array('Type' => 'text NULL', 'Default' => false),
         'homepagetitle'   => array('Type' => "varchar(255) NOT NULL default ''", 'Default' => true),
         'forumid'         => array('Type' => "int(11) NOT NULL default '0'", 'Default' => true),
         'limitations'     => array('Type' => "varchar(255) NOT NULL default '30 day trial'", 'Default' => true),
         'versiontypes'    => array('Type' => "varchar(255) NOT NULL default 'None'", 'Default' => true),
-        'dhistory'        => array('Type' => 'text NOT NULL', 'Default' => false),
+        'dhistory'        => array('Type' => 'text NULL', 'Default' => false),
         'published'       => array('Type' => "int(10) NOT NULL default '0'", 'Default' => true),
         'expired'         => array('Type' => "int(10) NOT NULL default '0'", 'Default' => true),
         'updated'         => array('Type' => "int(11) NOT NULL default '0'", 'Default' => true),
         'offline'         => array('Type' => "tinyint(1) NOT NULL default '0'", 'Default' => true),
-        'summary'         => array('Type' => 'text NOT NULL', 'Default' => false),
-        'description'     => array('Type' => 'text NOT NULL', 'Default' => false),
+        'summary'         => array('Type' => 'text NULL', 'Default' => false),
+        'description'     => array('Type' => 'text NULL', 'Default' => false),
         // ???
         'formulize_idreq' => array('Type' => "int(5) NOT NULL default '0'", 'Default' => true)
     );
@@ -419,8 +556,8 @@ function update_tables_to_322($module)
     );
     echo "<br><span style='font-weight: bold;'>Checking Modified Downloads table</span><br>";
     $modificationHandler = xoops_getModuleHandler('modification', 'wfdownloads');
-    $mod_table   = new WfdownloadsTable('wfdownloads_mod');
-    $fields      = get_table_info($modificationHandler->table, $mod_fields);
+    $mod_table           = new WfdownloadsTable('wfdownloads_mod');
+    $fields              = get_table_info($modificationHandler->table, $mod_fields);
     rename_fields($mod_table, $renamed_fields, $fields, $mod_fields);
     update_table($mod_fields, $fields, $mod_table);
     if ($dbupdater->updateTable($mod_table)) {
@@ -434,9 +571,9 @@ function update_tables_to_322($module)
         'pid'           => array('Type' => "int(5) unsigned NOT NULL default '0'", 'Default' => true),
         'title'         => array('Type' => "varchar(255) NOT NULL default ''", 'Default' => true),
         'imgurl'        => array('Type' => "varchar(255) NOT NULL default ''", 'Default' => true),
-        'description'   => array('Type' => "text NULL", 'Default' => true),
+        'description'   => array('Type' => 'text NULL', 'Default' => true),
         'total'         => array('Type' => "int(11) NOT NULL default '0'", 'Default' => true),
-        'summary'       => array('Type' => 'text NOT NULL', 'Default' => false),
+        'summary'       => array('Type' => 'text NULL', 'Default' => false),
         'spotlighttop'  => array('Type' => "int(11) NOT NULL default '0'", 'Default' => true),
         'spotlighthis'  => array('Type' => "int(11) NOT NULL default '0'", 'Default' => true),
         'dohtml'        => array('Type' => "tinyint(1) NOT NULL default '1'", 'Default' => true),
@@ -449,8 +586,8 @@ function update_tables_to_322($module)
     );
     echo "<br><span style='font-weight: bold;'>Checking Category table</span><br>";
     $wfdCategoriesHandler = xoops_getModuleHandler('category', 'wfdownloads');
-    $cat_table   = new WfdownloadsTable('wfdownloads_cat');
-    $fields      = get_table_info($wfdCategoriesHandler->table, $cat_fields);
+    $cat_table            = new WfdownloadsTable('wfdownloads_cat');
+    $fields               = get_table_info($wfdCategoriesHandler->table, $cat_fields);
     update_table($cat_fields, $fields, $cat_table);
     if ($dbupdater->updateTable($cat_table)) {
         echo 'Category table updated<br>';
@@ -469,8 +606,8 @@ function update_tables_to_322($module)
     );
     echo "<br><span style='font-weight: bold;'>Checking Broken Report table</span><br>";
     $brokenHandler = xoops_getModuleHandler('report', 'wfdownloads');
-    $broken_table   = new WfdownloadsTable('wfdownloads_broken');
-    $fields         = get_table_info($brokenHandler->table, $broken_fields);
+    $broken_table  = new WfdownloadsTable('wfdownloads_broken');
+    $fields        = get_table_info($brokenHandler->table, $broken_fields);
     update_table($broken_fields, $fields, $broken_table);
     if ($dbupdater->updateTable($broken_table)) {
         echo 'Broken Reports table updated<br>';
@@ -488,9 +625,9 @@ function update_tables_to_322($module)
  */
 function invert_nohtm_dohtml_values()
 {
-    $ret         = array();
+    $ret                  = array();
     $wfdCategoriesHandler = xoops_getModuleHandler('category', 'wfdownloads');
-    $result      = $GLOBALS['xoopsDB']->query('SHOW COLUMNS FROM ' . $wfdCategoriesHandler->table);
+    $result               = $GLOBALS['xoopsDB']->query('SHOW COLUMNS FROM ' . $wfdCategoriesHandler->table);
     while (false !== ($existing_field = $GLOBALS['xoopsDB']->fetchArray($result))) {
         $fields[$existing_field['Field']] = $existing_field['Type'];
     }

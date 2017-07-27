@@ -8,6 +8,7 @@
  but WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
+
 /**
  * Wfdownloads module
  *
@@ -17,22 +18,25 @@
  * @since           3.23
  * @author          Xoops Development Team
  */
-$currentFile = basename(__FILE__);
-include_once __DIR__ . '/admin_header.php';
 
-$op = XoopsRequest::getString('op', 'votes.list');
+use Xmf\Request;
+
+$currentFile = basename(__FILE__);
+require_once __DIR__ . '/admin_header.php';
+
+$op = Request::getString('op', 'votes.list');
 switch ($op) {
     case 'vote.delete':
-        $rid = XoopsRequest::getInt('rid', 0);
-        $lid = XoopsRequest::getInt('lid', 0);
+        $rid = Request::getInt('rid', 0);
+        $lid = Request::getInt('lid', 0);
         $wfdownloads->getHandler('rating')->deleteAll(new Criteria('ratingid', $rid), true);
-        WfdownloadsUtilities::updateRating($lid);
+        WfdownloadsUtility::updateRating($lid);
         redirect_header($currentFile, 1, _AM_WFDOWNLOADS_VOTEDELETED);
         break;
 
     case 'votes.list':
     default:
-        $start         = XoopsRequest::getInt('start', 0);
+        $start         = Request::getInt('start', 0);
         $useravgrating = '0';
         $uservotes     = '0';
 
@@ -48,9 +52,9 @@ switch ($op) {
         $useravgrating = $wfdownloads->getHandler('rating')->getUserAverage();
         $useravgrating = number_format($useravgrating['avg'], 2);
 
-        WfdownloadsUtilities::myxoops_cp_header();
-        $indexAdmin = new ModuleAdmin();
-        echo $indexAdmin->addNavigation($currentFile);
+        WfdownloadsUtility::myxoops_cp_header();
+        $adminObject = \Xmf\Module\Admin::getInstance();
+        $adminObject->displayNavigation($currentFile);
 
         $GLOBALS['xoopsTpl']->assign('votes', $votes);
         $GLOBALS['xoopsTpl']->assign('ratings_count', $ratings_count);
@@ -70,7 +74,7 @@ switch ($op) {
             }
         }
         //Include page navigation
-        include_once XOOPS_ROOT_PATH . '/class/pagenav.php';
+        require_once XOOPS_ROOT_PATH . '/class/pagenav.php';
         $ratings_pagenav = new XoopsPageNav($ratings_count, $wfdownloads->getConfig('admin_perpage'), $start, 'start');
         $GLOBALS['xoopsTpl']->assign('ratings_pagenav', $ratings_pagenav->renderNav());
 
@@ -81,6 +85,6 @@ switch ($op) {
 
         $GLOBALS['xoopsTpl']->display("db:{$wfdownloads->getModule()->dirname()}_am_ratingslist.tpl");
 
-        include_once __DIR__ . '/admin_footer.php';
+        require_once __DIR__ . '/admin_footer.php';
         break;
 }

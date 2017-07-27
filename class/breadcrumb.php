@@ -63,7 +63,7 @@ class WfdownloadsBreadcrumb
     public function render()
     {
         if (!isset($GLOBALS['xoTheme']) || !is_object($GLOBALS['xoTheme'])) {
-            include_once $GLOBALS['xoops']->path('/class/theme.php');
+            require_once $GLOBALS['xoops']->path('/class/theme.php');
             $GLOBALS['xoTheme'] = new xos_opal_Theme();
         }
 

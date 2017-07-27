@@ -72,17 +72,17 @@
                     <td><{$download.published_formatted}></td>
                     <td align='center'>
                         <{if $download.offline}>
-                            <img src="<{xoModuleIcons16 0.png}>"/>
+                            <img src="<{xoModuleIcons16 0.png}>">
                         <{else}>
-                            <img src="<{xoModuleIcons16 1.png}>"/>
+                            <img src="<{xoModuleIcons16 1.png}>">
                         <{/if}>
                     </td>
                     <td align='center'>
                         <{if $download.published}>
-                            <img src="<{xoModuleIcons16 1.png}>"/>
+                            <img src="<{xoModuleIcons16 1.png}>">
                             <!--<{$download.published_formatted}>-->
                         <{else}>
-                            <img src="<{xoModuleIcons16 0.png}>"/>
+                            <img src="<{xoModuleIcons16 0.png}>">
                         <{/if}>
                     </td>
                     <td>
@@ -91,10 +91,10 @@
                     <td align='center'>
                         <a href='?op=download.add&amp;lid=<{$download.lid}>' title="<{$smarty.const._EDIT}>"><img src="<{xoModuleIcons16 edit.png}>"
                                                                                                                   title="<{$smarty.const._EDIT}>"
-                                                                                                                  alt="<{$smarty.const._EDIT}>"/></a>
+                                                                                                                  alt="<{$smarty.const._EDIT}>"></a>
                         <a href='?op=download.delete&amp;lid=<{$download.lid}>' title="<{$smarty.const._DELETE}>"><img src="<{xoModuleIcons16 delete.png}>"
                                                                                                                        title="<{$smarty.const._DELETE}>"
-                                                                                                                       alt="<{$smarty.const._DELETE}>"/></a>
+                                                                                                                       alt="<{$smarty.const._DELETE}>"></a>
                     </td>
                 </tr>
             <{/foreach}>
@@ -129,12 +129,12 @@
                     <td align='center'>
                         <a href='?op=newdownload.approve&amp;lid=<{$new_download.lid}>' title="<{$smarty.const._AM_WFDOWNLOADS_BAPPROVE}>"><img
                                     src="<{xoModuleIcons16 1.png}>" title="<{$smarty.const._AM_WFDOWNLOADS_BAPPROVE}>"
-                                    alt="<{$smarty.const._AM_WFDOWNLOADS_BAPPROVE}>"/></a>
+                                    alt="<{$smarty.const._AM_WFDOWNLOADS_BAPPROVE}>"></a>
                         <a href='?op=download.edit&amp;lid=<{$new_download.lid}>' title="<{$smarty.const._EDIT}>"><img src="<{xoModuleIcons16 edit.png}>"
                                                                                                                        title="<{$smarty.const._EDIT}>"
-                                                                                                                       alt="<{$smarty.const._EDIT}>"/></a>
+                                                                                                                       alt="<{$smarty.const._EDIT}>"></a>
                         <a href='?op=download.delete&amp;lid=<{$new_download.lid}>' title="<{$smarty.const._DELETE}>"><img
-                                    src="<{xoModuleIcons16 delete.png}>" title="<{$smarty.const._DELETE}>" alt="<{$smarty.const._DELETE}>"/></a>
+                                    src="<{xoModuleIcons16 delete.png}>" title="<{$smarty.const._DELETE}>" alt="<{$smarty.const._DELETE}>"></a>
                     </td>
                 </tr>
             <{/foreach}>
@@ -172,27 +172,27 @@
                     <td><{$download.published_formatted}></td>
                     <td align='center'>
                         <{if $download.offline}>
-                            <img src="<{xoModuleIcons16 0.png}>"/>
+                            <img src="<{xoModuleIcons16 0.png}>">
                         <{else}>
-                            <img src="<{xoModuleIcons16 1.png}>"/>
+                            <img src="<{xoModuleIcons16 1.png}>">
                         <{/if}>
                     </td>
                     <td align='center'>
                         <{if $download.published}>
-                            <img src="<{xoModuleIcons16 1.png}>"/>
+                            <img src="<{xoModuleIcons16 1.png}>">
                             <!--<{$download.published_formatted}>-->
                         <{else}>
-                            <img src="<{xoModuleIcons16 0.png}>"/>
+                            <img src="<{xoModuleIcons16 0.png}>">
                         <{/if}>
                     </td>
                     <td><a href='ip_logs.php?lid=<{$download.lid}>'><{$smarty.const._AM_WFDOWNLOADS_IP_LOGS}></a></td>
                     <td align='center'>
                         <a href='?op=download.add&amp;lid=<{$download.lid}>' title="<{$smarty.const._EDIT}>"><img src="<{xoModuleIcons16 edit.png}>"
                                                                                                                   title="<{$smarty.const._EDIT}>"
-                                                                                                                  alt="<{$smarty.const._EDIT}>"/></a>
+                                                                                                                  alt="<{$smarty.const._EDIT}>"></a>
                         <a href='?op=download.delete&amp;lid=<{$download.lid}>' title="<{$smarty.const._DELETE}>"><img src="<{xoModuleIcons16 delete.png}>"
                                                                                                                        title="<{$smarty.const._DELETE}>"
-                                                                                                                       alt="<{$smarty.const._DELETE}>"/></a>
+                                                                                                                       alt="<{$smarty.const._DELETE}>"></a>
                     </td>
                 </tr>
             <{/foreach}>
@@ -230,27 +230,27 @@
                     <td><{$download.published_formatted}></td>
                     <td align='center'>
                         <{if $download.offline}>
-                            <img src="<{xoModuleIcons16 0.png}>"/>
+                            <img src="<{xoModuleIcons16 0.png}>">
                         <{else}>
-                            <img src="<{xoModuleIcons16 1.png}>"/>
+                            <img src="<{xoModuleIcons16 1.png}>">
                         <{/if}>
                     </td>
                     <td align='center'>
                         <{if $download.published}>
-                            <img src="<{xoModuleIcons16 1.png}>"/>
+                            <img src="<{xoModuleIcons16 1.png}>">
                             <!--<{$download.published_formatted}>-->
                         <{else}>
-                            <img src="<{xoModuleIcons16 0.png}>"/>
+                            <img src="<{xoModuleIcons16 0.png}>">
                         <{/if}>
                     </td>
                     <td><a href='ip_logs.php?lid=<{$download.lid}>'><{$smarty.const._AM_WFDOWNLOADS_IP_LOGS}></a></td>
                     <td align='center'>
                         <a href='?op=download.add&amp;lid=<{$download.lid}>' title="<{$smarty.const._EDIT}>"><img src="<{xoModuleIcons16 edit.png}>"
                                                                                                                   title="<{$smarty.const._EDIT}>"
-                                                                                                                  alt="<{$smarty.const._EDIT}>"/></a>
+                                                                                                                  alt="<{$smarty.const._EDIT}>"></a>
                         <a href='?op=download.delete&amp;lid=<{$download.lid}>' title="<{$smarty.const._DELETE}>"><img src="<{xoModuleIcons16 delete.png}>"
                                                                                                                        title="<{$smarty.const._DELETE}>"
-                                                                                                                       alt="<{$smarty.const._DELETE}>"/></a>
+                                                                                                                       alt="<{$smarty.const._DELETE}>"></a>
                     </td>
                 </tr>
             <{/foreach}>
@@ -288,27 +288,27 @@
                     <td><{$download.published_formatted}></td>
                     <td align='center'>
                         <{if $download.offline}>
-                            <img src="<{xoModuleIcons16 0.png}>"/>
+                            <img src="<{xoModuleIcons16 0.png}>">
                         <{else}>
-                            <img src="<{xoModuleIcons16 1.png}>"/>
+                            <img src="<{xoModuleIcons16 1.png}>">
                         <{/if}>
                     </td>
                     <td align='center'>
                         <{if $download.published}>
-                            <img src="<{xoModuleIcons16 1.png}>"/>
+                            <img src="<{xoModuleIcons16 1.png}>">
                             <!--<{$download.published_formatted}>-->
                         <{else}>
-                            <img src="<{xoModuleIcons16 0.png}>"/>
+                            <img src="<{xoModuleIcons16 0.png}>">
                         <{/if}>
                     </td>
                     <td><a href='ip_logs.php?lid=<{$download.lid}>'><{$smarty.const._AM_WFDOWNLOADS_IP_LOGS}></a></td>
                     <td align='center'>
                         <a href='?op=download.add&amp;lid=<{$download.lid}>' title="<{$smarty.const._EDIT}>"><img src="<{xoModuleIcons16 edit.png}>"
                                                                                                                   title="<{$smarty.const._EDIT}>"
-                                                                                                                  alt="<{$smarty.const._EDIT}>"/></a>
+                                                                                                                  alt="<{$smarty.const._EDIT}>"></a>
                         <a href='?op=download.delete&amp;lid=<{$download.lid}>' title="<{$smarty.const._DELETE}>"><img src="<{xoModuleIcons16 delete.png}>"
                                                                                                                        title="<{$smarty.const._DELETE}>"
-                                                                                                                       alt="<{$smarty.const._DELETE}>"/></a>
+                                                                                                                       alt="<{$smarty.const._DELETE}>"></a>
                     </td>
                 </tr>
             <{/foreach}>
@@ -344,10 +344,10 @@
             <td align='center'>
                 <a href='?op=batchfile.add&amp;batchid=<{$batch_file.id}>' title="<{$smarty.const._ADD}>"><img src="<{xoModuleIcons16 add.png}>"
                                                                                                           title="<{$smarty.const._ADD}>"
-                                                                                                          alt="<{$smarty.const._ADD}>"/></a>
+                                                                                                          alt="<{$smarty.const._ADD}>"></a>
                 <a href='?op=batchfile.delete&amp;batchid=<{$batch_file.id}>' title="<{$smarty.const._DELETE}>"><img src="<{xoModuleIcons16 delete.png}>"
                                                                                                                title="<{$smarty.const._DELETE}>"
-                                                                                                               alt="<{$smarty.const._DELETE}>"/></a>
+                                                                                                               alt="<{$smarty.const._DELETE}>"></a>
             </td>
         </tr>
         <{/foreach}>

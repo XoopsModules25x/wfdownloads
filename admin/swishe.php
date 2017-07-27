@@ -18,34 +18,34 @@
  * @author          Xoops Development Team
  */
 $currentFile = basename(__FILE__);
-include_once __DIR__ . '/admin_header.php';
+require_once __DIR__ . '/admin_header.php';
 
 if (@$_POST['op'] === 'submit') {
     if (!$GLOBALS['xoopsSecurity']->check()) {
         redirect_header($currentFile, 3, implode('<br>', $GLOBALS['xoopsSecurity']->getErrors()));
     }
 
-    WfdownloadsUtilities::myxoops_cp_header();
-    $indexAdmin = new ModuleAdmin();
-    echo $indexAdmin->addNavigation($currentFile);
+    WfdownloadsUtility::myxoops_cp_header();
+    $adminObject = \Xmf\Module\Admin::getInstance();
+    $adminObject->displayNavigation($currentFile);
 
     // Swish-e support EXPERIMENTAL
-    WfdownloadsUtilities::swishe_config();
+    WfdownloadsUtility::swishe_config();
     // Swish-e support EXPERIMENTAL
 
-    include_once __DIR__ . '/admin_footer.php';
+    require_once __DIR__ . '/admin_footer.php';
     exit();
 } else {
-    WfdownloadsUtilities::myxoops_cp_header();
-    $indexAdmin = new ModuleAdmin();
-    echo $indexAdmin->addNavigation($currentFile);
+    WfdownloadsUtility::myxoops_cp_header();
+    $adminObject = \Xmf\Module\Admin::getInstance();
+    $adminObject->displayNavigation($currentFile);
 
     // Swish-e support EXPERIMENTAL
-    if (WfdownloadsUtilities::swishe_check() === true) {
+    if (WfdownloadsUtility::swishe_check() === true) {
         echo 'OK';
     } else {
         echo 'NOT OK' . '<br>';
-        include_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
+        require_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
         $form = new XoopsThemeForm(_AM_WFDOWNLOADS_SWISHE_CONFIG, 'config', $currentFile, 'post', true);
         $form->addElement(new XoopsFormHidden('op', 'submit'));
         $form->addElement(new XoopsFormButton('', '', _SUBMIT, 'submit'));
@@ -70,6 +70,6 @@ if (@$_POST['op'] === 'submit') {
     // IN PROGRESS
     // Swish-e support EXPERIMENTAL
 
-    include_once __DIR__ . '/admin_footer.php';
+    require_once __DIR__ . '/admin_footer.php';
     exit();
 }

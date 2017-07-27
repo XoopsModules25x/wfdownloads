@@ -11,13 +11,13 @@
 
     <p>
         <img src="<{xoModuleIcons16 1.png}>" title="<{$smarty.const._AM_WFDOWNLOADS_AMIRRORS_APPROVE_ALT}>"
-             alt="<{$smarty.const._AM_WFDOWNLOADS_AMIRRORS_APPROVE_ALT}>"/> <{$smarty.const._AM_WFDOWNLOADS_AMIRRORS_APPROVE_DESC}>
+             alt="<{$smarty.const._AM_WFDOWNLOADS_AMIRRORS_APPROVE_ALT}>"> <{$smarty.const._AM_WFDOWNLOADS_AMIRRORS_APPROVE_DESC}>
         <br>
         <img src="<{xoModuleIcons16 edit.png}>" title="<{$smarty.const._AM_WFDOWNLOADS_AMIRRORS_EDIT_ALT}>"
-             alt="<{$smarty.const._AM_WFDOWNLOADS_AMIRRORS_EDIT_ALT}>"/> <{$smarty.const._AM_WFDOWNLOADS_AMIRRORS_EDIT_DESC}>
+             alt="<{$smarty.const._AM_WFDOWNLOADS_AMIRRORS_EDIT_ALT}>"> <{$smarty.const._AM_WFDOWNLOADS_AMIRRORS_EDIT_DESC}>
         <br>
         <img src="<{xoModuleIcons16 delete.png}>" title="<{$smarty.const._AM_WFDOWNLOADS_AMIRRORS_DELETE_ALT}>"
-             alt="<{$smarty.const._AM_WFDOWNLOADS_AMIRRORS_DELETE_ALT}>"/> <{$smarty.const._AM_WFDOWNLOADS_AMIRRORS_DELETE_DESC}>
+             alt="<{$smarty.const._AM_WFDOWNLOADS_AMIRRORS_DELETE_ALT}>"> <{$smarty.const._AM_WFDOWNLOADS_AMIRRORS_DELETE_DESC}>
     </p>
 </fieldset>
 
@@ -49,19 +49,19 @@
                     <img
                         src="<{xoModuleIcons16 1.png}>"
                         title="<{$smarty.const._AM_WFDOWNLOADS_BAPPROVE}>"
-                        alt="<{$smarty.const._AM_WFDOWNLOADS_BAPPROVE}>"/>
+                        alt="<{$smarty.const._AM_WFDOWNLOADS_BAPPROVE}>">
                 </a>
                 <a href='?op=mirror.edit&amp;mirror_id=<{$mirror_waiting.mirror_id}>'>
                     <img
                         src="<{xoModuleIcons16 edit.png}>"
                         title="<{$smarty.const._EDIT}>"
-                        alt="<{$smarty.const._EDIT}>"/>
+                        alt="<{$smarty.const._EDIT}>">
                 </a>
                 <a href='?op=mirror.delete&amp;mirror_id=<{$mirror_waiting.mirror_id}>'>
                     <img
                         src="<{xoModuleIcons16 delete.png}>"
                         title="<{$smarty.const._DELETE}>"
-                        alt="<{$smarty.const._DELETE}>"/>
+                        alt="<{$smarty.const._DELETE}>">
                 </a>
             </td>
         </tr>
@@ -97,10 +97,10 @@
             <td class='even' align='center'>
                 <a href='?op=mirror.edit&amp;mirror_id=<{$mirror_published.mirror_id}>'><img src="<{xoModuleIcons16 edit.png}>"
                                                                                              title="<{$smarty.const._EDIT}>"
-                                                                                             alt="<{$smarty.const._EDIT}>"/></a>
+                                                                                             alt="<{$smarty.const._EDIT}>"></a>
                 <a href='?op=mirror.delete&amp;mirror_id=<{$mirror_published.mirror_id}>'><img src="<{xoModuleIcons16 delete.png}>"
                                                                                                title="<{$smarty.const._DELETE}>"
-                                                                                               alt="<{$smarty.const._DELETE}>"/></a>
+                                                                                               alt="<{$smarty.const._DELETE}>"></a>
             </td>
         </tr>
         <{/foreach}>

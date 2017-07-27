@@ -33,7 +33,7 @@ $modversion['license_url']   = 'http://www.gnu.org/licenses/gpl-2.0.html';
 $modversion['official']      = false;
 $modversion['dirname']       = basename(__DIR__);
 
-include_once XOOPS_ROOT_PATH . '/modules/' . $modversion['dirname'] . '/include/constants.php';
+require_once XOOPS_ROOT_PATH . '/modules/' . $modversion['dirname'] . '/include/constants.php';
 
 // Path and name of the module’s logo
 $modversion['image'] = 'assets/images/logoModule.png';
@@ -47,15 +47,14 @@ $modversion['date']                = '2014-11-22';
 $modversion['release_date']        = '2016/05/22';
 $modversion['status']              = 'RC5';
 $modversion['teammembers']         = 'Bender, David, FrankBlack, Xpider, M0nty, Mithrandir, Marcan, felix[fx2024], Sudhaker, Jegelstaff';
-$modversion['module_website_url']  = 'http://www.xoops.org/';
+$modversion['module_website_url']  = 'https://xoops.org/';
 $modversion['module_website_name'] = 'XOOPS';
 $modversion['min_php']             = '5.5';
-$modversion['min_xoops']           = '2.5.8';
+$modversion['min_xoops']           = '2.5.9';
 $modversion['min_admin']           = '1.2';
-$modversion['min_db']              = array('mysql' => '5.1');
-$modversion['dirmoduleadmin']      = 'Frameworks/moduleclasses';
-$modversion['icons16']             = 'Frameworks/moduleclasses/icons/16';
-$modversion['icons32']             = 'Frameworks/moduleclasses/icons/32';
+$modversion['min_db']              = array('mysql' => '5.5');
+$modversion['modicons16'] = 'assets/images/icons/16';
+$modversion['modicons32'] = 'assets/images/icons/32';
 
 // ------------------- Help files ------------------- //
 $modversion['helpsection'] = array(
@@ -129,8 +128,7 @@ $isSubmissionAllowed = false;
 if (is_object($xoopsModule) && $xoopsModule->dirname() == $modversion['dirname'] && $xoopsModule->isactive()) {
     if (is_object($GLOBALS['xoopsUser'])
         && ($xoopsModuleConfig['submissions'] == _WFDOWNLOADS_SUBMISSIONS_DOWNLOAD
-            || $xoopsModuleConfig['submissions'] == _WFDOWNLOADS_SUBMISSIONS_BOTH)
-    ) {
+            || $xoopsModuleConfig['submissions'] == _WFDOWNLOADS_SUBMISSIONS_BOTH)) {
         // if user is a registered user
         $groups = $GLOBALS['xoopsUser']->getGroups();
         if (count(array_intersect($xoopsModuleConfig['submitarts'], $groups)) > 0) {
@@ -139,8 +137,7 @@ if (is_object($xoopsModule) && $xoopsModule->dirname() == $modversion['dirname']
     } else {
         // if user is anonymous
         if ($xoopsModuleConfig['anonpost'] == _WFDOWNLOADS_ANONPOST_DOWNLOAD
-            || $xoopsModuleConfig['anonpost'] == _WFDOWNLOADS_ANONPOST_BOTH
-        ) {
+            || $xoopsModuleConfig['anonpost'] == _WFDOWNLOADS_ANONPOST_BOTH) {
             $isSubmissionAllowed = true;
         }
     }
@@ -327,7 +324,7 @@ $modversion['templates'][] = array(
 // ------------------- Preferences -------------------
 
 xoops_load('XoopsEditorHandler');
-$editorHandler         = XoopsEditorHandler::getInstance();
+$editorHandler          = XoopsEditorHandler::getInstance();
 $editorList             = array_flip($editorHandler->getList());
 $modversion['config'][] = array(
     'name'        => 'editor_options',

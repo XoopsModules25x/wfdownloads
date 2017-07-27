@@ -18,10 +18,10 @@
  * @author          Xoops Development Team
  */
 $currentFile = basename(__FILE__);
-include_once __DIR__ . '/header.php';
+require_once __DIR__ . '/header.php';
 
 $GLOBALS['xoopsOption']['template_main'] = "{$wfdownloads->getModule()->dirname()}_newlistindex.tpl";
-include_once XOOPS_ROOT_PATH . '/header.php';
+require_once XOOPS_ROOT_PATH . '/header.php';
 
 $xoTheme->addScript(XOOPS_URL . '/browse.php?Frameworks/jquery/jquery.js');
 $xoTheme->addScript(WFDOWNLOADS_URL . '/assets/js/magnific/jquery.magnific-popup.min.js');
@@ -32,9 +32,9 @@ $xoopsTpl->assign('wfdownloads_url', WFDOWNLOADS_URL . '/');
 
 $groups = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : array(0 => XOOPS_GROUP_ANONYMOUS);
 
-$catArray['imageheader'] = WfdownloadsUtilities::headerImage();
-$catArray['letters']     = WfdownloadsUtilities::lettersChoice();
-$catArray['toolbar']     = WfdownloadsUtilities::toolbar();
+$catArray['imageheader'] = WfdownloadsUtility::headerImage();
+$catArray['letters']     = WfdownloadsUtility::lettersChoice();
+$catArray['toolbar']     = WfdownloadsUtility::toolbar();
 $xoopsTpl->assign('catarray', $catArray);
 
 // Breadcrumb
@@ -100,5 +100,5 @@ if (isset($days)) {
 // Breadcrumb
 $xoopsTpl->assign('wfdownloads_breadcrumb', $breadcrumb->render());
 
-$xoopsTpl->assign('module_home', WfdownloadsUtilities::moduleHome(true));
-include_once __DIR__ . '/footer.php';
+$xoopsTpl->assign('module_home', WfdownloadsUtility::moduleHome(true));
+require_once __DIR__ . '/footer.php';

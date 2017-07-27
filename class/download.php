@@ -18,7 +18,7 @@
  * @author          Xoops Development Team
  */
 defined('XOOPS_ROOT_PATH') || die('XOOPS root path not defined');
-include_once __DIR__ . '/../include/common.php';
+require_once __DIR__ . '/../include/common.php';
 
 /**
  * Class WfdownloadsDownload
@@ -145,15 +145,13 @@ class WfdownloadsDownload extends XoopsObject
                 || $this->wfdownloads->getConfig('anonpost') == _WFDOWNLOADS_ANONPOST_BOTH)
             && ($this->wfdownloads->getConfig('submissions') == _WFDOWNLOADS_SUBMISSIONS_MIRROR
                 || $this->wfdownloads->getConfig('submissions') == _WFDOWNLOADS_SUBMISSIONS_BOTH)
-            && $use_mirrors === true
-        ) {
+            && $use_mirrors === true) {
             $add_mirror = true;
         } elseif (is_object($GLOBALS['xoopsUser'])
                   && ($this->wfdownloads->getConfig('submissions') == _WFDOWNLOADS_SUBMISSIONS_MIRROR
                       || $this->wfdownloads->getConfig('submissions') == _WFDOWNLOADS_SUBMISSIONS_BOTH
-                      || wfdownloads_userIsAdmin())
-                  && $use_mirrors === true
-        ) {
+                      || WfdownloadsUtility::userIsAdmin())
+                  && $use_mirrors === true) {
             $add_mirror = true;
         }
         $download['add_mirror']  = $add_mirror;
@@ -169,7 +167,7 @@ class WfdownloadsDownload extends XoopsObject
 
         $download['path'] = $this->wfdownloads->getHandler('category')->getNicePath($download['cid']);
 
-        $download['imageheader'] = WfdownloadsUtilities::headerImage();
+        $download['imageheader'] = WfdownloadsUtility::headerImage();
 
         $download['title']    = trim($this->getVar('title'));
         $download['url']      = $this->getVar('url');
@@ -183,7 +181,7 @@ class WfdownloadsDownload extends XoopsObject
                         && file_exists(XOOPS_ROOT_PATH . '/' . $this->wfdownloads->getConfig('screenshots') . '/' . xoops_trim($this->getVar('screenshot')))
                     ) {
                         if ($this->wfdownloads->getConfig('usethumbs') === true) {
-                            $download['screenshot_thumb'] = WfdownloadsUtilities::createThumb(
+                            $download['screenshot_thumb'] = WfdownloadsUtility::createThumb(
                                 $download['screenshot_full'], $this->wfdownloads->getConfig('screenshots'), 'thumbs',
                                 $this->wfdownloads->getConfig('shotwidth'), $this->wfdownloads->getConfig('shotheight'),
                                 $this->wfdownloads->getConfig('imagequality'), $this->wfdownloads->getConfig('updatethumbs'), $this->wfdownloads->getConfig('keepaspect')
@@ -200,7 +198,7 @@ class WfdownloadsDownload extends XoopsObject
                         && file_exists(XOOPS_ROOT_PATH . '/' . $this->wfdownloads->getConfig('screenshots') . '/' . xoops_trim($this->getVar('screenshot2')))
                     ) {
                         if ($this->wfdownloads->getConfig('usethumbs') === true) {
-                            $download['screenshot_thumb2'] = WfdownloadsUtilities::createThumb(
+                            $download['screenshot_thumb2'] = WfdownloadsUtility::createThumb(
                                 $download['screenshot_full2'], $this->wfdownloads->getConfig('screenshots'), 'thumbs',
                                 $this->wfdownloads->getConfig('shotwidth'), $this->wfdownloads->getConfig('shotheight'),
                                 $this->wfdownloads->getConfig('imagequality'), $this->wfdownloads->getConfig('updatethumbs'), $this->wfdownloads->getConfig('keepaspect')
@@ -216,7 +214,7 @@ class WfdownloadsDownload extends XoopsObject
                         && file_exists(XOOPS_ROOT_PATH . '/' . $this->wfdownloads->getConfig('screenshots') . '/' . xoops_trim($this->getVar('screenshot3')))
                     ) {
                         if ($this->wfdownloads->getConfig('usethumbs') === true) {
-                            $download['screenshot_thumb3'] = WfdownloadsUtilities::createThumb(
+                            $download['screenshot_thumb3'] = WfdownloadsUtility::createThumb(
                                 $download['screenshot_full3'], $this->wfdownloads->getConfig('screenshots'), 'thumbs',
                                 $this->wfdownloads->getConfig('shotwidth'), $this->wfdownloads->getConfig('shotheight'),
                                 $this->wfdownloads->getConfig('imagequality'), $this->wfdownloads->getConfig('updatethumbs'), $this->wfdownloads->getConfig('keepaspect')
@@ -232,7 +230,7 @@ class WfdownloadsDownload extends XoopsObject
                         && file_exists(XOOPS_ROOT_PATH . '/' . $this->wfdownloads->getConfig('screenshots') . '/' . xoops_trim($this->getVar('screenshot4')))
                     ) {
                         if ($this->wfdownloads->getConfig('usethumbs') === true) {
-                            $download['screenshot_thumb4'] = WfdownloadsUtilities::createThumb(
+                            $download['screenshot_thumb4'] = WfdownloadsUtility::createThumb(
                                 $download['screenshot_full4'], $this->wfdownloads->getConfig('screenshots'), 'thumbs',
                                 $this->wfdownloads->getConfig('shotwidth'), $this->wfdownloads->getConfig('shotheight'),
                                 $this->wfdownloads->getConfig('imagequality'), $this->wfdownloads->getConfig('updatethumbs'), $this->wfdownloads->getConfig('keepaspect')
@@ -249,9 +247,8 @@ class WfdownloadsDownload extends XoopsObject
         foreach ($screenshots as $key => $screenshot) {
             if (file_exists(XOOPS_ROOT_PATH . '/' . $this->wfdownloads->getConfig('screenshots') . '/' . xoops_trim($screenshot))) {
                 if ($this->wfdownloads->getConfig('usethumbs') === true && $screenshot != '') {
-                    $screenshot_thumb =
-                        WfdownloadsUtilities::createThumb($screenshot, $this->wfdownloads->getConfig('screenshots'), 'thumbs', $this->wfdownloads->getConfig('shotwidth'), $this->wfdownloads->getConfig('shotheight'), $this->wfdownloads->getConfig('imagequality'), $this->wfdownloads->getConfig('updatethumbs'),
-                                                $this->wfdownloads->getConfig('keepaspect'));
+                    $screenshot_thumb = WfdownloadsUtility::createThumb($screenshot, $this->wfdownloads->getConfig('screenshots'), 'thumbs', $this->wfdownloads->getConfig('shotwidth'), $this->wfdownloads->getConfig('shotheight'), $this->wfdownloads->getConfig('imagequality'),
+                                                                        $this->wfdownloads->getConfig('updatethumbs'), $this->wfdownloads->getConfig('keepaspect'));
                 } else {
                     $screenshot_thumb = XOOPS_URL . '/' . $this->wfdownloads->getConfig('screenshots') . '/' . xoops_trim($screenshot);
                 }
@@ -284,9 +281,9 @@ class WfdownloadsDownload extends XoopsObject
         //
         $download['version'] = $this->getVar('version') ?: 0;
         //
-        $download['downtime'] = str_replace('|', '<br>', WfdownloadsUtilities::getDownloadTime($this->getVar('size'), 1, 1, 1, 1, 0));
+        $download['downtime'] = str_replace('|', '<br>', WfdownloadsUtility::getDownloadTime($this->getVar('size'), 1, 1, 1, 1, 0));
         //
-        $download['size'] = WfdownloadsUtilities::bytesToSize1024($this->getVar('size'));
+        $download['size'] = WfdownloadsUtility::bytesToSize1024($this->getVar('size'));
         //
         $time                     = ($this->getVar('updated') != 0) ? $this->getVar('updated') : $this->getVar('published');
         $download['updated']      = formatTimestamp($time, $this->wfdownloads->getConfig('dateformat'));
@@ -297,10 +294,10 @@ class WfdownloadsDownload extends XoopsObject
             // generate auto summary from description field
             $download['summary'] = $this->getVar('description');
             // patch for multilanguage summary if xlanguage module is installed
-            if (WfdownloadsUtilities::checkModule('xlanguage')) {
+            if (WfdownloadsUtility::checkModule('xlanguage')) {
                 global $xlanguage;
-                include_once XOOPS_ROOT_PATH . '/modules/xlanguage/include/vars.php';
-                include_once XOOPS_ROOT_PATH . '/modules/xlanguage/include/functions.php';
+                require_once XOOPS_ROOT_PATH . '/modules/xlanguage/include/vars.php';
+                require_once XOOPS_ROOT_PATH . '/modules/xlanguage/include/functions.php';
                 $download['summary'] = xlanguage_ml($download['summary']);
             }
             // html or plain text auto summary
@@ -310,7 +307,7 @@ class WfdownloadsDownload extends XoopsObject
             // truncate auto summary
             $autosumLength = (int)$this->wfdownloads->getConfig('autosumlength');
             if (strlen($download['summary']) > $autosumLength) {
-                $download['summary'] = WfdownloadsUtilities::truncateHtml($download['summary'], $autosumLength, '...', false, true);
+                $download['summary'] = WfdownloadsUtility::truncateHtml($download['summary'], $autosumLength, '...', false, true);
             }
         } else {
             $download['summary'] = $summary;
@@ -360,7 +357,7 @@ class WfdownloadsDownload extends XoopsObject
         //
         $download['mail_body'] = rawurlencode(sprintf(_MD_WFDOWNLOADS_INTFILEFOUND, $GLOBALS['xoopsConfig']['sitename']) . ':  ' . WFDOWNLOADS_URL . '/singlefile.php?cid=' . $download['cid'] . '&amp;lid=' . $download['id']);
         //
-        $download['isadmin'] = WfdownloadsUtilities::userIsAdmin() ? true : false;
+        $download['isadmin'] = WfdownloadsUtility::userIsAdmin() ? true : false;
         //
         $download['adminlink'] = '';
         if ($download['isadmin'] === true) {
@@ -375,9 +372,9 @@ class WfdownloadsDownload extends XoopsObject
             $download['issubmitter']   = ((int)$GLOBALS['xoopsUser']->getvar('uid') == $this->getVar('submitter')) ? true : false;
         }
         //
-        $sql2 = 'SELECT rated';
-        $sql2 .= ' FROM ' . $GLOBALS['xoopsDB']->prefix('wfdownloads_reviews');
-        $sql2 .= " WHERE lid = '" . (int)$download['id'] . "' AND submit = '1'";
+        $sql2                    = 'SELECT rated';
+        $sql2                    .= ' FROM ' . $GLOBALS['xoopsDB']->prefix('wfdownloads_reviews');
+        $sql2                    .= " WHERE lid = '" . (int)$download['id'] . "' AND submit = '1'";
         $results                 = $GLOBALS['xoopsDB']->query($sql2);
         $numrows                 = $GLOBALS['xoopsDB']->getRowsNum($results);
         $download['reviews_num'] = $numrows ?: 0;
@@ -391,11 +388,11 @@ class WfdownloadsDownload extends XoopsObject
         //
         $download['review_rateimg'] = 'rate' . round(number_format($averageReviewsRating, 0) / 2) . '.gif'; // this definition is not removed for backward compatibility issues
         //
-        $download['icons'] = WfdownloadsUtilities::displayIcons($this->getVar('published'), $this->getVar('status'), $this->getVar('hits'));
+        $download['icons'] = WfdownloadsUtility::displayIcons($this->getVar('published'), $this->getVar('status'), $this->getVar('hits'));
         //
-        $sql3 = 'SELECT downurl';
-        $sql3 .= ' FROM ' . $GLOBALS['xoopsDB']->prefix('wfdownloads_mirrors');
-        $sql3 .= " WHERE lid = '" . (int)$download['id'] . "' AND submit = '1'";
+        $sql3                    = 'SELECT downurl';
+        $sql3                    .= ' FROM ' . $GLOBALS['xoopsDB']->prefix('wfdownloads_mirrors');
+        $sql3                    .= " WHERE lid = '" . (int)$download['id'] . "' AND submit = '1'";
         $results3                = $GLOBALS['xoopsDB']->query($sql3);
         $numrows2                = $GLOBALS['xoopsDB']->getRowsNum($results3);
         $download['mirrors_num'] = $numrows2 ?: 0;
@@ -407,7 +404,7 @@ class WfdownloadsDownload extends XoopsObject
             $download['file_url'] = XOOPS_URL . str_replace(XOOPS_ROOT_PATH, '', $this->wfdownloads->getConfig('uploaddir')) . '/' . stripslashes(trim($fullFilename));
         }
         // has_custom_fields
-        $download['has_custom_fields'] = (WfdownloadsUtilities::checkModule('formulize') && $this->getVar('formulize_idreq'));
+        $download['has_custom_fields'] = (WfdownloadsUtility::checkModule('formulize') && $this->getVar('formulize_idreq'));
 
         return $download;
     }
@@ -419,8 +416,8 @@ class WfdownloadsDownload extends XoopsObject
      */
     public function getForm($customArray = array()) // $custom array added April 22, 2006 by jwe)
     {
-        include_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
-        include_once XOOPS_ROOT_PATH . '/class/tree.php';
+        require_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
+        require_once XOOPS_ROOT_PATH . '/class/tree.php';
 
         $groups = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : array(0 => XOOPS_GROUP_ANONYMOUS);
 
@@ -441,14 +438,13 @@ class WfdownloadsDownload extends XoopsObject
         // download: userfile
         if (($this->wfdownloads->getConfig('useruploads')
              && array_intersect($this->wfdownloads->getConfig('useruploadsgroup'), $groups))
-            || wfdownloads_userIsAdmin()
-        ) {
+            || WfdownloadsUtility::userIsAdmin()) {
             $userfile_file = new XoopsFormFile(_MD_WFDOWNLOADS_UPLOAD_FILEC, 'userfile', 0);
             // get max file size (setup and php.ini)
             $phpiniMaxFileSize = min((int)ini_get('upload_max_filesize'), (int)ini_get('post_max_size'), (int)ini_get('memory_limit')) * 1024 * 1024; // bytes
-            $maxFileSize       = WfdownloadsUtilities::bytesToSize1024(min($this->wfdownloads->getConfig('maxfilesize'), $phpiniMaxFileSize));
+            $maxFileSize       = WfdownloadsUtility::bytesToSize1024(min($this->wfdownloads->getConfig('maxfilesize'), $phpiniMaxFileSize));
             // get allowed mimetypes
-            if (WfdownloadsUtilities::userIsAdmin()) {
+            if (WfdownloadsUtility::userIsAdmin()) {
                 $criteria = new Criteria('mime_admin', true);
             } else {
                 $criteria = new Criteria('mime_user', true);
@@ -464,7 +460,7 @@ class WfdownloadsDownload extends XoopsObject
         }
         // download: cid
         // Formulize module support (2006/05/04) jpc - start
-        if (WfdownloadsUtilities::checkModule('formulize')) {
+        if (WfdownloadsUtility::checkModule('formulize')) {
             $sform->addElement(new XoopsFormHidden('cid', $this->getVar('cid', 'e')));
         } else {
             $categoryObjs     = $this->wfdownloads->getHandler('category')->getUserUpCategories();
@@ -507,19 +503,19 @@ class WfdownloadsDownload extends XoopsObject
             $sform->addElement(new XoopsFormText(_MD_WFDOWNLOADS_PRICEC, 'price', 10, 20, $this->getVar('price', 'e')), false);
             // download: summary
             switch ($this->wfdownloads->getConfig('autosummary')) {
-                case _WFDOWNLOADS_AUTOSUMMARY_YES :
+                case _WFDOWNLOADS_AUTOSUMMARY_YES:
                     $summary_dhtmltextarea = new XoopsFormDhtmlTextArea(_MD_WFDOWNLOADS_SUMMARY, 'summary', $this->getVar('summary', 'e'), 10, 60, 'smartHiddenSummary');
                     $summary_dhtmltextarea->setDescription(_MD_WFDOWNLOADS_SUMMARY_DESC_AUTOSUMMARY_YES);
                     $summary_dhtmltextarea->setExtra('disabled', 'disabled');
                     $sform->addElement($summary_dhtmltextarea, false);
                     break;
-                case _WFDOWNLOADS_AUTOSUMMARY_IFBLANK :
+                case _WFDOWNLOADS_AUTOSUMMARY_IFBLANK:
                     $summary_dhtmltextarea = new XoopsFormDhtmlTextArea(_MD_WFDOWNLOADS_SUMMARY, 'summary', $this->getVar('summary', 'e'), 10, 60, 'smartHiddenSummary');
                     $summary_dhtmltextarea->setDescription(_MD_WFDOWNLOADS_SUMMARY_DESC_AUTOSUMMARY_IFBLANK);
                     $sform->addElement($summary_dhtmltextarea, false);
                     break;
-                default :
-                case _WFDOWNLOADS_AUTOSUMMARY_NO :
+                default:
+                case _WFDOWNLOADS_AUTOSUMMARY_NO:
                     $summary_dhtmltextarea = new XoopsFormDhtmlTextArea(_MD_WFDOWNLOADS_SUMMARY, 'summary', $this->getVar('summary', 'e'), 10, 60, 'smartHiddenSummary');
                     $summary_dhtmltextarea->setDescription(_MD_WFDOWNLOADS_SUMMARY_DESC_AUTOSUMMARY_NO);
                     $sform->addElement($summary_dhtmltextarea, false);
@@ -560,12 +556,11 @@ class WfdownloadsDownload extends XoopsObject
             // if we are using a custom form, then add in the form's elements here
             $sform->addElement(new XoopsFormDhtmlTextArea(_MD_WFDOWNLOADS_DESCRIPTION, 'description', $this->getVar('description', 'e'), 15, 60, 'smartHiddenDescription'), true);
             $sform->addElement(new XoopsFormHidden('size', $this->getVar('size', 'e')));
-            if (WfdownloadsUtilities::checkModule('formulize')) {
-                include_once XOOPS_ROOT_PATH . '/modules/formulize/include/formdisplay.php';
-                include_once XOOPS_ROOT_PATH . '/modules/formulize/include/functions.php';
+            if (WfdownloadsUtility::checkModule('formulize')) {
+                require_once XOOPS_ROOT_PATH . '/modules/formulize/include/formdisplay.php';
+                require_once XOOPS_ROOT_PATH . '/modules/formulize/include/functions.php';
                 $sform = compileElements(// is a Formulize function
-                    $customArray['fid'], $sform, $customArray['formulize_mgr'], $customArray['prevEntry'], $customArray['entry'], $customArray['go_back'], $customArray['parentLinks'], $customArray['owner_groups'], $customArray['groups'], null, null,
-                    null, null, null, null, null, null, null, null);
+                    $customArray['fid'], $sform, $customArray['formulize_mgr'], $customArray['prevEntry'], $customArray['entry'], $customArray['go_back'], $customArray['parentLinks'], $customArray['owner_groups'], $customArray['groups'], null, null, null, null, null, null, null, null, null, null);
             } else {
                 // IN PROGRESS... formulize module not installed!!!
             }
@@ -581,8 +576,7 @@ class WfdownloadsDownload extends XoopsObject
         // download: screenshot, screenshot2, screenshot3, screenshot4
         if (($this->wfdownloads->getConfig('useruploads')
              && array_intersect($this->wfdownloads->getConfig('useruploadsgroup'), $groups))
-            || wfdownloads_userIsAdmin()
-        ) {
+            || WfdownloadsUtility::userIsAdmin()) {
             $sform->addElement(new XoopsFormFile(_MD_WFDOWNLOADS_DUPLOADSCRSHOT, 'screenshot', 0), false); // IN PROGRESS
             if ($this->wfdownloads->getConfig('max_screenshot') >= 2) {
                 $sform->addElement(new XoopsFormFile(_MD_WFDOWNLOADS_DUPLOADSCRSHOT, 'screenshot2', 0), false); // IN PROGRESS
@@ -633,8 +627,8 @@ class WfdownloadsDownload extends XoopsObject
      */
     public function getAdminForm($title, $customArray = array()) // $custom array added April 22, 2006 by jwe
     {
-        include_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
-        include_once WFDOWNLOADS_ROOT_PATH . '/class/wfdownloads_lists.php';
+        require_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
+        require_once WFDOWNLOADS_ROOT_PATH . '/class/wfdownloads_lists.php';
 
         $use_mirrors = $this->wfdownloads->getConfig('enable_mirrors');
 
@@ -679,13 +673,12 @@ class WfdownloadsDownload extends XoopsObject
         $userfile_file = new XoopsFormFile(_MD_WFDOWNLOADS_UPLOAD_FILEC, 'userfile', 0);
         // get max file size (setup and php.ini)
         $phpiniMaxFileSize = min((int)ini_get('upload_max_filesize'), (int)ini_get('post_max_size'), (int)ini_get('memory_limit')) * 1024 * 1024; // bytes
-        $maxFileSize       = WfdownloadsUtilities::bytesToSize1024(min($this->wfdownloads->getConfig('maxfilesize'), $phpiniMaxFileSize));
+        $maxFileSize       = WfdownloadsUtility::bytesToSize1024(min($this->wfdownloads->getConfig('maxfilesize'), $phpiniMaxFileSize));
         // get allowed mimetypes
         $criteria          = new Criteria('mime_admin', true);
         $mimetypes         = $this->wfdownloads->getHandler('mimetype')->getList($criteria);
         $allowedExtensions = implode(' | ', $mimetypes);
-        $userfile_file->setDescription(sprintf(_MD_WFDOWNLOADS_UPLOAD_FILEC_DESC, $maxFileSize, $this->wfdownloads->getConfig('maximgwidth'), $this->wfdownloads->getConfig('maximgheight'), $allowedExtensions,
-                                               substr($allowedExtensions, 0, 40) . '...'));
+        $userfile_file->setDescription(sprintf(_MD_WFDOWNLOADS_UPLOAD_FILEC_DESC, $maxFileSize, $this->wfdownloads->getConfig('maximgwidth'), $this->wfdownloads->getConfig('maximgheight'), $allowedExtensions, substr($allowedExtensions, 0, 40) . '...'));
         $sform->addElement($userfile_file, false);
         // download: cid
         $categoryObjs     = $this->wfdownloads->getHandler('category')->getObjects();
@@ -746,14 +739,14 @@ class WfdownloadsDownload extends XoopsObject
             $summary_editor    = new XoopsFormEditor('', $this->wfdownloads->getConfig('editor_options'), $options, $nohtml = false, $onfailure = 'textarea');
             $summary_tray->addElement($summary_editor);
             switch ($this->wfdownloads->getConfig('autosummary')) {
-                case _WFDOWNLOADS_AUTOSUMMARY_YES :
+                case _WFDOWNLOADS_AUTOSUMMARY_YES:
                     $summary_tray->setDescription(_MD_WFDOWNLOADS_SUMMARY_DESC_AUTOSUMMARY_YES);
                     break;
-                case _WFDOWNLOADS_AUTOSUMMARY_IFBLANK :
+                case _WFDOWNLOADS_AUTOSUMMARY_IFBLANK:
                     $summary_tray->setDescription(_MD_WFDOWNLOADS_SUMMARY_DESC_AUTOSUMMARY_IFBLANK);
                     break;
-                default :
-                case _WFDOWNLOADS_AUTOSUMMARY_NO :
+                default:
+                case _WFDOWNLOADS_AUTOSUMMARY_NO:
                     $summary_tray->setDescription(_MD_WFDOWNLOADS_SUMMARY_DESC_AUTOSUMMARY_NO);
                     break;
             }
@@ -810,12 +803,11 @@ class WfdownloadsDownload extends XoopsObject
             // download: size
             $sform->addElement(new XoopsFormHidden('size', $this->getVar('size', 'e')));
 
-            if (WfdownloadsUtilities::checkModule('formulize')) {
-                include_once XOOPS_ROOT_PATH . '/modules/formulize/include/formdisplay.php';
-                include_once XOOPS_ROOT_PATH . '/modules/formulize/include/functions.php';
+            if (WfdownloadsUtility::checkModule('formulize')) {
+                require_once XOOPS_ROOT_PATH . '/modules/formulize/include/formdisplay.php';
+                require_once XOOPS_ROOT_PATH . '/modules/formulize/include/functions.php';
                 $sform = compileElements(// is a Formulize function
-                    $customArray['fid'], $sform, $customArray['formulize_mgr'], $customArray['prevEntry'], $customArray['entry'], $customArray['go_back'], $customArray['parentLinks'], $customArray['owner_groups'], $customArray['groups'], null, null,
-                    null, null, null, null, null, null, null, null);
+                    $customArray['fid'], $sform, $customArray['formulize_mgr'], $customArray['prevEntry'], $customArray['entry'], $customArray['go_back'], $customArray['parentLinks'], $customArray['owner_groups'], $customArray['groups'], null, null, null, null, null, null, null, null, null, null);
             } else {
                 // IN PROGRESS... Formulize module not installed!!!
             }
@@ -835,9 +827,9 @@ class WfdownloadsDownload extends XoopsObject
         $indeximage_tray1 = new XoopsFormElementTray(_AM_WFDOWNLOADS_FILE_SHOTIMAGE, '&nbsp;');
         $indeximage_tray1->addElement($indeximage_select1);
         if ($this->getVar('screenshot') != '') { // IN PROGRESS
-            $indeximage_tray1->addElement(new XoopsFormLabel('', "<br><br><img src='" . XOOPS_URL . '/' . $this->wfdownloads->getConfig('screenshots') . '/' . $this->getVar('screenshot', 'e') . "' id='image1' alt='' title='screenshot 1' />"));
+            $indeximage_tray1->addElement(new XoopsFormLabel('', "<br><br><img src='" . XOOPS_URL . '/' . $this->wfdownloads->getConfig('screenshots') . '/' . $this->getVar('screenshot', 'e') . "' id='image1' alt='' title='screenshot 1'>"));
         } else {
-            $indeximage_tray1->addElement(new XoopsFormLabel('', "<br><br><img src='" . XOOPS_URL . "/uploads/blank.gif' id='image1' alt='' title='' />"));
+            $indeximage_tray1->addElement(new XoopsFormLabel('', "<br><br><img src='" . XOOPS_URL . "/uploads/blank.png' id='image1' alt='' title=''>"));
         }
         $sform->addElement($indeximage_tray1);
 
@@ -849,9 +841,9 @@ class WfdownloadsDownload extends XoopsObject
         $indeximage_tray2 = new XoopsFormElementTray(_AM_WFDOWNLOADS_FILE_SHOTIMAGE, '&nbsp;');
         $indeximage_tray2->addElement($indeximage_select2);
         if ($this->getVar('screenshot2') != '') {
-            $indeximage_tray2->addElement(new XoopsFormLabel('', "<br><br><img src='" . XOOPS_URL . '/' . $this->wfdownloads->getConfig('screenshots') . '/' . $this->getVar('screenshot2', 'e') . "' id='image2' alt='' title='screenshot 2' />"));
+            $indeximage_tray2->addElement(new XoopsFormLabel('', "<br><br><img src='" . XOOPS_URL . '/' . $this->wfdownloads->getConfig('screenshots') . '/' . $this->getVar('screenshot2', 'e') . "' id='image2' alt='' title='screenshot 2'>"));
         } else {
-            $indeximage_tray2->addElement(new XoopsFormLabel('', "<br><br><img src='" . XOOPS_URL . "/uploads/blank.gif' id='image2' alt='' title='' />"));
+            $indeximage_tray2->addElement(new XoopsFormLabel('', "<br><br><img src='" . XOOPS_URL . "/uploads/blank.png' id='image2' alt='' title=''>"));
         }
         $sform->addElement($indeximage_tray2);
 
@@ -863,9 +855,9 @@ class WfdownloadsDownload extends XoopsObject
         $indeximage_tray3 = new XoopsFormElementTray(_AM_WFDOWNLOADS_FILE_SHOTIMAGE, '&nbsp;');
         $indeximage_tray3->addElement($indeximage_select3);
         if ($this->getVar('screenshot3') != '') {
-            $indeximage_tray3->addElement(new XoopsFormLabel('', "<br><br><img src='" . XOOPS_URL . '/' . $this->wfdownloads->getConfig('screenshots') . '/' . $this->getVar('screenshot3', 'e') . "' id='image3' alt='' title='screenshot 3' />"));
+            $indeximage_tray3->addElement(new XoopsFormLabel('', "<br><br><img src='" . XOOPS_URL . '/' . $this->wfdownloads->getConfig('screenshots') . '/' . $this->getVar('screenshot3', 'e') . "' id='image3' alt='' title='screenshot 3'>"));
         } else {
-            $indeximage_tray3->addElement(new XoopsFormLabel('', "<br><br><img src='" . XOOPS_URL . "/uploads/blank.gif' id='image3' alt='' title='' />"));
+            $indeximage_tray3->addElement(new XoopsFormLabel('', "<br><br><img src='" . XOOPS_URL . "/uploads/blank.png' id='image3' alt='' title=''>"));
         }
         $sform->addElement($indeximage_tray3);
 
@@ -877,9 +869,9 @@ class WfdownloadsDownload extends XoopsObject
         $indeximage_tray4 = new XoopsFormElementTray(_AM_WFDOWNLOADS_FILE_SHOTIMAGE, '&nbsp;');
         $indeximage_tray4->addElement($indeximage_select4);
         if ($this->getVar('screenshot4') != '') {
-            $indeximage_tray4->addElement(new XoopsFormLabel('', "<br><br><img src='" . XOOPS_URL . '/' . $this->wfdownloads->getConfig('screenshots') . '/' . $this->getVar('screenshot4', 'e') . "' id='image4' alt='' title='screenshot 4' />"));
+            $indeximage_tray4->addElement(new XoopsFormLabel('', "<br><br><img src='" . XOOPS_URL . '/' . $this->wfdownloads->getConfig('screenshots') . '/' . $this->getVar('screenshot4', 'e') . "' id='image4' alt='' title='screenshot 4'>"));
         } else {
-            $indeximage_tray4->addElement(new XoopsFormLabel('', "<br><br><img src='" . XOOPS_URL . "/uploads/blank.gif' id='image4' alt='' title='' />"));
+            $indeximage_tray4->addElement(new XoopsFormLabel('', "<br><br><img src='" . XOOPS_URL . "/uploads/blank.png' id='image4' alt='' title=''>"));
         }
         $sform->addElement($indeximage_tray4);
 
@@ -958,6 +950,7 @@ class WfdownloadsDownload extends XoopsObject
     }
 
     // Formulize module support (2006/03/06, 2006/03/08) jpc - start
+
     /**
      * @param $title
      *
@@ -965,8 +958,8 @@ class WfdownloadsDownload extends XoopsObject
      */
     public function getCategoryForm($title)
     {
-        include_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
-        include_once XOOPS_ROOT_PATH . '/class/tree.php';
+        require_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
+        require_once XOOPS_ROOT_PATH . '/class/tree.php';
         $sform = new XoopsThemeForm($title, 'storyform', $_SERVER['REQUEST_URI']);
         $sform->setExtra('enctype="multipart/form-data"');
         // download: cid
@@ -1154,14 +1147,15 @@ class WfdownloadsDownloadHandler extends XoopsPersistableObjectHandler
             xoops_comment_delete((int)$this->wfdownloads->getModule()->mid(), (int)$download->getVar('lid'));
 
             // Formulize module support (2006/05/04) jpc - start
-            if (WfdownloadsUtilities::checkModule('formulize')) {
+            if (WfdownloadsUtility::checkModule('formulize')) {
                 if (file_exists(XOOPS_ROOT_PATH . '/modules/formulize/include/functions.php') && $download->getVar('formulize_idreq') > 0) {
-                    include_once XOOPS_ROOT_PATH . '/modules/formulize/include/functions.php';
+                    require_once XOOPS_ROOT_PATH . '/modules/formulize/include/functions.php';
                     //deleteFormEntries(array($download->getVar('formulize_idreq')));
                     $category = $this->wfdownloads->getHandler('category')->get($download->getVar('cid'));
                     deleteFormEntries(array($download->getVar('formulize_idreq')), $category->getVar('formulize_fid'));
                 }
             }
+
             // Formulize module support (2006/05/04) jpc - end
             return true;
         }

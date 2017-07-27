@@ -8,6 +8,7 @@
  but WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
+
 /**
  * Wfdownloads module
  *
@@ -17,15 +18,18 @@
  * @since           3.23
  * @author          Xoops Development Team
  */
-$currentFile = basename(__FILE__);
-include_once __DIR__ . '/header.php';
 
-$lid         = XoopsRequest::getInt('lid', 0);
+use Xmf\Request;
+
+$currentFile = basename(__FILE__);
+require_once __DIR__ . '/header.php';
+
+$lid         = Request::getInt('lid', 0);
 $downloadObj = $wfdownloads->getHandler('download')->get($lid);
 if (empty($downloadObj)) {
     redirect_header('index.php', 3, _CO_WFDOWNLOADS_ERROR_NODOWNLOAD);
 }
-$cid         = XoopsRequest::getInt('cid', $downloadObj->getVar('cid'));
+$cid         = Request::getInt('cid', $downloadObj->getVar('cid'));
 $categoryObj = $wfdownloads->getHandler('category')->get($cid);
 if (empty($categoryObj)) {
     redirect_header('index.php', 3, _CO_WFDOWNLOADS_ERROR_NOCATEGORY);
@@ -51,14 +55,13 @@ if ($downloadObj->getVar('published') == 0 || $downloadObj->getVar('published') 
     || $downloadObj->getVar('offline') === true
     || ($downloadObj->getVar('expired') != 0
         && $downloadObj->getVar('expired') < time())
-    || $downloadObj->getVar('status') == _WFDOWNLOADS_STATUS_WAITING
-) {
+    || $downloadObj->getVar('status') == _WFDOWNLOADS_STATUS_WAITING) {
     redirect_header('index.php', 3, _MD_WFDOWNLOADS_NODOWNLOAD);
 }
 
 // Load Template
 $GLOBALS['xoopsOption']['template_main'] = "{$wfdownloads->getModule()->dirname()}_singlefile.tpl";
-include_once XOOPS_ROOT_PATH . '/header.php';
+require_once XOOPS_ROOT_PATH . '/header.php';
 
 $xoTheme->addScript(XOOPS_URL . '/browse.php?Frameworks/jquery/jquery.js');
 $xoTheme->addScript(WFDOWNLOADS_URL . '/assets/js/magnific/jquery.magnific-popup.min.js');
@@ -69,16 +72,15 @@ $xoopsTpl->assign('wfdownloads_url', WFDOWNLOADS_URL . '/');
 
 // Making the category image and title available in the template
 if (($categoryObj->getVar('imgurl') != '')
-    && is_file(XOOPS_ROOT_PATH . '/' . $wfdownloads->getConfig('catimage') . '/' . $categoryObj->getVar('imgurl'))
-) {
+    && is_file(XOOPS_ROOT_PATH . '/' . $wfdownloads->getConfig('catimage') . '/' . $categoryObj->getVar('imgurl'))) {
     if ($wfdownloads->getConfig('usethumbs') && function_exists('gd_info')) {
-        $imgurl = WfdownloadsUtilities::createThumb($categoryObj->getVar('imgurl'), $wfdownloads->getConfig('catimage'), 'thumbs', $wfdownloads->getConfig('cat_imgwidth'), $wfdownloads->getConfig('cat_imgheight'), $wfdownloads->getConfig('imagequality'), $wfdownloads->getConfig('updatethumbs'),
-                                          $wfdownloads->getConfig('keepaspect'));
+        $imgurl = WfdownloadsUtility::createThumb($categoryObj->getVar('imgurl'), $wfdownloads->getConfig('catimage'), 'thumbs', $wfdownloads->getConfig('cat_imgwidth'), $wfdownloads->getConfig('cat_imgheight'), $wfdownloads->getConfig('imagequality'), $wfdownloads->getConfig('updatethumbs'),
+                                                  $wfdownloads->getConfig('keepaspect'));
     } else {
         $imgurl = XOOPS_URL . '/' . $wfdownloads->getConfig('catimage') . '/' . $categoryObj->getVar('imgurl');
     }
 } else {
-    $imgurl = XOOPS_URL . '/' . $wfdownloads->getConfig('catimage') . '/blank.gif';
+    $imgurl = XOOPS_URL . '/' . $wfdownloads->getConfig('catimage') . '/blank.png';
 }
 $xoopsTpl->assign('category_title', $categoryObj->getVar('title'));
 $xoopsTpl->assign('category_image', $imgurl);
@@ -93,20 +95,20 @@ $xoopsTpl->assign('topcategory_cid', $topCategoryObj->getVar('cid'));
 
 // Formulize module support (2006/03/06, 2006/03/08) jpc - start
 $formulize_idreq = $downloadObj->getVar('formulize_idreq');
-if (WfdownloadsUtilities::checkModule('formulize') && $formulize_idreq) {
+if (WfdownloadsUtility::checkModule('formulize') && $formulize_idreq) {
     $xoopsTpl->assign('custom_form', true);
-    include_once XOOPS_ROOT_PATH . '/modules/formulize/include/extract.php';
+    require_once XOOPS_ROOT_PATH . '/modules/formulize/include/extract.php';
     // get the form id and id_req of the user's entry
     $formulizeModule = $moduleHandler->getByDirname('formulize');
-    $formulizeConfig =& $configHandler->getConfigsByCat(0, $formulizeModule->mid());
+    $formulizeConfig = $configHandler->getConfigsByCat(0, $formulizeModule->mid());
 
     $formulize_fid = $categoryObj->getVar('formulize_fid');
 
     if ($formulize_fid) {
         // get Formulize form description
-        $sql = 'SELECT desc_form';
-        $sql .= " FROM {$GLOBALS['xoopsDB']->prefix('formulize_id')}";
-        $sql .= " WHERE id_form = '{$formulize_fid}'";
+        $sql                 = 'SELECT desc_form';
+        $sql                 .= " FROM {$GLOBALS['xoopsDB']->prefix('formulize_id')}";
+        $sql                 .= " WHERE id_form = '{$formulize_fid}'";
         $formulize_formQuery = $GLOBALS['xoopsDB']->query($sql);
         if (false !== ($formulize_form_array = $GLOBALS['xoopsDB']->fetchArray($formulize_formQuery))) {
             $desc_form = $formulize_form_array['desc_form'];
@@ -135,10 +137,10 @@ if (WfdownloadsUtilities::checkModule('formulize') && $formulize_idreq) {
                 }
             }
             // get the captions for the elements that are visible to the user's groups
-            $sql = 'SELECT ele_caption, ele_id, ele_display';
-            $sql .= " FROM {$GLOBALS['xoopsDB']->prefix('formulize')}";
-            $sql .= " WHERE ({$ele_id_query}) AND ele_type <> 'ib' AND ele_type <> 'sep' AND ele_type <> 'areamodif'";
-            $sql .= ' ORDER BY ele_order';
+            $sql          = 'SELECT ele_caption, ele_id, ele_display';
+            $sql          .= " FROM {$GLOBALS['xoopsDB']->prefix('formulize')}";
+            $sql          .= " WHERE ({$ele_id_query}) AND ele_type <> 'ib' AND ele_type <> 'sep' AND ele_type <> 'areamodif'";
+            $sql          .= ' ORDER BY ele_order';
             $captionQuery = $GLOBALS['xoopsDB']->query($sql);
             // collect the captions and their values into an array for passing to the template
             $formulize_fields = array();
@@ -163,12 +165,16 @@ if (WfdownloadsUtilities::checkModule('formulize') && $formulize_idreq) {
 
 $use_mirrors = $wfdownloads->getConfig('enable_mirrors');
 $add_mirror  = false;
-if (!is_object($GLOBALS['xoopsUser']) && $use_mirrors === true && ($wfdownloads->getConfig('anonpost') == _WFDOWNLOADS_ANONPOST_MIRROR || $wfdownloads->getConfig('anonpost') == _WFDOWNLOADS_ANONPOST_BOTH)
+if (!is_object($GLOBALS['xoopsUser']) && $use_mirrors === true
+    && ($wfdownloads->getConfig('anonpost') == _WFDOWNLOADS_ANONPOST_MIRROR
+        || $wfdownloads->getConfig('anonpost') == _WFDOWNLOADS_ANONPOST_BOTH)
     && ($wfdownloads->getConfig('submissions') == _WFDOWNLOADS_SUBMISSIONS_MIRROR
-        || $wfdownloads->getConfig('submissions') == _WFDOWNLOADS_SUBMISSIONS_BOTH)
-) {
+        || $wfdownloads->getConfig('submissions') == _WFDOWNLOADS_SUBMISSIONS_BOTH)) {
     $add_mirror = true;
-} elseif (is_object($GLOBALS['xoopsUser']) && $use_mirrors === true && ($wfdownloads->getConfig('submissions') == _WFDOWNLOADS_SUBMISSIONS_MIRROR || $wfdownloads->getConfig('submissions') == _WFDOWNLOADS_SUBMISSIONS_BOTH || WfdownloadsUtilities::userIsAdmin())) {
+} elseif (is_object($GLOBALS['xoopsUser']) && $use_mirrors === true
+          && ($wfdownloads->getConfig('submissions') == _WFDOWNLOADS_SUBMISSIONS_MIRROR
+              || $wfdownloads->getConfig('submissions') == _WFDOWNLOADS_SUBMISSIONS_BOTH
+              || WfdownloadsUtility::userIsAdmin())) {
     $add_mirror = true;
 }
 
@@ -188,7 +194,7 @@ if ($wfdownloads->getConfig('screenshot') == 1) {
 }
 
 // Breadcrumb
-include_once XOOPS_ROOT_PATH . '/class/tree.php';
+require_once XOOPS_ROOT_PATH . '/class/tree.php';
 $categoryObjsTree = new XoopsObjectTree($wfdownloads->getHandler('category')->getObjects(), 'cid', 'pid');
 $breadcrumb       = new WfdownloadsBreadcrumb();
 $breadcrumb->addLink($wfdownloads->getModule()->getVar('name'), WFDOWNLOADS_URL);
@@ -258,11 +264,11 @@ if ($wfdownloads->getConfig('copyright') === true) {
 $xoopsTpl->assign('down', $downloadInfo); // this definition is not removed for backward compatibility issues
 $xoopsTpl->assign('download', $downloadInfo);
 
-include_once XOOPS_ROOT_PATH . '/include/comment_view.php';
+require_once XOOPS_ROOT_PATH . '/include/comment_view.php';
 
 $xoopsTpl->assign('com_rule', $wfdownloads->getConfig('com_rule'));
-$xoopsTpl->assign('module_home', WfdownloadsUtilities::moduleHome(true));
-include_once __DIR__ . '/footer.php';
+$xoopsTpl->assign('module_home', WfdownloadsUtility::moduleHome(true));
+require_once __DIR__ . '/footer.php';
 
 ?>
 <script type="text/javascript">

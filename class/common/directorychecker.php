@@ -8,6 +8,7 @@
  but WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
+
 /**
  * Wfdownloads module
  *
@@ -18,14 +19,12 @@
  * @author          Xoops Development Team
  */
 
-use Xmf\Language;
 
 //defined('XOOPS_ROOT_PATH') || die('XOOPS root path not defined');
 
 require_once __DIR__ . '/../../../../include/cp_header.php';
 $moduleDirName = basename(dirname(dirname(__DIR__)));
-Language::load('directorychecker', $moduleDirName);
-
+xoops_loadLanguage('directorychecker', $moduleDirName);
 
 /**
  * Class DirectoryChecker
@@ -99,6 +98,7 @@ class DirectoryChecker
     public static function createDirectory($target, $mode = 0777)
     {
         $target = str_replace('..', '', $target);
+
         // http://www.php.net/manual/en/function.mkdir.php
         return is_dir($target) || (self::createDirectory(dirname($target), $mode) && mkdir($target, $mode));
     }

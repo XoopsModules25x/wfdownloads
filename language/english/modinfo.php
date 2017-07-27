@@ -244,7 +244,8 @@ CONCERNING THE SOFTWARE THAT IS CONTAINED IN XOOPS WEBSITE. IN NO
 EVENT WILL XOOPS BE LIABLE FOR ANY INDIRECT, PUNITIVE, SPECIAL,
 INCIDENTAL OR CONSEQUENTIAL DAMAGES, HOWEVER THEY MAY ARISE AND EVEN IF
 XOOPS HAS BEEN PREVIOUSLY ADVISED OF THE POSSIBILITY OF SUCH DAMAGES..");
-define('_MI_WFDOWNLOADS_AUTHOR_CREDITSTEXT', 'The XOOPS Team would like to thank the following people for their help and support during the development phase of this module: <br><br>tom, mking, paco1969, mharoun, Talis, m0nty, steenlnielsen, Clubby, Geronimo, bd_csmc, herko, LANG, Stewdio, tedsmith, veggieryan, carnuke, MadFish, Kiang, SmartFactory team<br>and anyone else who has contributed to either directly or indirectly.');
+define('_MI_WFDOWNLOADS_AUTHOR_CREDITSTEXT',
+       'The XOOPS Team would like to thank the following people for their help and support during the development phase of this module: <br><br>tom, mking, paco1969, mharoun, Talis, m0nty, steenlnielsen, Clubby, Geronimo, bd_csmc, herko, LANG, Stewdio, tedsmith, veggieryan, carnuke, MadFish, Kiang, SmartFactory team<br>and anyone else who has contributed to either directly or indirectly.');
 define('_MI_WFDOWNLOADS_AUTHOR_BUGFIXES', 'Bug Fix History');
 define('_MI_WFDOWNLOADS_COPYRIGHTIMAGE', 'Images copyright XOOPS, WF-Project/SmartFactory and may only be used with permission');
 // mirror defines
@@ -354,8 +355,10 @@ define('_MI_WFDOWNLOADS_AUTOSUMMARY3', _YES);
 define('_MI_WFDOWNLOADS_AUTOSUMMARYPLAINTEXT', '[auto summary] Auto summary plain text');
 define('_MI_WFDOWNLOADS_AUTOSUMMARYPLAINTEXTDESC', "If '" . _YES . "' all html tags, except &lt;br&gt;, will be removed.");
 
-define('_MI_WFDOWNLOADS_DISCLAIMER_DEFAULT', 'We have the right, but not the obligation to monitor and review submissions submitted by users, in the forums. We shall not be responsible for any of the content of these messages. We further reserve the right, to delete, move or edit submissions that the we, in its exclusive discretion, deems abusive, defamatory, obscene or in violation of any Copyright or Trademark laws or otherwise objectionable.');
-define('_MI_WFDOWNLOADS_DOWNDISCLAIMER_DEFAULT', 'The file downloads on this site are provided as is without warranty either expressed or implied. Downloaded files should be checked for possible virus infection using the most up-to-date detection and security packages. If you have a question concerning a particular piece of software, feel free to contact the developer. We refuse liability for any damage or loss resulting from the use or misuse of any software offered from this site for downloading. If you have any doubt at all about the safety and operation of software made available to you on this site, do not download it.<br><br>Contact us if you have questions concerning this disclaimer.');
+define('_MI_WFDOWNLOADS_DISCLAIMER_DEFAULT',
+       'We have the right, but not the obligation to monitor and review submissions submitted by users, in the forums. We shall not be responsible for any of the content of these messages. We further reserve the right, to delete, move or edit submissions that the we, in its exclusive discretion, deems abusive, defamatory, obscene or in violation of any Copyright or Trademark laws or otherwise objectionable.');
+define('_MI_WFDOWNLOADS_DOWNDISCLAIMER_DEFAULT',
+       'The file downloads on this site are provided as is without warranty either expressed or implied. Downloaded files should be checked for possible virus infection using the most up-to-date detection and security packages. If you have a question concerning a particular piece of software, feel free to contact the developer. We refuse liability for any damage or loss resulting from the use or misuse of any software offered from this site for downloading. If you have any doubt at all about the safety and operation of software made available to you on this site, do not download it.<br><br>Contact us if you have questions concerning this disclaimer.');
 
 define('_MI_WFDOWNLOADS_HELP_OVERVIEW', 'Overview');
 define('_MI_WFDOWNLOADS_HELP_INSTALL', 'Install');
@@ -376,3 +379,28 @@ define('_MI_WFDOWNLOADS_SWISHE_EXEPATH', '[Swish-e] Swish-e executable path');
 define('_MI_WFDOWNLOADS_SWISHE_EXEPATHDSC', 'IN PROGRESS');
 define('_MI_WFDOWNLOADS_SWISHE_SEARCHLIMIT', '[Swish-e] Swish-e max results');
 define('_MI_WFDOWNLOADS_SWISHE_SEARCHLIMITDSC', "While searching, this specifies the maximum number of results to return. '0' is to return all results.");
+
+//Help
+define('_MI_WFDOWNLOADS_DIRNAME', basename(dirname(dirname(__DIR__))));
+define('_MI_WFDOWNLOADS_HELP_HEADER', __DIR__ . '/help/helpheader.html');
+define('_MI_WFDOWNLOADS_BACK_2_ADMIN', 'Back to Administration of ');
+define('_MI_WFDOWNLOADS_OVERVIEW', 'Overview');
+
+//define('_MI_WFDOWNLOADS_HELP_DIR', __DIR__);
+
+//help multi-page
+define('_MI_WFDOWNLOADS_HELP_DISCLAIMER', 'Disclaimer');
+define('_MI_WFDOWNLOADS_HELP_LICENSE', 'License');
+define('_MI_WFDOWNLOADS_HELP_SUPPORT', 'Support');
+//define('_MI_WFDOWNLOADS_REQUIREMENTS', 'Requirements');
+//define('_MI_WFDOWNLOADS_CREDITS', 'Credits');
+//define('_MI_WFDOWNLOADS_HOWTO', 'How To');
+//define('_MI_WFDOWNLOADS_UPDATE', 'Update');
+//define('_MI_WFDOWNLOADS_INSTALL', 'Install');
+//define('_MI_WFDOWNLOADS_HISTORY', 'History');
+//define('_MI_WFDOWNLOADS_HELP1', 'YYYYY');
+//define('_MI_WFDOWNLOADS_HELP2', 'YYYYY');
+//define('_MI_WFDOWNLOADS_HELP3', 'YYYYY');
+//define('_MI_WFDOWNLOADS_HELP4', 'YYYYY');
+//define('_MI_WFDOWNLOADS_HELP5', 'YYYYY');
+//define('_MI_WFDOWNLOADS_HELP6', 'YYYYY');

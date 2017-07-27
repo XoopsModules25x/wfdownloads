@@ -8,6 +8,7 @@
  but WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
+
 /**
  * Wfdownloads module
  *
@@ -20,35 +21,41 @@
 
 use Xmf\Language;
 use Xmf\Module\Admin;
+use Xmf\Module\Helper;
 
 $moduleDirName = basename(dirname(__DIR__));
-include_once dirname(dirname(dirname(__DIR__))) . '/mainfile.php';
-include_once $GLOBALS['xoops']->path('www/include/cp_functions.php');
-include_once $GLOBALS['xoops']->path('www/include/cp_header.php');
-include_once $GLOBALS['xoops']->path('www/class/xoopsformloader.php');
-require __DIR__ . '/../class/utilities.php';
+require_once dirname(dirname(dirname(__DIR__))) . '/mainfile.php';
+require_once $GLOBALS['xoops']->path('www/include/cp_functions.php');
+require_once $GLOBALS['xoops']->path('www/include/cp_header.php');
+require_once $GLOBALS['xoops']->path('www/class/xoopsformloader.php');
 
-$pathIcon16      = Admin::iconUrl('', 16);
-$pathIcon32      = Admin::iconUrl('', 32);
+require_once __DIR__ . '/../class/utility.php';
+require_once __DIR__ . '/../include/config.php';
+
+$moduleHelper = Helper::getHelper($moduleDirName);
+
+$pathIcon16    = Admin::iconUrl('', 16);
+$pathIcon32    = Admin::iconUrl('', 32);
+$pathModIcon32 = $moduleHelper->getModule()->getInfo('modicons32');
 
 $myts = MyTextSanitizer::getInstance();
 
 if (!isset($GLOBALS['xoopsTpl']) || !($GLOBALS['xoopsTpl'] instanceof XoopsTpl)) {
-    include_once $GLOBALS['xoops']->path('class/template.php');
+    require_once $GLOBALS['xoops']->path('class/template.php');
     $xoopsTpl = new XoopsTpl();
 }
 
 //Module specific elements
-//include_once $GLOBALS['xoops']->path("modules/{$moduleDirName}/include/functions.php");
-//include_once $GLOBALS['xoops']->path("modules/{$moduleDirName}/include/config.php");
+//require_once $GLOBALS['xoops']->path("modules/{$moduleDirName}/include/functions.php");
+//require_once $GLOBALS['xoops']->path("modules/{$moduleDirName}/include/config.php");
 
 //Handlers
 //$XXXHandler = xoops_getModuleHandler('XXX', $moduleDirName);
 
 // Load language files
-Language::load('admin', $moduleDirName);
-Language::load('modinfo', $moduleDirName);
-Language::load('main', $moduleDirName);
+xoops_loadLanguage('admin', $moduleDirName);
+xoops_loadLanguage('modinfo', $moduleDirName);
+xoops_loadLanguage('main', $moduleDirName);
 
 //xoops_cp_header();
-$adminObject = Admin::getInstance();
+$adminObject = \Xmf\Module\Admin::getInstance();

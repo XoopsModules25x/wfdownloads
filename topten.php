@@ -18,17 +18,17 @@
  * @author          Xoops Development Team
  */
 $currentFile = basename(__FILE__);
-include_once __DIR__ . '/header.php';
+require_once __DIR__ . '/header.php';
 
 $GLOBALS['xoopsOption']['template_main'] = "{$wfdownloads->getModule()->dirname()}_topten.tpl";
 
 // Check permissions
-if (($_GET['list'] === 'rate') && $wfdownloads->getConfig('enable_ratings') === false && !WfdownloadsUtilities::userIsAdmin()) {
+if (($_GET['list'] === 'rate') && $wfdownloads->getConfig('enable_ratings') === false && !WfdownloadsUtility::userIsAdmin()) {
     redirect_header('index.php', 3, _NOPERM);
 }
 $groups = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : array(0 => XOOPS_GROUP_ANONYMOUS);
 
-include_once XOOPS_ROOT_PATH . '/header.php';
+require_once XOOPS_ROOT_PATH . '/header.php';
 
 $xoTheme->addScript(XOOPS_URL . '/browse.php?Frameworks/jquery/jquery.js');
 $xoTheme->addScript(WFDOWNLOADS_URL . '/assets/js/magnific/jquery.magnific-popup.min.js');
@@ -45,9 +45,9 @@ $sort         = (isset($_GET['list']) && in_array($_GET['list'], $action_array))
 $thisselected = $action_array[$sort];
 $sortDB       = $list_array[$thisselected];
 
-$catarray['imageheader'] = WfdownloadsUtilities::headerImage();
-$catarray['letters']     = WfdownloadsUtilities::lettersChoice();
-$catarray['toolbar']     = WfdownloadsUtilities::toolbar();
+$catarray['imageheader'] = WfdownloadsUtility::headerImage();
+$catarray['letters']     = WfdownloadsUtility::lettersChoice();
+$catarray['toolbar']     = WfdownloadsUtility::toolbar();
 $xoopsTpl->assign('catarray', $catarray);
 
 $arr = array();
@@ -126,6 +126,6 @@ if ($_GET['list'] === 'rate') {
     $xoopsTpl->assign('categoryPath', _MD_WFDOWNLOADS_DOWNLOAD_MOST_POPULAR);
 }
 
-$xoopsTpl->assign('module_home', WfdownloadsUtilities::moduleHome(true));
+$xoopsTpl->assign('module_home', WfdownloadsUtility::moduleHome(true));
 
-include_once __DIR__ . '/footer.php';
+require_once __DIR__ . '/footer.php';

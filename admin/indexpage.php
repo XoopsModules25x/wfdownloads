@@ -8,6 +8,7 @@
  but WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
+
 /**
  * Wfdownloads module
  *
@@ -17,17 +18,20 @@
  * @since           3.23
  * @author          Xoops Development Team
  */
-$currentFile = basename(__FILE__);
-include_once __DIR__ . '/admin_header.php';
 
-$op = XoopsRequest::getString('op', 'indexpage.form');
+use Xmf\Request;
+
+$currentFile = basename(__FILE__);
+require_once __DIR__ . '/admin_header.php';
+
+$op = Request::getString('op', 'indexpage.form');
 switch ($op) {
     case 'indexpage.save':
         // Get post parameters
         $indexheading = $myts->addSlashes($_POST['indexheading']);
         $indexheader  = $myts->addSlashes($_POST['indexheader']);
         $indexfooter  = $myts->addSlashes($_POST['indexfooter']);
-        include_once XOOPS_ROOT_PATH . '/class/uploader.php';
+        require_once XOOPS_ROOT_PATH . '/class/uploader.php';
         $allowedMimetypes = array('image/gif', 'image/jpeg', 'image/pjpeg', 'image/x-png', 'image/png');
         $maxFileSize      = $wfdownloads->getConfig('maxfilesize');
         $maxImgWidth      = $wfdownloads->getConfig('maximgwidth');
@@ -72,28 +76,28 @@ switch ($op) {
 
     case 'indexpage.form':
     default:
-        include_once WFDOWNLOADS_ROOT_PATH . '/class/wfdownloads_lists.php';
-        include_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
+        require_once WFDOWNLOADS_ROOT_PATH . '/class/wfdownloads_lists.php';
+        require_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
 
-        $sql = 'SELECT indeximage, indexheading, indexheader, indexfooter, nohtml, nosmiley, noxcodes, noimages, nobreak, indexheaderalign, indexfooteralign';
-        $sql .= " FROM {$GLOBALS['xoopsDB']->prefix('wfdownloads_indexpage')} ";
+        $sql    = 'SELECT indeximage, indexheading, indexheader, indexfooter, nohtml, nosmiley, noxcodes, noimages, nobreak, indexheaderalign, indexfooteralign';
+        $sql    .= " FROM {$GLOBALS['xoopsDB']->prefix('wfdownloads_indexpage')} ";
         $result = $GLOBALS['xoopsDB']->query($sql);
         list($indeximage, $indexheading, $indexheader, $indexfooter, $nohtml, $nosmiley, $noxcodes, $noimages, $nobreak, $indexheaderalign, $indexfooteralign) = $GLOBALS['xoopsDB']->fetchrow($result);
 
-        WfdownloadsUtilities::myxoops_cp_header();
-        $indexAdmin = new ModuleAdmin();
-        echo $indexAdmin->addNavigation(basename(__FILE__));
+        WfdownloadsUtility::myxoops_cp_header();
+        $adminObject = \Xmf\Module\Admin::getInstance();
+        $adminObject->displayNavigation(basename(__FILE__));
 
         echo '<fieldset><legend>' . _AM_WFDOWNLOADS_IPAGE_INFORMATION . "</legend>\n";
         echo '<div>' . _AM_WFDOWNLOADS_MINDEX_PAGEINFOTXT . "</div>\n";
         echo "</fieldset>\n";
 
-        $sform = new XoopsThemeForm(_AM_WFDOWNLOADS_IPAGE_MODIFY, 'op', xoops_getenv('PHP_SELF'));
+        $sform = new XoopsThemeForm(_AM_WFDOWNLOADS_IPAGE_MODIFY, 'op', xoops_getenv('PHP_SELF'), 'post', true);
         $sform->setExtra('enctype="multipart/form-data"');
         // indexpage: indexheading
         $sform->addElement(new XoopsFormText(_AM_WFDOWNLOADS_IPAGE_CTITLE, 'indexheading', 60, 60, $indexheading), false);
         // indexpage: indeximage
-        $indeximage_path = $indeximage ? $wfdownloads->getConfig('mainimagedir') . '/' . $indeximage : WFDOWNLOADS_IMAGES_URL . '/blank.gif';
+        $indeximage_path = $indeximage ? $wfdownloads->getConfig('mainimagedir') . '/' . $indeximage : WFDOWNLOADS_IMAGES_URL . '/blank.png';
         $indeximage_tray = new XoopsFormElementTray(_AM_WFDOWNLOADS_IPAGE_CIMAGE, '<br>');
         $indeximage_tray->addElement(new XoopsFormLabel(_AM_WFDOWNLOADS_DOWN_FUPLOADPATH, XOOPS_ROOT_PATH . '/' . $wfdownloads->getConfig('mainimagedir')));
         $indeximage_tray->addElement(new XoopsFormLabel(_AM_WFDOWNLOADS_DOWN_FUPLOADURL, XOOPS_URL . '/' . $wfdownloads->getConfig('mainimagedir')));
@@ -102,7 +106,7 @@ switch ($op) {
         $indeximage_select->addOptionArray($graph_array);
         $indeximage_select->setExtra("onchange='showImgSelected(\"image\", \"indeximage\", \"" . $wfdownloads->getConfig('mainimagedir') . "\", \"\", \"" . XOOPS_URL . "\")'");
         $indeximage_tray->addElement($indeximage_select, false);
-        $indeximage_tray->addElement(new XoopsFormLabel('', "<img src='" . XOOPS_URL . '/' . $indeximage_path . "' name='image' id='image' alt='' />"));
+        $indeximage_tray->addElement(new XoopsFormLabel('', "<img src='" . XOOPS_URL . '/' . $indeximage_path . "' name='image' id='image' alt=''>"));
         $indeximage_tray->addElement(new XoopsFormFile(_AM_WFDOWNLOADS_BUPLOAD, 'uploadfile', 0), false);
         $sform->addElement($indeximage_tray);
         // indexpage: indexheader
@@ -144,4 +148,4 @@ switch ($op) {
         $sform->display();
         break;
 }
-include_once __DIR__ . '/admin_footer.php';
+require_once __DIR__ . '/admin_footer.php';

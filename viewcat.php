@@ -8,6 +8,7 @@
  but WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
+
 /**
  * Wfdownloads module
  *
@@ -17,14 +18,17 @@
  * @since           3.23
  * @author          Xoops Development Team
  */
-$currentFile = basename(__FILE__);
-include_once __DIR__ . '/header.php';
 
-$cid   = XoopsRequest::getInt('cid', 0);
-$start = XoopsRequest::getInt('start', 0);
-//$list = XoopsRequest::getString('list', null);
-//$orderby = XoopsRequest::getString('orderby', null);
-$orderby = isset($_GET['orderby']) ? convertorderbyin($_GET['orderby']) : $wfdownloads->getConfig('filexorder');
+use Xmf\Request;
+
+$currentFile = basename(__FILE__);
+require_once __DIR__ . '/header.php';
+
+$cid   = Request::getInt('cid', 0);
+$start = Request::getInt('start', 0);
+//$list = Request::getString('list', null);
+//$orderby = Request::getString('orderby', null);
+$orderby = isset($_GET['orderby']) ? WfdownloadsUtility::convertorderbyin($_GET['orderby']) : $wfdownloads->getConfig('filexorder');
 
 $groups = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : array(0 => XOOPS_GROUP_ANONYMOUS);
 
@@ -43,8 +47,7 @@ if (in_array(XOOPS_GROUP_ANONYMOUS, $groups)) {
 $isSubmissionAllowed = false;
 if (is_object($GLOBALS['xoopsUser'])
     && ($wfdownloads->getConfig('submissions') == _WFDOWNLOADS_SUBMISSIONS_DOWNLOAD
-        || $wfdownloads->getConfig('submissions') == _WFDOWNLOADS_SUBMISSIONS_BOTH)
-) {
+        || $wfdownloads->getConfig('submissions') == _WFDOWNLOADS_SUBMISSIONS_BOTH)) {
     // if user is a registered user
     $groups = $GLOBALS['xoopsUser']->getGroups();
     if (count(array_intersect($wfdownloads->getConfig('submitarts'), $groups)) > 0) {
@@ -53,8 +56,7 @@ if (is_object($GLOBALS['xoopsUser'])
 } else {
     // if user is anonymous
     if ($wfdownloads->getConfig('anonpost') == _WFDOWNLOADS_ANONPOST_DOWNLOAD
-        || $wfdownloads->getConfig('anonpost') == _WFDOWNLOADS_ANONPOST_BOTH
-    ) {
+        || $wfdownloads->getConfig('anonpost') == _WFDOWNLOADS_ANONPOST_BOTH) {
         $isSubmissionAllowed = true;
     }
 }
@@ -70,7 +72,7 @@ $allowedDownCategoriesIds = $gpermHandler->getItemIds('WFDownCatPerm', $groups, 
 $allowedUpCategoriesIds   = $gpermHandler->getItemIds('WFUpCatPerm', $groups, $wfdownloads->getModule()->mid());
 
 $GLOBALS['xoopsOption']['template_main'] = "{$wfdownloads->getModule()->dirname()}_viewcat.tpl";
-include_once XOOPS_ROOT_PATH . '/header.php';
+require_once XOOPS_ROOT_PATH . '/header.php';
 
 $xoTheme->addScript(XOOPS_URL . '/browse.php?Frameworks/jquery/jquery.js');
 $xoTheme->addScript(WFDOWNLOADS_URL . '/assets/js/magnific/jquery.magnific-popup.min.js');
@@ -95,7 +97,7 @@ if (!isset($_GET['list']) && !isset($_GET['selectdate'])) {
 }
 
 // Formulize module support (2006/05/04) jpc - start
-if (WfdownloadsUtilities::checkModule('formulize')) {
+if (WfdownloadsUtility::checkModule('formulize')) {
     $formulize_fid = $categoryObj->getVar('formulize_fid');
     if ($formulize_fid) {
         $xoopsTpl->assign('custom_form', true);
@@ -106,19 +108,19 @@ if (WfdownloadsUtilities::checkModule('formulize')) {
 // Formulize module support (2006/05/04) jpc - end
 
 // Generate Header
-$catArray['imageheader'] = WfdownloadsUtilities::headerImage();
-$catArray['letters']     = WfdownloadsUtilities::lettersChoice();
-$catArray['toolbar']     = WfdownloadsUtilities::toolbar();
+$catArray['imageheader'] = WfdownloadsUtility::headerImage();
+$catArray['letters']     = WfdownloadsUtility::lettersChoice();
+$catArray['toolbar']     = WfdownloadsUtility::toolbar();
 $xoopsTpl->assign('catarray', $catArray);
 
 $xoopsTpl->assign('categoryPath', $wfdownloads->getHandler('category')->getNicePath($cid)); // this definition is not removed for backward compatibility issues
-$xoopsTpl->assign('module_home', WfdownloadsUtilities::moduleHome(true)); // this definition is not removed for backward compatibility issues
+$xoopsTpl->assign('module_home', WfdownloadsUtility::moduleHome(true)); // this definition is not removed for backward compatibility issues
 
 // Get categories tree
 $criteria = new CriteriaCompo();
 $criteria->setSort('weight ASC, title');
 $categoryObjs = $wfdownloads->getHandler('category')->getObjects($criteria, true);
-include_once XOOPS_ROOT_PATH . '/class/tree.php';
+require_once XOOPS_ROOT_PATH . '/class/tree.php';
 $categoryObjsTree = new XoopsObjectTree($categoryObjs, 'cid', 'pid');
 
 // Breadcrumb
@@ -139,7 +141,7 @@ $xoopsTpl->assign('wfdownloads_breadcrumb', $breadcrumb->render());
 $allSubCategoryObjs = $categoryObjsTree->getFirstChild($cid);
 
 if (is_array($allSubCategoryObjs) > 0 && !isset($_GET['list']) && !isset($_GET['selectdate'])) {
-    $listings = WfdownloadsUtilities::getTotalDownloads($allowedDownCategoriesIds);
+    $listings = WfdownloadsUtility::getTotalDownloads($allowedDownCategoriesIds);
     $scount   = 1;
     foreach ($allSubCategoryObjs as $subCategoryObj) {
         $download_count = 0;
@@ -155,20 +157,20 @@ if (is_array($allSubCategoryObjs) > 0 && !isset($_GET['list']) && !isset($_GET['
         // ----- added for subcat images -----
         if (($subCategoryObj->getVar('imgurl') !== '') && is_file(XOOPS_ROOT_PATH . '/' . $wfdownloads->getConfig('catimage') . '/' . $subCategoryObj->getVar('imgurl'))) {
             if ($wfdownloads->getConfig('usethumbs') && function_exists('gd_info')) {
-                $imageURL = WfdownloadsUtilities::createThumb($subCategoryObj->getVar('imgurl'), $wfdownloads->getConfig('catimage'), 'thumbs', $wfdownloads->getConfig('cat_imgwidth'), $wfdownloads->getConfig('cat_imgheight'), $wfdownloads->getConfig('imagequality'), $wfdownloads->getConfig('updatethumbs'),
-                                                    $wfdownloads->getConfig('keepaspect'));
+                $imageURL = WfdownloadsUtility::createThumb($subCategoryObj->getVar('imgurl'), $wfdownloads->getConfig('catimage'), 'thumbs', $wfdownloads->getConfig('cat_imgwidth'), $wfdownloads->getConfig('cat_imgheight'), $wfdownloads->getConfig('imagequality'),
+                                                            $wfdownloads->getConfig('updatethumbs'), $wfdownloads->getConfig('keepaspect'));
             } else {
                 $imageURL = XOOPS_URL . '/' . $wfdownloads->getConfig('catimage') . '/' . $subCategoryObj->getVar('imgurl');
             }
         } else {
-            $imageURL = ''; //XOOPS_URL . '/' . $wfdownloads->getConfig('catimage') . '/blank.gif';
+            $imageURL = ''; //XOOPS_URL . '/' . $wfdownloads->getConfig('catimage') . '/blank.png';
         }
         // ----- end subcat images -----
 
         if (count($subsubCategoryObjs) > 0) {
             foreach ($subsubCategoryObjs as $subsubCategoryObj) {
                 if (in_array($subsubCategoryObj->getVar('cid'), $allowedDownCategoriesIds)) {
-                    $download_count += isset($listings['count'][$subsubCategoryObj->getVar('cid')]) ? $listings['count'][$subsubCategoryObj->getVar('cid')] : 0;
+                    $download_count    += isset($listings['count'][$subsubCategoryObj->getVar('cid')]) ? $listings['count'][$subsubCategoryObj->getVar('cid')] : 0;
                     $infercategories[] = array(
                         'cid'             => $subsubCategoryObj->getVar('cid'),
                         'id'              => $subsubCategoryObj->getVar('cid'), // this definition is not removed for backward compatibility issues
@@ -184,7 +186,7 @@ if (is_array($allSubCategoryObjs) > 0 && !isset($_GET['list']) && !isset($_GET['
             $download_count  = 0;
             $infercategories = array();
         }
-        $catdowncount += $download_count;
+        $catdowncount   += $download_count;
         $download_count = 0;
 
         $xoopsTpl->append('subcategories', array(
@@ -216,8 +218,8 @@ if (isset($cid) && $cid > 0 && isset($categoryObjs[$cid])) {
     // Making the category image and title available in the template
     if (($categoryObjs[$cid]->getVar('imgurl') !== '') && is_file(XOOPS_ROOT_PATH . '/' . $wfdownloads->getConfig('catimage') . '/' . $categoryObjs[$cid]->getVar('imgurl'))) {
         if ($wfdownloads->getConfig('usethumbs') && function_exists('gd_info')) {
-            $imageURL = WfdownloadsUtilities::createThumb($categoryObjs[$cid]->getVar('imgurl'), $wfdownloads->getConfig('catimage'), 'thumbs', $wfdownloads->getConfig('cat_imgwidth'), $wfdownloads->getConfig('cat_imgheight'), $wfdownloads->getConfig('imagequality'), $wfdownloads->getConfig('updatethumbs'),
-                                                $wfdownloads->getConfig('keepaspect'));
+            $imageURL = WfdownloadsUtility::createThumb($categoryObjs[$cid]->getVar('imgurl'), $wfdownloads->getConfig('catimage'), 'thumbs', $wfdownloads->getConfig('cat_imgwidth'), $wfdownloads->getConfig('cat_imgheight'), $wfdownloads->getConfig('imagequality'),
+                                                        $wfdownloads->getConfig('updatethumbs'), $wfdownloads->getConfig('keepaspect'));
         } else {
             $imageURL = XOOPS_URL . '/' . $wfdownloads->getConfig('catimage') . '/' . $categoryObjs[$cid]->getVar('imgurl');
         }
@@ -264,10 +266,10 @@ if ($downloads_count > 0) {
     $xoopsTpl->assign('show_links', false);
     if ($downloads_count > 1 && $cid != 0) {
         $xoopsTpl->assign('show_links', true);
-        $orderbyTrans = convertorderbytrans($orderby);
-        $xoopsTpl->assign('orderby', convertorderbyout($orderby));
-        $xoopsTpl->assign('lang_cursortedby', sprintf(_MD_WFDOWNLOADS_CURSORTBY, convertorderbytrans($orderby)));
-        $orderby = convertorderbyout($orderby);
+        $orderbyTrans = WfdownloadsUtility::convertorderbytrans($orderby);
+        $xoopsTpl->assign('orderby', WfdownloadsUtility::convertorderbyout($orderby));
+        $xoopsTpl->assign('lang_cursortedby', sprintf(_MD_WFDOWNLOADS_CURSORTBY, WfdownloadsUtility::convertorderbytrans($orderby)));
+        $orderby = WfdownloadsUtility::convertorderbyout($orderby);
     }
     // Screenshots display
     $xoopsTpl->assign('show_screenshot', false);
@@ -280,7 +282,7 @@ if ($downloads_count > 0) {
     }
 
     // Nav page render
-    include_once XOOPS_ROOT_PATH . '/class/pagenav.php';
+    require_once XOOPS_ROOT_PATH . '/class/pagenav.php';
     if (isset($_GET['selectdate'])) {
         $pagenav = new XoopsPageNav($downloads_count, $wfdownloads->getConfig('perpage'), $start, 'start', 'list=' . urlencode($_GET['selectdate']));
     } elseif (isset($_GET['list'])) {
@@ -301,12 +303,23 @@ $xoopsTpl->assign('use_rss', $wfdownloads->getConfig('enablerss'));
 if ($wfdownloads->getConfig('enablerss') === true && $downloads_count > 0) {
     $rsslink_URL = WFDOWNLOADS_URL . "/rss.php?cid={$cid}";
     $xoopsTpl->assign('category_rssfeed_URL', $rsslink_URL);
-    $rsslink = "<a href='" . $rsslink_URL . "' title='" . _MD_WFDOWNLOADS_LEGENDTEXTCATRSS . "'><img src='" . XOOPS_URL . '/modules/' . $wfdownloads->getModule()->getVar('dirname') . "/assets/images/icon/rss.gif' border='0' alt='" . _MD_WFDOWNLOADS_LEGENDTEXTCATRSS . "' title='"
-               . _MD_WFDOWNLOADS_LEGENDTEXTCATRSS . "'></a>";
+    $rsslink = "<a href='"
+               . $rsslink_URL
+               . "' title='"
+               . _MD_WFDOWNLOADS_LEGENDTEXTCATRSS
+               . "'><img src='"
+               . XOOPS_URL
+               . '/modules/'
+               . $wfdownloads->getModule()->getVar('dirname')
+               . "/assets/images/icon/rss.gif' border='0' alt='"
+               . _MD_WFDOWNLOADS_LEGENDTEXTCATRSS
+               . "' title='"
+               . _MD_WFDOWNLOADS_LEGENDTEXTCATRSS
+               . "'></a>";
     $xoopsTpl->assign('cat_rssfeed_link', $rsslink); // this definition is not removed for backward compatibility issues
 }
 
-include_once __DIR__ . '/footer.php';
+require_once __DIR__ . '/footer.php';
 
 ?>
 <script type="text/javascript">

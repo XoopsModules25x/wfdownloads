@@ -27,7 +27,7 @@
  * Output  : Returns the most recent or most popular downloads
  */
 defined('XOOPS_ROOT_PATH') || die('XOOPS root path not defined');
-include_once __DIR__ . '/../include/common.php';
+require_once __DIR__ . '/../include/common.php';
 /**
  * @param $options
  *
@@ -38,7 +38,7 @@ function wfdownloads_top_show($options)
     $wfdownloads = WfdownloadsWfdownloads::getInstance();
 
     $groups                   = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : array(0 => XOOPS_GROUP_ANONYMOUS);
-    $gpermHandler            = xoops_getHandler('groupperm');
+    $gpermHandler             = xoops_getHandler('groupperm');
     $allowedDownCategoriesIds = $gpermHandler->getItemIds('WFDownCatPerm', $groups, $wfdownloads->getModule()->mid());
 
     $block = array();
@@ -79,10 +79,10 @@ function wfdownloads_top_show($options)
 function wfdownloads_top_edit($options)
 {
     $form = '' . _MB_WFDOWNLOADS_DISP . '&nbsp;';
-    $form .= "<input type='hidden' name='options[]' value='" . (($options[0] === 'published') ? 'published' : 'hits') . "' />";
-    $form .= "<input type='text' name='options[]' value='" . $options[1] . "' />&nbsp;" . _MB_WFDOWNLOADS_FILES . '';
+    $form .= "<input type='hidden' name='options[]' value='" . (($options[0] === 'published') ? 'published' : 'hits') . "'>";
+    $form .= "<input type='text' name='options[]' value='" . $options[1] . "'>&nbsp;" . _MB_WFDOWNLOADS_FILES . '';
     $form .= '<br>';
-    $form .= '' . _MB_WFDOWNLOADS_CHARS . "&nbsp;<input type='text' name='options[]' value='" . $options[2] . "' />&nbsp;" . _MB_WFDOWNLOADS_LENGTH . '';
+    $form .= '' . _MB_WFDOWNLOADS_CHARS . "&nbsp;<input type='text' name='options[]' value='" . $options[2] . "'>&nbsp;" . _MB_WFDOWNLOADS_LENGTH . '';
 
     return $form;
 }

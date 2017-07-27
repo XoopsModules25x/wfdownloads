@@ -18,7 +18,7 @@
  * @author          Xoops Development Team
  */
 $currentFile = basename(__FILE__);
-include_once __DIR__ . '/admin_header.php';
+require_once __DIR__ . '/admin_header.php';
 
 if (@$_POST['op'] === 'submit') {
     if (!$GLOBALS['xoopsSecurity']->check()) {
@@ -61,16 +61,16 @@ if (@$_POST['op'] === 'submit') {
         $message .= _AM_WFDOWNLOADS_CLONE_FAIL;
     }
 
-    WfdownloadsUtilities::myxoops_cp_header();
-    $indexAdmin = new ModuleAdmin();
-    echo $indexAdmin->addNavigation($currentFile);
+    WfdownloadsUtility::myxoops_cp_header();
+    $adminObject = \Xmf\Module\Admin::getInstance();
+    $adminObject->displayNavigation($currentFile);
     echo $message;
-    include_once __DIR__ . '/admin_footer.php';
+    require_once __DIR__ . '/admin_footer.php';
     exit();
 } else {
-    WfdownloadsUtilities::myxoops_cp_header();
-    $indexAdmin = new ModuleAdmin();
-    echo $indexAdmin->addNavigation($currentFile);
+    WfdownloadsUtility::myxoops_cp_header();
+    $adminObject = \Xmf\Module\Admin::getInstance();
+    $adminObject->displayNavigation($currentFile);
     xoops_load('XoopsFormLoader');
     $form              = new XoopsThemeForm(sprintf(_AM_WFDOWNLOADS_CLONE_TITLE, $wfdownloads->getModule()->getVar('name', 'E')), 'clone', $currentFile, 'post', true);
     $cloneDirname_text = new XoopsFormText(_AM_WFDOWNLOADS_CLONE_NAME, 'clonedirname', 18, 18, '');
@@ -79,7 +79,7 @@ if (@$_POST['op'] === 'submit') {
     $form->addElement(new XoopsFormHidden('op', 'submit'));
     $form->addElement(new XoopsFormButton('', '', _SUBMIT, 'submit'));
     $form->display();
-    include_once __DIR__ . '/admin_footer.php';
+    require_once __DIR__ . '/admin_footer.php';
     exit();
 }
 

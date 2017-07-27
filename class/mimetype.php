@@ -29,7 +29,7 @@ CREATE TABLE wfdownloads_mimetypes (
 ) ENGINE=MyISAM;
 */
 defined('XOOPS_ROOT_PATH') || die('XOOPS root path not defined');
-include_once __DIR__ . '/../include/common.php';
+require_once __DIR__ . '/../include/common.php';
 
 /**
  * Class WfdownloadsMimetype
@@ -71,7 +71,7 @@ class WfdownloadsMimetype extends XoopsObject
      */
     public function getForm($action = false)
     {
-        include_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
+        require_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
 
         if ($action === false) {
             $action = $_SERVER['REQUEST_URI'];

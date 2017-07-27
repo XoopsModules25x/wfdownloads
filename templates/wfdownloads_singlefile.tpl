@@ -10,7 +10,7 @@
 <{include file='db:wfdownloads_header.tpl'}>
 
 <h1><{$category_title}></h1>
-<img src="<{$category_image}>" alt="<{$category_title}>" title="<{$category_title}>"/>
+<img src="<{$category_image}>" alt="<{$category_title}>" title="<{$category_title}>">
 
 <div>
     <h3>
@@ -19,18 +19,18 @@
             <a href="admin/downloads.php?op=download.edit&amp;lid=<{$download.id}>">
                 <img src="<{xoModuleIcons16 edit.png}>"
                      title="<{$smarty.const._EDIT}>"
-                     alt="<{$smarty.const._EDIT}>"/>
+                     alt="<{$smarty.const._EDIT}>">
             </a>
             <a href="admin/downloads.php?op=download.delete&amp;lid=<{$download.id}>">
                 <img src="<{xoModuleIcons16 delete.png}>"
                      title="<{$smarty.const._DELETE}>"
-                     alt="<{$smarty.const._DELETE}>"/>
+                     alt="<{$smarty.const._DELETE}>">
             </a>
         <{elseif ($download.issubmitter == true && $download.has_custom_fields == false)}>
             <a href="submit.php?op=download.edit&amp;lid=<{$download.id}>">
                 <img src="<{xoModuleIcons16 edit.png}>"
                      title="<{$smarty.const._EDIT}>"
-                     alt="<{$smarty.const._EDIT}>"/>
+                     alt="<{$smarty.const._EDIT}>">
             </a>
         <{/if}>
     </h3>
@@ -69,7 +69,7 @@
                 <div style="margin-left: 10px; margin-right: 10px; padding: 4px; background-color:#e6e6e6; border-color:#999999;" class="outer">
                     <span style="font-weight: bold;"><{$smarty.const._MD_WFDOWNLOADS_PREVIEW}></span>
                     <br>
-                    <img style="width:100%; height:auto;" src="<{$file_url}>"/>
+                    <img style="width:100%; height:auto;" src="<{$file_url}>">
                 </div>
                 <br>
 
@@ -129,7 +129,7 @@
                         <span style="font-weight: bold;"><{$smarty.const._MD_WFDOWNLOADS_RATINGC}></span>&nbsp;<img src="assets/images/icon/<{$download.rateimg}>"
                                                                                                                     alt="<{$download.average_rating|string_format:'%.2f'}>"
                                                                                                                     title="<{$download.average_rating|string_format:'%.2f'}>"
-                                                                                                                    align="middle"/>&nbsp;(<{$download.votes}>)
+                                                                                                                    align="middle">&nbsp;(<{$download.votes}>)
                     </div>
                 </div>
                 <br>
@@ -139,7 +139,7 @@
                     <div>
                         <span style="font-weight: bold;"><{$smarty.const._MD_WFDOWNLOADS_REVIEWS}></span>&nbsp;<img src="assets/images/icon/<{$download.review_rateimg}>"
                                                                                                                     alt="<{$download.review_average_rating|string_format:'%.2f'}>"
-                                                                                                                    title="<{$download.review_average_rating|string_format:'%.2f'}>"/>&nbsp;(<{$download.reviews_num}>
+                                                                                                                    title="<{$download.review_average_rating|string_format:'%.2f'}>">&nbsp;(<{$download.reviews_num}>
                         )
                     </div>
                 </div>
@@ -169,7 +169,7 @@
         <div>
             <a href="visit.php?cid=<{$download.cid}>&amp;lid=<{$download.id}>">
                 <img src="<{xoModuleIcons16 download.png}>" alt="<{$smarty.const._MD_WFDOWNLOADS_DOWNLOADNOW}>"
-                     title="<{$smarty.const._MD_WFDOWNLOADS_DOWNLOADNOW}>"/>
+                     title="<{$smarty.const._MD_WFDOWNLOADS_DOWNLOADNOW}>">
                 &nbsp;
                 <{$smarty.const._MD_WFDOWNLOADS_DOWNLOADNOW}>
             </a>
@@ -177,20 +177,20 @@
             <{if $download.use_mirrors == true && $download.mirrors_num >= 1}>
                 <a href="mirror.php?op=mirrors.list&amp;cid=<{$download.cid}>&amp;lid=<{$download.id}>">
                     <img src="<{xoModuleIcons16 download.png}>" alt="<{$smarty.const._MD_WFDOWNLOADS_DOWNLOADMIRRORS}>"
-                         title="<{$smarty.const._MD_WFDOWNLOADS_DOWNLOADMIRRORS}>"/>
+                         title="<{$smarty.const._MD_WFDOWNLOADS_DOWNLOADMIRRORS}>">
                     &nbsp;
                     <{$smarty.const._MD_WFDOWNLOADS_DOWNLOADMIRRORS}>
                 </a>
             <{/if}>
             <{if $download.use_mirrors != true && $download.mirror != ''}>
-                <img src="<{xoModuleIcons16 download.png}>" alt="<{$download.mirror}>" title="<{$download.mirror}>"/>
+                <img src="<{xoModuleIcons16 download.png}>" alt="<{$download.mirror}>" title="<{$download.mirror}>">
                 &nbsp;
                 <{$download.mirror}>
             <{/if}>
         </div>
         <{if $download.forumid > 0}>
             <a href="<{$xoops_url}>/modules/newbb/viewforum.php?forum=<{$download.forumid}>">
-                <img src="assets/images/icon/forum.gif" alt="<{$smarty.const._MD_WFDOWNLOADS_INFORUM}>" title="<{$smarty.const._MD_WFDOWNLOADS_INFORUM}>"/>
+                <img src="assets/images/icon/forum.gif" alt="<{$smarty.const._MD_WFDOWNLOADS_INFORUM}>" title="<{$smarty.const._MD_WFDOWNLOADS_INFORUM}>">
                 &nbsp;
                 <{$smarty.const._MD_WFDOWNLOADS_INFORUM}>
             </a>
@@ -210,7 +210,7 @@
                     <span style="font-weight: bold;"><{$key+1}></span>
                     <div><a href="<{$xoops_url}>/<{$shots_dir}>/<{$screenshot.filename}>" class="magnific_zoom" rel="<{$download.title}>">
                             <img src="<{$screenshot.thumb_url}>" alt="<{$smarty.const._MD_WFDOWNLOADS_SCREENSHOTCLICK}>"
-                                 title="<{$smarty.const._MD_WFDOWNLOADS_SCREENSHOTCLICK}>" style="border: 1px solid black;"/></a>
+                                 title="<{$smarty.const._MD_WFDOWNLOADS_SCREENSHOTCLICK}>" style="border: 1px solid black;"></a>
                     </div>
                     <div>
                         <a href="<{$screenshot.thumb_url}>" rel="external"><{$lang_screenshot_click}></a>

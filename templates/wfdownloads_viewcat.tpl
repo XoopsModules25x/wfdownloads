@@ -4,7 +4,7 @@
     <{if $category_rssfeed_URL != ''}>
         <a href='<{$category_rssfeed_URL}>' title='<{$smarty.const._MD_WFDOWNLOADS_LEGENDTEXTCATRSS}>'>
             <img src='assets/images/icon/rss.gif' alt='<{$smarty.const._MD_WFDOWNLOADS_LEGENDTEXTCATRSS}>'
-                 title='<{$smarty.const._MD_WFDOWNLOADS_LEGENDTEXTCATRSS}>'/>
+                 title='<{$smarty.const._MD_WFDOWNLOADS_LEGENDTEXTCATRSS}>'>
         </a>
     <{/if}>
     <{if $category_title != ""}>
@@ -12,19 +12,19 @@
             <{$category_title}>
             <{if $isAdmin == true}>
                 <a href="admin/categories.php?op=category.edit&amp;cid=<{$category_cid}>"><img src="<{xoModuleIcons16 edit.png}>"
-                                                                                               title="<{$smarty.const._EDIT}>" alt="<{$smarty.const._EDIT}>"/></a>
+                                                                                               title="<{$smarty.const._EDIT}>" alt="<{$smarty.const._EDIT}>"></a>
                 <a href="admin/categories.php?op=category.delete&amp;cid=<{$category_cid}>"><img src="<{xoModuleIcons16 delete.png}>"
                                                                                                  title="<{$smarty.const._DELETE}>"
-                                                                                                 alt="<{$smarty.const._DELETE}>"/></a>
+                                                                                                 alt="<{$smarty.const._DELETE}>"></a>
             <{/if}>
             <{if $category_allowed_upload == true}>
                 <a href="submit.php?cid=<{$category_cid}>"><img src="<{xoModuleIcons16 add.png}>" title="<{$smarty.const._MD_WFDOWNLOADS_SUBMITDOWNLOAD}>"
-                                                                alt="<{$smarty.const._MD_WFDOWNLOADS_SUBMITDOWNLOAD}>"/></a>
+                                                                alt="<{$smarty.const._MD_WFDOWNLOADS_SUBMITDOWNLOAD}>"></a>
             <{/if}>
         </h1>
     <{/if}>
     <{if $category_image_URL}>
-        <img src="<{$category_image_URL}>" alt="<{$category_title}>" title="<{$category_title}>"/>
+        <img src="<{$category_image_URL}>" alt="<{$category_title}>" title="<{$category_title}>">
         <br>
     <{/if}>
     <{$category_description}>
@@ -44,18 +44,18 @@
                     <{if $isAdmin == true}>
                         <a href="admin/categories.php?op=category.edit&amp;cid=<{$subcategory.cid}>"><img src="<{xoModuleIcons16 edit.png}>"
                                                                                                           title="<{$smarty.const._EDIT}>"
-                                                                                                          alt="<{$smarty.const._EDIT}>"/></a>
+                                                                                                          alt="<{$smarty.const._EDIT}>"></a>
                         <a href="admin/categories.php?op=category.delete&amp;cid=<{$subcategory.cid}>"><img src="<{xoModuleIcons16 delete.png}>"
                                                                                                             title="<{$smarty.const._DELETE}>"
-                                                                                                            alt="<{$smarty.const._DELETE}>"/></a>
+                                                                                                            alt="<{$smarty.const._DELETE}>"></a>
                     <{/if}>
                     <{if $subcategory.allowed_upload == true}>
                         <a href="submit.php?cid=<{$subcategory.cid}>"><img src="<{xoModuleIcons16 add.png}>"
                                                                            title="<{$smarty.const._MD_WFDOWNLOADS_SUBMITDOWNLOAD}>"
-                                                                           alt="<{$smarty.const._MD_WFDOWNLOADS_SUBMITDOWNLOAD}>"/></a>
+                                                                           alt="<{$smarty.const._MD_WFDOWNLOADS_SUBMITDOWNLOAD}>"></a>
                     <{/if}>
                 </div>
-                <{if $subcategory.image_URL != ''}><img src="<{$subcategory.image_URL}>" alt="<{$subcategory.title}>" title="<{$subcategory.title}>"/><br><{/if}>
+                <{if $subcategory.image_URL != ''}><img src="<{$subcategory.image_URL}>" alt="<{$subcategory.title}>" title="<{$subcategory.title}>"><br><{/if}>
                 <div title="<{$smarty.const._MD_WFDOWNLOADS_CSUMMARY}>">
                     <{$subcategory.summary}>
                 </div>
@@ -266,7 +266,7 @@
 <{if $category_rssfeed_URL != ""}>
     <a href='<{$category_rssfeed_URL}>' title='<{$smarty.const._MD_WFDOWNLOADS_LEGENDTEXTCATRSS}>'>
         <img src='assets/images/icon/rss.gif' alt='<{$smarty.const._MD_WFDOWNLOADS_LEGENDTEXTCATRSS}>'
-             title='<{$smarty.const._MD_WFDOWNLOADS_LEGENDTEXTCATRSS}>'/>
+             title='<{$smarty.const._MD_WFDOWNLOADS_LEGENDTEXTCATRSS}>'>
     </a>
 <{/if}>
 

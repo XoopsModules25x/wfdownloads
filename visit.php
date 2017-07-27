@@ -8,6 +8,7 @@
  but WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
+
 /**
  * Wfdownloads module
  *
@@ -17,8 +18,11 @@
  * @since           3.23
  * @author          Xoops Development Team
  */
+
+use Xmf\Request;
+
 $currentFile = basename(__FILE__);
-include_once __DIR__ . '/header.php';
+require_once __DIR__ . '/header.php';
 
 // Check permissions
 if (is_object($GLOBALS['xoopsUser'])) {
@@ -29,17 +33,20 @@ if (is_object($GLOBALS['xoopsUser'])) {
     redirect_header(XOOPS_URL . '/user.php', 1, _MD_WFDOWNLOADS_MUSTREGFIRST);
 }
 
-$lid         = XoopsRequest::getInt('lid', 0);
+$lid         = Request::getInt('lid', 0);
 $downloadObj = $wfdownloads->getHandler('download')->get($lid);
 // Check if download exists
 if ($downloadObj->isNew()) {
     redirect_header('index.php', 1, _MD_WFDOWNLOADS_NODOWNLOAD);
 }
-$cid    = XoopsRequest::getInt('cid', $downloadObj->getVar('cid'));
-$agreed = XoopsRequest::getBool('agreed', false, 'POST');
+$cid    = Request::getInt('cid', $downloadObj->getVar('cid'));
+$agreed = Request::getBool('agreed', false, 'POST');
 
 // Download not published, expired or taken offline - redirect
-if ($downloadObj->getVar('published') == 0 || $downloadObj->getVar('published') > time() || $downloadObj->getVar('offline') === true || ($downloadObj->getVar('expired') != 0 && $downloadObj->getVar('expired') < time()) || $downloadObj->getVar('status') == _WFDOWNLOADS_STATUS_WAITING) {
+if ($downloadObj->getVar('published') == 0 || $downloadObj->getVar('published') > time() || $downloadObj->getVar('offline') === true
+    || ($downloadObj->getVar('expired') != 0
+        && $downloadObj->getVar('expired') < time())
+    || $downloadObj->getVar('status') == _WFDOWNLOADS_STATUS_WAITING) {
     redirect_header('index.php', 3, _MD_WFDOWNLOADS_NODOWNLOAD);
 }
 
@@ -68,7 +75,7 @@ if ($agreed === false) {
 
 if ($wfdownloads->getConfig('showDowndisclaimer') && $agreed === false) {
     $GLOBALS['xoopsOption']['template_main'] = "{$wfdownloads->getModule()->dirname()}_disclaimer.tpl";
-    include_once XOOPS_ROOT_PATH . '/header.php';
+    require_once XOOPS_ROOT_PATH . '/header.php';
 
     $xoTheme->addScript(XOOPS_URL . '/browse.php?Frameworks/jquery/jquery.js');
     $xoTheme->addScript(WFDOWNLOADS_URL . '/assets/js/magnific/jquery.magnific-popup.min.js');
@@ -77,7 +84,7 @@ if ($wfdownloads->getConfig('showDowndisclaimer') && $agreed === false) {
 
     $xoopsTpl->assign('wfdownloads_url', WFDOWNLOADS_URL . '/');
 
-    $catarray['imageheader'] = WfdownloadsUtilities::headerImage();
+    $catarray['imageheader'] = WfdownloadsUtility::headerImage();
     $xoopsTpl->assign('catarray', $catarray);
 
     // Breadcrumb
@@ -89,7 +96,7 @@ if ($wfdownloads->getConfig('showDowndisclaimer') && $agreed === false) {
     $xoopsTpl->assign('lid', $lid);
     $xoopsTpl->assign('cid', $cid);
 
-    $xoopsTpl->assign('image_header', WfdownloadsUtilities::headerImage());
+    $xoopsTpl->assign('image_header', WfdownloadsUtility::headerImage());
 
     $xoopsTpl->assign('submission_disclaimer', false);
     $xoopsTpl->assign('download_disclaimer', true);
@@ -99,9 +106,9 @@ if ($wfdownloads->getConfig('showDowndisclaimer') && $agreed === false) {
     $xoopsTpl->assign('downdisclaimer', $myts->displayTarea($wfdownloads->getConfig('downdisclaimer'), true, true, true, true, true)); // this definition is not removed for backward compatibility issues
     $xoopsTpl->assign('cancel_location', WFDOWNLOADS_URL . '/index.php'); // this definition is not removed for backward compatibility issues
     $xoopsTpl->assign('agree_location', WFDOWNLOADS_URL . "/{$currentFile}?agree=1&amp;lid={$lid}&amp;cid={$cid}");
-    include_once __DIR__ . '/footer.php';
+    require_once __DIR__ . '/footer.php';
 } else {
-    if (!WfdownloadsUtilities::userIsAdmin()) {
+    if (!WfdownloadsUtility::userIsAdmin()) {
         $wfdownloads->getHandler('download')->incrementHits($lid);
     }
     // Create ip log
@@ -116,7 +123,7 @@ if ($wfdownloads->getConfig('showDowndisclaimer') && $agreed === false) {
     $fileFilename = trim($downloadObj->getVar('filename')); // IN PROGRESS: why 'trim'?
     if ((!$downloadObj->getVar('url') == '' && !$downloadObj->getVar('url') === 'http://') || $fileFilename == '') {
         // download is a remote file: download from remote url
-        include_once XOOPS_ROOT_PATH . '/header.php';
+        require_once XOOPS_ROOT_PATH . '/header.php';
 
         $xoTheme->addScript(XOOPS_URL . '/browse.php?Frameworks/jquery/jquery.js');
         $xoTheme->addScript(WFDOWNLOADS_URL . '/assets/js/magnific/jquery.magnific-popup.min.js');
@@ -125,10 +132,10 @@ if ($wfdownloads->getConfig('showDowndisclaimer') && $agreed === false) {
 
         $xoopsTpl->assign('wfdownloads_url', WFDOWNLOADS_URL . '/');
 
-        echo "<div align='center'>" . WfdownloadsUtilities::headerImage() . '</div>';
+        echo "<div align='center'>" . WfdownloadsUtility::headerImage() . '</div>';
         $url = $myts->htmlSpecialChars(preg_replace('/javascript:/si', 'javascript:', $downloadObj->getVar('url')), ENT_QUOTES);
         echo "<h4>\n";
-        echo "<img src='" . WFDOWNLOADS_URL . "/assets/images/icon/downloads.gif' align='middle' alt='' title='" . _MD_WFDOWNLOADS_DOWNINPROGRESS . "' /> " . _MD_WFDOWNLOADS_DOWNINPROGRESS . "\n";
+        echo "<img src='" . WFDOWNLOADS_URL . "/assets/images/icon/downloads.gif' align='middle' alt='' title='" . _MD_WFDOWNLOADS_DOWNINPROGRESS . "'> " . _MD_WFDOWNLOADS_DOWNINPROGRESS . "\n";
         echo "</h4>\n";
         echo '<div>' . _MD_WFDOWNLOADS_DOWNSTARTINSEC . "</div><br>\n";
         echo '<div>' . _MD_WFDOWNLOADS_DOWNNOTSTART . "\n";
@@ -171,21 +178,21 @@ if ($wfdownloads->getConfig('showDowndisclaimer') && $agreed === false) {
         header("Content-Disposition: attachment; filename={$headerFilename}");
         if (false !== strpos($fileMimetype, 'text/')) {
             // downladed file is not binary
-            WfdownloadsUtilities::download($filePath, false, true);
+            WfdownloadsUtility::download($filePath, false, true);
         } else {
             // downladed file is binary
-            WfdownloadsUtilities::download($filePath, true, true);
+            WfdownloadsUtility::download($filePath, true, true);
         }
         exit();
     } else {
         // download is a broken file: report broken
-        include_once XOOPS_ROOT_PATH . '/header.php';
+        require_once XOOPS_ROOT_PATH . '/header.php';
         echo '<br>';
-        echo "<div align='center'>" . WfdownloadsUtilities::headerImage() . '</div>';
+        echo "<div align='center'>" . WfdownloadsUtility::headerImage() . '</div>';
         echo '<h4>' . _MD_WFDOWNLOADS_BROKENFILE . "</h4>\n";
         echo '<div>' . _MD_WFDOWNLOADS_PLEASEREPORT . "\n";
         echo "<a href='" . WFDOWNLOADS_URL . "/brokenfile.php?lid={$lid}'>" . _MD_WFDOWNLOADS_CLICKHERE . "</a>\n";
         echo "</div>\n";
     }
-    include_once __DIR__ . '/footer.php';
+    require_once __DIR__ . '/footer.php';
 }

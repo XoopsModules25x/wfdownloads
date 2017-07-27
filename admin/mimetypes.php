@@ -8,6 +8,7 @@
  but WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
+
 /**
  * Wfdownloads module
  *
@@ -17,10 +18,13 @@
  * @since           3.23
  * @author          Xoops Development Team
  */
-$currentFile = basename(__FILE__);
-include_once __DIR__ . '/admin_header.php';
 
-$op = XoopsRequest::getString('op', 'mimetypes.list');
+use Xmf\Request;
+
+$currentFile = basename(__FILE__);
+require_once __DIR__ . '/admin_header.php';
+
+$op = Request::getString('op', 'mimetypes.list');
 switch ($op) {
     /*
         case 'openurl':
@@ -35,14 +39,14 @@ switch ($op) {
     */
     case 'mimetype.edit':
     case 'mimetype.add':
-        WfdownloadsUtilities::myxoops_cp_header();
-        $indexAdmin = new ModuleAdmin();
-        echo $indexAdmin->addNavigation($currentFile);
+        WfdownloadsUtility::myxoops_cp_header();
+        $adminObject = \Xmf\Module\Admin::getInstance();
+        $adminObject->displayNavigation($currentFile);
 
-        $adminMenu = new ModuleAdmin();
-        $adminMenu->addItemButton(_MI_WFDOWNLOADS_MENU_MIMETYPES, "{$currentFile}?op=mimetypes.list", 'list');
-        $adminMenu->addItemButton(_AM_WFDOWNLOADS_MIME_CREATEF, "{$currentFile}?op=mimetype.add", 'add');
-        echo $adminMenu->renderButton();
+        //$adminObject = \Xmf\Module\Admin::getInstance();
+        $adminObject->addItemButton(_MI_WFDOWNLOADS_MENU_MIMETYPES, "{$currentFile}?op=mimetypes.list", 'list');
+        $adminObject->addItemButton(_AM_WFDOWNLOADS_MIME_CREATEF, "{$currentFile}?op=mimetype.add", 'add');
+        $adminObject->displayButton('left');
 
         echo "<fieldset>\n";
         echo "<legend style='font-weight: bold; color: #900;'>" . _AM_WFDOWNLOADS_MIME_CREATEF . '/' . _AM_WFDOWNLOADS_MIME_MODIFYF . "</legend>\n";
@@ -74,7 +78,7 @@ switch ($op) {
         break;
 
     case 'mimetype.save':
-        $mime_id = XoopsRequest::getInt('mime_id', 0, 'POST');
+        $mime_id = Request::getInt('mime_id', 0, 'POST');
         if (!$mimetypeObj = $wfdownloads->getHandler('mimetype')->get($mime_id)) {
             redirect_header($currentFile, 4, _AM_WFDOWNLOADS_ERROR_MIMETYPENOTFOUND);
         }
@@ -93,7 +97,7 @@ switch ($op) {
         break;
 
     case 'mimetype.update':
-        $mime_id = XoopsRequest::getInt('mime_id', 0);
+        $mime_id = Request::getInt('mime_id', 0);
         if (!$mimetypeObj = $wfdownloads->getHandler('mimetype')->get($mime_id)) {
             redirect_header($currentFile, 4, _AM_WFDOWNLOADS_ERROR_MIMETYPENOTFOUND);
         }
@@ -119,8 +123,8 @@ switch ($op) {
         break;
 
     case 'mimetypes.update':
-        $mime_admin = XoopsRequest::getBool('admin', false);
-        $mime_user  = XoopsRequest::getBool('user', false);
+        $mime_admin = Request::getBool('admin', false);
+        $mime_user  = Request::getBool('user', false);
         $type_all   = (int)$_GET['type_all'];
 
         $field = 'mime_user';
@@ -138,8 +142,8 @@ switch ($op) {
         break;
 
     case 'mimetype.delete':
-        $mime_id = XoopsRequest::getInt('mime_id', 0);
-        $ok      = XoopsRequest::getBool('ok', false, 'POST');
+        $mime_id = Request::getInt('mime_id', 0);
+        $ok      = Request::getBool('ok', false, 'POST');
         if (!$mimetypeObj = $wfdownloads->getHandler('mimetype')->get($mime_id)) {
             redirect_header($currentFile, 4, _AM_WFDOWNLOADS_ERROR_MIMETYPENOTFOUND);
         }
@@ -154,7 +158,7 @@ switch ($op) {
                 exit();
             }
         } else {
-            WfdownloadsUtilities::myxoops_cp_header();
+            WfdownloadsUtility::myxoops_cp_header();
             xoops_confirm(array('op' => 'mimetype.delete', 'mime_id' => $mime_id, 'ok' => true), $currentFile, _AM_WFDOWNLOADS_MIME_DELETETHIS . '<br><br>' . $mimetypeObj->getVar('mime_name'), _AM_WFDOWNLOADS_MIME_DELETE);
             xoops_cp_footer();
         }
@@ -162,7 +166,7 @@ switch ($op) {
 
     case 'mimetypes.list':
     default:
-        $start = XoopsRequest::getInt('start', 0);
+        $start = Request::getInt('start', 0);
 
         // Get mimetypes (20 per page)
         $criteria = new CriteriaCompo();
@@ -172,14 +176,14 @@ switch ($op) {
         $mimetypeObjs    = $wfdownloads->getHandler('mimetype')->getObjects($criteria);
         $mimetypes_count = $wfdownloads->getHandler('mimetype')->getCount();
 
-        WfdownloadsUtilities::myxoops_cp_header();
-        $indexAdmin = new ModuleAdmin();
-        echo $indexAdmin->addNavigation($currentFile);
+        WfdownloadsUtility::myxoops_cp_header();
+        $adminObject = \Xmf\Module\Admin::getInstance();
+        $adminObject->displayNavigation($currentFile);
 
-        $adminMenu = new ModuleAdmin();
-        $adminMenu->addItemButton(_MI_WFDOWNLOADS_MENU_MIMETYPES, "{$currentFile}?op=mimetypes.list", 'list');
-        $adminMenu->addItemButton(_AM_WFDOWNLOADS_MIME_CREATEF, "{$currentFile}?op=mimetype.add", 'add');
-        echo $adminMenu->renderButton();
+        //$adminObject = \Xmf\Module\Admin::getInstance();
+        $adminObject->addItemButton(_MI_WFDOWNLOADS_MENU_MIMETYPES, "{$currentFile}?op=mimetypes.list", 'list');
+        $adminObject->addItemButton(_AM_WFDOWNLOADS_MIME_CREATEF, "{$currentFile}?op=mimetype.add", 'add');
+        $adminObject->displayButton('left');
 
         $GLOBALS['xoopsTpl']->assign('mimetypes_count', $mimetypes_count);
         $GLOBALS['xoopsTpl']->assign('start', $start);
@@ -192,7 +196,7 @@ switch ($op) {
                 $GLOBALS['xoopsTpl']->append('mimetypes', $mimetype_array);
             }
             //Include page navigation
-            include_once XOOPS_ROOT_PATH . '/class/pagenav.php';
+            require_once XOOPS_ROOT_PATH . '/class/pagenav.php';
             $pagenav = new XoopsPageNav($mimetypes_count, 20, $start, 'start');
             $GLOBALS['xoopsTpl']->assign('mimetypes_pagenav', $pagenav->renderNav());
         }
@@ -205,6 +209,6 @@ switch ($op) {
 
         $GLOBALS['xoopsTpl']->display("db:{$wfdownloads->getModule()->dirname()}_am_mimetypeslist.tpl");
 
-        include_once __DIR__ . '/admin_footer.php';
+        require_once __DIR__ . '/admin_footer.php';
         break;
 }

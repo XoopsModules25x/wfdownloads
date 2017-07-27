@@ -12,17 +12,17 @@
                     <{if $isAdmin == true}>
                         <a href="admin/categories.php?op=category.edit&amp;cid=<{$category.cid}>"><img src="<{xoModuleIcons16 edit.png}>"
                                                                                                        title="<{$smarty.const._EDIT}>"
-                                                                                                       alt="<{$smarty.const._EDIT}>"/></a>
+                                                                                                       alt="<{$smarty.const._EDIT}>"></a>
                         <a href="admin/categories.php?op=category.delete&amp;cid=<{$category.cid}>"><img src="<{xoModuleIcons16 delete.png}>"
                                                                                                          title="<{$smarty.const._DELETE}>"
-                                                                                                         alt="<{$smarty.const._DELETE}>"/></a>
+                                                                                                         alt="<{$smarty.const._DELETE}>"></a>
                     <{/if}>
                     <{if $category.allowed_upload == true}>
                         <a href="submit.php?cid=<{$category.cid}>"><img src="<{xoModuleIcons16 add.png}>" title="<{$smarty.const._MD_WFDOWNLOADS_SUBMITDOWNLOAD}>"
-                                                                        alt="<{$smarty.const._MD_WFDOWNLOADS_SUBMITDOWNLOAD}>"/></a>
+                                                                        alt="<{$smarty.const._MD_WFDOWNLOADS_SUBMITDOWNLOAD}>"></a>
                     <{/if}>
                 </div>
-                <img src="<{$category.image_URL}>" alt="<{$category.alttext}>" title="<{$category.alttext}>"/><br>
+                <img src="<{$category.image_URL}>" alt="<{$category.alttext}>" title="<{$category.alttext}>"><br>
                 <{if ($category.days) == ''}>
                     <!-- No downloads -->
                 <{else}>
@@ -53,11 +53,11 @@
     <div>
     <span style="font-size: small;">
     <ul>
-        <li><img src="assets/images/icon/download.gif" alt="" title=""/>&nbsp;<{$smarty.const._MD_WFDOWNLOADS_NO_FILES}></li>
-        <li><img src="assets/images/icon/download1.gif" alt="" title=""/>&nbsp;<{$smarty.const._MD_WFDOWNLOADS_LEGENDTEXTNEW}></li>
-        <li><img src="assets/images/icon/download2.gif" alt="" title=""/>&nbsp;<{$smarty.const._MD_WFDOWNLOADS_LEGENDTEXTNEWTHREE}></li>
-        <li><img src="assets/images/icon/download3.gif" alt="" title=""/>&nbsp;<{$smarty.const._MD_WFDOWNLOADS_LEGENDTEXTTHISWEEK}></li>
-        <li><img src="assets/images/icon/download4.gif" alt="" title=""/>&nbsp;<{$smarty.const._MD_WFDOWNLOADS_LEGENDTEXTNEWLAST}></li>
+        <li><img src="assets/images/icon/download.gif" alt="" title="">&nbsp;<{$smarty.const._MD_WFDOWNLOADS_NO_FILES}></li>
+        <li><img src="assets/images/icon/download1.gif" alt="" title="">&nbsp;<{$smarty.const._MD_WFDOWNLOADS_LEGENDTEXTNEW}></li>
+        <li><img src="assets/images/icon/download2.gif" alt="" title="">&nbsp;<{$smarty.const._MD_WFDOWNLOADS_LEGENDTEXTNEWTHREE}></li>
+        <li><img src="assets/images/icon/download3.gif" alt="" title="">&nbsp;<{$smarty.const._MD_WFDOWNLOADS_LEGENDTEXTTHISWEEK}></li>
+        <li><img src="assets/images/icon/download4.gif" alt="" title="">&nbsp;<{$smarty.const._MD_WFDOWNLOADS_LEGENDTEXTNEWLAST}></li>
     </ul>
     </span>
     </div>
@@ -65,7 +65,7 @@
 
 <{if $full_rssfeed_URL != ''}>
     <a href='<{$full_rssfeed_URL}>' title='<{$smarty.const._MD_WFDOWNLOADS_LEGENDTEXTRSS}>'>
-        <img src='assets/images/icon/rss.gif' alt='<{$smarty.const._MD_WFDOWNLOADS_LEGENDTEXTRSS}>' title='<{$smarty.const._MD_WFDOWNLOADS_LEGENDTEXTRSS}>'/>
+        <img src='assets/images/icon/rss.gif' alt='<{$smarty.const._MD_WFDOWNLOADS_LEGENDTEXTRSS}>' title='<{$smarty.const._MD_WFDOWNLOADS_LEGENDTEXTRSS}>'>
     </a>
 <{/if}>
 

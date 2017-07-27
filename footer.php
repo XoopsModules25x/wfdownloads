@@ -28,4 +28,4 @@ $xoopsTpl->assign('wfdownloads_adminpage', "<a href='" . WFDOWNLOADS_URL . "/adm
 $xoopsTpl->assign('wfdownloads_url', WFDOWNLOADS_URL . '/');  // this definition is not removed for backward compatibility issues
 $xoopsTpl->assign('ref_smartfactory', 'WFDownloads is developed by The SmartFactory (http://www.smartfactory.ca), a division of InBox Solutions (http://www.inboxsolutions.net)');
 
-include_once XOOPS_ROOT_PATH . '/footer.php';
+require_once XOOPS_ROOT_PATH . '/footer.php';

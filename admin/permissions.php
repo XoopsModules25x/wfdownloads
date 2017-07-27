@@ -18,9 +18,9 @@
  * @author          Xoops Development Team
  */
 $currentFile = basename(__FILE__);
-include_once __DIR__ . '/admin_header.php';
+require_once __DIR__ . '/admin_header.php';
 
-include_once XOOPS_ROOT_PATH . '/class/xoopsform/grouppermform.php';
+require_once XOOPS_ROOT_PATH . '/class/xoopsform/grouppermform.php';
 
 if ($wfdownloads->getHandler('category')->getCount() == 0) {
     redirect_header('categories.php', 1, _AM_WFDOWNLOADS_CCATEGORY_NOEXISTS);
@@ -34,13 +34,13 @@ foreach ($categoryObjObjs as $categoryObj) {
     $WFUpCatPermForm->addItem($categoryObj->getVar('cid'), $categoryObj->getVar('title'), $categoryObj->getVar('pid'));
 }
 
-WfdownloadsUtilities::myxoops_cp_header();
-$indexAdmin = new ModuleAdmin();
-echo $indexAdmin->addNavigation($currentFile);
+WfdownloadsUtility::myxoops_cp_header();
+$adminObject = \Xmf\Module\Admin::getInstance();
+$adminObject->displayNavigation($currentFile);
 
 $GLOBALS['xoopsTpl']->assign('down_cat_form', $WFDownCatPermForm->render());
 $GLOBALS['xoopsTpl']->assign('up_cat_form', $WFUpCatPermForm->render());
 
 $GLOBALS['xoopsTpl']->display("db:{$wfdownloads->getModule()->dirname()}_am_permissions.tpl");
 
-include_once __DIR__ . '/admin_footer.php';
+require_once __DIR__ . '/admin_footer.php';

@@ -8,6 +8,7 @@
  but WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
+
 /**
  * Wfdownloads module
  *
@@ -17,15 +18,18 @@
  * @since           3.23
  * @author          Xoops Development Team
  */
-$currentFile = basename(__FILE__);
-include_once __DIR__ . '/header.php';
 
-$lid         = XoopsRequest::getInt('lid', 0);
+use Xmf\Request;
+
+$currentFile = basename(__FILE__);
+require_once __DIR__ . '/header.php';
+
+$lid         = Request::getInt('lid', 0);
 $downloadObj = $wfdownloads->getHandler('download')->get($lid);
 if (empty($downloadObj)) {
     redirect_header('index.php', 3, _CO_WFDOWNLOADS_ERROR_NODOWNLOAD);
 }
-$cid         = XoopsRequest::getInt('cid', $downloadObj->getVar('cid'));
+$cid         = Request::getInt('cid', $downloadObj->getVar('cid'));
 $categoryObj = $wfdownloads->getHandler('category')->get($cid);
 if (empty($categoryObj)) {
     redirect_header('index.php', 3, _CO_WFDOWNLOADS_ERROR_NOCATEGORY);
@@ -35,17 +39,16 @@ if (empty($categoryObj)) {
 if ($downloadObj->getVar('published') === false || $downloadObj->getVar('published') > time()
     || $downloadObj->getVar('offline') === true
     || ($downloadObj->getVar('expired') != 0
-        && $downloadObj->getVar('expired') < time())
-) {
+        && $downloadObj->getVar('expired') < time())) {
     redirect_header('index.php', 3, _MD_WFDOWNLOADS_NODOWNLOAD);
 }
 
 // Check permissions
-if ($wfdownloads->getConfig('enable_ratings') === false && !WfdownloadsUtilities::userIsAdmin()) {
+if ($wfdownloads->getConfig('enable_ratings') === false && !WfdownloadsUtility::userIsAdmin()) {
     redirect_header('index.php', 3, _NOPERM);
 }
 // Breadcrumb
-include_once XOOPS_ROOT_PATH . '/class/tree.php';
+require_once XOOPS_ROOT_PATH . '/class/tree.php';
 $categoryObjsTree = new XoopsObjectTree($wfdownloads->getHandler('category')->getObjects(), 'cid', 'pid');
 $breadcrumb       = new WfdownloadsBreadcrumb();
 $breadcrumb->addLink($wfdownloads->getModule()->getVar('name'), WFDOWNLOADS_URL);
@@ -55,7 +58,7 @@ foreach (array_reverse($categoryObjsTree->getAllParent($cid)) as $parentCategory
 $breadcrumb->addLink($categoryObj->getVar('title'), "viewcat.php?cid={$cid}");
 $breadcrumb->addLink($downloadObj->getVar('title'), "singlefile.php?lid={$lid}");
 
-$op = XoopsRequest::getString('op', 'vote.add');
+$op = Request::getString('op', 'vote.add');
 switch ($op) {
     case 'vote.add':
     default:
@@ -64,7 +67,7 @@ switch ($op) {
         $ratinguserIp  = getenv('REMOTE_ADDR');
 
         if (!empty($_POST['submit'])) {
-            $rating = XoopsRequest::getString('rating', '--', 'POST');
+            $rating = Request::getString('rating', '--', 'POST');
 
             // Check if Rating is Null
             if ($rating === '--') {
@@ -104,7 +107,7 @@ switch ($op) {
             $ratingObj->setVar('ratingtimestamp', time());
             if ($wfdownloads->getHandler('rating')->insert($ratingObj)) {
                 // All is well. Calculate Score & Add to Summary (for quick retrieval & sorting) to DB.
-                WfdownloadsUtilities::updateRating($lid);
+                WfdownloadsUtility::updateRating($lid);
                 $thankyouMessage = _MD_WFDOWNLOADS_VOTEAPPRE . '<br>' . sprintf(_MD_WFDOWNLOADS_THANKYOU, $GLOBALS['xoopsConfig']['sitename']);
                 redirect_header("singlefile.php?cid={$cid}&amp;lid={$lid}", 4, $thankyouMessage);
             } else {
@@ -112,7 +115,7 @@ switch ($op) {
             }
         } else {
             $GLOBALS['xoopsOption']['template_main'] = "{$wfdownloads->getModule()->dirname()}_ratefile.tpl";
-            include_once XOOPS_ROOT_PATH . '/header.php';
+            require_once XOOPS_ROOT_PATH . '/header.php';
 
             $xoTheme->addScript(XOOPS_URL . '/browse.php?Frameworks/jquery/jquery.js');
             $xoTheme->addScript(WFDOWNLOADS_URL . '/assets/js/magnific/jquery.magnific-popup.min.js');
@@ -126,8 +129,8 @@ switch ($op) {
             $xoopsTpl->assign('wfdownloads_breadcrumb', $breadcrumb->render());
 
             // Generate form
-            include_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
-            $sform         = new XoopsThemeForm(_MD_WFDOWNLOADS_RATETHISFILE, 'voteform', xoops_getenv('PHP_SELF'));
+            require_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
+            $sform         = new XoopsThemeForm(_MD_WFDOWNLOADS_RATETHISFILE, 'voteform', xoops_getenv('PHP_SELF'), 'post', true);
             $rating_select = new XoopsFormSelect(_MD_WFDOWNLOADS_REV_RATING, 'rating', '10');
             //$rating_select->setDescription(_MD_WFDOWNLOADS_REV_RATING_DESC);
             $rating_select->addOptionArray(array(
@@ -168,7 +171,7 @@ switch ($op) {
                 'title'       => $downloadObj->getVar('title'),
                 'imageheader' => wfdownloads_headerImage()
             )); // this definition is not removed for backward compatibility issues
-            include_once __DIR__ . '/footer.php';
+            require_once __DIR__ . '/footer.php';
         }
         break;
 }

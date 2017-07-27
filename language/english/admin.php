@@ -132,9 +132,9 @@ define('_AM_WFDOWNLOADS_DOWN_IMAGEINFO', 'Server status');
 define('_AM_WFDOWNLOADS_DOWN_NOTSET', 'Upload path not set');
 define('_AM_WFDOWNLOADS_DOWN_SERVERPATH', 'Server path to XOOPS root: ');
 define('_AM_WFDOWNLOADS_DOWN_UPLOADPATH', 'Current upload path: ');
-define('_AM_WFDOWNLOADS_DOWN_UPLOADPATHDSC', 'Note. Upload path *MUST* contain the full server path of your upload folder.');
-define('_AM_WFDOWNLOADS_DOWN_SPHPINI', "<span style='font-weight: bold;'>Information taken from PHP ini file:</span>");
+
 define('_AM_WFDOWNLOADS_DOWN_METAVERSION', "<span style='font-weight: bold;'>Downloads meta version:</span> ");
+define('_AM_WFDOWNLOADS_DOWN_SPHPINI', "<span style='font-weight: bold;'>Information taken from PHP ini file:</span>");
 define('_AM_WFDOWNLOADS_DOWN_SAFEMODESTATUS', 'Safe mode status: ');
 define('_AM_WFDOWNLOADS_DOWN_REGISTERGLOBALS', 'Register globals: ');
 define('_AM_WFDOWNLOADS_DOWN_SERVERUPLOADSTATUS', 'Server uploads status: ');
@@ -159,6 +159,8 @@ define('_AM_WFDOWNLOADS_DOWN_FUPLOADURL', 'Upload URL:');
 define('_AM_WFDOWNLOADS_DOWN_FOLDERSELECTION', 'Select upload destination');
 define('_AM_WFDOWNLOADS_DOWN_FSHOWSELECTEDIMAGE', 'Display selected image');
 define('_AM_WFDOWNLOADS_DOWN_FUPLOADIMAGE', 'Upload new image to selected destination');
+
+define('_AM_WFDOWNLOADS_DOWN_UPLOADPATHDSC', 'Note. Upload path *MUST* contain the full server path of your upload folder.');
 // Main Index defines
 define('_AM_WFDOWNLOADS_MINDEX_DOWNSUMMARY', 'Module admin summary');
 define('_AM_WFDOWNLOADS_MINDEX_PUBLISHEDDOWN', 'Published downloads');
@@ -581,7 +583,7 @@ define('_AM_WFDOWNLOADS_IMPORT_TDMDOWNLOADS', 'Import data from TDMDownloads');
 define('_AM_WFDOWNLOADS_IMPORT_TDMDOWNLOADS_NOTFOUND', 'Module TDMDownloads not found on this site');
 define('_AM_WFDOWNLOADS_FCATEGORY_GROUPPROMPT_UP', 'Category upload permissions');
 define('_AM_WFDOWNLOADS_PERM_CSELECTPERMISSIONS_UP', 'Select categories that each group is allowed to upload');
-define('_AM_WFDOWNLOADS_FCATEGORY_GROUPPROMPT_DESC', 'Select groups allowed to download from this category');
+define('_AM_WFDOWNLOADS_FCATEGORY_GROUPPROMPT_DESC', 'SELECT groups allowed TO download FROM this category');
 define('_AM_WFDOWNLOADS_FCATEGORY_GROUPPROMPT_UP_DESC', 'Select groups allowed to upload to this category');
 // admin/ratings.php
 define('_AM_WFDOWNLOADS_VOTE_VOTES', 'Votes');
@@ -697,7 +699,7 @@ define('_AM_WFDOWNLOADS_ERROR_MIRRORNOTFOUND', 'Mirror not found');
 define('_AM_WFDOWNLOADS_VOTEDELETED', 'Vote deleted');
 define('_AM_WFDOWNLOADS_ERROR_REVIEWNOTFOUND', 'Review not found');
 define('_AM_WFDOWNLOADS_SWISHE_CONFIG', 'Configuration');
-define('_AM_WFDOWNLOADS_DB_MSG_DROP_TABLE_ERR', 'Drop table Error');
+define('_AM_WFDOWNLOADS_DB_MSG_DROP_TABLE_ERR', 'DROP TABLE Error');
 define('_AM_WFDOWNLOADS_DB_MSG_DROP_TABLE', 'Drop table');
 define('_AM_WFDOWNLOADS_DB_MSG_DROPFIELD_ERR', 'Drop field Error');
 define('_AM_WFDOWNLOADS_DB_MSG_DROPFIELD', 'Drop field');
@@ -705,3 +707,11 @@ define('_AM_WFDOWNLOADS_DB_MSG_RENAME_TABLE_ERR', 'Rename Table Error');
 define('_AM_WFDOWNLOADS_DB_MSG_RENAME_TABLE', 'Rename Table');
 define('_AM_WFDOWNLOADS_FILE_EXPIREWARNING', 'Expire warning');
 define('_AM_WFDOWNLOADS_MOD_NOTFOUND', 'Module not found');
+
+define('_AM_WFDOWNLOADS_UPGRADEFAILED0', "Update failed - couldn't rename field '%s'");
+define('_AM_WFDOWNLOADS_UPGRADEFAILED1', "Update failed - couldn't add new fields");
+define('_AM_WFDOWNLOADS_UPGRADEFAILED2', "Update failed - couldn't rename table '%s'");
+define('_AM_WFDOWNLOADS_ERROR_COLUMN', 'Could not create column in database : %s');
+define('_AM_WFDOWNLOADS_ERROR_BAD_XOOPS', 'This module requires XOOPS %s+ (%s installed)');
+define('_AM_WFDOWNLOADS_ERROR_BAD_PHP', 'This module requires PHP version %s+ (%s installed)');
+define('_AM_WFDOWNLOADS_ERROR_TAG_REMOVAL', 'Could not remove tags from Tag Module');

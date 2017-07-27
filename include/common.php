@@ -28,24 +28,24 @@ define('WFDOWNLOADS_ROOT_PATH', XOOPS_ROOT_PATH . '/modules/' . WFDOWNLOADS_DIRN
 
 xoops_loadLanguage('common', WFDOWNLOADS_DIRNAME);
 
-include_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
-include_once XOOPS_ROOT_PATH . '/class/tree.php';
-include_once XOOPS_ROOT_PATH . '/class/pagenav.php';
+require_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
+require_once XOOPS_ROOT_PATH . '/class/tree.php';
+require_once XOOPS_ROOT_PATH . '/class/pagenav.php';
 
-include_once WFDOWNLOADS_ROOT_PATH . '/class/utilities.php';
-include_once WFDOWNLOADS_ROOT_PATH . '/include/constants.php';
-include_once WFDOWNLOADS_ROOT_PATH . '/class/session.php'; // WfdownloadsSession class
-include_once WFDOWNLOADS_ROOT_PATH . '/class/wfdownloads.php'; // WfdownloadsWfdownloads class
-//include_once WFDOWNLOADS_ROOT_PATH . '/class/wfdownloads.php'; // WfdownloadsRequest class
-include_once WFDOWNLOADS_ROOT_PATH . '/class/breadcrumb.php'; // WfdownloadsBreadcrumb class
-include_once WFDOWNLOADS_ROOT_PATH . '/class/tree.php'; // WfdownloadsObjectTree class
-include_once WFDOWNLOADS_ROOT_PATH . '/class/xoopstree.php'; // WfdownloadsXoopsTree class
-//include_once WFDOWNLOADS_ROOT_PATH . '/class/formelementchoose.php'; // WfdownloadsFormElementChoose class
-include_once WFDOWNLOADS_ROOT_PATH . '/class/multicolumnsthemeform.php'; // WfdownloadsMulticolumnsThemeForm class
+require_once WFDOWNLOADS_ROOT_PATH . '/class/utility.php';
+require_once WFDOWNLOADS_ROOT_PATH . '/include/constants.php';
+require_once WFDOWNLOADS_ROOT_PATH . '/class/session.php'; // WfdownloadsSession class
+require_once WFDOWNLOADS_ROOT_PATH . '/class/wfdownloads.php'; // WfdownloadsWfdownloads class
+//require_once WFDOWNLOADS_ROOT_PATH . '/class/wfdownloads.php'; // WfdownloadsRequest class
+require_once WFDOWNLOADS_ROOT_PATH . '/class/breadcrumb.php'; // WfdownloadsBreadcrumb class
+require_once WFDOWNLOADS_ROOT_PATH . '/class/tree.php'; // WfdownloadsObjectTree class
+require_once WFDOWNLOADS_ROOT_PATH . '/class/xoopstree.php'; // WfdownloadsXoopsTree class
+//require_once WFDOWNLOADS_ROOT_PATH . '/class/formelementchoose.php'; // WfdownloadsFormElementChoose class
+require_once WFDOWNLOADS_ROOT_PATH . '/class/multicolumnsthemeform.php'; // WfdownloadsMulticolumnsThemeForm class
 
 xoops_load('XoopsUserUtility');
 xoops_load('XoopsLocal');
-xoops_load('XoopsRequest');
+
 // MyTextSanitizer object
 $myts = MyTextSanitizer::getInstance();
 
@@ -56,9 +56,10 @@ $wfdownloads = WfdownloadsWfdownloads::getInstance($debug);
 global $wfdownloads_isAdmin;
 
 // Load only if module is installed
+require_once __DIR__ . '/../class/utility.php';
 if (is_object($wfdownloads->getModule())) {
     // Find if the user is admin of the module
-    $wfdownloads_isAdmin = WfdownloadsUtilities::userIsAdmin();
+    //    $wfdownloads_isAdmin = WfdownloadsUtility::userIsAdmin();
 }
 
 // Load Xoops handlers

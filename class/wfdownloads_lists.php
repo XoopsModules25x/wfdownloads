@@ -158,8 +158,7 @@ class WfsLists
         if (is_dir($dirname) && $handle = opendir($dirname)) {
             while (false !== ($file = readdir($handle))) {
                 if (!preg_match("/^[.]{1,2}$/", $file) && preg_match("/$types$/i", $file)
-                    && is_file($dirname . '/' . $file)
-                ) {
+                    && is_file($dirname . '/' . $file)) {
                     if (strtolower($file) === 'blank.png') {
                         continue;
                     }

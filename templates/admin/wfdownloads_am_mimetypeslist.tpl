@@ -50,27 +50,27 @@
             <td class='even' align='center' align='center'>
                 <a href='?op=mimetype.update&amp;admin=1&amp;mime_id=<{$mimetype.mime_id}>&amp;start=<{$start}>'>
                     <{if ($mimetype.mime_admin == 1)}>
-                    <img src="<{xoModuleIcons16 1.png}>"/>
+                    <img src="<{xoModuleIcons16 1.png}>">
                     <{else}>
-                    <img src="<{xoModuleIcons16 0.png}>"/>
+                    <img src="<{xoModuleIcons16 0.png}>">
                     <{/if}>
                 </a>
             </td>
             <td class='even' align='center'>
                 <a href='?op=mimetype.update&amp;user=1&amp;mime_id=<{$mimetype.mime_id}>&amp;start=<{$start}>'>
                     <{if ($mimetype.mime_user == 1)}>
-                    <img src="<{xoModuleIcons16 1.png}>"/>
+                    <img src="<{xoModuleIcons16 1.png}>">
                     <{else}>
-                    <img src="<{xoModuleIcons16 0.png}>"/>
+                    <img src="<{xoModuleIcons16 0.png}>">
                     <{/if}>
                 </a>
             </td>
             <td class='even' align='center'>
                 <a href='?op=mimetype.edit&amp;mime_id=<{$mimetype.mime_id}>'><img src="<{xoModuleIcons16 edit.png}>" title="<{$smarty.const._EDIT}>"
-                                                                                   alt="<{$smarty.const._EDIT}>"/></a>
+                                                                                   alt="<{$smarty.const._EDIT}>"></a>
                 <a href='?op=mimetype.delete&amp;mime_id=<{$mimetype.mime_id}>'><img src="<{xoModuleIcons16 delete.png}>"
                                                                                      title="<{$smarty.const._DELETE}>"
-                                                                                     alt="<{$smarty.const._DELETE}>"/></a>
+                                                                                     alt="<{$smarty.const._DELETE}>"></a>
             </td>
         </tr>
         <{/foreach}>
@@ -79,12 +79,12 @@
             <td></td>
             <td></td>
             <td align='center'>
-                <a href='?op=mimetypes.update&amp;admin=1&amp;type_all=1'><img src="<{xoModuleIcons16 1.png}>"/></a>
-                <a href='?op=mimetypes.update&amp;admin=1&amp;type_all=0'><img src="<{xoModuleIcons16 0.png}>"/></a>
+                <a href='?op=mimetypes.update&amp;admin=1&amp;type_all=1'><img src="<{xoModuleIcons16 1.png}>"></a>
+                <a href='?op=mimetypes.update&amp;admin=1&amp;type_all=0'><img src="<{xoModuleIcons16 0.png}>"></a>
             </td>
             <td align='center'>
-                <a href='?op=mimetypes.update&amp;user=1&amp;type_all=1'><img src="<{xoModuleIcons16 1.png}>"/></a>
-                <a href='?op=mimetypes.update&amp;user=1&amp;type_all=0'><img src="<{xoModuleIcons16 0.png}>"/></a>
+                <a href='?op=mimetypes.update&amp;user=1&amp;type_all=1'><img src="<{xoModuleIcons16 1.png}>"></a>
+                <a href='?op=mimetypes.update&amp;user=1&amp;type_all=0'><img src="<{xoModuleIcons16 0.png}>"></a>
             </td>
             <td></td>
         </tr>

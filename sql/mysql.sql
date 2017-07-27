@@ -3,18 +3,19 @@
 #
 
 CREATE TABLE wfdownloads_broken (
-    reportid                    int(5) NOT NULL auto_increment,
-    lid                         int(11) NOT NULL default '0',
-    sender                      int(11) NOT NULL default '0',
-    ip                          varchar(20) NOT NULL default '',
-    date                        varchar(11) NOT NULL default '0',
-    confirmed                   tinyint(1) NOT NULL default '0',
-    acknowledged                tinyint(1) NOT NULL default '0',
-    PRIMARY KEY (reportid),
-    KEY lid (lid),
-    KEY sender (sender),
-    KEY ip (ip)
-) ENGINE=MyISAM;
+  reportid     INT(5)      NOT NULL AUTO_INCREMENT,
+  lid          INT(11)     NOT NULL DEFAULT '0',
+  sender       INT(11)     NOT NULL DEFAULT '0',
+  ip           VARCHAR(20) NOT NULL DEFAULT '',
+  date         VARCHAR(11) NOT NULL DEFAULT '0',
+  confirmed    TINYINT(1)  NOT NULL DEFAULT '0',
+  acknowledged TINYINT(1)  NOT NULL DEFAULT '0',
+  PRIMARY KEY (reportid),
+  KEY lid (lid),
+  KEY sender (sender),
+  KEY ip (ip)
+)
+  ENGINE = MyISAM;
 
 #
 # Dumping data for table `wfdownloads_broken`
@@ -28,25 +29,26 @@ CREATE TABLE wfdownloads_broken (
 #
 
 CREATE TABLE wfdownloads_cat (
-    cid                         int(5) unsigned NOT NULL auto_increment,
-    pid                         int(5) unsigned NOT NULL default '0',
-    title                       varchar(255) NOT NULL default '',
-    imgurl                      varchar(255) NOT NULL default '',
-    description                 text NOT NULL,
-    total                       int(11) NOT NULL default '0',
-    summary                     text NOT NULL,
-    spotlighttop                int(11) NOT NULL default '0',
-    spotlighthis                int(11) NOT NULL default '0',
-    dohtml                      tinyint(1) NOT NULL default '0',
-    dosmiley                    tinyint(1) NOT NULL default '1',
-    doxcode                     tinyint(1) NOT NULL default '1',
-    doimage                     tinyint(1) NOT NULL default '1',
-    dobr                        tinyint(1) NOT NULL default '1',
-    weight                      int(11) NOT NULL default '0',
-    formulize_fid               int(5) NOT NULL default '0',
-    PRIMARY KEY (cid),
-    KEY pid (pid)
-) ENGINE=MyISAM;
+  cid           INT(5) UNSIGNED NOT NULL AUTO_INCREMENT,
+  pid           INT(5) UNSIGNED NOT NULL DEFAULT '0',
+  title         VARCHAR(255)    NOT NULL DEFAULT '',
+  imgurl        VARCHAR(255)    NOT NULL DEFAULT '',
+  description   TEXT            NOT NULL,
+  total         INT(11)         NOT NULL DEFAULT '0',
+  summary       TEXT            NOT NULL,
+  spotlighttop  INT(11)         NOT NULL DEFAULT '0',
+  spotlighthis  INT(11)         NOT NULL DEFAULT '0',
+  dohtml        TINYINT(1)      NOT NULL DEFAULT '0',
+  dosmiley      TINYINT(1)      NOT NULL DEFAULT '1',
+  doxcode       TINYINT(1)      NOT NULL DEFAULT '1',
+  doimage       TINYINT(1)      NOT NULL DEFAULT '1',
+  dobr          TINYINT(1)      NOT NULL DEFAULT '1',
+  weight        INT(11)         NOT NULL DEFAULT '0',
+  formulize_fid INT(5)          NOT NULL DEFAULT '0',
+  PRIMARY KEY (cid),
+  KEY pid (pid)
+)
+  ENGINE = MyISAM;
 
 #
 # Dumping data for table `wfdownloads_cat`
@@ -59,59 +61,60 @@ CREATE TABLE wfdownloads_cat (
 #
 
 CREATE TABLE wfdownloads_downloads (
-    lid                         int(11) unsigned NOT NULL auto_increment,
-    cid                         int(5) unsigned NOT NULL default '0',
-    title                       varchar(255) NOT NULL default '',
-    url                         varchar(255) NOT NULL default '',
-    filename                    varchar(150) NOT NULL default '',
-    filetype                    varchar(100) NOT NULL default '',
-    homepage                    varchar(100) NOT NULL default '',
-    version                     varchar(20) NOT NULL default '',
-    size                        int(8) NOT NULL default '0',
-    platform                    varchar(50) NOT NULL default '',
-    screenshot                  varchar(255) NOT NULL default '',
-    screenshot2                 varchar(255) NOT NULL default '',
-    screenshot3                 varchar(255) NOT NULL default '',
-    screenshot4                 varchar(255) NOT NULL default '',
-    submitter                   int(11) NOT NULL default '0',
-    publisher                   varchar(255) NOT NULL default '',
-    status                      tinyint(2) NOT NULL default '0',
-    date                        int(10) NOT NULL default '0',
-    hits                        int(11) unsigned NOT NULL default '0',
-    rating                      double(6,4) NOT NULL default '0.0000',
-    votes                       int(11) unsigned NOT NULL default '0',
-    comments                    int(11) unsigned NOT NULL default '0',
-    license                     varchar(255) NOT NULL default '',
-    mirror                      varchar(255) NOT NULL default '',
-    price                       varchar(10) NOT NULL default 'Free',
-    paypalemail                 varchar(255) NOT NULL default '',
-    features                    text NOT NULL,
-    requirements                text NOT NULL,
-    homepagetitle               varchar(255) NOT NULL default '',
-    forumid                     int(11) NOT NULL default '0',
-    limitations                 varchar(255) NOT NULL default '30 day trial',
-    versiontypes                varchar(255) NOT NULL default 'None',
-    dhistory                    text NOT NULL,
-    published                   int(11) NOT NULL default '1089662528',
-    expired                     int(10) NOT NULL default '0',
-    updated                     int(11) NOT NULL default '0',
-    offline                     tinyint(1) NOT NULL default '0',
-    summary                     text NOT NULL,
-    description                 text NOT NULL,
-    ipaddress                   varchar(120) NOT NULL default '0',
-    notifypub                   int(1) NOT NULL default '0',
-    formulize_idreq             int(5) NOT NULL default '0',
-    screenshots                 text NOT NULL,
-    dohtml                      tinyint(1) NOT NULL default '0',
-    dosmiley                    tinyint(1) NOT NULL default '1',
-    doxcode                     tinyint(1) NOT NULL default '1',
-    doimage                     tinyint(1) NOT NULL default '1',
-    dobr                        tinyint(1) NOT NULL default '1',
-    PRIMARY KEY (lid),
-    KEY cid (cid),
-    KEY status (status),
-    KEY title (title(40))
-) ENGINE=MyISAM;
+  lid             INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+  cid             INT(5) UNSIGNED  NOT NULL DEFAULT '0',
+  title           VARCHAR(255)     NOT NULL DEFAULT '',
+  url             VARCHAR(255)     NOT NULL DEFAULT '',
+  filename        VARCHAR(150)     NOT NULL DEFAULT '',
+  filetype        VARCHAR(100)     NOT NULL DEFAULT '',
+  homepage        VARCHAR(100)     NOT NULL DEFAULT '',
+  version         VARCHAR(20)      NOT NULL DEFAULT '',
+  size            INT(8)           NOT NULL DEFAULT '0',
+  platform        VARCHAR(50)      NOT NULL DEFAULT '',
+  screenshot      VARCHAR(255)     NOT NULL DEFAULT '',
+  screenshot2     VARCHAR(255)     NOT NULL DEFAULT '',
+  screenshot3     VARCHAR(255)     NOT NULL DEFAULT '',
+  screenshot4     VARCHAR(255)     NOT NULL DEFAULT '',
+  submitter       INT(11)          NOT NULL DEFAULT '0',
+  publisher       VARCHAR(255)     NOT NULL DEFAULT '',
+  status          TINYINT(2)       NOT NULL DEFAULT '0',
+  date            INT(10)          NOT NULL DEFAULT '0',
+  hits            INT(11) UNSIGNED NOT NULL DEFAULT '0',
+  rating          DOUBLE(6, 4)     NOT NULL DEFAULT '0.0000',
+  votes           INT(11) UNSIGNED NOT NULL DEFAULT '0',
+  comments        INT(11) UNSIGNED NOT NULL DEFAULT '0',
+  license         VARCHAR(255)     NOT NULL DEFAULT '',
+  mirror          VARCHAR(255)     NOT NULL DEFAULT '',
+  price           VARCHAR(10)      NOT NULL DEFAULT 'Free',
+  paypalemail     VARCHAR(255)     NOT NULL DEFAULT '',
+  features        TEXT             NOT NULL,
+  requirements    TEXT             NOT NULL,
+  homepagetitle   VARCHAR(255)     NOT NULL DEFAULT '',
+  forumid         INT(11)          NOT NULL DEFAULT '0',
+  limitations     VARCHAR(255)     NOT NULL DEFAULT '30 day trial',
+  versiontypes    VARCHAR(255)     NOT NULL DEFAULT 'None',
+  dhistory        TEXT             NOT NULL,
+  published       INT(11)          NOT NULL DEFAULT '1089662528',
+  expired         INT(10)          NOT NULL DEFAULT '0',
+  updated         INT(11)          NOT NULL DEFAULT '0',
+  offline         TINYINT(1)       NOT NULL DEFAULT '0',
+  summary         TEXT             NOT NULL,
+  description     TEXT             NOT NULL,
+  ipaddress       VARCHAR(120)     NOT NULL DEFAULT '0',
+  notifypub       INT(1)           NOT NULL DEFAULT '0',
+  formulize_idreq INT(5)           NOT NULL DEFAULT '0',
+  screenshots     TEXT             NOT NULL,
+  dohtml          TINYINT(1)       NOT NULL DEFAULT '0',
+  dosmiley        TINYINT(1)       NOT NULL DEFAULT '1',
+  doxcode         TINYINT(1)       NOT NULL DEFAULT '1',
+  doimage         TINYINT(1)       NOT NULL DEFAULT '1',
+  dobr            TINYINT(1)       NOT NULL DEFAULT '1',
+  PRIMARY KEY (lid),
+  KEY cid (cid),
+  KEY status (status),
+  KEY title (title(40))
+)
+  ENGINE = MyISAM;
 
 #
 # Dumping data for table `wfdownloads_downloads`
@@ -124,21 +127,22 @@ CREATE TABLE wfdownloads_downloads (
 #
 
 CREATE TABLE wfdownloads_indexpage (
-    indeximage                  varchar(255) NOT NULL default 'blank.png',
-    indexheading                varchar(255) NOT NULL default 'Wfdownloads',
-    indexheader                 text NOT NULL,
-    indexfooter                 text NOT NULL,
-    nohtml                      tinyint(8) NOT NULL default '1',
-    nosmiley                    tinyint(8) NOT NULL default '1',
-    noxcodes                    tinyint(8) NOT NULL default '1',
-    noimages                    tinyint(8) NOT NULL default '1',
-    nobreak                     tinyint(4) NOT NULL default '1',
-    indexheaderalign            varchar(25) NOT NULL default 'left',
-    indexfooteralign            varchar(25) NOT NULL default 'center',
-    FULLTEXT KEY indexheading (indexheading),
-    FULLTEXT KEY indexheader (indexheader),
-    FULLTEXT KEY indexfooter (indexfooter)
-) ENGINE=MyISAM;
+  indeximage       VARCHAR(255) NOT NULL DEFAULT 'blank.png',
+  indexheading     VARCHAR(255) NOT NULL DEFAULT 'Wfdownloads',
+  indexheader      TEXT         NOT NULL,
+  indexfooter      TEXT         NOT NULL,
+  nohtml           TINYINT(8)   NOT NULL DEFAULT '1',
+  nosmiley         TINYINT(8)   NOT NULL DEFAULT '1',
+  noxcodes         TINYINT(8)   NOT NULL DEFAULT '1',
+  noimages         TINYINT(8)   NOT NULL DEFAULT '1',
+  nobreak          TINYINT(4)   NOT NULL DEFAULT '1',
+  indexheaderalign VARCHAR(25)  NOT NULL DEFAULT 'left',
+  indexfooteralign VARCHAR(25)  NOT NULL DEFAULT 'center',
+  FULLTEXT KEY indexheading (indexheading),
+  FULLTEXT KEY indexheader (indexheader),
+  FULLTEXT KEY indexfooter (indexfooter)
+)
+  ENGINE = MyISAM;
 
 #
 # Dumping data for table `wfdownloads_indexpage`
@@ -153,14 +157,15 @@ INSERT INTO wfdownloads_indexpage VALUES ('logo-en.gif', 'Wfdownloads', '<div><b
 #
 
 CREATE TABLE wfdownloads_mimetypes (
-    mime_id                     int(11) NOT NULL auto_increment,
-    mime_ext                    varchar(60) NOT NULL default '',
-    mime_types                  text NOT NULL,
-    mime_name                   varchar(255) NOT NULL default '',
-    mime_admin                  int(1) NOT NULL default '1',
-    mime_user                   int(1) NOT NULL default '0',
-    KEY mime_id (mime_id)
-) ENGINE=MyISAM;
+  mime_id    INT(11)      NOT NULL AUTO_INCREMENT,
+  mime_ext   VARCHAR(60)  NOT NULL DEFAULT '',
+  mime_types TEXT         NOT NULL,
+  mime_name  VARCHAR(255) NOT NULL DEFAULT '',
+  mime_admin INT(1)       NOT NULL DEFAULT '1',
+  mime_user  INT(1)       NOT NULL DEFAULT '0',
+  KEY mime_id (mime_id)
+)
+  ENGINE = MyISAM;
 
 #
 # Dumping data for table `wfdownloads_mimetypes`
@@ -174,7 +179,8 @@ INSERT INTO wfdownloads_mimetypes VALUES (5, 'dll', 'application/octet-stream', 
 INSERT INTO wfdownloads_mimetypes VALUES (6, 'hqx', 'application/binhex application/mac-binhex application/mac-binhex40', 'Macintosh BinHex 4 Compressed Archive', 1, 0);
 INSERT INTO wfdownloads_mimetypes VALUES (7, 'cpt', 'application/mac-compactpro application/compact_pro', 'Compact Pro Archive', 0, 0);
 INSERT INTO wfdownloads_mimetypes VALUES (8, 'lha', 'application/lha application/x-lha application/octet-stream application/x-compress application/x-compressed application/maclha', 'Compressed Archive File', 1, 0);
-INSERT INTO wfdownloads_mimetypes VALUES (9, 'lzh', 'application/lzh application/x-lzh application/x-lha application/x-compress application/x-compressed application/x-lzh-archive zz-application/zz-winassoc-lzh application/maclha application/octet-stream', 'Compressed Archive File', 1, 0);
+INSERT INTO wfdownloads_mimetypes VALUES
+  (9, 'lzh', 'application/lzh application/x-lzh application/x-lha application/x-compress application/x-compressed application/x-lzh-archive zz-application/zz-winassoc-lzh application/maclha application/octet-stream', 'Compressed Archive File', 1, 0);
 INSERT INTO wfdownloads_mimetypes VALUES (10, 'sh', 'application/x-shar', 'UNIX shar Archive File', 1, 0);
 INSERT INTO wfdownloads_mimetypes VALUES (11, 'shar', 'application/x-shar', 'UNIX shar Archive File', 1, 0);
 INSERT INTO wfdownloads_mimetypes VALUES (12, 'tar', 'application/tar application/x-tar applicaton/x-gtar multipart/x-tar application/x-compress application/x-compressed', 'Tape Archive File', 1, 0);
@@ -241,7 +247,9 @@ INSERT INTO wfdownloads_mimetypes VALUES (72, 'ra', 'audio/vnd.rn-realaudio audi
 INSERT INTO wfdownloads_mimetypes VALUES (73, 'wav', 'audio/wav audio/x-wav audio/wave audio/x-pn-wav', 'Waveform Audio', 1, 0);
 INSERT INTO wfdownloads_mimetypes VALUES (74, 'wax', ' audio/x-ms-wax', 'Windows Media Audio Redirector', 1, 0);
 INSERT INTO wfdownloads_mimetypes VALUES (75, 'wma', 'audio/x-ms-wma video/x-ms-asf', 'Windows Media Audio File', 1, 0);
-INSERT INTO wfdownloads_mimetypes VALUES (76, 'bmp', 'image/bmp image/x-bmp image/x-bitmap image/x-xbitmap image/x-win-bitmap image/x-windows-bmp image/ms-bmp image/x-ms-bmp application/bmp application/x-bmp application/x-win-bitmap application/preview', 'Windows OS/2 Bitmap Graphics', 1, 0);
+INSERT INTO wfdownloads_mimetypes VALUES
+  (76, 'bmp', 'image/bmp image/x-bmp image/x-bitmap image/x-xbitmap image/x-win-bitmap image/x-windows-bmp image/ms-bmp image/x-ms-bmp application/bmp application/x-bmp application/x-win-bitmap application/preview', 'Windows OS/2 Bitmap Graphics', 1,
+   0);
 INSERT INTO wfdownloads_mimetypes VALUES (77, 'gif', 'image/gif image/x-xbitmap image/gi_', 'Graphic Interchange Format', 1, 0);
 INSERT INTO wfdownloads_mimetypes VALUES (78, 'ief', 'image/ief', 'Image File - Bitmap graphics', 1, 0);
 INSERT INTO wfdownloads_mimetypes VALUES (79, 'jpeg', 'image/jpeg image/jpg image/jpe_ image/pjpeg image/vnd.swiftview-jpeg', 'JPEG/JIFF Image', 1, 0);
@@ -281,8 +289,10 @@ INSERT INTO wfdownloads_mimetypes VALUES (112, 'qt', 'video/quicktime audio/aiff
 INSERT INTO wfdownloads_mimetypes VALUES (113, 'mov', 'video/quicktime video/x-quicktime image/mov audio/aiff audio/x-midi audio/x-wav video/avi', 'QuickTime Video Clip', 1, 0);
 INSERT INTO wfdownloads_mimetypes VALUES (114, 'avi', 'video/avi video/msvideo video/x-msvideo image/avi video/xmpg2 application/x-troff-msvideo audio/aiff audio/avi', 'Audio Video Interleave File', 1, 0);
 INSERT INTO wfdownloads_mimetypes VALUES (115, 'movie', 'video/sgi-movie video/x-sgi-movie', 'QuickTime Movie', 1, 0);
-INSERT INTO wfdownloads_mimetypes VALUES (116, 'asf', 'audio/asf application/asx video/x-ms-asf-plugin application/x-mplayer2 video/x-ms-asf application/vnd.ms-asf video/x-ms-asf-plugin video/x-ms-wm video/x-ms-wmx', 'Advanced Streaming Format', 1, 0);
-INSERT INTO wfdownloads_mimetypes VALUES (117, 'asx', 'video/asx application/asx video/x-ms-asf-plugin application/x-mplayer2 video/x-ms-asf application/vnd.ms-asf video/x-ms-asf-plugin video/x-ms-wm video/x-ms-wmx video/x-la-asf', 'Advanced Stream Redirector File', 1, 0);
+INSERT INTO wfdownloads_mimetypes
+VALUES (116, 'asf', 'audio/asf application/asx video/x-ms-asf-plugin application/x-mplayer2 video/x-ms-asf application/vnd.ms-asf video/x-ms-asf-plugin video/x-ms-wm video/x-ms-wmx', 'Advanced Streaming Format', 1, 0);
+INSERT INTO wfdownloads_mimetypes
+VALUES (117, 'asx', 'video/asx application/asx video/x-ms-asf-plugin application/x-mplayer2 video/x-ms-asf application/vnd.ms-asf video/x-ms-asf-plugin video/x-ms-wm video/x-ms-wmx video/x-la-asf', 'Advanced Stream Redirector File', 1, 0);
 INSERT INTO wfdownloads_mimetypes VALUES (118, 'wmv', 'video/x-ms-wmv', 'Windows Media File', 1, 0);
 INSERT INTO wfdownloads_mimetypes VALUES (119, 'wvx', 'video/x-ms-wvx', 'Windows Media Redirector', 1, 0);
 INSERT INTO wfdownloads_mimetypes VALUES (120, 'wm', 'video/x-ms-wm', 'Windows Media A/V File', 1, 0);
@@ -302,56 +312,57 @@ INSERT INTO wfdownloads_mimetypes VALUES (128, '3gp', 'video/3gpp', '3GP Mobile'
 #
 
 CREATE TABLE wfdownloads_mod (
-    requestid                   int(11) NOT NULL auto_increment,
-    lid                         int(11) unsigned NOT NULL default '0',
-    cid                         int(5) unsigned NOT NULL default '0',
-    title                       varchar(255) NOT NULL default '',
-    url                         varchar(255) NOT NULL default '',
-    filename                    varchar(150) NOT NULL default '',
-    filetype                    varchar(100) NOT NULL default '',
-    homepage                    varchar(255) NOT NULL default '',
-    version                     varchar(20) NOT NULL default '',
-    size                        int(8) NOT NULL default '0',
-    platform                    varchar(50) NOT NULL default '',
-    screenshot                  varchar(255) NOT NULL default '',
-    screenshot2                 varchar(255) NOT NULL default '',
-    screenshot3                 varchar(255) NOT NULL default '',
-    screenshot4                 varchar(255) NOT NULL default '',
-    submitter                   int(11) NOT NULL default '0',
-    publisher                   text NOT NULL,
-    status                      tinyint(2) NOT NULL default '0',
-    date                        int(10) NOT NULL default '0',
-    hits                        int(11) unsigned NOT NULL default '0',
-    rating                      double(6,4) NOT NULL default '0.0000',
-    votes                       int(11) unsigned NOT NULL default '0',
-    comments                    int(11) unsigned NOT NULL default '0',
-    license                     varchar(255) NOT NULL default '',
-    mirror                      varchar(255) NOT NULL default '',
-    price                       varchar(10) NOT NULL default 'Free',
-    paypalemail                 varchar(255) NOT NULL default '',
-    features                    text NOT NULL,
-    requirements                text NOT NULL,
-    homepagetitle               varchar(255) NOT NULL default '',
-    forumid                     int(11) NOT NULL default '0',
-    limitations                 varchar(255) NOT NULL default '30 day trial',
-    versiontypes                varchar(255) NOT NULL default 'None',
-    dhistory                    text NOT NULL,
-    published                   int(10) NOT NULL default '0',
-    expired                     int(10) NOT NULL default '0',
-    updated                     int(11) NOT NULL default '0',
-    offline                     tinyint(1) NOT NULL default '0',
-    summary                     text NOT NULL,
-    description                 text NOT NULL,
-    modifysubmitter             int(11) NOT NULL default '0',
-    requestdate                 int(11) NOT NULL default '0',
-    screenshots                 text NOT NULL,
-    dohtml                      tinyint(1) NOT NULL default '0',
-    dosmiley                    tinyint(1) NOT NULL default '1',
-    doxcode                     tinyint(1) NOT NULL default '1',
-    doimage                     tinyint(1) NOT NULL default '1',
-    dobr                        tinyint(1) NOT NULL default '1',
-    PRIMARY KEY (requestid)
-) ENGINE=MyISAM;
+  requestid       INT(11)          NOT NULL AUTO_INCREMENT,
+  lid             INT(11) UNSIGNED NOT NULL DEFAULT '0',
+  cid             INT(5) UNSIGNED  NOT NULL DEFAULT '0',
+  title           VARCHAR(255)     NOT NULL DEFAULT '',
+  url             VARCHAR(255)     NOT NULL DEFAULT '',
+  filename        VARCHAR(150)     NOT NULL DEFAULT '',
+  filetype        VARCHAR(100)     NOT NULL DEFAULT '',
+  homepage        VARCHAR(255)     NOT NULL DEFAULT '',
+  version         VARCHAR(20)      NOT NULL DEFAULT '',
+  size            INT(8)           NOT NULL DEFAULT '0',
+  platform        VARCHAR(50)      NOT NULL DEFAULT '',
+  screenshot      VARCHAR(255)     NOT NULL DEFAULT '',
+  screenshot2     VARCHAR(255)     NOT NULL DEFAULT '',
+  screenshot3     VARCHAR(255)     NOT NULL DEFAULT '',
+  screenshot4     VARCHAR(255)     NOT NULL DEFAULT '',
+  submitter       INT(11)          NOT NULL DEFAULT '0',
+  publisher       TEXT             NOT NULL,
+  status          TINYINT(2)       NOT NULL DEFAULT '0',
+  date            INT(10)          NOT NULL DEFAULT '0',
+  hits            INT(11) UNSIGNED NOT NULL DEFAULT '0',
+  rating          DOUBLE(6, 4)     NOT NULL DEFAULT '0.0000',
+  votes           INT(11) UNSIGNED NOT NULL DEFAULT '0',
+  comments        INT(11) UNSIGNED NOT NULL DEFAULT '0',
+  license         VARCHAR(255)     NOT NULL DEFAULT '',
+  mirror          VARCHAR(255)     NOT NULL DEFAULT '',
+  price           VARCHAR(10)      NOT NULL DEFAULT 'Free',
+  paypalemail     VARCHAR(255)     NOT NULL DEFAULT '',
+  features        TEXT             NOT NULL,
+  requirements    TEXT             NOT NULL,
+  homepagetitle   VARCHAR(255)     NOT NULL DEFAULT '',
+  forumid         INT(11)          NOT NULL DEFAULT '0',
+  limitations     VARCHAR(255)     NOT NULL DEFAULT '30 day trial',
+  versiontypes    VARCHAR(255)     NOT NULL DEFAULT 'None',
+  dhistory        TEXT             NOT NULL,
+  published       INT(10)          NOT NULL DEFAULT '0',
+  expired         INT(10)          NOT NULL DEFAULT '0',
+  updated         INT(11)          NOT NULL DEFAULT '0',
+  offline         TINYINT(1)       NOT NULL DEFAULT '0',
+  summary         TEXT             NOT NULL,
+  description     TEXT             NOT NULL,
+  modifysubmitter INT(11)          NOT NULL DEFAULT '0',
+  requestdate     INT(11)          NOT NULL DEFAULT '0',
+  screenshots     TEXT             NOT NULL,
+  dohtml          TINYINT(1)       NOT NULL DEFAULT '0',
+  dosmiley        TINYINT(1)       NOT NULL DEFAULT '1',
+  doxcode         TINYINT(1)       NOT NULL DEFAULT '1',
+  doimage         TINYINT(1)       NOT NULL DEFAULT '1',
+  dobr            TINYINT(1)       NOT NULL DEFAULT '1',
+  PRIMARY KEY (requestid)
+)
+  ENGINE = MyISAM;
 
 #
 # Dumping data for table `wfdownloads_mod`
@@ -364,17 +375,18 @@ CREATE TABLE wfdownloads_mod (
 #
 
 CREATE TABLE wfdownloads_reviews (
-    review_id                   int(11) unsigned NOT NULL auto_increment,
-    lid                         int(11) NOT NULL default '0',
-    title                       varchar(255) default NULL,
-    review                      text,
-    submit                      int(11) NOT NULL default '0',
-    date                        int(11) NOT NULL default '0',
-    uid                         int(10) NOT NULL default '0',
-    rated                       int(11) NOT NULL default '0',
-    PRIMARY KEY (review_id),
-    KEY categoryid (lid)
-) ENGINE=MyISAM;
+  review_id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+  lid       INT(11)          NOT NULL DEFAULT '0',
+  title     VARCHAR(255)              DEFAULT NULL,
+  review    TEXT,
+  submit    INT(11)          NOT NULL DEFAULT '0',
+  date      INT(11)          NOT NULL DEFAULT '0',
+  uid       INT(10)          NOT NULL DEFAULT '0',
+  rated     INT(11)          NOT NULL DEFAULT '0',
+  PRIMARY KEY (review_id),
+  KEY categoryid (lid)
+)
+  ENGINE = MyISAM;
 
 #
 # Dumping data for table `wfdownloads_reviews`
@@ -387,17 +399,18 @@ CREATE TABLE wfdownloads_reviews (
 #
 
 CREATE TABLE wfdownloads_votedata (
-    ratingid int(11) unsigned NOT NULL auto_increment,
-    lid int(11) unsigned NOT NULL default '0',
-    ratinguser int(11) NOT NULL default '0',
-    rating tinyint(3) unsigned NOT NULL default '0',
-    ratinghostname varchar(60) NOT NULL default '',
-    ratingtimestamp int(10) NOT NULL default '0',
-    PRIMARY KEY  (ratingid),
-    KEY ratinguser (ratinguser),
-    KEY ratinghostname (ratinghostname),
-    KEY lid (lid)
-) ENGINE=MyISAM;
+  ratingid        INT(11) UNSIGNED    NOT NULL AUTO_INCREMENT,
+  lid             INT(11) UNSIGNED    NOT NULL DEFAULT '0',
+  ratinguser      INT(11)             NOT NULL DEFAULT '0',
+  rating          TINYINT(3) UNSIGNED NOT NULL DEFAULT '0',
+  ratinghostname  VARCHAR(60)         NOT NULL DEFAULT '',
+  ratingtimestamp INT(10)             NOT NULL DEFAULT '0',
+  PRIMARY KEY (ratingid),
+  KEY ratinguser (ratinguser),
+  KEY ratinghostname (ratinghostname),
+  KEY lid (lid)
+)
+  ENGINE = MyISAM;
 
 #
 # Dumping data for table `wfdownloads_votedata`
@@ -408,17 +421,18 @@ CREATE TABLE wfdownloads_votedata (
 
 
 CREATE TABLE `wfdownloads_meta` (
-    `metakey` varchar(50) NOT NULL default '',
-    `metavalue` varchar(255) NOT NULL default '',
-    PRIMARY KEY (`metakey`)
-) ENGINE=MyISAM COMMENT='Wfdownloads by The SmartFactory <www.smartfactory.ca>' ;
+  `metakey`   VARCHAR(50)  NOT NULL DEFAULT '',
+  `metavalue` VARCHAR(255) NOT NULL DEFAULT '',
+  PRIMARY KEY (`metakey`)
+)
+  ENGINE = MyISAM
+  COMMENT = 'Wfdownloads by The SmartFactory <www.smartfactory.ca>';
 
 #
 # Dumping data for table `wfdownloads_meta`
 #
 
-INSERT INTO `wfdownloads_meta` VALUES ('version','3.23');
-
+INSERT INTO `wfdownloads_meta` VALUES ('version', '3.23');
 
 # --------------------------------------------------------
 
@@ -427,19 +441,20 @@ INSERT INTO `wfdownloads_meta` VALUES ('version','3.23');
 #
 
 CREATE TABLE wfdownloads_mirrors (
-    mirror_id int(11) unsigned NOT NULL auto_increment,
-    lid int(11) NOT NULL default '0',
-    title varchar(255) NOT NULL default '',
-    homeurl varchar(100) NOT NULL default '',
-    location varchar(255) NOT NULL default '',
-    continent varchar(255) NOT NULL default '',
-    downurl varchar(255) NOT NULL default '',
-    submit int(11) NOT NULL default '0',
-    date int(11) NOT NULL default '0',
-    uid int(10) NOT NULL default '0',
-    PRIMARY KEY  (mirror_id),
-    KEY categoryid (lid)
-) ENGINE=MyISAM;
+  mirror_id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+  lid       INT(11)          NOT NULL DEFAULT '0',
+  title     VARCHAR(255)     NOT NULL DEFAULT '',
+  homeurl   VARCHAR(100)     NOT NULL DEFAULT '',
+  location  VARCHAR(255)     NOT NULL DEFAULT '',
+  continent VARCHAR(255)     NOT NULL DEFAULT '',
+  downurl   VARCHAR(255)     NOT NULL DEFAULT '',
+  submit    INT(11)          NOT NULL DEFAULT '0',
+  date      INT(11)          NOT NULL DEFAULT '0',
+  uid       INT(10)          NOT NULL DEFAULT '0',
+  PRIMARY KEY (mirror_id),
+  KEY categoryid (lid)
+)
+  ENGINE = MyISAM;
 
 #
 # Dumping data for table `wfdownloads_mirrors`
@@ -450,10 +465,11 @@ CREATE TABLE wfdownloads_mirrors (
 #
 
 CREATE TABLE wfdownloads_ip_log (
-    ip_logid int(11) NOT NULL auto_increment,
-    lid int(11) NOT NULL default '0',
-    uid int(11) NOT NULL default '0',
-    date int(11) NOT NULL default '0',
-    ip_address varchar(20) NOT NULL default '',
-    PRIMARY KEY  (ip_logid)
- ) ENGINE=MyISAM;
+  ip_logid   INT(11)     NOT NULL AUTO_INCREMENT,
+  lid        INT(11)     NOT NULL DEFAULT '0',
+  uid        INT(11)     NOT NULL DEFAULT '0',
+  date       INT(11)     NOT NULL DEFAULT '0',
+  ip_address VARCHAR(20) NOT NULL DEFAULT '',
+  PRIMARY KEY (ip_logid)
+)
+  ENGINE = MyISAM;

@@ -8,8 +8,9 @@
  but WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
+
 /**
- * WfdownloadsUtilities Class
+ * WfdownloadsUtil Class
  *
  * @copyright   XOOPS Project (https://xoops.org)
  * @license     http://www.fsf.org/copyleft/gpl.html GNU public license
@@ -19,15 +20,20 @@
  *
  */
 
-include_once dirname(__DIR__) . '/include/common.php';
+use Xmf\Request;
+
+require_once dirname(__DIR__) . '/include/common.php';
+require_once __DIR__ . '/common/traits.php';
 
 //namespace Wfdownloads;
 
 /**
- * Class WfdownloadsUtilities
+ * Class WfdownloadsUtility
  */
-class WfdownloadsUtilities
+class WfdownloadsUtility
 {
+    use VersionChecks; //checkVerXoops, checkVerPhp
+
     /**
      * Function responsible for checking if a directory exists, we can also write in and create an index.html file
      *
@@ -38,10 +44,12 @@ class WfdownloadsUtilities
     public static function createFolder($folder)
     {
         try {
-            if (!@mkdir($folder) && !is_dir($folder)) {
-                throw new \RuntimeException(sprintf('Unable to create the %s directory', $folder));
-            } else {
-                file_put_contents($folder . '/index.html', '<script>history.go(-1);</script>');
+            if (!file_exists($folder)) {
+                if (!mkdir($folder) && !is_dir($folder)) {
+                    throw new \RuntimeException(sprintf('Unable to create the %s directory', $folder));
+                } else {
+                    file_put_contents($folder . '/index.html', '<script>history.go(-1);</script>');
+                }
             }
         } catch (Exception $e) {
             echo 'Caught exception: ', $e->getMessage(), "\n", '<br>';
@@ -55,8 +63,6 @@ class WfdownloadsUtilities
      */
     public static function copyFile($file, $folder)
     {
-        return copy($file, $folder);
-
         if (is_file($file)) {
             return copy($file, $folder);
         } else {
@@ -185,8 +191,8 @@ class WfdownloadsUtilities
                 $description = substr($description, 0, 100 - 1) . '...';
             }
         }
-        $modify = "<a href='category.php?op=mod&amp;categoryid=" . $categoryObj->categoryid() . '&amp;parentid=' . $categoryObj->parentid() . "'><img src='" . PUBLISHER_URL . "/assets/images/links/edit.gif' title='" . _AM_PUBLISHER_EDITCOL . "' alt='" . _AM_PUBLISHER_EDITCOL . "' /></a>";
-        $delete = "<a href='category.php?op=del&amp;categoryid=" . $categoryObj->categoryid() . "'><img src='" . PUBLISHER_URL . "/assets/images/links/delete.png' title='" . _AM_PUBLISHER_DELETECOL . "' alt='" . _AM_PUBLISHER_DELETECOL . "' /></a>";
+        $modify = "<a href='category.php?op=mod&amp;categoryid=" . $categoryObj->categoryid() . '&amp;parentid=' . $categoryObj->parentid() . "'><img src='" . PUBLISHER_URL . "/assets/images/links/edit.gif' title='" . _AM_PUBLISHER_EDITCOL . "' alt='" . _AM_PUBLISHER_EDITCOL . "'></a>";
+        $delete = "<a href='category.php?op=del&amp;categoryid=" . $categoryObj->categoryid() . "'><img src='" . PUBLISHER_URL . "/assets/images/links/delete.png' title='" . _AM_PUBLISHER_DELETECOL . "' alt='" . _AM_PUBLISHER_DELETECOL . "'></a>";
 
         $spaces = '';
         for ($j = 0; $j < $level; ++$j) {
@@ -195,7 +201,7 @@ class WfdownloadsUtilities
 
         echo '<tr>';
         echo "<td class='even' align='center'>" . $categoryObj->categoryid() . '</td>';
-        echo "<td class='even' align='left'>" . $spaces . "<a href='" . PUBLISHER_URL . '/category.php?categoryid=' . $categoryObj->categoryid() . "'><img src='" . PUBLISHER_URL . "/assets/images/links/subcat.gif' alt='' />&nbsp;" . $categoryObj->name() . '</a></td>';
+        echo "<td class='even' align='left'>" . $spaces . "<a href='" . PUBLISHER_URL . '/category.php?categoryid=' . $categoryObj->categoryid() . "'><img src='" . PUBLISHER_URL . "/assets/images/links/subcat.gif' alt=''>&nbsp;" . $categoryObj->name() . '</a></td>';
         echo "<td class='even' align='center'>" . $categoryObj->weight() . '</td>';
         echo "<td class='even' align='center'> $modify $delete </td>";
         echo '</tr>';
@@ -270,8 +276,8 @@ class WfdownloadsUtilities
             echo '</tr>';
             if ($totalsubs > 0) {
                 foreach ($subcatsObj as $subcat) {
-                    $modify = "<a href='category.php?op=mod&amp;categoryid=" . $subcat->categoryid() . "'><img src='" . XOOPS_URL . '/modules/' . $publisher->getModule()->dirname() . "/assets/images/links/edit.gif' title='" . _AM_PUBLISHER_MODIFY . "' alt='" . _AM_PUBLISHER_MODIFY . "' /></a>";
-                    $delete = "<a href='category.php?op=del&amp;categoryid=" . $subcat->categoryid() . "'><img src='" . XOOPS_URL . '/modules/' . $publisher->getModule()->dirname() . "/assets/images/links/delete.png' title='" . _AM_PUBLISHER_DELETE . "' alt='" . _AM_PUBLISHER_DELETE . "' /></a>";
+                    $modify = "<a href='category.php?op=mod&amp;categoryid=" . $subcat->categoryid() . "'><img src='" . XOOPS_URL . '/modules/' . $publisher->getModule()->dirname() . "/assets/images/links/edit.gif' title='" . _AM_PUBLISHER_MODIFY . "' alt='" . _AM_PUBLISHER_MODIFY . "'></a>";
+                    $delete = "<a href='category.php?op=del&amp;categoryid=" . $subcat->categoryid() . "'><img src='" . XOOPS_URL . '/modules/' . $publisher->getModule()->dirname() . "/assets/images/links/delete.png' title='" . _AM_PUBLISHER_DELETE . "' alt='" . _AM_PUBLISHER_DELETE . "'></a>";
                     echo '<tr>';
                     echo "<td class='head' align='left'>" . $subcat->categoryid() . '</td>';
                     echo "<td class='even' align='left'><a href='" . XOOPS_URL . '/modules/' . $publisher->getModule()->dirname() . '/category.php?categoryid=' . $subcat->categoryid() . '&amp;parentid=' . $subcat->parentid() . "'>" . $subcat->name() . '</a></td>';
@@ -290,7 +296,7 @@ class WfdownloadsUtilities
             publisherCloseCollapsableBar('subcatstable', 'subcatsicon');
 
             publisherOpenCollapsableBar('bottomtable', 'bottomtableicon', _AM_PUBLISHER_CAT_ITEMS, _AM_PUBLISHER_CAT_ITEMS_DSC);
-            $startitem = XoopsRequest::getInt('startitem');
+            $startitem = Request::getInt('startitem');
             // Get the total number of published ITEMS
             $totalitems = $publisher->getHandler('item')->getItemsCount($selCat, array(WfdownloadsConstants::PUBLISHER_STATUS_PUBLISHED));
             // creating the items objects that are published
@@ -308,9 +314,18 @@ class WfdownloadsUtilities
             if ($totalitems > 0) {
                 for ($i = 0; $i < $totalitemsOnPage; ++$i) {
                     $categoryObj = $allcats[$itemsObj[$i]->categoryid()];
-                    $modify      = "<a href='item.php?op=mod&amp;itemid=" . $itemsObj[$i]->itemid() . "'><img src='" . XOOPS_URL . '/modules/' . $publisher->getModule()->dirname() . "/assets/images/links/edit.gif' title='" . _AM_PUBLISHER_EDITITEM . "' alt='" . _AM_PUBLISHER_EDITITEM . "' /></a>";
-                    $delete      =
-                        "<a href='item.php?op=del&amp;itemid=" . $itemsObj[$i]->itemid() . "'><img src='" . XOOPS_URL . '/modules/' . $publisher->getModule()->dirname() . "/assets/images/links/delete.png' title='" . _AM_PUBLISHER_DELETEITEM . "' alt='" . _AM_PUBLISHER_DELETEITEM . "'/></a>";
+                    $modify      = "<a href='item.php?op=mod&amp;itemid=" . $itemsObj[$i]->itemid() . "'><img src='" . XOOPS_URL . '/modules/' . $publisher->getModule()->dirname() . "/assets/images/links/edit.gif' title='" . _AM_PUBLISHER_EDITITEM . "' alt='" . _AM_PUBLISHER_EDITITEM . "'></a>";
+                    $delete      = "<a href='item.php?op=del&amp;itemid="
+                                   . $itemsObj[$i]->itemid()
+                                   . "'><img src='"
+                                   . XOOPS_URL
+                                   . '/modules/'
+                                   . $publisher->getModule()->dirname()
+                                   . "/assets/images/links/delete.png' title='"
+                                   . _AM_PUBLISHER_DELETEITEM
+                                   . "' alt='"
+                                   . _AM_PUBLISHER_DELETEITEM
+                                   . "'></a>";
                     echo '<tr>';
                     echo "<td class='head' align='center'>" . $itemsObj[$i]->itemid() . '</td>';
                     echo "<td class='even' align='left'>" . $categoryObj->name() . '</td>';
@@ -327,7 +342,7 @@ class WfdownloadsUtilities
             }
             echo "</table>\n";
             echo "<br>\n";
-            $parentid         = XoopsRequest::getInt('parentid', 0, 'GET');
+            $parentid         = Request::getInt('parentid', 0, 'GET');
             $pagenavExtraArgs = "op=mod&categoryid=$selCat&parentid=$parentid";
             xoops_load('XoopsPageNav');
             $pagenav = new XoopsPageNav($totalitems, $publisher->getConfig('idxcat_perpage'), $startitem, 'startitem', $pagenavExtraArgs);
@@ -349,7 +364,7 @@ class WfdownloadsUtilities
     /**
      * This function transforms a numerical size (like 2048) to a letteral size (like 2MB)
      *
-     * @param integer $bytes     numerical size
+     * @param integer $bytes numerical size
      * @param integer $precision
      *
      * @return string letteral size
@@ -424,7 +439,7 @@ class WfdownloadsUtilities
      * It's recursive because it doesn't stop with the one directory,
      * it just keeps going through all of the directories in the folder you specify.
      *
-     * @param string $path  path to the directory to make
+     * @param string $path path to the directory to make
      * @param int    $level
      *
      * @return array
@@ -455,6 +470,7 @@ class WfdownloadsUtilities
             }
         }
         closedir($dirHandler);
+
         // close the directory handle
         return $ret;
     }
@@ -499,7 +515,7 @@ class WfdownloadsUtilities
         $dir   = opendir($path);
         while (false !== ($file = readdir($dir))) {
             if (is_file($path . $file)) {
-                if ($file !== '.' && $file !== '..' && $file !== 'blank.gif' && $file !== 'index.html') {
+                if ($file !== '.' && $file !== '..' && $file !== 'blank.png' && $file !== 'index.html') {
                     $files[] = $file;
                 }
             }
@@ -598,7 +614,7 @@ class WfdownloadsUtilities
             if (!is_dir($dir)) {
                 return unlink($dir);
             }
-            foreach (scandir($dir) as $item) {
+            foreach (scandir($dir, SCANDIR_SORT_NONE) as $item) {
                 if ($item === '.' || $item === '..') {
                     continue;
                 }
@@ -711,7 +727,7 @@ class WfdownloadsUtilities
         }
         // Render output
         if (!isset($GLOBALS['xoTheme']) || !is_object($GLOBALS['xoTheme'])) {
-            include_once $GLOBALS['xoops']->path('/class/theme.php');
+            require_once $GLOBALS['xoops']->path('/class/theme.php');
             $GLOBALS['xoTheme'] = new xos_opal_Theme();
         }
         require_once $GLOBALS['xoops']->path('class/template.php');
@@ -925,6 +941,7 @@ class WfdownloadsUtilities
     }
 
     // TODO : The SEO feature is not fully implemented in the module...
+
     /**
      * @param        $op
      * @param        $id
@@ -1011,7 +1028,9 @@ class WfdownloadsUtilities
         $wfdownloads = WfdownloadsWfdownloads::getInstance();
 
         $isSubmissionAllowed = false;
-        if (is_object($GLOBALS['xoopsUser']) && ($wfdownloads->getConfig('submissions') == _WFDOWNLOADS_SUBMISSIONS_DOWNLOAD || $wfdownloads->getConfig('submissions') == _WFDOWNLOADS_SUBMISSIONS_BOTH)) {
+        if (is_object($GLOBALS['xoopsUser'])
+            && ($wfdownloads->getConfig('submissions') == _WFDOWNLOADS_SUBMISSIONS_DOWNLOAD
+                || $wfdownloads->getConfig('submissions') == _WFDOWNLOADS_SUBMISSIONS_BOTH)) {
             $groups = $GLOBALS['xoopsUser']->getGroups();
             if (count(array_intersect($wfdownloads->getConfig('submitarts'), $groups)) > 0) {
                 $isSubmissionAllowed = true;
@@ -1022,7 +1041,7 @@ class WfdownloadsUtilities
         $toolbar = '[ ';
         if ($isSubmissionAllowed === true) {
             $category_suffix = !empty($_GET['cid']) ? '?cid=' . (int)$_GET['cid'] : ''; //Added by Lankford
-            $toolbar .= "<a href='submit.php{$category_suffix}'>" . _MD_WFDOWNLOADS_SUBMITDOWNLOAD . '</a> | ';
+            $toolbar         .= "<a href='submit.php{$category_suffix}'>" . _MD_WFDOWNLOADS_SUBMITDOWNLOAD . '</a> | ';
         }
         $toolbar .= "<a href='newlist.php'>" . _MD_WFDOWNLOADS_LATESTLIST . '</a>';
         $toolbar .= ' | ';
@@ -1044,10 +1063,10 @@ class WfdownloadsUtilities
     public static function serverStats()
     {
         //mb    $wfdownloads = WfdownloadsWfdownloads::getInstance();
-        $html = '';
-        $sql  = 'SELECT metavalue';
-        $sql .= ' FROM ' . $GLOBALS['xoopsDB']->prefix('wfdownloads_meta');
-        $sql .= " WHERE metakey='version' LIMIT 1";
+        $html  = '';
+        $sql   = 'SELECT metavalue';
+        $sql   .= ' FROM ' . $GLOBALS['xoopsDB']->prefix('wfdownloads_meta');
+        $sql   .= " WHERE metakey='version' LIMIT 1";
         $query = $GLOBALS['xoopsDB']->query($sql);
         list($meta) = $GLOBALS['xoopsDB']->fetchRow($query);
         $html .= "<fieldset><legend style='font-weight: bold; color: #900;'>" . _AM_WFDOWNLOADS_DOWN_IMAGEINFO . "</legend>\n";
@@ -1059,7 +1078,7 @@ class WfdownloadsUtilities
         $html .= "<ul>\n";
         //
         $gdlib = function_exists('gd_info') ? "<span style=\"color: green;\">" . _AM_WFDOWNLOADS_DOWN_GDON . '</span>' : "<span style=\"color: red;\">" . _AM_WFDOWNLOADS_DOWN_GDOFF . '</span>';
-        $html .= '<li>' . _AM_WFDOWNLOADS_DOWN_GDLIBSTATUS . $gdlib;
+        $html  .= '<li>' . _AM_WFDOWNLOADS_DOWN_GDLIBSTATUS . $gdlib;
         if (function_exists('gd_info')) {
             if (true === $gdlib = gd_info()) {
                 $html .= '<li>' . _AM_WFDOWNLOADS_DOWN_GDLIBVERSION . '<b>' . $gdlib['GD Version'] . '</b>';
@@ -1073,7 +1092,7 @@ class WfdownloadsUtilities
         //    $html .= '<li>' . _AM_WFDOWNLOADS_DOWN_REGISTERGLOBALS . $registerglobals;
         //
         $downloads = ini_get('file_uploads') ? "<span style=\"color: green;\">" . _AM_WFDOWNLOADS_DOWN_ON . '</span>' : "<span style=\"color: red;\">" . _AM_WFDOWNLOADS_DOWN_OFF . '</span>';
-        $html .= '<li>' . _AM_WFDOWNLOADS_DOWN_SERVERUPLOADSTATUS . $downloads;
+        $html      .= '<li>' . _AM_WFDOWNLOADS_DOWN_SERVERUPLOADSTATUS . $downloads;
         //
         $html .= '<li>' . _AM_WFDOWNLOADS_DOWN_MAXUPLOADSIZE . " <b><span style=\"color: blue;\">" . ini_get('upload_max_filesize') . "</span></b>\n";
         $html .= '<li>' . _AM_WFDOWNLOADS_DOWN_MAXPOSTSIZE . " <b><span style=\"color: blue;\">" . ini_get('post_max_size') . "</span></b>\n";
@@ -1112,14 +1131,14 @@ class WfdownloadsUtilities
             if ($newdate < $time) {
                 if ((int)$status > _WFDOWNLOADS_STATUS_APPROVED) {
                     if ($wfdownloads->getConfig('displayicons') == _WFDOWNLOADS_DISPLAYICONS_ICON) {
-                        $new = '&nbsp;<img src=' . XOOPS_URL . '/modules/' . WFDOWNLOADS_DIRNAME . "/assets/images/icon/update.gif alt='' align ='absmiddle'/>";
+                        $new = '&nbsp;<img src=' . XOOPS_URL . '/modules/' . WFDOWNLOADS_DIRNAME . "/assets/images/icon/update.gif alt='' align ='absmiddle'>";
                     }
                     if ($wfdownloads->getConfig('displayicons') == _WFDOWNLOADS_DISPLAYICONS_TEXT) {
                         $new = '<i>' . _WFDOWNLOADS_MD_UPDATED . '</i>';
                     }
                 } else {
                     if ($wfdownloads->getConfig('displayicons') == _WFDOWNLOADS_DISPLAYICONS_ICON) {
-                        $new = '&nbsp;<img src=' . XOOPS_URL . '/modules/' . WFDOWNLOADS_DIRNAME . "/assets/images/icon/newred.gif alt='' align ='absmiddle'/>";
+                        $new = '&nbsp;<img src=' . XOOPS_URL . '/modules/' . WFDOWNLOADS_DIRNAME . "/assets/images/icon/newred.gif alt='' align ='absmiddle'>";
                     }
                     if ($wfdownloads->getConfig('displayicons') == _WFDOWNLOADS_DISPLAYICONS_TEXT) {
                         $new = '<i>' . _WFDOWNLOADS_MD_NEW . '</i>';
@@ -1129,7 +1148,7 @@ class WfdownloadsUtilities
             if ($popdate < $time) {
                 if ($counter >= $wfdownloads->getConfig('popular')) {
                     if ($wfdownloads->getConfig('displayicons') == _WFDOWNLOADS_DISPLAYICONS_ICON) {
-                        $pop = '&nbsp;<img src =' . XOOPS_URL . '/modules/' . WFDOWNLOADS_DIRNAME . "/assets/images/icon/pop.gif alt='' align ='absmiddle'/>";
+                        $pop = '&nbsp;<img src =' . XOOPS_URL . '/modules/' . WFDOWNLOADS_DIRNAME . "/assets/images/icon/pop.gif alt='' align ='absmiddle'>";
                     }
                     if ($wfdownloads->getConfig('displayicons') == _WFDOWNLOADS_DISPLAYICONS_TEXT) {
                         $pop = '<i>' . _WFDOWNLOADS_MD_POPULAR . '</i>';
@@ -1387,12 +1406,12 @@ class WfdownloadsUtilities
         }
         // checks to see if the file is valid else displays default blank image
         if (!is_dir(XOOPS_ROOT_PATH . "/{$imgSource}/{$image}") && file_exists(XOOPS_ROOT_PATH . "/{$imgSource}/{$image}")) {
-            $showImage .= "<img src='" . XOOPS_URL . "/{$imgSource}/{$image}' border='0' alt='{$altText}' />";
+            $showImage .= "<img src='" . XOOPS_URL . "/{$imgSource}/{$image}' border='0' alt='{$altText}'>";
         } else {
             if ($GLOBALS['xoopsUser'] && $GLOBALS['xoopsUser']->isAdmin($wfdownloads->getModule()->mid())) {
-                $showImage .= "<img src='" . XOOPS_URL . '/modules/' . WFDOWNLOADS_DIRNAME . "/assets/images/brokenimg.png' alt='" . _MD_WFDOWNLOADS_ISADMINNOTICE . "' />";
+                $showImage .= "<img src='" . XOOPS_URL . '/modules/' . WFDOWNLOADS_DIRNAME . "/assets/images/brokenimg.png' alt='" . _MD_WFDOWNLOADS_ISADMINNOTICE . "'>";
             } else {
-                $showImage .= "<img src='" . XOOPS_URL . '/modules/' . WFDOWNLOADS_DIRNAME . "/assets/images/blank.gif' alt='{$altText}' />";
+                $showImage .= "<img src='" . XOOPS_URL . '/modules/' . WFDOWNLOADS_DIRNAME . "/assets/images/blank.png' alt='{$altText}'>";
             }
         }
         if ($href) {
@@ -1689,8 +1708,16 @@ class WfdownloadsUtilities
      *
      * @return array
      **/
-    public static function uploading($filename, $uploadDirectory = 'uploads', $allowedMimetypes = array(), $redirectURL = 'index.php', $num = 0, $redirect = false, $isAdmin = true, $onlyImages = false)
-    {
+    public static function uploading(
+        $filename,
+        $uploadDirectory = 'uploads',
+        $allowedMimetypes = array(),
+        $redirectURL = 'index.php',
+        $num = 0,
+        $redirect = false,
+        $isAdmin = true,
+        $onlyImages = false
+    ) {
         $wfdownloads = WfdownloadsWfdownloads::getInstance();
         $file        = array();
         if (empty($allowedMimetypes)) {
@@ -1701,7 +1728,7 @@ class WfdownloadsUtilities
             redirect_header($redirectURL, 4, $errors);
         }
         $uploadDirectory .= '/';
-        $file_name = $_FILES['userfile']['name'];
+        $file_name       = $_FILES['userfile']['name'];
         //Admin can upload files of any size
         if (self::userIsAdmin()) {
             $maxFileSize = self::returnBytes(ini_get('upload_max_filesize'));
@@ -1712,11 +1739,11 @@ class WfdownloadsUtilities
         $maxImageHeight = $wfdownloads->getConfig('maximgheight');
         // TODO: use Xoops XoopsMediaUploader class
         if ($onlyImages) {
-            include_once XOOPS_ROOT_PATH . '/modules/wfdownloads/class/img_uploader.php';
+            require_once XOOPS_ROOT_PATH . '/modules/wfdownloads/class/img_uploader.php';
             //xoops_load('XoopsMediaUploader');
             $uploader = new XoopsMediaImgUploader($uploadDirectory, $allowedMimetypes, $maxFileSize, $maxImageWidth, $maxImageHeight);
         } else {
-            include_once XOOPS_ROOT_PATH . '/class/uploader.php';
+            require_once XOOPS_ROOT_PATH . '/class/uploader.php';
             //xoops_load('XoopsMediaUploader');
             $uploader = new XoopsMediaUploader($uploadDirectory, $allowedMimetypes, $maxFileSize, $maxImageWidth, $maxImageHeight);
         }
@@ -1985,7 +2012,7 @@ class WfdownloadsUtilities
                     // maximum lenght is reached, so get off the loop
                     break;
                 } else {
-                    $truncate .= $line_matchings[2];
+                    $truncate     .= $line_matchings[2];
                     $total_length += $content_length;
                 }
                 // if the maximum length is reached, get off the loop
@@ -2022,6 +2049,7 @@ class WfdownloadsUtilities
     }
 
     // Swish-e support EXPERIMENTAL
+
     /**
      * php4swish-e 1.1, a web search interface for the swish-e search engine.
      * swish-e is a popular open-source search engine that runs on many platforms.
@@ -2160,7 +2188,7 @@ class WfdownloadsUtilities
             $swisheCommand       = "{$swisheExePath}/swish-e"; // path of swish-e command
             $swisheIndexFilePath = "{$swisheDocPath}/index.swish-e"; // path of swish-e index file
             $swisheSearchParams  = ''; // Additional search parameters
-            $swisheSearchParams .= '-H1'; // -H1 : print standard result header (default).
+            $swisheSearchParams  .= '-H1'; // -H1 : print standard result header (default).
             if ($wfdownloads->getConfig('swishe_search_limit') != 0) {
                 $swisheSearchParams .= " -m{$wfdownloads->getConfig('swishe_search_limit')}"; // -m *number* (max results)
             }
@@ -2199,7 +2227,7 @@ class WfdownloadsUtilities
                     $line    = preg_replace('/[[:blank:]]/', "\t", $line); // replace every space with a tab
 
                     list($relevance, $result_url, $result_title, $file_size) = explode("\t", $line); // split the line into an array by tabs; assign variable names to each column
-                    $relevance /= 10; // format relevance as a percentage for search results
+                    $relevance          /= 10; // format relevance as a percentage for search results
                     $full_path_and_file = $result_url;
                     $result_url         = trim(substr($result_url, $swisheDocPath_strlen - 1, strlen($result_url)));
                     $file_path          = strright($result_url, strlen($result_url) - 2);
@@ -2222,5 +2250,4 @@ class WfdownloadsUtilities
     // Swish-e support EXPERIMENTAL
 
     // ===========================================================
-
 }

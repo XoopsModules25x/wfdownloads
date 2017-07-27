@@ -12,7 +12,7 @@
     </p>
 
     <p>
-        <img src="<{xoModuleIcons16 delete.png}>" title="<{$smarty.const._DELETE}>" alt="<{$smarty.const._DELETE}>"/>
+        <img src="<{xoModuleIcons16 delete.png}>" title="<{$smarty.const._DELETE}>" alt="<{$smarty.const._DELETE}>">
         <{$smarty.const._AM_WFDOWNLOADS_VOTE_DELETEDSC}>
     </p>
 </fieldset>
@@ -45,7 +45,7 @@
             <td class='even' align='center'>
                 <a href='?op=vote.delete&amp;lid=<{$rating.lid}>&amp;rid=<{$rating.rid}>'><img src="<{xoModuleIcons16 delete.png}>"
                                                                                                title="<{$smarty.const._DELETE}>"
-                                                                                               alt="<{$smarty.const._DELETE}>"/></a>
+                                                                                               alt="<{$smarty.const._DELETE}>"></a>
             </td>
         </tr>
         <{/foreach}>

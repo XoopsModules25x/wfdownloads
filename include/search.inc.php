@@ -18,7 +18,7 @@
  * @author          Xoops Development Team
  */
 defined('XOOPS_ROOT_PATH') || die('XOOPS root path not defined');
-include_once __DIR__ . '/../include/common.php';
+require_once __DIR__ . '/../include/common.php';
 /**
  * @param        $queryArray
  * @param        $andor
@@ -109,7 +109,7 @@ function wfdownloads_search(
         of the results is returned.  If OR is in effect, then all results are returned.
         */
         // Determine what the custom forms are that need searching, if any
-        if (WfdownloadsUtilities::checkModule('formulize')) {
+        if (WfdownloadsUtility::checkModule('formulize')) {
             $fids = array();
             foreach ($allowedDownCategoriesIds as $cid) {
                 $categoryObj = $wfdownloads->getHandler('category')->get($cid);
@@ -148,12 +148,12 @@ function wfdownloads_search(
             $saved_ids = array();
 
             // Find all IDs of entries in all custom forms which match the current term
-            if (WfdownloadsUtilities::checkModule('formulize')) {
+            if (WfdownloadsUtility::checkModule('formulize')) {
                 foreach ($fids as $fid) {
                     if (!isset($formulizeElementsHandler)) {
                         $formulizeElementsHandler = xoops_getModuleHandler('elements', 'formulize');
                     }
-                    include_once XOOPS_ROOT_PATH . '/modules/formulize/include/extract.php';
+                    require_once XOOPS_ROOT_PATH . '/modules/formulize/include/extract.php';
                     // Setup the filter string based on the elements in the form and the current query term
                     $formulizeElements = $formulizeElementsHandler->getObjects2($formulizeElementCriteria, $fid);
                     $filter_string     = '';
@@ -254,7 +254,7 @@ function wfdownloads_search(
 
     /*
         // Swish-e support EXPERIMENTAL
-        if (($wfdownloads->getConfig('enable_swishe') === true) && WfdownloadsUtilities::swishe_check() === true) {
+        if (($wfdownloads->getConfig('enable_swishe') === true) && WfdownloadsUtility::swishe_check() === true) {
     // IN PROGRESS
             $swisheCriteria = new CriteriaCompo(new Criteria('cid', '(' . implode(',', $allowedDownCategoriesIds) . ')', 'IN'));
             if ($userId != 0) {
@@ -268,7 +268,7 @@ function wfdownloads_search(
                 $swisheQueryWords = '';
             }
             if (strlen($swisheQueryWords) > 0) {
-                $swisheSearchResults = WfdownloadsUtilities::swishe_search($swisheQueryWords);
+                $swisheSearchResults = WfdownloadsUtility::swishe_search($swisheQueryWords);
                 foreach ($swisheSearchResults as $swisheSearchResult) {
                     $tempSwisheCriteria = clone($swisheCriteria);
                     $tempSwisheCriteria->add(new Criteria('filename', $swisheSearchResult['file_path']));

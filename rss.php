@@ -18,7 +18,7 @@
  * @author          Xoops Development Team
  */
 $currentFile = basename(__FILE__);
-include_once __DIR__ . '/header.php';
+require_once __DIR__ . '/header.php';
 
 if (function_exists('mb_http_output')) {
     mb_http_output('pass');
@@ -30,7 +30,7 @@ header('Content-Type:text/xml; charset=utf-8');
 $GLOBALS['xoopsOption']['template_main'] = 'system_' . $feed_type . '.tpl';
 error_reporting(0);
 
-include_once XOOPS_ROOT_PATH . '/class/template.php';
+require_once XOOPS_ROOT_PATH . '/class/template.php';
 $xoopsTpl = new XoopsTpl();
 
 // Find case

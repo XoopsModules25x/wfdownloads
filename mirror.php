@@ -8,6 +8,7 @@
  but WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
+
 /**
  * Wfdownloads module
  *
@@ -17,15 +18,18 @@
  * @since           3.23
  * @author          Xoops Development Team
  */
-$currentFile = basename(__FILE__);
-include_once __DIR__ . '/header.php';
 
-$lid         = XoopsRequest::getInt('lid', 0);
+use Xmf\Request;
+
+$currentFile = basename(__FILE__);
+require_once __DIR__ . '/header.php';
+
+$lid         = Request::getInt('lid', 0);
 $downloadObj = $wfdownloads->getHandler('download')->get($lid);
 if (empty($downloadObj)) {
     redirect_header('index.php', 3, _CO_WFDOWNLOADS_ERROR_NODOWNLOAD);
 }
-$cid         = XoopsRequest::getInt('cid', $downloadObj->getVar('cid'));
+$cid         = Request::getInt('cid', $downloadObj->getVar('cid'));
 $categoryObj = $wfdownloads->getHandler('category')->get($cid);
 if (empty($categoryObj)) {
     redirect_header('index.php', 3, _CO_WFDOWNLOADS_ERROR_NOCATEGORY);
@@ -36,13 +40,12 @@ if ($downloadObj->getVar('published') == 0 || $downloadObj->getVar('published') 
     || $downloadObj->getVar('offline') === true
     || ($downloadObj->getVar('expired') != 0
         && $downloadObj->getVar('expired') < time())
-    || $downloadObj->getVar('status') == _WFDOWNLOADS_STATUS_WAITING
-) {
+    || $downloadObj->getVar('status') == _WFDOWNLOADS_STATUS_WAITING) {
     redirect_header('index.php', 3, _MD_WFDOWNLOADS_NODOWNLOAD);
 }
 
 // Check permissions
-if ($wfdownloads->getConfig('enable_mirrors') === false && !WfdownloadsUtilities::userIsAdmin()) {
+if ($wfdownloads->getConfig('enable_mirrors') === false && !WfdownloadsUtility::userIsAdmin()) {
     redirect_header('index.php', 3, _NOPERM);
 }
 $userGroups = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : array(0 => XOOPS_GROUP_ANONYMOUS);
@@ -51,7 +54,7 @@ if (!$gpermHandler->checkRight('WFDownCatPerm', $cid, $userGroups, $wfdownloads-
 }
 
 // Breadcrumb
-include_once XOOPS_ROOT_PATH . '/class/tree.php';
+require_once XOOPS_ROOT_PATH . '/class/tree.php';
 $categoryObjsTree = new XoopsObjectTree($wfdownloads->getHandler('category')->getObjects(), 'cid', 'pid');
 $breadcrumb       = new WfdownloadsBreadcrumb();
 $breadcrumb->addLink($wfdownloads->getModule()->getVar('name'), WFDOWNLOADS_URL);
@@ -61,14 +64,14 @@ foreach (array_reverse($categoryObjsTree->getAllParent($cid)) as $parentCategory
 $breadcrumb->addLink($categoryObj->getVar('title'), "viewcat.php?cid={$cid}");
 $breadcrumb->addLink($downloadObj->getVar('title'), "singlefile.php?lid={$lid}");
 
-$op = XoopsRequest::getString('op', 'mirror.add');
+$op = Request::getString('op', 'mirror.add');
 switch ($op) {
     case 'mirrors.list':
     case 'list': // this case is not removed for backward compatibility issues
-        $start = XoopsRequest::getInt('start', 0);
+        $start = Request::getInt('start', 0);
 
         $GLOBALS['xoopsOption']['template_main'] = "{$wfdownloads->getModule()->dirname()}_mirrors.tpl";
-        include_once XOOPS_ROOT_PATH . '/header.php';
+        require_once XOOPS_ROOT_PATH . '/header.php';
 
         $xoTheme->addScript(XOOPS_URL . '/browse.php?Frameworks/jquery/jquery.js');
         $xoTheme->addScript(WFDOWNLOADS_URL . '/assets/js/magnific/jquery.magnific-popup.min.js');
@@ -80,7 +83,7 @@ switch ($op) {
         // Generate content header
         $sql                     = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('wfdownloads_indexpage') . ' ';
         $head_arr                = $GLOBALS['xoopsDB']->fetchArray($GLOBALS['xoopsDB']->query($sql));
-        $catarray['imageheader'] = WfdownloadsUtilities::headerImage();
+        $catarray['imageheader'] = WfdownloadsUtility::headerImage();
         $xoopsTpl->assign('catarray', $catarray);
         $xoopsTpl->assign('category_path', $wfdownloads->getHandler('category')->getNicePath($cid));
         $xoopsTpl->assign('category_id', $cid);
@@ -108,14 +111,12 @@ switch ($op) {
             && ($wfdownloads->getConfig('anonpost') == _WFDOWNLOADS_ANONPOST_MIRROR
                 || $wfdownloads->getConfig('anonpost') == _WFDOWNLOADS_ANONPOST_BOTH)
             && ($wfdownloads->getConfig('submissions') == _WFDOWNLOADS_SUBMISSIONS_MIRROR
-                || $wfdownloads->getConfig('submissions') == _WFDOWNLOADS_SUBMISSIONS_BOTH)
-        ) {
+                || $wfdownloads->getConfig('submissions') == _WFDOWNLOADS_SUBMISSIONS_BOTH)) {
             $add_mirror = true;
         } elseif (is_object($GLOBALS['xoopsUser'])
                   && ($wfdownloads->getConfig('submissions') == _WFDOWNLOADS_SUBMISSIONS_MIRROR
                       || $wfdownloads->getConfig('submissions') == _WFDOWNLOADS_SUBMISSIONS_BOTH
-                      || $GLOBALS['xoopsUser']->isAdmin())
-        ) {
+                      || $GLOBALS['xoopsUser']->isAdmin())) {
             $add_mirror = true;
         }
 
@@ -123,7 +124,7 @@ switch ($op) {
             $mirror_array = $mirrorObj->toArray();
             if ($wfdownloads->getConfig('enable_onlinechk') == 1) {
                 $serverURL                = str_replace('http://', '', trim($mirror_array['homeurl']));
-                $mirror_array['isonline'] = WfdownloadsUtilities::mirrorOnline($serverURL);
+                $mirror_array['isonline'] = WfdownloadsUtility::mirrorOnline($serverURL);
             } else {
                 $mirror_array['isonline'] = 2;
             }
@@ -134,15 +135,15 @@ switch ($op) {
         }
         $xoopsTpl->assign('lang_mirror_found', sprintf(_MD_WFDOWNLOADS_MIRROR_TOTAL, $mirrorsCount));
 
-        include_once XOOPS_ROOT_PATH . '/class/pagenav.php';
+        require_once XOOPS_ROOT_PATH . '/class/pagenav.php';
         $pagenav          = new XoopsPageNav($mirrorsCount, 5, $start, 'start', "op=mirrors.list&amp;cid={$cid}&amp;lid={$lid}", 1);
         $navbar['navbar'] = $pagenav->renderNav();
         $xoopsTpl->assign('navbar', $navbar);
 
         $xoopsTpl->assign('categoryPath', $pathstring . ' > ' . $download_array['title']);
-        $xoopsTpl->assign('module_home', WfdownloadsUtilities::moduleHome(true));
+        $xoopsTpl->assign('module_home', WfdownloadsUtility::moduleHome(true));
 
-        include_once __DIR__ . '/footer.php';
+        require_once __DIR__ . '/footer.php';
         break;
 
     case 'mirror.add':
@@ -150,16 +151,14 @@ switch ($op) {
         // Check if ANONYMOUS user can post mirrors
         if (!is_object($GLOBALS['xoopsUser'])
             && ($wfdownloads->getConfig('anonpost') == _WFDOWNLOADS_ANONPOST_NONE
-                || $wfdownloads->getConfig('anonpost') == _WFDOWNLOADS_ANONPOST_DOWNLOAD)
-        ) {
+                || $wfdownloads->getConfig('anonpost') == _WFDOWNLOADS_ANONPOST_DOWNLOAD)) {
             redirect_header(XOOPS_URL . '/user.php', 1, _MD_WFDOWNLOADS_MUSTREGFIRST);
         }
         // Check if user can submit mirrors
         if (is_object($GLOBALS['xoopsUser'])
             && ($wfdownloads->getConfig('submissions') == _WFDOWNLOADS_SUBMISSIONS_NONE
                 || $wfdownloads->getConfig('submissions') == _WFDOWNLOADS_SUBMISSIONS_DOWNLOAD)
-            && !$GLOBALS['xoopsUser']->isAdmin()
-        ) {
+            && !$GLOBALS['xoopsUser']->isAdmin()) {
             redirect_header('index.php', 1, _MD_WFDOWNLOADS_MIRROR_NOTALLOWESTOSUBMIT);
         }
 
@@ -190,7 +189,7 @@ switch ($op) {
                 redirect_header('index.php', 2, $database_mess);
             }
         } else {
-            include_once XOOPS_ROOT_PATH . '/header.php';
+            require_once XOOPS_ROOT_PATH . '/header.php';
 
             $xoTheme->addScript(XOOPS_URL . '/browse.php?Frameworks/jquery/jquery.js');
             $xoTheme->addScript(WFDOWNLOADS_URL . '/assets/js/magnific/jquery.magnific-popup.min.js');
@@ -203,12 +202,12 @@ switch ($op) {
             $breadcrumb->addLink(_MD_WFDOWNLOADS_ADDMIRROR, '');
             echo $breadcrumb->render();
 
-            echo "<div align='center'>" . WfdownloadsUtilities::headerImage() . "</div><br>\n";
+            echo "<div align='center'>" . WfdownloadsUtility::headerImage() . "</div><br>\n";
             echo '<div>' . _MD_WFDOWNLOADS_MIRROR_SNEWMNAMEDESC . "</div>\n";
 
             // Generate form
-            include_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
-            $sform      = new XoopsThemeForm(_MD_WFDOWNLOADS_MIRROR_SUBMITMIRROR, 'mirrorform', xoops_getenv('PHP_SELF'));
+            require_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
+            $sform      = new XoopsThemeForm(_MD_WFDOWNLOADS_MIRROR_SUBMITMIRROR, 'mirrorform', xoops_getenv('PHP_SELF'), 'post', true);
             $title_text = new XoopsFormText(_MD_WFDOWNLOADS_MIRROR_HOMEURLTITLE, 'title', 50, 255);
             $title_text->setDescription(_MD_WFDOWNLOADS_MIRROR_HOMEURLTITLE_DESC);
             $sform->addElement($title_text, true);
@@ -243,7 +242,7 @@ switch ($op) {
             $button_tray->addElement($cancel_button);
             $sform->addElement($button_tray);
             $sform->display();
-            include_once __DIR__ . '/footer.php';
+            require_once __DIR__ . '/footer.php';
         }
         break;
 }

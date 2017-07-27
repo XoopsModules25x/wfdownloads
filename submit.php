@@ -8,6 +8,7 @@
  but WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
+
 /**
  * Wfdownloads module
  *
@@ -17,15 +18,17 @@
  * @since           3.23
  * @author          Xoops Development Team
  */
+
+use Xmf\Request;
+
 $currentFile = basename(__FILE__);
-include_once __DIR__ . '/header.php';
+require_once __DIR__ . '/header.php';
 
 // Check if submissions are allowed
 $isSubmissionAllowed = false;
 if (is_object($GLOBALS['xoopsUser'])
     && ($wfdownloads->getConfig('submissions') == _WFDOWNLOADS_SUBMISSIONS_DOWNLOAD
-        || $wfdownloads->getConfig('submissions') == _WFDOWNLOADS_SUBMISSIONS_BOTH)
-) {
+        || $wfdownloads->getConfig('submissions') == _WFDOWNLOADS_SUBMISSIONS_BOTH)) {
     // if user is a registered user
     $groups = $GLOBALS['xoopsUser']->getGroups();
     if (count(array_intersect($wfdownloads->getConfig('submitarts'), $groups)) > 0) {
@@ -35,8 +38,7 @@ if (is_object($GLOBALS['xoopsUser'])
     // if user is ANONYMOUS
     if (!is_object($GLOBALS['xoopsUser'])
         && ($wfdownloads->getConfig('anonpost') == _WFDOWNLOADS_ANONPOST_DOWNLOAD
-            || $wfdownloads->getConfig('anonpost') == _WFDOWNLOADS_ANONPOST_BOTH)
-    ) {
+            || $wfdownloads->getConfig('anonpost') == _WFDOWNLOADS_ANONPOST_BOTH)) {
         $isSubmissionAllowed = true;
     } else {
         redirect_header(XOOPS_URL . '/user.php', 5, _MD_WFDOWNLOADS_MUSTREGFIRST);
@@ -57,11 +59,11 @@ if (is_object($GLOBALS['xoopsUser']) && !$GLOBALS['xoopsUser']->isAdmin()) {
     }
 }
 
-$lid    = XoopsRequest::getInt('lid', 0);
-$cid    = XoopsRequest::getInt('cid', 0);
-$agreed = XoopsRequest::getBool('agreed', false, 'POST');
-$op     = XoopsRequest::getString('op', 'download.form');
-$notify = XoopsRequest::getBool('notify', false);
+$lid    = Request::getInt('lid', 0);
+$cid    = Request::getInt('cid', 0);
+$agreed = Request::getBool('agreed', false, 'POST');
+$op     = Request::getString('op', 'download.form');
+$notify = Request::getBool('notify', false);
 
 if ($wfdownloads->getConfig('showdisclaimer') && ($op === 'download.form') && $agreed === false) {
     $op = 'download.disclaimer';
@@ -71,7 +73,7 @@ switch ($op) {
     case 'download.disclaimer':
         // Show disclaimers
         $GLOBALS['xoopsOption']['template_main'] = "{$wfdownloads->getModule()->dirname()}_disclaimer.tpl";
-        include_once XOOPS_ROOT_PATH . '/header.php';
+        require_once XOOPS_ROOT_PATH . '/header.php';
 
         $xoTheme->addScript(XOOPS_URL . '/browse.php?Frameworks/jquery/jquery.js');
         $xoTheme->addScript(WFDOWNLOADS_URL . '/assets/js/magnific/jquery.magnific-popup.min.js');
@@ -80,7 +82,7 @@ switch ($op) {
 
         $xoopsTpl->assign('wfdownloads_url', WFDOWNLOADS_URL . '/');
 
-        $catarray['imageheader'] = WfdownloadsUtilities::headerImage();
+        $catarray['imageheader'] = WfdownloadsUtility::headerImage();
         $xoopsTpl->assign('catarray', $catarray);
 
         // Breadcrumb
@@ -92,7 +94,7 @@ switch ($op) {
         $xoopsTpl->assign('lid', $lid);
         $xoopsTpl->assign('cid', $cid);
 
-        $xoopsTpl->assign('image_header', WfdownloadsUtilities::headerImage());
+        $xoopsTpl->assign('image_header', WfdownloadsUtility::headerImage());
 
         $xoopsTpl->assign('submission_disclaimer', true);
         $xoopsTpl->assign('download_disclaimer', false);
@@ -104,14 +106,14 @@ switch ($op) {
         if (!isset($_REQUEST['lid'])) {
             $xoopsTpl->assign('agree_location', WFDOWNLOADS_URL . "/{$currentFile}?agreed=1");
         } else {
-            $lid = XoopsRequest::getInt('lid');
+            $lid = Request::getInt('lid');
             $xoopsTpl->assign('agree_location', WFDOWNLOADS_URL . "/{$currentFile}?agreed=1&amp;lid={$lid}");
         }
 
         $xoopsTpl->assign('categoryPath', _MD_WFDOWNLOADS_DISCLAIMERAGREEMENT);
-        $xoopsTpl->assign('module_home', WfdownloadsUtilities::moduleHome(true));
+        $xoopsTpl->assign('module_home', WfdownloadsUtility::moduleHome(true));
 
-        include_once __DIR__ . '/footer.php';
+        require_once __DIR__ . '/footer.php';
         exit();
         break;
 
@@ -135,9 +137,9 @@ switch ($op) {
             $categoryObj = $wfdownloads->getHandler('category')->get($cid);
             $fid         = $categoryObj->getVar('formulize_fid');
             $customArray = array();
-            if (WfdownloadsUtilities::checkModule('formulize') && $fid) {
-                include_once XOOPS_ROOT_PATH . '/modules/formulize/include/formdisplay.php';
-                include_once XOOPS_ROOT_PATH . '/modules/formulize/include/functions.php';
+            if (WfdownloadsUtility::checkModule('formulize') && $fid) {
+                require_once XOOPS_ROOT_PATH . '/modules/formulize/include/formdisplay.php';
+                require_once XOOPS_ROOT_PATH . '/modules/formulize/include/functions.php';
                 $customArray['fid']           = $fid;
                 $customArray['formulize_mgr'] = xoops_getModuleHandler('elements', 'formulize');
                 $customArray['groups']        = $GLOBALS['xoopsUser'] ? $GLOBALS['xoopsUser']->getGroups() : array(0 => XOOPS_GROUP_ANONYMOUS);
@@ -146,7 +148,7 @@ switch ($op) {
                 $customArray['entry']         = $downloadObj->getVar('formulize_idreq');
                 $customArray['go_back']       = '';
                 $customArray['parentLinks']   = '';
-                if (WfdownloadsUtilities::checkModule('formulize') < 300) {
+                if (WfdownloadsUtility::checkModule('formulize') < 300) {
                     $owner = getEntryOwner($customArray['entry']); // is a Formulize function
                 } else {
                     $owner = getEntryOwner($customArray['entry'], $fid); // is a Formulize function
@@ -155,7 +157,7 @@ switch ($op) {
                 $customArray['owner_groups'] = $owner_groups;
             }
             $sform = $downloadObj->getForm($customArray);
-        } elseif (WfdownloadsUtilities::checkModule('formulize')) {
+        } elseif (WfdownloadsUtility::checkModule('formulize')) {
             // two steps form: 1st step
             $sform = $downloadObj->getCategoryForm(_MD_WFDOWNLOADS_FFS_SUBMIT1ST_STEP);
         } else {
@@ -164,7 +166,7 @@ switch ($op) {
         }
         // Formulize module support - jpc - end
         $GLOBALS['xoopsOption']['template_main'] = "{$wfdownloads->getModule()->dirname()}_submit.tpl";
-        include_once XOOPS_ROOT_PATH . '/header.php';
+        require_once XOOPS_ROOT_PATH . '/header.php';
 
         $xoTheme->addScript(XOOPS_URL . '/browse.php?Frameworks/jquery/jquery.js');
         $xoTheme->addScript(WFDOWNLOADS_URL . '/assets/js/magnific/jquery.magnific-popup.min.js');
@@ -173,7 +175,7 @@ switch ($op) {
 
         $xoopsTpl->assign('wfdownloads_url', WFDOWNLOADS_URL . '/');
 
-        $catarray['imageheader'] = WfdownloadsUtilities::headerImage();
+        $catarray['imageheader'] = WfdownloadsUtility::headerImage();
 
         // Breadcrumb
         $breadcrumb = new WfdownloadsBreadcrumb();
@@ -183,10 +185,10 @@ switch ($op) {
 
         $xoopsTpl->assign('catarray', $catarray);
         $xoopsTpl->assign('categoryPath', _MD_WFDOWNLOADS_SUBMITDOWNLOAD);
-        $xoopsTpl->assign('module_home', WfdownloadsUtilities::moduleHome(true));
+        $xoopsTpl->assign('module_home', WfdownloadsUtility::moduleHome(true));
         $xoopsTpl->assign('submit_form', $sform->render());
 
-        include_once __DIR__ . '/footer.php';
+        require_once __DIR__ . '/footer.php';
         exit();
         break;
 
@@ -205,19 +207,19 @@ switch ($op) {
             $size  = empty($_POST['size']) || !is_numeric($_POST['size']) ? 0 : (int)$_POST['size'];
             $title = trim($_POST['title']);
         } else {
-            $isAdmin  = WfdownloadsUtilities::userIsAdmin();
-            $down     = WfdownloadsUtilities::uploading($_FILES, $wfdownloads->getConfig('uploaddir'), '', $currentFile, 0, false, $isAdmin);
+            $isAdmin  = WfdownloadsUtility::userIsAdmin();
+            $down     = WfdownloadsUtility::uploading($_FILES, $wfdownloads->getConfig('uploaddir'), '', $currentFile, 0, false, $isAdmin);
             $url      = ($_POST['url'] !== 'http://') ? $_POST['url'] : '';
             $size     = $down['size'];
             $filename = $down['filename'];
             $filetype = $_FILES['userfile']['type'];
             $title    = $_FILES['userfile']['name'];
-            $title    = rtrim(WfdownloadsUtilities::strrrchr($title, '.'), '.');
+            $title    = rtrim(WfdownloadsUtility::strrrchr($title, '.'), '.');
             $title    = (isset($_POST['title_checkbox']) && $_POST['title_checkbox'] == 1) ? $title : trim($_POST['title']);
         }
 
         // Load screenshot
-        include_once WFDOWNLOADS_ROOT_PATH . '/class/img_uploader.php';
+        require_once WFDOWNLOADS_ROOT_PATH . '/class/img_uploader.php';
         $allowedMimetypes = array('image/gif', 'image/jpeg', 'image/pjpeg', 'image/x-png', 'image/png');
         $uploadDirectory  = XOOPS_ROOT_PATH . '/' . $wfdownloads->getConfig('screenshots') . '/';
 
@@ -277,8 +279,7 @@ switch ($op) {
         if ($lid > 0) {
             $isANewRecord = false;
             if ($wfdownloads->getConfig('autoapprove') == _WFDOWNLOADS_AUTOAPPROVE_DOWNLOAD
-                || $wfdownloads->getConfig('autoapprove') == _WFDOWNLOADS_AUTOAPPROVE_BOTH
-            ) {
+                || $wfdownloads->getConfig('autoapprove') == _WFDOWNLOADS_AUTOAPPROVE_BOTH) {
                 $downloadObj = $wfdownloads->getHandler('download')->get($lid);
             } else {
                 $downloadObj = $wfdownloads->getHandler('modification')->create();
@@ -288,8 +289,7 @@ switch ($op) {
             $isANewRecord = true;
             $downloadObj  = $wfdownloads->getHandler('download')->create();
             if ($wfdownloads->getConfig('autoapprove') == _WFDOWNLOADS_AUTOAPPROVE_DOWNLOAD
-                || $wfdownloads->getConfig('autoapprove') == _WFDOWNLOADS_AUTOAPPROVE_BOTH
-            ) {
+                || $wfdownloads->getConfig('autoapprove') == _WFDOWNLOADS_AUTOAPPROVE_BOTH) {
                 $downloadObj->setVar('published', time());
                 $downloadObj->setVar('status', _WFDOWNLOADS_STATUS_APPROVED);
             } else {
@@ -299,18 +299,18 @@ switch ($op) {
         }
 
         // Formulize module support (2006/05/04) jpc - start
-        if (WfdownloadsUtilities::checkModule('formulize')) {
+        if (WfdownloadsUtility::checkModule('formulize')) {
             // Now that the $downloadObj object has been instantiated, handle the Formulize part of the submission...
             $categoryObj = $wfdownloads->getHandler('category')->get($cid);
             $fid         = $categoryObj->getVar('formulize_fid');
             if ($fid) {
-                include_once XOOPS_ROOT_PATH . '/modules/formulize/include/formread.php';
-                include_once XOOPS_ROOT_PATH . '/modules/formulize/include/functions.php';
+                require_once XOOPS_ROOT_PATH . '/modules/formulize/include/formread.php';
+                require_once XOOPS_ROOT_PATH . '/modules/formulize/include/functions.php';
                 $formulizeElementsHandler = xoops_getModuleHandler('elements', 'formulize');
                 if ($lid) {
                     $entries[$fid][0] = $downloadObj->getVar('formulize_idreq');
                     if ($entries[$fid][0]) {
-                        if (WfdownloadsUtilities::checkModule('formulize') < 300) {
+                        if (WfdownloadsUtility::checkModule('formulize') < 300) {
                             $owner = getEntryOwner($entries[$fid][0]); // is a Formulize function
                         } else {
                             $owner = getEntryOwner($entries[$fid][0], $fid); // is a Formulize function
@@ -448,7 +448,7 @@ switch ($op) {
                 $notificationHandler->triggerEvent('global', 0, 'file_submit', $tags);
                 $notificationHandler->triggerEvent('category', $cid, 'file_submit', $tags);
                 if ($notify) {
-                    include_once XOOPS_ROOT_PATH . '/include/notification_constants.php';
+                    require_once XOOPS_ROOT_PATH . '/include/notification_constants.php';
                     $notificationHandler->subscribe('file', $newid, 'approve', XOOPS_NOTIFICATION_MODE_SENDONCETHENDELETE);
                 }
                 redirect_header('index.php', 2, _MD_WFDOWNLOADS_THANKSFORINFO);
