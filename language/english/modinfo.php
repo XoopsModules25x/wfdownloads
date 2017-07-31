@@ -382,7 +382,7 @@ define('_MI_WFDOWNLOADS_SWISHE_SEARCHLIMITDSC', "While searching, this specifies
 
 //Help
 define('_MI_WFDOWNLOADS_DIRNAME', basename(dirname(dirname(__DIR__))));
-define('_MI_WFDOWNLOADS_HELP_HEADER', __DIR__ . '/help/helpheader.html');
+define('_MI_WFDOWNLOADS_HELP_HEADER', __DIR__ . '/help/helpheader.tpl');
 define('_MI_WFDOWNLOADS_BACK_2_ADMIN', 'Back to Administration of ');
 define('_MI_WFDOWNLOADS_OVERVIEW', 'Overview');
 
