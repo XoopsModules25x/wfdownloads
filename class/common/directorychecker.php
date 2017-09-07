@@ -22,7 +22,7 @@
 
 //defined('XOOPS_ROOT_PATH') || die('XOOPS root path not defined');
 
-require_once __DIR__ . '/../../../../include/cp_header.php';
+require_once __DIR__ . '/../../../../mainfile.php';
 $moduleDirName = basename(dirname(dirname(__DIR__)));
 xoops_loadLanguage('directorychecker', $moduleDirName);
 

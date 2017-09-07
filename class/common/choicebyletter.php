@@ -70,7 +70,7 @@ class WfdownloadsChoiceByLetter
         $objHandler,
         $criteria = null,
         $field_name = null,
-        $alphabet = array(),
+        $alphabet = [],
         $arg_name = 'letter',
         $url = null,
         $extra_arg = '',
@@ -105,9 +105,9 @@ class WfdownloadsChoiceByLetter
         }
         $countsByLetters = $this->objHandler->getCounts($this->criteria);
         // fill alphabet array
-        $alphabet_array = array();
+        $alphabet_array = [];
         foreach ($this->alphabet as $letter) {
-            $letter_array = array();
+            $letter_array = [];
             if (!$this->caseSensitive) {
                 if (isset($countsByLetters[strtoupper($letter)])) {
                     $letter_array['letter'] = $letter;

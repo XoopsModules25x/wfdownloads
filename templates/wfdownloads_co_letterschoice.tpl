@@ -4,7 +4,7 @@
         -webkit-box-shadow: inset 0 1px 0 0 #d9fbbe;
         box-shadow: inset 0 1px 0 0 #d9fbbe;
         background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #d9fbbe), color-stop(1, #d9fbbe));
-        background: -moz-linear-gradient(,center top, #a5cc52 5%, #d9fbbe 100%);
+        background: -moz-linear-gradient(, center top, #a5cc52 5%, #d9fbbe 100%);
         filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#d9fbbe', endColorstr='#b8e356');
         background-color: #d9fbbe;
         -webkit-border-radius: 2px;
@@ -31,7 +31,7 @@
 
     .button_green:hover {
         background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #b8e356), color-stop(1, #a5cc52));
-        background: -moz-linear-gradient(,center top, #b8e356 5%, #a5cc52 100%);
+        background: -moz-linear-gradient(, center top, #b8e356 5%, #a5cc52 100%);
         filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#b8e356', endColorstr='#a5cc52');
         background-color: #86ae47;
     }
@@ -43,7 +43,7 @@
 
     .button_grey {
         background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #ededed), color-stop(1, #dfdfdf));
-        background: -moz-linear-gradient(,center top, #ededed 5%, #dfdfdf 100%);
+        background: -moz-linear-gradient(, center top, #ededed 5%, #dfdfdf 100%);
         filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ededed', endColorstr='#dfdfdf');
         background-color: #ededed;
         -webkit-border-radius: 2px;
@@ -70,7 +70,7 @@
 
     .button_grey:hover {
         background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #dfdfdf), color-stop(1, #ededed));
-        background: -moz-linear-gradient(,center top, #dfdfdf 5%, #ededed 100%);
+        background: -moz-linear-gradient(, center top, #dfdfdf 5%, #ededed 100%);
         filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#dfdfdf', endColorstr='#ededed');
         background-color: #dfdfdf;
     }
@@ -86,9 +86,9 @@
     <{assign var="alphabetcount" value=$alphabet|@count}>
     <{foreach name=letters item=letter from=$alphabet}>
     <{if ($letter.count > 0)}>
-    <a class='button_green' href='<{$letter.url}>' title='<{$letter.count}>'><{$letter.letter}></a>
+        <a class='button_green' href='<{$letter.url}>' title='<{$letter.count}>'><{$letter.letter}></a>
     <{else}>
-    <span class='button_grey'><{$letter.letter}></span>
+        <span class='button_grey'><{$letter.letter}></span>
     <{/if}>
     <{if ($smarty.foreach.letters.iteration == (round($alphabetcount/2))+1)}>
 </div>

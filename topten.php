@@ -26,7 +26,7 @@ $GLOBALS['xoopsOption']['template_main'] = "{$wfdownloads->getModule()->dirname(
 if (($_GET['list'] === 'rate') && $wfdownloads->getConfig('enable_ratings') === false && !WfdownloadsUtility::userIsAdmin()) {
     redirect_header('index.php', 3, _NOPERM);
 }
-$groups = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : array(0 => XOOPS_GROUP_ANONYMOUS);
+$groups = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : [0 => XOOPS_GROUP_ANONYMOUS];
 
 require_once XOOPS_ROOT_PATH . '/header.php';
 
@@ -37,9 +37,9 @@ $xoTheme->addStylesheet(WFDOWNLOADS_URL . '/assets/css/module.css');
 
 $xoopsTpl->assign('wfdownloads_url', WFDOWNLOADS_URL . '/');
 
-$action_array = array('hit' => 0, 'rate' => 1);
-$list_array   = array('hits', 'rating');
-$lang_array   = array(_MD_WFDOWNLOADS_HITS, _MD_WFDOWNLOADS_RATING);
+$action_array = ['hit' => 0, 'rate' => 1];
+$list_array   = ['hits', 'rating'];
+$lang_array   = [_MD_WFDOWNLOADS_HITS, _MD_WFDOWNLOADS_RATING];
 
 $sort         = (isset($_GET['list']) && in_array($_GET['list'], $action_array)) ? $_GET['list'] : 'hit';
 $thisselected = $action_array[$sort];
@@ -50,7 +50,7 @@ $catarray['letters']     = WfdownloadsUtility::lettersChoice();
 $catarray['toolbar']     = WfdownloadsUtility::toolbar();
 $xoopsTpl->assign('catarray', $catarray);
 
-$arr = array();
+$arr = [];
 
 $categoryObjs = $wfdownloads->getHandler('category')->getObjects();
 
@@ -59,12 +59,12 @@ $mainCategoryObjs     = $categoryObjsTree->getFirstChild(0);
 $allowedCategoriesIds = $gpermHandler->getItemIds('WFDownCatPerm', $groups, $wfdownloads->getModule()->mid());
 
 $e        = 0;
-$rankings = array();
+$rankings = [];
 foreach ($mainCategoryObjs as $mainCategoryObj) {
     $cid = (int)$mainCategoryObj->getVar('cid');
     if (in_array($cid, $allowedCategoriesIds)) {
         $allSubCategoryObjs = $categoryObjsTree->getAllChild($cid);
-        $cids               = array(); //initialise array
+        $cids               = []; //initialise array
         if (count($allSubCategoryObjs) > 0) {
             foreach ($allSubCategoryObjs as $allSubCategoryObj) {
                 $cids[] = $allSubCategoryObj->getVar('cid');
@@ -84,7 +84,7 @@ foreach ($mainCategoryObjs as $mainCategoryObj) {
             $rank                  = 1;
 
             foreach (array_keys($downloadObjs) as $k) {
-                $parentCategory_titles = array();
+                $parentCategory_titles = [];
                 $parentCategoryObjs    = $categoryObjsTree->getAllParent($downloadObjs[$k]->getVar('cid'));
                 if (count($parentCategoryObjs) > 0) {
                     foreach ($parentCategoryObjs as $parentCategoryObj) {
@@ -94,7 +94,7 @@ foreach ($mainCategoryObjs as $mainCategoryObj) {
                 $thisCategoryObj         =& $categoryObjsTree->getByKey($downloadObjs[$k]->getVar('cid'));
                 $parentCategory_titles[] = $thisCategoryObj->getVar('title');
 
-                $rankings[$e]['file'][] = array(
+                $rankings[$e]['file'][] = [
                     'id'       => (int)$downloadObjs[$k]->getVar('lid'),
                     'cid'      => (int)$downloadObjs[$k]->getVar('cid'),
                     'rank'     => $rank,
@@ -103,7 +103,7 @@ foreach ($mainCategoryObjs as $mainCategoryObj) {
                     'hits'     => $downloadObjs[$k]->getVar('hits'),
                     'rating'   => number_format($downloadObjs[$k]->getVar('rating'), 2),
                     'votes'    => $downloadObjs[$k]->getVar('votes')
-                );
+                ];
                 ++$rank;
             }
             ++$e;

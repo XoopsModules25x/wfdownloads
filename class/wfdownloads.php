@@ -30,7 +30,7 @@ class WfdownloadsWfdownloads
     public $handler;
     public $config;
     public $debug;
-    public $debugArray = array();
+    public $debugArray = [];
 
     /**
      * @param $debug

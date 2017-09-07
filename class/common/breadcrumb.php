@@ -40,7 +40,7 @@ class WfdownloadsBreadcrumb
     public $wfdownloads = null;
 
     private $dirname;
-    private $_bread = array();
+    private $_bread = [];
 
     /**
      *
@@ -59,10 +59,10 @@ class WfdownloadsBreadcrumb
      */
     public function addLink($title = '', $link = '')
     {
-        $this->_bread[] = array(
+        $this->_bread[] = [
             'link'  => $link,
             'title' => $title
-        );
+        ];
     }
 
     /**

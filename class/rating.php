@@ -106,17 +106,17 @@ class WfdownloadsRatingHandler extends XoopsPersistableObjectHandler
         if ($groupby === false) {
             list($average, $count) = $this->db->fetchRow($result);
 
-            return array(
+            return [
                 'avg'   => $average,
                 'count' => $count
-            );
+            ];
         } else {
-            $ret = array();
+            $ret = [];
             while (false !== (list($id, $average, $count) = $this->db->fetchRow($result))) {
-                $ret[$id] = array(
+                $ret[$id] = [
                     'avg'   => $average,
                     'count' => $count
-                );
+                ];
             }
 
             return $ret;

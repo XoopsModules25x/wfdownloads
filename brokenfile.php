@@ -85,7 +85,7 @@ switch ($op) {
                 if ($wfdownloads->getHandler('report')->insert($reportObj)) {
                     // All is well
                     // Send notification
-                    $tags                      = array();
+                    $tags                      = [];
                     $tags['BROKENREPORTS_URL'] = WFDOWNLOADS_URL . '/admin/reportsmodifications.php?op=reports.modifications.list';
                     $notificationHandler->triggerEvent('global', 0, 'file_broken', $tags);
 
@@ -152,12 +152,12 @@ switch ($op) {
             $button_tray->addElement($cancel_button);
             $sform->addElement($button_tray);
             $xoopsTpl->assign('reportform', $sform->render());
-            $xoopsTpl->assign('download', array(
+            $xoopsTpl->assign('download', [
                 'lid'         => $lid,
                 'cid'         => $cid,
                 'title'       => $downloadObj->getVar('title'),
                 'description' => $downloadObj->getVar('description')
-            ));
+            ]);
 
             $criteria = new Criteria('lid', $lid);
 

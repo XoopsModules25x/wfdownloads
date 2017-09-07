@@ -37,7 +37,7 @@ $xoopsTpl = new XoopsTpl();
 $case        = 'all';
 $categoryObj = $wfdownloads->getHandler('category')->get((int)$_REQUEST['cid']);
 
-$groups = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : array(0 => XOOPS_GROUP_ANONYMOUS);
+$groups = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : [0 => XOOPS_GROUP_ANONYMOUS];
 
 // Get download permissions
 $allowedDownCategoriesIds = $gpermHandler->getItemIds('WFDownCatPerm', $groups, $wfdownloads->getModule()->mid());
@@ -113,7 +113,7 @@ if (!$xoopsTpl->is_cached('db:' . $xoopsOption['template_main'], $cache_prefix))
     $url = XOOPS_URL . '/modules/' . $wfdownloads->getModule()->getVat('dirname') . '/';
     if (count($downloadObjs) > 0) {
         // Get users for downloads
-        $uids = array();
+        $uids = [];
         foreach ($downloadObjs as $downloadObj) {
             $uids[] = $downloadObj->getVar('submitter');
         }
@@ -129,7 +129,7 @@ if (!$xoopsTpl->is_cached('db:' . $xoopsOption['template_main'], $cache_prefix))
             $teaser = htmlspecialchars($item->getVar('summary', 'n'));
             $author = isset($users[$item->getVar('submitter')]) ?: $GLOBALS['xoopsConfig']['anonymous'];
 
-            $xoopsTpl->append('items', array(
+            $xoopsTpl->append('items', [
                 'title'        => xoops_utf8_encode($title),
                 'author'       => xoops_utf8_encode($author),
                 'link'         => $link,
@@ -138,21 +138,21 @@ if (!$xoopsTpl->is_cached('db:' . $xoopsOption['template_main'], $cache_prefix))
                 'pubdate'      => formatTimestamp($item->getVar('published'), $feed_type),
                 'dc_date'      => formatTimestamp($item->getVar('published'), 'd/m H:i'),
                 'description'  => xoops_utf8_encode($teaser)
-            ));
+            ]);
         }
     } else {
         $excuse_title = 'No items!';
         $excuse       = 'There are no items for this feed!';
         $art_title    = htmlspecialchars($excuse_title, ENT_QUOTES);
         $art_teaser   = htmlspecialchars($excuse, ENT_QUOTES);
-        $xoopsTpl->append('items', array(
+        $xoopsTpl->append('items', [
             'title'       => xoops_utf8_encode($art_title),
             'link'        => $url,
             'guid'        => $url,
             'pubdate'     => formatTimestamp(time(), $feed_type),
             'dc_date'     => formatTimestamp(time(), 'd/m H:i'),
             'description' => xoops_utf8_encode($art_teaser)
-        ));
+        ]);
     }
 }
 

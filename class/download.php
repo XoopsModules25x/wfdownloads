@@ -88,7 +88,7 @@ class WfdownloadsDownload extends XoopsObject
         // Formulize module support (2006/05/04) jpc
         $this->initVar('formulize_idreq', XOBJ_DTYPE_INT, 0);
         // added 3.23
-        $this->initVar('screenshots', XOBJ_DTYPE_ARRAY, array()); // IN PROGRESS
+        $this->initVar('screenshots', XOBJ_DTYPE_ARRAY, []); // IN PROGRESS
         $this->initVar('dohtml', XOBJ_DTYPE_INT, false); // boolean
         $this->initVar('dosmiley', XOBJ_DTYPE_INT, true); // boolean
         $this->initVar('doxcode', XOBJ_DTYPE_INT, true); // boolean
@@ -243,12 +243,20 @@ class WfdownloadsDownload extends XoopsObject
         */
         // IN PROGRESS
         $screenshots             = $this->getVar('screenshots');
-        $download['screenshots'] = array();
+        $download['screenshots'] = [];
         foreach ($screenshots as $key => $screenshot) {
             if (file_exists(XOOPS_ROOT_PATH . '/' . $this->wfdownloads->getConfig('screenshots') . '/' . xoops_trim($screenshot))) {
                 if ($this->wfdownloads->getConfig('usethumbs') === true && $screenshot != '') {
-                    $screenshot_thumb = WfdownloadsUtility::createThumb($screenshot, $this->wfdownloads->getConfig('screenshots'), 'thumbs', $this->wfdownloads->getConfig('shotwidth'), $this->wfdownloads->getConfig('shotheight'), $this->wfdownloads->getConfig('imagequality'),
-                                                                        $this->wfdownloads->getConfig('updatethumbs'), $this->wfdownloads->getConfig('keepaspect'));
+                    $screenshot_thumb = WfdownloadsUtility::createThumb(
+                        $screenshot,
+                        $this->wfdownloads->getConfig('screenshots'),
+                        'thumbs',
+                        $this->wfdownloads->getConfig('shotwidth'),
+                        $this->wfdownloads->getConfig('shotheight'),
+                        $this->wfdownloads->getConfig('imagequality'),
+                                                                        $this->wfdownloads->getConfig('updatethumbs'),
+                        $this->wfdownloads->getConfig('keepaspect')
+                    );
                 } else {
                     $screenshot_thumb = XOOPS_URL . '/' . $this->wfdownloads->getConfig('screenshots') . '/' . xoops_trim($screenshot);
                 }
@@ -337,7 +345,7 @@ class WfdownloadsDownload extends XoopsObject
         $history             = $this->getVar('dhistory', 'n');
         $download['history'] = $GLOBALS['myts']->displayTarea($history, true);
         //
-        $download['features'] = array();
+        $download['features'] = [];
         if ($this->getVar('features')) {
             $features = explode('|', trim($this->getVar('features')));
             foreach ($features as $feature) {
@@ -345,7 +353,7 @@ class WfdownloadsDownload extends XoopsObject
             }
         }
         //
-        $download['requirements'] = array();
+        $download['requirements'] = [];
         if ($this->getVar('requirements')) {
             $requirements = explode('|', trim($this->getVar('requirements')));
             foreach ($requirements as $requirement) {
@@ -414,12 +422,12 @@ class WfdownloadsDownload extends XoopsObject
      *
      * @return XoopsThemeForm
      */
-    public function getForm($customArray = array()) // $custom array added April 22, 2006 by jwe)
+    public function getForm($customArray = []) // $custom array added April 22, 2006 by jwe)
     {
         require_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
         require_once XOOPS_ROOT_PATH . '/class/tree.php';
 
-        $groups = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : array(0 => XOOPS_GROUP_ANONYMOUS);
+        $groups = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : [0 => XOOPS_GROUP_ANONYMOUS];
 
         $use_mirrors = $this->wfdownloads->getConfig('enable_mirrors');
 
@@ -625,7 +633,7 @@ class WfdownloadsDownload extends XoopsObject
      *
      * @return XoopsThemeForm
      */
-    public function getAdminForm($title, $customArray = array()) // $custom array added April 22, 2006 by jwe
+    public function getAdminForm($title, $customArray = []) // $custom array added April 22, 2006 by jwe
     {
         require_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
         require_once WFDOWNLOADS_ROOT_PATH . '/class/wfdownloads_lists.php';
@@ -985,7 +993,7 @@ class WfdownloadsDownload extends XoopsObject
      */
     public function toArray()
     {
-        $ret  = array();
+        $ret  = [];
         $vars =& $this->getVars();
         foreach (array_keys($vars) as $i) {
             $ret[$i] = $this->getVar($i);
@@ -1046,7 +1054,7 @@ class WfdownloadsDownloadHandler extends XoopsPersistableObjectHandler
 
             return $count;
         } else {
-            $ret = array();
+            $ret = [];
             while (false !== (list($id, $count) = $this->db->fetchRow($result))) {
                 $ret[$id] = $count;
             }
@@ -1071,7 +1079,7 @@ class WfdownloadsDownloadHandler extends XoopsPersistableObjectHandler
         $expiredCriteria->add(new Criteria('expired', time(), '>='), 'OR');
         $criteria->add($expiredCriteria);
         // add criteria for categories that the user has permissions for
-        $groups                   = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : array(0 => XOOPS_GROUP_ANONYMOUS);
+        $groups                   = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : [0 => XOOPS_GROUP_ANONYMOUS];
         $allowedDownCategoriesIds = $gpermHandler->getItemIds('WFDownCatPerm', $groups, $this->wfdownloads->getModule()->mid());
         $criteria->add(new Criteria('cid', '(' . implode(',', $allowedDownCategoriesIds) . ')', 'IN'));
 
@@ -1152,7 +1160,7 @@ class WfdownloadsDownloadHandler extends XoopsPersistableObjectHandler
                     require_once XOOPS_ROOT_PATH . '/modules/formulize/include/functions.php';
                     //deleteFormEntries(array($download->getVar('formulize_idreq')));
                     $category = $this->wfdownloads->getHandler('category')->get($download->getVar('cid'));
-                    deleteFormEntries(array($download->getVar('formulize_idreq')), $category->getVar('formulize_fid'));
+                    deleteFormEntries([$download->getVar('formulize_idreq')], $category->getVar('formulize_fid'));
                 }
             }
 

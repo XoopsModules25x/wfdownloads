@@ -48,7 +48,7 @@ if ($downloadObj->getVar('published') == 0 || $downloadObj->getVar('published') 
 if ($wfdownloads->getConfig('enable_mirrors') === false && !WfdownloadsUtility::userIsAdmin()) {
     redirect_header('index.php', 3, _NOPERM);
 }
-$userGroups = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : array(0 => XOOPS_GROUP_ANONYMOUS);
+$userGroups = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : [0 => XOOPS_GROUP_ANONYMOUS];
 if (!$gpermHandler->checkRight('WFDownCatPerm', $cid, $userGroups, $wfdownloads->getModule()->mid())) {
     redirect_header('index.php', 3, _NOPERM);
 }
@@ -218,7 +218,7 @@ switch ($op) {
             $location_text->setDescription(_MD_WFDOWNLOADS_MIRROR_LOCATION_DESC);
             $sform->addElement($location_text, true);
             $continent_select = new XoopsFormSelect(_MD_WFDOWNLOADS_MIRROR_CONTINENT, 'continent');
-            $continent_select->addOptionArray(array(
+            $continent_select->addOptionArray([
                                                   _MD_WFDOWNLOADS_CONT1 => _MD_WFDOWNLOADS_CONT1,
                                                   _MD_WFDOWNLOADS_CONT2 => _MD_WFDOWNLOADS_CONT2,
                                                   _MD_WFDOWNLOADS_CONT3 => _MD_WFDOWNLOADS_CONT3,
@@ -226,7 +226,7 @@ switch ($op) {
                                                   _MD_WFDOWNLOADS_CONT5 => _MD_WFDOWNLOADS_CONT5,
                                                   _MD_WFDOWNLOADS_CONT6 => _MD_WFDOWNLOADS_CONT6,
                                                   _MD_WFDOWNLOADS_CONT7 => _MD_WFDOWNLOADS_CONT7
-                                              ));
+                                              ]);
             $sform->addElement($continent_select);
             $downurl_text = new XoopsFormText(_MD_WFDOWNLOADS_MIRROR_DOWNURL, 'downurl', 50, 255);
             $downurl_text->setDescription(_MD_WFDOWNLOADS_MIRROR_DOWNURL_DESC);

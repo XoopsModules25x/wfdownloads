@@ -34,7 +34,7 @@ if (!is_dir(XOOPS_ROOT_PATH . '/' . $wfdownloads->getConfig('catimage'))) {
     redirect_header(XOOPS_URL, 4, _MD_WFDOWNLOADS_ERROR_CATIMAGEDIRNOTEXISTS);
 }
 
-$groups = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : array(0 => XOOPS_GROUP_ANONYMOUS);
+$groups = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : [0 => XOOPS_GROUP_ANONYMOUS];
 
 // Check if submission is allowed
 $isSubmissionAllowed = false;
@@ -189,8 +189,16 @@ foreach (array_keys($mainCategoryObjs) as $i) {
         $isNewImage = WfdownloadsUtility::isNewImage($publishdate);
         if (($mainCategoryObjs[$i]->getVar('imgurl') !== '') && is_file(XOOPS_ROOT_PATH . '/' . $wfdownloads->getConfig('catimage') . '/' . $mainCategoryObjs[$i]->getVar('imgurl'))) {
             if ($wfdownloads->getConfig('usethumbs') && function_exists('gd_info')) {
-                $imageURL = WfdownloadsUtility::createThumb($mainCategoryObjs[$i]->getVar('imgurl'), $wfdownloads->getConfig('catimage'), 'thumbs', $wfdownloads->getConfig('cat_imgwidth'), $wfdownloads->getConfig('cat_imgheight'), $wfdownloads->getConfig('imagequality'),
-                                                            $wfdownloads->getConfig('updatethumbs'), $wfdownloads->getConfig('keepaspect'));
+                $imageURL = WfdownloadsUtility::createThumb(
+                    $mainCategoryObjs[$i]->getVar('imgurl'),
+                    $wfdownloads->getConfig('catimage'),
+                    'thumbs',
+                    $wfdownloads->getConfig('cat_imgwidth'),
+                    $wfdownloads->getConfig('cat_imgheight'),
+                    $wfdownloads->getConfig('imagequality'),
+                                                            $wfdownloads->getConfig('updatethumbs'),
+                    $wfdownloads->getConfig('keepaspect')
+                );
             } else {
                 $imageURL = XOOPS_URL . '/' . $wfdownloads->getConfig('catimage') . '/' . $mainCategoryObjs[$i]->getVar('imgurl');
             }
@@ -199,7 +207,7 @@ foreach (array_keys($mainCategoryObjs) as $i) {
         }
 
         // Get this category subcategories id and title
-        $subcategories = array();
+        $subcategories = [];
         ++$count;
         $download_count = isset($listings['count'][$mainCategoryObjs[$i]->getVar('cid')]) ? $listings['count'][$mainCategoryObjs[$i]->getVar('cid')] : 0;
         // modified July 5 2006 by Freeform Solutions (jwe)
@@ -211,13 +219,13 @@ foreach (array_keys($mainCategoryObjs) as $i) {
                     $download_count += isset($listings['count'][$allSubcategoryObjs[$k]->getVar('cid')]) ? $listings['count'][$allSubcategoryObjs[$k]->getVar('cid')] : 0;
                     if ($wfdownloads->getConfig('subcats') == 1 && $allSubcategoryObjs[$k]->getVar('pid') == $mainCategoryObjs[$i]->getVar('cid')) {
                         // if we are collecting subcat info for displaying, and this subcat is a first level child...
-                        $subcategories[] = array(
+                        $subcategories[] = [
                             'id'               => $allSubcategoryObjs[$k]->getVar('cid'), // this definition is not removed for backward compatibility issues
                             'cid'              => $allSubcategoryObjs[$k]->getVar('cid'),
                             'allowed_download' => in_array($allSubcategoryObjs[$k]->getVar('cid'), $allowedDownCategoriesIds),
                             'allowed_upload'   => $isSubmissionAllowed && in_array($allSubcategoryObjs[$k]->getVar('cid'), $allowedUpCategoriesIds),
                             'title'            => $allSubcategoryObjs[$k]->getVar('title')
-                        );
+                        ];
                     }
                 }
             }
@@ -225,7 +233,7 @@ foreach (array_keys($mainCategoryObjs) as $i) {
 
         if ($wfdownloads->getConfig('subcats') !== true) {
             unset($subcategories);
-            $xoopsTpl->append('categories', array(
+            $xoopsTpl->append('categories', [
                 'image'            => $imageURL, // this definition is not removed for backward compatibility issues
                 'image_URL'        => $imageURL,
                 'days'             => $isNewImage['days'],
@@ -239,9 +247,9 @@ foreach (array_keys($mainCategoryObjs) as $i) {
                 'downloads_count'  => (int)$download_count,
                 'count'            => (int)$count,
                 'alttext'          => $isNewImage['alttext']
-            ));
+            ]);
         } else {
-            $xoopsTpl->append('categories', array(
+            $xoopsTpl->append('categories', [
                 'image'            => $imageURL, // this definition is not removed for backward compatibility issues
                 'image_URL'        => $imageURL,
                 'days'             => $isNewImage['days'],
@@ -256,7 +264,7 @@ foreach (array_keys($mainCategoryObjs) as $i) {
                 'downloads_count'  => (int)$download_count,
                 'count'            => (int)$count,
                 'alttext'          => $isNewImage['alttext']
-            ));
+            ]);
         }
     }
 }

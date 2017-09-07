@@ -32,7 +32,7 @@ switch ($op) {
         $indexheader  = $myts->addSlashes($_POST['indexheader']);
         $indexfooter  = $myts->addSlashes($_POST['indexfooter']);
         require_once XOOPS_ROOT_PATH . '/class/uploader.php';
-        $allowedMimetypes = array('image/gif', 'image/jpeg', 'image/pjpeg', 'image/x-png', 'image/png');
+        $allowedMimetypes = ['image/gif', 'image/jpeg', 'image/pjpeg', 'image/x-png', 'image/png'];
         $maxFileSize      = $wfdownloads->getConfig('maxfilesize');
         $maxImgWidth      = $wfdownloads->getConfig('maximgwidth');
         $maxImgHeight     = $wfdownloads->getConfig('maximgheight');
@@ -113,13 +113,13 @@ switch ($op) {
         $sform->addElement(new XoopsFormDhtmlTextArea(_AM_WFDOWNLOADS_IPAGE_CHEADING, 'indexheader', $indexheader, 15, 60));
         // indexpage: indexheaderalign
         $headeralign_select = new XoopsFormSelect(_AM_WFDOWNLOADS_IPAGE_CHEADINGA, 'indexheaderalign', $indexheaderalign);
-        $headeralign_select->addOptionArray(array('left' => _AM_WFDOWNLOADS_IPAGE_CLEFT, 'right' => _AM_WFDOWNLOADS_IPAGE_CRIGHT, 'center' => _AM_WFDOWNLOADS_IPAGE_CCENTER));
+        $headeralign_select->addOptionArray(['left' => _AM_WFDOWNLOADS_IPAGE_CLEFT, 'right' => _AM_WFDOWNLOADS_IPAGE_CRIGHT, 'center' => _AM_WFDOWNLOADS_IPAGE_CCENTER]);
         $sform->addElement($headeralign_select);
         // indexpage: indexfooter
         $sform->addElement(new XoopsFormDhtmlTextArea(_AM_WFDOWNLOADS_IPAGE_CFOOTER, 'indexfooter', $indexfooter, 15, 60));
         // indexpage: indexfooteralign
         $footeralign_select = new XoopsFormSelect(_AM_WFDOWNLOADS_IPAGE_CFOOTERA, 'indexfooteralign', $indexfooteralign);
-        $footeralign_select->addOptionArray(array('left' => _AM_WFDOWNLOADS_IPAGE_CLEFT, 'right' => _AM_WFDOWNLOADS_IPAGE_CRIGHT, 'center' => _AM_WFDOWNLOADS_IPAGE_CCENTER));
+        $footeralign_select->addOptionArray(['left' => _AM_WFDOWNLOADS_IPAGE_CLEFT, 'right' => _AM_WFDOWNLOADS_IPAGE_CRIGHT, 'center' => _AM_WFDOWNLOADS_IPAGE_CCENTER]);
         $sform->addElement($footeralign_select);
         // indexpage: nohtml, nosmailey, noxcodes, noimages, nobreak
         $options_tray  = new XoopsFormElementTray(_AM_WFDOWNLOADS_TEXTOPTIONS, '<br>');

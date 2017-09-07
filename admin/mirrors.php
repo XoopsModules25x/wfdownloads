@@ -44,7 +44,7 @@ switch ($op) {
             }
         } else {
             WfdownloadsUtility::myxoops_cp_header();
-            xoops_confirm(array('op' => 'del_mirror', 'mirror_id' => $mirror_id, 'ok' => true), $currentFile, _AM_WFDOWNLOADS_FILE_REALLYDELETEDTHIS . '<br><br>' . $mirrorObj->getVar('title'), _AM_WFDOWNLOADS_BDELETE);
+            xoops_confirm(['op' => 'del_mirror', 'mirror_id' => $mirror_id, 'ok' => true], $currentFile, _AM_WFDOWNLOADS_FILE_REALLYDELETEDTHIS . '<br><br>' . $mirrorObj->getVar('title'), _AM_WFDOWNLOADS_BDELETE);
             xoops_cp_footer();
         }
         break;
@@ -61,7 +61,7 @@ switch ($op) {
             redirect_header($currentFile, 1, sprintf(_AM_WFDOWNLOADS_MIRROR_MIRROR_UPDATED, $mirrorObj->getVar('title')));
         } else {
             WfdownloadsUtility::myxoops_cp_header();
-            xoops_confirm(array('op' => 'mirror.approve', 'mirror_id' => $mirror_id, 'ok' => true), $currentFile, _AM_WFDOWNLOADS_MIRROR_APPROVETHIS . '<br><br>' . $mirrorObj->getVar('title'), _AM_WFDOWNLOADS_MIRROR_APPROVETHIS);
+            xoops_confirm(['op' => 'mirror.approve', 'mirror_id' => $mirror_id, 'ok' => true], $currentFile, _AM_WFDOWNLOADS_MIRROR_APPROVETHIS . '<br><br>' . $mirrorObj->getVar('title'), _AM_WFDOWNLOADS_MIRROR_APPROVETHIS);
             xoops_cp_footer();
         }
         break;

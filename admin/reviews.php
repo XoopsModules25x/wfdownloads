@@ -44,7 +44,7 @@ switch ($op) {
             }
         } else {
             WfdownloadsUtility::myxoops_cp_header();
-            xoops_confirm(array('op' => 'review.delete', 'review_id' => $review_id, 'ok' => true), $currentFile, _AM_WFDOWNLOADS_FILE_REALLYDELETEDTHIS . '<br><br>' . $reviewObj->getVar('title'), _AM_WFDOWNLOADS_BDELETE);
+            xoops_confirm(['op' => 'review.delete', 'review_id' => $review_id, 'ok' => true], $currentFile, _AM_WFDOWNLOADS_FILE_REALLYDELETEDTHIS . '<br><br>' . $reviewObj->getVar('title'), _AM_WFDOWNLOADS_BDELETE);
             xoops_cp_footer();
         }
         break;
@@ -61,7 +61,7 @@ switch ($op) {
             redirect_header($currentFile, 1, sprintf(_AM_WFDOWNLOADS_REV_REVIEW_UPDATED, $reviewObj->getVar('title')));
         } else {
             WfdownloadsUtility::myxoops_cp_header();
-            xoops_confirm(array('op' => 'review.approve', 'review_id' => $reviewObj->getVar('review_id'), 'ok' => true), $currentFile, _AM_WFDOWNLOADS_REVIEW_APPROVETHIS . '<br><br>' . $reviewObj->getVar('title'), _AM_WFDOWNLOADS_REVIEW_APPROVETHIS);
+            xoops_confirm(['op' => 'review.approve', 'review_id' => $reviewObj->getVar('review_id'), 'ok' => true], $currentFile, _AM_WFDOWNLOADS_REVIEW_APPROVETHIS . '<br><br>' . $reviewObj->getVar('title'), _AM_WFDOWNLOADS_REVIEW_APPROVETHIS);
             xoops_cp_footer();
         }
         break;

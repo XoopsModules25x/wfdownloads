@@ -159,7 +159,7 @@ switch ($op) {
             }
         } else {
             WfdownloadsUtility::myxoops_cp_header();
-            xoops_confirm(array('op' => 'mimetype.delete', 'mime_id' => $mime_id, 'ok' => true), $currentFile, _AM_WFDOWNLOADS_MIME_DELETETHIS . '<br><br>' . $mimetypeObj->getVar('mime_name'), _AM_WFDOWNLOADS_MIME_DELETE);
+            xoops_confirm(['op' => 'mimetype.delete', 'mime_id' => $mime_id, 'ok' => true], $currentFile, _AM_WFDOWNLOADS_MIME_DELETETHIS . '<br><br>' . $mimetypeObj->getVar('mime_name'), _AM_WFDOWNLOADS_MIME_DELETE);
             xoops_cp_footer();
         }
         break;
@@ -189,8 +189,8 @@ switch ($op) {
         $GLOBALS['xoopsTpl']->assign('start', $start);
 
         if ($mimetypes_count > 0) {
-            $allowAdminMimetypes = array();
-            $allowUserMimetypes  = array();
+            $allowAdminMimetypes = [];
+            $allowUserMimetypes  = [];
             foreach ($mimetypeObjs as $mimetypeObj) {
                 $mimetype_array = $mimetypeObj->toArray();
                 $GLOBALS['xoopsTpl']->append('mimetypes', $mimetype_array);

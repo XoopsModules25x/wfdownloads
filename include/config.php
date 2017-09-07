@@ -43,22 +43,22 @@ define($capsDirName . '_UPLOAD_PATH', XOOPS_UPLOAD_PATH . '/' . $moduleDirName);
 
 //constant($cloned_lang . '_CATEGORY_NOTIFY')
 
-$uploadFolders = array(
+$uploadFolders = [
     constant($capsDirName . '_UPLOAD_PATH'),
     constant($capsDirName . '_UPLOAD_PATH') . '/images',
     constant($capsDirName . '_UPLOAD_PATH') . '/images/thumbnails'
-);
+];
 
-$copyFiles = array(
+$copyFiles = [
     constant($capsDirName . '_UPLOAD_PATH'),
     constant($capsDirName . '_UPLOAD_PATH') . '/images',
     constant($capsDirName . '_UPLOAD_PATH') . '/images/thumbnails'
-);
+];
 
-$oldFiles = array(
+$oldFiles = [
     '/include/update_functions.php',
     '/include/install_functions.php'
-);
+];
 
 /*
 //Configurator
@@ -110,11 +110,11 @@ return array(
  */
 class WfdownloadsConfigurator
 {
-    public $uploadFolders   = array();
-    public $blankFiles      = array();
-    public $templateFolders = array();
-    public $oldFiles        = array();
-    public $oldFolders      = array();
+    public $uploadFolders   = [];
+    public $blankFiles      = [];
+    public $templateFolders = [];
+    public $oldFiles        = [];
+    public $oldFolders      = [];
     public $name;
 
     public function __construct()
@@ -122,7 +122,7 @@ class WfdownloadsConfigurator
         $moduleDirName       = basename(dirname(__DIR__));
         $capsDirName         = strtoupper($moduleDirName);
         $this->name          = 'Module Configurator';
-        $this->uploadFolders = array(
+        $this->uploadFolders = [
             constant($capsDirName . '_UPLOAD_PATH'),
             constant($capsDirName . '_UPLOAD_PATH') . '/batch',
             constant($capsDirName . '_UPLOAD_PATH') . '/images',
@@ -130,8 +130,8 @@ class WfdownloadsConfigurator
             constant($capsDirName . '_UPLOAD_PATH') . '/images/category/thumbs',
             constant($capsDirName . '_UPLOAD_PATH') . '/images/screenshots',
             constant($capsDirName . '_UPLOAD_PATH') . '/images/screenshots/thumbs',
-        );
-        $this->blankFiles    = array(
+        ];
+        $this->blankFiles    = [
             constant($capsDirName . '_UPLOAD_PATH'),
             constant($capsDirName . '_UPLOAD_PATH') . '/batch',
             constant($capsDirName . '_UPLOAD_PATH') . '/images',
@@ -139,25 +139,25 @@ class WfdownloadsConfigurator
             constant($capsDirName . '_UPLOAD_PATH') . '/images/category/thumbs',
             constant($capsDirName . '_UPLOAD_PATH') . '/images/screenshots',
             constant($capsDirName . '_UPLOAD_PATH') . '/images/screenshots/thumbs',
-        );
+        ];
 
-        $this->templateFolders = array(
+        $this->templateFolders = [
             '/templates/',
             '/templates/blocks/',
             '/templates/admin/'
 
-        );
-        $this->oldFiles        = array(
+        ];
+        $this->oldFiles        = [
             '/include/update_functions.php',
             '/include/install_functions.php'
-        );
-        $this->oldFolders      = array(
+        ];
+        $this->oldFolders      = [
             '/images',
             '/css',
             '/js',
             '/tcpdf',
             '/images',
-        );
+        ];
     }
 }
 

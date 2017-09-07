@@ -133,7 +133,7 @@ switch ($op) {
             $sform         = new XoopsThemeForm(_MD_WFDOWNLOADS_RATETHISFILE, 'voteform', xoops_getenv('PHP_SELF'), 'post', true);
             $rating_select = new XoopsFormSelect(_MD_WFDOWNLOADS_REV_RATING, 'rating', '10');
             //$rating_select->setDescription(_MD_WFDOWNLOADS_REV_RATING_DESC);
-            $rating_select->addOptionArray(array(
+            $rating_select->addOptionArray([
                                                '1'  => 1,
                                                '2'  => 2,
                                                '3'  => 3,
@@ -144,7 +144,7 @@ switch ($op) {
                                                '8'  => 8,
                                                '9'  => 9,
                                                '10' => 10
-                                           ));
+                                           ]);
             $sform->addElement($rating_select);
             $sform->addElement(new XoopsFormHidden('lid', $lid));
             $sform->addElement(new XoopsFormHidden('cid', $cid));
@@ -157,20 +157,20 @@ switch ($op) {
             $button_tray->addElement($cancel_button);
             $sform->addElement($button_tray);
             $xoopsTpl->assign('voteform', $sform->render());
-            $xoopsTpl->assign('download', array(
+            $xoopsTpl->assign('download', [
                 'lid'         => $lid,
                 'cid'         => $cid,
                 'title'       => $downloadObj->getVar('title'),
                 'description' => $downloadObj->getVar('description')
-            ));
+            ]);
 
-            $xoopsTpl->assign('file', array(
+            $xoopsTpl->assign('file', [
                 'id'          => $lid,
                 'lid'         => $lid,
                 'cid'         => $cid,
                 'title'       => $downloadObj->getVar('title'),
                 'imageheader' => wfdownloads_headerImage()
-            )); // this definition is not removed for backward compatibility issues
+            ]); // this definition is not removed for backward compatibility issues
             require_once __DIR__ . '/footer.php';
         }
         break;

@@ -30,7 +30,7 @@ $start = Request::getInt('start', 0);
 //$orderby = Request::getString('orderby', null);
 $orderby = isset($_GET['orderby']) ? WfdownloadsUtility::convertorderbyin($_GET['orderby']) : $wfdownloads->getConfig('filexorder');
 
-$groups = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : array(0 => XOOPS_GROUP_ANONYMOUS);
+$groups = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : [0 => XOOPS_GROUP_ANONYMOUS];
 
 // Check permissions
 if (in_array(XOOPS_GROUP_ANONYMOUS, $groups)) {
@@ -150,15 +150,23 @@ if (is_array($allSubCategoryObjs) > 0 && !isset($_GET['list']) && !isset($_GET['
             continue;
         }
 
-        $infercategories    = array();
+        $infercategories    = [];
         $catdowncount       = isset($listings['count'][$subCategoryObj->getVar('cid')]) ? $listings['count'][$subCategoryObj->getVar('cid')] : 0;
         $subsubCategoryObjs = $categoryObjsTree->getAllChild($subCategoryObj->getVar('cid'));
 
         // ----- added for subcat images -----
         if (($subCategoryObj->getVar('imgurl') !== '') && is_file(XOOPS_ROOT_PATH . '/' . $wfdownloads->getConfig('catimage') . '/' . $subCategoryObj->getVar('imgurl'))) {
             if ($wfdownloads->getConfig('usethumbs') && function_exists('gd_info')) {
-                $imageURL = WfdownloadsUtility::createThumb($subCategoryObj->getVar('imgurl'), $wfdownloads->getConfig('catimage'), 'thumbs', $wfdownloads->getConfig('cat_imgwidth'), $wfdownloads->getConfig('cat_imgheight'), $wfdownloads->getConfig('imagequality'),
-                                                            $wfdownloads->getConfig('updatethumbs'), $wfdownloads->getConfig('keepaspect'));
+                $imageURL = WfdownloadsUtility::createThumb(
+                    $subCategoryObj->getVar('imgurl'),
+                    $wfdownloads->getConfig('catimage'),
+                    'thumbs',
+                    $wfdownloads->getConfig('cat_imgwidth'),
+                    $wfdownloads->getConfig('cat_imgheight'),
+                    $wfdownloads->getConfig('imagequality'),
+                                                            $wfdownloads->getConfig('updatethumbs'),
+                    $wfdownloads->getConfig('keepaspect')
+                );
             } else {
                 $imageURL = XOOPS_URL . '/' . $wfdownloads->getConfig('catimage') . '/' . $subCategoryObj->getVar('imgurl');
             }
@@ -171,7 +179,7 @@ if (is_array($allSubCategoryObjs) > 0 && !isset($_GET['list']) && !isset($_GET['
             foreach ($subsubCategoryObjs as $subsubCategoryObj) {
                 if (in_array($subsubCategoryObj->getVar('cid'), $allowedDownCategoriesIds)) {
                     $download_count    += isset($listings['count'][$subsubCategoryObj->getVar('cid')]) ? $listings['count'][$subsubCategoryObj->getVar('cid')] : 0;
-                    $infercategories[] = array(
+                    $infercategories[] = [
                         'cid'             => $subsubCategoryObj->getVar('cid'),
                         'id'              => $subsubCategoryObj->getVar('cid'), // this definition is not removed for backward compatibility issues
                         'title'           => $subsubCategoryObj->getVar('title'),
@@ -179,17 +187,17 @@ if (is_array($allSubCategoryObjs) > 0 && !isset($_GET['list']) && !isset($_GET['
                         'image_URL'       => $imageURL,
                         'count'           => $download_count, // this definition is not removed for backward compatibility issues
                         'downloads_count' => $download_count
-                    );
+                    ];
                 }
             }
         } else {
             $download_count  = 0;
-            $infercategories = array();
+            $infercategories = [];
         }
         $catdowncount   += $download_count;
         $download_count = 0;
 
-        $xoopsTpl->append('subcategories', array(
+        $xoopsTpl->append('subcategories', [
             'title'               => $subCategoryObj->getVar('title'),
             'image'               => $imageURL, // this definition is not removed for backward compatibility issues
             'image_URL'           => $imageURL,
@@ -204,7 +212,7 @@ if (is_array($allSubCategoryObjs) > 0 && !isset($_GET['list']) && !isset($_GET['
             'downloads_count'     => $catdowncount,
             'count'               => $scount, // this definition is not removed for backward compatibility issues
             'subcategories_count' => $catdowncount
-        ));
+        ]);
         ++$scount;
     }
 }
@@ -218,8 +226,16 @@ if (isset($cid) && $cid > 0 && isset($categoryObjs[$cid])) {
     // Making the category image and title available in the template
     if (($categoryObjs[$cid]->getVar('imgurl') !== '') && is_file(XOOPS_ROOT_PATH . '/' . $wfdownloads->getConfig('catimage') . '/' . $categoryObjs[$cid]->getVar('imgurl'))) {
         if ($wfdownloads->getConfig('usethumbs') && function_exists('gd_info')) {
-            $imageURL = WfdownloadsUtility::createThumb($categoryObjs[$cid]->getVar('imgurl'), $wfdownloads->getConfig('catimage'), 'thumbs', $wfdownloads->getConfig('cat_imgwidth'), $wfdownloads->getConfig('cat_imgheight'), $wfdownloads->getConfig('imagequality'),
-                                                        $wfdownloads->getConfig('updatethumbs'), $wfdownloads->getConfig('keepaspect'));
+            $imageURL = WfdownloadsUtility::createThumb(
+                $categoryObjs[$cid]->getVar('imgurl'),
+                $wfdownloads->getConfig('catimage'),
+                'thumbs',
+                $wfdownloads->getConfig('cat_imgwidth'),
+                $wfdownloads->getConfig('cat_imgheight'),
+                $wfdownloads->getConfig('imagequality'),
+                                                        $wfdownloads->getConfig('updatethumbs'),
+                $wfdownloads->getConfig('keepaspect')
+            );
         } else {
             $imageURL = XOOPS_URL . '/' . $wfdownloads->getConfig('catimage') . '/' . $categoryObjs[$cid]->getVar('imgurl');
         }

@@ -112,8 +112,10 @@ define('_AM_WFDOWNLOADS_IPAGE_CCENTER', 'Align center');
 define('_AM_WFDOWNLOADS_IPAGE_CRIGHT', 'Align right');
 //  Permissions defines
 define('_AM_WFDOWNLOADS_PERM_MANAGEMENT', 'Permissions management');
-define('_AM_WFDOWNLOADS_PERM_PERMSNOTE',
-       "Please be aware that even if you've set correct viewing permissions here, a group might not see the articles or blocks if you don't also grant that group permissions to access the module. To do that, go to <span style='font-weight: bold;'>System admin > Groups</span>, choose the appropriate group and click the checkboxes to grant its members the access.");
+define(
+    '_AM_WFDOWNLOADS_PERM_PERMSNOTE',
+       "Please be aware that even if you've set correct viewing permissions here, a group might not see the articles or blocks if you don't also grant that group permissions to access the module. To do that, go to <span style='font-weight: bold;'>System admin > Groups</span>, choose the appropriate group and click the checkboxes to grant its members the access."
+);
 define('_AM_WFDOWNLOADS_PERM_CPERMISSIONS', 'Category permissions');
 define('_AM_WFDOWNLOADS_PERM_CSELECTPERMISSIONS', 'Select categories that each group is allowed to view');
 define('_AM_WFDOWNLOADS_PERM_CNOCATEGORY', 'Cannot set permissions: No categories have been created yet!');
@@ -564,8 +566,10 @@ define('_AM_WFDOWNLOADS_FORMULIZE_NOT_AVILABLE', 'Formulize Module not present o
 define('_AM_WFDOWNLOADS_PERM_NOTE', 'Note');
 // admin/import.php
 define('_AM_WFDOWNLOADS_IMPORT_INFORMATION', 'Import page information');
-define('_AM_WFDOWNLOADS_IMPORT_INFORMATION_TEXT',
-       "To import categories and downloads from other modules click on buttons bellow.<br><br><span style='font-weight: bold;'>WARNINGS</span><br><ul><li>Import procedure will not overwrite existing categories/downloads.</li><li>Import procedure will not copy files, <span style='font-weight: bold;'>DO NOT remove orginal module/categories/downloads!</span></li><li>Import procedure will not copy permissions, <span style='font-weight: bold;'>remember to set permissions</span>.</li></ul>");
+define(
+    '_AM_WFDOWNLOADS_IMPORT_INFORMATION_TEXT',
+       "To import categories and downloads from other modules click on buttons bellow.<br><br><span style='font-weight: bold;'>WARNINGS</span><br><ul><li>Import procedure will not overwrite existing categories/downloads.</li><li>Import procedure will not copy files, <span style='font-weight: bold;'>DO NOT remove orginal module/categories/downloads!</span></li><li>Import procedure will not copy permissions, <span style='font-weight: bold;'>remember to set permissions</span>.</li></ul>"
+);
 
 define('_AM_WFDOWNLOADS_IMPORT_BUTTON_IMPORT', 'Import');
 define('_AM_WFDOWNLOADS_IMPORT_IMPORTINGDATA', "<span style='font-weight: bold;'>Importing Data</span>");
@@ -583,7 +587,7 @@ define('_AM_WFDOWNLOADS_IMPORT_TDMDOWNLOADS', 'Import data from TDMDownloads');
 define('_AM_WFDOWNLOADS_IMPORT_TDMDOWNLOADS_NOTFOUND', 'Module TDMDownloads not found on this site');
 define('_AM_WFDOWNLOADS_FCATEGORY_GROUPPROMPT_UP', 'Category upload permissions');
 define('_AM_WFDOWNLOADS_PERM_CSELECTPERMISSIONS_UP', 'Select categories that each group is allowed to upload');
-define('_AM_WFDOWNLOADS_FCATEGORY_GROUPPROMPT_DESC', 'SELECT groups allowed TO download FROM this category');
+define('_AM_WFDOWNLOADS_FCATEGORY_GROUPPROMPT_DESC', 'Select groups allowed to download from this category');
 define('_AM_WFDOWNLOADS_FCATEGORY_GROUPPROMPT_UP_DESC', 'Select groups allowed to upload to this category');
 // admin/ratings.php
 define('_AM_WFDOWNLOADS_VOTE_VOTES', 'Votes');

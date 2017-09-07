@@ -68,22 +68,22 @@ class WfdownloadsMulticolumnsThemeForm extends XoopsForm
      *
      * @var array
      */
-    public $_elements = array();
+    public $_elements = [];
 
     /**
      * mono-dimensional array of column titles
      *
      * @var array
      */
-    public $_titles = array();
+    public $_titles = [];
 
     /**
      * Add an element to the form
      *
      * @param XoopsFormElement $formElement
-     * @param bool        $required is this a "required" element?
-     * @param int         $row      two-dimensional array (matrix) row (0 first key)
-     * @param int         $column   two-dimensional array (matrix) column (0 first key)
+     * @param bool             $required is this a "required" element?
+     * @param int              $row      two-dimensional array (matrix) row (0 first key)
+     * @param int              $column   two-dimensional array (matrix) column (0 first key)
      *
      */
     public function addElement($formElement, $required = false, $row = null, $column = null)
@@ -103,7 +103,7 @@ class WfdownloadsMulticolumnsThemeForm extends XoopsForm
                 $this->_columns = $column + 1;
             }
         } elseif (is_subclass_of($formElement, 'xoopsformelement')) {
-            $this->_elements[$row][$column] = &$formElement;
+            $this->_elements[$row][$column] =& $formElement;
             if ($row >= $this->_rows) {
                 $this->_rows = $row + 1;
             }
@@ -113,13 +113,13 @@ class WfdownloadsMulticolumnsThemeForm extends XoopsForm
             if (!$formElement->isContainer()) {
                 if ($required) {
                     $formElement->_required = true;
-                    $this->_required[]      = &$formElement;
+                    $this->_required[]      =& $formElement;
                 }
             } else {
-                $required_elements = &$formElement->getRequired();
+                $required_elements =& $formElement->getRequired();
                 $count             = count($required_elements);
                 for ($i = 0; $i < $count; ++$i) {
-                    $this->_required[] = &$required_elements[$i];
+                    $this->_required[] =& $required_elements[$i];
                 }
             }
         }
@@ -186,9 +186,9 @@ class WfdownloadsMulticolumnsThemeForm extends XoopsForm
     {
         $ele_name = $this->getName();
         $ret      = '';
-        $ret .= "<form name='{$ele_name}' id='{$ele_name}' action='{$this->getAction()}' method='{$this->getMethod()}' onsubmit='return xoopsFormValidate_{$ele_name}();' {$this->getExtra()} >" . NWLINE;
-        $ret .= "<table width='100%' class='outer' cellspacing='1'>" . NWLINE;
-        $ret .= "<tr><th colspan='{$this->_columns}'>{$this->getTitle()}</th></tr>" . NWLINE;
+        $ret      .= "<form name='{$ele_name}' id='{$ele_name}' action='{$this->getAction()}' method='{$this->getMethod()}' onsubmit='return xoopsFormValidate_{$ele_name}();' {$this->getExtra()} >" . NWLINE;
+        $ret      .= "<table width='100%' class='outer' cellspacing='1'>" . NWLINE;
+        $ret      .= "<tr><th colspan='{$this->_columns}'>{$this->getTitle()}</th></tr>" . NWLINE;
         if (count($this->_titles) > 0) {
             $ret .= '<tr>';
             for ($column = 0; $column < $this->_columns; ++$column) {

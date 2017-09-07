@@ -23,7 +23,8 @@
 use Xmf\Request;
 
 require_once dirname(__DIR__) . '/include/common.php';
-require_once __DIR__ . '/common/traits.php';
+require_once __DIR__ . '/common/traitversionchecks.php';
+require_once __DIR__ . '/common/traitserverstats.php';
 
 //namespace Wfdownloads;
 
@@ -32,7 +33,8 @@ require_once __DIR__ . '/common/traits.php';
  */
 class WfdownloadsUtility
 {
-    use VersionChecks; //checkVerXoops, checkVerPhp
+    use VersionChecks; //checkVerXoops, checkVerPhp Traits
+    use ServerStats; // getServerStats Trait
 
     /**
      * Function responsible for checking if a directory exists, we can also write in and create an index.html file
@@ -298,7 +300,7 @@ class WfdownloadsUtility
             publisherOpenCollapsableBar('bottomtable', 'bottomtableicon', _AM_PUBLISHER_CAT_ITEMS, _AM_PUBLISHER_CAT_ITEMS_DSC);
             $startitem = Request::getInt('startitem');
             // Get the total number of published ITEMS
-            $totalitems = $publisher->getHandler('item')->getItemsCount($selCat, array(WfdownloadsConstants::PUBLISHER_STATUS_PUBLISHED));
+            $totalitems = $publisher->getHandler('item')->getItemsCount($selCat, [WfdownloadsConstants::PUBLISHER_STATUS_PUBLISHED]);
             // creating the items objects that are published
             $itemsObj         = $publisher->getHandler('item')->getAllPublished($publisher->getConfig('idxcat_perpage'), $startitem, $selCat);
             $totalitemsOnPage = count($itemsObj);
@@ -372,7 +374,7 @@ class WfdownloadsUtility
     public static function bytesToSize1000($bytes, $precision = 2)
     {
         // human readable format -- powers of 1000
-        $unit = array('b', 'kb', 'mb', 'gb', 'tb', 'pb', 'eb');
+        $unit = ['b', 'kb', 'mb', 'gb', 'tb', 'pb', 'eb'];
 
         return @round($bytes / pow(1000, $i = floor(log($bytes, 1000))), $precision) . ' ' . $unit[(int)$i];
     }
@@ -386,7 +388,7 @@ class WfdownloadsUtility
     public static function bytesToSize1024($bytes, $precision = 2)
     {
         // human readable format -- powers of 1024
-        $unit = array('B', 'kB', 'MB', 'GB', 'TB', 'PB', 'EB');
+        $unit = ['B', 'kB', 'MB', 'GB', 'TB', 'PB', 'EB'];
 
         return @round($bytes / pow(1024, $i = floor(log($bytes, 1024))), $precision) . ' ' . $unit[(int)$i];
     }
@@ -446,8 +448,8 @@ class WfdownloadsUtility
      */
     public static function getDir($path = '.', $level = 0)
     {
-        $ret    = array();
-        $ignore = array('cgi-bin', '.', '..');
+        $ret    = [];
+        $ignore = ['cgi-bin', '.', '..'];
         // Directories to ignore when listing output. Many hosts will deny PHP access to the cgi-bin.
         $dirHandler = @opendir($path);
         // Open the directory to the handle $dirHandler
@@ -511,7 +513,7 @@ class WfdownloadsUtility
      */
     public static function getFiles($path = '.')
     {
-        $files = array();
+        $files = [];
         $dir   = opendir($path);
         while (false !== ($file = readdir($dir))) {
             if (is_file($path . $file)) {
@@ -671,7 +673,7 @@ class WfdownloadsUtility
     {
         $wfdownloads = WfdownloadsWfdownloads::getInstance();
 
-        $sorted   = array();
+        $sorted   = [];
         $criteria = new CriteriaCompo();
         $criteria->add(new Criteria('pid', $pid));
         $criteria->setSort('weight');
@@ -682,7 +684,7 @@ class WfdownloadsUtility
             foreach ($subCategoryObjs as $subCategoryObj) {
                 $pid      = $subCategoryObj->getVar('pid');
                 $cid      = $subCategoryObj->getVar('cid');
-                $sorted[] = array('pid' => $pid, 'cid' => $cid, 'level' => $level, 'category' => $subCategoryObj->toArray());
+                $sorted[] = ['pid' => $pid, 'cid' => $cid, 'level' => $level, 'category' => $subCategoryObj->toArray()];
                 if (false !== ($subSorted = self::sortCategories($cid, $level))) {
                     $sorted = array_merge($sorted, $subSorted);
                 }
@@ -710,9 +712,9 @@ class WfdownloadsUtility
         $countsByLetters = $wfdownloads->getHandler('download')->getCounts($criteria);
         // Fill alphabet array
         $alphabet       = wfdownloads_alphabet();
-        $alphabet_array = array();
+        $alphabet_array = [];
         foreach ($alphabet as $letter) {
-            $letter_array = array();
+            $letter_array = [];
             if (isset($countsByLetters[$letter])) {
                 $letter_array['letter'] = $letter;
                 $letter_array['count']  = $countsByLetters[$letter];
@@ -904,7 +906,7 @@ class WfdownloadsUtility
             $queryString = '?' . $queryString;
         }
         $currentURL          = $http . $httpHost . $phpSelf . $queryString;
-        $urls                = array();
+        $urls                = [];
         $urls['http']        = $http;
         $urls['httphost']    = $httpHost;
         $urls['phpself']     = $phpSelf;
@@ -929,7 +931,7 @@ class WfdownloadsUtility
      *
      * @return string
      */
-    public static function formatErrors($errors = array())
+    public static function formatErrors($errors = [])
     {
         $ret = '';
         //mb    foreach ($errors as $key => $value) {
@@ -1055,59 +1057,6 @@ class WfdownloadsUtility
         return $toolbar;
     }
 
-    /**
-     * serverStats()
-     *
-     * @return string
-     */
-    public static function serverStats()
-    {
-        //mb    $wfdownloads = WfdownloadsWfdownloads::getInstance();
-        $html  = '';
-        $sql   = 'SELECT metavalue';
-        $sql   .= ' FROM ' . $GLOBALS['xoopsDB']->prefix('wfdownloads_meta');
-        $sql   .= " WHERE metakey='version' LIMIT 1";
-        $query = $GLOBALS['xoopsDB']->query($sql);
-        list($meta) = $GLOBALS['xoopsDB']->fetchRow($query);
-        $html .= "<fieldset><legend style='font-weight: bold; color: #900;'>" . _AM_WFDOWNLOADS_DOWN_IMAGEINFO . "</legend>\n";
-        $html .= "<div style='padding: 8px;'>\n";
-        $html .= '<div>' . _AM_WFDOWNLOADS_DOWN_METAVERSION . $meta . "</div>\n";
-        $html .= "<br>\n";
-        $html .= "<br>\n";
-        $html .= '<div>' . _AM_WFDOWNLOADS_DOWN_SPHPINI . "</div>\n";
-        $html .= "<ul>\n";
-        //
-        $gdlib = function_exists('gd_info') ? "<span style=\"color: green;\">" . _AM_WFDOWNLOADS_DOWN_GDON . '</span>' : "<span style=\"color: red;\">" . _AM_WFDOWNLOADS_DOWN_GDOFF . '</span>';
-        $html  .= '<li>' . _AM_WFDOWNLOADS_DOWN_GDLIBSTATUS . $gdlib;
-        if (function_exists('gd_info')) {
-            if (true === $gdlib = gd_info()) {
-                $html .= '<li>' . _AM_WFDOWNLOADS_DOWN_GDLIBVERSION . '<b>' . $gdlib['GD Version'] . '</b>';
-            }
-        }
-        //
-        //    $safemode = ini_get('safe_mode') ? _AM_WFDOWNLOADS_DOWN_ON . _AM_WFDOWNLOADS_DOWN_SAFEMODEPROBLEMS : _AM_WFDOWNLOADS_DOWN_OFF;
-        //    $html .= '<li>' . _AM_WFDOWNLOADS_DOWN_SAFEMODESTATUS . $safemode;
-        //
-        //    $registerglobals = (!ini_get('register_globals')) ? "<span style=\"color: green;\">" . _AM_WFDOWNLOADS_DOWN_OFF . '</span>' : "<span style=\"color: red;\">" . _AM_WFDOWNLOADS_DOWN_ON . '</span>';
-        //    $html .= '<li>' . _AM_WFDOWNLOADS_DOWN_REGISTERGLOBALS . $registerglobals;
-        //
-        $downloads = ini_get('file_uploads') ? "<span style=\"color: green;\">" . _AM_WFDOWNLOADS_DOWN_ON . '</span>' : "<span style=\"color: red;\">" . _AM_WFDOWNLOADS_DOWN_OFF . '</span>';
-        $html      .= '<li>' . _AM_WFDOWNLOADS_DOWN_SERVERUPLOADSTATUS . $downloads;
-        //
-        $html .= '<li>' . _AM_WFDOWNLOADS_DOWN_MAXUPLOADSIZE . " <b><span style=\"color: blue;\">" . ini_get('upload_max_filesize') . "</span></b>\n";
-        $html .= '<li>' . _AM_WFDOWNLOADS_DOWN_MAXPOSTSIZE . " <b><span style=\"color: blue;\">" . ini_get('post_max_size') . "</span></b>\n";
-        $html .= '<li>' . _AM_WFDOWNLOADS_DOWN_MEMORYLIMIT . " <b><span style=\"color: blue;\">" . ini_get('memory_limit') . "</span></b>\n";
-        $html .= "</ul>\n";
-        $html .= "<ul>\n";
-        $html .= '<li>' . _AM_WFDOWNLOADS_DOWN_SERVERPATH . ' <b>' . XOOPS_ROOT_PATH . "</b>\n";
-        $html .= "</ul>\n";
-        $html .= "<br>\n";
-        $html .= _AM_WFDOWNLOADS_DOWN_UPLOADPATHDSC . "\n";
-        $html .= '</div>';
-        $html .= '</fieldset><br>';
-
-        return $html;
-    }
 
     /**
      * displayicons()
@@ -1332,7 +1281,7 @@ class WfdownloadsUtility
     {
         $gpermHandler             = xoops_getHandler('groupperm');
         $wfdownloads              = WfdownloadsWfdownloads::getInstance();
-        $groups                   = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : array(0 => XOOPS_GROUP_ANONYMOUS);
+        $groups                   = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : [0 => XOOPS_GROUP_ANONYMOUS];
         $allowedDownCategoriesIds = $gpermHandler->getItemIds('WFDownCatPerm', $groups, $wfdownloads->getModule()->mid());
 
         return count($allowedDownCategoriesIds);
@@ -1585,14 +1534,14 @@ class WfdownloadsUtility
      */
     public static function getDownloadTime($size = 0, $gmodem = 1, $gisdn = 1, $gdsl = 1, $gslan = 0, $gflan = 0)
     {
-        $aflag  = array();
-        $amtime = array();
-        $artime = array();
-        $ahtime = array();
-        $asout  = array();
-        $aflag  = array($gmodem, $gisdn, $gdsl, $gslan, $gflan);
-        $amtime = array($size / 6300 / 60, $size / 7200 / 60, $size / 86400 / 60, $size / 1125000 / 60, $size / 11250000 / 60);
-        $amname = array('Modem(56k)', 'ISDN(64k)', 'DSL(768k)', 'LAN(10M)', 'LAN(100M');
+        $aflag  = [];
+        $amtime = [];
+        $artime = [];
+        $ahtime = [];
+        $asout  = [];
+        $aflag  = [$gmodem, $gisdn, $gdsl, $gslan, $gflan];
+        $amtime = [$size / 6300 / 60, $size / 7200 / 60, $size / 86400 / 60, $size / 1125000 / 60, $size / 11250000 / 60];
+        $amname = ['Modem(56k)', 'ISDN(64k)', 'DSL(768k)', 'LAN(10M)', 'LAN(100M'];
         for ($i = 0; $i < 5; ++$i) {
             $artime[$i] = ($amtime[$i] % 60);
         }
@@ -1666,7 +1615,7 @@ class WfdownloadsUtility
             $mimetypeObj = $mimetypeObjs[0];
             $ret         = explode(' ', $mimetypeObj->getVar('mime_types'));
         } else {
-            $ret = array();
+            $ret = [];
         }
 
         return $ret;
@@ -1711,7 +1660,7 @@ class WfdownloadsUtility
     public static function uploading(
         $filename,
         $uploadDirectory = 'uploads',
-        $allowedMimetypes = array(),
+        $allowedMimetypes = [],
         $redirectURL = 'index.php',
         $num = 0,
         $redirect = false,
@@ -1719,7 +1668,7 @@ class WfdownloadsUtility
         $onlyImages = false
     ) {
         $wfdownloads = WfdownloadsWfdownloads::getInstance();
-        $file        = array();
+        $file        = [];
         if (empty($allowedMimetypes)) {
             $allowedMimetypes = self::allowedMimetypes($_FILES['userfile']['name'], $isAdmin);
         }
@@ -1966,7 +1915,7 @@ class WfdownloadsUtility
             // splits all html-tags to scanable lines
             preg_match_all('/(<.+?' . '>)?([^<>]*)/s', $text, $lines, PREG_SET_ORDER);
             $total_length = strlen($ending);
-            $open_tags    = array();
+            $open_tags    = [];
             $truncate     = '';
             foreach ($lines as $line_matchings) {
                 // if there is any html-tag in this line, handle it and add it (uncounted) to the output
@@ -2216,7 +2165,7 @@ class WfdownloadsUtility
             //$table_header_flag = false;
             //$disp_nff_flag = true;
 
-            $ret = array();
+            $ret = [];
             while (false !== ($line = @fgets($swishePipeHandler, 4096))) {
                 // loop through each line of the pipe result (i.e. swish-e output)
                 if (preg_match("/^(\d+)\s+(\S+)\s+\"(.*)\"\s+(\d+)/", $line)) {
@@ -2232,13 +2181,13 @@ class WfdownloadsUtility
                     $result_url         = trim(substr($result_url, $swisheDocPath_strlen - 1, strlen($result_url)));
                     $file_path          = strright($result_url, strlen($result_url) - 2);
                     //                $file_path2 =       substr($result_url, (strlen($result_url) - (strlen($result_url) - 2)),strlen($result_url));
-                    $ret[] = array(
+                    $ret[] = [
                         'relevance'    => $relevance,
                         'result_url'   => $result_url,
                         'result_title' => $result_title,
                         'file_size'    => $file_size,
                         'file_path'    => $file_path
-                    );
+                    ];
                 }
             }
             // close the shell pipe

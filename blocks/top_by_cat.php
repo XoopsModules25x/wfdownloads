@@ -38,10 +38,10 @@ function wfdownloads_top_by_cat_show($options)
     $wfdownloads = WfdownloadsWfdownloads::getInstance();
 
     $gpermHandler             = xoops_getHandler('groupperm');
-    $groups                   = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : array(0 => XOOPS_GROUP_ANONYMOUS);
+    $groups                   = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : [0 => XOOPS_GROUP_ANONYMOUS];
     $allowedDownCategoriesIds = $gpermHandler->getItemIds('WFDownCatPerm', $groups, $wfdownloads->getModule()->mid());
 
-    $block = array();
+    $block = [];
 
     // get downloads
     $criteria = new CriteriaCompo();

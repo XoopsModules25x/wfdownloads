@@ -74,7 +74,7 @@ class WfdownloadsMirror extends XoopsObject
         $form->addElement(new XoopsFormText(_AM_WFDOWNLOADS_MIRROR_LOCATION, 'location', 50, 255, $this->getVar('location', 'e')), true);
         // continent
         $continent_select = new XoopsFormSelect(_AM_WFDOWNLOADS_MIRROR_CONTINENT, 'continent', $this->getVar('continent'));
-        $continent_select->addOptionArray(array(
+        $continent_select->addOptionArray([
                                               _AM_WFDOWNLOADS_CONT1 => _AM_WFDOWNLOADS_CONT1,
                                               _AM_WFDOWNLOADS_CONT2 => _AM_WFDOWNLOADS_CONT2,
                                               _AM_WFDOWNLOADS_CONT3 => _AM_WFDOWNLOADS_CONT3,
@@ -82,7 +82,7 @@ class WfdownloadsMirror extends XoopsObject
                                               _AM_WFDOWNLOADS_CONT5 => _AM_WFDOWNLOADS_CONT5,
                                               _AM_WFDOWNLOADS_CONT6 => _AM_WFDOWNLOADS_CONT6,
                                               _AM_WFDOWNLOADS_CONT7 => _AM_WFDOWNLOADS_CONT7
-                                          ));
+                                          ]);
         $form->addElement($continent_select);
         // downurl
         $form->addElement(new XoopsFormText(_AM_WFDOWNLOADS_MIRROR_DOWNURL, 'downurl', 50, 255, $this->getVar('downurl', 'e')), true);

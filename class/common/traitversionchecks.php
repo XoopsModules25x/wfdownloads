@@ -1,11 +1,19 @@
 <?php
+/*
+ You may not change or alter any portion of this comment or credits
+ of supporting developers from this source code or any supporting source code
+ which is considered copyrighted (c) material of the original comment or credit authors.
 
-/**
- * Created by PhpStorm.
- * User: mamba
- * Date: 2016-12-04
- * Time: 04:27
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
+/**
+ * @copyright   XOOPS Project (https://xoops.org)
+ * @license     http://www.fsf.org/copyleft/gpl.html GNU public license
+ * @author      mamba <mambax7@gmail.com>
+ */
+
 trait VersionChecks
 {
     /**
@@ -43,14 +51,14 @@ trait VersionChecks
                     break;
                 }
             } else {
-                if ((int)$v > 0) { // handles things like x.x.x.0_RC2
+                if ((int)$v > 0) { // handles versions like x.x.x.0_RC2
                     $success = false;
                     break;
                 }
             }
         }
 
-        if (!$success) {
+        if (false === $success) {
             $module->setErrors(sprintf(_AM_WFDOWNLOADS_ERROR_BAD_XOOPS, $requiredVer, $currentVer));
         }
 

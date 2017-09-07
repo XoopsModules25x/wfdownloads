@@ -101,7 +101,7 @@ switch ($op) {
         // Get common keys
         $commonKeys = array_intersect($downloadKeys, $modificationKeys);
         // Set not allowed keys
-        $notAllowedKeys = array(
+        $notAllowedKeys = [
             'lid',
             'submitter',
             'publisher',
@@ -109,11 +109,11 @@ switch ($op) {
             'forumid',
             'modifysubmitter',
             'paypalemail'
-        );
+        ];
 
         $i = 0;
         $mcform->addElement(null, false, null, null);
-        $mcform->setTitles(array('', _AM_WFDOWNLOADS_MOD_ORIGINAL, _AM_WFDOWNLOADS_MOD_PROPOSED));
+        $mcform->setTitles(['', _AM_WFDOWNLOADS_MOD_ORIGINAL, _AM_WFDOWNLOADS_MOD_PROPOSED]);
         $i = 1;
         foreach ($commonKeys as $key) {
             if (in_array($key, $notAllowedKeys)) {
@@ -299,7 +299,7 @@ switch ($op) {
         /* Added by lankford on 2007/3/21 */
         if ($raiseModifyEvents) {
             // Trigger the three events related to modified files (one for the file, category, and global event categories respectively)
-            $tags                  = array();
+            $tags                  = [];
             $tags['FILE_NAME']     = $downloadObj->getVar('title');
             $tags['FILE_URL']      = WFDOWNLOADS_URL . '/singlefile.php?cid=' . $cid . '&amp;lid=' . $lid;
             $category              = $wfdownloads->getHandler('category')->get($cid);
@@ -340,7 +340,7 @@ switch ($op) {
             }
         } else {
             WfdownloadsUtility::myxoops_cp_header();
-            xoops_confirm(array('op' => 'modification.ignore', 'requestid' => $requestid, 'ok' => true, 'title' => $title), $currentFile, _AM_WFDOWNLOADS_MOD_REALLYIGNOREDTHIS . '<br><br>' . $title, _DELETE);
+            xoops_confirm(['op' => 'modification.ignore', 'requestid' => $requestid, 'ok' => true, 'title' => $title], $currentFile, _AM_WFDOWNLOADS_MOD_REALLYIGNOREDTHIS . '<br><br>' . $title, _DELETE);
             xoops_cp_footer();
         }
         break;

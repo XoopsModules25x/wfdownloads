@@ -155,18 +155,26 @@ $adminObject->addConfigBoxLine('');
 
 //$moduleDirName = basename(dirname(__DIR__));
 
-$configurator = new WfdownloadsConfigurator();
-$classUtility = ucfirst($moduleDirName) . 'Utility';;
-if (!class_exists($classUtility)) {
+/** @var WfdownloadsUtility $configuratorClass */
+$configuratorClass = ucfirst($moduleDirName) . 'Configurator';
+if (!class_exists($configuratorClass)) {
+    xoops_load('configurator', $moduleDirName);
+}
+
+$configurator = new $configuratorClass();
+
+/** @var WfdownloadsUtility $utilityClass */
+$utilityClass = ucfirst($moduleDirName) . 'Utility';
+if (!class_exists($utilityClass)) {
     xoops_load('utility', $moduleDirName);
 }
 
 foreach (array_keys($configurator->uploadFolders) as $i) {
-    $classUtility::createFolder($configurator->uploadFolders[$i]);
+    $utilityClass::createFolder($configurator->uploadFolders[$i]);
 }
 
 $adminObject->displayNavigation(basename(__FILE__));
 $adminObject->displayIndex();
-echo WfdownloadsUtility::serverStats();
+echo $utilityClass::getServerStats();
 
 require_once __DIR__ . '/admin_footer.php';

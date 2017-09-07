@@ -40,11 +40,11 @@ if (@$_POST['op'] === 'submit') {
         redirect_header($currentFile, 3, sprintf(_AM_WFDOWNLOADS_CLONE_TOOLONG, $cloneDirname));
     }
 
-    $patterns = array(
+    $patterns = [
         strtolower(WFDOWNLOADS_DIRNAME)          => strtolower($cloneDirname),
         strtoupper(WFDOWNLOADS_DIRNAME)          => strtoupper($cloneDirname),
         ucfirst(strtolower(WFDOWNLOADS_DIRNAME)) => ucfirst(strtolower($cloneDirname))
-    );
+    ];
 
     $patKeys   = array_keys($patterns);
     $patValues = array_values($patterns);
@@ -131,14 +131,14 @@ function wfdownloads_createLogo($dirname)
     if (!extension_loaded('gd')) {
         return false;
     } else {
-        $required_functions = array(
+        $required_functions = [
             'imagecreatetruecolor',
             'imagecolorallocate',
             'imagefilledrectangle',
             'imagejpeg',
             'imagedestroy',
             'imageftbbox'
-        );
+        ];
         foreach ($required_functions as $func) {
             if (!function_exists($func)) {
                 return false;
@@ -160,7 +160,7 @@ function wfdownloads_createLogo($dirname)
     // Write text
     $textColor       = imagecolorallocate($imageModule, 0, 0, 0);
     $space_to_border = (80 - strlen($dirname) * 6.5) / 2;
-    imagefttext($imageModule, 8.5, 0, $space_to_border, 45, $textColor, $font, ucfirst($dirname), array());
+    imagefttext($imageModule, 8.5, 0, $space_to_border, 45, $textColor, $font, ucfirst($dirname), []);
     // Set transparency color
     $whiteColor = imagecolorallocatealpha($imageModule, 255, 255, 255, 127);
     imagefill($imageModule, 0, 0, $whiteColor);

@@ -49,7 +49,7 @@ switch ($op) {
             redirect_header($currentFile, 1, _AM_WFDOWNLOADS_IMPORT_IMPORT_OK);
         } else {
             WfdownloadsUtility::myxoops_cp_header();
-            xoops_confirm(array('op' => 'import.MyDownloads', 'ok' => true), $currentFile, _AM_WFDOWNLOADS_IMPORT_RUSURE);
+            xoops_confirm(['op' => 'import.MyDownloads', 'ok' => true], $currentFile, _AM_WFDOWNLOADS_IMPORT_RUSURE);
             xoops_cp_footer();
         }
         break;
@@ -63,10 +63,9 @@ switch ($op) {
             xoops_cp_footer();
             // Downloads imported
             //redirect_header($currentFile, 1, _AM_WFDOWNLOADS_IMPORT_IMPORT_OK);
-            exit();
         } else {
             WfdownloadsUtility::myxoops_cp_header();
-            xoops_confirm(array('op' => 'import.PD-Downloads', 'ok' => true), $currentFile, _AM_WFDOWNLOADS_IMPORT_RUSURE);
+            xoops_confirm(['op' => 'import.PD-Downloads', 'ok' => true], $currentFile, _AM_WFDOWNLOADS_IMPORT_RUSURE);
             xoops_cp_footer();
         }
         break;
@@ -80,10 +79,9 @@ switch ($op) {
             xoops_cp_footer();
             // Downloads imported
             //redirect_header($currentFile, 1, _AM_WFDOWNLOADS_IMPORT_IMPORT_OK);
-            exit();
         } else {
             WfdownloadsUtility::myxoops_cp_header();
-            xoops_confirm(array('op' => 'import.wmpownloads', 'ok' => true), $currentFile, _AM_WFDOWNLOADS_IMPORT_RUSURE);
+            xoops_confirm(['op' => 'import.wmpownloads', 'ok' => true], $currentFile, _AM_WFDOWNLOADS_IMPORT_RUSURE);
             xoops_cp_footer();
         }
         break;
@@ -98,10 +96,9 @@ switch ($op) {
             xoops_cp_footer();
             // Downloads imported
             //redirect_header($currentFile, 1, _AM_WFDOWNLOADS_IMPORT_IMPORT_OK);
-            exit();
         } else {
             WfdownloadsUtility::myxoops_cp_header();
-            xoops_confirm(array('op' => 'import.wfd322', 'ok' => true), $currentFile, _AM_WFDOWNLOADS_IMPORT_RUSURE);
+            xoops_confirm(['op' => 'import.wfd322', 'ok' => true], $currentFile, _AM_WFDOWNLOADS_IMPORT_RUSURE);
             xoops_cp_footer();
         }
         break;
@@ -116,10 +113,9 @@ switch ($op) {
             xoops_cp_footer();
             // Downloads imported
             //redirect_header($currentFile, 1, _AM_WFDOWNLOADS_IMPORT_IMPORT_OK);
-            exit();
         } else {
             WfdownloadsUtility::myxoops_cp_header();
-            xoops_confirm(array('op' => 'import.TDMDownloads', 'ok' => true), $currentFile, _AM_WFDOWNLOADS_IMPORT_RUSURE);
+            xoops_confirm(['op' => 'import.TDMDownloads', 'ok' => true], $currentFile, _AM_WFDOWNLOADS_IMPORT_RUSURE);
             xoops_cp_footer();
         }
         break;
@@ -294,7 +290,7 @@ function import_wfd_to_wfdownloads()
     echo _AM_WFDOWNLOADS_IMPORT_IMPORTINGDATA;
     echo '<br>';
 
-    $destination = array(
+    $destination = [
         'cat'       => $GLOBALS['xoopsDB']->prefix('wfdownloads_cat'),
         'downloads' => $GLOBALS['xoopsDB']->prefix('wfdownloads_downloads'),
         'mirrors'   => $GLOBALS['xoopsDB']->prefix('wfdownloads_mirrors'),
@@ -302,9 +298,9 @@ function import_wfd_to_wfdownloads()
         'broken'    => $GLOBALS['xoopsDB']->prefix('wfdownloads_broken'),
         'mod'       => $GLOBALS['xoopsDB']->prefix('wfdownloads_mod'),
         'votes'     => $GLOBALS['xoopsDB']->prefix('wfdownloads_votedata')
-    );
+    ];
 
-    $source = array(
+    $source = [
         'cat'       => $GLOBALS['xoopsDB']->prefix('wf' . 'downloads_cat'), // don't modify, is for cloning
         'downloads' => $GLOBALS['xoopsDB']->prefix('wf' . 'downloads_downloads'), // don't modify, is for cloning
         'mirrors'   => $GLOBALS['xoopsDB']->prefix('wf' . 'downloads_mirrors'), // don't modify, is for cloning
@@ -312,7 +308,7 @@ function import_wfd_to_wfdownloads()
         'broken'    => $GLOBALS['xoopsDB']->prefix('wf' . 'downloads_broken'), // don't modify, is for cloning
         'mod'       => $GLOBALS['xoopsDB']->prefix('wf' . 'downloads_mod'), // don't modify, is for cloning
         'votes'     => $GLOBALS['xoopsDB']->prefix('wf' . 'downloads_votedata')
-    ); // don't modify, is for cloning
+    ]; // don't modify, is for cloning
 
     //Add temporary field to category table
     $GLOBALS['xoopsDB']->query("ALTER TABLE {$destination['cat']} ADD `old_cid` int NOT NULL default 0");
@@ -470,22 +466,22 @@ function import_wmpdownloads_to_wfdownloads()
     echo _AM_WFDOWNLOADS_IMPORT_IMPORTINGDATA;
     echo '<br>';
 
-    $destination = array(
+    $destination = [
         'cat'       => $GLOBALS['xoopsDB']->prefix('wfdownloads_cat'),
         'downloads' => $GLOBALS['xoopsDB']->prefix('wfdownloads_downloads'),
         'broken'    => $GLOBALS['xoopsDB']->prefix('wfdownloads_broken'),
         'mod'       => $GLOBALS['xoopsDB']->prefix('wfdownloads_mod'),
         'votes'     => $GLOBALS['xoopsDB']->prefix('wfdownloads_votedata')
-    );
+    ];
 
-    $source = array(
+    $source = [
         'cat'       => $GLOBALS['xoopsDB']->prefix('wmpdownloads_cat'),
         'downloads' => $GLOBALS['xoopsDB']->prefix('wmpdownloads_downloads'),
         'broken'    => $GLOBALS['xoopsDB']->prefix('wmpdownloads_broken'),
         'mod'       => $GLOBALS['xoopsDB']->prefix('wmpdownloads_mod'),
         'votes'     => $GLOBALS['xoopsDB']->prefix('wmpdownloads_votedata'),
         'text'      => $GLOBALS['xoopsDB']->prefix('wmpdownloads_text')
-    );
+    ];
 
     //Add temporary field to category table
     $GLOBALS['xoopsDB']->query('ALTER TABLE ' . $destination['cat'] . ' ADD `old_cid` INT NOT NULL DEFAULT 0');
@@ -567,21 +563,21 @@ function import_pddownloads_to_wfdownloads()
     echo _AM_WFDOWNLOADS_IMPORT_IMPORTINGDATA;
     echo '<br>';
 
-    $destination = array(
+    $destination = [
         'cat'       => $GLOBALS['xoopsDB']->prefix('wfdownloads_cat'),
         'downloads' => $GLOBALS['xoopsDB']->prefix('wfdownloads_downloads'),
         'broken'    => $GLOBALS['xoopsDB']->prefix('wfdownloads_broken'),
         'mod'       => $GLOBALS['xoopsDB']->prefix('wfdownloads_mod'),
         'votes'     => $GLOBALS['xoopsDB']->prefix('wfdownloads_votedata')
-    );
+    ];
 
-    $source = array(
+    $source = [
         'cat'       => $GLOBALS['xoopsDB']->prefix('PDdownloads_cat'),
         'downloads' => $GLOBALS['xoopsDB']->prefix('PDdownloads_downloads'),
         'broken'    => $GLOBALS['xoopsDB']->prefix('PDdownloads_broken'),
         'mod'       => $GLOBALS['xoopsDB']->prefix('PDdownloads_mod'),
         'votes'     => $GLOBALS['xoopsDB']->prefix('PDdownloads_votedata')
-    );
+    ];
 
     //Add temporary field to category table
     $GLOBALS['xoopsDB']->query('ALTER TABLE ' . $destination['cat'] . ' ADD `old_cid` INT NOT NULL DEFAULT 0');
@@ -660,22 +656,22 @@ function import_mydownloads_to_wfdownloads()
     echo _AM_WFDOWNLOADS_IMPORT_IMPORTINGDATA;
     echo '<br>';
 
-    $destination = array(
+    $destination = [
         'cat'       => $GLOBALS['xoopsDB']->prefix('wfdownloads_cat'),
         'downloads' => $GLOBALS['xoopsDB']->prefix('wfdownloads_downloads'),
         'broken'    => $GLOBALS['xoopsDB']->prefix('wfdownloads_broken'),
         'mod'       => $GLOBALS['xoopsDB']->prefix('wfdownloads_mod'),
         'votes'     => $GLOBALS['xoopsDB']->prefix('wfdownloads_votedata')
-    );
+    ];
 
-    $source = array(
+    $source = [
         'cat'       => $GLOBALS['xoopsDB']->prefix('mydownloads_cat'),
         'downloads' => $GLOBALS['xoopsDB']->prefix('mydownloads_downloads'),
         'broken'    => $GLOBALS['xoopsDB']->prefix('mydownloads_broken'),
         'mod'       => $GLOBALS['xoopsDB']->prefix('mydownloads_mod'),
         'votes'     => $GLOBALS['xoopsDB']->prefix('mydownloads_votedata'),
         'text'      => $GLOBALS['xoopsDB']->prefix('mydownloads_text')
-    );
+    ];
 
     //Add temporary field to category table
     $GLOBALS['xoopsDB']->query('ALTER TABLE ' . $destination['cat'] . ' ADD `old_cid` INT NOT NULL DEFAULT 0');
@@ -753,15 +749,15 @@ function import_mydownloads_to_wfdownloads()
 function import_tdmdownloads_to_wfdownloads()
 {
     echo "<br><span style='font-weight: bold;'>Importing Data</span><br>";
-    $destination = array(
+    $destination = [
         'cat'       => $GLOBALS['xoopsDB']->prefix('wfdownloads_cat'),
         'downloads' => $GLOBALS['xoopsDB']->prefix('wfdownloads_downloads'),
         'broken'    => $GLOBALS['xoopsDB']->prefix('wfdownloads_broken'),
         'mod'       => $GLOBALS['xoopsDB']->prefix('wfdownloads_mod'),
         'votes'     => $GLOBALS['xoopsDB']->prefix('wfdownloads_votedata')
-    );
+    ];
 
-    $source = array(
+    $source = [
         'cat'          => $GLOBALS['xoopsDB']->prefix('tdmdownloads_cat'),
         'downloads'    => $GLOBALS['xoopsDB']->prefix('tdmdownloads_downloads'),
         'broken'       => $GLOBALS['xoopsDB']->prefix('tdmdownloads_broken'),
@@ -771,7 +767,7 @@ function import_tdmdownloads_to_wfdownloads()
         'fielddata'    => $GLOBALS['xoopsDB']->prefix('tdmdownloads_fielddata'),
         'modfielddata' => $GLOBALS['xoopsDB']->prefix('tdmdownloads_modfielddata'),
         'downlimit'    => $GLOBALS['xoopsDB']->prefix('tdmdownloads_downlimit')
-    );
+    ];
 
     //Add temporary field to category table
     $GLOBALS['xoopsDB']->query('ALTER TABLE ' . $destination['cat'] . ' ADD `old_cid` INT NOT NULL DEFAULT 0');

@@ -68,7 +68,7 @@ class WfdownloadsReview extends XoopsObject
         $form->addElement(new XoopsFormText(_AM_WFDOWNLOADS_REV_FTITLE, 'title', 30, 40, $this->getVar('title', 'e')), true);
         // review: rated
         $rating_select = new XoopsFormSelect(_AM_WFDOWNLOADS_REV_FRATING, 'rated', $this->getVar('rated'));
-        $rating_select->addOptionArray(array(
+        $rating_select->addOptionArray([
                                            '1'  => 1,
                                            '2'  => 2,
                                            '3'  => 3,
@@ -79,7 +79,7 @@ class WfdownloadsReview extends XoopsObject
                                            '8'  => 8,
                                            '9'  => 9,
                                            '10' => 10
-                                       ));
+                                       ]);
         $form->addElement($rating_select);
         // review: review
         $form->addElement(new XoopsFormDhtmlTextArea(_AM_WFDOWNLOADS_REV_FDESCRIPTION, 'review', $this->getVar('review', 'e'), 15, 60), true);

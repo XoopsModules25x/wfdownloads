@@ -28,10 +28,10 @@ function wfdownloads_notify_iteminfo($category, $item_id)
 
     if (empty($xoopsModule) || $xoopsModule->dirname() !== 'wfdownloads') {
         /** @var XoopsModuleHandler $moduleHandler */
-        $moduleHandler  = xoops_getHandler('module');
-        $module         = $moduleHandler->getByDirname('wfdownloads');
+        $moduleHandler = xoops_getHandler('module');
+        $module        = $moduleHandler->getByDirname('wfdownloads');
         $configHandler = xoops_getHandler('config');
-        $config         = $configHandler->getConfigsByCat(0, (int)$module->mid());
+        $config        = $configHandler->getConfigsByCat(0, (int)$module->mid());
     } else {
         $module = $xoopsModule;
         $config = $xoopsModuleConfig;

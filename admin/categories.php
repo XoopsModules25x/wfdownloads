@@ -90,13 +90,13 @@ switch ($op) {
         $cid          = Request::getInt('cid', 0, 'POST');
         $pid          = Request::getInt('pid', 0, 'POST');
         $weight       = (isset($_POST['weight']) && $_POST['weight'] > 0) ? (int)$_POST['weight'] : 0;
-        $down_groups  = isset($_POST['groups']) ? $_POST['groups'] : array();
-        $up_groups    = isset($_POST['up_groups']) ? $_POST['up_groups'] : array();
+        $down_groups  = isset($_POST['groups']) ? $_POST['groups'] : [];
+        $up_groups    = isset($_POST['up_groups']) ? $_POST['up_groups'] : [];
         $spotlighthis = isset($_POST['lid']) ? (int)$_POST['lid'] : 0;
         $spotlighttop = (isset($_POST['spotlighttop']) && ($_POST['spotlighttop'] == 1)) ? 1 : 0;
 
         require_once XOOPS_ROOT_PATH . '/class/uploader.php';
-        $allowedMimetypes = array('image/gif', 'image/jpeg', 'image/pjpeg', 'image/x-png', 'image/png');
+        $allowedMimetypes = ['image/gif', 'image/jpeg', 'image/pjpeg', 'image/x-png', 'image/png'];
         $imgUrl           = 'blank.png';
         $maxFileSize      = $wfdownloads->getConfig('maxfilesize');
         $maxImgWidth      = $wfdownloads->getConfig('maximgwidth');
@@ -157,7 +157,7 @@ switch ($op) {
             WfdownloadsUtility::savePermissions($down_groups, $newid, 'WFDownCatPerm');
             WfdownloadsUtility::savePermissions($up_groups, $newid, 'WFUpCatPerm');
             // Notify of new category
-            $tags                  = array();
+            $tags                  = [];
             $tags['CATEGORY_NAME'] = $_POST['title'];
             $tags['CATEGORY_URL']  = WFDOWNLOADS_URL . '/viewcat.php?cid=' . $newid;
             $notificationHandler   = xoops_getHandler('notification');
@@ -213,7 +213,7 @@ switch ($op) {
             redirect_header($currentFile, 1, _AM_WFDOWNLOADS_CCATEGORY_DELETED);
         } else {
             WfdownloadsUtility::myxoops_cp_header();
-            xoops_confirm(array('op' => 'category.delete', 'cid' => $cid, 'ok' => true), $currentFile, _AM_WFDOWNLOADS_CCATEGORY_AREUSURE);
+            xoops_confirm(['op' => 'category.delete', 'cid' => $cid, 'ok' => true], $currentFile, _AM_WFDOWNLOADS_CCATEGORY_AREUSURE);
             xoops_cp_footer();
         }
         break;
@@ -270,7 +270,7 @@ switch ($op) {
 
         if (isset($_POST['new_weights']) && count($_POST['new_weights']) > 0) {
             $new_weights = $_POST['new_weights'];
-            $ids         = array();
+            $ids         = [];
             foreach ($new_weights as $cid => $new_weight) {
                 $categoryObj = $wfdownloads->getHandler('category')->get($cid);
                 $categoryObj->setVar('weight', $new_weight);

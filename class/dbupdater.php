@@ -97,7 +97,7 @@ class WfdownloadsTable
     public function __construct($name)
     {
         $this->_name = $name;
-        $this->_data = array();
+        $this->_data = [];
     }
 
     /**
@@ -186,7 +186,7 @@ class WfdownloadsTable
      */
     public function addAlteredField($name, $properties)
     {
-        $field                  = array();
+        $field                  = [];
         $field['name']          = $name;
         $field['properties']    = $properties;
         $this->_alteredFields[] = $field;
@@ -195,14 +195,14 @@ class WfdownloadsTable
     /**
      * Invert values 0 to 1 and 1 to 0
      *
-     * @param string $name     name of the field
+     * @param string $name name of the field
      * @param string $newValue
      * @param string $oldValue
      *
      */ //felix
     public function addUpdatedWhere($name, $newValue, $oldValue)
     {
-        $field                 = array();
+        $field                 = [];
         $field['name']         = $name;
         $field['value']        = $newValue;
         $field['where']        = $oldValue;
@@ -218,7 +218,7 @@ class WfdownloadsTable
      */
     public function addNewField($name, $properties)
     {
-        $field               = array();
+        $field               = [];
         $field['name']       = $name;
         $field['properties'] = $properties;
         $this->_newFields[]  = $field;
@@ -244,7 +244,7 @@ class WfdownloadsTable
      */
     public function addUpdatedField($name, $value)
     {
-        $field                  = array();
+        $field                  = [];
         $field['name']          = $name;
         $field['value']         = $value;
         $this->_updatedFields[] = $field;

@@ -41,7 +41,7 @@ switch ($op) {
             if (file_exists(XOOPS_ROOT_PATH . '/' . $_POST['uploadpath'] . '/' . $_FILES['uploadfile']['name'])) {
                 redirect_header($currentFile, 2, _AM_WFDOWNLOADS_DOWN_IMAGEEXIST);
             }
-            $allowedMimetypes = array('image/gif', 'image/jpeg', 'image/pjpeg', 'image/x-png', 'image/png');
+            $allowedMimetypes = ['image/gif', 'image/jpeg', 'image/pjpeg', 'image/x-png', 'image/png'];
             $maxFileSize      = $wfdownloads->getConfig('maxfilesize');
             $maxImgWidth      = $wfdownloads->getConfig('maximgwidth');
             $maxImgHeight     = $wfdownloads->getConfig('maximgheight');
@@ -77,7 +77,7 @@ switch ($op) {
                 redirect_header($currentFile, 1, _AM_WFDOWNLOADS_DOWN_NOFILEERROR);
             }
             WfdownloadsUtility::myxoops_cp_header();
-            xoops_confirm(array('op' => 'image.delete', 'uploadpath' => $_POST['uploadpath'], 'downfile' => $_POST['downfile'], 'ok' => true), $currentFile, _AM_WFDOWNLOADS_DOWN_DELETEFILE . '<br><br>' . $_POST['downfile'], _AM_WFDOWNLOADS_BDELETE);
+            xoops_confirm(['op' => 'image.delete', 'uploadpath' => $_POST['uploadpath'], 'downfile' => $_POST['downfile'], 'ok' => true], $currentFile, _AM_WFDOWNLOADS_DOWN_DELETEFILE . '<br><br>' . $_POST['downfile'], _AM_WFDOWNLOADS_BDELETE);
             require_once __DIR__ . '/admin_footer.php';
         }
         break;
@@ -93,21 +93,21 @@ switch ($op) {
         $adminObject = \Xmf\Module\Admin::getInstance();
         $adminObject->displayNavigation($currentFile);
 
-        $dirArray  = array(
+        $dirArray  = [
             1 => $wfdownloads->getConfig('catimage'),
             2 => $wfdownloads->getConfig('screenshots'),
             3 => $wfdownloads->getConfig('mainimagedir')
-        );
-        $nameArray = array(
+        ];
+        $nameArray = [
             1 => _AM_WFDOWNLOADS_DOWN_CATIMAGE,
             2 => _AM_WFDOWNLOADS_DOWN_SCREENSHOTS,
             3 => _AM_WFDOWNLOADS_DOWN_MAINIMAGEDIR
-        );
-        $listArray = array(
+        ];
+        $listArray = [
             1 => _AM_WFDOWNLOADS_DOWN_FCATIMAGE,
             2 => _AM_WFDOWNLOADS_DOWN_FSCREENSHOTS,
             3 => _AM_WFDOWNLOADS_DOWN_FMAINIMAGEDIR
-        );
+        ];
 
         $pathList = isset($listArray[$rootPath]) ? $nameArray[$rootPath] : '';
         $nameList = isset($listArray[$rootPath]) ? $nameArray[$rootPath] : '';

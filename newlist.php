@@ -30,7 +30,7 @@ $xoTheme->addStylesheet(WFDOWNLOADS_URL . '/assets/css/module.css');
 
 $xoopsTpl->assign('wfdownloads_url', WFDOWNLOADS_URL . '/');
 
-$groups = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : array(0 => XOOPS_GROUP_ANONYMOUS);
+$groups = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : [0 => XOOPS_GROUP_ANONYMOUS];
 
 $catArray['imageheader'] = WfdownloadsUtility::headerImage();
 $catArray['letters']     = WfdownloadsUtility::lettersChoice();
@@ -58,7 +58,7 @@ $xoopsTpl->assign('allmonthdownloads', $allMonthDownloads);
 $criteria = new CriteriaCompo(new Criteria('offline', 0));
 if (isset($_GET['newdownloadshowdays'])) {
     $days       = (int)$_GET['newdownloadshowdays'];
-    $days_limit = array(7, 14, 30);
+    $days_limit = [7, 14, 30];
     if (in_array($days, $days_limit)) {
         $xoopsTpl->assign('newdownloadshowdays', $days);
         $downloadshowdays = time() - (3600 * 24 * $days);

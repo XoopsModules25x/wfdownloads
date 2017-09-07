@@ -80,7 +80,7 @@ class WfdownloadsModification extends WfdownloadsDownload
         //        $this->initVar('ipaddress', XOBJ_DTYPE_TXTBOX, '');
         //        $this->initVar('notifypub', XOBJ_DTYPE_INT, 0);
         // added 3.23
-        $this->initVar('screenshots', XOBJ_DTYPE_ARRAY, array()); // IN PROGRESS
+        $this->initVar('screenshots', XOBJ_DTYPE_ARRAY, []); // IN PROGRESS
         $this->initVar('dohtml', XOBJ_DTYPE_INT, false); // boolean
         $this->initVar('dosmiley', XOBJ_DTYPE_INT, true); // boolean
         $this->initVar('doxcode', XOBJ_DTYPE_INT, true); // boolean

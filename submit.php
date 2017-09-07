@@ -136,13 +136,13 @@ switch ($op) {
             // two steps form: 2nd step
             $categoryObj = $wfdownloads->getHandler('category')->get($cid);
             $fid         = $categoryObj->getVar('formulize_fid');
-            $customArray = array();
+            $customArray = [];
             if (WfdownloadsUtility::checkModule('formulize') && $fid) {
                 require_once XOOPS_ROOT_PATH . '/modules/formulize/include/formdisplay.php';
                 require_once XOOPS_ROOT_PATH . '/modules/formulize/include/functions.php';
                 $customArray['fid']           = $fid;
                 $customArray['formulize_mgr'] = xoops_getModuleHandler('elements', 'formulize');
-                $customArray['groups']        = $GLOBALS['xoopsUser'] ? $GLOBALS['xoopsUser']->getGroups() : array(0 => XOOPS_GROUP_ANONYMOUS);
+                $customArray['groups']        = $GLOBALS['xoopsUser'] ? $GLOBALS['xoopsUser']->getGroups() : [0 => XOOPS_GROUP_ANONYMOUS];
                 $customArray['prevEntry']     = getEntryValues(// is a Formulize function
                     $downloadObj->getVar('formulize_idreq'), $customArray['formulize_mgr'], $customArray['groups'], $fid, null, null, null, null, null);
                 $customArray['entry']         = $downloadObj->getVar('formulize_idreq');
@@ -220,10 +220,10 @@ switch ($op) {
 
         // Load screenshot
         require_once WFDOWNLOADS_ROOT_PATH . '/class/img_uploader.php';
-        $allowedMimetypes = array('image/gif', 'image/jpeg', 'image/pjpeg', 'image/x-png', 'image/png');
+        $allowedMimetypes = ['image/gif', 'image/jpeg', 'image/pjpeg', 'image/x-png', 'image/png'];
         $uploadDirectory  = XOOPS_ROOT_PATH . '/' . $wfdownloads->getConfig('screenshots') . '/';
 
-        $screenshots = array();
+        $screenshots = [];
 
         // Load screenshot #1
         $screenshot1 = '';
@@ -326,7 +326,7 @@ switch ($op) {
                 }
                 $owner_groups = $memberHandler->getGroupsByUser($owner, false);
                 $uid          = is_object($GLOBALS['xoopsUser']) ? (int)$GLOBALS['xoopsUser']->getVar('uid') : 0;
-                $groups       = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : array(0 => XOOPS_GROUP_ANONYMOUS);
+                $groups       = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : [0 => XOOPS_GROUP_ANONYMOUS];
                 $entries      = handleSubmission(// is a Formulize function
                     $formulizeElementsHandler, $entries, $uid, $owner, $fid, $owner_groups, $groups, 'new'); // 'new' causes xoops token check to be skipped, since Wfdownloads should be doing that
                 if (!$owner) {
@@ -356,7 +356,7 @@ switch ($op) {
 
         if (!$isANewRecord && ($downloadObj->getVar('version') != $version)) {
             // Trigger the three events related to modified files (one for the file, category, and global event categories respectively)
-            $tags                  = array();
+            $tags                  = [];
             $tags['FILE_NAME']     = $title;
             $tags['FILE_URL']      = WFDOWNLOADS_URL . "/singlefile.php?cid={$cid}&amp;lid={$lid}";
             $categoryObj           = $wfdownloads->getHandler('category')->get($cid);
@@ -430,9 +430,9 @@ switch ($op) {
                 trigger_error($error, E_USER_ERROR);
             }
             $newid  = (int)$downloadObj->getVar('lid');
-            $groups = array(1, 2);
+            $groups = [1, 2];
             //  Notify of new link (anywhere) and new link in category
-            $tags                  = array();
+            $tags                  = [];
             $tags['FILE_NAME']     = $title;
             $tags['FILE_URL']      = WFDOWNLOADS_URL . "/singlefile.php?cid={$cid}&amp;lid={$newid}";
             $categoryObj           = $wfdownloads->getHandler('category')->get($cid);
@@ -462,7 +462,7 @@ switch ($op) {
                 $downloadObj->setVar('updated', time());
                 $wfdownloads->getHandler('download')->insert($downloadObj);
 
-                $tags                  = array();
+                $tags                  = [];
                 $tags['FILE_NAME']     = $title;
                 $tags['FILE_URL']      = WFDOWNLOADS_URL . "/singlefile.php?cid={$cid}&amp;lid={$lid}";
                 $categoryObj           = $wfdownloads->getHandler('category')->get($cid);
@@ -479,7 +479,7 @@ switch ($op) {
                     $error = _MD_WFDOWNLOADS_INFONOSAVEDB;
                     trigger_error($error, E_USER_ERROR);
                 }
-                $tags                      = array();
+                $tags                      = [];
                 $tags['MODIFYREPORTS_URL'] = WFDOWNLOADS_URL . '/admin/reportsmodifications.php';
                 $notificationHandler->triggerEvent('global', 0, 'file_modify', $tags);
                 redirect_header('index.php', 2, _MD_WFDOWNLOADS_THANKSFORINFO);

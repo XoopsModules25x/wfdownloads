@@ -36,7 +36,7 @@ if (empty($categoryObj)) {
 }
 
 // Check permissions
-$userGroups = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : array(0 => XOOPS_GROUP_ANONYMOUS);
+$userGroups = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : [0 => XOOPS_GROUP_ANONYMOUS];
 if (!$gpermHandler->checkRight('WFDownCatPerm', $cid, $userGroups, $wfdownloads->getModule()->mid())) {
     if (in_array(XOOPS_GROUP_ANONYMOUS, $userGroups)) {
         redirect_header(XOOPS_URL . '/user.php', 3, _MD_WFDOWNLOADS_NEEDLOGINVIEW);
@@ -74,8 +74,16 @@ $xoopsTpl->assign('wfdownloads_url', WFDOWNLOADS_URL . '/');
 if (($categoryObj->getVar('imgurl') != '')
     && is_file(XOOPS_ROOT_PATH . '/' . $wfdownloads->getConfig('catimage') . '/' . $categoryObj->getVar('imgurl'))) {
     if ($wfdownloads->getConfig('usethumbs') && function_exists('gd_info')) {
-        $imgurl = WfdownloadsUtility::createThumb($categoryObj->getVar('imgurl'), $wfdownloads->getConfig('catimage'), 'thumbs', $wfdownloads->getConfig('cat_imgwidth'), $wfdownloads->getConfig('cat_imgheight'), $wfdownloads->getConfig('imagequality'), $wfdownloads->getConfig('updatethumbs'),
-                                                  $wfdownloads->getConfig('keepaspect'));
+        $imgurl = WfdownloadsUtility::createThumb(
+            $categoryObj->getVar('imgurl'),
+            $wfdownloads->getConfig('catimage'),
+            'thumbs',
+            $wfdownloads->getConfig('cat_imgwidth'),
+            $wfdownloads->getConfig('cat_imgheight'),
+            $wfdownloads->getConfig('imagequality'),
+            $wfdownloads->getConfig('updatethumbs'),
+                                                  $wfdownloads->getConfig('keepaspect')
+        );
     } else {
         $imgurl = XOOPS_URL . '/' . $wfdownloads->getConfig('catimage') . '/' . $categoryObj->getVar('imgurl');
     }
@@ -116,7 +124,7 @@ if (WfdownloadsUtility::checkModule('formulize') && $formulize_idreq) {
             // query the form for its data
             $data = getData('', $formulize_fid, $formulize_idreq); // is a Formulize function
             // include only elements that are visible to the user's groups in the DB query below
-            $userGroups = $GLOBALS['xoopsUser'] ? $GLOBALS['xoopsUser']->getGroups() : array(0 => XOOPS_GROUP_ANONYMOUS);
+            $userGroups = $GLOBALS['xoopsUser'] ? $GLOBALS['xoopsUser']->getGroups() : [0 => XOOPS_GROUP_ANONYMOUS];
             $start      = 1;
             foreach ($userGroups as $thisgroup) {
                 if ($start) {
@@ -143,7 +151,7 @@ if (WfdownloadsUtility::checkModule('formulize') && $formulize_idreq) {
             $sql          .= ' ORDER BY ele_order';
             $captionQuery = $GLOBALS['xoopsDB']->query($sql);
             // collect the captions and their values into an array for passing to the template
-            $formulize_fields = array();
+            $formulize_fields = [];
             $i                = 0;
             while (false !== ($caption_array = $GLOBALS['xoopsDB']->fetchArray($captionQuery))) {
                 $formulize_fields[$i]['caption'] = $caption_array['ele_caption'];

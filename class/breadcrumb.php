@@ -32,7 +32,7 @@ defined('XOOPS_ROOT_PATH') || die('XOOPS root path not defined');
 class WfdownloadsBreadcrumb
 {
     public $dirname;
-    public $_bread = array();
+    public $_bread = [];
 
     /**
      *
@@ -50,10 +50,10 @@ class WfdownloadsBreadcrumb
      */
     public function addLink($title = '', $link = '')
     {
-        $this->_bread[] = array(
+        $this->_bread[] = [
             'link'  => $link,
             'title' => $title
-        );
+        ];
     }
 
     /**

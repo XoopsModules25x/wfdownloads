@@ -38,14 +38,14 @@ function wfdownloads_search(
     $limit,
     $offset,
     $userId = 0,
-    $categories = array(),
+    $categories = [],
     $sortBy = 0,
     $searchIn = '',
     $extra = ''
 ) {
     $wfdownloads = WfdownloadsWfdownloads::getInstance();
 
-    $userGroups = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : array(0 => XOOPS_GROUP_ANONYMOUS);
+    $userGroups = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : [0 => XOOPS_GROUP_ANONYMOUS];
 
     $gpermHandler             = xoops_getHandler('groupperm');
     $allowedDownCategoriesIds = $gpermHandler->getItemIds('WFDownCatPerm', $userGroups, $wfdownloads->getModule()->mid());
@@ -67,7 +67,7 @@ function wfdownloads_search(
         // $userId != 0 added August 13 2007 -- ACCOUNTS FOR CASES WHERE THERE ARE NO QUERY TERMS BUT A USER ID IS PASSED -- FREEFORM SOLUTIONS
         if ($queryArray_count == 0) {
             $queryArray_count = 1; // AUGUST 13 2007 -- MAKE COUNT EQUAL 1 SINCE WE HAVE TO DO AT LEAST ONE SEARCH (BASED ON USER ID) EVEN IF THERE ARE NO QUERY TERMS -- FREEFORM SOLUTIONS
-            $queryArray       = array();
+            $queryArray       = [];
         }
 
         // Formulize module support - jpc - start
@@ -110,7 +110,7 @@ function wfdownloads_search(
         */
         // Determine what the custom forms are that need searching, if any
         if (WfdownloadsUtility::checkModule('formulize')) {
-            $fids = array();
+            $fids = [];
             foreach ($allowedDownCategoriesIds as $cid) {
                 $categoryObj = $wfdownloads->getHandler('category')->get($cid);
                 if (isset($categoryObj) && $fid = $categoryObj->getVar('formulize_fid')) {
@@ -130,7 +130,7 @@ function wfdownloads_search(
             }
         }
 
-        $downloadObjs = array();
+        $downloadObjs = [];
         // Loop through all query terms
         for ($i = 0; $i < $queryArray_count; ++$i) {
             // Make a copy of the $criteria for use with this term only
@@ -145,7 +145,7 @@ function wfdownloads_search(
             $allSubCriterias->add($subCriteria, $andor);
             unset($subCriteria);
 
-            $saved_ids = array();
+            $saved_ids = [];
 
             // Find all IDs of entries in all custom forms which match the current term
             if (WfdownloadsUtility::checkModule('formulize')) {
@@ -172,7 +172,7 @@ function wfdownloads_search(
                     // Query for the ids of the records in the form that match the queryarray
                     $data           = getData('', $fid, $filter_string, 'OR'); // is a 'formulize' function
                     $formHandle     = getFormHandleFromEntry($data[0], 'uid'); // is a 'formulize' function
-                    $temp_saved_ids = array();
+                    $temp_saved_ids = [];
                     foreach ($data as $entry) {
                         // Gather all IDs for this $fid
                         $found_ids      = internalRecordIds($entry, $formHandle); // is a 'formulize' function
@@ -200,7 +200,7 @@ function wfdownloads_search(
             unset($queryCriteria);
 
             // Make an array of the downloads based on the lid, and a separate list of all the lids found (the separate list is used in the case of an AND operator to derive an intersection of the hits across all search terms -- and it is used to determine the start and limit points of the main results array for an OR query)
-            $downloads_lids = array();
+            $downloads_lids = [];
             foreach ($tempDownloadObjs as $tempDownloadObj) {
                 $downloadObjs[(int)$tempDownloadObj->getVar('lid')] = $tempDownloadObj;
                 $downloads_lids[]                                   = (int)$tempDownloadObj->getVar('lid');
@@ -233,9 +233,9 @@ function wfdownloads_search(
         $limitOffsetIndex = $downloads_lids;
     }
 
-    $ret        = array();
+    $ret        = [];
     $i          = 0;
-    $storedLids = array();
+    $storedLids = [];
 
     // foreach (array_keys($downloadObjs) as $i)
     for ($x = $offset; $i < $limit && $x < count($limitOffsetIndex); ++$x) {

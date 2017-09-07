@@ -155,7 +155,7 @@ class WfdownloadsCategory extends XoopsObject
             if (file_exists(XOOPS_ROOT_PATH . '/modules/formulize/include/functions.php')) {
                 require_once XOOPS_ROOT_PATH . '/modules/formulize/include/functions.php';
                 $fids           = allowedForms(); // is a Formulize function
-                $fids_select    = array();
+                $fids_select    = [];
                 $fids_select[0] = _AM_WFDOWNLOADS_FFS_STANDARD_FORM;
                 foreach ($fids as $fid) {
                     $fids_select[$fid] = getFormTitle($fid); // is a Formulize function
@@ -252,7 +252,7 @@ class WfdownloadsCategoryHandler extends XoopsPersistableObjectHandler
     {
         $gpermHandler = xoops_getHandler('groupperm');
 
-        $groups                   = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : array(0 => XOOPS_GROUP_ANONYMOUS);
+        $groups                   = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : [0 => XOOPS_GROUP_ANONYMOUS];
         $allowedDownCategoriesIds = $gpermHandler->getItemIds('WFDownCatPerm', $groups, $this->wfdownloads->getModule()->mid());
 
         return $this->getObjects(new Criteria('cid', '(' . implode(',', $allowedDownCategoriesIds) . ')', 'IN'), $id_as_key, $as_object);
@@ -270,7 +270,7 @@ class WfdownloadsCategoryHandler extends XoopsPersistableObjectHandler
     {
         $gpermHandler = xoops_getHandler('groupperm');
 
-        $groups                   = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : array(0 => XOOPS_GROUP_ANONYMOUS);
+        $groups                   = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : [0 => XOOPS_GROUP_ANONYMOUS];
         $allowedDownCategoriesIds = $gpermHandler->getItemIds('WFDownCatPerm', $groups, $this->wfdownloads->getModule()->mid());
 
         return $this->getObjects(new Criteria('cid', '(' . implode(',', $allowedDownCategoriesIds) . ')', 'IN'), $id_as_key, $as_object);
@@ -318,7 +318,7 @@ class WfdownloadsCategoryHandler extends XoopsPersistableObjectHandler
         require_once XOOPS_ROOT_PATH . '/class/tree.php';
         $categoryObjsTree = new XoopsObjectTree($this->allCategories, $this->keyName, 'pid');
 
-        $allsubcats_linked_totop = array();
+        $allsubcats_linked_totop = [];
         foreach ($this->allCategories as $cid => $category) {
             $parentCategoryObjs = $categoryObjsTree->getAllParent($cid);
             if (count($parentCategoryObjs) == 0) {

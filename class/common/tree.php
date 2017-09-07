@@ -74,7 +74,7 @@ class WfdownloadsObjectTree extends XoopsObjectTree
     public function makeSelBox($name, $fieldName, $prefix = '-', $selected = '', $addEmptyOption = false, $key = 0, $extra = '')
         //    public function makeSelBox($fieldName, $prefix = '-', $addEmptyOption = false, $key = 0)
     {
-        $optionsArray = array();
+        $optionsArray = [];
         if ($addEmptyOption) {
             $optionsArray[0] = '';
         }

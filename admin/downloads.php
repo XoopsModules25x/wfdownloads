@@ -95,13 +95,13 @@ switch ($op) {
             } elseif (isset($_POST['submit_category']) && !empty($_POST['submit_category'])) {
                 // two steps form: 2nd step
                 $fid         = $categoryObj->getVar('formulize_fid');
-                $customArray = array();
+                $customArray = [];
                 if ($fid) {
                     require_once XOOPS_ROOT_PATH . '/modules/formulize/include/formdisplay.php';
                     require_once XOOPS_ROOT_PATH . '/modules/formulize/include/functions.php';
                     $customArray['fid']           = $fid;
                     $customArray['formulize_mgr'] = xoops_getModuleHandler('elements', 'formulize');
-                    $customArray['groups']        = $GLOBALS['xoopsUser'] ? $GLOBALS['xoopsUser']->getGroups() : array(0 => XOOPS_GROUP_ANONYMOUS);
+                    $customArray['groups']        = $GLOBALS['xoopsUser'] ? $GLOBALS['xoopsUser']->getGroups() : [0 => XOOPS_GROUP_ANONYMOUS];
                     $customArray['prevEntry']     = getEntryValues(// is a Formulize function
                         $downloadObj->getVar('formulize_idreq'), $customArray['formulize_mgr'], $customArray['groups'], $fid, null, null, null, null, null);
                     $customArray['entry']         = $downloadObj->getVar('formulize_idreq');
@@ -291,7 +291,7 @@ switch ($op) {
             $downloadObj->setVar('filetype', $filetype);
         }
         // Get data from form
-        $screenshots   = array();
+        $screenshots   = [];
         $screenshots[] = ($_POST['screenshot'] !== 'blank.png') ? $_POST['screenshot'] : '';
         $screenshots[] = ($_POST['screenshot2'] !== 'blank.png') ? $_POST['screenshot2'] : '';
         $screenshots[] = ($_POST['screenshot3'] !== 'blank.png') ? $_POST['screenshot3'] : '';
@@ -311,7 +311,7 @@ switch ($op) {
         //  If both conditions are true, then trigger all three notifications related to modified records.
         if (!$thisIsANewRecord && ($downloadObj->getVar('version') != $version)) {
             // Trigger the three events related to modified files (one for the file, category, and global event categories respectively)
-            $tags                  = array();
+            $tags                  = [];
             $tags['FILE_NAME']     = $title;
             $tags['FILE_URL']      = WFDOWNLOADS_URL . "/singlefile.php?cid={$cid}&amp;lid={$lid}";
             $categoryObj           = $wfdownloads->getHandler('category')->get($cid);
@@ -444,7 +444,7 @@ switch ($op) {
                 }
                 $ownerGroups = $memberHandler->getGroupsByUser($owner, false);
                 $uid         = !empty($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getVar('uid') : 0;
-                $groups      = $GLOBALS['xoopsUser'] ? $GLOBALS['xoopsUser']->getGroups() : array(0 => XOOPS_GROUP_ANONYMOUS);
+                $groups      = $GLOBALS['xoopsUser'] ? $GLOBALS['xoopsUser']->getGroups() : [0 => XOOPS_GROUP_ANONYMOUS];
                 $entries     = handleSubmission($formulizeElementsHandler, $entries, $uid, $owner, $fid, $ownerGroups, $groups, 'new'); // "new" causes xoops token check to be skipped, since Wfdownloads should be doing that
                 if (!$owner) {
                     $id_req = $entries[$fid][0];
@@ -457,7 +457,7 @@ switch ($op) {
         $newid = (int)$downloadObj->getVar('lid');
         // Send notifications
         if (!$lid) {
-            $tags                  = array();
+            $tags                  = [];
             $tags['FILE_NAME']     = $title;
             $tags['FILE_URL']      = WFDOWNLOADS_URL . "/singlefile.php?cid={$cid}&amp;lid={$newid}";
             $tags['CATEGORY_NAME'] = $categoryObj->getVar('title');
@@ -466,7 +466,7 @@ switch ($op) {
             $notificationHandler->triggerEvent('category', $cid, 'new_file', $tags);
         }
         if ($lid && $approved && $notifypub) {
-            $tags                  = array();
+            $tags                  = [];
             $tags['FILE_NAME']     = $title;
             $tags['FILE_URL']      = WFDOWNLOADS_URL . "/singlefile.php?cid={$cid}&amp;lid={$lid}";
             $categoryObj           = $wfdownloads->getHandler('category')->get($cid);
@@ -505,7 +505,7 @@ switch ($op) {
             }
         } else {
             WfdownloadsUtility::myxoops_cp_header();
-            xoops_confirm(array('op' => 'download.delete', 'lid' => $lid, 'ok' => true, 'title' => $title), $currentFile, _AM_WFDOWNLOADS_FILE_REALLYDELETEDTHIS . '<br><br>' . $title, _DELETE);
+            xoops_confirm(['op' => 'download.delete', 'lid' => $lid, 'ok' => true, 'title' => $title], $currentFile, _AM_WFDOWNLOADS_FILE_REALLYDELETEDTHIS . '<br><br>' . $title, _DELETE);
             xoops_cp_footer();
         }
         break;
@@ -557,7 +557,7 @@ switch ($op) {
         $title                 = $downloadObj->getVar('title');
         $cid                   = $downloadObj->getVar('cid');
         $categoryObj           = $wfdownloads->getHandler('category')->get($cid);
-        $tags                  = array();
+        $tags                  = [];
         $tags['FILE_NAME']     = $title;
         $tags['FILE_URL']      = WFDOWNLOADS_URL . "/singlefile.php?cid={$cid}&amp;lid={$lid}";
         $tags['CATEGORY_NAME'] = $categoryObj->getVar('title');
@@ -667,8 +667,8 @@ switch ($op) {
             $GLOBALS['xoopsTpl']->assign('filter_title_condition', $filter_title_condition);
             $GLOBALS['xoopsTpl']->assign('filter_category_title', $filter_category_title);
             $GLOBALS['xoopsTpl']->assign('filter_category_title_condition', $filter_category_title_condition);
-            $submitters                = array();
-            $downloadsSubmitters_array = $wfdownloads->getHandler('download')->getAll(null, array('submitter'), false, false);
+            $submitters                = [];
+            $downloadsSubmitters_array = $wfdownloads->getHandler('download')->getAll(null, ['submitter'], false, false);
             foreach ($downloadsSubmitters_array as $downloadSubmitters_array) {
                 $submitters[$downloadSubmitters_array['submitter']] = XoopsUserUtility::getUnameFromId($downloadSubmitters_array['submitter']);
             }
@@ -793,7 +793,7 @@ switch ($op) {
         $GLOBALS['xoopsTpl']->assign('batch_files_count', $batchFilesCount);
         if ($batchFilesCount > 0) {
             foreach ($batchFiles as $key => $batchFile) {
-                $batchFile_array              = array();
+                $batchFile_array              = [];
                 $batchFile_array['id']        = $key;
                 $batchFile_array['filename']  = $batchFile;
                 $batchFile_array['size']      = WfdownloadsUtility::bytesToSize1024(filesize($batchPath . '/' . $batchFile));
@@ -872,7 +872,7 @@ switch ($op) {
             WfdownloadsUtility::delFile($file);
         } else {
             WfdownloadsUtility::myxoops_cp_header();
-            xoops_confirm(array('op' => 'batchfile.delete', 'batchid' => $batchid, 'ok' => true, 'title' => $title), $currentFile, _AM_WFDOWNLOADS_FILE_REALLYDELETEDTHIS . '<br><br>' . $title, _DELETE);
+            xoops_confirm(['op' => 'batchfile.delete', 'batchid' => $batchid, 'ok' => true, 'title' => $title], $currentFile, _AM_WFDOWNLOADS_FILE_REALLYDELETEDTHIS . '<br><br>' . $title, _DELETE);
             xoops_cp_footer();
         }
         break;
@@ -912,7 +912,7 @@ switch ($op) {
         }
 
         // Get all logged users
-        $uidArray = array();
+        $uidArray = [];
         foreach ($ip_logObjs as $ip_logObj) {
             if ($ip_logObj->getVar('uid') != 0 && $ip_logObj->getVar('uid') != '') {
                 $uidArray[] = $ip_logObj->getVar('uid');
