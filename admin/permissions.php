@@ -22,7 +22,7 @@ require_once __DIR__ . '/admin_header.php';
 
 require_once XOOPS_ROOT_PATH . '/class/xoopsform/grouppermform.php';
 
-if ($wfdownloads->getHandler('category')->getCount() == 0) {
+if (0 == $wfdownloads->getHandler('category')->getCount()) {
     redirect_header('categories.php', 1, _AM_WFDOWNLOADS_CCATEGORY_NOEXISTS);
 }
 $categoryObjObjs = $wfdownloads->getHandler('category')->getObjects();

@@ -93,7 +93,7 @@ switch ($op) {
         $down_groups  = isset($_POST['groups']) ? $_POST['groups'] : [];
         $up_groups    = isset($_POST['up_groups']) ? $_POST['up_groups'] : [];
         $spotlighthis = isset($_POST['lid']) ? (int)$_POST['lid'] : 0;
-        $spotlighttop = (isset($_POST['spotlighttop']) && ($_POST['spotlighttop'] == 1)) ? 1 : 0;
+        $spotlighttop = (isset($_POST['spotlighttop']) && (1 == $_POST['spotlighttop'])) ? 1 : 0;
 
         require_once XOOPS_ROOT_PATH . '/class/uploader.php';
         $allowedMimetypes = ['image/gif', 'image/jpeg', 'image/pjpeg', 'image/x-png', 'image/png'];
@@ -114,7 +114,7 @@ switch ($op) {
             }
         } else {
             $imgUrl = (isset($_POST['imgurl'])
-                       && $_POST['imgurl'] !== 'blank.png') ? $myts->addSlashes($_POST['imgurl']) : '';
+                       && 'blank.png' !== $_POST['imgurl']) ? $myts->addSlashes($_POST['imgurl']) : '';
         }
 
         if (!$cid) {
@@ -151,7 +151,7 @@ switch ($op) {
             echo $categoryObj->getHtmlErrors();
         }
         if (!$cid) {
-            if ($cid == 0) {
+            if (0 == $cid) {
                 $newid = (int)$categoryObj->getVar('cid');
             }
             WfdownloadsUtility::savePermissions($down_groups, $newid, 'WFDownCatPerm');
@@ -177,7 +177,7 @@ switch ($op) {
         $ok               = Request::getBool('ok', false, 'POST');
         $categoryObjs     = $wfdownloads->getHandler('category')->getObjects();
         $categoryObjsTree = new XoopsObjectTree($categoryObjs, 'cid', 'pid');
-        if ($ok === true) {
+        if (true === $ok) {
             // get all subcategories under the specified category
             $childCategoryObjs = $categoryObjsTree->getAllChild($cid);
             foreach ($childCategoryObjs as $childCategoryObj) {

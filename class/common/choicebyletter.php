@@ -83,7 +83,7 @@ class WfdownloadsChoiceByLetter
         $this->alphabet    = (count($alphabet) > 0) ? $alphabet : range('a', 'z'); // is there a way to get locale alphabet?
         $this->arg_name    = $arg_name;
         $this->url         = null === $url ? $_SERVER['PHP_SELF'] : $url;
-        if ($extra_arg !== '' && (substr($extra_arg, -5) !== '&amp;' || substr($extra_arg, -1) !== '&')) {
+        if ('' !== $extra_arg && ('&amp;' !== substr($extra_arg, -5) || '&' !== substr($extra_arg, -1))) {
             $this->extra = '&amp;' . $extra_arg;
         }
         $this->caseSensitive = $caseSensitive;

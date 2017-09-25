@@ -87,7 +87,7 @@ class WfdownloadsMirror extends XoopsObject
         // downurl
         $form->addElement(new XoopsFormText(_AM_WFDOWNLOADS_MIRROR_DOWNURL, 'downurl', 50, 255, $this->getVar('downurl', 'e')), true);
         // approve
-        $approved         = ($this->getVar('submit') == 0) ? 0 : 1;
+        $approved         = (0 == $this->getVar('submit')) ? 0 : 1;
         $approve_checkbox = new XoopsFormCheckBox(_AM_WFDOWNLOADS_MIRROR_FAPPROVE, 'approve', $approved);
         $approve_checkbox->addOption(1, ' ');
         $form->addElement($approve_checkbox);

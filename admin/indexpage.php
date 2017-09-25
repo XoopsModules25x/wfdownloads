@@ -48,7 +48,7 @@ switch ($op) {
                 $indeximage = $uploader->getSavedFileName();
             }
         } else {
-            $indeximage = (isset($_POST['indeximage']) && $_POST['indeximage'] !== 'blank.png') ? $myts->addSlashes($_POST['indeximage']) : '';
+            $indeximage = (isset($_POST['indeximage']) && 'blank.png' !== $_POST['indeximage']) ? $myts->addSlashes($_POST['indeximage']) : '';
         }
         $nohtml           = isset($_POST['nohtml']);
         $nosmiley         = isset($_POST['nosmiley']);

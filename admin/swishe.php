@@ -20,7 +20,7 @@
 $currentFile = basename(__FILE__);
 require_once __DIR__ . '/admin_header.php';
 
-if (@$_POST['op'] === 'submit') {
+if ('submit' === @$_POST['op']) {
     if (!$GLOBALS['xoopsSecurity']->check()) {
         redirect_header($currentFile, 3, implode('<br>', $GLOBALS['xoopsSecurity']->getErrors()));
     }
@@ -41,7 +41,7 @@ if (@$_POST['op'] === 'submit') {
     $adminObject->displayNavigation($currentFile);
 
     // Swish-e support EXPERIMENTAL
-    if (WfdownloadsUtility::swishe_check() === true) {
+    if (true === WfdownloadsUtility::swishe_check()) {
         echo 'OK';
     } else {
         echo 'NOT OK' . '<br>';

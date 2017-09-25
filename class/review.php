@@ -84,7 +84,7 @@ class WfdownloadsReview extends XoopsObject
         // review: review
         $form->addElement(new XoopsFormDhtmlTextArea(_AM_WFDOWNLOADS_REV_FDESCRIPTION, 'review', $this->getVar('review', 'e'), 15, 60), true);
         // form: approve
-        $approved         = ($this->getVar('submit') == 0) ? 0 : 1;
+        $approved         = (0 == $this->getVar('submit')) ? 0 : 1;
         $approve_checkbox = new XoopsFormCheckBox(_AM_WFDOWNLOADS_REV_FAPPROVE, 'approve', $approved);
         $approve_checkbox->addOption(1, ' ');
         $form->addElement($approve_checkbox);

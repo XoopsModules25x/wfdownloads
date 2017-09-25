@@ -86,7 +86,7 @@ class WfdownloadsRatingHandler extends XoopsPersistableObjectHandler
         $groupby = false;
         $field   = '';
         if (isset($criteria) && is_subclass_of($criteria, 'criteriaelement')) {
-            if ($criteria->groupby != '') {
+            if ('' != $criteria->groupby) {
                 $groupby = true;
                 $field   = $criteria->groupby . ', '; //Not entirely secure unless you KNOW that no criteria's groupby clause is going to be mis-used
             }
@@ -95,7 +95,7 @@ class WfdownloadsRatingHandler extends XoopsPersistableObjectHandler
         $sql .= " FROM {$this->table}";
         if (isset($criteria) && is_subclass_of($criteria, 'criteriaelement')) {
             $sql .= ' ' . $criteria->renderWhere();
-            if ($criteria->groupby != '') {
+            if ('' != $criteria->groupby) {
                 $sql .= $criteria->getGroupby();
             }
         }
@@ -103,7 +103,7 @@ class WfdownloadsRatingHandler extends XoopsPersistableObjectHandler
         if (!$result) {
             return 0;
         }
-        if ($groupby === false) {
+        if (false === $groupby) {
             list($average, $count) = $this->db->fetchRow($result);
 
             return [

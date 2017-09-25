@@ -92,7 +92,7 @@ class WfdownloadsMulticolumnsThemeForm extends XoopsForm
             $row = $this->_rows;
         }
         if (null === $column) {
-            $column = ($this->_columns == 0) ? $this->_columns : $this->_columns - 1;
+            $column = (0 == $this->_columns) ? $this->_columns : $this->_columns - 1;
         } // add new element as new row of the last column
         if (is_string($formElement)) {
             $this->_elements[$row][$column] = $formElement;
@@ -213,13 +213,13 @@ class WfdownloadsMulticolumnsThemeForm extends XoopsForm
                 } elseif (!$ele->isHidden()) {
                     if (!$ele->getNocolspan()) {
                         //$ret .= '<tr valign="top" align="left"><td class="head">';
-                        if (($caption = $ele->getCaption()) !== '') {
+                        if ('' !== ($caption = $ele->getCaption())) {
                             $ret .= "<div class='xoops-form-element-caption" . ($ele->isRequired() ? '-required' : '') . "'>";
                             $ret .= "<span class='caption-text'>{$caption}</span>";
                             $ret .= "<span class='caption-marker'>*</span>";
                             $ret .= '</div>';
                         }
-                        if (($desc = $ele->getDescription()) !== '') {
+                        if ('' !== ($desc = $ele->getDescription())) {
                             $ret .= "<div class='xoops-form-element-help'>{$desc}</div>";
                         }
                         //$ret .= '</td><td class="' . $class . '">';
@@ -227,7 +227,7 @@ class WfdownloadsMulticolumnsThemeForm extends XoopsForm
                         //$ret .= '</td></tr>' . NWLINE;
                     } else {
                         //$ret .= '<tr valign="top" align="left"><td class="head" colspan="2">';
-                        if (($caption = $ele->getCaption()) !== '') {
+                        if ('' !== ($caption = $ele->getCaption())) {
                             $ret .= "<div class='xoops-form-element-caption" . ($ele->isRequired() ? '-required' : '') . "'>";
                             $ret .= "<span class='caption-text'>{$caption}</span>";
                             $ret .= "<span class='caption-marker'>*</span>";

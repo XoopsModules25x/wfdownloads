@@ -36,16 +36,16 @@ if (empty($categoryObj)) {
 }
 
 // Download not published, expired or taken offline - redirect
-if ($downloadObj->getVar('published') == 0 || $downloadObj->getVar('published') > time()
-    || $downloadObj->getVar('offline') === true
-    || ($downloadObj->getVar('expired') === true
+if (0 == $downloadObj->getVar('published') || $downloadObj->getVar('published') > time()
+    || true === $downloadObj->getVar('offline')
+    || (true === $downloadObj->getVar('expired')
         && $downloadObj->getVar('expired') < time())
-    || $downloadObj->getVar('status') == _WFDOWNLOADS_STATUS_WAITING) {
+    || _WFDOWNLOADS_STATUS_WAITING == $downloadObj->getVar('status')) {
     redirect_header('index.php', 3, _MD_WFDOWNLOADS_NODOWNLOAD);
 }
 
 // Check permissions
-if ($wfdownloads->getConfig('enable_brokenreports') === false && !WfdownloadsUtility::userIsAdmin()) {
+if (false === $wfdownloads->getConfig('enable_brokenreports') && !WfdownloadsUtility::userIsAdmin()) {
     redirect_header('index.php', 3, _NOPERM);
 }
 
@@ -170,8 +170,8 @@ switch ($op) {
                 $broken['id']           = $reportObj->getVar('reportid');
                 $broken['reporter']     = XoopsUserUtility::getUnameFromId((int)$reportObj->getVar('sender'));
                 $broken['date']         = formatTimestamp($reportObj->getVar('published'), $wfdownloads->getConfig('dateformat'));
-                $broken['acknowledged'] = ($reportObj->getVar('acknowledged') == 1) ? _YES : _NO;
-                $broken['confirmed']    = ($reportObj->getVar('confirmed') == 1) ? _YES : _NO;
+                $broken['acknowledged'] = (1 == $reportObj->getVar('acknowledged')) ? _YES : _NO;
+                $broken['confirmed']    = (1 == $reportObj->getVar('confirmed')) ? _YES : _NO;
 
                 $xoopsTpl->assign('brokenreportexists', true);
                 $xoopsTpl->assign('broken', $broken);
@@ -180,9 +180,9 @@ switch ($op) {
                 // file info
                 $down['title']     = trim($downloadObj->getVar('title'));
                 $down['homepage']  = $myts->makeClickable(formatURL(trim($downloadObj->getVar('homepage'))));
-                $time              = ($downloadObj->getVar('updated') !== false) ? $downloadObj->getVar('updated') : $downloadObj->getVar('published');
+                $time              = (false !== $downloadObj->getVar('updated')) ? $downloadObj->getVar('updated') : $downloadObj->getVar('published');
                 $down['updated']   = formatTimestamp($time, $wfdownloads->getConfig('dateformat'));
-                $is_updated        = ($downloadObj->getVar('updated') !== false) ? _MD_WFDOWNLOADS_UPDATEDON : _MD_WFDOWNLOADS_SUBMITDATE;
+                $is_updated        = (false !== $downloadObj->getVar('updated')) ? _MD_WFDOWNLOADS_UPDATEDON : _MD_WFDOWNLOADS_SUBMITDATE;
                 $down['publisher'] = XoopsUserUtility::getUnameFromId((int)$downloadObj->getVar('submitter'));
 
                 $xoopsTpl->assign('brokenreportexists', false);

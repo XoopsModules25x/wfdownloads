@@ -36,16 +36,16 @@ if (empty($categoryObj)) {
 }
 
 // Download not published, expired or taken offline - redirect
-if ($downloadObj->getVar('published') == 0 || $downloadObj->getVar('published') > time()
-    || $downloadObj->getVar('offline') === true
-    || ($downloadObj->getVar('expired') != 0
+if (0 == $downloadObj->getVar('published') || $downloadObj->getVar('published') > time()
+    || true === $downloadObj->getVar('offline')
+    || (0 != $downloadObj->getVar('expired')
         && $downloadObj->getVar('expired') < time())
-    || $downloadObj->getVar('status') == _WFDOWNLOADS_STATUS_WAITING) {
+    || _WFDOWNLOADS_STATUS_WAITING == $downloadObj->getVar('status')) {
     redirect_header('index.php', 3, _MD_WFDOWNLOADS_NODOWNLOAD);
 }
 
 // Check permissions
-if ($wfdownloads->getConfig('enable_reviews') === false && !WfdownloadsUtility::userIsAdmin()) {
+if (false === $wfdownloads->getConfig('enable_reviews') && !WfdownloadsUtility::userIsAdmin()) {
     redirect_header('index.php', 3, _NOPERM);
 }
 $userGroups = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : [0 => XOOPS_GROUP_ANONYMOUS];

@@ -59,7 +59,7 @@ function wfdownloads_top_by_cat_show($options)
         }
         $download['title'] = xoops_substr($download['title'], 0, $options[2] - 1);
         $download['id']    = (int)$download['lid'];
-        if ($options[0] === 'published') {
+        if ('published' === $options[0]) {
             $download['date'] = formatTimestamp($download['published'], $wfdownloads->getConfig('dateformat'));
         } else {
             $download['date'] = formatTimestamp($download['date'], $wfdownloads->getConfig('dateformat'));
@@ -91,7 +91,7 @@ function wfdownloads_top_by_cat_show($options)
 function wfdownloads_top_by_cat_edit($options)
 {
     $form = '' . _MB_WFDOWNLOADS_DISP . '&nbsp;';
-    $form .= "<input type='hidden' name='options[]' value='" . (($options[0] === 'published') ? 'published' : 'hits') . "'>";
+    $form .= "<input type='hidden' name='options[]' value='" . (('published' === $options[0]) ? 'published' : 'hits') . "'>";
     $form .= "<input type='text' name='options[]' value='" . $options[1] . "'>&nbsp;" . _MB_WFDOWNLOADS_FILES . '';
     $form .= '<br>';
     $form .= '' . _MB_WFDOWNLOADS_CHARS . "&nbsp;<input type='text' name='options[]' value='" . $options[2] . "'>&nbsp;" . _MB_WFDOWNLOADS_LENGTH . '';

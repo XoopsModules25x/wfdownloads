@@ -80,7 +80,7 @@ foreach ($downloadObjs as $downloadObj) {
 
 // Screenshots display
 $xoopsTpl->assign('show_screenshot', false);
-if ($wfdownloads->getConfig('screenshot') == 1) {
+if (1 == $wfdownloads->getConfig('screenshot')) {
     $xoopsTpl->assign('shots_dir', $wfdownloads->getConfig('screenshots'));
     $xoopsTpl->assign('shotwidth', $wfdownloads->getConfig('shotwidth'));
     $xoopsTpl->assign('shotheight', $wfdownloads->getConfig('shotheight'));

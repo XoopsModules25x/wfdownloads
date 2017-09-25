@@ -79,7 +79,7 @@ class WfdownloadsCategory extends XoopsObject
     {
         $gpermHandler = xoops_getHandler('groupperm');
 
-        if ($action === false) {
+        if (false === $action) {
             $action = $_SERVER['REQUEST_URI'];
         }
         $title = $this->isNew() ? _AM_WFDOWNLOADS_CCATEGORY_CREATENEW : _AM_WFDOWNLOADS_CCATEGORY_MODIFY;
@@ -321,7 +321,7 @@ class WfdownloadsCategoryHandler extends XoopsPersistableObjectHandler
         $allsubcats_linked_totop = [];
         foreach ($this->allCategories as $cid => $category) {
             $parentCategoryObjs = $categoryObjsTree->getAllParent($cid);
-            if (count($parentCategoryObjs) == 0) {
+            if (0 == count($parentCategoryObjs)) {
                 // is a top category
                 $allsubcats_linked_totop[$cid] = $cid;
             } else {

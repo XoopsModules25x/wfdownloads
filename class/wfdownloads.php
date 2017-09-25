@@ -61,7 +61,7 @@ class WfdownloadsWfdownloads
      */
     public function getModule()
     {
-        if ($this->module === null) {
+        if (null === $this->module) {
             $this->initModule();
         }
 
@@ -75,7 +75,7 @@ class WfdownloadsWfdownloads
      */
     public function getConfig($name = null)
     {
-        if ($this->config === null) {
+        if (null === $this->config) {
             $this->initConfig();
         }
         if (!$name) {
@@ -101,7 +101,7 @@ class WfdownloadsWfdownloads
      */
     public function setConfig($name = null, $value = null)
     {
-        if ($this->config === null) {
+        if (null === $this->config) {
             $this->initConfig();
         }
         $this->config[$name] = $value;

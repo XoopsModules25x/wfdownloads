@@ -32,7 +32,7 @@ switch ($op) {
         if (!$mirrorObj = $wfdownloads->getHandler('mirror')->get($mirror_id)) {
             redirect_header($currentFile, 4, _AM_WFDOWNLOADS_ERROR_MIRRORNOTFOUND);
         }
-        if ($ok === true) {
+        if (true === $ok) {
             if (!$GLOBALS['xoopsSecurity']->check()) {
                 redirect_header($currentFile, 3, implode(',', $GLOBALS['xoopsSecurity']->getErrors()));
             }
@@ -55,7 +55,7 @@ switch ($op) {
         if (!$mirrorObj = $wfdownloads->getHandler('mirror')->get($mirror_id)) {
             redirect_header($currentFile, 4, _AM_WFDOWNLOADS_ERROR_MIRRORNOTFOUND);
         }
-        if ($ok === true) {
+        if (true === $ok) {
             $mirrorObj->setVar('submit', true);
             $wfdownloads->getHandler('mirror')->insert($mirrorObj);
             redirect_header($currentFile, 1, sprintf(_AM_WFDOWNLOADS_MIRROR_MIRROR_UPDATED, $mirrorObj->getVar('title')));

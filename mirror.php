@@ -36,16 +36,16 @@ if (empty($categoryObj)) {
 }
 
 // Download not published, expired or taken offline - redirect
-if ($downloadObj->getVar('published') == 0 || $downloadObj->getVar('published') > time()
-    || $downloadObj->getVar('offline') === true
-    || ($downloadObj->getVar('expired') != 0
+if (0 == $downloadObj->getVar('published') || $downloadObj->getVar('published') > time()
+    || true === $downloadObj->getVar('offline')
+    || (0 != $downloadObj->getVar('expired')
         && $downloadObj->getVar('expired') < time())
-    || $downloadObj->getVar('status') == _WFDOWNLOADS_STATUS_WAITING) {
+    || _WFDOWNLOADS_STATUS_WAITING == $downloadObj->getVar('status')) {
     redirect_header('index.php', 3, _MD_WFDOWNLOADS_NODOWNLOAD);
 }
 
 // Check permissions
-if ($wfdownloads->getConfig('enable_mirrors') === false && !WfdownloadsUtility::userIsAdmin()) {
+if (false === $wfdownloads->getConfig('enable_mirrors') && !WfdownloadsUtility::userIsAdmin()) {
     redirect_header('index.php', 3, _NOPERM);
 }
 $userGroups = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : [0 => XOOPS_GROUP_ANONYMOUS];
@@ -108,21 +108,21 @@ switch ($op) {
 
         $add_mirror = false;
         if (!is_object($GLOBALS['xoopsUser'])
-            && ($wfdownloads->getConfig('anonpost') == _WFDOWNLOADS_ANONPOST_MIRROR
-                || $wfdownloads->getConfig('anonpost') == _WFDOWNLOADS_ANONPOST_BOTH)
-            && ($wfdownloads->getConfig('submissions') == _WFDOWNLOADS_SUBMISSIONS_MIRROR
-                || $wfdownloads->getConfig('submissions') == _WFDOWNLOADS_SUBMISSIONS_BOTH)) {
+            && (_WFDOWNLOADS_ANONPOST_MIRROR == $wfdownloads->getConfig('anonpost')
+                || _WFDOWNLOADS_ANONPOST_BOTH == $wfdownloads->getConfig('anonpost'))
+            && (_WFDOWNLOADS_SUBMISSIONS_MIRROR == $wfdownloads->getConfig('submissions')
+                || _WFDOWNLOADS_SUBMISSIONS_BOTH == $wfdownloads->getConfig('submissions'))) {
             $add_mirror = true;
         } elseif (is_object($GLOBALS['xoopsUser'])
-                  && ($wfdownloads->getConfig('submissions') == _WFDOWNLOADS_SUBMISSIONS_MIRROR
-                      || $wfdownloads->getConfig('submissions') == _WFDOWNLOADS_SUBMISSIONS_BOTH
+                  && (_WFDOWNLOADS_SUBMISSIONS_MIRROR == $wfdownloads->getConfig('submissions')
+                      || _WFDOWNLOADS_SUBMISSIONS_BOTH == $wfdownloads->getConfig('submissions')
                       || $GLOBALS['xoopsUser']->isAdmin())) {
             $add_mirror = true;
         }
 
         foreach ($mirrorObjs as $mirrorObj) {
             $mirror_array = $mirrorObj->toArray();
-            if ($wfdownloads->getConfig('enable_onlinechk') == 1) {
+            if (1 == $wfdownloads->getConfig('enable_onlinechk')) {
                 $serverURL                = str_replace('http://', '', trim($mirror_array['homeurl']));
                 $mirror_array['isonline'] = WfdownloadsUtility::mirrorOnline($serverURL);
             } else {
@@ -150,14 +150,14 @@ switch ($op) {
     default:
         // Check if ANONYMOUS user can post mirrors
         if (!is_object($GLOBALS['xoopsUser'])
-            && ($wfdownloads->getConfig('anonpost') == _WFDOWNLOADS_ANONPOST_NONE
-                || $wfdownloads->getConfig('anonpost') == _WFDOWNLOADS_ANONPOST_DOWNLOAD)) {
+            && (_WFDOWNLOADS_ANONPOST_NONE == $wfdownloads->getConfig('anonpost')
+                || _WFDOWNLOADS_ANONPOST_DOWNLOAD == $wfdownloads->getConfig('anonpost'))) {
             redirect_header(XOOPS_URL . '/user.php', 1, _MD_WFDOWNLOADS_MUSTREGFIRST);
         }
         // Check if user can submit mirrors
         if (is_object($GLOBALS['xoopsUser'])
-            && ($wfdownloads->getConfig('submissions') == _WFDOWNLOADS_SUBMISSIONS_NONE
-                || $wfdownloads->getConfig('submissions') == _WFDOWNLOADS_SUBMISSIONS_DOWNLOAD)
+            && (_WFDOWNLOADS_SUBMISSIONS_NONE == $wfdownloads->getConfig('submissions')
+                || _WFDOWNLOADS_SUBMISSIONS_DOWNLOAD == $wfdownloads->getConfig('submissions'))
             && !$GLOBALS['xoopsUser']->isAdmin()) {
             redirect_header('index.php', 1, _MD_WFDOWNLOADS_MIRROR_NOTALLOWESTOSUBMIT);
         }
@@ -176,7 +176,7 @@ switch ($op) {
             $mirrorObj->setVar('uid', $mirroruserUid);
             $mirrorObj->setVar('date', time());
             $approve = true;
-            if (($wfdownloads->getConfig('autoapprove') == _WFDOWNLOADS_AUTOAPPROVE_NONE || $wfdownloads->getConfig('autoapprove') == _WFDOWNLOADS_AUTOAPPROVE_DOWNLOAD) && !$wfdownloads_isAdmin) {
+            if ((_WFDOWNLOADS_AUTOAPPROVE_NONE == $wfdownloads->getConfig('autoapprove') || _WFDOWNLOADS_AUTOAPPROVE_DOWNLOAD == $wfdownloads->getConfig('autoapprove')) && !$wfdownloads_isAdmin) {
                 $approve = false;
             }
             $submit = $approve ? true : false;

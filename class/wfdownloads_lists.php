@@ -106,7 +106,7 @@ class WfsLists
         if (is_dir($dirname) && $handle = opendir($dirname)) {
             while (false !== ($file = readdir($handle))) {
                 if (!preg_match("/^[.]{1,2}$/", $file)) {
-                    if (strtolower($file) !== 'cvs' && is_dir($dirname . $file)) {
+                    if ('cvs' !== strtolower($file) && is_dir($dirname . $file)) {
                         $dirlist[$file] = $file;
                     }
                 }
@@ -151,7 +151,7 @@ class WfsLists
                 break;
         }
 
-        if (substr($dirname, -1) === '/') {
+        if ('/' === substr($dirname, -1)) {
             $dirname = substr($dirname, 0, -1);
         }
 
@@ -159,7 +159,7 @@ class WfsLists
             while (false !== ($file = readdir($handle))) {
                 if (!preg_match("/^[.]{1,2}$/", $file) && preg_match("/$types$/i", $file)
                     && is_file($dirname . '/' . $file)) {
-                    if (strtolower($file) === 'blank.png') {
+                    if ('blank.png' === strtolower($file)) {
                         continue;
                     }
                     $file            = $prefix . $file;

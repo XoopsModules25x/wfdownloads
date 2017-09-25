@@ -51,11 +51,11 @@ if ($downloadObj->isNew()) {
 }
 
 // If Download not published, expired or taken offline - redirect
-if ($downloadObj->getVar('published') == 0 || $downloadObj->getVar('published') > time()
-    || $downloadObj->getVar('offline') === true
-    || ($downloadObj->getVar('expired') != 0
+if (0 == $downloadObj->getVar('published') || $downloadObj->getVar('published') > time()
+    || true === $downloadObj->getVar('offline')
+    || (0 != $downloadObj->getVar('expired')
         && $downloadObj->getVar('expired') < time())
-    || $downloadObj->getVar('status') == _WFDOWNLOADS_STATUS_WAITING) {
+    || _WFDOWNLOADS_STATUS_WAITING == $downloadObj->getVar('status')) {
     redirect_header('index.php', 3, _MD_WFDOWNLOADS_NODOWNLOAD);
 }
 
@@ -71,7 +71,7 @@ $xoTheme->addStylesheet(WFDOWNLOADS_URL . '/assets/css/module.css');
 $xoopsTpl->assign('wfdownloads_url', WFDOWNLOADS_URL . '/');
 
 // Making the category image and title available in the template
-if (($categoryObj->getVar('imgurl') != '')
+if (('' != $categoryObj->getVar('imgurl'))
     && is_file(XOOPS_ROOT_PATH . '/' . $wfdownloads->getConfig('catimage') . '/' . $categoryObj->getVar('imgurl'))) {
     if ($wfdownloads->getConfig('usethumbs') && function_exists('gd_info')) {
         $imgurl = WfdownloadsUtility::createThumb(
@@ -173,15 +173,15 @@ if (WfdownloadsUtility::checkModule('formulize') && $formulize_idreq) {
 
 $use_mirrors = $wfdownloads->getConfig('enable_mirrors');
 $add_mirror  = false;
-if (!is_object($GLOBALS['xoopsUser']) && $use_mirrors === true
-    && ($wfdownloads->getConfig('anonpost') == _WFDOWNLOADS_ANONPOST_MIRROR
-        || $wfdownloads->getConfig('anonpost') == _WFDOWNLOADS_ANONPOST_BOTH)
-    && ($wfdownloads->getConfig('submissions') == _WFDOWNLOADS_SUBMISSIONS_MIRROR
-        || $wfdownloads->getConfig('submissions') == _WFDOWNLOADS_SUBMISSIONS_BOTH)) {
+if (!is_object($GLOBALS['xoopsUser']) && true === $use_mirrors
+    && (_WFDOWNLOADS_ANONPOST_MIRROR == $wfdownloads->getConfig('anonpost')
+        || _WFDOWNLOADS_ANONPOST_BOTH == $wfdownloads->getConfig('anonpost'))
+    && (_WFDOWNLOADS_SUBMISSIONS_MIRROR == $wfdownloads->getConfig('submissions')
+        || _WFDOWNLOADS_SUBMISSIONS_BOTH == $wfdownloads->getConfig('submissions'))) {
     $add_mirror = true;
-} elseif (is_object($GLOBALS['xoopsUser']) && $use_mirrors === true
-          && ($wfdownloads->getConfig('submissions') == _WFDOWNLOADS_SUBMISSIONS_MIRROR
-              || $wfdownloads->getConfig('submissions') == _WFDOWNLOADS_SUBMISSIONS_BOTH
+} elseif (is_object($GLOBALS['xoopsUser']) && true === $use_mirrors
+          && (_WFDOWNLOADS_SUBMISSIONS_MIRROR == $wfdownloads->getConfig('submissions')
+              || _WFDOWNLOADS_SUBMISSIONS_BOTH == $wfdownloads->getConfig('submissions')
               || WfdownloadsUtility::userIsAdmin())) {
     $add_mirror = true;
 }
@@ -194,7 +194,7 @@ $xoopsTpl->assign('lang_subdate', $downloadInfo['is_updated']);
 $xoopsTpl->assign('file_url', $downloadInfo['file_url']); // this definition is not removed for backward compatibility issues
 $xoopsTpl->append('file', $downloadInfo);
 $xoopsTpl->assign('show_screenshot', false);
-if ($wfdownloads->getConfig('screenshot') == 1) {
+if (1 == $wfdownloads->getConfig('screenshot')) {
     $xoopsTpl->assign('shots_dir', $wfdownloads->getConfig('screenshots'));
     $xoopsTpl->assign('shotwidth', $wfdownloads->getConfig('shotwidth'));
     $xoopsTpl->assign('shotheight', $wfdownloads->getConfig('shotheight'));
@@ -266,7 +266,7 @@ $xoopsTpl->assign('use_brokenreports', $wfdownloads->getConfig('enable_brokenrep
 $xoopsTpl->assign('use_rss', $wfdownloads->getConfig('enablerss'));
 
 // Copyright
-if ($wfdownloads->getConfig('copyright') === true) {
+if (true === $wfdownloads->getConfig('copyright')) {
     $xoopsTpl->assign('lang_copyright', $downloadObj->getVar('title') . ' &copy; ' . _MD_WFDOWNLOADS_COPYRIGHT . ' ' . formatTimestamp(time(), 'Y'));
 }
 $xoopsTpl->assign('down', $downloadInfo); // this definition is not removed for backward compatibility issues

@@ -166,7 +166,7 @@ switch ($op) {
                 </tr>\n
                 ";
 
-            if ($regUserRatingCount == 0) {
+            if (0 == $regUserRatingCount) {
                 echo "<tr><td colspan='7' class='even'><b>" . _AM_WFDOWNLOADS_VOTE_NOREGVOTES . '</b></td></tr>';
             } else {
                 foreach ($regUserRatingObjs as $regUserRatingObj) {
@@ -210,7 +210,7 @@ switch ($op) {
                 <th>" . _AM_WFDOWNLOADS_MINDEX_ACTION . "</td>\n
                 </tr>\n
                 ";
-            if ($anonUserRatingCount == 0) {
+            if (0 == $anonUserRatingCount) {
                 echo "<tr><td colspan='7' class='even'><b>" . _AM_WFDOWNLOADS_VOTE_NOUNREGVOTES . '</b></td></tr>';
             } else {
                 $criteria           = new Criteria('ratinguser', 0);
@@ -258,14 +258,14 @@ switch ($op) {
         }
         // Define URL
         if (empty($_FILES['userfile']['name'])) {
-            if ($_POST['url'] && $_POST['url'] != '' && $_POST['url'] !== 'http://') {
-                $url      = ($_POST['url'] !== 'http://') ? $_POST['url'] : '';
+            if ($_POST['url'] && '' != $_POST['url'] && 'http://' !== $_POST['url']) {
+                $url      = ('http://' !== $_POST['url']) ? $_POST['url'] : '';
                 $filename = '';
                 $filetype = '';
                 // Get size from form
                 $size = (empty($_POST['size']) || !is_numeric($_POST['size'])) ? 0 : (int)$_POST['size'];
             } else {
-                $url      = ($_POST['url'] !== 'http://') ? $_POST['url'] : '';
+                $url      = ('http://' !== $_POST['url']) ? $_POST['url'] : '';
                 $filename = $_POST['filename'];
                 $filetype = $_POST['filetype'];
                 $filePath = $wfdownloads->getConfig('uploaddir') . '/' . $filename;
@@ -277,13 +277,13 @@ switch ($op) {
             $downloadObj->setVar('filetype', $filetype);
         } else {
             $down  = WfdownloadsUtility::uploading($_FILES, $wfdownloads->getConfig('uploaddir'), '', $currentFile, 0, false, true);
-            $url   = ($_POST['url'] !== 'http://') ? $_POST['url'] : '';
+            $url   = ('http://' !== $_POST['url']) ? $_POST['url'] : '';
             $size  = $down['size'];
             $title = $_FILES['userfile']['name'];
 
             $ext   = rtrim(strrchr($title, '.'), '.');
             $title = str_replace($ext, '', $title);
-            $title = (isset($_POST['title_checkbox']) && $_POST['title_checkbox'] == 1) ? $title : trim($_POST['title']);
+            $title = (isset($_POST['title_checkbox']) && 1 == $_POST['title_checkbox']) ? $title : trim($_POST['title']);
 
             $filename = $down['filename'];
             $filetype = $_FILES['userfile']['type'];
@@ -292,12 +292,12 @@ switch ($op) {
         }
         // Get data from form
         $screenshots   = [];
-        $screenshots[] = ($_POST['screenshot'] !== 'blank.png') ? $_POST['screenshot'] : '';
-        $screenshots[] = ($_POST['screenshot2'] !== 'blank.png') ? $_POST['screenshot2'] : '';
-        $screenshots[] = ($_POST['screenshot3'] !== 'blank.png') ? $_POST['screenshot3'] : '';
-        $screenshots[] = ($_POST['screenshot4'] !== 'blank.png') ? $_POST['screenshot4'] : '';
+        $screenshots[] = ('blank.png' !== $_POST['screenshot']) ? $_POST['screenshot'] : '';
+        $screenshots[] = ('blank.png' !== $_POST['screenshot2']) ? $_POST['screenshot2'] : '';
+        $screenshots[] = ('blank.png' !== $_POST['screenshot3']) ? $_POST['screenshot3'] : '';
+        $screenshots[] = ('blank.png' !== $_POST['screenshot4']) ? $_POST['screenshot4'] : '';
 
-        if (!empty($_POST['homepage']) || $_POST['homepage'] !== 'http://') {
+        if (!empty($_POST['homepage']) || 'http://' !== $_POST['homepage']) {
             $downloadObj->setVar('homepage', trim($_POST['homepage']));
             $downloadObj->setVar('homepagetitle', trim($_POST['homepagetitle']));
         }
@@ -319,7 +319,7 @@ switch ($op) {
             $tags['CATEGORY_NAME'] = $categoryObj->getVar('title');
             $tags['CATEGORY_URL']  = WFDOWNLOADS_URL . "/viewcat.php?cid='{$cid}";
 
-            if ($wfdownloads->getConfig('autoapprove') == _WFDOWNLOADS_AUTOAPPROVE_DOWNLOAD || $wfdownloads->getConfig('autoapprove') == _WFDOWNLOADS_AUTOAPPROVE_BOTH) {
+            if (_WFDOWNLOADS_AUTOAPPROVE_DOWNLOAD == $wfdownloads->getConfig('autoapprove') || _WFDOWNLOADS_AUTOAPPROVE_BOTH == $wfdownloads->getConfig('autoapprove')) {
                 // Then this change will be automatically approved, so the notification needs to go out.
                 $notificationHandler->triggerEvent('global', 0, 'filemodified', $tags);
                 $notificationHandler->triggerEvent('category', $cid, 'filemodified', $tags);
@@ -372,17 +372,17 @@ switch ($op) {
         $downloadObj->setVar('dhistory', $dhistory);
         $downloadObj->setVar('dhistoryhistory', $dhistoryhistory);
 
-        $updated = (isset($_POST['was_published']) && $_POST['was_published'] == 0) ? 0 : time();
+        $updated = (isset($_POST['was_published']) && 0 == $_POST['was_published']) ? 0 : time();
 
-        if ($_POST['up_dated'] == 0) {
+        if (0 == $_POST['up_dated']) {
             $updated = 0;
         }
         $downloadObj->setVar('updated', $updated);
 
-        $offline = ($_POST['offline'] === true) ? true : false;
+        $offline = (true === $_POST['offline']) ? true : false;
         $downloadObj->setVar('offline', $offline);
-        $approved  = (isset($_POST['approved']) && $_POST['approved'] === true) ? true : false;
-        $notifypub = (isset($_POST['notifypub']) && $_POST['notifypub'] === true);
+        $approved  = (isset($_POST['approved']) && true === $_POST['approved']) ? true : false;
+        $notifypub = (isset($_POST['notifypub']) && true === $_POST['notifypub']);
 
         $expiredate = 0;
         if (!$lid) {
@@ -391,7 +391,7 @@ switch ($op) {
             $publishdate = $_POST['was_published'];
             $expiredate  = $_POST['was_expired'];
         }
-        if ($approved == 1 && empty($publishdate)) {
+        if (1 == $approved && empty($publishdate)) {
             $publishdate = time();
         }
         if (isset($_POST['publishdateactivate'])) {
@@ -489,7 +489,7 @@ switch ($op) {
             redirect_header($currentFile, 4, _AM_WFDOWNLOADS_ERROR_DOWNLOADNOTFOUND);
         }
         $title = $downloadObj->getVar('title');
-        if ($ok === true) {
+        if (true === $ok) {
             if (!$GLOBALS['xoopsSecurity']->check()) {
                 redirect_header($currentFile, 3, implode(',', $GLOBALS['xoopsSecurity']->getErrors()));
             }
@@ -582,8 +582,8 @@ switch ($op) {
         $filter_date                     = Request::getArray('filter_date', null);
         $filter_date_condition           = Request::getString('filter_date_condition', '<');
         // check filter conditions
-        if ($op === 'downloads.filter') {
-            if ($filter_title == '' && $filter_category_title == '' && null === $filter_submitter) {
+        if ('downloads.filter' === $op) {
+            if ('' == $filter_title && '' == $filter_category_title && null === $filter_submitter) {
                 $op = 'downloads.list';
             }
         }
@@ -614,18 +614,18 @@ switch ($op) {
         if ($totalDownloadsCount > 0) {
             // Published Downloads
             $criteria = new CriteriaCompo();
-            if ($op === 'downloads.filter') {
+            if ('downloads.filter' === $op) {
                 // Evaluate title criteria
-                if ($filter_title != '') {
-                    if ($filter_title_condition === 'LIKE') {
+                if ('' != $filter_title) {
+                    if ('LIKE' === $filter_title_condition) {
                         $criteria->add(new Criteria('title', "%{$filter_title}%", 'LIKE'));
                     } else {
                         $criteria->add(new Criteria('title', $filter_title, '='));
                     }
                 }
                 // Evaluate cid criteria
-                if ($filter_category_title != '') {
-                    if ($filter_category_title_condition === 'LIKE') {
+                if ('' != $filter_category_title) {
+                    if ('LIKE' === $filter_category_title_condition) {
                         $cids = $wfdownloads->getHandler('category')->getIds(new Criteria('title', "%{$filter_category_title}%", 'LIKE'));
                         $criteria->add(new Criteria('cid', '(' . implode(',', $cids) . ')', 'IN'));
                     } else {
@@ -864,7 +864,7 @@ switch ($op) {
             redirect_header($currentFile, 4, _AM_WFDOWNLOADS_ERROR_BATCHFILENOTFOUND);
         }
         $title = $batchFiles[$batchid];
-        if ($ok === true) {
+        if (true === $ok) {
             if (!$GLOBALS['xoopsSecurity']->check()) {
                 redirect_header($currentFile, 3, implode(',', $GLOBALS['xoopsSecurity']->getErrors()));
             }
@@ -893,7 +893,7 @@ switch ($op) {
 
         // Get ip logs
         $criteria = new CriteriaCompo();
-        if ($lid != 0) {
+        if (0 != $lid) {
             $criteria->add(new Criteria('lid', $lid));
         }
         $criteria->setSort('date');
@@ -904,7 +904,7 @@ switch ($op) {
         unset($criteria);
 
         // Get download info
-        if ($lid != 0) {
+        if (0 != $lid) {
             $downloadObj                 = $wfdownloads->getHandler('download')->get($lid);
             $download_array              = $downloadObj->toArray();
             $download_array['log_title'] = sprintf(_AM_WFDOWNLOADS_LOG_FOR_LID, $download_array['title']);
@@ -914,7 +914,7 @@ switch ($op) {
         // Get all logged users
         $uidArray = [];
         foreach ($ip_logObjs as $ip_logObj) {
-            if ($ip_logObj->getVar('uid') != 0 && $ip_logObj->getVar('uid') != '') {
+            if (0 != $ip_logObj->getVar('uid') && '' != $ip_logObj->getVar('uid')) {
                 $uidArray[] = $ip_logObj->getVar('uid');
             }
         }

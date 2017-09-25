@@ -92,7 +92,7 @@ switch ($op) {
             $error = 'Could not update mimetype information';
             trigger_error($error, E_USER_ERROR);
         }
-        $dbupted = ($mime_id == 0) ? _AM_WFDOWNLOADS_MIME_CREATED : _AM_WFDOWNLOADS_MIME_MODIFIED;
+        $dbupted = (0 == $mime_id) ? _AM_WFDOWNLOADS_MIME_CREATED : _AM_WFDOWNLOADS_MIME_MODIFIED;
         redirect_header($currentFile, 1, $dbupted);
         break;
 
@@ -102,15 +102,15 @@ switch ($op) {
             redirect_header($currentFile, 4, _AM_WFDOWNLOADS_ERROR_MIMETYPENOTFOUND);
         }
 
-        if (isset($_REQUEST['admin']) && $_REQUEST['admin'] === true) {
-            if ($mimetypeObj->getVar('mime_admin') === true) {
+        if (isset($_REQUEST['admin']) && true === $_REQUEST['admin']) {
+            if (true === $mimetypeObj->getVar('mime_admin')) {
                 $mimetypeObj->setVar('mime_admin', false);
             } else {
                 $mimetypeObj->setVar('mime_admin', true);
             }
         }
-        if (isset($_REQUEST['user']) && $_REQUEST['user'] === true) {
-            if ($mimetypeObj->getVar('mime_user') === true) {
+        if (isset($_REQUEST['user']) && true === $_REQUEST['user']) {
+            if (true === $mimetypeObj->getVar('mime_user')) {
                 $mimetypeObj->setVar('mime_user', false);
             } else {
                 $mimetypeObj->setVar('mime_user', true);
@@ -128,7 +128,7 @@ switch ($op) {
         $type_all   = (int)$_GET['type_all'];
 
         $field = 'mime_user';
-        if ($mime_admin === true) {
+        if (true === $mime_admin) {
             $field = 'mime_admin';
         }
         $criteria = new CriteriaCompo();
@@ -147,7 +147,7 @@ switch ($op) {
         if (!$mimetypeObj = $wfdownloads->getHandler('mimetype')->get($mime_id)) {
             redirect_header($currentFile, 4, _AM_WFDOWNLOADS_ERROR_MIMETYPENOTFOUND);
         }
-        if ($ok === true) {
+        if (true === $ok) {
             if (!$GLOBALS['xoopsSecurity']->check()) {
                 redirect_header($currentFile, 3, implode(',', $GLOBALS['xoopsSecurity']->getErrors()));
             }

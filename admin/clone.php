@@ -20,7 +20,7 @@
 $currentFile = basename(__FILE__);
 require_once __DIR__ . '/admin_header.php';
 
-if (@$_POST['op'] === 'submit') {
+if ('submit' === @$_POST['op']) {
     if (!$GLOBALS['xoopsSecurity']->check()) {
         redirect_header($currentFile, 3, implode('<br>', $GLOBALS['xoopsSecurity']->getErrors()));
     }
@@ -100,7 +100,7 @@ function wfdownloads_cloneFileDir($path)
         // check all files in dir, and process it
         if (false !== ($handle = opendir($path))) {
             while (false !== ($file = readdir($handle))) {
-                if ($file !== '.' && $file !== '..' && $file !== '.svn') {
+                if ('.' !== $file && '..' !== $file && '.svn' !== $file) {
                     wfdownloads_cloneFileDir("{$path}/{$file}");
                 }
             }

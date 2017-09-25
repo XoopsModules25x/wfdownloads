@@ -38,7 +38,7 @@ $groups = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() 
 
 // Check if submission is allowed
 $isSubmissionAllowed = false;
-if (is_object($GLOBALS['xoopsUser']) && ($wfdownloads->getConfig('submissions') == _WFDOWNLOADS_SUBMISSIONS_DOWNLOAD || $wfdownloads->getConfig('submissions') == _WFDOWNLOADS_SUBMISSIONS_BOTH)) {
+if (is_object($GLOBALS['xoopsUser']) && (_WFDOWNLOADS_SUBMISSIONS_DOWNLOAD == $wfdownloads->getConfig('submissions') || _WFDOWNLOADS_SUBMISSIONS_BOTH == $wfdownloads->getConfig('submissions'))) {
     // if user is a registered user
     $groups = $GLOBALS['xoopsUser']->getGroups();
     if (count(array_intersect($wfdownloads->getConfig('submitarts'), $groups)) > 0) {
@@ -46,7 +46,7 @@ if (is_object($GLOBALS['xoopsUser']) && ($wfdownloads->getConfig('submissions') 
     }
 } else {
     // if user is anonymous
-    if ($wfdownloads->getConfig('anonpost') == _WFDOWNLOADS_ANONPOST_DOWNLOAD || $wfdownloads->getConfig('anonpost') == _WFDOWNLOADS_ANONPOST_BOTH) {
+    if (_WFDOWNLOADS_ANONPOST_DOWNLOAD == $wfdownloads->getConfig('anonpost') || _WFDOWNLOADS_ANONPOST_BOTH == $wfdownloads->getConfig('anonpost')) {
         $isSubmissionAllowed = true;
     }
 }
@@ -187,7 +187,7 @@ foreach (array_keys($mainCategoryObjs) as $i) {
             }
         }
         $isNewImage = WfdownloadsUtility::isNewImage($publishdate);
-        if (($mainCategoryObjs[$i]->getVar('imgurl') !== '') && is_file(XOOPS_ROOT_PATH . '/' . $wfdownloads->getConfig('catimage') . '/' . $mainCategoryObjs[$i]->getVar('imgurl'))) {
+        if (('' !== $mainCategoryObjs[$i]->getVar('imgurl')) && is_file(XOOPS_ROOT_PATH . '/' . $wfdownloads->getConfig('catimage') . '/' . $mainCategoryObjs[$i]->getVar('imgurl'))) {
             if ($wfdownloads->getConfig('usethumbs') && function_exists('gd_info')) {
                 $imageURL = WfdownloadsUtility::createThumb(
                     $mainCategoryObjs[$i]->getVar('imgurl'),
@@ -217,7 +217,7 @@ foreach (array_keys($mainCategoryObjs) as $i) {
             foreach (array_keys($allSubcategoryObjs) as $k) {
                 if (in_array($allSubcategoryObjs[$k]->getVar('cid'), $allowedDownCategoriesIds)) {
                     $download_count += isset($listings['count'][$allSubcategoryObjs[$k]->getVar('cid')]) ? $listings['count'][$allSubcategoryObjs[$k]->getVar('cid')] : 0;
-                    if ($wfdownloads->getConfig('subcats') == 1 && $allSubcategoryObjs[$k]->getVar('pid') == $mainCategoryObjs[$i]->getVar('cid')) {
+                    if (1 == $wfdownloads->getConfig('subcats') && $allSubcategoryObjs[$k]->getVar('pid') == $mainCategoryObjs[$i]->getVar('cid')) {
                         // if we are collecting subcat info for displaying, and this subcat is a first level child...
                         $subcategories[] = [
                             'id'               => $allSubcategoryObjs[$k]->getVar('cid'), // this definition is not removed for backward compatibility issues
@@ -231,7 +231,7 @@ foreach (array_keys($mainCategoryObjs) as $i) {
             }
         }
 
-        if ($wfdownloads->getConfig('subcats') !== true) {
+        if (true !== $wfdownloads->getConfig('subcats')) {
             unset($subcategories);
             $xoopsTpl->append('categories', [
                 'image'            => $imageURL, // this definition is not removed for backward compatibility issues
@@ -268,11 +268,11 @@ foreach (array_keys($mainCategoryObjs) as $i) {
         }
     }
 }
-$lang_ThereAre = $count != 1 ? _MD_WFDOWNLOADS_THEREARE : _MD_WFDOWNLOADS_THEREIS;
+$lang_ThereAre = 1 != $count ? _MD_WFDOWNLOADS_THEREARE : _MD_WFDOWNLOADS_THEREIS;
 
 $xoopsTpl->assign('lang_thereare', sprintf($lang_ThereAre, $count, array_sum($listings['count'])));
 
-if ($wfdownloads->getConfig('enablerss') === true) {
+if (true === $wfdownloads->getConfig('enablerss')) {
     $rsslink_URL = WFDOWNLOADS_URL . '/rss.php';
     $xoopsTpl->assign('full_rssfeed_URL', $rsslink_URL);
     $rsslink = "<a href='" . $rsslink_URL . "' title='" . _MD_WFDOWNLOADS_LEGENDTEXTRSS . "'>";

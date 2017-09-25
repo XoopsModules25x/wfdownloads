@@ -37,7 +37,7 @@ if (!is_dir(XOOPS_ROOT_PATH . '/' . $wfdownloads->getConfig('catimage'))) {
 $op = Request::getString('op', 'images.list');
 switch ($op) {
     case 'image.upload':
-        if ($_FILES['uploadfile']['name'] != '') {
+        if ('' != $_FILES['uploadfile']['name']) {
             if (file_exists(XOOPS_ROOT_PATH . '/' . $_POST['uploadpath'] . '/' . $_FILES['uploadfile']['name'])) {
                 redirect_header($currentFile, 2, _AM_WFDOWNLOADS_DOWN_IMAGEEXIST);
             }
@@ -61,7 +61,7 @@ switch ($op) {
     case 'image.delete':
         $ok = Request::getBool('ok', false, 'POST');
 
-        if ($ok === true) {
+        if (true === $ok) {
             $fileToDelete = XOOPS_ROOT_PATH . '/' . $_POST['uploadpath'] . '/' . $_POST['downfile'];
             if (file_exists($fileToDelete)) {
                 chmod($fileToDelete, 0666);

@@ -42,7 +42,7 @@ $op = Request::getString('op', 'import.menu');
 switch ($op) {
     case 'import.MyDownloads':
         $ok = Request::getBool('ok', false, 'POST');
-        if ($ok === true) {
+        if (true === $ok) {
             // Import data from MyDownloads
             import_mydownloads_to_wfdownloads();
             // Downloads imported
@@ -56,7 +56,7 @@ switch ($op) {
 
     case 'import.PD-Downloads':
         $ok = Request::getBool('ok', false, 'POST');
-        if ($ok === true) {
+        if (true === $ok) {
             // Import data from PD-Downloads
             import_pddownloads_to_wfdownloads();
             echo _AM_WFDOWNLOADS_IMPORT_IMPORT_OK;
@@ -72,7 +72,7 @@ switch ($op) {
 
     case 'import.wmpownloads':
         $ok = Request::getBool('ok', false, 'POST');
-        if ($ok === true) {
+        if (true === $ok) {
             // Import data from wmpownloads
             import_wmpdownloads_to_wfdownloads();
             echo _AM_WFDOWNLOADS_IMPORT_IMPORT_OK;
@@ -88,7 +88,7 @@ switch ($op) {
 
     case 'import.wfd322':
         $ok = Request::getBool('ok', false, 'POST');
-        if ($ok === true) {
+        if (true === $ok) {
             // Import data from wfd322
             WfdownloadsUtility::myxoops_cp_header();
             import_wfd_to_wfdownloads();
@@ -105,7 +105,7 @@ switch ($op) {
 
     case 'import.TDMDownloads':
         $ok = Request::getBool('ok', false, 'POST');
-        if ($ok === true) {
+        if (true === $ok) {
             // Import data from wfd322
             WfdownloadsUtility::myxoops_cp_header();
             import_tdmdownloads_to_wfdownloads();

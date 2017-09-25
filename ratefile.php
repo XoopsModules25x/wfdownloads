@@ -36,15 +36,15 @@ if (empty($categoryObj)) {
 }
 
 // Download not published, expired or taken offline - redirect
-if ($downloadObj->getVar('published') === false || $downloadObj->getVar('published') > time()
-    || $downloadObj->getVar('offline') === true
-    || ($downloadObj->getVar('expired') != 0
+if (false === $downloadObj->getVar('published') || $downloadObj->getVar('published') > time()
+    || true === $downloadObj->getVar('offline')
+    || (0 != $downloadObj->getVar('expired')
         && $downloadObj->getVar('expired') < time())) {
     redirect_header('index.php', 3, _MD_WFDOWNLOADS_NODOWNLOAD);
 }
 
 // Check permissions
-if ($wfdownloads->getConfig('enable_ratings') === false && !WfdownloadsUtility::userIsAdmin()) {
+if (false === $wfdownloads->getConfig('enable_ratings') && !WfdownloadsUtility::userIsAdmin()) {
     redirect_header('index.php', 3, _NOPERM);
 }
 // Breadcrumb
@@ -70,10 +70,10 @@ switch ($op) {
             $rating = Request::getString('rating', '--', 'POST');
 
             // Check if Rating is Null
-            if ($rating === '--') {
+            if ('--' === $rating) {
                 redirect_header("?cid={$cid}&amp;lid={$lid}", 4, _MD_WFDOWNLOADS_NORATING);
             }
-            if ($ratinguserUid != 0) {
+            if (0 != $ratinguserUid) {
                 // Check if Download POSTER is voting (UNLESS Anonymous users allowed to post)
                 if ($downloadObj->getVar('submitter') == $ratinguserUid) {
                     redirect_header(WFDOWNLOADS_URL . "/singlefile.php?cid={$cid}&amp;lid={$lid}", 4, _MD_WFDOWNLOADS_CANTVOTEOWN);

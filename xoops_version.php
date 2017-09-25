@@ -127,8 +127,8 @@ global $xoopsModule, $xoopsModuleConfig;
 $isSubmissionAllowed = false;
 if (is_object($xoopsModule) && $xoopsModule->dirname() == $modversion['dirname'] && $xoopsModule->isactive()) {
     if (is_object($GLOBALS['xoopsUser'])
-        && ($xoopsModuleConfig['submissions'] == _WFDOWNLOADS_SUBMISSIONS_DOWNLOAD
-            || $xoopsModuleConfig['submissions'] == _WFDOWNLOADS_SUBMISSIONS_BOTH)) {
+        && (_WFDOWNLOADS_SUBMISSIONS_DOWNLOAD == $xoopsModuleConfig['submissions']
+            || _WFDOWNLOADS_SUBMISSIONS_BOTH == $xoopsModuleConfig['submissions'])) {
         // if user is a registered user
         $groups = $GLOBALS['xoopsUser']->getGroups();
         if (count(array_intersect($xoopsModuleConfig['submitarts'], $groups)) > 0) {
@@ -136,8 +136,8 @@ if (is_object($xoopsModule) && $xoopsModule->dirname() == $modversion['dirname']
         }
     } else {
         // if user is anonymous
-        if ($xoopsModuleConfig['anonpost'] == _WFDOWNLOADS_ANONPOST_DOWNLOAD
-            || $xoopsModuleConfig['anonpost'] == _WFDOWNLOADS_ANONPOST_BOTH) {
+        if (_WFDOWNLOADS_ANONPOST_DOWNLOAD == $xoopsModuleConfig['anonpost']
+            || _WFDOWNLOADS_ANONPOST_BOTH == $xoopsModuleConfig['anonpost']) {
             $isSubmissionAllowed = true;
         }
     }

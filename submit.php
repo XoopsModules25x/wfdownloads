@@ -27,8 +27,8 @@ require_once __DIR__ . '/header.php';
 // Check if submissions are allowed
 $isSubmissionAllowed = false;
 if (is_object($GLOBALS['xoopsUser'])
-    && ($wfdownloads->getConfig('submissions') == _WFDOWNLOADS_SUBMISSIONS_DOWNLOAD
-        || $wfdownloads->getConfig('submissions') == _WFDOWNLOADS_SUBMISSIONS_BOTH)) {
+    && (_WFDOWNLOADS_SUBMISSIONS_DOWNLOAD == $wfdownloads->getConfig('submissions')
+        || _WFDOWNLOADS_SUBMISSIONS_BOTH == $wfdownloads->getConfig('submissions'))) {
     // if user is a registered user
     $groups = $GLOBALS['xoopsUser']->getGroups();
     if (count(array_intersect($wfdownloads->getConfig('submitarts'), $groups)) > 0) {
@@ -37,8 +37,8 @@ if (is_object($GLOBALS['xoopsUser'])
 } else {
     // if user is ANONYMOUS
     if (!is_object($GLOBALS['xoopsUser'])
-        && ($wfdownloads->getConfig('anonpost') == _WFDOWNLOADS_ANONPOST_DOWNLOAD
-            || $wfdownloads->getConfig('anonpost') == _WFDOWNLOADS_ANONPOST_BOTH)) {
+        && (_WFDOWNLOADS_ANONPOST_DOWNLOAD == $wfdownloads->getConfig('anonpost')
+            || _WFDOWNLOADS_ANONPOST_BOTH == $wfdownloads->getConfig('anonpost'))) {
         $isSubmissionAllowed = true;
     } else {
         redirect_header(XOOPS_URL . '/user.php', 5, _MD_WFDOWNLOADS_MUSTREGFIRST);
@@ -46,10 +46,10 @@ if (is_object($GLOBALS['xoopsUser'])
 }
 // Get categories where user can submit
 $categoryObjs = $wfdownloads->getHandler('category')->getUserUpCategories();
-if (count($categoryObjs) == 0) {
+if (0 == count($categoryObjs)) {
     $isSubmissionAllowed = false;
 }
-if ($isSubmissionAllowed === false) {
+if (false === $isSubmissionAllowed) {
     redirect_header('index.php', 5, _MD_WFDOWNLOADS_NOTALLOWESTOSUBMIT);
 }
 // Check posts if user is not an ADMIN
@@ -65,7 +65,7 @@ $agreed = Request::getBool('agreed', false, 'POST');
 $op     = Request::getString('op', 'download.form');
 $notify = Request::getBool('notify', false);
 
-if ($wfdownloads->getConfig('showdisclaimer') && ($op === 'download.form') && $agreed === false) {
+if ($wfdownloads->getConfig('showdisclaimer') && ('download.form' === $op) && false === $agreed) {
     $op = 'download.disclaimer';
 }
 
@@ -121,7 +121,7 @@ switch ($op) {
     case 'download.edit':
     case 'download.add':
         // Show submit form
-        if (($lid != 0) && is_object($GLOBALS['xoopsUser'])) {
+        if ((0 != $lid) && is_object($GLOBALS['xoopsUser'])) {
             $downloadObj = $wfdownloads->getHandler('download')->get($lid);
             if ($GLOBALS['xoopsUser']->uid() != $downloadObj->getVar('submitter')) {
                 redirect_header('index.php', 5, _MD_WFDOWNLOADS_NOTALLOWEDTOMOD);
@@ -195,12 +195,12 @@ switch ($op) {
     case 'download.save':
         // Save submitted download
         if (empty($_FILES['userfile']['name'])) {
-            if ($_POST['url'] && $_POST['url'] != '' && $_POST['url'] !== 'http://') {
-                $url      = ($_POST['url'] !== 'http://') ? $_POST['url'] : '';
+            if ($_POST['url'] && '' != $_POST['url'] && 'http://' !== $_POST['url']) {
+                $url      = ('http://' !== $_POST['url']) ? $_POST['url'] : '';
                 $filename = '';
                 $filetype = '';
             } else {
-                $url      = ($_POST['url'] !== 'http://') ? $_POST['url'] : '';
+                $url      = ('http://' !== $_POST['url']) ? $_POST['url'] : '';
                 $filename = $_POST['filename'];
                 $filetype = $_POST['filetype'];
             }
@@ -209,13 +209,13 @@ switch ($op) {
         } else {
             $isAdmin  = WfdownloadsUtility::userIsAdmin();
             $down     = WfdownloadsUtility::uploading($_FILES, $wfdownloads->getConfig('uploaddir'), '', $currentFile, 0, false, $isAdmin);
-            $url      = ($_POST['url'] !== 'http://') ? $_POST['url'] : '';
+            $url      = ('http://' !== $_POST['url']) ? $_POST['url'] : '';
             $size     = $down['size'];
             $filename = $down['filename'];
             $filetype = $_FILES['userfile']['type'];
             $title    = $_FILES['userfile']['name'];
             $title    = rtrim(WfdownloadsUtility::strrrchr($title, '.'), '.');
-            $title    = (isset($_POST['title_checkbox']) && $_POST['title_checkbox'] == 1) ? $title : trim($_POST['title']);
+            $title    = (isset($_POST['title_checkbox']) && 1 == $_POST['title_checkbox']) ? $title : trim($_POST['title']);
         }
 
         // Load screenshot
@@ -278,8 +278,8 @@ switch ($op) {
 
         if ($lid > 0) {
             $isANewRecord = false;
-            if ($wfdownloads->getConfig('autoapprove') == _WFDOWNLOADS_AUTOAPPROVE_DOWNLOAD
-                || $wfdownloads->getConfig('autoapprove') == _WFDOWNLOADS_AUTOAPPROVE_BOTH) {
+            if (_WFDOWNLOADS_AUTOAPPROVE_DOWNLOAD == $wfdownloads->getConfig('autoapprove')
+                || _WFDOWNLOADS_AUTOAPPROVE_BOTH == $wfdownloads->getConfig('autoapprove')) {
                 $downloadObj = $wfdownloads->getHandler('download')->get($lid);
             } else {
                 $downloadObj = $wfdownloads->getHandler('modification')->create();
@@ -288,8 +288,8 @@ switch ($op) {
         } else {
             $isANewRecord = true;
             $downloadObj  = $wfdownloads->getHandler('download')->create();
-            if ($wfdownloads->getConfig('autoapprove') == _WFDOWNLOADS_AUTOAPPROVE_DOWNLOAD
-                || $wfdownloads->getConfig('autoapprove') == _WFDOWNLOADS_AUTOAPPROVE_BOTH) {
+            if (_WFDOWNLOADS_AUTOAPPROVE_DOWNLOAD == $wfdownloads->getConfig('autoapprove')
+                || _WFDOWNLOADS_AUTOAPPROVE_BOTH == $wfdownloads->getConfig('autoapprove')) {
                 $downloadObj->setVar('published', time());
                 $downloadObj->setVar('status', _WFDOWNLOADS_STATUS_APPROVED);
             } else {
@@ -337,7 +337,7 @@ switch ($op) {
         }
         // Formulize module support (2006/05/04) jpc - end
 
-        if (!empty($_POST['homepage']) || $_POST['homepage'] !== 'http://') {
+        if (!empty($_POST['homepage']) || 'http://' !== $_POST['homepage']) {
             $downloadObj->setVar('homepage', formatURL(trim($_POST['homepage'])));
             $downloadObj->setVar('homepagetitle', trim($_POST['homepagetitle']));
         }
@@ -364,7 +364,7 @@ switch ($op) {
             $tags['CATEGORY_NAME'] = $categoryObj->getVar('title');
             $tags['CATEGORY_URL']  = WFDOWNLOADS_URL . "/viewcat.php?cid={$cid}";
 
-            if ($wfdownloads->getConfig('autoapprove') == _WFDOWNLOADS_AUTOAPPROVE_DOWNLOAD || $wfdownloads->getConfig('autoapprove') == _WFDOWNLOADS_AUTOAPPROVE_BOTH) {
+            if (_WFDOWNLOADS_AUTOAPPROVE_DOWNLOAD == $wfdownloads->getConfig('autoapprove') || _WFDOWNLOADS_AUTOAPPROVE_BOTH == $wfdownloads->getConfig('autoapprove')) {
                 // Then this change will be automatically approved, so the notification needs to go out.
                 $notificationHandler->triggerEvent('global', 0, 'filemodified', $tags);
                 $notificationHandler->triggerEvent('category', $cid, 'filemodified', $tags);
@@ -411,7 +411,7 @@ switch ($op) {
             $dhistory .= $dhistoryhistory;
         }
         $downloadObj->setVar('dhistory', $dhistory);
-        $offline = (isset($_POST['offline']) && $_POST['offline'] == 1) ? true : false;
+        $offline = (isset($_POST['offline']) && 1 == $_POST['offline']) ? true : false;
         $downloadObj->setVar('offline', $offline);
         $downloadObj->setVar('date', time());
         /*
@@ -420,8 +420,8 @@ switch ($op) {
                 $screenshot3 = '';
                 $screenshot4 = '';
         */
-        if ($lid == 0) {
-            $notifypub = (isset($_POST['notifypub']) && $_POST['notifypub'] === true);
+        if (0 == $lid) {
+            $notifypub = (isset($_POST['notifypub']) && true === $_POST['notifypub']);
             $downloadObj->setVar('notifypub', $notifypub);
             $downloadObj->setVar('ipaddress', $_SERVER['REMOTE_ADDR']);
 
@@ -439,7 +439,7 @@ switch ($op) {
             $tags['CATEGORY_NAME'] = $categoryObj->getVar('title');
             $tags['CATEGORY_URL']  = WFDOWNLOADS_URL . "/viewcat.php?cid={$cid}";
 
-            if ($wfdownloads->getConfig('autoapprove') == _WFDOWNLOADS_AUTOAPPROVE_DOWNLOAD || $wfdownloads->getConfig('autoapprove') == _WFDOWNLOADS_AUTOAPPROVE_BOTH) {
+            if (_WFDOWNLOADS_AUTOAPPROVE_DOWNLOAD == $wfdownloads->getConfig('autoapprove') || _WFDOWNLOADS_AUTOAPPROVE_BOTH == $wfdownloads->getConfig('autoapprove')) {
                 $notificationHandler->triggerEvent('global', 0, 'new_file', $tags);
                 $notificationHandler->triggerEvent('category', $cid, 'new_file', $tags);
                 redirect_header('index.php', 2, _MD_WFDOWNLOADS_ISAPPROVED);
@@ -455,8 +455,8 @@ switch ($op) {
             }
             exit();
         } else {
-            if ($wfdownloads->getConfig('autoapprove') == _WFDOWNLOADS_AUTOAPPROVE_DOWNLOAD || $wfdownloads->getConfig('autoapprove') == _WFDOWNLOADS_AUTOAPPROVE_BOTH) {
-                $notifypub = (isset($_POST['notifypub']) && $_POST['notifypub'] === true);
+            if (_WFDOWNLOADS_AUTOAPPROVE_DOWNLOAD == $wfdownloads->getConfig('autoapprove') || _WFDOWNLOADS_AUTOAPPROVE_BOTH == $wfdownloads->getConfig('autoapprove')) {
+                $notifypub = (isset($_POST['notifypub']) && true === $_POST['notifypub']);
                 $downloadObj->setVar('notifypub', $notifypub);
                 $downloadObj->setVar('ipaddress', $_SERVER['REMOTE_ADDR']);
                 $downloadObj->setVar('updated', time());
@@ -471,7 +471,7 @@ switch ($op) {
                 $notificationHandler->triggerEvent('global', 0, 'file_modify', $tags);
                 redirect_header('index.php', 2, _MD_WFDOWNLOADS_ISAPPROVED);
             } else {
-                $updated = (isset($_POST['up_dated']) && $_POST['up_dated'] == 0) ? 0 : time();
+                $updated = (isset($_POST['up_dated']) && 0 == $_POST['up_dated']) ? 0 : time();
                 $downloadObj->setVar('updated', $updated);
                 $downloadObj->setVar('modifysubmitter', (int)$GLOBALS['xoopsUser']->uid());
                 $downloadObj->setVar('requestdate', time());

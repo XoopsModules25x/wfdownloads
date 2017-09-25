@@ -30,12 +30,12 @@ switch ($op) {
         $lid      = Request::getInt('lid', 0);
         $criteria = new Criteria('lid', $lid);
         if (isset($_GET['ack'])) {
-            $acknowledged = (isset($_GET['ack']) && $_GET['ack'] == 0) ? 1 : 0;
+            $acknowledged = (isset($_GET['ack']) && 0 == $_GET['ack']) ? 1 : 0;
             $wfdownloads->getHandler('report')->updateAll('acknowledged', $acknowledged, $criteria, true);
             $update_mess = _AM_WFDOWNLOADS_BROKEN_NOWACK;
         }
         if (isset($_GET['con'])) {
-            $confirmed = (isset($_GET['con']) && $_GET['con'] == 0) ? 1 : 0;
+            $confirmed = (isset($_GET['con']) && 0 == $_GET['con']) ? 1 : 0;
             $wfdownloads->getHandler('report')->updateAll('confirmed', $confirmed, $criteria, true);
             $update_mess = _AM_WFDOWNLOADS_BROKEN_NOWCON;
         }
@@ -137,9 +137,9 @@ switch ($op) {
                 case 'published':
                 case 'expired':
                 case 'updated':
-                    $downloadContent = ($downloadContent !== false) ? XoopsLocal::formatTimestamp($downloadContent, 'l') : _NO;
+                    $downloadContent = (false !== $downloadContent) ? XoopsLocal::formatTimestamp($downloadContent, 'l') : _NO;
                     //
-                    $modificationContent = ($modificationContent !== false) ? XoopsLocal::formatTimestamp($modificationContent, 'l') : _NO;
+                    $modificationContent = (false !== $modificationContent) ? XoopsLocal::formatTimestamp($modificationContent, 'l') : _NO;
                     break;
                 case 'platform':
                 case 'license':
@@ -167,11 +167,11 @@ switch ($op) {
                 case 'screenshot2':
                 case 'screenshot3':
                 case 'screenshot4':
-                    if ($downloadContent != '') {
+                    if ('' != $downloadContent) {
                         $downloadContent = "<img src='" . XOOPS_URL . "/{$wfdownloads->getConfig('screenshots')}/{$downloadContent}' width='{$wfdownloads->getConfig('shotwidth')}' alt='' title=''>";
                     }
                     //
-                    if ($modificationContent != '') {
+                    if ('' != $modificationContent) {
                         $modificationContent = "<img src='" . XOOPS_URL . "/{$wfdownloads->getConfig('screenshots')}/{$modificationContent}' width='{$wfdownloads->getConfig('shotwidth')}' alt='' title=''>";
                     }
                     break;
@@ -184,13 +184,13 @@ switch ($op) {
                     foreach ($downloadScreenshots as $key => $value) {
                         $downloadScreenshot     = $downloadScreenshots[$key];
                         $modificationScreenshot = $modificationScreenshots[$key];
-                        if ($downloadScreenshot != '') {
+                        if ('' != $downloadScreenshot) {
                             $downloadContent += "<img src='" . XOOPS_URL . "/{$wfdownloads->getConfig('screenshots')}/{$downloadScreenshot}' width='{$wfdownloads->getConfig(
                                     'shotwidth'
                                 )}' alt='' title=''>";
                         }
                         //
-                        if ($modificationContent != '') {
+                        if ('' != $modificationContent) {
                             $modificationContent += "<img src='" . XOOPS_URL . "/{$wfdownloads->getConfig('screenshots')}/{$modificationScreenshot}' width='{$wfdownloads->getConfig(
                                     'shotwidth'
                                 )}' alt='' title=''>";
@@ -204,7 +204,7 @@ switch ($op) {
                     break;
                 case 'features':
                 case 'requirements':
-                    if ($downloadContent != '') {
+                    if ('' != $downloadContent) {
                         $downrequirements = explode('|', trim($downloadContent));
                         $downloadContent  = '<ul>';
                         foreach ($downrequirements as $bi) {
@@ -213,7 +213,7 @@ switch ($op) {
                         $downloadContent .= '</ul>';
                     }
                     //
-                    if ($modificationContent != '') {
+                    if ('' != $modificationContent) {
                         $downrequirements    = explode('|', trim($modificationContent));
                         $modificationContent = '<ul>';
                         foreach ($downrequirements as $bi) {
@@ -324,7 +324,7 @@ switch ($op) {
             redirect_header($currentFile, 4, _AM_WFDOWNLOADS_MOD_NOTFOUND);
         }
         $title = $modificationObj->getVar('title');
-        if ($ok === true) {
+        if (true === $ok) {
             /*
             IN PROGRESS
             IN PROGRESS

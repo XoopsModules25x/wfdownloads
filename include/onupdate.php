@@ -98,7 +98,7 @@ function xoops_module_update_wfdownloads(XoopsModule $module, $previousVersion =
                     $templateList = array_diff(scandir($templateFolder, SCANDIR_SORT_NONE), ['..', '.']);
                     foreach ($templateList as $k => $v) {
                         $fileInfo = new SplFileInfo($templateFolder . $v);
-                        if ($fileInfo->getExtension() === 'html' && $fileInfo->getFilename() !== 'index.html') {
+                        if ('html' === $fileInfo->getExtension() && 'index.html' !== $fileInfo->getFilename()) {
                             if (file_exists($templateFolder . $v)) {
                                 unlink($templateFolder . $v);
                             }
@@ -712,7 +712,7 @@ function get_table_info($table, $default_fields)
     $result = $GLOBALS['xoopsDB']->query('SHOW COLUMNS FROM ' . $table);
     while (false !== ($existing_field = $GLOBALS['xoopsDB']->fetchArray($result))) {
         $fields[$existing_field['Field']] = $existing_field['Type'];
-        if ($existing_field['Null'] !== 'YES') {
+        if ('YES' !== $existing_field['Null']) {
             $fields[$existing_field['Field']] .= ' NOT NULL';
         }
         if ($existing_field['Extra']) {

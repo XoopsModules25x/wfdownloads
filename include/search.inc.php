@@ -51,7 +51,7 @@ function wfdownloads_search(
     $allowedDownCategoriesIds = $gpermHandler->getItemIds('WFDownCatPerm', $userGroups, $wfdownloads->getModule()->mid());
 
     $criteria = new CriteriaCompo(new Criteria('cid', '(' . implode(',', $allowedDownCategoriesIds) . ')', 'IN'));
-    if ($userId != 0) {
+    if (0 != $userId) {
         $criteria->add(new Criteria('submitter', (int)$userId));
     }
 
@@ -63,9 +63,9 @@ function wfdownloads_search(
     // because count() returns 1 even if a supplied variable
     // is not an array, we must check if $querryarray is really an array
     $queryArray_count = 0;
-    if ((is_array($queryArray) && $queryArray_count = count($queryArray)) || $userId != 0) {
+    if ((is_array($queryArray) && $queryArray_count = count($queryArray)) || 0 != $userId) {
         // $userId != 0 added August 13 2007 -- ACCOUNTS FOR CASES WHERE THERE ARE NO QUERY TERMS BUT A USER ID IS PASSED -- FREEFORM SOLUTIONS
-        if ($queryArray_count == 0) {
+        if (0 == $queryArray_count) {
             $queryArray_count = 1; // AUGUST 13 2007 -- MAKE COUNT EQUAL 1 SINCE WE HAVE TO DO AT LEAST ONE SEARCH (BASED ON USER ID) EVEN IF THERE ARE NO QUERY TERMS -- FREEFORM SOLUTIONS
             $queryArray       = [];
         }
@@ -207,7 +207,7 @@ function wfdownloads_search(
             }
 
             // Do an intersection of the found lids if the operator is AND
-            if ($andor === 'AND') {
+            if ('AND' === $andor) {
                 if (!isset($downloads_lids)) {
                     $downloads_lids[] = '';
                 }
@@ -222,7 +222,7 @@ function wfdownloads_search(
     } // end of if there are query terms
 
     // If an AND operator was used, cull the $downloadObjs array based on the intersection found
-    if ($andor === 'AND') {
+    if ('AND' === $andor) {
         foreach ($downloadObjs as $lid => $downloadObj) {
             if (!in_array($lid, $downloads_intersect)) {
                 unset($downloadObjs[$lid]);

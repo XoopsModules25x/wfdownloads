@@ -43,10 +43,10 @@ $cid    = Request::getInt('cid', $downloadObj->getVar('cid'));
 $agreed = Request::getBool('agreed', false, 'POST');
 
 // Download not published, expired or taken offline - redirect
-if ($downloadObj->getVar('published') == 0 || $downloadObj->getVar('published') > time() || $downloadObj->getVar('offline') === true
-    || ($downloadObj->getVar('expired') != 0
+if (0 == $downloadObj->getVar('published') || $downloadObj->getVar('published') > time() || true === $downloadObj->getVar('offline')
+    || (0 != $downloadObj->getVar('expired')
         && $downloadObj->getVar('expired') < time())
-    || $downloadObj->getVar('status') == _WFDOWNLOADS_STATUS_WAITING) {
+    || _WFDOWNLOADS_STATUS_WAITING == $downloadObj->getVar('status')) {
     redirect_header('index.php', 3, _MD_WFDOWNLOADS_NODOWNLOAD);
 }
 
@@ -56,7 +56,7 @@ if (!$gpermHandler->checkRight('WFDownCatPerm', $cid, $groups, $wfdownloads->get
     redirect_header('index.php', 3, _NOPERM);
 }
 
-if ($agreed === false) {
+if (false === $agreed) {
     if ($wfdownloads->getConfig('check_host')) {
         $isAGoodHost  = false;
         $referer      = parse_url(xoops_getenv('HTTP_REFERER'));
@@ -73,7 +73,7 @@ if ($agreed === false) {
     }
 }
 
-if ($wfdownloads->getConfig('showDowndisclaimer') && $agreed === false) {
+if ($wfdownloads->getConfig('showDowndisclaimer') && false === $agreed) {
     $GLOBALS['xoopsOption']['template_main'] = "{$wfdownloads->getModule()->dirname()}_disclaimer.tpl";
     require_once XOOPS_ROOT_PATH . '/header.php';
 
@@ -121,7 +121,7 @@ if ($wfdownloads->getConfig('showDowndisclaimer') && $agreed === false) {
 
     // Download file
     $fileFilename = trim($downloadObj->getVar('filename')); // IN PROGRESS: why 'trim'?
-    if ((!$downloadObj->getVar('url') == '' && !$downloadObj->getVar('url') === 'http://') || $fileFilename == '') {
+    if (('' == !$downloadObj->getVar('url') && 'http://' === !$downloadObj->getVar('url')) || '' == $fileFilename) {
         // download is a remote file: download from remote url
         require_once XOOPS_ROOT_PATH . '/header.php';
 
@@ -155,7 +155,7 @@ if ($wfdownloads->getConfig('showDowndisclaimer') && $agreed === false) {
         }
         // get file informations from filesystem
         $fileFilename  = trim($downloadObj->getVar('filename')); // IN PROGRESS: why 'trim'?
-        $fileMimetype  = ($downloadObj->getVar('filetype') != '') ? $downloadObj->getVar('filetype') : 'application/octet-stream';
+        $fileMimetype  = ('' != $downloadObj->getVar('filetype')) ? $downloadObj->getVar('filetype') : 'application/octet-stream';
         $filePath      = $wfdownloads->getConfig('uploaddir') . '/' . stripslashes(trim($fileFilename));
         $fileFilesize  = filesize($filePath);
         $fileInfo      = pathinfo($filePath);
@@ -163,7 +163,7 @@ if ($wfdownloads->getConfig('showDowndisclaimer') && $agreed === false) {
         $fileExtension = $fileInfo['extension'];
 
         $headerFilename = strtolower(strrev(substr(strrev($fileFilename), 0, strpos(strrev($fileFilename), '--'))));
-        $headerFilename = ($headerFilename == '') ? $fileFilename : $headerFilename;
+        $headerFilename = ('' == $headerFilename) ? $fileFilename : $headerFilename;
         // MSIE Bug fix
         if (false !== strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE')) {
             $headerFilename = preg_replace('/\./', '%2e', $headerFilename, substr_count($headerFilename, '.') - 1);
