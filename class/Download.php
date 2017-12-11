@@ -475,7 +475,14 @@ class Download extends \XoopsObject
         } else {
             $categoryObjs     = $this->wfdownloads->getHandler('category')->getUserUpCategories();
             $categoryObjsTree = new \XoopsObjectTree($categoryObjs, 'cid', 'pid');
-            $sform->addElement(new \XoopsFormLabel(_MD_WFDOWNLOADS_CATEGORYC, $categoryObjsTree->makeSelBox('cid', 'title', '-', $this->getVar('cid', 'e'))));
+
+            if (wfdownloads\Utility::checkVerXoops($GLOBALS['xoopsModule'], '2.5.9')) {
+                $catSelect = $categoryObjsTree->makeSelectElement('cid', 'title', '--', $this->getVar('cid'), true, 0, '', _MD_WFDOWNLOADS_CATEGORYC);
+                $sform->addElement($catSelect);
+            } else {
+                $sform->addElement(new \XoopsFormLabel(_MD_WFDOWNLOADS_CATEGORYC, $categoryObjsTree->makeSelBox('cid', 'title', '-', $this->getVar('cid', 'e'))));
+            }
+
         }
 
         if (0 == count($customArray)) {
@@ -693,7 +700,16 @@ class Download extends \XoopsObject
         // download: cid
         $categoryObjs     = $this->wfdownloads->getHandler('category')->getObjects();
         $categoryObjsTree = new \XoopsObjectTree($categoryObjs, 'cid', 'pid');
-        $sform->addElement(new \XoopsFormLabel(_AM_WFDOWNLOADS_FILE_CATEGORY, $categoryObjsTree->makeSelBox('cid', 'title', '-', $this->getVar('cid', 'e'))));
+
+
+        if (wfdownloads\Utility::checkVerXoops($GLOBALS['xoopsModule'], '2.5.9')) {
+            $catSelect = $categoryObjsTree->makeSelectElement('cid', 'title', '--', $this->getVar('cid'), true, 0, '', _AM_WFDOWNLOADS_FILE_CATEGORY);
+            $sform->addElement($catSelect);
+        } else {
+            $sform->addElement(new \XoopsFormLabel(_AM_WFDOWNLOADS_FILE_CATEGORY, $categoryObjsTree->makeSelBox('cid', 'title', '-', $this->getVar('cid', 'e'))));
+        }
+
+
         // Formulize module support (2006/03/06, 2006/03/08) jpc - start
         if (0 == count($customArray)) {
             // download: homepagetitle
@@ -975,7 +991,15 @@ class Download extends \XoopsObject
         // download: cid
         $categoryObjs     = $this->wfdownloads->getHandler('category')->getUserUpCategories();
         $categoryObjsTree = new \XoopsObjectTree($categoryObjs, 'cid', 'pid');
-        $sform->addElement(new \XoopsFormLabel(_MD_WFDOWNLOADS_CATEGORYC, $categoryObjsTree->makeSelBox('cid', 'title', '-', $this->getVar('cid', 'e'))));
+
+        if (wfdownloads\Utility::checkVerXoops($GLOBALS['xoopsModule'], '2.5.9')) {
+            $catSelect = $categoryObjsTree->makeSelectElement('cid', 'title', '-', $this->getVar('cid'), true, 0, '', _MD_WFDOWNLOADS_CATEGORYC);
+            $sform->addElement($catSelect);
+        } else {
+            $sform->addElement(new \XoopsFormLabel(_MD_WFDOWNLOADS_CATEGORYC, $categoryObjsTree->makeSelBox('cid', 'title', '-', $this->getVar('cid', 'e'))));
+        }
+
+
         // form: button tray
         $button_tray = new \XoopsFormElementTray('', '');
         $button_tray->addElement(new \XoopsFormButton('', 'submit_category', _SUBMIT, 'submit'));

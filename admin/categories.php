@@ -54,7 +54,14 @@ switch ($op) {
 
             $categoryObjs     = $helper->getHandler('category')->getObjects();
             $categoryObjsTree = new \XoopsObjectTree($categoryObjs, 'cid', 'pid');
-            $sform->addElement(new \XoopsFormLabel(_AM_WFDOWNLOADS_BMODIFY, $categoryObjsTree->makeSelBox('target', 'title')));
+
+            if (wfdownloads\Utility::checkVerXoops($GLOBALS['xoopsModule'], '2.5.9')) {
+                $catSelect = $categoryObjsTree->makeSelectElement('target', 'title', '--', $this->getVar('target'), true, 0, '', _AM_WFDOWNLOADS_BMODIFY);
+                $sform->addElement($catSelect);
+            } else {
+                $sform->addElement(new \XoopsFormLabel(_AM_WFDOWNLOADS_BMODIFY, $categoryObjsTree->makeSelBox('target', 'title')));
+            }
+
             $create_tray = new \XoopsFormElementTray('', '');
             $create_tray->addElement(new \XoopsFormHidden('source', $cid));
             $create_tray->addElement(new \XoopsFormHidden('ok', true));

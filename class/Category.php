@@ -97,7 +97,15 @@ class Category extends \XoopsObject
         if (wfdownloads\Utility::categoriesCount() > 0) {
             $categoryObjs     = $this->wfdownloads->getHandler('category')->getObjects();
             $categoryObjsTree = new \XoopsObjectTree($categoryObjs, 'cid', 'pid');
-            $form->addElement(new \XoopsFormLabel(_AM_WFDOWNLOADS_FCATEGORY_SUBCATEGORY, $categoryObjsTree->makeSelBox('pid', 'title', '-', $this->getVar('pid', 'e'), true)));
+
+            if (wfdownloads\Utility::checkVerXoops($GLOBALS['xoopsModule'], '2.5.9')) {
+                $catSelect = $categoryObjsTree->makeSelectElement('pid', 'title', '-', $this->getVar('pid'), true, 0, '', _AM_WFDOWNLOADS_FCATEGORY_SUBCATEGORY);
+                $form->addElement($catSelect);
+            } else {
+                $form->addElement(new \XoopsFormLabel(_AM_WFDOWNLOADS_FCATEGORY_SUBCATEGORY, $categoryObjsTree->makeSelBox('pid', 'title', '-', $this->getVar('pid', 'e'), true)));
+            }
+
+
         }
         // category: weight
         $form->addElement(new \XoopsFormText(_AM_WFDOWNLOADS_FCATEGORY_WEIGHT, 'weight', 11, 11, $this->getVar('weight')), false);
