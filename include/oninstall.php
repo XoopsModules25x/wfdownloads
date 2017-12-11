@@ -24,7 +24,7 @@ use Xmf\Language;
 defined('XOOPS_ROOT_PATH') || die('XOOPS root path not defined');
 require_once __DIR__ . '/common.php';
 //@require_once WFDOWNLOADS_ROOT_PATH . '/language/' . $GLOBALS['xoopsConfig']['language'] . '/admin.php';
-$wfdownloads = WfdownloadsWfdownloads::getInstance();
+$helper = \Xoopsmodules\wfdownloads\Helper::getInstance();
 xoops_loadLanguage('admin', $GLOBALS['xoopsModule']->dirname());
 
 define('INDEX_FILE_PATH', XOOPS_ROOT_PATH . '/uploads/index.html');
@@ -82,7 +82,7 @@ function xoops_module_install_wfdownloads(XoopsModule $module)
 
     //    $configurator = include __DIR__ . '/config.php';
     $configurator = new WfdownloadsConfigurator();
-    /** @var WfdownloadsUtility $utilityClass */
+    /** @var wfdownloads\Utility $utilityClass */
     $utilityClass = ucfirst($moduleDirName) . 'Utility';
     ;
     if (!class_exists($utilityClass)) {

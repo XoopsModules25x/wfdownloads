@@ -20,6 +20,7 @@
  */
 
 use Xmf\Request;
+use Xoopsmodules\wfdownloads;
 
 $currentFile = basename(__FILE__);
 require_once __DIR__ . '/admin_header.php';
@@ -29,8 +30,8 @@ switch ($op) {
     case 'vote.delete':
         $rid = Request::getInt('rid', 0);
         $lid = Request::getInt('lid', 0);
-        $wfdownloads->getHandler('rating')->deleteAll(new Criteria('ratingid', $rid), true);
-        WfdownloadsUtility::updateRating($lid);
+        $helper->getHandler('rating')->deleteAll(new \Criteria('ratingid', $rid), true);
+        wfdownloads\Utility::updateRating($lid);
         redirect_header($currentFile, 1, _AM_WFDOWNLOADS_VOTEDELETED);
         break;
 
@@ -40,19 +41,19 @@ switch ($op) {
         $useravgrating = '0';
         $uservotes     = '0';
 
-        $criteria      = new CriteriaCompo();
-        $votes         = $wfdownloads->getHandler('rating')->getCount($criteria);
-        $ratings_count = $wfdownloads->getHandler('rating')->getCount($criteria);
+        $criteria      = new \CriteriaCompo();
+        $votes         = $helper->getHandler('rating')->getCount($criteria);
+        $ratings_count = $helper->getHandler('rating')->getCount($criteria);
         $criteria->setSort('ratingtimestamp');
         $criteria->setOrder('DESC');
         $criteria->setStart($start);
         $criteria->setLimit(20);
-        $ratingObjs = $wfdownloads->getHandler('rating')->getObjects($criteria);
+        $ratingObjs = $helper->getHandler('rating')->getObjects($criteria);
 
-        $useravgrating = $wfdownloads->getHandler('rating')->getUserAverage();
+        $useravgrating = $helper->getHandler('rating')->getUserAverage();
         $useravgrating = number_format($useravgrating['avg'], 2);
 
-        WfdownloadsUtility::myxoops_cp_header();
+        wfdownloads\Utility::myxoops_cp_header();
         $adminObject = \Xmf\Module\Admin::getInstance();
         $adminObject->displayNavigation($currentFile);
 
@@ -63,7 +64,7 @@ switch ($op) {
             foreach ($ratingObjs as $ratingObj) {
                 $lids[] = $ratingObj->getVar('lid');
             }
-            $downloads = $wfdownloads->getHandler('download')->getObjects(new Criteria('lid', '(' . implode(',', array_unique($lids)) . ')', 'IN'), true);
+            $downloads = $helper->getHandler('download')->getObjects(new \Criteria('lid', '(' . implode(',', array_unique($lids)) . ')', 'IN'), true);
             foreach ($ratingObjs as $ratingObj) {
                 $rating_array                    = $ratingObj->toArray();
                 $rating_array['formatted_date']  = XoopsLocal::formatTimestamp($ratingObj->getVar('ratingtimestamp'), 'l');
@@ -75,15 +76,15 @@ switch ($op) {
         }
         //Include page navigation
         require_once XOOPS_ROOT_PATH . '/class/pagenav.php';
-        $ratings_pagenav = new XoopsPageNav($ratings_count, $wfdownloads->getConfig('admin_perpage'), $start, 'start');
+        $ratings_pagenav = new \XoopsPageNav($ratings_count, $helper->getConfig('admin_perpage'), $start, 'start');
         $GLOBALS['xoopsTpl']->assign('ratings_pagenav', $ratings_pagenav->renderNav());
 
-        $xoopsTpl->assign('use_mirrors', $wfdownloads->getConfig('enable_mirrors'));
-        $xoopsTpl->assign('use_ratings', $wfdownloads->getConfig('enable_ratings'));
-        $xoopsTpl->assign('use_reviews', $wfdownloads->getConfig('enable_reviews'));
-        $xoopsTpl->assign('use_brokenreports', $wfdownloads->getConfig('enable_brokenreports'));
+        $xoopsTpl->assign('use_mirrors', $helper->getConfig('enable_mirrors'));
+        $xoopsTpl->assign('use_ratings', $helper->getConfig('enable_ratings'));
+        $xoopsTpl->assign('use_reviews', $helper->getConfig('enable_reviews'));
+        $xoopsTpl->assign('use_brokenreports', $helper->getConfig('enable_brokenreports'));
 
-        $GLOBALS['xoopsTpl']->display("db:{$wfdownloads->getModule()->dirname()}_am_ratingslist.tpl");
+        $GLOBALS['xoopsTpl']->display("db:{$helper->getModule()->dirname()}_am_ratingslist.tpl");
 
         require_once __DIR__ . '/admin_footer.php';
         break;

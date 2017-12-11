@@ -17,30 +17,33 @@
  * @since           3.23
  * @author          Xoops Development Team
  */
+
+use Xoopsmodules\wfdownloads;
+
 $currentFile = basename(__FILE__);
 require_once __DIR__ . '/admin_header.php';
 
 require_once XOOPS_ROOT_PATH . '/class/xoopsform/grouppermform.php';
 
-if (0 == $wfdownloads->getHandler('category')->getCount()) {
+if (0 == $helper->getHandler('category')->getCount()) {
     redirect_header('categories.php', 1, _AM_WFDOWNLOADS_CCATEGORY_NOEXISTS);
 }
-$categoryObjObjs = $wfdownloads->getHandler('category')->getObjects();
+$categoryObjObjs = $helper->getHandler('category')->getObjects();
 
-$WFDownCatPermForm = new XoopsGroupPermForm(_AM_WFDOWNLOADS_FCATEGORY_GROUPPROMPT, $wfdownloads->getModule()->mid(), 'WFDownCatPerm', _AM_WFDOWNLOADS_PERM_CSELECTPERMISSIONS, "admin/{$currentFile}", true);
-$WFUpCatPermForm   = new XoopsGroupPermForm(_AM_WFDOWNLOADS_FCATEGORY_GROUPPROMPT_UP, $wfdownloads->getModule()->mid(), 'WFUpCatPerm', _AM_WFDOWNLOADS_PERM_CSELECTPERMISSIONS_UP, "admin/{$currentFile}", true);
+$WFDownCatPermForm = new \XoopsGroupPermForm(_AM_WFDOWNLOADS_FCATEGORY_GROUPPROMPT, $helper->getModule()->mid(), 'WFDownCatPerm', _AM_WFDOWNLOADS_PERM_CSELECTPERMISSIONS, "admin/{$currentFile}", true);
+$WFUpCatPermForm   = new \XoopsGroupPermForm(_AM_WFDOWNLOADS_FCATEGORY_GROUPPROMPT_UP, $helper->getModule()->mid(), 'WFUpCatPerm', _AM_WFDOWNLOADS_PERM_CSELECTPERMISSIONS_UP, "admin/{$currentFile}", true);
 foreach ($categoryObjObjs as $categoryObj) {
     $WFDownCatPermForm->addItem($categoryObj->getVar('cid'), $categoryObj->getVar('title'), $categoryObj->getVar('pid'));
     $WFUpCatPermForm->addItem($categoryObj->getVar('cid'), $categoryObj->getVar('title'), $categoryObj->getVar('pid'));
 }
 
-WfdownloadsUtility::myxoops_cp_header();
+wfdownloads\Utility::myxoops_cp_header();
 $adminObject = \Xmf\Module\Admin::getInstance();
 $adminObject->displayNavigation($currentFile);
 
 $GLOBALS['xoopsTpl']->assign('down_cat_form', $WFDownCatPermForm->render());
 $GLOBALS['xoopsTpl']->assign('up_cat_form', $WFUpCatPermForm->render());
 
-$GLOBALS['xoopsTpl']->display("db:{$wfdownloads->getModule()->dirname()}_am_permissions.tpl");
+$GLOBALS['xoopsTpl']->display("db:{$helper->getModule()->dirname()}_am_permissions.tpl");
 
 require_once __DIR__ . '/admin_footer.php';

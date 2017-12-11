@@ -2,10 +2,12 @@
     <legend style='font-weight: bold; color: #900;'><{$smarty.const._AM_WFDOWNLOADS_MIME_ADMINF}></legend>
     <{$smarty.const._AM_WFDOWNLOADS_MIME_ADMINFINFO}>
     <br>
-    <{if ($allowAdminMimetypes|count)}>
+    <{if ($allowAdminMimetypes|@count)}>
     <{foreach item=allowAdminMimetype from=$allowAdminMimetypes}>
     <{$allowAdminMimetype}> |
+
     <{/foreach}>
+
     <{else}>
     <{$smarty.const._AM_WFDOWNLOADS_MIME_NOMIMEINFO}>
     <{/if}>
@@ -17,7 +19,7 @@
     <legend style='font-weight: bold; color: #900;'><{$smarty.const._AM_WFDOWNLOADS_MIME_USERF}></legend>
     <{$smarty.const._AM_WFDOWNLOADS_MIME_USERFINFO}>
     <br>
-    <{if ($allowUserMimetypes|count)}>
+    <{if ($allowUserMimetypes|@count)}>
     <{foreach item=allowUserMimetype from=$allowUserMimetypes}>
     <{$allowUserMimetype}> |
     <{/foreach}>

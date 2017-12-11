@@ -20,6 +20,7 @@
  */
 
 use Xmf\Request;
+use Xoopsmodules\wfdownloads;
 
 $currentFile = basename(__FILE__);
 require_once __DIR__ . '/admin_header.php';
@@ -29,21 +30,21 @@ switch ($op) {
     case 'review.delete':
         $review_id = Request::getInt('review_id', 0);
         $ok        = Request::getBool('ok', false, 'POST');
-        if (!$reviewObj = $wfdownloads->getHandler('review')->get($review_id)) {
+        if (!$reviewObj = $helper->getHandler('review')->get($review_id)) {
             redirect_header($currentFile, 4, _AM_WFDOWNLOADS_ERROR_REVIEWNOTFOUND);
         }
         if (true === $ok) {
             if (!$GLOBALS['xoopsSecurity']->check()) {
                 redirect_header($currentFile, 3, implode(',', $GLOBALS['xoopsSecurity']->getErrors()));
             }
-            if ($wfdownloads->getHandler('review')->delete($reviewObj)) {
+            if ($helper->getHandler('review')->delete($reviewObj)) {
                 redirect_header($currentFile, 1, sprintf(_AM_WFDOWNLOADS_FILE_FILEWASDELETED, $reviewObj->getVar('title')));
             } else {
                 echo $reviewObj->getHtmlErrors();
                 exit();
             }
         } else {
-            WfdownloadsUtility::myxoops_cp_header();
+            wfdownloads\Utility::myxoops_cp_header();
             xoops_confirm(['op' => 'review.delete', 'review_id' => $review_id, 'ok' => true], $currentFile, _AM_WFDOWNLOADS_FILE_REALLYDELETEDTHIS . '<br><br>' . $reviewObj->getVar('title'), _AM_WFDOWNLOADS_BDELETE);
             xoops_cp_footer();
         }
@@ -52,15 +53,15 @@ switch ($op) {
     case 'review.approve':
         $review_id = Request::getInt('review_id', 0);
         $ok        = Request::getBool('ok', false, 'POST');
-        if (!$reviewObj = $wfdownloads->getHandler('review')->get($review_id)) {
+        if (!$reviewObj = $helper->getHandler('review')->get($review_id)) {
             redirect_header($currentFile, 4, _AM_WFDOWNLOADS_ERROR_REVIEWNOTFOUND);
         }
         if (true === $ok) {
             $reviewObj->setVar('submit', 1); // true
-            $wfdownloads->getHandler('review')->insert($reviewObj);
+            $helper->getHandler('review')->insert($reviewObj);
             redirect_header($currentFile, 1, sprintf(_AM_WFDOWNLOADS_REV_REVIEW_UPDATED, $reviewObj->getVar('title')));
         } else {
-            WfdownloadsUtility::myxoops_cp_header();
+            wfdownloads\Utility::myxoops_cp_header();
             xoops_confirm(['op' => 'review.approve', 'review_id' => $reviewObj->getVar('review_id'), 'ok' => true], $currentFile, _AM_WFDOWNLOADS_REVIEW_APPROVETHIS . '<br><br>' . $reviewObj->getVar('title'), _AM_WFDOWNLOADS_REVIEW_APPROVETHIS);
             xoops_cp_footer();
         }
@@ -68,10 +69,10 @@ switch ($op) {
 
     case 'review.edit':
         $review_id = Request::getInt('review_id', 0);
-        if (!$reviewObj = $wfdownloads->getHandler('review')->get($review_id)) {
+        if (!$reviewObj = $helper->getHandler('review')->get($review_id)) {
             redirect_header($currentFile, 4, _AM_WFDOWNLOADS_ERROR_REVIEWNOTFOUND);
         }
-        WfdownloadsUtility::myxoops_cp_header();
+        wfdownloads\Utility::myxoops_cp_header();
         $adminObject = \Xmf\Module\Admin::getInstance();
         $adminObject->displayNavigation($currentFile);
         $sform = $reviewObj->getForm();
@@ -81,14 +82,14 @@ switch ($op) {
 
     case 'review.save':
         $review_id = Request::getInt('review_id', 0);
-        if (!$reviewObj = $wfdownloads->getHandler('review')->get($review_id)) {
+        if (!$reviewObj = $helper->getHandler('review')->get($review_id)) {
             redirect_header($currentFile, 4, _AM_WFDOWNLOADS_ERROR_REVIEWNOTFOUND);
         }
         $reviewObj->setVar('title', trim($_POST['title']));
         $reviewObj->setVar('review', trim($_POST['review']));
         $reviewObj->setVar('rated', (int)$_POST['rated']);
         $reviewObj->setVar('submit', (int)$_POST['approve']);
-        $wfdownloads->getHandler('review')->insert($reviewObj);
+        $helper->getHandler('review')->insert($reviewObj);
         redirect_header($currentFile, 1, _AM_WFDOWNLOADS_REV_REVIEW_UPDATED);
         break;
 
@@ -97,23 +98,23 @@ switch ($op) {
         $start_waiting   = Request::getInt('start_waiting', 0);
         $start_published = Request::getInt('start_published', 0);
 
-        $criteria_waiting = new Criteria('submit', 0); // false
-        $waiting_count    = $wfdownloads->getHandler('review')->getCount($criteria_waiting);
+        $criteria_waiting = new \Criteria('submit', 0); // false
+        $waiting_count    = $helper->getHandler('review')->getCount($criteria_waiting);
         $criteria_waiting->setSort('date');
         $criteria_waiting->setOrder('DESC');
-        $criteria_waiting->setLimit($wfdownloads->getConfig('admin_perpage'));
+        $criteria_waiting->setLimit($helper->getConfig('admin_perpage'));
         $criteria_waiting->setStart($start_waiting);
-        $reviews_waiting = $wfdownloads->getHandler('review')->getObjects($criteria_waiting);
+        $reviews_waiting = $helper->getHandler('review')->getObjects($criteria_waiting);
 
-        $criteria_published = new Criteria('submit', 1); // true
-        $published_count    = $wfdownloads->getHandler('review')->getCount($criteria_published);
+        $criteria_published = new \Criteria('submit', 1); // true
+        $published_count    = $helper->getHandler('review')->getCount($criteria_published);
         $criteria_published->setSort('date');
         $criteria_published->setOrder('DESC');
-        $criteria_published->setLimit($wfdownloads->getConfig('admin_perpage'));
+        $criteria_published->setLimit($helper->getConfig('admin_perpage'));
         $criteria_published->setStart($start_published);
-        $reviews_published = $wfdownloads->getHandler('review')->getObjects($criteria_published);
+        $reviews_published = $helper->getHandler('review')->getObjects($criteria_published);
 
-        WfdownloadsUtility::myxoops_cp_header();
+        wfdownloads\Utility::myxoops_cp_header();
         $adminObject = \Xmf\Module\Admin::getInstance();
         $adminObject->displayNavigation($currentFile);
 
@@ -126,10 +127,10 @@ switch ($op) {
                 $uids_waiting[] = $review_waiting->getVar('uid');
             }
             if (isset($lids_waiting)) {
-                $downloads = $wfdownloads->getHandler('download')->getObjects(new Criteria('lid', '(' . implode(',', array_unique($lids_waiting)) . ')', 'IN'), true, false);
+                $downloads = $helper->getHandler('download')->getObjects(new \Criteria('lid', '(' . implode(',', array_unique($lids_waiting)) . ')', 'IN'), true, false);
             }
             if (isset($uids_waiting)) {
-                $users = $memberHandler->getUserList(new Criteria('uid', '(' . implode(',', $uids_waiting) . ')'));
+                $users = $memberHandler->getUserList(new \Criteria('uid', '(' . implode(',', $uids_waiting) . ')'));
             }
             foreach ($reviews_waiting as $review_waiting) {
                 $review_waiting_array                   = $review_waiting->toArray();
@@ -142,7 +143,7 @@ switch ($op) {
             }
             //Include page navigation
             require_once XOOPS_ROOT_PATH . '/class/pagenav.php';
-            $pagenav_waiting = new XoopsPageNav($waiting_count, $wfdownloads->getConfig('admin_perpage'), $start_waiting, 'start_waiting');
+            $pagenav_waiting = new \XoopsPageNav($waiting_count, $helper->getConfig('admin_perpage'), $start_waiting, 'start_waiting');
             $GLOBALS['xoopsTpl']->assign('reviews_waiting_pagenav', $pagenav_waiting->renderNav());
         }
 
@@ -152,10 +153,10 @@ switch ($op) {
                 $uids_published[] = $review_published->getVar('uid');
             }
             if (isset($lids_published)) {
-                $downloads = $wfdownloads->getHandler('download')->getObjects(new Criteria('lid', '(' . implode(',', array_unique($lids_published)) . ')', 'IN'), true, false);
+                $downloads = $helper->getHandler('download')->getObjects(new \Criteria('lid', '(' . implode(',', array_unique($lids_published)) . ')', 'IN'), true, false);
             }
             if (isset($uids_published)) {
-                $users = $memberHandler->getUserList(new Criteria('uid', '(' . implode(',', $uids_published) . ')'));
+                $users = $memberHandler->getUserList(new \Criteria('uid', '(' . implode(',', $uids_published) . ')'));
             }
             foreach ($reviews_published as $review_published) {
                 $review_published_array                   = $review_published->toArray();
@@ -168,16 +169,16 @@ switch ($op) {
             }
             //Include page navigation
             require_once XOOPS_ROOT_PATH . '/class/pagenav.php';
-            $pagenav_published = new XoopsPageNav($published_count, $wfdownloads->getConfig('admin_perpage'), $start_published, 'start_published');
+            $pagenav_published = new \XoopsPageNav($published_count, $helper->getConfig('admin_perpage'), $start_published, 'start_published');
             $GLOBALS['xoopsTpl']->assign('reviews_published_pagenav', $pagenav_published->renderNav());
         }
 
-        $xoopsTpl->assign('use_mirrors', $wfdownloads->getConfig('enable_mirrors'));
-        $xoopsTpl->assign('use_ratings', $wfdownloads->getConfig('enable_ratings'));
-        $xoopsTpl->assign('use_reviews', $wfdownloads->getConfig('enable_reviews'));
-        $xoopsTpl->assign('use_brokenreports', $wfdownloads->getConfig('enable_brokenreports'));
+        $xoopsTpl->assign('use_mirrors', $helper->getConfig('enable_mirrors'));
+        $xoopsTpl->assign('use_ratings', $helper->getConfig('enable_ratings'));
+        $xoopsTpl->assign('use_reviews', $helper->getConfig('enable_reviews'));
+        $xoopsTpl->assign('use_brokenreports', $helper->getConfig('enable_brokenreports'));
 
-        $GLOBALS['xoopsTpl']->display("db:{$wfdownloads->getModule()->dirname()}_am_reviewslist.tpl");
+        $GLOBALS['xoopsTpl']->display("db:{$helper->getModule()->dirname()}_am_reviewslist.tpl");
 
         require_once __DIR__ . '/admin_footer.php';
         break;

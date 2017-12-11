@@ -20,6 +20,8 @@
  */
 
 use Xmf\Module\Helper;
+use Xoopsmodules\wfdownloads;
+use Xoopsmodules\wfdownloads\common;
 
 $currentFile = basename(__FILE__);
 require_once __DIR__ . '/admin_header.php';
@@ -33,15 +35,17 @@ require_once __DIR__ . '/../class/common/filechecker.php';
 xoops_cp_header();
 $adminObject = \Xmf\Module\Admin::getInstance();
 
+$helper       = wfdownloads\Helper::getInstance();
+
 //--------------------------
-$categories_count           = WfdownloadsUtility::categoriesCount();
-$votes_count                = $wfdownloads->getHandler('rating')->getCount();
-$brokenDownloads_count      = $wfdownloads->getHandler('report')->getCount();
-$modificationRequests_count = $wfdownloads->getHandler('modification')->getCount();
-$newReviews_count           = $wfdownloads->getHandler('review')->getCount();
-$newMirrors_count           = $wfdownloads->getHandler('mirror')->getCount();
-$newDownloads_count         = $wfdownloads->getHandler('download')->getCount(new Criteria('published', 0));
-$downloads_count            = $wfdownloads->getHandler('download')->getCount(new Criteria('published', 0, '>'));
+$categories_count           = wfdownloads\Utility::categoriesCount();
+$votes_count                = $helper->getHandler('rating')->getCount();
+$brokenDownloads_count      = $helper->getHandler('report')->getCount();
+$modificationRequests_count = $helper->getHandler('modification')->getCount();
+$newReviews_count           = $helper->getHandler('review')->getCount();
+$newMirrors_count           = $helper->getHandler('mirror')->getCount();
+$newDownloads_count         = $helper->getHandler('download')->getCount(new \Criteria('published', 0));
+$downloads_count            = $helper->getHandler('download')->getCount(new \Criteria('published', 0, '>'));
 
 $adminObject->addInfoBox(_AM_WFDOWNLOADS_MINDEX_DOWNSUMMARY);
 // Categories
@@ -63,7 +67,7 @@ if ($newDownloads_count > 0) {
     $adminObject->addInfoBoxLine(sprintf('<infolabel>' . _AM_WFDOWNLOADS_SNEWFILESVAL . '</infolabel>', $newDownloads_count, 'green'));
 }
 // Reviews
-if (false === $wfdownloads->getConfig('enable_reviews')) {
+if (false === $helper->getConfig('enable_reviews')) {
     $adminObject->addInfoBoxLine(sprintf('<infolabel>' . _AM_WFDOWNLOADS_SREVIEWS . '</infolabel>', _CO_WFDOWNLOADS_DISABLED, 'red'));
 } elseif ($newReviews_count > 0) {
     $adminObject->addInfoBoxLine(sprintf('<infolabel><a href="reviews.php">' . _AM_WFDOWNLOADS_SREVIEWS . '</a></infolabel>', $newReviews_count, 'green'));
@@ -71,7 +75,7 @@ if (false === $wfdownloads->getConfig('enable_reviews')) {
     $adminObject->addInfoBoxLine(sprintf('<infolabel>' . _AM_WFDOWNLOADS_SREVIEWS . '</infolabel>', $newReviews_count, 'green'));
 }
 // Ratings
-if (false === $wfdownloads->getConfig('enable_ratings')) {
+if (false === $helper->getConfig('enable_ratings')) {
     $adminObject->addInfoBoxLine(sprintf('<infolabel>' . _AM_WFDOWNLOADS_SVOTES . '</infolabel>', _CO_WFDOWNLOADS_DISABLED, 'red'));
 } elseif ($votes_count > 0) {
     $adminObject->addInfoBoxLine(sprintf('<infolabel><a href="ratings.php">' . _AM_WFDOWNLOADS_SVOTES . '</a></infolabel>', $votes_count, 'green'));
@@ -85,7 +89,7 @@ if ($modificationRequests_count > 0) {
     $adminObject->addInfoBoxLine(sprintf('<infolabel>' . _AM_WFDOWNLOADS_SMODREQUEST . '</infolabel>', $modificationRequests_count, 'green'));
 }
 // Brokens reports
-if (false === $wfdownloads->getConfig('enable_brokenreports')) {
+if (false === $helper->getConfig('enable_brokenreports')) {
     $adminObject->addInfoBoxLine(sprintf('<infolabel>' . _AM_WFDOWNLOADS_SBROKENSUBMIT . '</infolabel>', _CO_WFDOWNLOADS_DISABLED, 'red'));
 } elseif ($brokenDownloads_count > 0) {
     $adminObject->addInfoBoxLine(sprintf('<infolabel><a href="reportsmodifications.php">' . _AM_WFDOWNLOADS_SBROKENSUBMIT . '</a></infolabel>', $brokenDownloads_count, 'green'));
@@ -93,7 +97,7 @@ if (false === $wfdownloads->getConfig('enable_brokenreports')) {
     $adminObject->addInfoBoxLine(sprintf('<infolabel>' . _AM_WFDOWNLOADS_SBROKENSUBMIT . '</infolabel>', $brokenDownloads_count, 'green'));
 }
 // Mirrors
-if (false === $wfdownloads->getConfig('enable_mirrors')) {
+if (false === $helper->getConfig('enable_mirrors')) {
     $adminObject->addInfoBoxLine(sprintf('<infolabel>' . _AM_WFDOWNLOADS_SMIRRORS . '</infolabel>', _CO_WFDOWNLOADS_DISABLED, 'red'));
 } elseif ($newMirrors_count > 0) {
     $adminObject->addInfoBoxLine(sprintf('<infolabel><a href="mirrors.php">' . _AM_WFDOWNLOADS_SMIRRORS . '</a></infolabel>', $newMirrors_count, 'green'));
@@ -101,11 +105,11 @@ if (false === $wfdownloads->getConfig('enable_mirrors')) {
     $adminObject->addInfoBoxLine(sprintf('<infolabel>' . _AM_WFDOWNLOADS_SMIRRORS . '</infolabel>', $newMirrors_count, 'green'));
 }
 // module max file size
-$adminObject->addInfoBoxLine(sprintf('<infolabel>' . _AM_WFDOWNLOADS_DOWN_MODULE_MAXFILESIZE . '</infolabel>', WfdownloadsUtility::bytesToSize1024($wfdownloads->getConfig('maxfilesize')), 'green'));
+$adminObject->addInfoBoxLine(sprintf('<infolabel>' . _AM_WFDOWNLOADS_DOWN_MODULE_MAXFILESIZE . '</infolabel>', wfdownloads\Utility::bytesToSize1024($helper->getConfig('maxfilesize')), 'green'));
 // upload file size limit
 // get max file size (setup and php.ini)
 $phpiniMaxFileSize = min((int)ini_get('upload_max_filesize'), (int)ini_get('post_max_size'), (int)ini_get('memory_limit')) * 1024 * 1024; // bytes
-$maxFileSize       = WfdownloadsUtility::bytesToSize1024(min($wfdownloads->getConfig('maxfilesize'), $phpiniMaxFileSize));
+$maxFileSize       = wfdownloads\Utility::bytesToSize1024(min($helper->getConfig('maxfilesize'), $phpiniMaxFileSize));
 $adminObject->addInfoBoxLine(sprintf('<infolabel>' . _AM_WFDOWNLOADS_UPLOAD_MAXFILESIZE . '</infolabel>', $maxFileSize, 'green'));
 
 //------ check directories ---------------
@@ -113,7 +117,7 @@ $adminObject->addInfoBoxLine(sprintf('<infolabel>' . _AM_WFDOWNLOADS_UPLOAD_MAXF
 $adminObject->addConfigBoxLine('');
 $redirectFile = $_SERVER['PHP_SELF'];
 
-if (!WfdownloadsUtility::checkModule('formulize')) {
+if (!wfdownloads\Utility::checkModule('formulize')) {
     $adminObject->addConfigBoxLine(_AM_WFDOWNLOADS_FORMULIZE_NOT_AVILABLE);
 } else {
     $adminObject->addConfigBoxLine(_AM_WFDOWNLOADS_FORMULIZE_AVAILABLE);
@@ -121,33 +125,33 @@ if (!WfdownloadsUtility::checkModule('formulize')) {
 
 $adminObject->addConfigBoxLine('');
 
-//$path = $wfdownloads->getConfig('uploaddir') . '/';
-$path = $moduleHelper->getConfig('uploaddir');
-$adminObject->addConfigBoxLine(DirectoryChecker::getDirectoryStatus($path, 0777, $redirectFile));
+//$path = $helper->getConfig('uploaddir') . '/';
+$path = $helper->getConfig('uploaddir');
+$adminObject->addConfigBoxLine(common\DirectoryChecker::getDirectoryStatus($path, 0777, $redirectFile));
 
-$path = $moduleHelper->getConfig('batchdir') . '/';
-$adminObject->addConfigBoxLine(DirectoryChecker::getDirectoryStatus($path, 0777, $redirectFile));
+$path = $helper->getConfig('batchdir') . '/';
+$adminObject->addConfigBoxLine(common\DirectoryChecker::getDirectoryStatus($path, 0777, $redirectFile));
 
 //$adminObject->addConfigBoxLine('');
 
-$path = XOOPS_ROOT_PATH . '/' . $wfdownloads->getConfig('mainimagedir') . '/';
-$adminObject->addConfigBoxLine(DirectoryChecker::getDirectoryStatus($path, 0777, $redirectFile));
+$path = XOOPS_ROOT_PATH . '/' . $helper->getConfig('mainimagedir') . '/';
+$adminObject->addConfigBoxLine(common\DirectoryChecker::getDirectoryStatus($path, 0777, $redirectFile));
 //$adminObject->addConfigBoxLine(FileChecker::getFileStatus($path . 'blank.png', BLANK_FILE_PATH, $redirectFile));
 
 //$adminObject->addConfigBoxLine('');
 
-$path = XOOPS_ROOT_PATH . '/' . $wfdownloads->getConfig('screenshots') . '/';
-$adminObject->addConfigBoxLine(DirectoryChecker::getDirectoryStatus($path, 0777, $redirectFile));
+$path = XOOPS_ROOT_PATH . '/' . $helper->getConfig('screenshots') . '/';
+$adminObject->addConfigBoxLine(common\DirectoryChecker::getDirectoryStatus($path, 0777, $redirectFile));
 //$adminObject->addConfigBoxLine(FileChecker::getFileStatus($path . 'blank.png', BLANK_FILE_PATH, $redirectFile));
-$adminObject->addConfigBoxLine(DirectoryChecker::getDirectoryStatus($path . 'thumbs' . '/', 0777, $redirectFile));
+$adminObject->addConfigBoxLine(common\DirectoryChecker::getDirectoryStatus($path . 'thumbs' . '/', 0777, $redirectFile));
 //$adminObject->addConfigBoxLine(FileChecker::getFileStatus($path . 'thumbs' . '/' . 'blank.png', BLANK_FILE_PATH, $redirectFile));
 
 //$adminObject->addConfigBoxLine('');
 
-$path = XOOPS_ROOT_PATH . '/' . $wfdownloads->getConfig('catimage') . '/';
-$adminObject->addConfigBoxLine(DirectoryChecker::getDirectoryStatus($path, 0777, $redirectFile));
+$path = XOOPS_ROOT_PATH . '/' . $helper->getConfig('catimage') . '/';
+$adminObject->addConfigBoxLine(common\DirectoryChecker::getDirectoryStatus($path, 0777, $redirectFile));
 //$adminObject->addConfigBoxLine(FileChecker::getFileStatus($path . 'blank.png', BLANK_FILE_PATH, $redirectFile));
-$adminObject->addConfigBoxLine(DirectoryChecker::getDirectoryStatus($path . 'thumbs' . '/', 0777, $redirectFile));
+$adminObject->addConfigBoxLine(common\DirectoryChecker::getDirectoryStatus($path . 'thumbs' . '/', 0777, $redirectFile));
 //$adminObject->addConfigBoxLine(FileChecker::getFileStatus($path . 'thumbs' . '/' . 'blank.png', BLANK_FILE_PATH, $redirectFile));
 
 //---------------------------
@@ -155,26 +159,20 @@ $adminObject->addConfigBoxLine('');
 
 //$moduleDirName = basename(dirname(__DIR__));
 
-/** @var WfdownloadsUtility $configuratorClass */
-$configuratorClass = ucfirst($moduleDirName) . 'Configurator';
-if (!class_exists($configuratorClass)) {
-    xoops_load('configurator', $moduleDirName);
-}
+/** @var wfdownloads\Configurator $configurator */
+$configurator = new wfdownloads\Configurator();
 
-$configurator = new $configuratorClass();
 
-/** @var WfdownloadsUtility $utilityClass */
-$utilityClass = ucfirst($moduleDirName) . 'Utility';
-if (!class_exists($utilityClass)) {
-    xoops_load('utility', $moduleDirName);
-}
+/** @var wfdownloads\Utility $utility */
+$utility = new wfdownloads\Utility();
+
 
 foreach (array_keys($configurator->uploadFolders) as $i) {
-    $utilityClass::createFolder($configurator->uploadFolders[$i]);
+    $utility::createFolder($configurator->uploadFolders[$i]);
 }
 
 $adminObject->displayNavigation(basename(__FILE__));
 $adminObject->displayIndex();
-echo $utilityClass::getServerStats();
+echo $utility::getServerStats();
 
 require_once __DIR__ . '/admin_footer.php';

@@ -18,11 +18,13 @@
  * @author          Xoops Development Team
  */
 
+$moduleDirName = basename(__DIR__);
+
 defined('XOOPS_ROOT_PATH') || die('XOOPS root path not defined');
 
-$modversion['version']       = 3.24;
-$modversion['module_status'] = 'Beta 1';
-$modversion['releasedate']   = '2016-11-12';
+$modversion['version']       = 3.50;
+$modversion['module_status'] = 'Alpha 1';
+$modversion['releasedate']   = '2017-12-12';
 $modversion['name']          = _MI_WFDOWNLOADS_NAME;
 $modversion['description']   = _MI_WFDOWNLOADS_DESC;
 $modversion['author']        = 'XOOPS Development Team';

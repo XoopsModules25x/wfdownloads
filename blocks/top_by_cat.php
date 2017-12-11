@@ -35,22 +35,22 @@ require_once __DIR__ . '/../include/common.php';
  */
 function wfdownloads_top_by_cat_show($options)
 {
-    $wfdownloads = WfdownloadsWfdownloads::getInstance();
+    $helper = wfdownloads\Helper::getInstance();
 
     $gpermHandler             = xoops_getHandler('groupperm');
     $groups                   = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : [0 => XOOPS_GROUP_ANONYMOUS];
-    $allowedDownCategoriesIds = $gpermHandler->getItemIds('WFDownCatPerm', $groups, $wfdownloads->getModule()->mid());
+    $allowedDownCategoriesIds = $gpermHandler->getItemIds('WFDownCatPerm', $groups, $helper->getModule()->mid());
 
     $block = [];
 
     // get downloads
-    $criteria = new CriteriaCompo();
-    $criteria->add(new Criteria('cid', '(' . implode(',', $allowedDownCategoriesIds) . ')', 'IN'));
-    $criteria->add(new Criteria('offline', false));
+    $criteria = new \CriteriaCompo();
+    $criteria->add(new \Criteria('cid', '(' . implode(',', $allowedDownCategoriesIds) . ')', 'IN'));
+    $criteria->add(new \Criteria('offline', false));
     $criteria->setSort('date');
     $criteria->setOrder('DESC');
     $criteria->setLimit($options[1]);
-    $downloadObjs = $wfdownloads->getHandler('download')->getObjects($criteria);
+    $downloadObjs = $helper->getHandler('download')->getObjects($criteria);
 
     foreach ($downloadObjs as $downloadObj) {
         $download = $downloadObj->toArray();
@@ -60,20 +60,20 @@ function wfdownloads_top_by_cat_show($options)
         $download['title'] = xoops_substr($download['title'], 0, $options[2] - 1);
         $download['id']    = (int)$download['lid'];
         if ('published' === $options[0]) {
-            $download['date'] = formatTimestamp($download['published'], $wfdownloads->getConfig('dateformat'));
+            $download['date'] = formatTimestamp($download['published'], $helper->getConfig('dateformat'));
         } else {
-            $download['date'] = formatTimestamp($download['date'], $wfdownloads->getConfig('dateformat'));
+            $download['date'] = formatTimestamp($download['date'], $helper->getConfig('dateformat'));
         }
-        $download['dirname']  = $wfdownloads->getModule()->dirname();
+        $download['dirname']  = $helper->getModule()->dirname();
         $block['downloads'][] = $download;
     }
 
-    $categoriesTopParentByCid = $wfdownloads->getHandler('category')->getAllSubcatsTopParentCid();
+    $categoriesTopParentByCid = $helper->getHandler('category')->getAllSubcatsTopParentCid();
 
-    foreach ($wfdownloads->getHandler('category')->topCategories as $cid) {
-        $block['topcats'][$cid]['title']  = $wfdownloads->getHandler('category')->allCategories[$cid]->getVar('title');
+    foreach ($helper->getHandler('category')->topCategories as $cid) {
+        $block['topcats'][$cid]['title']  = $helper->getHandler('category')->allCategories[$cid]->getVar('title');
         $block['topcats'][$cid]['cid']    = $cid;
-        $block['topcats'][$cid]['imgurl'] = $wfdownloads->getHandler('category')->allCategories[$cid]->getVar('imgurl');
+        $block['topcats'][$cid]['imgurl'] = $helper->getHandler('category')->allCategories[$cid]->getVar('imgurl');
     }
 
     foreach ($block['downloads'] as $value) {

@@ -43,16 +43,16 @@ function wfdownloads_search(
     $searchIn = '',
     $extra = ''
 ) {
-    $wfdownloads = WfdownloadsWfdownloads::getInstance();
+    $helper = wfdownloads\Helper::getInstance();
 
     $userGroups = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : [0 => XOOPS_GROUP_ANONYMOUS];
 
     $gpermHandler             = xoops_getHandler('groupperm');
-    $allowedDownCategoriesIds = $gpermHandler->getItemIds('WFDownCatPerm', $userGroups, $wfdownloads->getModule()->mid());
+    $allowedDownCategoriesIds = $gpermHandler->getItemIds('WFDownCatPerm', $userGroups, $helper->getModule()->mid());
 
-    $criteria = new CriteriaCompo(new Criteria('cid', '(' . implode(',', $allowedDownCategoriesIds) . ')', 'IN'));
+    $criteria = new \CriteriaCompo(new \Criteria('cid', '(' . implode(',', $allowedDownCategoriesIds) . ')', 'IN'));
     if (0 != $userId) {
-        $criteria->add(new Criteria('submitter', (int)$userId));
+        $criteria->add(new \Criteria('submitter', (int)$userId));
     }
 
     // changed and added - start - April 23, 2006 - jwe
@@ -73,15 +73,15 @@ function wfdownloads_search(
         // Formulize module support - jpc - start
         /*
                 // queryarray[0] now handled inside loop -- perhaps this "0 out of loop, 1 and up inside loop" approach was an unsuccessful attempt to fix the "unset" bug.  Interesting that subcrit was unset prior to the FOR loop.
-                $subCriteria = new CriteriaCompo(new Criteria("title", "%".$queryArray[0]."%", 'LIKE'), 'OR');
-                $subCriteria->add(new Criteria("description", "%".$queryArray[0]."%", 'LIKE'), 'OR');
+                $subCriteria = new \CriteriaCompo(new \Criteria("title", "%".$queryArray[0]."%", 'LIKE'), 'OR');
+                $subCriteria->add(new \Criteria("description", "%".$queryArray[0]."%", 'LIKE'), 'OR');
                 $criteria->add($subCriteria);
                 unset($subCriteria);
 
-                $allSubCriterias = new CriteriaCompo(); // added to fix bug related to nesting of ( )
+                $allSubCriterias = new \CriteriaCompo(); // added to fix bug related to nesting of ( )
                 for ($i = 0;$i < $queryArray_count;++$i) { // 1 changed to 0 so everything happens in one loop now
-                    $subCriteria = new CriteriaCompo(new Criteria("title", "%".$queryArray[$i]."%", 'LIKE'), 'OR');
-                    $subCriteria->add(new Criteria("description", "%".$queryArray[$i]."%", 'LIKE'), 'OR');
+                    $subCriteria = new \CriteriaCompo(new \Criteria("title", "%".$queryArray[$i]."%", 'LIKE'), 'OR');
+                    $subCriteria->add(new \Criteria("description", "%".$queryArray[$i]."%", 'LIKE'), 'OR');
                     $allSubCriterias->add($subCriteria, $andor); // $criteria changed to $allSubCriterias to fix bug
                     unset($subCriteria); // added to fix bug
                 }
@@ -109,10 +109,10 @@ function wfdownloads_search(
         of the results is returned.  If OR is in effect, then all results are returned.
         */
         // Determine what the custom forms are that need searching, if any
-        if (WfdownloadsUtility::checkModule('formulize')) {
+        if (wfdownloads\Utility::checkModule('formulize')) {
             $fids = [];
             foreach ($allowedDownCategoriesIds as $cid) {
-                $categoryObj = $wfdownloads->getHandler('category')->get($cid);
+                $categoryObj = $helper->getHandler('category')->get($cid);
                 if (isset($categoryObj) && $fid = $categoryObj->getVar('formulize_fid')) {
                     $fids[] = $fid;
                 }
@@ -120,10 +120,10 @@ function wfdownloads_search(
 
             // Set criteria for the captions that the user can see if necessary
             if (is_array($fids) && count($fids) > 0) {
-                $formulizeElementCriteria = new CriteriaCompo();
-                $formulizeElementCriteria->add(new Criteria('ele_display', 1), 'OR');
+                $formulizeElementCriteria = new \CriteriaCompo();
+                $formulizeElementCriteria->add(new \Criteria('ele_display', 1), 'OR');
                 foreach ($userGroups as $group) {
-                    $formulizeElementCriteria->add(new Criteria('ele_display', '%,' . $group . ',%', 'LIKE'), 'OR');
+                    $formulizeElementCriteria->add(new \Criteria('ele_display', '%,' . $group . ',%', 'LIKE'), 'OR');
                 }
                 $formulizeElementCriteria->setSort('ele_order');
                 $formulizeElementCriteria->setOrder('ASC');
@@ -137,18 +137,18 @@ function wfdownloads_search(
             $queryCriteria = clone$criteria;
 
             // Setup criteria for searching the title and description fields of Wfdownloads for the current term
-            $allSubCriterias = new CriteriaCompo();
+            $allSubCriterias = new \CriteriaCompo();
             $thisSearchTerm  = count($queryArray) > 0 ? $queryArray[$i] : '';
-            $subCriteria     = new CriteriaCompo();
-            $subCriteria->add(new Criteria('title', '%' . $thisSearchTerm . '%', 'LIKE'), 'OR'); // search in title field
-            $subCriteria->add(new Criteria('description', '%' . $thisSearchTerm . '%', 'LIKE'), 'OR'); // search in description fiels
+            $subCriteria     = new \CriteriaCompo();
+            $subCriteria->add(new \Criteria('title', '%' . $thisSearchTerm . '%', 'LIKE'), 'OR'); // search in title field
+            $subCriteria->add(new \Criteria('description', '%' . $thisSearchTerm . '%', 'LIKE'), 'OR'); // search in description fiels
             $allSubCriterias->add($subCriteria, $andor);
             unset($subCriteria);
 
             $saved_ids = [];
 
             // Find all IDs of entries in all custom forms which match the current term
-            if (WfdownloadsUtility::checkModule('formulize')) {
+            if (wfdownloads\Utility::checkModule('formulize')) {
                 foreach ($fids as $fid) {
                     if (!isset($formulizeElementsHandler)) {
                         $formulizeElementsHandler = xoops_getModuleHandler('elements', 'formulize');
@@ -186,7 +186,7 @@ function wfdownloads_search(
             // Formulize module support - jpc - end
             // Make a criteria object that includes the custom form ids that were found, if any
             if (count($saved_ids) > 0 && is_array($saved_ids)) {
-                $subs_plus_custom = new CriteriaCompo(new Criteria('formulize_idreq', '(' . implode(',', $saved_ids) . ')', 'IN'));
+                $subs_plus_custom = new \CriteriaCompo(new \Criteria('formulize_idreq', '(' . implode(',', $saved_ids) . ')', 'IN'));
                 $subs_plus_custom->add($allSubCriterias, 'OR');
                 $queryCriteria->add($subs_plus_custom);
                 unset($allSubCriterias, $subs_plus_custom, $saved_ids);
@@ -196,7 +196,7 @@ function wfdownloads_search(
             }
 
             // Check to see if this term matches any files
-            $tempDownloadObjs = $wfdownloads->getHandler('download')->getActiveDownloads($queryCriteria);
+            $tempDownloadObjs = $helper->getHandler('download')->getActiveDownloads($queryCriteria);
             unset($queryCriteria);
 
             // Make an array of the downloads based on the lid, and a separate list of all the lids found (the separate list is used in the case of an AND operator to derive an intersection of the hits across all search terms -- and it is used to determine the start and limit points of the main results array for an OR query)
@@ -254,11 +254,11 @@ function wfdownloads_search(
 
     /*
         // Swish-e support EXPERIMENTAL
-        if (($wfdownloads->getConfig('enable_swishe') === true) && WfdownloadsUtility::swishe_check() === true) {
+        if (($helper->getConfig('enable_swishe') === true) && wfdownloads\Utility::swishe_check() === true) {
     // IN PROGRESS
-            $swisheCriteria = new CriteriaCompo(new Criteria('cid', '(' . implode(',', $allowedDownCategoriesIds) . ')', 'IN'));
+            $swisheCriteria = new \CriteriaCompo(new \Criteria('cid', '(' . implode(',', $allowedDownCategoriesIds) . ')', 'IN'));
             if ($userId != 0) {
-                $swisheCriteria->add(new Criteria('submitter', (int) $userId));
+                $swisheCriteria->add(new \Criteria('submitter', (int) $userId));
             }
             if ($andor = 'AND') {
                 $swisheQueryWords = implode (' AND ', $queryArray);
@@ -268,11 +268,11 @@ function wfdownloads_search(
                 $swisheQueryWords = '';
             }
             if (strlen($swisheQueryWords) > 0) {
-                $swisheSearchResults = WfdownloadsUtility::swishe_search($swisheQueryWords);
+                $swisheSearchResults = wfdownloads\Utility::swishe_search($swisheQueryWords);
                 foreach ($swisheSearchResults as $swisheSearchResult) {
                     $tempSwisheCriteria = clone($swisheCriteria);
-                    $tempSwisheCriteria->add(new Criteria('filename', $swisheSearchResult['file_path']));
-                    $tempDownloadObjs = $wfdownloads->getHandler('download')->getActiveDownloads($tempSwisheCriteria);
+                    $tempSwisheCriteria->add(new \Criteria('filename', $swisheSearchResult['file_path']));
+                    $tempDownloadObjs = $helper->getHandler('download')->getActiveDownloads($tempSwisheCriteria);
                     $tempDownloadObj = $tempDownloadObjs[0];
                     if (is_object($tempDownloadObj)) {
                         $tempRet['image'] = "assets/images/size2.gif";

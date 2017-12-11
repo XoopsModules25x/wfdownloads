@@ -17,6 +17,9 @@
  * @since           3.23
  * @author          Xoops Development Team
  */
+
+use Xoopsmodules\wfdownloads;
+
 $currentFile = basename(__FILE__);
 require_once __DIR__ . '/admin_header.php';
 
@@ -61,23 +64,23 @@ if ('submit' === @$_POST['op']) {
         $message .= _AM_WFDOWNLOADS_CLONE_FAIL;
     }
 
-    WfdownloadsUtility::myxoops_cp_header();
+    wfdownloads\Utility::myxoops_cp_header();
     $adminObject = \Xmf\Module\Admin::getInstance();
     $adminObject->displayNavigation($currentFile);
     echo $message;
     require_once __DIR__ . '/admin_footer.php';
     exit();
 } else {
-    WfdownloadsUtility::myxoops_cp_header();
+    wfdownloads\Utility::myxoops_cp_header();
     $adminObject = \Xmf\Module\Admin::getInstance();
     $adminObject->displayNavigation($currentFile);
     xoops_load('XoopsFormLoader');
-    $form              = new XoopsThemeForm(sprintf(_AM_WFDOWNLOADS_CLONE_TITLE, $wfdownloads->getModule()->getVar('name', 'E')), 'clone', $currentFile, 'post', true);
-    $cloneDirname_text = new XoopsFormText(_AM_WFDOWNLOADS_CLONE_NAME, 'clonedirname', 18, 18, '');
+    $form              = new \XoopsThemeForm(sprintf(_AM_WFDOWNLOADS_CLONE_TITLE, $helper->getModule()->getVar('name', 'E')), 'clone', $currentFile, 'post', true);
+    $cloneDirname_text = new \XoopsFormText(_AM_WFDOWNLOADS_CLONE_NAME, 'clonedirname', 18, 18, '');
     $cloneDirname_text->setDescription(_AM_WFDOWNLOADS_CLONE_NAME_DSC);
     $form->addElement($cloneDirname_text, true);
-    $form->addElement(new XoopsFormHidden('op', 'submit'));
-    $form->addElement(new XoopsFormButton('', '', _SUBMIT, 'submit'));
+    $form->addElement(new \XoopsFormHidden('op', 'submit'));
+    $form->addElement(new \XoopsFormButton('', '', _SUBMIT, 'submit'));
     $form->display();
     require_once __DIR__ . '/admin_footer.php';
     exit();
@@ -126,7 +129,7 @@ function wfdownloads_cloneFileDir($path)
  */
 function wfdownloads_createLogo($dirname)
 {
-    $wfdownloads = WfdownloadsWfdownloads::getInstance();
+    $helper = wfdownloads\Helper::getInstance();
     // Check extension/functions
     if (!extension_loaded('gd')) {
         return false;
@@ -149,7 +152,7 @@ function wfdownloads_createLogo($dirname)
     if (!file_exists($imageBase = XOOPS_ROOT_PATH . "/modules/{$dirname}/assets/images/module_logo_blank.png")) {
         return false;
     }
-    if (!file_exists($font = XOOPS_ROOT_PATH . "/modules/{$wfdownloads->getModule()->dirname()}/assets/images/VeraBd.ttf")) {
+    if (!file_exists($font = XOOPS_ROOT_PATH . "/modules/{$helper->getModule()->dirname()}/assets/images/VeraBd.ttf")) {
         return false;
     }
     // Create image

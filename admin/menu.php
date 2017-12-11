@@ -19,24 +19,15 @@
  * @author          Xoops Development Team
  */
 
-use Xmf\Module\Admin;
-use Xmf\Module\Helper;
+use Xoopsmodules\wfdownloads;
 
-// defined('XOOPS_ROOT_PATH') || exit('Restricted access.');
+require_once __DIR__ . '/../class/Helper.php';
+//require_once __DIR__ . '/../include/common.php';
+$helper = wfdownloads\Helper::getInstance();
 
-//$path = dirname(dirname(dirname(__DIR__)));
-//require_once $path . '/mainfile.php';
+$pathIcon32 = \Xmf\Module\Admin::menuIconPath('');
+$pathModIcon32 = $helper->getModule()->getInfo('modicons32');
 
-$moduleDirName = basename(dirname(__DIR__));
-
-if (false !== ($moduleHelper = Helper::getHelper($moduleDirName))) {
-} else {
-    $moduleHelper = Helper::getHelper('system');
-}
-$pathIcon32    = Admin::menuIconPath('');
-$pathModIcon32 = $moduleHelper->getModule()->getInfo('modicons32');
-
-xoops_loadLanguage('modinfo', $moduleDirName);
 
 $adminmenu[] = [
     'title' => _MI_WFDOWNLOADS_MENU_HOME,
@@ -96,7 +87,7 @@ $adminmenu[] = [
 
 /*
 // Swish-e support EXPERIMENTAL
-if ($wfdownloads->getConfig('enable_swishe') === true) {
+if ($helper->getConfig('enable_swishe') === true) {
 $adminmenu[] = array(
     'title' => _MI_WFDOWNLOADS_MENU_SWISHE,
     'desc'  => _MI_WFDOWNLOADS_MENU_SWISHE,

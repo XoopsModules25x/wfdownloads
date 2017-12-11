@@ -20,6 +20,7 @@
  */
 
 use Xmf\Request;
+use Xoopsmodules\wfdownloads;
 
 $currentFile = basename(__FILE__);
 require_once __DIR__ . '/admin_header.php';
@@ -28,15 +29,15 @@ $op = Request::getString('op', 'reports.modifications.list');
 switch ($op) {
     case 'reports.update':
         $lid      = Request::getInt('lid', 0);
-        $criteria = new Criteria('lid', $lid);
+        $criteria = new \Criteria('lid', $lid);
         if (isset($_GET['ack'])) {
             $acknowledged = (isset($_GET['ack']) && 0 == $_GET['ack']) ? 1 : 0;
-            $wfdownloads->getHandler('report')->updateAll('acknowledged', $acknowledged, $criteria, true);
+            $helper->getHandler('report')->updateAll('acknowledged', $acknowledged, $criteria, true);
             $update_mess = _AM_WFDOWNLOADS_BROKEN_NOWACK;
         }
         if (isset($_GET['con'])) {
             $confirmed = (isset($_GET['con']) && 0 == $_GET['con']) ? 1 : 0;
-            $wfdownloads->getHandler('report')->updateAll('confirmed', $confirmed, $criteria, true);
+            $helper->getHandler('report')->updateAll('confirmed', $confirmed, $criteria, true);
             $update_mess = _AM_WFDOWNLOADS_BROKEN_NOWCON;
         }
         redirect_header($currentFile, 1, $update_mess);
@@ -44,22 +45,22 @@ switch ($op) {
 
     case 'report.delete':
         $lid        = Request::getInt('lid', 0);
-        $criteria   = new Criteria('lid', $lid);
-        $reportObjs = $wfdownloads->getHandler('report')->getObjects($criteria);
+        $criteria   = new \Criteria('lid', $lid);
+        $reportObjs = $helper->getHandler('report')->getObjects($criteria);
         if (isset($reportObjs[0])) {
-            $wfdownloads->getHandler('report')->delete($reportObjs[0], true);
+            $helper->getHandler('report')->delete($reportObjs[0], true);
         }
-        $downloadObj = $wfdownloads->getHandler('download')->get($lid);
-        $wfdownloads->getHandler('download')->delete($downloadObj, true);
+        $downloadObj = $helper->getHandler('download')->get($lid);
+        $helper->getHandler('download')->delete($downloadObj, true);
         redirect_header($currentFile, 1, _AM_WFDOWNLOADS_BROKENFILEDELETED);
         break;
 
     case 'report.ignore':
         $lid        = Request::getInt('lid', 0);
-        $criteria   = new Criteria('lid', $lid);
-        $reportObjs = $wfdownloads->getHandler('report')->getObjects($criteria);
+        $criteria   = new \Criteria('lid', $lid);
+        $reportObjs = $helper->getHandler('report')->getObjects($criteria);
         if (isset($reportObjs[0])) {
-            $wfdownloads->getHandler('report')->delete($reportObjs[0], true);
+            $helper->getHandler('report')->delete($reportObjs[0], true);
         }
         redirect_header($currentFile, 1, _AM_WFDOWNLOADS_BROKEN_FILEIGNORED);
         break;
@@ -67,20 +68,20 @@ switch ($op) {
     case 'modification.show':
         $requestid = Request::getInt('requestid', 0);
 
-        $modificationObj = $wfdownloads->getHandler('modification')->get($requestid);
-        $modify_user     = new XoopsUser($modificationObj->getVar('modifysubmitter'));
+        $modificationObj = $helper->getHandler('modification')->get($requestid);
+        $modify_user     = new \XoopsUser($modificationObj->getVar('modifysubmitter'));
         $modifyname      = XoopsUserUtility::getUnameFromId((int)$modify_user->getVar('uid'));
         $modifyemail     = $modify_user->getVar('email');
 
-        $downloadObj    = $wfdownloads->getHandler('download')->get($modificationObj->getVar('lid'));
-        $orig_user      = new XoopsUser($downloadObj->getVar('submitter'));
+        $downloadObj    = $helper->getHandler('download')->get($modificationObj->getVar('lid'));
+        $orig_user      = new \XoopsUser($downloadObj->getVar('submitter'));
         $submittername  = XoopsUserUtility::getUnameFromId($downloadObj->getVar('submitter')); // $orig_user->getvar("uname");
         $submitteremail = $orig_user->getVar('email');
 
-        $categoryObjs     = $wfdownloads->getHandler('category')->getObjects();
-        $categoryObjsTree = new XoopsObjectTree($categoryObjs, 'cid', 'pid');
+        $categoryObjs     = $helper->getHandler('category')->getObjects();
+        $categoryObjsTree = new \XoopsObjectTree($categoryObjs, 'cid', 'pid');
 
-        WfdownloadsUtility::myxoops_cp_header();
+        wfdownloads\Utility::myxoops_cp_header();
 
         // IN PROGRESS
         // IN PROGRESS
@@ -129,9 +130,9 @@ switch ($op) {
                     // NOP
                     break;
                 case 'size':
-                    $downloadContent = WfdownloadsUtility::bytesToSize1024($downloadContent);
+                    $downloadContent = wfdownloads\Utility::bytesToSize1024($downloadContent);
                     //
-                    $modificationContent = WfdownloadsUtility::bytesToSize1024($modificationContent);
+                    $modificationContent = wfdownloads\Utility::bytesToSize1024($modificationContent);
                     break;
                 case 'date':
                 case 'published':
@@ -145,19 +146,19 @@ switch ($op) {
                 case 'license':
                 case 'limitations':
                 case 'versiontypes':
-                    $tempArray       = $wfdownloads->getConfig($key);
+                    $tempArray       = $helper->getConfig($key);
                     $downloadContent = isset($tempArray[$downloadObj->getVar($key)]) ? $tempArray[$downloadObj->getVar($key)] : '';
                     //
                     $modificationContent = isset($tempArray[$modificationObj->getVar($key)]) ? $tempArray[$modificationObj->getVar($key)] : '';
                     break;
                 case 'cid':
-                    $category_list = $wfdownloads->getHandler('category')->getObjects(new Criteria('cid', $downloadObj->getVar($key)));
+                    $category_list = $helper->getHandler('category')->getObjects(new \Criteria('cid', $downloadObj->getVar($key)));
                     if (!isset($category_list[0])) {
                         continue 2;
                     }
                     $downloadContent = $category_list[0]->getVar('title', 'e');
                     //
-                    $category_list = $wfdownloads->getHandler('category')->getObjects(new Criteria('cid', $modificationObj->getVar($key)));
+                    $category_list = $helper->getHandler('category')->getObjects(new \Criteria('cid', $modificationObj->getVar($key)));
                     if (!isset($category_list[0])) {
                         continue 2;
                     }
@@ -168,11 +169,11 @@ switch ($op) {
                 case 'screenshot3':
                 case 'screenshot4':
                     if ('' != $downloadContent) {
-                        $downloadContent = "<img src='" . XOOPS_URL . "/{$wfdownloads->getConfig('screenshots')}/{$downloadContent}' width='{$wfdownloads->getConfig('shotwidth')}' alt='' title=''>";
+                        $downloadContent = "<img src='" . XOOPS_URL . "/{$helper->getConfig('screenshots')}/{$downloadContent}' width='{$helper->getConfig('shotwidth')}' alt='' title=''>";
                     }
                     //
                     if ('' != $modificationContent) {
-                        $modificationContent = "<img src='" . XOOPS_URL . "/{$wfdownloads->getConfig('screenshots')}/{$modificationContent}' width='{$wfdownloads->getConfig('shotwidth')}' alt='' title=''>";
+                        $modificationContent = "<img src='" . XOOPS_URL . "/{$helper->getConfig('screenshots')}/{$modificationContent}' width='{$helper->getConfig('shotwidth')}' alt='' title=''>";
                     }
                     break;
                 case 'screenshots':
@@ -185,13 +186,13 @@ switch ($op) {
                         $downloadScreenshot     = $downloadScreenshots[$key];
                         $modificationScreenshot = $modificationScreenshots[$key];
                         if ('' != $downloadScreenshot) {
-                            $downloadContent += "<img src='" . XOOPS_URL . "/{$wfdownloads->getConfig('screenshots')}/{$downloadScreenshot}' width='{$wfdownloads->getConfig(
+                            $downloadContent += "<img src='" . XOOPS_URL . "/{$helper->getConfig('screenshots')}/{$downloadScreenshot}' width='{$helper->getConfig(
                                     'shotwidth'
                                 )}' alt='' title=''>";
                         }
                         //
                         if ('' != $modificationContent) {
-                            $modificationContent += "<img src='" . XOOPS_URL . "/{$wfdownloads->getConfig('screenshots')}/{$modificationScreenshot}' width='{$wfdownloads->getConfig(
+                            $modificationContent += "<img src='" . XOOPS_URL . "/{$helper->getConfig('screenshots')}/{$modificationScreenshot}' width='{$helper->getConfig(
                                     'shotwidth'
                                 )}' alt='' title=''>";
                         }
@@ -247,27 +248,27 @@ switch ($op) {
             if ($downloadContent != $modificationContent) {
                 $modificationContent = "<span style='color:red;'>" . $modificationContent . '</span>';
             }
-            $downloadFormElement     = new XoopsFormLabel('', $downloadContent);
-            $modificationFormElement = new XoopsFormLabel('', $modificationContent);
+            $downloadFormElement     = new \XoopsFormLabel('', $downloadContent);
+            $modificationFormElement = new \XoopsFormLabel('', $modificationContent);
             $mcform->addElement($downloadFormElement, false, $i, 1);
             $mcform->addElement($modificationFormElement, false, $i, 2);
             ++$i;
         }
 
-        $button_tray = new XoopsFormElementTray('', '');
-        $button_tray->addElement(new XoopsFormHidden('requestid', $requestid));
-        $button_tray->addElement(new XoopsFormHidden('lid', (int)$modificationObj->getVar('lid')));
-        $hidden = new XoopsFormHidden('op', 'modification.change');
+        $button_tray = new \XoopsFormElementTray('', '');
+        $button_tray->addElement(new \XoopsFormHidden('requestid', $requestid));
+        $button_tray->addElement(new \XoopsFormHidden('lid', (int)$modificationObj->getVar('lid')));
+        $hidden = new \XoopsFormHidden('op', 'modification.change');
         $button_tray->addElement($hidden);
         if (!$modificationObj->isNew()) {
-            $approve_button = new XoopsFormButton('', '', _AM_WFDOWNLOADS_BAPPROVE, 'submit');
+            $approve_button = new \XoopsFormButton('', '', _AM_WFDOWNLOADS_BAPPROVE, 'submit');
             $approve_button->setExtra('onclick="this.form.elements.op.value=\'modification.change\'"');
             $button_tray->addElement($approve_button);
         }
-        $ignore_button = new XoopsFormButton('', '', _AM_WFDOWNLOADS_BIGNORE, 'submit');
+        $ignore_button = new \XoopsFormButton('', '', _AM_WFDOWNLOADS_BIGNORE, 'submit');
         $ignore_button->setExtra('onclick="this.form.elements.op.value=\'modification.ignore\'"');
         $button_tray->addElement($ignore_button);
-        $button_cancel = new XoopsFormButton('', '', _CANCEL, 'button');
+        $button_cancel = new \XoopsFormButton('', '', _CANCEL, 'button');
         $button_cancel->setExtra('onclick="history.go(-1)"');
         $button_tray->addElement($button_cancel);
         $mcform->addElement($button_tray, false, $i, 2);
@@ -283,15 +284,15 @@ switch ($op) {
         // Get a pointer to the download record and the modification record, then compare their 'versions' to see if they are different.  If they are, then raise filemodify events.
         $requestid = Request::getInt('requestid', 0, 'POST');
 
-        $modificationObj = $wfdownloads->getHandler('modification')->get($requestid);
-        $downloadObj     = $wfdownloads->getHandler('download')->get($modificationObj->getVar('lid'));
+        $modificationObj = $helper->getHandler('modification')->get($requestid);
+        $downloadObj     = $helper->getHandler('download')->get($modificationObj->getVar('lid'));
 
         $raiseModifyEvents = true;
         if ($modificationObj->getVar('version') == $downloadObj->getVar('version')) {
             $raiseModifyEvents = false;
         }
         /* end add block */
-        $wfdownloads->getHandler('modification')->approveModification($_POST['requestid']);
+        $helper->getHandler('modification')->approveModification($_POST['requestid']);
 
         $cid = $downloadObj->getVar('cid');
         $lid = $downloadObj->getVar('lid');
@@ -302,7 +303,7 @@ switch ($op) {
             $tags                  = [];
             $tags['FILE_NAME']     = $downloadObj->getVar('title');
             $tags['FILE_URL']      = WFDOWNLOADS_URL . '/singlefile.php?cid=' . $cid . '&amp;lid=' . $lid;
-            $category              = $wfdownloads->getHandler('category')->get($cid);
+            $category              = $helper->getHandler('category')->get($cid);
             $tags['FILE_VERSION']  = $downloadObj->getVar('version');
             $tags['CATEGORY_NAME'] = $category->getVar('title');
             $tags['CATEGORY_URL']  = WFDOWNLOADS_URL . '/viewcat.php?cid=' . $cid;
@@ -320,7 +321,7 @@ switch ($op) {
     case 'modification.delete':
         $requestid = Request::getInt('requestid', 0);
         $ok        = Request::getBool('ok', false, 'POST');
-        if (!$modificationObj = $wfdownloads->getHandler('modification')->get($requestid)) {
+        if (!$modificationObj = $helper->getHandler('modification')->get($requestid)) {
             redirect_header($currentFile, 4, _AM_WFDOWNLOADS_MOD_NOTFOUND);
         }
         $title = $modificationObj->getVar('title');
@@ -333,13 +334,13 @@ switch ($op) {
                             redirect_header($currentFile, 3, implode(',', $GLOBALS['xoopsSecurity']->getErrors()));
                         }
             */
-            if ($wfdownloads->getHandler('modification')->deleteAll(new Criteria('requestid', $requestid), true)) {
+            if ($helper->getHandler('modification')->deleteAll(new \Criteria('requestid', $requestid), true)) {
                 redirect_header(WFDOWNLOADS_URL . '/admin/index.php', 1, _AM_WFDOWNLOADS_MOD_REQDELETED);
             } else {
                 echo $modificationObj->getHtmlErrors();
             }
         } else {
-            WfdownloadsUtility::myxoops_cp_header();
+            wfdownloads\Utility::myxoops_cp_header();
             xoops_confirm(['op' => 'modification.ignore', 'requestid' => $requestid, 'ok' => true, 'title' => $title], $currentFile, _AM_WFDOWNLOADS_MOD_REALLYIGNOREDTHIS . '<br><br>' . $title, _DELETE);
             xoops_cp_footer();
         }
@@ -349,15 +350,15 @@ switch ($op) {
     default:
         $start_report = Request::getInt('start_report', 0);
 
-        $criteria      = new CriteriaCompo();
-        $reports_count = $wfdownloads->getHandler('report')->getCount();
+        $criteria      = new \CriteriaCompo();
+        $reports_count = $helper->getHandler('report')->getCount();
         $criteria->setSort('date');
         $criteria->setOrder('DESC');
-        $criteria->setLimit($wfdownloads->getConfig('admin_perpage'));
+        $criteria->setLimit($helper->getConfig('admin_perpage'));
         $criteria->setStart($start_report);
-        $reportObjs = $wfdownloads->getHandler('report')->getObjects($criteria);
+        $reportObjs = $helper->getHandler('report')->getObjects($criteria);
 
-        WfdownloadsUtility::myxoops_cp_header();
+        wfdownloads\Utility::myxoops_cp_header();
         $adminObject = \Xmf\Module\Admin::getInstance();
         $adminObject->displayNavigation($currentFile);
 
@@ -368,11 +369,11 @@ switch ($op) {
                 $lids[] = $reportObj->getVar('lid');
                 $uids[] = $reportObj->getVar('sender');
             }
-            $downloadObjs = $wfdownloads->getHandler('download')->getObjects(new Criteria('lid', '(' . implode(',', array_unique($lids)) . ')', 'IN'), true);
+            $downloadObjs = $helper->getHandler('download')->getObjects(new \Criteria('lid', '(' . implode(',', array_unique($lids)) . ')', 'IN'), true);
             foreach (array_keys($downloadObjs) as $i) {
                 $uids[] = $downloadObjs[$i]->getVar('submitter');
             }
-            $users = $memberHandler->getUsers(new Criteria('uid', '(' . implode(',', array_unique($uids)) . ')', 'IN'), true);
+            $users = $memberHandler->getUsers(new \Criteria('uid', '(' . implode(',', array_unique($uids)) . ')', 'IN'), true);
 
             foreach ($reportObjs as $reportObj) {
                 $report_array = $reportObj->toArray();
@@ -399,18 +400,18 @@ switch ($op) {
             }
             //Include page navigation
             require_once XOOPS_ROOT_PATH . '/class/pagenav.php';
-            $pagenav_report = new XoopsPageNav($reports_count, $wfdownloads->getConfig('admin_perpage'), $start_report, 'start_report');
+            $pagenav_report = new \XoopsPageNav($reports_count, $helper->getConfig('admin_perpage'), $start_report, 'start_report');
             $GLOBALS['xoopsTpl']->assign('reports_pagenav', $pagenav_report->renderNav());
         }
 
         $start_modification = Request::getInt('start_modification', 0);
 
-        $modifications_count = $wfdownloads->getHandler('modification')->getCount();
-        $criteria            = new CriteriaCompo();
-        $criteria->setLimit($wfdownloads->getConfig('admin_perpage'));
+        $modifications_count = $helper->getHandler('modification')->getCount();
+        $criteria            = new \CriteriaCompo();
+        $criteria->setLimit($helper->getConfig('admin_perpage'));
         $criteria->setStart($start_modification);
         $criteria->setSort('requestdate');
-        $modificationObjs = $wfdownloads->getHandler('modification')->getObjects($criteria);
+        $modificationObjs = $helper->getHandler('modification')->getObjects($criteria);
 
         $GLOBALS['xoopsTpl']->assign('modifications_count', $modifications_count);
 
@@ -420,22 +421,22 @@ switch ($op) {
                 $modification_array['title']           = $modificationObj->getVar('title');
                 $modification_array['submitter_uname'] = XoopsUserUtility::getUnameFromId($modificationObj->getVar('submitter'));
                 $modification_array['formatted_date']  = XoopsLocal::formatTimestamp($modificationObj->getVar('requestdate'), 'l');
-                $downloadObj                           = $wfdownloads->getHandler('download')->get($modificationObj->getVar('lid'));
+                $downloadObj                           = $helper->getHandler('download')->get($modificationObj->getVar('lid'));
                 $modification_array['download']        = $downloadObj->toArray();
                 $GLOBALS['xoopsTpl']->append('modifications', $modification_array);
             }
             //Include page navigation
             require_once XOOPS_ROOT_PATH . '/class/pagenav.php';
-            $pagenav_modification = new XoopsPageNav($modifications_count, $wfdownloads->getConfig('admin_perpage'), $start_modification, 'start_modification');
+            $pagenav_modification = new \XoopsPageNav($modifications_count, $helper->getConfig('admin_perpage'), $start_modification, 'start_modification');
             $GLOBALS['xoopsTpl']->assign('modifications_pagenav', $pagenav_modification->renderNav());
         }
 
-        $xoopsTpl->assign('use_mirrors', $wfdownloads->getConfig('enable_mirrors'));
-        $xoopsTpl->assign('use_ratings', $wfdownloads->getConfig('enable_ratings'));
-        $xoopsTpl->assign('use_reviews', $wfdownloads->getConfig('enable_reviews'));
-        $xoopsTpl->assign('use_brokenreports', $wfdownloads->getConfig('enable_brokenreports'));
+        $xoopsTpl->assign('use_mirrors', $helper->getConfig('enable_mirrors'));
+        $xoopsTpl->assign('use_ratings', $helper->getConfig('enable_ratings'));
+        $xoopsTpl->assign('use_reviews', $helper->getConfig('enable_reviews'));
+        $xoopsTpl->assign('use_brokenreports', $helper->getConfig('enable_brokenreports'));
 
-        $GLOBALS['xoopsTpl']->display("db:{$wfdownloads->getModule()->dirname()}_am_reportsmodificationslist.tpl");
+        $GLOBALS['xoopsTpl']->display("db:{$helper->getModule()->dirname()}_am_reportsmodificationslist.tpl");
 
         require_once __DIR__ . '/admin_footer.php';
         break;

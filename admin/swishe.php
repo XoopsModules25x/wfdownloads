@@ -17,6 +17,9 @@
  * @since           3.23
  * @author          Xoops Development Team
  */
+
+use Xoopsmodules\wfdownloads;
+
 $currentFile = basename(__FILE__);
 require_once __DIR__ . '/admin_header.php';
 
@@ -25,38 +28,38 @@ if ('submit' === @$_POST['op']) {
         redirect_header($currentFile, 3, implode('<br>', $GLOBALS['xoopsSecurity']->getErrors()));
     }
 
-    WfdownloadsUtility::myxoops_cp_header();
+    wfdownloads\Utility::myxoops_cp_header();
     $adminObject = \Xmf\Module\Admin::getInstance();
     $adminObject->displayNavigation($currentFile);
 
     // Swish-e support EXPERIMENTAL
-    WfdownloadsUtility::swishe_config();
+    wfdownloads\Utility::swishe_config();
     // Swish-e support EXPERIMENTAL
 
     require_once __DIR__ . '/admin_footer.php';
     exit();
 } else {
-    WfdownloadsUtility::myxoops_cp_header();
+    wfdownloads\Utility::myxoops_cp_header();
     $adminObject = \Xmf\Module\Admin::getInstance();
     $adminObject->displayNavigation($currentFile);
 
     // Swish-e support EXPERIMENTAL
-    if (true === WfdownloadsUtility::swishe_check()) {
+    if (true === wfdownloads\Utility::swishe_check()) {
         echo 'OK';
     } else {
         echo 'NOT OK' . '<br>';
         require_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
-        $form = new XoopsThemeForm(_AM_WFDOWNLOADS_SWISHE_CONFIG, 'config', $currentFile, 'post', true);
-        $form->addElement(new XoopsFormHidden('op', 'submit'));
-        $form->addElement(new XoopsFormButton('', '', _SUBMIT, 'submit'));
+        $form = new \XoopsThemeForm(_AM_WFDOWNLOADS_SWISHE_CONFIG, 'config', $currentFile, 'post', true);
+        $form->addElement(new \XoopsFormHidden('op', 'submit'));
+        $form->addElement(new \XoopsFormButton('', '', _SUBMIT, 'submit'));
         $form->display();
     }
 
     // Get the location of the document repository (the index files are located in the root)
-    $swisheDocPath = $wfdownloads->getConfig('uploaddir');
+    $swisheDocPath = $helper->getConfig('uploaddir');
 
     // Get the location of the SWISH-E executable
-    $swisheExePath = $wfdownloads->getConfig('swishe_exe_path');
+    $swisheExePath = $helper->getConfig('swishe_exe_path');
 
     // check if _binfilter.sh exists
     echo "{$swisheDocPath}/_binfilter.sh" . '<br>';

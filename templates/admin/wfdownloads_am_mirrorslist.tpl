@@ -40,7 +40,7 @@
         <tr class="<{cycle values='even, odd'}>">
             <td class='head'><{$mirror_waiting.mirror_id}></td>
             <td class='even'>
-                <a href='download.php?op=download.edit&amp;lid=<{$mirror_waiting.lid}>'><{$mirror_waiting.download_title}></a>
+                <a href='Download.php?op=download.edit&amp;lid=<{$mirror_waiting.lid}>'><{$mirror_waiting.download_title}></a>
             </td>
             <td class='even'><{$mirror_waiting.submitter_uname}></td>
             <td class='even'><{$mirror_waiting.formatted_date}></td>
@@ -90,7 +90,7 @@
         <tr class="<{cycle values='even, odd'}>">
             <td class='head'><{$mirror_published.mirror_id}></td>
             <td class='even'>
-                <a href='download.php?op=download.edit&amp;lid=<{$mirror_published.lid}>'><{$mirror_published.download_title}></a>
+                <a href='Download.php?op=download.edit&amp;lid=<{$mirror_published.lid}>'><{$mirror_published.download_title}></a>
             </td>
             <td class='even'><{$mirror_published.submitter_uname}></td>
             <td class='even'><{$mirror_published.formatted_date}></td>

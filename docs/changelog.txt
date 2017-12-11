@@ -1,4 +1,9 @@
-<b><u>=> Version 3.23 Final (2016-11-12)</u></b>
+<h5>3.50 Alpha 1 [NOT RELEASED]</h5>
+<hr>
+- namespaces (mamba)
+
+<h5>3.23 Final (2016-11-12)</h5>
+<hr>
 - removed "@version" (mamba)
 - XOOPS 2.5.8 and PHP 7 (mamba)
 - standardization with addNavigation(basename(__FILE__)) (mamba)
@@ -14,7 +19,8 @@
 - started XMF conversion (mamba)
 
 
-<b><u>=> Version 3.23 RC5 (2016-05-22)</u></b>
+<h5>3.23 RC5 (2016-05-22)</h5>
+<hr>
 - fixed: use DateTime object instead of strtotime function (luciorota)
 - fixed: source code for HTML5/CSS3 (mamba)
 - fixed: jQuery bug in templates (luciorota)
@@ -84,16 +90,20 @@
 - TODO: Swish-e files indexing support
 
 
-<b><u>=> Version 3.22 RC3 (2013-05-19)</u></b>
+<h5>3.22 RC3 (2013-05-19)</h5>
+<hr>
 - added permission: upload by category (luciorota)
 - added language definitions in admin.php (luciorota)
 - fixed: language definitions in modinfo.php (luciorota)
 
-<b><u>=> Version 3.22 RC2 (2013-04-20)</u></b>
+<h5>3.22 RC2 (2013-04-20)</h5>
+<hr>
 - added dynamic Editor selection (mamba)
 - fixed few English translations (mamba)
 
-<b><u>=> Version 3.22 RC1 (2013-03-23)</u></b>
+
+<h5>3.22 RC1 (2013-03-23)</h5>
+<hr>
 - fixed minor bugs in update procedure (luciorota)
 - fixed calculations for file voting results view in admin  (mamba)
 - updated deprecated "xoops_getLinkedUnameFromId" (mamba)
@@ -102,18 +112,21 @@
 - fixed deprecated "mysql_list_tables"
 - fixed MIME permissions for Admin (it was submitting 0 as default, which is for user) (mamba)
 
-<b><u>=> Version 3.21 Final (2012-12-16)</u></b>
 
+<h5>3.21 Final (2012-12-16)</h5>
+<hr>
 - Final Release (mamba)
 
-<b><u>=> Version 3.21 Beta 1 (2012-07-30)</u></b>
 
+<h5>3.21 Beta 1 (2012-07-30)</h5>
+<hr>
 - Converted to XOOPS 2.5.5 Admin GUI (mamba)
 - Fixed delete issue (jcweb/zyspec)
 - Fixed RSS issue (jagibu/zyspec)
 
-<b><u>=> Version 3.2 RC2 (2007-04-23)</u></b>
 
+<h5>3.2 RC2 (2007-04-23)</h5>
+<hr>
 Fixed: Fixes in Formulize integration thanks to jegelstaff (malanciault)
 Fixed: issue causing invalid links in the RSS script (rss.php). (thanks to rasme)
 Fixed: issue with $xoopsUser->getGroups. replaced with $xoopsUser->getGroups() : array(0=>XOOPS_GROUP_ANONYMOUS); (thanks to Jegelstaff)
@@ -137,8 +150,8 @@ Added: Addition of a downloads by top category block (malanciault)
 Changed: submit & mirrors should now accept FTP:// uri's aswell as http://  (m0nty)
 
 
-<b><u>=> Version 3.2 RC1 (2007-04-23)</u></b>
-
+<h5>3.2 RC1 (2007-04-23)</h5>
+<hr>
 Fixed: line break logic on index page was inverted. (m0nty)
 Fixed: expired downloads not being displayed in admin index.  (thanks to skenow)
 Fixed: sql error on updating indexpage. MySQL 5 only issue.. removed extra space at end of '$indexheaderalign' update query  (thanks to xavhmn)
@@ -163,8 +176,8 @@ Changed: #14 category title not long enough. (now 255 chars)  m0nty
 Changed: Download Title not long enough. (now 255 chars) m0nty
 Changed: redirect viewcat.php & singlefile.php redirects to user.php if anonymous permission not granted. (m0nty)
 
-<b><u>=> Version 3.1 FINAL (2006-05-25)</u></b>
-
+<h5>3.1 FINAL (2006-05-25)</h5>
+<hr>
 Fixed: blank page when ignoring a modification request.  (m0nty)
 Fixed: users can modify any download whether author or not by typing URL directly in browser (m0nty)
 Fixed: error code given (no file was uploaded) when modifying download (userside) (m0nty)
@@ -176,8 +189,9 @@ Fixed: #30 Downloads marked as offline were still being listed in the top/recent
 Fixed: #3389: parent category did not count all files in the subcats. (Jegelstaff)
 Removed: subsubcat list if subcats deeper than 2 levels, display issues in viewcat template. (m0nty)
 
-<b><u>=> Version 3.1 RC 2 (2006-05-01)</u></b>
 
+<h5>3.1 RC 2 (2006-05-01)</h5>
+<hr>
 Fixed: #4 can no longer modify a category and set it as a subcategory of itself (mithrandir)
 Fixed: approving reviews and mirrors approved all instead of just the selected. (m0nty, marcan)
 Fixed: Bug in Admin brokendownoads, unable to set confirmed and acknowledged status of broken download (m0nty)
@@ -196,8 +210,9 @@ Fixed: When seeing downloads by Letter, the navigation bar was not working prope
 Changed: New images pack thanks to Xpider (xpider)
 Removed: Sample category images removed (bender)
 
-<b><u>=> Version 3.1 RC1 (2006-04-11)</u></b>
 
+<h5>3.1 RC1 (2006-04-11)</h5>
+<hr>
 Fixed: When the Sub-categories config option was set to Yes, the Index page display was screwed up (marcan)
 Fixed: When wrong mimetype, the uploaded file was not deleted from the upload directory (mithrandir + marcan)
 Fixed: Notice [PHP]: Undefined variable: cid in in mirror.php line 18 when creating a new mirror (marcan + m0nty)
@@ -259,8 +274,9 @@ Removed: Unnecessary files in folder update/ as well as admin/updrade.php (marca
 Removed: The Weight option in the Default download Order config option (marcan)
 Removed: The Modify category on the admin index (marcan)
 
-<b><u>=> Version 3.0 RC 1 (2005-12-24)</u></b>
 
+<h5>3.0 RC 1 (2005-12-24)</h5>
+<hr>
 Fixed: #3293 Image upload now working   (m0nty)
 Fixed: #3306 Download description always cut off (ignoring orig. length) now working   (m0nty)
 Fixed: #3303 screenshot image not displayed now working  (m0nty)
@@ -292,8 +308,8 @@ Removed: Forum links (since they were dependant on newbb/cbb).   (Mithrandir)
 Removed: News link (since it was depending on the news module)   (Mithrandir)
 
 
-<b><u>=> Version 2.0.5 b (2005-09-05)</u></b>
-
+<h5>2.0.5 b (2005-09-05)</h5>
+<hr>
 Fixed bug that "Latest Listings" shows the latetest submitted files again    (gladiac)
 Sort licenses in the select box  (gladiac)
 Fixed select category bug in File Management  (Xoops 2.2.x compability)  (gladiac)
@@ -304,8 +320,8 @@ Removed languagefile fallback in two files (taken from mithrandirs 2.x modulepac
 Fixed "Headers already sent" with different visit.php which has been around in the forum for a while (SMD)
 
 
-<b><u>=> Version 2.0.5 (2005-07-26)</u></b>
-
+<h5>2.0.5 (2005-07-26)</h5>
+<hr>
 Fixed New/update icon bug.
 Fixed $mtys must be $myts typo on reviews.
 Fixed upload issue both in admin and user submission.
@@ -314,8 +330,8 @@ Added file exists check on upload
 Changed version number to 2.0.5a to save confussion.
 
 
-<b><u>=> Version 2.0.5 (2004-07-12)</u></b>
-
+<h5>2.0.5 (2004-07-12)</h5>
+<hr>
 Fixed Bug: Fatal error: Call to undefined function: gd_info() when GD library not installed on server (MadFish).
 Fixed: Group Permission setting. Invalid default for file submission in xoops_version.php. (FrankBlack)
 Add: Added a check to update files, cannot access them directly now and can only be executed from the update script.
@@ -327,8 +343,8 @@ Fixed bug: Fixed icon bug in broken download reports.
 Many other small bug fixes or changes to the module
 
 
-<b><u>=> Version 2.0.4 (2004-07-4)</u></b>
-
+<h5>2.0.4 (2004-07-4)</h5>
+<hr>
 Fixed catgeory ordering in to show by title and not ID in admin main index category selection box.
 Removed duplicate Lang defines in module/wf-download/index.php
 Removed alt text defines on Legend images.

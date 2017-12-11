@@ -20,7 +20,7 @@
 defined('XOOPS_ROOT_PATH') || die('XOOPS root path not defined');
 require_once __DIR__ . '/common.php';
 //@require_once WFDOWNLOADS_ROOT_PATH . '/language/' . $GLOBALS['xoopsConfig']['language'] . '/admin.php';
-xoops_loadLanguage('admin', $wfdownloads->getModule()->dirname());
+xoops_loadLanguage('admin', $helper->getModule()->dirname());
 
 /**
  * @param XoopsModule $xoopsModule

@@ -17,10 +17,14 @@
  * @since           3.23
  * @author          Xoops Development Team
  */
+
+use Xoopsmodules\wfdownloads;
+use Xoopsmodules\wfdownloads\common;
+
 $currentFile = basename(__FILE__);
 require_once __DIR__ . '/header.php';
 
-$GLOBALS['xoopsOption']['template_main'] = "{$wfdownloads->getModule()->dirname()}_newlistindex.tpl";
+$GLOBALS['xoopsOption']['template_main'] = "{$helper->getModule()->dirname()}_newlistindex.tpl";
 require_once XOOPS_ROOT_PATH . '/header.php';
 
 $xoTheme->addScript(XOOPS_URL . '/browse.php?Frameworks/jquery/jquery.js');
@@ -32,44 +36,44 @@ $xoopsTpl->assign('wfdownloads_url', WFDOWNLOADS_URL . '/');
 
 $groups = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : [0 => XOOPS_GROUP_ANONYMOUS];
 
-$catArray['imageheader'] = WfdownloadsUtility::headerImage();
-$catArray['letters']     = WfdownloadsUtility::lettersChoice();
-$catArray['toolbar']     = WfdownloadsUtility::toolbar();
+$catArray['imageheader'] = wfdownloads\Utility::headerImage();
+$catArray['letters']     = wfdownloads\Utility::lettersChoice();
+$catArray['toolbar']     = wfdownloads\Utility::toolbar();
 $xoopsTpl->assign('catarray', $catArray);
 
 // Breadcrumb
-$breadcrumb = new WfdownloadsBreadcrumb();
-$breadcrumb->addLink($wfdownloads->getModule()->getVar('name'), WFDOWNLOADS_URL);
+$breadcrumb = new common\Breadcrumb();
+$breadcrumb->addLink($helper->getModule()->getVar('name'), WFDOWNLOADS_URL);
 
 // Get number of downloads...
-$allowedCategories = $gpermHandler->getItemIds('WFDownCatPerm', $groups, $wfdownloads->getModule()->mid());
+$allowedCategories = $gpermHandler->getItemIds('WFDownCatPerm', $groups, $helper->getModule()->mid());
 // ... in the last week
 $oneWeekAgo       = strtotime('-1 week'); //$oneWeekAgo = time() - 3600*24*7; //@TODO: Change to strtotime (TODAY-1week);
-$criteria         = new Criteria('published', $oneWeekAgo, '>=');
-$allWeekDownloads = $wfdownloads->getHandler('download')->getActiveCount($criteria);
+$criteria         = new \Criteria('published', $oneWeekAgo, '>=');
+$allWeekDownloads = $helper->getHandler('download')->getActiveCount($criteria);
 // ... in the last month
 $oneMonthAgo       = strtotime('-1 month'); //$one_month_ago = time() - 3600*24*7; //@TODO: Change to strtotime (TODAY-1month);
-$criteria          = new Criteria('published', $oneMonthAgo, '>=');
-$allMonthDownloads = $wfdownloads->getHandler('download')->getActiveCount($criteria);
+$criteria          = new \Criteria('published', $oneMonthAgo, '>=');
+$allMonthDownloads = $helper->getHandler('download')->getActiveCount($criteria);
 $xoopsTpl->assign('allweekdownloads', $allWeekDownloads);
 $xoopsTpl->assign('allmonthdownloads', $allMonthDownloads);
 
 // Get latest downloads
-$criteria = new CriteriaCompo(new Criteria('offline', 0));
+$criteria = new \CriteriaCompo(new \Criteria('offline', 0));
 if (isset($_GET['newdownloadshowdays'])) {
     $days       = (int)$_GET['newdownloadshowdays'];
     $days_limit = [7, 14, 30];
     if (in_array($days, $days_limit)) {
         $xoopsTpl->assign('newdownloadshowdays', $days);
         $downloadshowdays = time() - (3600 * 24 * $days);
-        $criteria->add(new Criteria('published', $downloadshowdays, '>='), 'AND');
+        $criteria->add(new \Criteria('published', $downloadshowdays, '>='), 'AND');
     }
 }
 $criteria->setSort('published');
 $criteria->setOrder('DESC');
-$criteria->setLimit($wfdownloads->getConfig('perpage'));
+$criteria->setLimit($helper->getConfig('perpage'));
 $criteria->setStart(0);
-$downloadObjs = $wfdownloads->getHandler('download')->getActiveDownloads($criteria);
+$downloadObjs = $helper->getHandler('download')->getActiveDownloads($criteria);
 foreach ($downloadObjs as $downloadObj) {
     $downloadInfo = $downloadObj->getDownloadInfo();
     $xoopsTpl->assign('lang_dltimes', sprintf(_MD_WFDOWNLOADS_DLTIMES, $downloadInfo['hits']));
@@ -80,10 +84,10 @@ foreach ($downloadObjs as $downloadObj) {
 
 // Screenshots display
 $xoopsTpl->assign('show_screenshot', false);
-if (1 == $wfdownloads->getConfig('screenshot')) {
-    $xoopsTpl->assign('shots_dir', $wfdownloads->getConfig('screenshots'));
-    $xoopsTpl->assign('shotwidth', $wfdownloads->getConfig('shotwidth'));
-    $xoopsTpl->assign('shotheight', $wfdownloads->getConfig('shotheight'));
+if (1 == $helper->getConfig('screenshot')) {
+    $xoopsTpl->assign('shots_dir', $helper->getConfig('screenshots'));
+    $xoopsTpl->assign('shotwidth', $helper->getConfig('shotwidth'));
+    $xoopsTpl->assign('shotheight', $helper->getConfig('shotheight'));
     $xoopsTpl->assign('show_screenshot', true);
     $xoopsTpl->assign('viewcat', true);
 }
@@ -100,5 +104,5 @@ if (isset($days)) {
 // Breadcrumb
 $xoopsTpl->assign('wfdownloads_breadcrumb', $breadcrumb->render());
 
-$xoopsTpl->assign('module_home', WfdownloadsUtility::moduleHome(true));
+$xoopsTpl->assign('module_home', wfdownloads\Utility::moduleHome(true));
 require_once __DIR__ . '/footer.php';

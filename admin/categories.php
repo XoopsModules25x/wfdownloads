@@ -20,21 +20,22 @@
  */
 
 use Xmf\Request;
+use Xoopsmodules\wfdownloads;
 
 $currentFile = basename(__FILE__);
 require_once __DIR__ . '/admin_header.php';
 
 // Check directories
-if (!is_dir($wfdownloads->getConfig('uploaddir'))) {
+if (!is_dir($helper->getConfig('uploaddir'))) {
     redirect_header('index.php', 4, _AM_WFDOWNLOADS_ERROR_UPLOADDIRNOTEXISTS);
 }
-if (!is_dir(XOOPS_ROOT_PATH . '/' . $wfdownloads->getConfig('mainimagedir'))) {
+if (!is_dir(XOOPS_ROOT_PATH . '/' . $helper->getConfig('mainimagedir'))) {
     redirect_header('index.php', 4, _AM_WFDOWNLOADS_ERROR_MAINIMAGEDIRNOTEXISTS);
 }
-if (!is_dir(XOOPS_ROOT_PATH . '/' . $wfdownloads->getConfig('screenshots'))) {
+if (!is_dir(XOOPS_ROOT_PATH . '/' . $helper->getConfig('screenshots'))) {
     redirect_header('index.php', 4, _AM_WFDOWNLOADS_ERROR_SCREENSHOTSDIRNOTEXISTS);
 }
-if (!is_dir(XOOPS_ROOT_PATH . '/' . $wfdownloads->getConfig('catimage'))) {
+if (!is_dir(XOOPS_ROOT_PATH . '/' . $helper->getConfig('catimage'))) {
     redirect_header('index.php', 4, _AM_WFDOWNLOADS_ERROR_CATIMAGEDIRNOTEXISTS);
 }
 
@@ -46,22 +47,22 @@ switch ($op) {
         if (false === $ok) {
             $cid = Request::getInt('cid', 0);
 
-            WfdownloadsUtility::myxoops_cp_header();
+            wfdownloads\Utility::myxoops_cp_header();
 
             xoops_load('XoopsFormLoader');
-            $sform = new XoopsThemeForm(_AM_WFDOWNLOADS_CCATEGORY_MOVE, 'move', xoops_getenv('PHP_SELF'), 'post', true);
+            $sform = new \XoopsThemeForm(_AM_WFDOWNLOADS_CCATEGORY_MOVE, 'move', xoops_getenv('PHP_SELF'), 'post', true);
 
-            $categoryObjs     = $wfdownloads->getHandler('category')->getObjects();
-            $categoryObjsTree = new XoopsObjectTree($categoryObjs, 'cid', 'pid');
-            $sform->addElement(new XoopsFormLabel(_AM_WFDOWNLOADS_BMODIFY, $categoryObjsTree->makeSelBox('target', 'title')));
-            $create_tray = new XoopsFormElementTray('', '');
-            $create_tray->addElement(new XoopsFormHidden('source', $cid));
-            $create_tray->addElement(new XoopsFormHidden('ok', true));
-            $create_tray->addElement(new XoopsFormHidden('op', 'category.move'));
-            $butt_save = new XoopsFormButton('', '', _AM_WFDOWNLOADS_BMOVE, 'submit');
+            $categoryObjs     = $helper->getHandler('category')->getObjects();
+            $categoryObjsTree = new \XoopsObjectTree($categoryObjs, 'cid', 'pid');
+            $sform->addElement(new \XoopsFormLabel(_AM_WFDOWNLOADS_BMODIFY, $categoryObjsTree->makeSelBox('target', 'title')));
+            $create_tray = new \XoopsFormElementTray('', '');
+            $create_tray->addElement(new \XoopsFormHidden('source', $cid));
+            $create_tray->addElement(new \XoopsFormHidden('ok', true));
+            $create_tray->addElement(new \XoopsFormHidden('op', 'category.move'));
+            $butt_save = new \XoopsFormButton('', '', _AM_WFDOWNLOADS_BMOVE, 'submit');
             $butt_save->setExtra('onclick="this.form.elements.op.value=\'category.move\'"');
             $create_tray->addElement($butt_save);
-            $butt_cancel = new XoopsFormButton('', '', _AM_WFDOWNLOADS_BCANCEL, 'submit');
+            $butt_cancel = new \XoopsFormButton('', '', _AM_WFDOWNLOADS_BCANCEL, 'submit');
             $butt_cancel->setExtra('onclick="this.form.elements.op.value=\'cancel\'"');
             $create_tray->addElement($butt_cancel);
             $sform->addElement($create_tray);
@@ -76,7 +77,7 @@ switch ($op) {
             if (!$target) {
                 redirect_header($currentFile . "?op=category.move&amp;ok=0&amp;cid={$source}", 5, _AM_WFDOWNLOADS_CCATEGORY_MODIFY_FAILEDT);
             }
-            $result = $wfdownloads->getHandler('download')->updateAll('cid', $target, new Criteria('cid', $source), true);
+            $result = $helper->getHandler('download')->updateAll('cid', $target, new \Criteria('cid', $source), true);
             if (!$result) {
                 $error = _AM_WFDOWNLOADS_DBERROR;
                 trigger_error($error, E_USER_ERROR);
@@ -98,11 +99,11 @@ switch ($op) {
         require_once XOOPS_ROOT_PATH . '/class/uploader.php';
         $allowedMimetypes = ['image/gif', 'image/jpeg', 'image/pjpeg', 'image/x-png', 'image/png'];
         $imgUrl           = 'blank.png';
-        $maxFileSize      = $wfdownloads->getConfig('maxfilesize');
-        $maxImgWidth      = $wfdownloads->getConfig('maximgwidth');
-        $maxImgHeight     = $wfdownloads->getConfig('maximgheight');
-        $uploadDirectory  = XOOPS_ROOT_PATH . '/' . $wfdownloads->getConfig('catimage');
-        $uploader         = new XoopsMediaUploader($uploadDirectory, $allowedMimetypes, $maxFileSize, $maxImgWidth, $maxImgHeight);
+        $maxFileSize      = $helper->getConfig('maxfilesize');
+        $maxImgWidth      = $helper->getConfig('maximgwidth');
+        $maxImgHeight     = $helper->getConfig('maximgheight');
+        $uploadDirectory  = XOOPS_ROOT_PATH . '/' . $helper->getConfig('catimage');
+        $uploader         = new \XoopsMediaUploader($uploadDirectory, $allowedMimetypes, $maxFileSize, $maxImgWidth, $maxImgHeight);
         if ($uploader->fetchMedia($_POST['xoops_upload_file'][0])) {
             $uploader->setTargetFileName('wfdownloads_' . uniqid(time()) . '--' . strtolower($_FILES['uploadfile']['name']));
             $uploader->fetchMedia($_POST['xoops_upload_file'][0]);
@@ -118,10 +119,10 @@ switch ($op) {
         }
 
         if (!$cid) {
-            $categoryObj = $wfdownloads->getHandler('category')->create();
+            $categoryObj = $helper->getHandler('category')->create();
         } else {
-            $categoryObj = $wfdownloads->getHandler('category')->get($cid);
-            $childcats   = $wfdownloads->getHandler('category')->getChildCats($categoryObj);
+            $categoryObj = $helper->getHandler('category')->get($cid);
+            $childcats   = $helper->getHandler('category')->getChildCats($categoryObj);
             if ($pid == $cid || in_array($pid, array_keys($childcats))) {
                 $categoryObj->setErrors(_AM_WFDOWNLOADS_CCATEGORY_CHILDASPARENT);
             }
@@ -139,7 +140,7 @@ switch ($op) {
         $categoryObj->setVar('doimage', isset($_POST['doimage']));
         $categoryObj->setVar('dobr', isset($_POST['dobr']));
         // Formulize module support (2006/05/04) jpc - start
-        if (WfdownloadsUtility::checkModule('formulize')) {
+        if (wfdownloads\Utility::checkModule('formulize')) {
             $formulize_fid = isset($_POST['formulize_fid']) ? (int)$_POST['formulize_fid'] : 0;
             $categoryObj->setVar('formulize_fid', $formulize_fid);
         }
@@ -147,15 +148,15 @@ switch ($op) {
         $categoryObj->setVar('spotlighthis', $spotlighthis);
         $categoryObj->setVar('spotlighttop', $spotlighttop);
 
-        if (!$wfdownloads->getHandler('category')->insert($categoryObj)) {
+        if (!$helper->getHandler('category')->insert($categoryObj)) {
             echo $categoryObj->getHtmlErrors();
         }
         if (!$cid) {
             if (0 == $cid) {
                 $newid = (int)$categoryObj->getVar('cid');
             }
-            WfdownloadsUtility::savePermissions($down_groups, $newid, 'WFDownCatPerm');
-            WfdownloadsUtility::savePermissions($up_groups, $newid, 'WFUpCatPerm');
+            wfdownloads\Utility::savePermissions($down_groups, $newid, 'WFDownCatPerm');
+            wfdownloads\Utility::savePermissions($up_groups, $newid, 'WFUpCatPerm');
             // Notify of new category
             $tags                  = [];
             $tags['CATEGORY_NAME'] = $_POST['title'];
@@ -165,8 +166,8 @@ switch ($op) {
             $database_mess = _AM_WFDOWNLOADS_CCATEGORY_CREATED;
         } else {
             $database_mess = _AM_WFDOWNLOADS_CCATEGORY_MODIFIED;
-            WfdownloadsUtility::savePermissions($down_groups, $cid, 'WFDownCatPerm');
-            WfdownloadsUtility::savePermissions($up_groups, $cid, 'WFUpCatPerm');
+            wfdownloads\Utility::savePermissions($down_groups, $cid, 'WFDownCatPerm');
+            wfdownloads\Utility::savePermissions($up_groups, $cid, 'WFUpCatPerm');
         }
         redirect_header($currentFile, 1, $database_mess);
         break;
@@ -175,8 +176,8 @@ switch ($op) {
     case 'del':
         $cid              = Request::getInt('cid', 0);
         $ok               = Request::getBool('ok', false, 'POST');
-        $categoryObjs     = $wfdownloads->getHandler('category')->getObjects();
-        $categoryObjsTree = new XoopsObjectTree($categoryObjs, 'cid', 'pid');
+        $categoryObjs     = $helper->getHandler('category')->getObjects();
+        $categoryObjsTree = new \XoopsObjectTree($categoryObjs, 'cid', 'pid');
         if (true === $ok) {
             // get all subcategories under the specified category
             $childCategoryObjs = $categoryObjsTree->getAllChild($cid);
@@ -186,33 +187,33 @@ switch ($op) {
             }
             $cids[] = $cid;
 
-            $criteria = new Criteria('cid', '(' . implode(',', $cids) . ')', 'IN');
+            $criteria = new \Criteria('cid', '(' . implode(',', $cids) . ')', 'IN');
 
             //get list of downloads in these subcategories
-            $downloads = $wfdownloads->getHandler('download')->getList($criteria);
+            $downloads = $helper->getHandler('download')->getList($criteria);
 
-            $download_criteria = new Criteria('lid', '(' . implode(',', array_keys($downloads)) . ')', 'IN');
+            $download_criteria = new \Criteria('lid', '(' . implode(',', array_keys($downloads)) . ')', 'IN');
 
             // now for each download, delete the text data and vote data associated with the download
-            $wfdownloads->getHandler('rating')->deleteAll($download_criteria);
-            $wfdownloads->getHandler('report')->deleteAll($download_criteria);
-            $wfdownloads->getHandler('download')->deleteAll($download_criteria);
+            $helper->getHandler('rating')->deleteAll($download_criteria);
+            $helper->getHandler('report')->deleteAll($download_criteria);
+            $helper->getHandler('download')->deleteAll($download_criteria);
             foreach (array_keys($downloads) as $lid) {
-                xoops_comment_delete($wfdownloads->getModule()->mid(), (int)$lid);
+                xoops_comment_delete($helper->getModule()->mid(), (int)$lid);
             }
 
             // all downloads for each category is deleted, now delete the category data
-            $wfdownloads->getHandler('category')->deleteAll($criteria);
+            $helper->getHandler('category')->deleteAll($criteria);
             $error = _AM_WFDOWNLOADS_DBERROR;
 
             foreach ($cids as $cid) {
-                xoops_groupperm_deletebymoditem($wfdownloads->getModule()->mid(), 'WFDownCatPerm', $cid);
-                xoops_groupperm_deletebymoditem($wfdownloads->getModule()->mid(), 'WFUpCatPerm', $cid);
+                xoops_groupperm_deletebymoditem($helper->getModule()->mid(), 'WFDownCatPerm', $cid);
+                xoops_groupperm_deletebymoditem($helper->getModule()->mid(), 'WFUpCatPerm', $cid);
             }
 
             redirect_header($currentFile, 1, _AM_WFDOWNLOADS_CCATEGORY_DELETED);
         } else {
-            WfdownloadsUtility::myxoops_cp_header();
+            wfdownloads\Utility::myxoops_cp_header();
             xoops_confirm(['op' => 'category.delete', 'cid' => $cid, 'ok' => true], $currentFile, _AM_WFDOWNLOADS_CCATEGORY_AREUSURE);
             xoops_cp_footer();
         }
@@ -221,7 +222,7 @@ switch ($op) {
     case 'category.add':
     case 'category.edit':
     case 'modCat':
-        WfdownloadsUtility::myxoops_cp_header();
+        wfdownloads\Utility::myxoops_cp_header();
         $adminObject = \Xmf\Module\Admin::getInstance();
         $adminObject->displayNavigation($currentFile);
 
@@ -230,9 +231,9 @@ switch ($op) {
         $adminObject->displayButton('left');
 
         if (isset($_REQUEST['cid'])) {
-            $categoryObj = $wfdownloads->getHandler('category')->get($_REQUEST['cid']);
+            $categoryObj = $helper->getHandler('category')->get($_REQUEST['cid']);
         } else {
-            $categoryObj = $wfdownloads->getHandler('category')->create();
+            $categoryObj = $helper->getHandler('category')->create();
         }
         $form = $categoryObj->getForm();
         $form->display();
@@ -243,7 +244,7 @@ switch ($op) {
     case 'categories.list':
     case 'main':
     default:
-        WfdownloadsUtility::myxoops_cp_header();
+        wfdownloads\Utility::myxoops_cp_header();
         $adminObject = \Xmf\Module\Admin::getInstance();
         $adminObject->displayNavigation($currentFile);
 
@@ -251,12 +252,12 @@ switch ($op) {
         $adminObject->addItemButton(_AM_WFDOWNLOADS_CCATEGORY_CREATENEW, "{$currentFile}?op=category.add", 'add');
         $adminObject->displayButton('left');
 
-        $totalCategories = WfdownloadsUtility::categoriesCount();
+        $totalCategories = wfdownloads\Utility::categoriesCount();
         if ($totalCategories > 0) {
-            $sorted_categories = WfdownloadsUtility::sortCategories();
+            $sorted_categories = wfdownloads\Utility::sortCategories();
             $GLOBALS['xoopsTpl']->assign('sorted_categories', $sorted_categories);
             //            $GLOBALS['xoopsTpl']->assign('securityToken', $GLOBALS['xoopsSecurity']->getTokenHTML());
-            $GLOBALS['xoopsTpl']->display("db:{$wfdownloads->getModule()->dirname()}_am_categorieslist.tpl");
+            $GLOBALS['xoopsTpl']->display("db:{$helper->getModule()->dirname()}_am_categorieslist.tpl");
         } else {
             redirect_header("{$currentFile}?op=category.add", 1, _AM_WFDOWNLOADS_CCATEGORY_NOEXISTS);
         }
@@ -272,9 +273,9 @@ switch ($op) {
             $new_weights = $_POST['new_weights'];
             $ids         = [];
             foreach ($new_weights as $cid => $new_weight) {
-                $categoryObj = $wfdownloads->getHandler('category')->get($cid);
+                $categoryObj = $helper->getHandler('category')->get($cid);
                 $categoryObj->setVar('weight', $new_weight);
-                if (!$wfdownloads->getHandler('category')->insert($categoryObj)) {
+                if (!$helper->getHandler('category')->insert($categoryObj)) {
                     redirect_header($currentFile, 3, $categoryObj->getErrors());
                 }
                 unset($categoryObj);

@@ -233,7 +233,7 @@ define('_MI_WFDOWNLOADS_MODULE_MAILFEATURES', 'Features Mailing List');
 define('_MI_WFDOWNLOADS_MODULE_MAILANNOUNCEMENTSDSC', 'Get the latest announcements from XOOPS.');
 define('_MI_WFDOWNLOADS_MODULE_MAILBUGSDSC', 'Bug Tracking and submission mailing list');
 define('_MI_WFDOWNLOADS_MODULE_MAILFEATURESDSC', 'Request New Features mailing list.');
-define('_MI_WFDOWNLOADS_WARNINGTEXT', "THE SOFTWARE IS PROVIDED BY XOOPS \"AS IS\" AND \"WITH ALL FAULTS.\"
+define('_MI_WFDOWNLOADS_WARNINGTEXT', 'THE SOFTWARE IS PROVIDED BY XOOPS "AS IS" AND "WITH ALL FAULTS."
 XOOPS MAKES NO REPRESENTATIONS OR WARRANTIES OF ANY KIND CONCERNING
 THE QUALITY, SAFETY OR SUITABILITY OF THE SOFTWARE, EITHER EXPRESS OR
 IMPLIED, INCLUDING WITHOUT LIMITATION ANY IMPLIED WARRANTIES OF
@@ -243,7 +243,7 @@ ACCURACY OR COMPLETENESS OF ANY STATEMENTS, INFORMATION OR MATERIALS
 CONCERNING THE SOFTWARE THAT IS CONTAINED IN XOOPS WEBSITE. IN NO
 EVENT WILL XOOPS BE LIABLE FOR ANY INDIRECT, PUNITIVE, SPECIAL,
 INCIDENTAL OR CONSEQUENTIAL DAMAGES, HOWEVER THEY MAY ARISE AND EVEN IF
-XOOPS HAS BEEN PREVIOUSLY ADVISED OF THE POSSIBILITY OF SUCH DAMAGES..");
+XOOPS HAS BEEN PREVIOUSLY ADVISED OF THE POSSIBILITY OF SUCH DAMAGES..');
 define(
     '_MI_WFDOWNLOADS_AUTHOR_CREDITSTEXT',
        'The XOOPS Team would like to thank the following people for their help and support during the development phase of this module: <br><br>tom, mking, paco1969, mharoun, Talis, m0nty, steenlnielsen, Clubby, Geronimo, bd_csmc, herko, LANG, Stewdio, tedsmith, veggieryan, carnuke, MadFish, Kiang, SmartFactory team<br>and anyone else who has contributed to either directly or indirectly.'
@@ -319,9 +319,9 @@ define('_MI_WFDOWNLOADS_MENU_CLONE', 'Clone module');
 define('_MI_WFDOWNLOADS_MENU_CLONE_DESC', 'Clone module');
 define('_MI_WFDOWNLOADS_MENU_ABOUT', 'About');
 define('_MI_WFDOWNLOADS_MENU_ABOUT_DESC', 'About');
-define('_MI_WFDOWNLOADS_SCREENSHOTSDSC', "Path relative to Xoops root path: \"" . XOOPS_ROOT_PATH . "/\". <br>No trailing slash.");
-define('_MI_WFDOWNLOADS_MAINIMGDIRDSC', "Path relative to Xoops root path: \"" . XOOPS_ROOT_PATH . "/\". <br>No trailing slash.");
-define('_MI_WFDOWNLOADS_CATEGORYIMGDSC', "Path relative to Xoops root path: \"" . XOOPS_ROOT_PATH . "/\". <br>No trailing slash.");
+define('_MI_WFDOWNLOADS_SCREENSHOTSDSC', 'Path relative to Xoops root path: "' . XOOPS_ROOT_PATH . '/". <br>No trailing slash.');
+define('_MI_WFDOWNLOADS_MAINIMGDIRDSC', 'Path relative to Xoops root path: "' . XOOPS_ROOT_PATH . '/". <br>No trailing slash.');
+define('_MI_WFDOWNLOADS_CATEGORYIMGDSC', 'Path relative to Xoops root path: "' . XOOPS_ROOT_PATH . '/". <br>No trailing slash.');
 define('_MI_WFDOWNLOADS_SHOWDISCLAIMERDSC', '');
 define('_MI_WFDOWNLOADS_DISCLAIMERDSC', 'HTML tags, smiley icons, XOOPS codes, images are enabled.');
 define('_MI_WFDOWNLOADS_SHOWDOWNDISCLDSC', '');

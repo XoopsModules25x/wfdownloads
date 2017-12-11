@@ -71,7 +71,7 @@ function xoops_module_pre_update_wfdownloads(XoopsModule $module)
  * @param XoopsModule $module {@link XoopsModule}
  * @param null        $previousVersion
  *
- * @return bool true if update successful, false if not
+ * @return void true if update successful, false if not
  */
 
 function xoops_module_update_wfdownloads(XoopsModule $module, $previousVersion = null)
@@ -83,7 +83,7 @@ function xoops_module_update_wfdownloads(XoopsModule $module, $previousVersion =
 
         //        $configurator = include __DIR__ . '/config.php';
         $configurator = new WfdownloadsConfigurator();
-        /** @var WfdownloadsUtility $utilityClass */
+        /** @var wfdownloads\Utility $utilityClass */
         $utilityClass = ucfirst($moduleDirName) . 'Utility';
         ;
         if (!class_exists($utilityClass)) {
@@ -157,7 +157,7 @@ function xoops_module_update_wfdownloads(XoopsModule $module, $previousVersion =
 defined('XOOPS_ROOT_PATH') || die('XOOPS root path not defined');
 require_once __DIR__ . '/common.php';
 //@require_once WFDOWNLOADS_ROOT_PATH . '/language/' . $GLOBALS['xoopsConfig']['language'] . '/admin.php';
-xoops_loadLanguage('admin', $wfdownloads->getModule()->dirname());
+xoops_loadLanguage('admin', $helper->getModule()->dirname());
 require_once WFDOWNLOADS_ROOT_PATH . '/class/dbupdater.php';
 
 /**
@@ -184,7 +184,7 @@ function xoops_module_update_wfdownloads2(XoopsModule $xoopsModule, $previousVer
     } else {
         echo $feedback;
     }
-    WfdownloadsUtility::setMeta('version', '3.23'); //Set meta version to current
+    wfdownloads\Utility::setMeta('version', '3.23'); //Set meta version to current
 
     return true;
 }
@@ -392,7 +392,7 @@ function update_tables_to_322($module)
     $dbupdater = new WfdownloadsDbupdater();
 
     // create wfdownloads_meta table
-    if (!WfdownloadsUtility::tableExists('wfdownloads_meta')) {
+    if (!wfdownloads\Utility::tableExists('wfdownloads_meta')) {
         $table = new WfdownloadsTable('wfdownloads_meta');
         $table->setStructure("CREATE TABLE %s (
                 metakey varchar(50) NOT NULL default '',
@@ -406,7 +406,7 @@ function update_tables_to_322($module)
     }
 
     // create wfdownloads_mirror table
-    if (!WfdownloadsUtility::tableExists('wfdownloads_mirrors')) {
+    if (!wfdownloads\Utility::tableExists('wfdownloads_mirrors')) {
         $table = new WfdownloadsTable('wfdownloads_mirrors');
         $table->setStructure("CREATE TABLE %s (
                 mirror_id int(11) unsigned NOT NULL auto_increment,
@@ -428,7 +428,7 @@ function update_tables_to_322($module)
     }
 
     // create wfdownloads_ip_log table
-    if (!WfdownloadsUtility::tableExists('wfdownloads_ip_log')) {
+    if (!wfdownloads\Utility::tableExists('wfdownloads_ip_log')) {
         $table = new WfdownloadsTable('wfdownloads_ip_log');
         $table->setStructure("CREATE TABLE %s (
                 ip_logid int(11) NOT NULL auto_increment,
@@ -734,7 +734,7 @@ function get_table_info($table, $default_fields)
  * @param array            $fields
  * @param array            $new_fields
  *
- * @return array
+ * @return void
  */
 function rename_fields(WfdownloadsTable $table, $renamed_fields, &$fields, $new_fields)
 {

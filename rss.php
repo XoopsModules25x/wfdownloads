@@ -31,16 +31,16 @@ $GLOBALS['xoopsOption']['template_main'] = 'system_' . $feed_type . '.tpl';
 error_reporting(0);
 
 require_once XOOPS_ROOT_PATH . '/class/template.php';
-$xoopsTpl = new XoopsTpl();
+$xoopsTpl = new \XoopsTpl();
 
 // Find case
 $case        = 'all';
-$categoryObj = $wfdownloads->getHandler('category')->get((int)$_REQUEST['cid']);
+$categoryObj = $helper->getHandler('category')->get((int)$_REQUEST['cid']);
 
 $groups = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : [0 => XOOPS_GROUP_ANONYMOUS];
 
 // Get download permissions
-$allowedDownCategoriesIds = $gpermHandler->getItemIds('WFDownCatPerm', $groups, $wfdownloads->getModule()->mid());
+$allowedDownCategoriesIds = $gpermHandler->getItemIds('WFDownCatPerm', $groups, $helper->getModule()->mid());
 
 if (!$categoryObj->isNew()) {
     if (!in_array($categoryObj->getVar('cid'), $allowedDownCategoriesIds)) {
@@ -62,12 +62,12 @@ switch ($case) {
 }
 
 $xoopsTpl->caching        = true;
-$xoopsTpl->cache_lifetime = $GLOBALS['xoopsConfig']['module_cache'][(int)$wfdownloads->getModule()->mid()];
+$xoopsTpl->cache_lifetime = $GLOBALS['xoopsConfig']['module_cache'][(int)$helper->getModule()->mid()];
 if (!$xoopsTpl->is_cached('db:' . $xoopsOption['template_main'], $cache_prefix)) {
     // Get content
     $limit = 30;
 
-    $criteria = new CriteriaCompo(new Criteria('offline', false));
+    $criteria = new \CriteriaCompo(new \Criteria('offline', false));
     $criteria->setSort('published');
     $criteria->setOrder('DESC');
     $criteria->setLimit($limit);
@@ -76,12 +76,12 @@ if (!$xoopsTpl->is_cached('db:' . $xoopsOption['template_main'], $cache_prefix))
         default:
         case 'all':
             $shorthand   = 'all';
-            $title       = $GLOBALS['xoopsConfig']['sitename'] . ' - ' . htmlspecialchars($wfdownloads->getModule()->getVar('name'), ENT_QUOTES);
+            $title       = $GLOBALS['xoopsConfig']['sitename'] . ' - ' . htmlspecialchars($helper->getModule()->getVar('name'), ENT_QUOTES);
             $desc        = $GLOBALS['xoopsConfig']['slogan'];
-            $channel_url = XOOPS_URL . '/modules/' . $wfdownloads->getModule()->getVat('dirname') . '/rss.php';
+            $channel_url = XOOPS_URL . '/modules/' . $helper->getModule()->getVat('dirname') . '/rss.php';
 
-            $criteria->add(new Criteria('cid', '(' . implode(',', $allowedDownCategoriesIds) . ')', 'IN'));
-            $downloadObjs = $wfdownloads->getHandler('download')->getObjects($criteria);
+            $criteria->add(new \Criteria('cid', '(' . implode(',', $allowedDownCategoriesIds) . ')', 'IN'));
+            $downloadObjs = $helper->getHandler('download')->getObjects($criteria);
             $id           = 0;
             break;
 
@@ -89,10 +89,10 @@ if (!$xoopsTpl->is_cached('db:' . $xoopsOption['template_main'], $cache_prefix))
             $shorthand   = 'cat';
             $title       = $GLOBALS['xoopsConfig']['sitename'] . ' - ' . htmlspecialchars($categoryObj->getVar('title'), ENT_QUOTES);
             $desc        = $GLOBALS['xoopsConfig']['slogan'] . ' - ' . htmlspecialchars($categoryObj->getVar('title'), ENT_QUOTES);
-            $channel_url = XOOPS_URL . '/modules/' . $wfdownloads->getModule()->getVat('dirname') . '/rss.php?cid=' . (int)$categoryObj->getVar('cid');
+            $channel_url = XOOPS_URL . '/modules/' . $helper->getModule()->getVat('dirname') . '/rss.php?cid=' . (int)$categoryObj->getVar('cid');
 
-            $criteria->add(new Criteria('cid', (int)$categoryObj->getVar('cid')));
-            $downloadObjs = $wfdownloads->getHandler('download')->getObjects($criteria);
+            $criteria->add(new \Criteria('cid', (int)$categoryObj->getVar('cid')));
+            $downloadObjs = $helper->getHandler('download')->getObjects($criteria);
             $id           = $categoryObj->getVar('categoryid');
             break;
     }
@@ -105,12 +105,12 @@ if (!$xoopsTpl->is_cached('db:' . $xoopsOption['template_main'], $cache_prefix))
     $xoopsTpl->assign('channel_webmaster', $GLOBALS['xoopsConfig']['adminmail']);
     $xoopsTpl->assign('channel_editor', $GLOBALS['xoopsConfig']['adminmail']);
     $xoopsTpl->assign('channel_editor_name', $GLOBALS['xoopsConfig']['sitename']);
-    $xoopsTpl->assign('channel_category', $wfdownloads->getModule()->getVar('name', 'e'));
+    $xoopsTpl->assign('channel_category', $helper->getModule()->getVar('name', 'e'));
     $xoopsTpl->assign('channel_generator', 'PHP');
     $xoopsTpl->assign('channel_language', _LANGCODE);
 
     // Assign items to template style array
-    $url = XOOPS_URL . '/modules/' . $wfdownloads->getModule()->getVat('dirname') . '/';
+    $url = XOOPS_URL . '/modules/' . $helper->getModule()->getVat('dirname') . '/';
     if (count($downloadObjs) > 0) {
         // Get users for downloads
         $uids = [];
@@ -118,7 +118,7 @@ if (!$xoopsTpl->is_cached('db:' . $xoopsOption['template_main'], $cache_prefix))
             $uids[] = $downloadObj->getVar('submitter');
         }
         if (count($uids) > 0) {
-            $users = $memberHandler->getUserList(new Criteria('uid', '(' . implode(',', array_unique($uids)) . ')', 'IN'));
+            $users = $memberHandler->getUserList(new \Criteria('uid', '(' . implode(',', array_unique($uids)) . ')', 'IN'));
         }
 
         // Assign items to template

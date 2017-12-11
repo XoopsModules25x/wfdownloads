@@ -20,17 +20,18 @@
  */
 
 use Xmf\Request;
+use Xoopsmodules\wfdownloads;
 
 $currentFile = basename(__FILE__);
 require_once __DIR__ . '/header.php';
 
 $lid         = Request::getInt('lid', 0);
-$downloadObj = $wfdownloads->getHandler('download')->get($lid);
+$downloadObj = $helper->getHandler('download')->get($lid);
 if (empty($downloadObj)) {
     redirect_header('index.php', 3, _CO_WFDOWNLOADS_ERROR_NODOWNLOAD);
 }
 $cid         = Request::getInt('cid', $downloadObj->getVar('cid'));
-$categoryObj = $wfdownloads->getHandler('category')->get($cid);
+$categoryObj = $helper->getHandler('category')->get($cid);
 if (empty($categoryObj)) {
     redirect_header('index.php', 3, _CO_WFDOWNLOADS_ERROR_NOCATEGORY);
 }
@@ -45,19 +46,19 @@ if (0 == $downloadObj->getVar('published') || $downloadObj->getVar('published') 
 }
 
 // Check permissions
-if (false === $wfdownloads->getConfig('enable_reviews') && !WfdownloadsUtility::userIsAdmin()) {
+if (false === $helper->getConfig('enable_reviews') && !wfdownloads\Utility::userIsAdmin()) {
     redirect_header('index.php', 3, _NOPERM);
 }
 $userGroups = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : [0 => XOOPS_GROUP_ANONYMOUS];
-if (!$gpermHandler->checkRight('WFDownCatPerm', $cid, $userGroups, $wfdownloads->getModule()->mid())) {
+if (!$gpermHandler->checkRight('WFDownCatPerm', $cid, $userGroups, $helper->getModule()->mid())) {
     redirect_header('index.php', 3, _NOPERM);
 }
 
 // Breadcrumb
 require_once XOOPS_ROOT_PATH . '/class/tree.php';
-$categoryObjsTree = new XoopsObjectTree($wfdownloads->getHandler('category')->getObjects(), 'cid', 'pid');
-$breadcrumb       = new WfdownloadsBreadcrumb();
-$breadcrumb->addLink($wfdownloads->getModule()->getVar('name'), WFDOWNLOADS_URL);
+$categoryObjsTree = new \XoopsObjectTree($helper->getHandler('category')->getObjects(), 'cid', 'pid');
+$breadcrumb       = new common\Breadcrumb();
+$breadcrumb->addLink($helper->getModule()->getVar('name'), WFDOWNLOADS_URL);
 foreach (array_reverse($categoryObjsTree->getAllParent($cid)) as $parentCategory) {
     $breadcrumb->addLink($parentCategory->getVar('title'), 'viewcat.php?cid=' . $parentCategory->getVar('cid'));
 }
@@ -70,7 +71,7 @@ switch ($op) {
     case 'list': // this care is not removed for backward compatibility issues
         $start = Request::getInt('start', 0);
 
-        $GLOBALS['xoopsOption']['template_main'] = "{$wfdownloads->getModule()->dirname()}_reviews.tpl";
+        $GLOBALS['xoopsOption']['template_main'] = "{$helper->getModule()->dirname()}_reviews.tpl";
         require_once XOOPS_ROOT_PATH . '/header.php';
 
         $xoTheme->addScript(XOOPS_URL . '/browse.php?Frameworks/jquery/jquery.js');
@@ -83,9 +84,9 @@ switch ($op) {
         // Generate content header
         $sql                     = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('wfdownloads_indexpage') . ' ';
         $head_arr                = $GLOBALS['xoopsDB']->fetchArray($GLOBALS['xoopsDB']->query($sql));
-        $catarray['imageheader'] = WfdownloadsUtility::headerImage();
+        $catarray['imageheader'] = wfdownloads\Utility::headerImage();
         $xoopsTpl->assign('catarray', $catarray);
-        $xoopsTpl->assign('category_path', $wfdownloads->getHandler('category')->getNicePath($cid));
+        $xoopsTpl->assign('category_path', $helper->getHandler('category')->getNicePath($cid));
         $xoopsTpl->assign('category_id', $cid);
 
         // Breadcrumb
@@ -93,22 +94,22 @@ switch ($op) {
         $xoopsTpl->assign('wfdownloads_breadcrumb', $breadcrumb->render());
 
         // Count reviews
-        $criteria = new CriteriaCompo(new Criteria('lid', $lid));
-        $criteria->add(new Criteria('submit', 1));
-        $reviewsCount = $wfdownloads->getHandler('review')->getCount($criteria);
+        $criteria = new \CriteriaCompo(new \Criteria('lid', $lid));
+        $criteria->add(new \Criteria('submit', 1));
+        $reviewsCount = $helper->getHandler('review')->getCount($criteria);
 
         // Get reviews
         $criteria->setSort('date');
         $criteria->setLimit(5);
         $criteria->setStart($start);
-        $reviewObjs = $wfdownloads->getHandler('review')->getObjects($criteria);
+        $reviewObjs = $helper->getHandler('review')->getObjects($criteria);
 
         $download_array = $downloadObj->toArray();
         $xoopsTpl->assign('down_arr', $download_array);
 
         foreach ($reviewObjs as $reviewObj) {
             $review_array              = $reviewObj->toArray();
-            $review_array['date']      = formatTimestamp($review_array['date'], $wfdownloads->getConfig('dateformat'));
+            $review_array['date']      = formatTimestamp($review_array['date'], $helper->getConfig('dateformat'));
             $review_array['submitter'] = XoopsUserUtility::getUnameFromId($review_array['uid']);
             $review_rating             = round(number_format($review_array['rated'], 0) / 2);
             $review_array['rated_img'] = "rate{$review_rating}.gif";
@@ -117,12 +118,12 @@ switch ($op) {
         $xoopsTpl->assign('lang_review_found', sprintf(_MD_WFDOWNLOADS_REVIEWTOTAL, $reviewsCount));
 
         require_once XOOPS_ROOT_PATH . '/class/pagenav.php';
-        $pagenav          = new XoopsPageNav($reviewsCount, 5, $start, 'start', "op=reviews.list&amp;cid={$cid}&amp;lid={$lid}", 1);
+        $pagenav          = new \XoopsPageNav($reviewsCount, 5, $start, 'start', "op=reviews.list&amp;cid={$cid}&amp;lid={$lid}", 1);
         $navbar['navbar'] = $pagenav->renderNav();
         $xoopsTpl->assign('navbar', $navbar);
 
         $xoopsTpl->assign('categoryPath', $pathstring . ' > ' . $download_array['title']);
-        $xoopsTpl->assign('module_home', WfdownloadsUtility::moduleHome(true));
+        $xoopsTpl->assign('module_home', wfdownloads\Utility::moduleHome(true));
 
         require_once __DIR__ . '/footer.php';
         break;
@@ -130,7 +131,7 @@ switch ($op) {
     case 'review.add':
     default:
         // Check if ANONYMOUS user can review
-        if (!is_object($GLOBALS['xoopsUser']) && !$wfdownloads->getConfig('rev_anonpost')) {
+        if (!is_object($GLOBALS['xoopsUser']) && !$helper->getConfig('rev_anonpost')) {
             redirect_header(XOOPS_URL . '/user.php', 1, _MD_WFDOWNLOADS_MUSTREGFIRST);
         }
 
@@ -138,17 +139,17 @@ switch ($op) {
         $reviewerUid = is_object($GLOBALS['xoopsUser']) ? (int)$GLOBALS['xoopsUser']->getVar('uid') : 0;
 
         if (!empty($_POST['submit'])) {
-            $reviewObj = $wfdownloads->getHandler('review')->create();
+            $reviewObj = $helper->getHandler('review')->create();
             $reviewObj->setVar('title', trim($_POST['title']));
             $reviewObj->setVar('review', trim($_POST['review']));
             $reviewObj->setVar('lid', (int)$_POST['lid']);
             $reviewObj->setVar('rated', (int)$_POST['rated']);
             $reviewObj->setVar('date', time());
             $reviewObj->setVar('uid', $reviewerUid);
-            $submit = (WfdownloadsUtility::userIsAdmin() ?: $wfdownloads->getConfig('rev_approve') ? true : false);
+            $submit = (wfdownloads\Utility::userIsAdmin() ?: $helper->getConfig('rev_approve') ? true : false);
             $reviewObj->setVar('submit', $submit);
 
-            if (!$wfdownloads->getHandler('review')->insert($reviewObj)) {
+            if (!$helper->getHandler('review')->insert($reviewObj)) {
                 redirect_header('index.php', 3, _MD_WFDOWNLOADS_ERROR_CREATEREVIEW);
             } else {
                 $databaseMessage = $submit ? _MD_WFDOWNLOADS_ISAPPROVED : _MD_WFDOWNLOADS_ISNOTAPPROVED;
@@ -168,16 +169,16 @@ switch ($op) {
             $breadcrumb->addLink(_MD_WFDOWNLOADS_REVIEWTHISFILE, '');
             echo $breadcrumb->render();
 
-            echo "<div align='center'>" . WfdownloadsUtility::headerImage() . "</div><br>\n";
+            echo "<div align='center'>" . wfdownloads\Utility::headerImage() . "</div><br>\n";
             echo '<div>' . _MD_WFDOWNLOADS_REV_SNEWMNAMEDESC . "</div>\n";
 
             // Generate form
             require_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
-            $sform      = new XoopsThemeForm(_MD_WFDOWNLOADS_REV_SUBMITREV, 'reviewform', xoops_getenv('PHP_SELF'), 'post', true);
-            $title_text = new XoopsFormText(_MD_WFDOWNLOADS_REV_TITLE, 'title', 50, 255);
+            $sform      = new \XoopsThemeForm(_MD_WFDOWNLOADS_REV_SUBMITREV, 'reviewform', xoops_getenv('PHP_SELF'), 'post', true);
+            $title_text = new \XoopsFormText(_MD_WFDOWNLOADS_REV_TITLE, 'title', 50, 255);
             //$title_text->setDescription(_MD_WFDOWNLOADS_REV_TITLE_DESC);
             $sform->addElement($title_text, true);
-            $rating_select = new XoopsFormSelect(_MD_WFDOWNLOADS_REV_RATING, 'rated', '10');
+            $rating_select = new \XoopsFormSelect(_MD_WFDOWNLOADS_REV_RATING, 'rated', '10');
             //$rating_select->setDescription(_MD_WFDOWNLOADS_REV_RATING_DESC);
             $rating_select->addOptionArray([
                                                '1'  => 1,
@@ -192,16 +193,16 @@ switch ($op) {
                                                '10' => 10
                                            ]);
             $sform->addElement($rating_select);
-            $review_textarea = new XoopsFormDhtmlTextArea(_MD_WFDOWNLOADS_REV_DESCRIPTION, 'review', '', 15, 60);
+            $review_textarea = new \XoopsFormDhtmlTextArea(_MD_WFDOWNLOADS_REV_DESCRIPTION, 'review', '', 15, 60);
             //$review_textarea->setDescription(_MD_WFDOWNLOADS_REV_DESCRIPTION_DESC);
             $sform->addElement($review_textarea, true);
-            $sform->addElement(new XoopsFormHidden('lid', $lid));
-            $sform->addElement(new XoopsFormHidden('cid', $cid));
-            $sform->addElement(new XoopsFormHidden('uid', $reviewerUid));
-            $button_tray   = new XoopsFormElementTray('', '');
-            $submit_button = new XoopsFormButton('', 'submit', _SUBMIT, 'submit');
+            $sform->addElement(new \XoopsFormHidden('lid', $lid));
+            $sform->addElement(new \XoopsFormHidden('cid', $cid));
+            $sform->addElement(new \XoopsFormHidden('uid', $reviewerUid));
+            $button_tray   = new \XoopsFormElementTray('', '');
+            $submit_button = new \XoopsFormButton('', 'submit', _SUBMIT, 'submit');
             $button_tray->addElement($submit_button);
-            $cancel_button = new XoopsFormButton('', '', _CANCEL, 'button');
+            $cancel_button = new \XoopsFormButton('', '', _CANCEL, 'button');
             $cancel_button->setExtra('onclick="history.go(-1)"');
             $button_tray->addElement($cancel_button);
             $sform->addElement($button_tray);

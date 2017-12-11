@@ -20,21 +20,23 @@
  */
 
 use Xmf\Request;
+use Xoopsmodules\wfdownloads;
+use Xoopsmodules\wfdownloads\common;
 
 $currentFile = basename(__FILE__);
 require_once __DIR__ . '/header.php';
 
 // Check permissions
 if (is_object($GLOBALS['xoopsUser'])) {
-    if ($GLOBALS['xoopsUser']->getVar('posts') < $wfdownloads->getConfig('download_minposts') && !$GLOBALS['xoopsUser']->isAdmin()) {
+    if ($GLOBALS['xoopsUser']->getVar('posts') < $helper->getConfig('download_minposts') && !$GLOBALS['xoopsUser']->isAdmin()) {
         redirect_header('index.php', 5, _MD_WFDOWNLOADS_DOWNLOADMINPOSTS);
     }
-} elseif (!is_object($GLOBALS['xoopsUser']) && ($wfdownloads->getConfig('download_minposts') > 0)) {
+} elseif (!is_object($GLOBALS['xoopsUser']) && ($helper->getConfig('download_minposts') > 0)) {
     redirect_header(XOOPS_URL . '/user.php', 1, _MD_WFDOWNLOADS_MUSTREGFIRST);
 }
 
 $lid         = Request::getInt('lid', 0);
-$downloadObj = $wfdownloads->getHandler('download')->get($lid);
+$downloadObj = $helper->getHandler('download')->get($lid);
 // Check if download exists
 if ($downloadObj->isNew()) {
     redirect_header('index.php', 1, _MD_WFDOWNLOADS_NODOWNLOAD);
@@ -52,16 +54,16 @@ if (0 == $downloadObj->getVar('published') || $downloadObj->getVar('published') 
 
 // Check permissions
 $groups = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : [0 => XOOPS_GROUP_ANONYMOUS];
-if (!$gpermHandler->checkRight('WFDownCatPerm', $cid, $groups, $wfdownloads->getModule()->mid())) {
+if (!$gpermHandler->checkRight('WFDownCatPerm', $cid, $groups, $helper->getModule()->mid())) {
     redirect_header('index.php', 3, _NOPERM);
 }
 
 if (false === $agreed) {
-    if ($wfdownloads->getConfig('check_host')) {
+    if ($helper->getConfig('check_host')) {
         $isAGoodHost  = false;
         $referer      = parse_url(xoops_getenv('HTTP_REFERER'));
         $referer_host = $referer['host'];
-        foreach ($wfdownloads->getConfig('referers') as $ref) {
+        foreach ($helper->getConfig('referers') as $ref) {
             if (!empty($ref) && preg_match("/{$ref}/i", $referer_host)) {
                 $isAGoodHost = true;
                 break;
@@ -73,8 +75,8 @@ if (false === $agreed) {
     }
 }
 
-if ($wfdownloads->getConfig('showDowndisclaimer') && false === $agreed) {
-    $GLOBALS['xoopsOption']['template_main'] = "{$wfdownloads->getModule()->dirname()}_disclaimer.tpl";
+if ($helper->getConfig('showDowndisclaimer') && false === $agreed) {
+    $GLOBALS['xoopsOption']['template_main'] = "{$helper->getModule()->dirname()}_disclaimer.tpl";
     require_once XOOPS_ROOT_PATH . '/header.php';
 
     $xoTheme->addScript(XOOPS_URL . '/browse.php?Frameworks/jquery/jquery.js');
@@ -84,40 +86,40 @@ if ($wfdownloads->getConfig('showDowndisclaimer') && false === $agreed) {
 
     $xoopsTpl->assign('wfdownloads_url', WFDOWNLOADS_URL . '/');
 
-    $catarray['imageheader'] = WfdownloadsUtility::headerImage();
+    $catarray['imageheader'] = wfdownloads\Utility::headerImage();
     $xoopsTpl->assign('catarray', $catarray);
 
     // Breadcrumb
-    $breadcrumb = new WfdownloadsBreadcrumb();
-    $breadcrumb->addLink($wfdownloads->getModule()->getVar('name'), WFDOWNLOADS_URL);
+    $breadcrumb = new common\Breadcrumb();
+    $breadcrumb->addLink($helper->getModule()->getVar('name'), WFDOWNLOADS_URL);
     $breadcrumb->addLink(_MD_WFDOWNLOADS_DOWNLOADNOW, '');
     $xoopsTpl->assign('wfdownloads_breadcrumb', $breadcrumb->render());
 
     $xoopsTpl->assign('lid', $lid);
     $xoopsTpl->assign('cid', $cid);
 
-    $xoopsTpl->assign('image_header', WfdownloadsUtility::headerImage());
+    $xoopsTpl->assign('image_header', wfdownloads\Utility::headerImage());
 
     $xoopsTpl->assign('submission_disclaimer', false);
     $xoopsTpl->assign('download_disclaimer', true);
-    $xoopsTpl->assign('download_disclaimer_content', $myts->displayTarea($wfdownloads->getConfig('downdisclaimer'), true, true, true, true, true));
+    $xoopsTpl->assign('download_disclaimer_content', $myts->displayTarea($helper->getConfig('downdisclaimer'), true, true, true, true, true));
 
     $xoopsTpl->assign('down_disclaimer', true); // this definition is not removed for backward compatibility issues
-    $xoopsTpl->assign('downdisclaimer', $myts->displayTarea($wfdownloads->getConfig('downdisclaimer'), true, true, true, true, true)); // this definition is not removed for backward compatibility issues
+    $xoopsTpl->assign('downdisclaimer', $myts->displayTarea($helper->getConfig('downdisclaimer'), true, true, true, true, true)); // this definition is not removed for backward compatibility issues
     $xoopsTpl->assign('cancel_location', WFDOWNLOADS_URL . '/index.php'); // this definition is not removed for backward compatibility issues
     $xoopsTpl->assign('agree_location', WFDOWNLOADS_URL . "/{$currentFile}?agree=1&amp;lid={$lid}&amp;cid={$cid}");
     require_once __DIR__ . '/footer.php';
 } else {
-    if (!WfdownloadsUtility::userIsAdmin()) {
-        $wfdownloads->getHandler('download')->incrementHits($lid);
+    if (!wfdownloads\Utility::userIsAdmin()) {
+        $helper->getHandler('download')->incrementHits($lid);
     }
     // Create ip log
-    $ip_logObj = $wfdownloads->getHandler('ip_log')->create();
+    $ip_logObj = $helper->getHandler('ip_log')->create();
     $ip_logObj->setVar('lid', $lid);
     $ip_logObj->setVar('date', time());
     $ip_logObj->setVar('ip_address', getenv('REMOTE_ADDR'));
     $ip_logObj->setVar('uid', is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getVar('uid') : 0);
-    $wfdownloads->getHandler('ip_log')->insert($ip_logObj, true);
+    $helper->getHandler('ip_log')->insert($ip_logObj, true);
 
     // Download file
     $fileFilename = trim($downloadObj->getVar('filename')); // IN PROGRESS: why 'trim'?
@@ -132,7 +134,7 @@ if ($wfdownloads->getConfig('showDowndisclaimer') && false === $agreed) {
 
         $xoopsTpl->assign('wfdownloads_url', WFDOWNLOADS_URL . '/');
 
-        echo "<div align='center'>" . WfdownloadsUtility::headerImage() . '</div>';
+        echo "<div align='center'>" . wfdownloads\Utility::headerImage() . '</div>';
         $url = $myts->htmlSpecialChars(preg_replace('/javascript:/si', 'javascript:', $downloadObj->getVar('url')), ENT_QUOTES);
         echo "<h4>\n";
         echo "<img src='" . WFDOWNLOADS_URL . "/assets/images/icon/downloads.gif' align='middle' alt='' title='" . _MD_WFDOWNLOADS_DOWNINPROGRESS . "'> " . _MD_WFDOWNLOADS_DOWNINPROGRESS . "\n";
@@ -156,7 +158,7 @@ if ($wfdownloads->getConfig('showDowndisclaimer') && false === $agreed) {
         // get file informations from filesystem
         $fileFilename  = trim($downloadObj->getVar('filename')); // IN PROGRESS: why 'trim'?
         $fileMimetype  = ('' != $downloadObj->getVar('filetype')) ? $downloadObj->getVar('filetype') : 'application/octet-stream';
-        $filePath      = $wfdownloads->getConfig('uploaddir') . '/' . stripslashes(trim($fileFilename));
+        $filePath      = $helper->getConfig('uploaddir') . '/' . stripslashes(trim($fileFilename));
         $fileFilesize  = filesize($filePath);
         $fileInfo      = pathinfo($filePath);
         $fileName      = $fileInfo['basename'];
@@ -178,17 +180,17 @@ if ($wfdownloads->getConfig('showDowndisclaimer') && false === $agreed) {
         header("Content-Disposition: attachment; filename={$headerFilename}");
         if (false !== strpos($fileMimetype, 'text/')) {
             // downladed file is not binary
-            WfdownloadsUtility::download($filePath, false, true);
+            wfdownloads\Utility::download($filePath, false, true);
         } else {
             // downladed file is binary
-            WfdownloadsUtility::download($filePath, true, true);
+            wfdownloads\Utility::download($filePath, true, true);
         }
         exit();
     } else {
         // download is a broken file: report broken
         require_once XOOPS_ROOT_PATH . '/header.php';
         echo '<br>';
-        echo "<div align='center'>" . WfdownloadsUtility::headerImage() . '</div>';
+        echo "<div align='center'>" . wfdownloads\Utility::headerImage() . '</div>';
         echo '<h4>' . _MD_WFDOWNLOADS_BROKENFILE . "</h4>\n";
         echo '<div>' . _MD_WFDOWNLOADS_PLEASEREPORT . "\n";
         echo "<a href='" . WFDOWNLOADS_URL . "/brokenfile.php?lid={$lid}'>" . _MD_WFDOWNLOADS_CLICKHERE . "</a>\n";

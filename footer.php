@@ -18,7 +18,7 @@
  * @author          Xoops Development Team
  */
 // Module info/menu
-$moduleInfo = $wfdownloads->getModule()->getInfo();
+$moduleInfo = $helper->getModule()->getInfo();
 //$xoopsTpl->assign('wfdownloadModuleInfo', $moduleInfo); // huge array but useful?
 $xoopsTpl->assign('wfdownloadModuleInfoSub', $moduleInfo['sub']);
 // Module admin

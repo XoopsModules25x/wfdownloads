@@ -20,17 +20,19 @@
  */
 
 use Xmf\Request;
+use Xoopsmodules\wfdownloads;
+use Xoopsmodules\wfdownloads\common;
 
 $currentFile = basename(__FILE__);
 require_once __DIR__ . '/header.php';
 
 $lid         = Request::getInt('lid', 0);
-$downloadObj = $wfdownloads->getHandler('download')->get($lid);
+$downloadObj = $helper->getHandler('download')->get($lid);
 if (empty($downloadObj)) {
     redirect_header('index.php', 3, _CO_WFDOWNLOADS_ERROR_NODOWNLOAD);
 }
 $cid         = Request::getInt('cid', $downloadObj->getVar('cid'));
-$categoryObj = $wfdownloads->getHandler('category')->get($cid);
+$categoryObj = $helper->getHandler('category')->get($cid);
 if (empty($categoryObj)) {
     redirect_header('index.php', 3, _CO_WFDOWNLOADS_ERROR_NOCATEGORY);
 }
@@ -44,14 +46,14 @@ if (false === $downloadObj->getVar('published') || $downloadObj->getVar('publish
 }
 
 // Check permissions
-if (false === $wfdownloads->getConfig('enable_ratings') && !WfdownloadsUtility::userIsAdmin()) {
+if (false === $helper->getConfig('enable_ratings') && !wfdownloads\Utility::userIsAdmin()) {
     redirect_header('index.php', 3, _NOPERM);
 }
 // Breadcrumb
 require_once XOOPS_ROOT_PATH . '/class/tree.php';
-$categoryObjsTree = new XoopsObjectTree($wfdownloads->getHandler('category')->getObjects(), 'cid', 'pid');
-$breadcrumb       = new WfdownloadsBreadcrumb();
-$breadcrumb->addLink($wfdownloads->getModule()->getVar('name'), WFDOWNLOADS_URL);
+$categoryObjsTree = new \XoopsObjectTree($helper->getHandler('category')->getObjects(), 'cid', 'pid');
+$breadcrumb       = new common\Breadcrumb();
+$breadcrumb->addLink($helper->getModule()->getVar('name'), WFDOWNLOADS_URL);
 foreach (array_reverse($categoryObjsTree->getAllParent($cid)) as $parentCategory) {
     $breadcrumb->addLink($parentCategory->getVar('title'), 'viewcat.php?cid=' . $parentCategory->getVar('cid'));
 }
@@ -79,9 +81,9 @@ switch ($op) {
                     redirect_header(WFDOWNLOADS_URL . "/singlefile.php?cid={$cid}&amp;lid={$lid}", 4, _MD_WFDOWNLOADS_CANTVOTEOWN);
                 }
                 // Check if REG user is trying to vote twice.
-                $criteria = new CriteriaCompo(new Criteria('lid', $lid));
-                $criteria->add(new Criteria('ratinguser', $ratinguserUid));
-                $ratingsCount = $wfdownloads->getHandler('rating')->getCount($criteria);
+                $criteria = new \CriteriaCompo(new \Criteria('lid', $lid));
+                $criteria->add(new \Criteria('ratinguser', $ratinguserUid));
+                $ratingsCount = $helper->getHandler('rating')->getCount($criteria);
                 if ($ratingsCount > 0) {
                     redirect_header("singlefile.php?cid={$cid}&amp;lid={$lid}", 4, _MD_WFDOWNLOADS_VOTEONCE);
                 }
@@ -89,32 +91,32 @@ switch ($op) {
                 // Check if ANONYMOUS user is trying to vote more than once per day (only 1 anonymous from an IP in a single day).
                 $anonymousWaitDays = 1;
                 $yesterday         = (time() - (86400 * $anonymousWaitDays));
-                $criteria          = new CriteriaCompo(new Criteria('lid', $lid));
-                $criteria->add(new Criteria('ratinguser', 0));
-                $criteria->add(new Criteria('ratinghostname', $ratinguserIp));
-                $criteria->add(new Criteria('ratingtimestamp', $yesterday, '>'));
-                $anonymousVotesCount = $wfdownloads->getHandler('rating')->getCount($criteria);
+                $criteria          = new \CriteriaCompo(new \Criteria('lid', $lid));
+                $criteria->add(new \Criteria('ratinguser', 0));
+                $criteria->add(new \Criteria('ratinghostname', $ratinguserIp));
+                $criteria->add(new \Criteria('ratingtimestamp', $yesterday, '>'));
+                $anonymousVotesCount = $helper->getHandler('rating')->getCount($criteria);
                 if ($anonymousVotesCount > 0) {
                     redirect_header("singlefile.php?cid={$cid}&amp;lid={$lid}", 4, _MD_WFDOWNLOADS_VOTEONCE);
                 }
             }
             // All is well. Add to Line Item Rate to DB.
-            $ratingObj = $wfdownloads->getHandler('rating')->create();
+            $ratingObj = $helper->getHandler('rating')->create();
             $ratingObj->setVar('lid', $lid);
             $ratingObj->setVar('ratinguser', $ratinguserUid);
             $ratingObj->setVar('rating', (int)$rating);
             $ratingObj->setVar('ratinghostname', $ratinguserIp);
             $ratingObj->setVar('ratingtimestamp', time());
-            if ($wfdownloads->getHandler('rating')->insert($ratingObj)) {
+            if ($helper->getHandler('rating')->insert($ratingObj)) {
                 // All is well. Calculate Score & Add to Summary (for quick retrieval & sorting) to DB.
-                WfdownloadsUtility::updateRating($lid);
+                wfdownloads\Utility::updateRating($lid);
                 $thankyouMessage = _MD_WFDOWNLOADS_VOTEAPPRE . '<br>' . sprintf(_MD_WFDOWNLOADS_THANKYOU, $GLOBALS['xoopsConfig']['sitename']);
                 redirect_header("singlefile.php?cid={$cid}&amp;lid={$lid}", 4, $thankyouMessage);
             } else {
                 echo $ratingObj->getHtmlErrors();
             }
         } else {
-            $GLOBALS['xoopsOption']['template_main'] = "{$wfdownloads->getModule()->dirname()}_ratefile.tpl";
+            $GLOBALS['xoopsOption']['template_main'] = "{$helper->getModule()->dirname()}_ratefile.tpl";
             require_once XOOPS_ROOT_PATH . '/header.php';
 
             $xoTheme->addScript(XOOPS_URL . '/browse.php?Frameworks/jquery/jquery.js');
@@ -130,8 +132,8 @@ switch ($op) {
 
             // Generate form
             require_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
-            $sform         = new XoopsThemeForm(_MD_WFDOWNLOADS_RATETHISFILE, 'voteform', xoops_getenv('PHP_SELF'), 'post', true);
-            $rating_select = new XoopsFormSelect(_MD_WFDOWNLOADS_REV_RATING, 'rating', '10');
+            $sform         = new \XoopsThemeForm(_MD_WFDOWNLOADS_RATETHISFILE, 'voteform', xoops_getenv('PHP_SELF'), 'post', true);
+            $rating_select = new \XoopsFormSelect(_MD_WFDOWNLOADS_REV_RATING, 'rating', '10');
             //$rating_select->setDescription(_MD_WFDOWNLOADS_REV_RATING_DESC);
             $rating_select->addOptionArray([
                                                '1'  => 1,
@@ -146,13 +148,13 @@ switch ($op) {
                                                '10' => 10
                                            ]);
             $sform->addElement($rating_select);
-            $sform->addElement(new XoopsFormHidden('lid', $lid));
-            $sform->addElement(new XoopsFormHidden('cid', $cid));
-            $sform->addElement(new XoopsFormHidden('uid', $reviewerUid));
-            $button_tray   = new XoopsFormElementTray('', '');
-            $submit_button = new XoopsFormButton('', 'submit', _MD_WFDOWNLOADS_RATEIT, 'submit');
+            $sform->addElement(new \XoopsFormHidden('lid', $lid));
+            $sform->addElement(new \XoopsFormHidden('cid', $cid));
+            $sform->addElement(new \XoopsFormHidden('uid', $reviewerUid));
+            $button_tray   = new \XoopsFormElementTray('', '');
+            $submit_button = new \XoopsFormButton('', 'submit', _MD_WFDOWNLOADS_RATEIT, 'submit');
             $button_tray->addElement($submit_button);
-            $cancel_button = new XoopsFormButton('', '', _CANCEL, 'button');
+            $cancel_button = new \XoopsFormButton('', '', _CANCEL, 'button');
             $cancel_button->setExtra('onclick="history.go(-1)"');
             $button_tray->addElement($cancel_button);
             $sform->addElement($button_tray);

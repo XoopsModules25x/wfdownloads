@@ -106,9 +106,11 @@ return array(
 //Configurator Class
 
 /**
- * Class WfdownloadsConfigurator
+ * Class Configurator
  */
-class WfdownloadsConfigurator
+
+/*
+Class Configurator
 {
     public $uploadFolders   = [];
     public $blankFiles      = [];
@@ -160,7 +162,7 @@ class WfdownloadsConfigurator
         ];
     }
 }
-
+*/
 // module information
 $modCopyright = "<a href='https://xoops.org' title='XOOPS Project' target='_blank'>
                      <img src='" . constant($capsDirName . '_AUTHOR_LOGOIMG') . "' alt='XOOPS Project'></a>";
