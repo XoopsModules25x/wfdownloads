@@ -37,7 +37,7 @@ foreach ($categoryObjObjs as $categoryObj) {
     $WFUpCatPermForm->addItem($categoryObj->getVar('cid'), $categoryObj->getVar('title'), $categoryObj->getVar('pid'));
 }
 
-wfdownloads\Utility::myxoops_cp_header();
+wfdownloads\Utility::getCpHeader();
 $adminObject = \Xmf\Module\Admin::getInstance();
 $adminObject->displayNavigation($currentFile);
 

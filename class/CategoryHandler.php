@@ -56,7 +56,7 @@ class CategoryHandler extends \XoopsPersistableObjectHandler
     public function getNicePath($cid, $root_filename = 'index.php', $item_filename = 'viewcat.php?op=')
     {
         require_once WFDOWNLOADS_ROOT_PATH . '/class/xoopstree.php';
-        $mytree     = new WfdownloadsXoopsTree($this->table, $this->keyName, 'pid');
+        $mytree     = new wfdownloads\XoopsTree($this->table, $this->keyName, 'pid');
         $pathString = $mytree->getNicePathFromId($cid, $this->identifierName, $item_filename);
 
         /**

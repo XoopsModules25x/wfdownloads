@@ -70,18 +70,18 @@ switch ($op) {
 
         $modificationObj = $helper->getHandler('modification')->get($requestid);
         $modify_user     = new \XoopsUser($modificationObj->getVar('modifysubmitter'));
-        $modifyname      = XoopsUserUtility::getUnameFromId((int)$modify_user->getVar('uid'));
+        $modifyname      = \XoopsUserUtility::getUnameFromId((int)$modify_user->getVar('uid'));
         $modifyemail     = $modify_user->getVar('email');
 
         $downloadObj    = $helper->getHandler('download')->get($modificationObj->getVar('lid'));
         $orig_user      = new \XoopsUser($downloadObj->getVar('submitter'));
-        $submittername  = XoopsUserUtility::getUnameFromId($downloadObj->getVar('submitter')); // $orig_user->getvar("uname");
+        $submittername  = \XoopsUserUtility::getUnameFromId($downloadObj->getVar('submitter')); // $orig_user->getvar("uname");
         $submitteremail = $orig_user->getVar('email');
 
         $categoryObjs     = $helper->getHandler('category')->getObjects();
         $categoryObjsTree = new \XoopsObjectTree($categoryObjs, 'cid', 'pid');
 
-        wfdownloads\Utility::myxoops_cp_header();
+        wfdownloads\Utility::getCpHeader();
 
         // IN PROGRESS
         // IN PROGRESS
@@ -199,9 +199,9 @@ switch ($op) {
                     }
                     break;
                 case 'publisher':
-                    $downloadContent = XoopsUserUtility::getUnameFromId($downloadContent);
+                    $downloadContent = \XoopsUserUtility::getUnameFromId($downloadContent);
                     //
-                    $modificationContent = XoopsUserUtility::getUnameFromId($modificationContent);
+                    $modificationContent = \XoopsUserUtility::getUnameFromId($modificationContent);
                     break;
                 case 'features':
                 case 'requirements':
@@ -340,7 +340,7 @@ switch ($op) {
                 echo $modificationObj->getHtmlErrors();
             }
         } else {
-            wfdownloads\Utility::myxoops_cp_header();
+            wfdownloads\Utility::getCpHeader();
             xoops_confirm(['op' => 'modification.ignore', 'requestid' => $requestid, 'ok' => true, 'title' => $title], $currentFile, _AM_WFDOWNLOADS_MOD_REALLYIGNOREDTHIS . '<br><br>' . $title, _DELETE);
             xoops_cp_footer();
         }
@@ -358,7 +358,7 @@ switch ($op) {
         $criteria->setStart($start_report);
         $reportObjs = $helper->getHandler('report')->getObjects($criteria);
 
-        wfdownloads\Utility::myxoops_cp_header();
+        wfdownloads\Utility::getCpHeader();
         $adminObject = \Xmf\Module\Admin::getInstance();
         $adminObject->displayNavigation($currentFile);
 
@@ -395,7 +395,7 @@ switch ($op) {
                 $sender                         = isset($users[$reportObj->getVar('sender')]) ? $users[$reportObj->getVar('sender')] : '';
                 $report_array['reporter_email'] = isset($users[$reportObj->getVar('sender')]) ? $users[$reportObj->getVar('sender')]->getVar('email') : '';
                 $report_array['reporter_uname'] = isset($users[$reportObj->getVar('sender')]) ? $users[$reportObj->getVar('sender')]->getVar('uname') : $GLOBALS['xoopsConfig']['anonymous'];
-                $report_array['formatted_date'] = XoopsLocal::formatTimestamp($reportObj->getVar('date'), 'l');
+                $report_array['formatted_date'] = \XoopsLocal::formatTimestamp($reportObj->getVar('date'), 'l');
                 $GLOBALS['xoopsTpl']->append('reports', $report_array);
             }
             //Include page navigation
@@ -419,8 +419,8 @@ switch ($op) {
             foreach ($modificationObjs as $modificationObj) {
                 $modification_array                    = $modificationObj->toArray();
                 $modification_array['title']           = $modificationObj->getVar('title');
-                $modification_array['submitter_uname'] = XoopsUserUtility::getUnameFromId($modificationObj->getVar('submitter'));
-                $modification_array['formatted_date']  = XoopsLocal::formatTimestamp($modificationObj->getVar('requestdate'), 'l');
+                $modification_array['submitter_uname'] = \XoopsUserUtility::getUnameFromId($modificationObj->getVar('submitter'));
+                $modification_array['formatted_date']  = \XoopsLocal::formatTimestamp($modificationObj->getVar('requestdate'), 'l');
                 $downloadObj                           = $helper->getHandler('download')->get($modificationObj->getVar('lid'));
                 $modification_array['download']        = $downloadObj->toArray();
                 $GLOBALS['xoopsTpl']->append('modifications', $modification_array);

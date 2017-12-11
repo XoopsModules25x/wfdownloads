@@ -114,12 +114,12 @@ if ($helper->getConfig('showDowndisclaimer') && false === $agreed) {
         $helper->getHandler('download')->incrementHits($lid);
     }
     // Create ip log
-    $ip_logObj = $helper->getHandler('ip_log')->create();
+    $ip_logObj = $helper->getHandler('iplog')->create();
     $ip_logObj->setVar('lid', $lid);
     $ip_logObj->setVar('date', time());
     $ip_logObj->setVar('ip_address', getenv('REMOTE_ADDR'));
     $ip_logObj->setVar('uid', is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getVar('uid') : 0);
-    $helper->getHandler('ip_log')->insert($ip_logObj, true);
+    $helper->getHandler('iplog')->insert($ip_logObj, true);
 
     // Download file
     $fileFilename = trim($downloadObj->getVar('filename')); // IN PROGRESS: why 'trim'?

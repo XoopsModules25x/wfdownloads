@@ -39,7 +39,7 @@ class RatingHandler extends \XoopsPersistableObjectHandler
      */
     public function __construct(\XoopsDatabase $db)
     {
-        parent::__construct($db, 'wfdownloads_votedata', 'Rating', 'ratingid');
+        parent::__construct($db, 'wfdownloads_votedata', Rating::class, 'ratingid');
         $this->wfdownloads = wfdownloads\Helper::getInstance();
     }
 

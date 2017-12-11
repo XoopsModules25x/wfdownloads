@@ -132,7 +132,7 @@ switch ($op) {
             }
             $mirror_array['add_mirror'] = $add_mirror;
             $mirror_array['date']       = formatTimestamp($mirror_array['date'], $helper->getConfig('dateformat'));
-            $mirror_array['submitter']  = XoopsUserUtility::getUnameFromId($mirror_array['uid']);
+            $mirror_array['submitter']  = \XoopsUserUtility::getUnameFromId($mirror_array['uid']);
             $xoopsTpl->append('down_mirror', $mirror_array);
         }
         $xoopsTpl->assign('lang_mirror_found', sprintf(_MD_WFDOWNLOADS_MIRROR_TOTAL, $mirrorsCount));

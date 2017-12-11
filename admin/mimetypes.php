@@ -42,7 +42,7 @@ switch ($op) {
     */
     case 'mimetype.edit':
     case 'mimetype.add':
-        wfdownloads\Utility::myxoops_cp_header();
+        wfdownloads\Utility::getCpHeader();
         $adminObject = \Xmf\Module\Admin::getInstance();
         $adminObject->displayNavigation($currentFile);
 
@@ -161,7 +161,7 @@ switch ($op) {
                 exit();
             }
         } else {
-            wfdownloads\Utility::myxoops_cp_header();
+            wfdownloads\Utility::getCpHeader();
             xoops_confirm(['op' => 'mimetype.delete', 'mime_id' => $mime_id, 'ok' => true], $currentFile, _AM_WFDOWNLOADS_MIME_DELETETHIS . '<br><br>' . $mimetypeObj->getVar('mime_name'), _AM_WFDOWNLOADS_MIME_DELETE);
             xoops_cp_footer();
         }
@@ -179,7 +179,7 @@ switch ($op) {
         $mimetypeObjs    = $helper->getHandler('mimetype')->getObjects($criteria);
         $mimetypes_count = $helper->getHandler('mimetype')->getCount();
 
-        wfdownloads\Utility::myxoops_cp_header();
+        wfdownloads\Utility::getCpHeader();
         $adminObject = \Xmf\Module\Admin::getInstance();
         $adminObject->displayNavigation($currentFile);
 

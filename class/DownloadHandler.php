@@ -38,7 +38,7 @@ class DownloadHandler extends \XoopsPersistableObjectHandler
      */
     public function __construct(\XoopsDatabase $db)
     {
-        parent::__construct($db, 'wfdownloads_downloads', 'Download', 'lid', 'title');
+        parent::__construct($db, 'wfdownloads_downloads', Download::class, 'lid', 'title');
         $this->wfdownloads = wfdownloads\Helper::getInstance();
     }
 

@@ -39,7 +39,7 @@ class ReportHandler extends \XoopsPersistableObjectHandler
      */
     public function __construct(\XoopsDatabase $db)
     {
-        parent::__construct($db, 'wfdownloads_broken', 'Report', 'reportid');
+        parent::__construct($db, 'wfdownloads_broken', Report::class, 'reportid');
         $this->wfdownloads = wfdownloads\Helper::getInstance();
     }
 }

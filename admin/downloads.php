@@ -46,7 +46,7 @@ switch ($op) {
     case 'download.edit':
     case 'download.add':
     case 'Download':
-        wfdownloads\Utility::myxoops_cp_header();
+        wfdownloads\Utility::getCpHeader();
         $adminObject = \Xmf\Module\Admin::getInstance();
         $adminObject->displayNavigation($currentFile);
 
@@ -181,10 +181,10 @@ switch ($op) {
                 $userRatings = $helper->getHandler('rating')->getUserAverage($criteria);
 
                 foreach ($regUserRatingObjs as $regUserRatingObj) {
-                    $formatted_date = XoopsLocal::formatTimestamp($regUserRatingObj->getVar('ratingtimestamp'), 'l');
+                    $formatted_date = \XoopsLocal::formatTimestamp($regUserRatingObj->getVar('ratingtimestamp'), 'l');
                     $userAvgRating  = isset($userRatings[$regUserRatingObj->getVar('ratinguser')]) ? $userRatings[$regUserRatingObj->getVar('ratinguser')]['avg'] : 0;
                     $userVotes      = isset($userRatings[$regUserRatingObj->getVar('ratinguser')]) ? $userRatings[$regUserRatingObj->getVar('ratinguser')]['count'] : 0;
-                    $ratingUserName = XoopsUser::getUnameFromId($regUserRatingObj->getVar('ratinguser'));
+                    $ratingUserName = \XoopsUser::getUnameFromId($regUserRatingObj->getVar('ratinguser'));
 
                     echo "
                         <tr><td class='head'>$ratingUserName</td>\n
@@ -221,7 +221,7 @@ switch ($op) {
                 $anonUserRatingObjs = $helper->getHandler('rating')->getObjects($anonUserCriteria);
 
                 foreach (array_keys($anonUserRatingObjs) as $anonUserRatingObj) {
-                    $formatted_date = XoopsLocal::formatTimestamp($anonUserRatingObj->getVar('ratingtimestamp'), 'l');
+                    $formatted_date = \XoopsLocal::formatTimestamp($anonUserRatingObj->getVar('ratingtimestamp'), 'l');
                     $userAvgRating  = isset($userRatings['avg']) ? $userRatings['avg'] : 0;
                     $userVotes      = isset($userRatings['count']) ? $userRatings['count'] : 0;
 
@@ -507,7 +507,7 @@ switch ($op) {
                 echo $downloadObj->getHtmlErrors();
             }
         } else {
-            wfdownloads\Utility::myxoops_cp_header();
+            wfdownloads\Utility::getCpHeader();
             xoops_confirm(['op' => 'download.delete', 'lid' => $lid, 'ok' => true, 'title' => $title], $currentFile, _AM_WFDOWNLOADS_FILE_REALLYDELETEDTHIS . '<br><br>' . $title, _DELETE);
             xoops_cp_footer();
         }
@@ -604,10 +604,10 @@ switch ($op) {
         $totalCategoriesCount = wfdownloads\Utility::categoriesCount();
         $categoryObjs         = $helper->getHandler('category')->getObjects(null, true, false);
 
-//        $totalDownloadsCount = $helper->getHandler('download')->getCount();
-    $totalDownloadsCount = $downloadHandler->getCount();
+        $totalDownloadsCount = $helper->getHandler('download')->getCount();
+//    $totalDownloadsCount = $downloadHandler->getCount();
 
-        wfdownloads\Utility::myxoops_cp_header();
+        wfdownloads\Utility::getCpHeader();
         $adminObject = \Xmf\Module\Admin::getInstance();
         $adminObject->displayNavigation($currentFile);
 
@@ -660,8 +660,8 @@ switch ($op) {
                     $publishedDownload_array                        = $publishedDownloadObj->toArray();
                     $publishedDownload_array['title_html']          = $myts->htmlSpecialChars(trim($publishedDownload_array['title']));
                     $publishedDownload_array['category_title']      = $categoryObjs[$publishedDownload_array['cid']]['title'];
-                    $publishedDownload_array['submitter_uname']     = XoopsUserUtility::getUnameFromId($publishedDownload_array['submitter']);
-                    $publishedDownload_array['published_formatted'] = XoopsLocal::formatTimestamp($publishedDownload_array['published'], 'l');
+                    $publishedDownload_array['submitter_uname']     = \XoopsUserUtility::getUnameFromId($publishedDownload_array['submitter']);
+                    $publishedDownload_array['published_formatted'] = \XoopsLocal::formatTimestamp($publishedDownload_array['published'], 'l');
                     $GLOBALS['xoopsTpl']->append('published_downloads', $publishedDownload_array);
                 }
             }
@@ -674,7 +674,7 @@ switch ($op) {
             $submitters                = [];
             $downloadsSubmitters_array = $helper->getHandler('download')->getAll(null, ['submitter'], false, false);
             foreach ($downloadsSubmitters_array as $downloadSubmitters_array) {
-                $submitters[$downloadSubmitters_array['submitter']] = XoopsUserUtility::getUnameFromId($downloadSubmitters_array['submitter']);
+                $submitters[$downloadSubmitters_array['submitter']] = \XoopsUserUtility::getUnameFromId($downloadSubmitters_array['submitter']);
             }
             asort($submitters);
             $submitter_select = new \XoopsFormSelect('', 'filter_submitter', $filter_submitter, (count($submitters) > 5) ? 5 : count($submitters), true);
@@ -708,8 +708,8 @@ switch ($op) {
                                         $platform                             = $myts->htmlSpecialChars($newDownload_array['platform']);
                                         $logourl                              = $myts->htmlSpecialChars($newDownload_array['screenshot']); // IN PROGRESS
                     */
-                    $newDownload_array['submitter_uname'] = XoopsUserUtility::getUnameFromId($newDownload_array['submitter']);
-                    $newDownload_array['date_formatted']  = XoopsLocal::formatTimestamp($newDownload_array['date'], 'l');
+                    $newDownload_array['submitter_uname'] = \XoopsUserUtility::getUnameFromId($newDownload_array['submitter']);
+                    $newDownload_array['date_formatted']  = \XoopsLocal::formatTimestamp($newDownload_array['date'], 'l');
                     $GLOBALS['xoopsTpl']->append('new_downloads', $newDownload_array);
                 }
             }
@@ -731,8 +731,8 @@ switch ($op) {
                     $autopublishedDownload_array                        = $autopublishedDownloadObj->toArray();
                     $autopublishedDownload_array['title_html']          = $myts->htmlSpecialChars(trim($autopublishedDownload_array['title']));
                     $autopublishedDownload_array['category_title']      = $categories[$autopublishedDownload_array['cid']]['title'];
-                    $autopublishedDownload_array['submitter_uname']     = XoopsUserUtility::getUnameFromId($autopublishedDownload_array['submitter']);
-                    $autopublishedDownload_array['published_formatted'] = XoopsLocal::formatTimestamp($autopublishedDownload_array['published'], 'l');
+                    $autopublishedDownload_array['submitter_uname']     = \XoopsUserUtility::getUnameFromId($autopublishedDownload_array['submitter']);
+                    $autopublishedDownload_array['published_formatted'] = \XoopsLocal::formatTimestamp($autopublishedDownload_array['published'], 'l');
                     $GLOBALS['xoopsTpl']->append('autopublished_downloads', $autopublishedDownload_array);
                 }
             }
@@ -755,8 +755,8 @@ switch ($op) {
                     $expiredDownload_array                        = $expiredDownloadObj->toArray();
                     $expiredDownload_array['title_html']          = $myts->htmlSpecialChars(trim($expiredDownload_array['title']));
                     $expiredDownload_array['category_title']      = $categories[$expiredDownload_array['cid']]['title'];
-                    $expiredDownload_array['submitter_uname']     = XoopsUserUtility::getUnameFromId($expiredDownload_array['submitter']);
-                    $expiredDownload_array['published_formatted'] = XoopsLocal::formatTimestamp($expiredDownload_array['published'], 'l');
+                    $expiredDownload_array['submitter_uname']     = \XoopsUserUtility::getUnameFromId($expiredDownload_array['submitter']);
+                    $expiredDownload_array['published_formatted'] = \XoopsLocal::formatTimestamp($expiredDownload_array['published'], 'l');
                     $GLOBALS['xoopsTpl']->append('expired_downloads', $expiredDownload_array);
                 }
             }
@@ -777,8 +777,8 @@ switch ($op) {
                     $offlineDownload_array                        = $offlineDownloadObj->toArray();
                     $offlineDownload_array['title_html']          = $myts->htmlSpecialChars(trim($offlineDownload_array['title']));
                     $offlineDownload_array['category_title']      = $categories[$offlineDownload_array['cid']]['title'];
-                    $offlineDownload_array['submitter_uname']     = XoopsUserUtility::getUnameFromId($offlineDownload_array['submitter']);
-                    $offlineDownload_array['published_formatted'] = XoopsLocal::formatTimestamp($offlineDownload_array['published'], 'l');
+                    $offlineDownload_array['submitter_uname']     = \XoopsUserUtility::getUnameFromId($offlineDownload_array['submitter']);
+                    $offlineDownload_array['published_formatted'] = \XoopsLocal::formatTimestamp($offlineDownload_array['published'], 'l');
                     $GLOBALS['xoopsTpl']->append('offline_downloads', $offlineDownload_array);
                 }
             }
@@ -875,7 +875,7 @@ switch ($op) {
             $file = $batchPath . '/' . $batchFiles[$batchid];
             wfdownloads\Utility::delFile($file);
         } else {
-            wfdownloads\Utility::myxoops_cp_header();
+            wfdownloads\Utility::getCpHeader();
             xoops_confirm(['op' => 'batchfile.delete', 'batchid' => $batchid, 'ok' => true, 'title' => $title], $currentFile, _AM_WFDOWNLOADS_FILE_REALLYDELETEDTHIS . '<br><br>' . $title, _DELETE);
             xoops_cp_footer();
         }
@@ -887,7 +887,7 @@ switch ($op) {
             header('Location index.php');
         }
 
-        wfdownloads\Utility::myxoops_cp_header();
+        wfdownloads\Utility::getCpHeader();
         $adminObject = \Xmf\Module\Admin::getInstance();
         $adminObject->displayNavigation($currentFile);
 
@@ -902,8 +902,8 @@ switch ($op) {
         }
         $criteria->setSort('date');
         $criteria->setOrder('DESC');
-        $ip_logObjs  = $helper->getHandler('ip_log')->getObjects($criteria);
-        $ip_logCount = $helper->getHandler('ip_log')->getCount($criteria);
+        $ip_logObjs  = $helper->getHandler('iplog')->getObjects($criteria);
+        $ip_logCount = $helper->getHandler('iplog')->getCount($criteria);
         $GLOBALS['xoopsTpl']->assign('ip_logs_count', $ip_logCount);
         unset($criteria);
 
@@ -932,7 +932,7 @@ switch ($op) {
         } else {
             foreach ($ip_logObjs as $ip_logObj) {
                 $ip_log_array          = $ip_logObj->toArray();
-                $ip_log_array['uname'] = XoopsUserUtility::getUnameFromId($ip_log_array['uid']);
+                $ip_log_array['uname'] = \XoopsUserUtility::getUnameFromId($ip_log_array['uid']);
                 //($ip_log_array['uid'] != 0) ? $userList[$ip_log_array['uid']] : _AM_WFDOWNLOADS_ANONYMOUS;
                 $ip_log_array['date_formatted'] = formatTimestamp($ip_log_array['date']);
                 $GLOBALS['xoopsTpl']->append('ip_logs', $ip_log_array);

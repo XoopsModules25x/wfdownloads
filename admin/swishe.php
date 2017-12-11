@@ -28,7 +28,7 @@ if ('submit' === @$_POST['op']) {
         redirect_header($currentFile, 3, implode('<br>', $GLOBALS['xoopsSecurity']->getErrors()));
     }
 
-    wfdownloads\Utility::myxoops_cp_header();
+    wfdownloads\Utility::getCpHeader();
     $adminObject = \Xmf\Module\Admin::getInstance();
     $adminObject->displayNavigation($currentFile);
 
@@ -39,12 +39,12 @@ if ('submit' === @$_POST['op']) {
     require_once __DIR__ . '/admin_footer.php';
     exit();
 } else {
-    wfdownloads\Utility::myxoops_cp_header();
+    wfdownloads\Utility::getCpHeader();
     $adminObject = \Xmf\Module\Admin::getInstance();
     $adminObject->displayNavigation($currentFile);
 
     // Swish-e support EXPERIMENTAL
-    if (true === wfdownloads\Utility::swishe_check()) {
+    if (true === wfdownloads\Utility::checkSwishe()) {
         echo 'OK';
     } else {
         echo 'NOT OK' . '<br>';

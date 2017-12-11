@@ -47,7 +47,7 @@ switch ($op) {
         if (false === $ok) {
             $cid = Request::getInt('cid', 0);
 
-            wfdownloads\Utility::myxoops_cp_header();
+            wfdownloads\Utility::getCpHeader();
 
             xoops_load('XoopsFormLoader');
             $sform = new \XoopsThemeForm(_AM_WFDOWNLOADS_CCATEGORY_MOVE, 'move', xoops_getenv('PHP_SELF'), 'post', true);
@@ -213,7 +213,7 @@ switch ($op) {
 
             redirect_header($currentFile, 1, _AM_WFDOWNLOADS_CCATEGORY_DELETED);
         } else {
-            wfdownloads\Utility::myxoops_cp_header();
+            wfdownloads\Utility::getCpHeader();
             xoops_confirm(['op' => 'category.delete', 'cid' => $cid, 'ok' => true], $currentFile, _AM_WFDOWNLOADS_CCATEGORY_AREUSURE);
             xoops_cp_footer();
         }
@@ -222,7 +222,7 @@ switch ($op) {
     case 'category.add':
     case 'category.edit':
     case 'modCat':
-        wfdownloads\Utility::myxoops_cp_header();
+        wfdownloads\Utility::getCpHeader();
         $adminObject = \Xmf\Module\Admin::getInstance();
         $adminObject->displayNavigation($currentFile);
 
@@ -244,7 +244,7 @@ switch ($op) {
     case 'categories.list':
     case 'main':
     default:
-        wfdownloads\Utility::myxoops_cp_header();
+        wfdownloads\Utility::getCpHeader();
         $adminObject = \Xmf\Module\Admin::getInstance();
         $adminObject->displayNavigation($currentFile);
 

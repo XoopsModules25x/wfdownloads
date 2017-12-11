@@ -34,7 +34,7 @@ class Download extends \XoopsObject
     public $wfdownloads = null;
 
     /**
-     * @var WfdownloadsCategory
+     * @var Category
      * @access public
      */
     public $category = null;
@@ -336,7 +336,7 @@ class Download extends \XoopsObject
         //
         $download['license'] = ('' === $this->getVar('license')) ? _MD_WFDOWNLOADS_NOTSPECIFIED : $GLOBALS['myts']->htmlSpecialChars(trim($licenseArray[$this->getVar('license')]));
         //
-        $download['submitter'] = XoopsUserUtility::getUnameFromId($this->getVar('submitter'));
+        $download['submitter'] = \XoopsUserUtility::getUnameFromId($this->getVar('submitter'));
         //
         $publisher             = $this->getVar('publisher');
         $download['publisher'] = !empty($publisher) ? $publisher : '';

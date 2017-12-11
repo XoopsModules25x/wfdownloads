@@ -44,7 +44,7 @@ switch ($op) {
                 exit();
             }
         } else {
-            wfdownloads\Utility::myxoops_cp_header();
+            wfdownloads\Utility::getCpHeader();
             xoops_confirm(['op' => 'del_mirror', 'mirror_id' => $mirror_id, 'ok' => true], $currentFile, _AM_WFDOWNLOADS_FILE_REALLYDELETEDTHIS . '<br><br>' . $mirrorObj->getVar('title'), _AM_WFDOWNLOADS_BDELETE);
             xoops_cp_footer();
         }
@@ -61,7 +61,7 @@ switch ($op) {
             $helper->getHandler('mirror')->insert($mirrorObj);
             redirect_header($currentFile, 1, sprintf(_AM_WFDOWNLOADS_MIRROR_MIRROR_UPDATED, $mirrorObj->getVar('title')));
         } else {
-            wfdownloads\Utility::myxoops_cp_header();
+            wfdownloads\Utility::getCpHeader();
             xoops_confirm(['op' => 'mirror.approve', 'mirror_id' => $mirror_id, 'ok' => true], $currentFile, _AM_WFDOWNLOADS_MIRROR_APPROVETHIS . '<br><br>' . $mirrorObj->getVar('title'), _AM_WFDOWNLOADS_MIRROR_APPROVETHIS);
             xoops_cp_footer();
         }
@@ -72,7 +72,7 @@ switch ($op) {
         if (!$mirrorObj = $helper->getHandler('mirror')->get($mirror_id)) {
             redirect_header($currentFile, 4, _AM_WFDOWNLOADS_ERROR_MIRRORNOTFOUND);
         }
-        wfdownloads\Utility::myxoops_cp_header();
+        wfdownloads\Utility::getCpHeader();
         $sform = $mirrorObj->getForm();
         $sform->display();
         xoops_cp_footer();
@@ -95,7 +95,7 @@ switch ($op) {
 
     case 'mirrors.list':
     default:
-        wfdownloads\Utility::myxoops_cp_header();
+        wfdownloads\Utility::getCpHeader();
         $adminObject = \Xmf\Module\Admin::getInstance();
         $adminObject->displayNavigation($currentFile);
 
@@ -131,8 +131,8 @@ switch ($op) {
             foreach ($mirrors_waiting as $mirror_waiting) {
                 $mirror_waiting_array                    = $mirror_waiting->toArray();
                 $mirror_waiting_array['download_title']  = isset($downloads[$mirror_waiting->getVar('lid')]) ? $downloads[$mirror_waiting->getVar('lid')]['title'] : '';
-                $mirror_waiting_array['submitter_uname'] = XoopsUserUtility::getUnameFromId($mirror_waiting->getVar('uid'));
-                $mirror_waiting_array['formatted_date']  = XoopsLocal::formatTimestamp($mirror_waiting->getVar('date'), 'l');
+                $mirror_waiting_array['submitter_uname'] = \XoopsUserUtility::getUnameFromId($mirror_waiting->getVar('uid'));
+                $mirror_waiting_array['formatted_date']  = \XoopsLocal::formatTimestamp($mirror_waiting->getVar('date'), 'l');
                 $GLOBALS['xoopsTpl']->append('mirrors_waiting', $mirror_waiting_array);
             }
             //Include page navigation
@@ -151,8 +151,8 @@ switch ($op) {
             foreach ($mirrors_published as $mirror_published) {
                 $mirror_published_array                    = $mirror_published->toArray();
                 $mirror_published_array['download_title']  = isset($downloads[$mirror_published->getVar('lid')]) ? $downloads[$mirror_published->getVar('lid')]['title'] : '';
-                $mirror_published_array['submitter_uname'] = XoopsUserUtility::getUnameFromId($mirror_published->getVar('uid'));
-                $mirror_published_array['formatted_date']  = XoopsLocal::formatTimestamp($mirror_published->getVar('date'), 'l');
+                $mirror_published_array['submitter_uname'] = \XoopsUserUtility::getUnameFromId($mirror_published->getVar('uid'));
+                $mirror_published_array['formatted_date']  = \XoopsLocal::formatTimestamp($mirror_published->getVar('date'), 'l');
                 $GLOBALS['xoopsTpl']->append('mirrors_published', $mirror_published_array);
             }
             //Include page navigation

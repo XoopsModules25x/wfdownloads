@@ -44,7 +44,7 @@ switch ($op) {
                 exit();
             }
         } else {
-            wfdownloads\Utility::myxoops_cp_header();
+            wfdownloads\Utility::getCpHeader();
             xoops_confirm(['op' => 'review.delete', 'review_id' => $review_id, 'ok' => true], $currentFile, _AM_WFDOWNLOADS_FILE_REALLYDELETEDTHIS . '<br><br>' . $reviewObj->getVar('title'), _AM_WFDOWNLOADS_BDELETE);
             xoops_cp_footer();
         }
@@ -61,7 +61,7 @@ switch ($op) {
             $helper->getHandler('review')->insert($reviewObj);
             redirect_header($currentFile, 1, sprintf(_AM_WFDOWNLOADS_REV_REVIEW_UPDATED, $reviewObj->getVar('title')));
         } else {
-            wfdownloads\Utility::myxoops_cp_header();
+            wfdownloads\Utility::getCpHeader();
             xoops_confirm(['op' => 'review.approve', 'review_id' => $reviewObj->getVar('review_id'), 'ok' => true], $currentFile, _AM_WFDOWNLOADS_REVIEW_APPROVETHIS . '<br><br>' . $reviewObj->getVar('title'), _AM_WFDOWNLOADS_REVIEW_APPROVETHIS);
             xoops_cp_footer();
         }
@@ -72,7 +72,7 @@ switch ($op) {
         if (!$reviewObj = $helper->getHandler('review')->get($review_id)) {
             redirect_header($currentFile, 4, _AM_WFDOWNLOADS_ERROR_REVIEWNOTFOUND);
         }
-        wfdownloads\Utility::myxoops_cp_header();
+        wfdownloads\Utility::getCpHeader();
         $adminObject = \Xmf\Module\Admin::getInstance();
         $adminObject->displayNavigation($currentFile);
         $sform = $reviewObj->getForm();
@@ -114,7 +114,7 @@ switch ($op) {
         $criteria_published->setStart($start_published);
         $reviews_published = $helper->getHandler('review')->getObjects($criteria_published);
 
-        wfdownloads\Utility::myxoops_cp_header();
+        wfdownloads\Utility::getCpHeader();
         $adminObject = \Xmf\Module\Admin::getInstance();
         $adminObject->displayNavigation($currentFile);
 
@@ -135,10 +135,10 @@ switch ($op) {
             foreach ($reviews_waiting as $review_waiting) {
                 $review_waiting_array                   = $review_waiting->toArray();
                 $review_waiting_array['download_title'] = isset($downloads[$review_waiting->getVar('lid')]) ? $downloads[$review_waiting->getVar('lid')]['title'] : '';
-                $review_waiting_array['reviewer_uname'] = XoopsUserUtility::getUnameFromId($review_waiting->getVar('uid'));
+                $review_waiting_array['reviewer_uname'] = \XoopsUserUtility::getUnameFromId($review_waiting->getVar('uid'));
                 $reviewer                               = $memberHandler->getUser($review_waiting->getVar('uid'));
                 $review_waiting_array['reviewer_email'] = is_object($reviewer) ? $reviewer->email() : '';
-                $review_waiting_array['formatted_date'] = XoopsLocal::formatTimestamp($review_waiting->getVar('date'), 'l');
+                $review_waiting_array['formatted_date'] = \XoopsLocal::formatTimestamp($review_waiting->getVar('date'), 'l');
                 $GLOBALS['xoopsTpl']->append('reviews_waiting', $review_waiting_array);
             }
             //Include page navigation
@@ -161,10 +161,10 @@ switch ($op) {
             foreach ($reviews_published as $review_published) {
                 $review_published_array                   = $review_published->toArray();
                 $review_published_array['download_title'] = isset($downloads[$review_published->getVar('lid')]) ? $downloads[$review_published->getVar('lid')]['title'] : '';
-                $review_published_array['reviewer_uname'] = XoopsUserUtility::getUnameFromId($review_published->getVar('uid'));
+                $review_published_array['reviewer_uname'] = \XoopsUserUtility::getUnameFromId($review_published->getVar('uid'));
                 $reviewer                                 = $memberHandler->getUser($review_published->getVar('uid'));
                 $review_published_array['reviewer_email'] = is_object($reviewer) ? $reviewer->email() : '';
-                $review_published_array['formatted_date'] = XoopsLocal::formatTimestamp($review_published->getVar('date'), 'l');
+                $review_published_array['formatted_date'] = \XoopsLocal::formatTimestamp($review_published->getVar('date'), 'l');
                 $GLOBALS['xoopsTpl']->append('reviews_published', $review_published_array);
             }
             //Include page navigation

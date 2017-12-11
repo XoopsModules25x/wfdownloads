@@ -171,7 +171,7 @@ switch ($op) {
                 'lid'         => $lid,
                 'cid'         => $cid,
                 'title'       => $downloadObj->getVar('title'),
-                'imageheader' => wfdownloads_headerImage()
+                'imageheader' =>  wfdownloads\Utility::headerImage()
             ]); // this definition is not removed for backward compatibility issues
             require_once __DIR__ . '/footer.php';
         }

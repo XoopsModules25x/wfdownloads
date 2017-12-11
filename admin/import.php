@@ -49,7 +49,7 @@ switch ($op) {
             // Downloads imported
             redirect_header($currentFile, 1, _AM_WFDOWNLOADS_IMPORT_IMPORT_OK);
         } else {
-            wfdownloads\Utility::myxoops_cp_header();
+            wfdownloads\Utility::getCpHeader();
             xoops_confirm(['op' => 'import.MyDownloads', 'ok' => true], $currentFile, _AM_WFDOWNLOADS_IMPORT_RUSURE);
             xoops_cp_footer();
         }
@@ -65,7 +65,7 @@ switch ($op) {
             // Downloads imported
             //redirect_header($currentFile, 1, _AM_WFDOWNLOADS_IMPORT_IMPORT_OK);
         } else {
-            wfdownloads\Utility::myxoops_cp_header();
+            wfdownloads\Utility::getCpHeader();
             xoops_confirm(['op' => 'import.PD-Downloads', 'ok' => true], $currentFile, _AM_WFDOWNLOADS_IMPORT_RUSURE);
             xoops_cp_footer();
         }
@@ -81,7 +81,7 @@ switch ($op) {
             // Downloads imported
             //redirect_header($currentFile, 1, _AM_WFDOWNLOADS_IMPORT_IMPORT_OK);
         } else {
-            wfdownloads\Utility::myxoops_cp_header();
+            wfdownloads\Utility::getCpHeader();
             xoops_confirm(['op' => 'import.wmpownloads', 'ok' => true], $currentFile, _AM_WFDOWNLOADS_IMPORT_RUSURE);
             xoops_cp_footer();
         }
@@ -91,14 +91,14 @@ switch ($op) {
         $ok = Request::getBool('ok', false, 'POST');
         if (true === $ok) {
             // Import data from wfd322
-            wfdownloads\Utility::myxoops_cp_header();
+            wfdownloads\Utility::getCpHeader();
             import_wfd_to_wfdownloads();
             echo _AM_WFDOWNLOADS_IMPORT_IMPORT_OK;
             xoops_cp_footer();
             // Downloads imported
             //redirect_header($currentFile, 1, _AM_WFDOWNLOADS_IMPORT_IMPORT_OK);
         } else {
-            wfdownloads\Utility::myxoops_cp_header();
+            wfdownloads\Utility::getCpHeader();
             xoops_confirm(['op' => 'import.wfd322', 'ok' => true], $currentFile, _AM_WFDOWNLOADS_IMPORT_RUSURE);
             xoops_cp_footer();
         }
@@ -108,14 +108,14 @@ switch ($op) {
         $ok = Request::getBool('ok', false, 'POST');
         if (true === $ok) {
             // Import data from wfd322
-            wfdownloads\Utility::myxoops_cp_header();
+            wfdownloads\Utility::getCpHeader();
             import_tdmdownloads_to_wfdownloads();
             echo _AM_WFDOWNLOADS_IMPORT_IMPORT_OK;
             xoops_cp_footer();
             // Downloads imported
             //redirect_header($currentFile, 1, _AM_WFDOWNLOADS_IMPORT_IMPORT_OK);
         } else {
-            wfdownloads\Utility::myxoops_cp_header();
+            wfdownloads\Utility::getCpHeader();
             xoops_confirm(['op' => 'import.TDMDownloads', 'ok' => true], $currentFile, _AM_WFDOWNLOADS_IMPORT_RUSURE);
             xoops_cp_footer();
         }
@@ -123,7 +123,7 @@ switch ($op) {
 
     case 'import.menu':
     default:
-        wfdownloads\Utility::myxoops_cp_header();
+        wfdownloads\Utility::getCpHeader();
         $adminObject = \Xmf\Module\Admin::getInstance();
         $adminObject->displayNavigation($currentFile);
 

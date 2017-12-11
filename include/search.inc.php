@@ -254,7 +254,7 @@ function wfdownloads_search(
 
     /*
         // Swish-e support EXPERIMENTAL
-        if (($helper->getConfig('enable_swishe') === true) && wfdownloads\Utility::swishe_check() === true) {
+        if (($helper->getConfig('enable_swishe') === true) && wfdownloads\Utility::checkSwishe() === true) {
     // IN PROGRESS
             $swisheCriteria = new \CriteriaCompo(new \Criteria('cid', '(' . implode(',', $allowedDownCategoriesIds) . ')', 'IN'));
             if ($userId != 0) {
@@ -268,7 +268,7 @@ function wfdownloads_search(
                 $swisheQueryWords = '';
             }
             if (strlen($swisheQueryWords) > 0) {
-                $swisheSearchResults = wfdownloads\Utility::swishe_search($swisheQueryWords);
+                $swisheSearchResults = wfdownloads\Utility::searchSwishe($swisheQueryWords);
                 foreach ($swisheSearchResults as $swisheSearchResult) {
                     $tempSwisheCriteria = clone($swisheCriteria);
                     $tempSwisheCriteria->add(new \Criteria('filename', $swisheSearchResult['file_path']));

@@ -39,7 +39,7 @@ class IpLogHandler extends \XoopsPersistableObjectHandler
      */
     public function __construct(\XoopsDatabase $db)
     {
-        parent::__construct($db, 'wfdownloads_ip_log', 'IpLog', 'ip_logid');
+        parent::__construct($db, 'wfdownloads_ip_log', IpLog::class, 'ip_logid');
         $this->wfdownloads = wfdownloads\Helper::getInstance();
     }
 }

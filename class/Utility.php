@@ -767,7 +767,7 @@ class Utility
         return $wfdownloads_isAdmin;
     }
 
-    public static function myxoops_cp_header()
+    public static function getCpHeader()
     {
         xoops_cp_header();
     }
@@ -2021,7 +2021,7 @@ class Utility
      * form's action attribute to whatever you name this file.
      * Suggestions for enhancements are welcome.
      */
-    public static function swishe_check()
+    public static function checkSwishe()
     {
         $helper = wfdownloads\Helper::getInstance();
 
@@ -2094,7 +2094,7 @@ class Utility
      *
      * @return array|bool
      */
-    public static function swishe_search($swisheQueryWords)
+    public static function searchSwishe($swisheQueryWords)
     {
         /**
          * @param $str

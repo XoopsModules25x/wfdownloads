@@ -21,6 +21,7 @@
 
 use Xmf\Request;
 use Xoopsmodules\wfdownloads;
+use Xoopsmodules\wfdownloads\common;
 
 $currentFile = basename(__FILE__);
 require_once __DIR__ . '/header.php';
@@ -110,7 +111,7 @@ switch ($op) {
         foreach ($reviewObjs as $reviewObj) {
             $review_array              = $reviewObj->toArray();
             $review_array['date']      = formatTimestamp($review_array['date'], $helper->getConfig('dateformat'));
-            $review_array['submitter'] = XoopsUserUtility::getUnameFromId($review_array['uid']);
+            $review_array['submitter'] = \XoopsUserUtility::getUnameFromId($review_array['uid']);
             $review_rating             = round(number_format($review_array['rated'], 0) / 2);
             $review_array['rated_img'] = "rate{$review_rating}.gif";
             $xoopsTpl->append('down_review', $review_array);

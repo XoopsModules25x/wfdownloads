@@ -170,7 +170,7 @@ switch ($op) {
 
                 $broken['title']        = trim($downloadObj->getVar('title'));
                 $broken['id']           = $reportObj->getVar('reportid');
-                $broken['reporter']     = XoopsUserUtility::getUnameFromId((int)$reportObj->getVar('sender'));
+                $broken['reporter']     = \XoopsUserUtility::getUnameFromId((int)$reportObj->getVar('sender'));
                 $broken['date']         = formatTimestamp($reportObj->getVar('published'), $helper->getConfig('dateformat'));
                 $broken['acknowledged'] = (1 == $reportObj->getVar('acknowledged')) ? _YES : _NO;
                 $broken['confirmed']    = (1 == $reportObj->getVar('confirmed')) ? _YES : _NO;
@@ -185,7 +185,7 @@ switch ($op) {
                 $time              = (false !== $downloadObj->getVar('updated')) ? $downloadObj->getVar('updated') : $downloadObj->getVar('published');
                 $down['updated']   = formatTimestamp($time, $helper->getConfig('dateformat'));
                 $is_updated        = (false !== $downloadObj->getVar('updated')) ? _MD_WFDOWNLOADS_UPDATEDON : _MD_WFDOWNLOADS_SUBMITDATE;
-                $down['publisher'] = XoopsUserUtility::getUnameFromId((int)$downloadObj->getVar('submitter'));
+                $down['publisher'] = \XoopsUserUtility::getUnameFromId((int)$downloadObj->getVar('submitter'));
 
                 $xoopsTpl->assign('brokenreportexists', false);
                 $xoopsTpl->assign('file_id', $lid);
