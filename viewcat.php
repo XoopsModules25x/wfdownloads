@@ -111,7 +111,13 @@ if (wfdownloads\Utility::checkModule('formulize')) {
 
 // Generate Header
 $catArray['imageheader'] = wfdownloads\Utility::headerImage();
-$catArray['letters']     = wfdownloads\Utility::lettersChoice();
+//$catArray['letters']     = wfdownloads\Utility::lettersChoice();
+/** @var \XoopsDatabase $db */
+$db           = \XoopsDatabaseFactory::getDatabase();
+$objHandler = new wfdownloads\DownloadHandler($db);
+$choicebyletter = new wfdownloads\common\ChoiceByLetter($objHandler, null, null, range('a', 'z'), 'letter');
+$catarray['letters']  = $choicebyletter->render();
+
 $catArray['toolbar']     = wfdownloads\Utility::toolbar();
 $xoopsTpl->assign('catarray', $catArray);
 

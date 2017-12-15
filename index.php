@@ -96,7 +96,13 @@ $images                       = $head_arr['noimages'] ? 1 : 0;
 $breaks                       = $head_arr['nobreak'] ? 1 : 0;
 $catarray['indexheader']      =& $myts->displayTarea($head_arr['indexheader'], $html, $smiley, $xcodes, $images, $breaks);
 $catarray['indexfooter']      =& $myts->displayTarea($head_arr['indexfooter'], $html, $smiley, $xcodes, $images, $breaks);
-$catarray['letters']          = wfdownloads\Utility::lettersChoice();
+//$catarray['letters']          = wfdownloads\Utility::lettersChoice();
+/** @var \XoopsDatabase $db */
+$db           = \XoopsDatabaseFactory::getDatabase();
+$objHandler = new wfdownloads\DownloadHandler($db);
+$choicebyletter = new wfdownloads\common\ChoiceByLetter($objHandler, null, null, range('a', 'z'), 'letter');
+$catarray['letters']  = $choicebyletter->render();
+
 $catarray['toolbar']          = wfdownloads\Utility::toolbar();
 $xoopsTpl->assign('catarray', $catarray);
 

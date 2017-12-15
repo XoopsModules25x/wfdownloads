@@ -50,8 +50,16 @@ $thisselected = $action_array[$sort];
 $sortDB       = $list_array[$thisselected];
 
 $catarray['imageheader'] = wfdownloads\Utility::headerImage();
-$catarray['letters']     = wfdownloads\Utility::lettersChoice();
+//$catarray['letters']     = wfdownloads\Utility::lettersChoice();
+/** @var \XoopsDatabase $db */
+$db           = \XoopsDatabaseFactory::getDatabase();
+$objHandler = new wfdownloads\DownloadHandler($db);
+ $choicebyletter = new wfdownloads\common\ChoiceByLetter($objHandler, null, null, range('a', 'z'), 'letter');
+$catarray['letters']  = $choicebyletter->render();
+
 $catarray['toolbar']     = wfdownloads\Utility::toolbar();
+
+
 $xoopsTpl->assign('catarray', $catarray);
 
 $arr = [];

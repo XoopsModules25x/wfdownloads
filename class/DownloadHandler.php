@@ -31,7 +31,7 @@ class DownloadHandler extends \XoopsPersistableObjectHandler
     /**
      * @access public
      */
-    public $wfdownloads = null;
+    public $helper = null;
 
     /**
      * @param null|\XoopsDatabase $db
@@ -39,7 +39,7 @@ class DownloadHandler extends \XoopsPersistableObjectHandler
     public function __construct(\XoopsDatabase $db)
     {
         parent::__construct($db, 'wfdownloads_downloads', Download::class, 'lid', 'title');
-        $this->wfdownloads = wfdownloads\Helper::getInstance();
+        $this->helper = wfdownloads\Helper::getInstance();
     }
 
     /**
@@ -99,7 +99,7 @@ class DownloadHandler extends \XoopsPersistableObjectHandler
         $criteria->add($expiredCriteria);
         // add criteria for categories that the user has permissions for
         $groups                   = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : [0 => XOOPS_GROUP_ANONYMOUS];
-        $allowedDownCategoriesIds = $gpermHandler->getItemIds('WFDownCatPerm', $groups, $this->wfdownloads->getModule()->mid());
+        $allowedDownCategoriesIds = $gpermHandler->getItemIds('WFDownCatPerm', $groups, $this->helper->getModule()->mid());
         $criteria->add(new \Criteria('cid', '(' . implode(',', $allowedDownCategoriesIds) . ')', 'IN'));
 
         return $criteria;
@@ -166,19 +166,19 @@ class DownloadHandler extends \XoopsPersistableObjectHandler
     {
         if (parent::delete($download, $force)) {
             $criteria = new \Criteria('lid', (int)$download->getVar('lid'));
-            $this->wfdownloads->getHandler('rating')->deleteAll($criteria);
-            $this->wfdownloads->getHandler('mirror')->deleteAll($criteria);
-            $this->wfdownloads->getHandler('review')->deleteAll($criteria);
-            $this->wfdownloads->getHandler('report')->deleteAll($criteria);
+            $this->helper->getHandler('rating')->deleteAll($criteria);
+            $this->helper->getHandler('mirror')->deleteAll($criteria);
+            $this->helper->getHandler('review')->deleteAll($criteria);
+            $this->helper->getHandler('report')->deleteAll($criteria);
             // delete comments
-            xoops_comment_delete((int)$this->wfdownloads->getModule()->mid(), (int)$download->getVar('lid'));
+            xoops_comment_delete((int)$this->helper->getModule()->mid(), (int)$download->getVar('lid'));
 
             // Formulize module support (2006/05/04) jpc - start
             if (wfdownloads\Utility::checkModule('formulize')) {
                 if (file_exists(XOOPS_ROOT_PATH . '/modules/formulize/include/functions.php') && $download->getVar('formulize_idreq') > 0) {
                     require_once XOOPS_ROOT_PATH . '/modules/formulize/include/functions.php';
                     //deleteFormEntries(array($download->getVar('formulize_idreq')));
-                    $category = $this->wfdownloads->getHandler('category')->get($download->getVar('cid'));
+                    $category = $this->helper->getHandler('category')->get($download->getVar('cid'));
                     deleteFormEntries([$download->getVar('formulize_idreq')], $category->getVar('formulize_fid'));
                 }
             }

@@ -289,7 +289,7 @@ define('_MD_WFDOWNLOADS_FFS_DOWNLOADTITLE', "Submitting a '{category}' file.");
 /**
  * @return array
  */
-function wfdownloads_alphabet()
+function getLocalAlphabet()
 {
     $alphabet = [
         '0',
@@ -327,7 +327,7 @@ function wfdownloads_alphabet()
         'W',
         'X',
         'Y',
-        'Z'
+        'Z',
     ];
 
     return $alphabet;

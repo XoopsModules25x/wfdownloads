@@ -1,4 +1,5 @@
 <?php namespace Xoopsmodules\wfdownloads\common;
+
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -27,6 +28,7 @@
  */
 
 use Xoopsmodules\wfdownloads;
+use Xoopsmodules\wfdownloads\common;
 
 defined('XOOPS_ROOT_PATH') || die('XOOPS root path not defined');
 require_once __DIR__ . '/../../include/common.php';
@@ -39,7 +41,7 @@ class Breadcrumb
     /**
      * @access public
      */
-    public $wfdownloads = null;
+    public $helper = null;
 
     private $dirname;
     private $_bread = [];
@@ -49,8 +51,8 @@ class Breadcrumb
      */
     public function __construct()
     {
-        $this->wfdownloads = wfdownloads\Helper::getInstance();
-        $this->dirname     = basename(dirname(dirname(__DIR__)));
+        $this->helper  = wfdownloads\Helper::getInstance();
+        $this->dirname = basename(dirname(dirname(__DIR__)));
     }
 
     /**
@@ -85,7 +87,7 @@ class Breadcrumb
         // IN PROGRESS
         // IN PROGRESS
         // IN PROGRESS
-        $ret .= $breadcrumbTpl->fetch("db:{$this->wfdownloads->getModule()->dirname()}_co_breadcrumb.tpl");
+        $ret .= $breadcrumbTpl->fetch("db:{$this->helper->getDirname()}_co_breadcrumb.tpl");
         unset($breadcrumbTpl);
 
         return $ret;

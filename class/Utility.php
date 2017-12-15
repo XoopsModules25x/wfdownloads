@@ -192,7 +192,7 @@ class Utility
      */
     public static function displayCategory(WfdownloadsCategory $categoryObj, $level = 0)
     {
-        $publisher = wfdownloads\Helper::getInstance();
+        $helper = wfdownloads\Helper::getInstance();
 
         $description = $categoryObj->description();
         if (!XOOPS_USE_MULTIBYTES) {
@@ -718,8 +718,8 @@ class Utility
         $criteria->setGroupby('UPPER(LEFT(title,1))');
         $countsByLetters = $helper->getHandler('download')->getCounts($criteria);
         // Fill alphabet array
-        $alphabet       = wfdownloads_alphabet();
-        $alphabet_array = [];
+        $alphabet       = getLocalAlphabet();
+        $alphabetArray = [];
         foreach ($alphabet as $letter) {
             $letter_array = [];
             if (isset($countsByLetters[$letter])) {
@@ -731,7 +731,7 @@ class Utility
                 $letter_array['count']  = 0;
                 $letter_array['url']    = '';
             }
-            $alphabet_array[$letter] = $letter_array;
+            $alphabetArray[$letter] = $letter_array;
             unset($letter_array);
         }
         // Render output
@@ -742,7 +742,7 @@ class Utility
         require_once $GLOBALS['xoops']->path('class/template.php');
         $letterschoiceTpl          = new \XoopsTpl();
         $letterschoiceTpl->caching = false; // Disable cache
-        $letterschoiceTpl->assign('alphabet', $alphabet_array);
+        $letterschoiceTpl->assign('alphabet', $alphabetArray);
         $html = $letterschoiceTpl->fetch("db:{$helper->getModule()->dirname()}_co_letterschoice.tpl");
         unset($letterschoiceTpl);
 

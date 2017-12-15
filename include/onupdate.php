@@ -47,22 +47,15 @@ function tableExists($tablename)
  */
 function xoops_module_pre_update_wfdownloads(XoopsModule $module)
 {
+    /** @var wfdownloads\Helper $helper */
+    /** @var wfdownloads\Utility $utility */
     $moduleDirName = basename(dirname(__DIR__));
-    $className     = ucfirst($moduleDirName) . 'Utility';
-    if (!class_exists($className)) {
-        xoops_load('utility', $moduleDirName);
-    }
-    //check for minimum XOOPS version
-    if (!$className::checkVerXoops($module)) {
-        return false;
-    }
+    $helper       = wfdownloads\Helper::getInstance();
+    $utility      = new wfdownloads\Utility();
 
-    // check for minimum PHP version
-    if (!$className::checkVerPhp($module)) {
-        return false;
-    }
-
-    return true;
+    $xoopsSuccess = $utility::checkVerXoops($module);
+    $phpSuccess   = $utility::checkVerPhp($module);
+    return $xoopsSuccess && $phpSuccess;
 }
 
 /**
@@ -77,18 +70,16 @@ function xoops_module_pre_update_wfdownloads(XoopsModule $module)
 function xoops_module_update_wfdownloads(XoopsModule $module, $previousVersion = null)
 {
     $moduleDirName = basename(dirname(__DIR__));
+    $capsDirName   = strtoupper($moduleDirName);
+
+    /** @var wfdownloads\Helper $helper */
+    /** @var wfdownloads\Utility $utility */
+    /** @var wfdownloads\Configurator $configurator */
+    $helper  = wfdownloads\Helper::getInstance();
+    $utility = new wfdownloads\Utility();
+    $configurator = new wfdownloads\Configurator();
 
     if ($previousVersion < 325) {
-        require_once __DIR__ . '/config.php';
-
-        //        $configurator = include __DIR__ . '/config.php';
-        $configurator = new WfdownloadsConfigurator();
-        /** @var wfdownloads\Utility $utilityClass */
-        $utilityClass = ucfirst($moduleDirName) . 'Utility';
-        ;
-        if (!class_exists($utilityClass)) {
-            xoops_load('utility', $moduleDirName);
-        }
 
         //delete old HTML templates
         if (count($configurator->templateFolders) > 0) {

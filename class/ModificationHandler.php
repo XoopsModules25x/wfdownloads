@@ -34,7 +34,7 @@ class ModificationHandler extends \XoopsPersistableObjectHandler
     /**
      * @access public
      */
-    public $wfdownloads = null;
+    public $helper = null;
 
     /**
      * @param \XoopsDatabase $db
@@ -42,7 +42,7 @@ class ModificationHandler extends \XoopsPersistableObjectHandler
     public function __construct(\XoopsDatabase $db)
     {
         parent::__construct($db, 'wfdownloads_mod', Modification::class, 'requestid', 'title');
-        $this->wfdownloads = wfdownloads\Helper::getInstance();
+        $this->helper = wfdownloads\Helper::getInstance();
     }
 
     /**

@@ -88,7 +88,6 @@ require_once WFDOWNLOADS_ROOT_PATH . '/class/multicolumnsthemeform.php'; // Wfdo
 xoops_load('XoopsUserUtility');
 xoops_load('XoopsLocal');
 
-$downloadHandler = new wfdownloads\DownloadHandler($db);
 
 $pathIcon16    = Xmf\Module\Admin::iconUrl('', 16);
 $pathIcon32    = Xmf\Module\Admin::iconUrl('', 32);

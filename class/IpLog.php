@@ -31,14 +31,14 @@ class IpLog extends \XoopsObject
     /**
      * @access public
      */
-    public $wfdownloads = null;
+    public $helper = null;
 
     /**
      * @param int|null $id
      */
     public function __construct($id = null)
     {
-        $this->wfdownloads = wfdownloads\Helper::getInstance();
+        $this->helper = wfdownloads\Helper::getInstance();
         $this->db          = \XoopsDatabaseFactory::getDatabaseConnection();
         $this->initVar('ip_logid', XOBJ_DTYPE_INT);
         $this->initVar('ip_address', XOBJ_DTYPE_TXTBOX);

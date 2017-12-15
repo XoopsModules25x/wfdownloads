@@ -32,7 +32,7 @@ class ReviewHandler extends \XoopsPersistableObjectHandler
     /**
      * @access public
      */
-    public $wfdownloads = null;
+    public $helper = null;
 
     /**
      * @param \XoopsDatabase $db
@@ -40,6 +40,6 @@ class ReviewHandler extends \XoopsPersistableObjectHandler
     public function __construct(\XoopsDatabase $db)
     {
         parent::__construct($db, 'wfdownloads_reviews', Review::class, 'review_id', 'title');
-        $this->wfdownloads = wfdownloads\Helper::getInstance();
+        $this->helper = wfdownloads\Helper::getInstance();
     }
 }

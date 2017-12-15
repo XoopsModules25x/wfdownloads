@@ -1,4 +1,5 @@
 <?php namespace Xoopsmodules\wfdownloads\common;
+
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -9,7 +10,7 @@
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 /**
- * WfdownloadsChoiceByLetter class
+ * ChoiceByLetter class
  *
  * @copyright   XOOPS Project (https://xoops.org)
  * @license     http://www.fsf.org/copyleft/gpl.html GNU public license
@@ -19,7 +20,7 @@
  * @version     $Id:$
  *
  * Example:
- * $choicebyletter = new WfdownloadsChoiceByLetter($objHandler, null, null, range('a', 'z'), 'letter');
+ * $choicebyletter = new wfdownloads\ChoiceByLetter($objHandler, null, null, range('a', 'z'), 'letter');
  * echo $choicebyletter->render();
  */
 
@@ -36,7 +37,7 @@ class ChoiceByLetter
     /**
      * @access public
      */
-    public $wfdownloads = null;
+    public $helper = null;
 
     /**
      * *#@+
@@ -76,15 +77,17 @@ class ChoiceByLetter
         $arg_name = 'letter',
         $url = null,
         $extra_arg = '',
-        $caseSensitive = false
-    ) {
-        $this->wfdownloads = wfdownloads\Helper::getInstance();
-        $this->objHandler  = $objHandler;
-        $this->criteria    = null === $criteria ? new \CriteriaCompo() : $criteria;
-        $this->field_name  = null === $field_name ? $this->objHandler->identifierName : $field_name;
-        $this->alphabet    = (count($alphabet) > 0) ? $alphabet : range('a', 'z'); // is there a way to get locale alphabet?
-        $this->arg_name    = $arg_name;
-        $this->url         = null === $url ? $_SERVER['PHP_SELF'] : $url;
+        $caseSensitive = false)
+    {
+        $this->helper     = wfdownloads\Helper::getInstance();
+        $this->objHandler = $objHandler;
+        $this->criteria   = null === $criteria ? new \CriteriaCompo() : $criteria;
+        $this->field_name = null === $field_name ? $this->objHandler->identifierName : $field_name;
+//        $this->alphabet   = (count($alphabet) > 0) ? $alphabet : range('a', 'z'); // is there a way to get locale alphabet?
+        $this->alphabet       = getLocalAlphabet();
+
+        $this->arg_name   = $arg_name;
+        $this->url        = null === $url ? $_SERVER['PHP_SELF'] : $url;
         if ('' !== $extra_arg && ('&amp;' !== substr($extra_arg, -5) || '&' !== substr($extra_arg, -1))) {
             $this->extra = '&amp;' . $extra_arg;
         }
@@ -107,7 +110,7 @@ class ChoiceByLetter
         }
         $countsByLetters = $this->objHandler->getCounts($this->criteria);
         // fill alphabet array
-        $alphabet_array = [];
+        $alphabetArray = [];
         foreach ($this->alphabet as $letter) {
             $letter_array = [];
             if (!$this->caseSensitive) {
@@ -131,7 +134,7 @@ class ChoiceByLetter
                     $letter_array['url']    = '';
                 }
             }
-            $alphabet_array[$letter] = $letter_array;
+            $alphabetArray[$letter] = $letter_array;
             unset($letter_array);
         }
         // render output
@@ -142,11 +145,8 @@ class ChoiceByLetter
         require_once $GLOBALS['xoops']->path('/class/template.php');
         $choiceByLetterTpl          = new \XoopsTpl();
         $choiceByLetterTpl->caching = false; // Disable cache
-        $choiceByLetterTpl->assign('alphabet', $alphabet_array);
-        // IN PROGRESS
-        // IN PROGRESS
-        // IN PROGRESS
-        $ret .= $choiceByLetterTpl->fetch("db:{$this->wfdownloads->getModule()->dirname()}_co_choicebyletter.tpl");
+        $choiceByLetterTpl->assign('alphabet', $alphabetArray);
+        $ret .= $choiceByLetterTpl->fetch("db:{$this->helper->getDirname()}_co_letterschoice.tpl");
         unset($choiceByLetterTpl);
 
         return $ret;

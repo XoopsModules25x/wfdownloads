@@ -32,7 +32,7 @@ class CategoryHandler extends \XoopsPersistableObjectHandler
     /**
      * @access public
      */
-    public $wfdownloads = null;
+    public $helper = null;
 
     public $allCategories = false;
     public $topCategories = false;
@@ -43,7 +43,7 @@ class CategoryHandler extends \XoopsPersistableObjectHandler
     public function __construct(\XoopsDatabase $db)
     {
         parent::__construct($db, 'wfdownloads_cat', Category::class, 'cid', 'title');
-        $this->wfdownloads = wfdownloads\Helper::getInstance();
+        $this->helper = wfdownloads\Helper::getInstance();
     }
 
     /**

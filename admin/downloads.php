@@ -24,6 +24,7 @@ use Xoopsmodules\wfdownloads;
 
 $currentFile = basename(__FILE__);
 require_once __DIR__ . '/admin_header.php';
+xoops_load('XoopsLocal');
 
 $helper       = wfdownloads\Helper::getInstance();
 

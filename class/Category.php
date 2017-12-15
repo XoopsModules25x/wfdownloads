@@ -38,7 +38,7 @@ class Category extends \XoopsObject
      */
     public function __construct()
     {
-        $this->wfdownloads = wfdownloads\Helper::getInstance();
+        $this->helper = wfdownloads\Helper::getInstance();
         $this->db          = \XoopsDatabaseFactory::getDatabaseConnection();
         $this->initVar('cid', XOBJ_DTYPE_INT);
         $this->initVar('pid', XOBJ_DTYPE_INT, 0);
