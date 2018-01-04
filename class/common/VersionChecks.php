@@ -1,4 +1,4 @@
-<?php namespace Xoopsmodules\wfdownloads\common;
+<?php namespace XoopsModules\Wfdownloads\Common;
 
 /*
  You may not change or alter any portion of this comment or credits

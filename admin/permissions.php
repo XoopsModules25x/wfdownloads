@@ -18,7 +18,7 @@
  * @author          Xoops Development Team
  */
 
-use Xoopsmodules\wfdownloads;
+use XoopsModules\Wfdownloads;
 
 $currentFile = basename(__FILE__);
 require_once __DIR__ . '/admin_header.php';
@@ -37,7 +37,7 @@ foreach ($categoryObjObjs as $categoryObj) {
     $WFUpCatPermForm->addItem($categoryObj->getVar('cid'), $categoryObj->getVar('title'), $categoryObj->getVar('pid'));
 }
 
-wfdownloads\Utility::getCpHeader();
+Wfdownloads\Utility::getCpHeader();
 $adminObject = \Xmf\Module\Admin::getInstance();
 $adminObject->displayNavigation($currentFile);
 

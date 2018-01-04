@@ -20,8 +20,8 @@
  */
 
 use Xmf\Request;
-use Xoopsmodules\wfdownloads;
-use Xoopsmodules\wfdownloads\common;
+use XoopsModules\Wfdownloads;
+use XoopsModules\Wfdownloads\Common;
 
 $currentFile = basename(__FILE__);
 require_once __DIR__ . '/header.php';
@@ -76,7 +76,7 @@ $xoopsTpl->assign('wfdownloads_url', WFDOWNLOADS_URL . '/');
 if (('' != $categoryObj->getVar('imgurl'))
     && is_file(XOOPS_ROOT_PATH . '/' . $helper->getConfig('catimage') . '/' . $categoryObj->getVar('imgurl'))) {
     if ($helper->getConfig('usethumbs') && function_exists('gd_info')) {
-        $imgurl = wfdownloads\Utility::createThumb(
+        $imgurl = Wfdownloads\Utility::createThumb(
             $categoryObj->getVar('imgurl'),
             $helper->getConfig('catimage'),
             'thumbs',
@@ -105,7 +105,7 @@ $xoopsTpl->assign('topcategory_cid', $topCategoryObj->getVar('cid'));
 
 // Formulize module support (2006/03/06, 2006/03/08) jpc - start
 $formulize_idreq = $downloadObj->getVar('formulize_idreq');
-if (wfdownloads\Utility::checkModule('formulize') && $formulize_idreq) {
+if (Wfdownloads\Utility::checkModule('formulize') && $formulize_idreq) {
     $xoopsTpl->assign('custom_form', true);
     require_once XOOPS_ROOT_PATH . '/modules/formulize/include/extract.php';
     // get the form id and id_req of the user's entry
@@ -184,7 +184,7 @@ if (!is_object($GLOBALS['xoopsUser']) && true === $use_mirrors
 } elseif (is_object($GLOBALS['xoopsUser']) && true === $use_mirrors
           && (_WFDOWNLOADS_SUBMISSIONS_MIRROR == $helper->getConfig('submissions')
               || _WFDOWNLOADS_SUBMISSIONS_BOTH == $helper->getConfig('submissions')
-              || wfdownloads\Utility::userIsAdmin())) {
+              || Wfdownloads\Utility::userIsAdmin())) {
     $add_mirror = true;
 }
 
@@ -277,7 +277,7 @@ $xoopsTpl->assign('download', $downloadInfo);
 require_once XOOPS_ROOT_PATH . '/include/comment_view.php';
 
 $xoopsTpl->assign('com_rule', $helper->getConfig('com_rule'));
-$xoopsTpl->assign('module_home', wfdownloads\Utility::moduleHome(true));
+$xoopsTpl->assign('module_home', Wfdownloads\Utility::moduleHome(true));
 require_once __DIR__ . '/footer.php';
 
 ?>

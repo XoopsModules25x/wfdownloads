@@ -19,7 +19,7 @@
  * @author          Xoops Development Team
  */
 
-use Xoopsmodules\wfdownloads;
+use XoopsModules\Wfdownloads;
 
 defined('XOOPS_ROOT_PATH') || die('XOOPS root path not defined');
 
@@ -51,22 +51,22 @@ if (!defined('WFDOWNLOADS_MODULE_PATH')) {
 //define('WFDOWNLOADS_ROOT_PATH', XOOPS_ROOT_PATH . '/modules/' . WFDOWNLOADS_DIRNAME);
 
 /** @var \XoopsDatabase $db */
-/** @var wfdownloads\Helper $helper */
-/** @var wfdownloads\Utility $utility */
+/** @var Wfdownloads\Helper $helper */
+/** @var Wfdownloads\Utility $utility */
 $db           = \XoopsDatabaseFactory::getDatabase();
-$helper       = wfdownloads\Helper::getInstance();
-$utility      = new wfdownloads\Utility();
-$configurator = new wfdownloads\Configurator();
+$helper       = Wfdownloads\Helper::getInstance();
+$utility      = new Wfdownloads\Utility();
+$configurator = new Wfdownloads\Configurator();
 
-$categoryHandler     = new wfdownloads\CategoryHandler($db);
-$downloadHandler     = new wfdownloads\DownloadHandler($db);
-$ipLogHandler        = new wfdownloads\IpLogHandler($db);
-$mimetypeHandler     = new wfdownloads\MimetypeHandler($db);
-$mirrorHandler       = new wfdownloads\MirrorHandler($db);
-$modificationHandler = new wfdownloads\ModificationHandler($db);
-$ratingHandler       = new wfdownloads\RatingHandler($db);
-$reportHandler       = new wfdownloads\ReportHandler($db);
-$reviewHandler       = new wfdownloads\ReviewHandler($db);
+$categoryHandler     = new Wfdownloads\CategoryHandler($db);
+$downloadHandler     = new Wfdownloads\DownloadHandler($db);
+$ipLogHandler        = new Wfdownloads\IpLogHandler($db);
+$mimetypeHandler     = new Wfdownloads\MimetypeHandler($db);
+$mirrorHandler       = new Wfdownloads\MirrorHandler($db);
+$modificationHandler = new Wfdownloads\ModificationHandler($db);
+$ratingHandler       = new Wfdownloads\RatingHandler($db);
+$reportHandler       = new Wfdownloads\ReportHandler($db);
+$reviewHandler       = new Wfdownloads\ReviewHandler($db);
 
 
 $helper->loadLanguage('common');
@@ -118,7 +118,7 @@ global $wfdownloads_isAdmin;
 
 if (is_object($helper->getModule())) {
     // Find if the user is admin of the module
-    //    $wfdownloads_isAdmin = wfdownloads\Utility::userIsAdmin();
+    //    $wfdownloads_isAdmin = Wfdownloads\Utility::userIsAdmin();
 }
 
 // Load Xoops handlers

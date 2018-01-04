@@ -20,7 +20,7 @@
  */
 
 use Xmf\Request;
-use Xoopsmodules\wfdownloads;
+use XoopsModules\Wfdownloads;
 
 $currentFile = basename(__FILE__);
 require_once __DIR__ . '/admin_header.php';
@@ -85,7 +85,7 @@ switch ($op) {
         $result = $GLOBALS['xoopsDB']->query($sql);
         list($indeximage, $indexheading, $indexheader, $indexfooter, $nohtml, $nosmiley, $noxcodes, $noimages, $nobreak, $indexheaderalign, $indexfooteralign) = $GLOBALS['xoopsDB']->fetchrow($result);
 
-        wfdownloads\Utility::getCpHeader();
+        Wfdownloads\Utility::getCpHeader();
         $adminObject = \Xmf\Module\Admin::getInstance();
         $adminObject->displayNavigation(basename(__FILE__));
 
@@ -102,7 +102,7 @@ switch ($op) {
         $indeximage_tray = new \XoopsFormElementTray(_AM_WFDOWNLOADS_IPAGE_CIMAGE, '<br>');
         $indeximage_tray->addElement(new \XoopsFormLabel(_AM_WFDOWNLOADS_DOWN_FUPLOADPATH, XOOPS_ROOT_PATH . '/' . $helper->getConfig('mainimagedir')));
         $indeximage_tray->addElement(new \XoopsFormLabel(_AM_WFDOWNLOADS_DOWN_FUPLOADURL, XOOPS_URL . '/' . $helper->getConfig('mainimagedir')));
-        $graph_array       =& wfdownloads\WfsLists::getListTypeAsArray(XOOPS_ROOT_PATH . '/' . $helper->getConfig('mainimagedir'), 'images');
+        $graph_array       =& Wfdownloads\WfsLists::getListTypeAsArray(XOOPS_ROOT_PATH . '/' . $helper->getConfig('mainimagedir'), 'images');
         $indeximage_select = new \XoopsFormSelect('', 'indeximage', $indeximage);
         $indeximage_select->addOptionArray($graph_array);
         $indeximage_select->setExtra("onchange='showImgSelected(\"image\", \"indeximage\", \"" . $helper->getConfig('mainimagedir') . '", "", "' . XOOPS_URL . "\")'");

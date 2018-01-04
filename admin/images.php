@@ -20,7 +20,7 @@
  */
 
 use Xmf\Request;
-use Xoopsmodules\wfdownloads;
+use XoopsModules\Wfdownloads;
 
 $currentFile = basename(__FILE__);
 require_once __DIR__ . '/admin_header.php';
@@ -48,7 +48,7 @@ switch ($op) {
             $maxImgHeight     = $helper->getConfig('maximgheight');
             $uploadDir        = XOOPS_ROOT_PATH . '/' . $_POST['uploadpath'];
             $screenShot       = strtolower($_FILES['uploadfile']['name']);
-            wfdownloads\Utility::uploading($screenShot, XOOPS_ROOT_PATH . '/' . $_POST['uploadpath'], $allowedMimetypes, $currentFile, 1, false, true);
+            Wfdownloads\Utility::uploading($screenShot, XOOPS_ROOT_PATH . '/' . $_POST['uploadpath'], $allowedMimetypes, $currentFile, 1, false, true);
 
             require_once WFDOWNLOADS_ROOT_PATH . '/class/img_uploader.php';
             $uploader = new \MediaImgUploader($uploadDir . '/', $allowedMimetypes, $maxFileSize, $maxImgWidth, $maxImgHeight);
@@ -77,7 +77,7 @@ switch ($op) {
             if (empty($_POST['downfile'])) {
                 redirect_header($currentFile, 1, _AM_WFDOWNLOADS_DOWN_NOFILEERROR);
             }
-            wfdownloads\Utility::getCpHeader();
+            Wfdownloads\Utility::getCpHeader();
             xoops_confirm(['op' => 'image.delete', 'uploadpath' => $_POST['uploadpath'], 'downfile' => $_POST['downfile'], 'ok' => true], $currentFile, _AM_WFDOWNLOADS_DOWN_DELETEFILE . '<br><br>' . $_POST['downfile'], _AM_WFDOWNLOADS_BDELETE);
             require_once __DIR__ . '/admin_footer.php';
         }
@@ -90,7 +90,7 @@ switch ($op) {
         $displayImage = '';
         $rootPath     = Request::getInt('rootpath', 0);
 
-        wfdownloads\Utility::getCpHeader();
+        Wfdownloads\Utility::getCpHeader();
         $adminObject = \Xmf\Module\Admin::getInstance();
         $adminObject->displayNavigation($currentFile);
 
@@ -162,7 +162,7 @@ switch ($op) {
             $iform->addElement($dup_tray);
         }
         $iform->display();
-//        echo wfdownloads\Utility::serverStats();
+//        echo Wfdownloads\Utility::serverStats();
         echo $utility::getServerStats();
         require_once __DIR__ . '/admin_footer.php';
 }

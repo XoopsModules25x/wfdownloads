@@ -20,7 +20,7 @@
  */
 
 use Xmf\Request;
-use Xoopsmodules\wfdownloads;
+use XoopsModules\Wfdownloads;
 
 $currentFile = basename(__FILE__);
 require_once __DIR__ . '/admin_header.php';
@@ -81,7 +81,7 @@ switch ($op) {
         $categoryObjs     = $helper->getHandler('category')->getObjects();
         $categoryObjsTree = new \XoopsObjectTree($categoryObjs, 'cid', 'pid');
 
-        wfdownloads\Utility::getCpHeader();
+        Wfdownloads\Utility::getCpHeader();
 
         // IN PROGRESS
         // IN PROGRESS
@@ -130,9 +130,9 @@ switch ($op) {
                     // NOP
                     break;
                 case 'size':
-                    $downloadContent = wfdownloads\Utility::bytesToSize1024($downloadContent);
+                    $downloadContent = Wfdownloads\Utility::bytesToSize1024($downloadContent);
                     //
-                    $modificationContent = wfdownloads\Utility::bytesToSize1024($modificationContent);
+                    $modificationContent = Wfdownloads\Utility::bytesToSize1024($modificationContent);
                     break;
                 case 'date':
                 case 'published':
@@ -340,7 +340,7 @@ switch ($op) {
                 echo $modificationObj->getHtmlErrors();
             }
         } else {
-            wfdownloads\Utility::getCpHeader();
+            Wfdownloads\Utility::getCpHeader();
             xoops_confirm(['op' => 'modification.ignore', 'requestid' => $requestid, 'ok' => true, 'title' => $title], $currentFile, _AM_WFDOWNLOADS_MOD_REALLYIGNOREDTHIS . '<br><br>' . $title, _DELETE);
             xoops_cp_footer();
         }
@@ -358,7 +358,7 @@ switch ($op) {
         $criteria->setStart($start_report);
         $reportObjs = $helper->getHandler('report')->getObjects($criteria);
 
-        wfdownloads\Utility::getCpHeader();
+        Wfdownloads\Utility::getCpHeader();
         $adminObject = \Xmf\Module\Admin::getInstance();
         $adminObject->displayNavigation($currentFile);
 

@@ -20,7 +20,7 @@
  */
 
 use Xmf\Request;
-use Xoopsmodules\wfdownloads;
+use XoopsModules\Wfdownloads;
 
 $currentFile = basename(__FILE__);
 require_once __DIR__ . '/admin_header.php';
@@ -31,7 +31,7 @@ switch ($op) {
         $rid = Request::getInt('rid', 0);
         $lid = Request::getInt('lid', 0);
         $helper->getHandler('rating')->deleteAll(new \Criteria('ratingid', $rid), true);
-        wfdownloads\Utility::updateRating($lid);
+        Wfdownloads\Utility::updateRating($lid);
         redirect_header($currentFile, 1, _AM_WFDOWNLOADS_VOTEDELETED);
         break;
 
@@ -53,7 +53,7 @@ switch ($op) {
         $useravgrating = $helper->getHandler('rating')->getUserAverage();
         $useravgrating = number_format($useravgrating['avg'], 2);
 
-        wfdownloads\Utility::getCpHeader();
+        Wfdownloads\Utility::getCpHeader();
         $adminObject = \Xmf\Module\Admin::getInstance();
         $adminObject->displayNavigation($currentFile);
 

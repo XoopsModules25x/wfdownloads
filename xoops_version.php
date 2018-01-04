@@ -18,6 +18,8 @@
  * @author          Xoops Development Team
  */
 
+require_once __DIR__ . '/preloads/autoloader.php';
+
 $moduleDirName = basename(__DIR__);
 
 defined('XOOPS_ROOT_PATH') || die('XOOPS root path not defined');

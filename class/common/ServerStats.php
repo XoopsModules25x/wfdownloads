@@ -1,4 +1,4 @@
-<?php namespace Xoopsmodules\wfdownloads\common;
+<?php namespace XoopsModules\Wfdownloads\Common;
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -23,7 +23,7 @@ trait ServerStats
      */
     public static function getServerStats()
     {
-        //mb    $helper = wfdownloads\Helper::getInstance();
+        //mb    $helper = Wfdownloads\Helper::getInstance();
         $moduleDirName  = basename(dirname(dirname(__DIR__)));
         $moduleDirNameUpper = strtoupper($moduleDirName);
         xoops_loadLanguage('common', $moduleDirName);

@@ -18,7 +18,7 @@
  * @author          Xoops Development Team
  */
 
-use Xoopsmodules\wfdownloads;
+use XoopsModules\Wfdownloads;
 
 $currentFile = basename(__FILE__);
 require_once __DIR__ . '/admin_header.php';
@@ -28,23 +28,23 @@ if ('submit' === @$_POST['op']) {
         redirect_header($currentFile, 3, implode('<br>', $GLOBALS['xoopsSecurity']->getErrors()));
     }
 
-    wfdownloads\Utility::getCpHeader();
+    Wfdownloads\Utility::getCpHeader();
     $adminObject = \Xmf\Module\Admin::getInstance();
     $adminObject->displayNavigation($currentFile);
 
     // Swish-e support EXPERIMENTAL
-    wfdownloads\Utility::swishe_config();
+    Wfdownloads\Utility::swishe_config();
     // Swish-e support EXPERIMENTAL
 
     require_once __DIR__ . '/admin_footer.php';
     exit();
 } else {
-    wfdownloads\Utility::getCpHeader();
+    Wfdownloads\Utility::getCpHeader();
     $adminObject = \Xmf\Module\Admin::getInstance();
     $adminObject->displayNavigation($currentFile);
 
     // Swish-e support EXPERIMENTAL
-    if (true === wfdownloads\Utility::checkSwishe()) {
+    if (true === Wfdownloads\Utility::checkSwishe()) {
         echo 'OK';
     } else {
         echo 'NOT OK' . '<br>';

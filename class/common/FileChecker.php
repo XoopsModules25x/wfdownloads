@@ -1,4 +1,4 @@
-<?php namespace Xoopsmodules\wfdownloads\common;
+<?php namespace XoopsModules\Wfdownloads\Common;
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -20,7 +20,7 @@
  */
 
 use Xmf\Language;
-use Xoopsmodules\wfdownloads;
+use XoopsModules\Wfdownloads;
 
 //defined('XOOPS_ROOT_PATH') || die('XOOPS root path not defined');
 

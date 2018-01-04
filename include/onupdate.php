@@ -45,13 +45,13 @@ function tableExists($tablename)
  *
  * @return bool true if ready to install, false if not
  */
-function xoops_module_pre_update_wfdownloads(XoopsModule $module)
+function xoops_module_pre_update_wfdownloads(\XoopsModule $module)
 {
-    /** @var wfdownloads\Helper $helper */
-    /** @var wfdownloads\Utility $utility */
+    /** @var Wfdownloads\Helper $helper */
+    /** @var Wfdownloads\Utility $utility */
     $moduleDirName = basename(dirname(__DIR__));
-    $helper       = wfdownloads\Helper::getInstance();
-    $utility      = new wfdownloads\Utility();
+    $helper       = Wfdownloads\Helper::getInstance();
+    $utility      = new Wfdownloads\Utility();
 
     $xoopsSuccess = $utility::checkVerXoops($module);
     $phpSuccess   = $utility::checkVerPhp($module);
@@ -72,12 +72,12 @@ function xoops_module_update_wfdownloads(XoopsModule $module, $previousVersion =
     $moduleDirName = basename(dirname(__DIR__));
     $capsDirName   = strtoupper($moduleDirName);
 
-    /** @var wfdownloads\Helper $helper */
-    /** @var wfdownloads\Utility $utility */
-    /** @var wfdownloads\Configurator $configurator */
-    $helper  = wfdownloads\Helper::getInstance();
-    $utility = new wfdownloads\Utility();
-    $configurator = new wfdownloads\Configurator();
+    /** @var Wfdownloads\Helper $helper */
+    /** @var Wfdownloads\Utility $utility */
+    /** @var Wfdownloads\Configurator $configurator */
+    $helper  = Wfdownloads\Helper::getInstance();
+    $utility = new Wfdownloads\Utility();
+    $configurator = new Wfdownloads\Configurator();
 
     if ($previousVersion < 325) {
 
@@ -175,7 +175,7 @@ function xoops_module_update_wfdownloads2(XoopsModule $xoopsModule, $previousVer
     } else {
         echo $feedback;
     }
-    wfdownloads\Utility::setMeta('version', '3.23'); //Set meta version to current
+    Wfdownloads\Utility::setMeta('version', '3.23'); //Set meta version to current
 
     return true;
 }
@@ -383,7 +383,7 @@ function update_tables_to_322($module)
     $dbupdater = new WfdownloadsDbupdater();
 
     // create wfdownloads_meta table
-    if (!wfdownloads\Utility::tableExists('wfdownloads_meta')) {
+    if (!Wfdownloads\Utility::tableExists('wfdownloads_meta')) {
         $table = new WfdownloadsTable('wfdownloads_meta');
         $table->setStructure("CREATE TABLE %s (
                 metakey varchar(50) NOT NULL default '',
@@ -397,7 +397,7 @@ function update_tables_to_322($module)
     }
 
     // create wfdownloads_mirror table
-    if (!wfdownloads\Utility::tableExists('wfdownloads_mirrors')) {
+    if (!Wfdownloads\Utility::tableExists('wfdownloads_mirrors')) {
         $table = new WfdownloadsTable('wfdownloads_mirrors');
         $table->setStructure("CREATE TABLE %s (
                 mirror_id int(11) unsigned NOT NULL auto_increment,
@@ -419,7 +419,7 @@ function update_tables_to_322($module)
     }
 
     // create wfdownloads_ip_log table
-    if (!wfdownloads\Utility::tableExists('wfdownloads_ip_log')) {
+    if (!Wfdownloads\Utility::tableExists('wfdownloads_ip_log')) {
         $table = new WfdownloadsTable('wfdownloads_ip_log');
         $table->setStructure("CREATE TABLE %s (
                 ip_logid int(11) NOT NULL auto_increment,

@@ -1,4 +1,4 @@
-<?php namespace Xoopsmodules\wfdownloads;
+<?php namespace XoopsModules\Wfdownloads;
 
 /*
  You may not change or alter any portion of this comment or credits
@@ -22,12 +22,9 @@
  */
 
 use Xmf\Request;
-use Xoopsmodules\wfdownloads;
-use Xoopsmodules\wfdownloads\common;
+use XoopsModules\Wfdownloads;
+use XoopsModules\Wfdownloads\Common;
 
-require_once __DIR__ . '/common/VersionChecks.php';
-require_once __DIR__ . '/common/ServerStats.php';
-require_once __DIR__ . '/common/FilesManagement.php';
 
 /**
  * Class Utility
@@ -42,73 +39,7 @@ class Utility
 
     //--------------- Custom module methods -----------------------------
 
-    /**
-     * Function responsible for checking if a directory exists, we can also write in and create an index.html file
-     *
-     * @param string $folder The full path of the directory to check
-     *
-     * @return void
-     */
-    public static function createFolder($folder)
-    {
-        try {
-            if (!file_exists($folder)) {
-                if (!mkdir($folder) && !is_dir($folder)) {
-                    throw new \RuntimeException(sprintf('Unable to create the %s directory', $folder));
-                } else {
-                    file_put_contents($folder . '/index.html', '<script>history.go(-1);</script>');
-                }
-            }
-        }
-        catch (Exception $e) {
-            echo 'Caught exception: ', $e->getMessage(), "\n", '<br>';
-        }
-    }
 
-    /**
-     * @param $file
-     * @param $folder
-     * @return bool
-     */
-    public static function copyFile($file, $folder)
-    {
-        if (is_file($file)) {
-            return copy($file, $folder);
-        } else {
-            return false;
-        }
-
-        //        try {
-        //            if (!is_dir($folder)) {
-        //                throw new \RuntimeException(sprintf('Unable to copy file as: %s ', $folder));
-        //            } else {
-        //                return copy($file, $folder);
-        //            }
-        //        } catch (Exception $e) {
-        //            echo 'Caught exception: ', $e->getMessage(), "\n", "<br>";
-        //        }
-        //        return false;
-    }
-
-    /**
-     * @param $src
-     * @param $dst
-     */
-    public static function recurseCopy($src, $dst)
-    {
-        $dir = opendir($src);
-        //    @mkdir($dst);
-        while (false !== ($file = readdir($dir))) {
-            if (('.' !== $file) && ('..' !== $file)) {
-                if (is_dir($src . '/' . $file)) {
-                    self::recurseCopy($src . '/' . $file, $dst . '/' . $file);
-                } else {
-                    copy($src . '/' . $file, $dst . '/' . $file);
-                }
-            }
-        }
-        closedir($dir);
-    }
 
     // auto create folders----------------------------------------
     //TODO rename this function? And exclude image folder?
@@ -192,7 +123,7 @@ class Utility
      */
     public static function displayCategory(WfdownloadsCategory $categoryObj, $level = 0)
     {
-        $helper = wfdownloads\Helper::getInstance();
+        $helper = Wfdownloads\Helper::getInstance();
 
         $description = $categoryObj->description();
         if (!XOOPS_USE_MULTIBYTES) {
@@ -233,7 +164,7 @@ class Utility
      */
     public static function editCategory($showmenu = false, $categoryId = 0, $nbSubCats = 4, $categoryObj = null)
     {
-        $publisher = wfdownloads\Helper::getInstance();
+        $publisher = Wfdownloads\Helper::getInstance();
 
         // if there is a parameter, and the id exists, retrieve data: we're editing a category
         if (0 != $categoryId) {
@@ -678,7 +609,7 @@ class Utility
      */
     public static function sortCategories($pid = 0, $level = 0)
     {
-        $helper = wfdownloads\Helper::getInstance();
+        $helper = Wfdownloads\Helper::getInstance();
 
         $sorted   = [];
         $criteria = new \CriteriaCompo();
@@ -712,7 +643,7 @@ class Utility
      */
     public static function lettersChoice()
     {
-        $helper = wfdownloads\Helper::getInstance();
+        $helper = Wfdownloads\Helper::getInstance();
 
         $criteria = $helper->getHandler('download')->getActiveCriteria();
         $criteria->setGroupby('UPPER(LEFT(title,1))');
@@ -756,7 +687,7 @@ class Utility
      */
     public static function userIsAdmin()
     {
-        $helper = wfdownloads\Helper::getInstance();
+        $helper = Wfdownloads\Helper::getInstance();
 
         static $wfdownloads_isAdmin;
         if (isset($wfdownloads_isAdmin)) {
@@ -779,7 +710,7 @@ class Utility
      */
     public static function moduleHome($withLink = true)
     {
-        $helper = wfdownloads\Helper::getInstance();
+        $helper = Wfdownloads\Helper::getInstance();
 
         $wfdownloadsModuleName = $helper->getModule()->getVar('name');
         if (!$withLink) {
@@ -1009,7 +940,7 @@ class Utility
      */
     public static function savePermissions($groups, $id, $permName)
     {
-        $helper = wfdownloads\Helper::getInstance();
+        $helper = Wfdownloads\Helper::getInstance();
 
         $id           = (int)$id;
         $result       = true;
@@ -1034,7 +965,7 @@ class Utility
      */
     public static function toolbar()
     {
-        $helper = wfdownloads\Helper::getInstance();
+        $helper = Wfdownloads\Helper::getInstance();
 
         $isSubmissionAllowed = false;
         if (is_object($GLOBALS['xoopsUser'])
@@ -1075,7 +1006,7 @@ class Utility
      */
     public static function displayIcons($time, $status = _WFDOWNLOADS_STATUS_WAITING, $counter = 0)
     {
-        $helper = wfdownloads\Helper::getInstance();
+        $helper = Wfdownloads\Helper::getInstance();
 
         $new     = '';
         $pop     = '';
@@ -1262,7 +1193,7 @@ class Utility
      */
     public static function updateRating($lid)
     {
-        $helper = wfdownloads\Helper::getInstance();
+        $helper = Wfdownloads\Helper::getInstance();
 
         $ratingObjs    = $helper->getHandler('rating')->getObjects(new \Criteria('lid', (int)$lid));
         $ratings_count = count($ratingObjs);
@@ -1286,7 +1217,7 @@ class Utility
     public static function categoriesCount()
     {
         $gpermHandler             = xoops_getHandler('groupperm');
-        $helper                   = wfdownloads\Helper::getInstance();
+        $helper                   = Wfdownloads\Helper::getInstance();
         $groups                   = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : [0 => XOOPS_GROUP_ANONYMOUS];
         $allowedDownCategoriesIds = $gpermHandler->getItemIds('WFDownCatPerm', $groups, $helper->getModule()->mid());
 
@@ -1302,7 +1233,7 @@ class Utility
      */
     public static function getTotalDownloads($cids = 0)
     {
-        $helper = wfdownloads\Helper::getInstance();
+        $helper = Wfdownloads\Helper::getInstance();
 
         $criteria = new \CriteriaCompo(new \Criteria('offline', false));
         $criteria->add(new \Criteria('published', 0, '>'));
@@ -1329,7 +1260,7 @@ class Utility
      */
     public static function headerImage()
     {
-        $helper = wfdownloads\Helper::getInstance();
+        $helper = Wfdownloads\Helper::getInstance();
 
         $image  = '';
         $result = $GLOBALS['xoopsDB']->query('SELECT indeximage, indexheading FROM ' . $GLOBALS['xoopsDB']->prefix('wfdownloads_indexpage') . ' ');
@@ -1351,7 +1282,7 @@ class Utility
      */
     public static function displayImage($image = '', $href = '', $imgSource = '', $altText = '')
     {
-        $helper = wfdownloads\Helper::getInstance();
+        $helper = Wfdownloads\Helper::getInstance();
 
         $showImage = '';
 
@@ -1393,7 +1324,7 @@ class Utility
      */
     public static function createThumb($imgName, $imgPath, $imgSavePath, $width = 100, $height = 100, $quality = 100, $update = false, $aspect = 1)
     {
-        $helper = wfdownloads\Helper::getInstance();
+        $helper = Wfdownloads\Helper::getInstance();
 
         // Paths
         if (false === $helper->getConfig('usethumbs')) {
@@ -1608,7 +1539,7 @@ class Utility
      */
     public static function allowedMimetypes($fileName, $isAdmin = true)
     {
-        $helper = wfdownloads\Helper::getInstance();
+        $helper = Wfdownloads\Helper::getInstance();
 
         $ext      = ltrim(strrchr($fileName, '.'), '.');
         $criteria = new \CriteriaCompo(new \Criteria('mime_ext', strtolower($ext)));
@@ -1673,7 +1604,7 @@ class Utility
         $isAdmin = true,
         $onlyImages = false)
     {
-        $helper = wfdownloads\Helper::getInstance();
+        $helper = Wfdownloads\Helper::getInstance();
         $file   = [];
         if (empty($allowedMimetypes)) {
             $allowedMimetypes = self::allowedMimetypes($_FILES['userfile']['name'], $isAdmin);
@@ -2023,7 +1954,7 @@ class Utility
      */
     public static function checkSwishe()
     {
-        $helper = wfdownloads\Helper::getInstance();
+        $helper = Wfdownloads\Helper::getInstance();
 
         // Get the location of the document repository (the index files are located in the root)
         $swisheDocPath = $helper->getConfig('uploaddir');
@@ -2047,7 +1978,7 @@ class Utility
 
     public static function swishe_config()
     {
-        $helper = wfdownloads\Helper::getInstance();
+        $helper = Wfdownloads\Helper::getInstance();
 
         // Get the location of the document repository (the index files are located in the root)
         $swisheDocPath = $helper->getConfig('uploaddir');
@@ -2108,7 +2039,7 @@ class Utility
             return substr($str, $str_length - $num_chars, $str_length);
         }
 
-        $helper = wfdownloads\Helper::getInstance();
+        $helper = Wfdownloads\Helper::getInstance();
 
         $ret = false;
         // IN PROGRESS

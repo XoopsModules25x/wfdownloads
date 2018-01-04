@@ -1,4 +1,4 @@
-<?php namespace Xoopsmodules\wfdownloads;
+<?php namespace XoopsModules\Wfdownloads;
 
 /*
  You may not change or alter any portion of this comment or credits
@@ -26,7 +26,7 @@
  * echo $breadcrumb->render();
  */
 
-use Xoopsmodules\wfdownloads;
+use XoopsModules\Wfdownloads;
 
 defined('XOOPS_ROOT_PATH') || die('XOOPS root path not defined');
 

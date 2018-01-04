@@ -29,7 +29,7 @@ require_once __DIR__ . '/common.php';
  */
 function wfdownloads_com_update($download_id, $commentCount)
 {
-    $helper = wfdownloads\Helper::getInstance();
+    $helper = Wfdownloads\Helper::getInstance();
     $helper->getHandler('download')->updateAll('comments', (int)$commentCount, new \Criteria('lid', (int)$download_id));
 }
 

@@ -1,4 +1,4 @@
-<?php namespace Xoopsmodules\wfdownloads;
+<?php namespace XoopsModules\Wfdownloads;
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -19,11 +19,11 @@
  * @author          Xoops Development Team
  */
 
-use Xoopsmodules\wfdownloads;
+use XoopsModules\Wfdownloads;
 
 /**
  * Class WfsLists
- * @package Xoopsmodules\wfdownloads
+ * @package XoopsModules\Wfdownloads
  */
 class WfsLists
 {

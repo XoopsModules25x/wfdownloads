@@ -20,8 +20,8 @@
  */
 
 use Xmf\Request;
-use Xoopsmodules\wfdownloads;
-use Xoopsmodules\wfdownloads\common;
+use XoopsModules\Wfdownloads;
+use XoopsModules\Wfdownloads\Common;
 
 $currentFile = basename(__FILE__);
 require_once __DIR__ . '/header.php';
@@ -47,7 +47,7 @@ if (0 == $downloadObj->getVar('published') || $downloadObj->getVar('published') 
 }
 
 // Check permissions
-if (false === $helper->getConfig('enable_reviews') && !wfdownloads\Utility::userIsAdmin()) {
+if (false === $helper->getConfig('enable_reviews') && !Wfdownloads\Utility::userIsAdmin()) {
     redirect_header('index.php', 3, _NOPERM);
 }
 $userGroups = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : [0 => XOOPS_GROUP_ANONYMOUS];
@@ -85,7 +85,7 @@ switch ($op) {
         // Generate content header
         $sql                     = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('wfdownloads_indexpage') . ' ';
         $head_arr                = $GLOBALS['xoopsDB']->fetchArray($GLOBALS['xoopsDB']->query($sql));
-        $catarray['imageheader'] = wfdownloads\Utility::headerImage();
+        $catarray['imageheader'] = Wfdownloads\Utility::headerImage();
         $xoopsTpl->assign('catarray', $catarray);
         $xoopsTpl->assign('category_path', $helper->getHandler('category')->getNicePath($cid));
         $xoopsTpl->assign('category_id', $cid);
@@ -124,7 +124,7 @@ switch ($op) {
         $xoopsTpl->assign('navbar', $navbar);
 
         $xoopsTpl->assign('categoryPath', $pathstring . ' > ' . $download_array['title']);
-        $xoopsTpl->assign('module_home', wfdownloads\Utility::moduleHome(true));
+        $xoopsTpl->assign('module_home', Wfdownloads\Utility::moduleHome(true));
 
         require_once __DIR__ . '/footer.php';
         break;
@@ -147,7 +147,7 @@ switch ($op) {
             $reviewObj->setVar('rated', (int)$_POST['rated']);
             $reviewObj->setVar('date', time());
             $reviewObj->setVar('uid', $reviewerUid);
-            $submit = (wfdownloads\Utility::userIsAdmin() ?: $helper->getConfig('rev_approve') ? true : false);
+            $submit = (Wfdownloads\Utility::userIsAdmin() ?: $helper->getConfig('rev_approve') ? true : false);
             $reviewObj->setVar('submit', $submit);
 
             if (!$helper->getHandler('review')->insert($reviewObj)) {
@@ -170,7 +170,7 @@ switch ($op) {
             $breadcrumb->addLink(_MD_WFDOWNLOADS_REVIEWTHISFILE, '');
             echo $breadcrumb->render();
 
-            echo "<div align='center'>" . wfdownloads\Utility::headerImage() . "</div><br>\n";
+            echo "<div align='center'>" . Wfdownloads\Utility::headerImage() . "</div><br>\n";
             echo '<div>' . _MD_WFDOWNLOADS_REV_SNEWMNAMEDESC . "</div>\n";
 
             // Generate form

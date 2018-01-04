@@ -20,7 +20,7 @@
  */
 
 use Xmf\Request;
-use Xoopsmodules\wfdownloads;
+use XoopsModules\Wfdownloads;
 
 $currentFile = basename(__FILE__);
 require_once __DIR__ . '/admin_header.php';
@@ -49,7 +49,7 @@ switch ($op) {
             // Downloads imported
             redirect_header($currentFile, 1, _AM_WFDOWNLOADS_IMPORT_IMPORT_OK);
         } else {
-            wfdownloads\Utility::getCpHeader();
+            Wfdownloads\Utility::getCpHeader();
             xoops_confirm(['op' => 'import.MyDownloads', 'ok' => true], $currentFile, _AM_WFDOWNLOADS_IMPORT_RUSURE);
             xoops_cp_footer();
         }
@@ -65,7 +65,7 @@ switch ($op) {
             // Downloads imported
             //redirect_header($currentFile, 1, _AM_WFDOWNLOADS_IMPORT_IMPORT_OK);
         } else {
-            wfdownloads\Utility::getCpHeader();
+            Wfdownloads\Utility::getCpHeader();
             xoops_confirm(['op' => 'import.PD-Downloads', 'ok' => true], $currentFile, _AM_WFDOWNLOADS_IMPORT_RUSURE);
             xoops_cp_footer();
         }
@@ -81,7 +81,7 @@ switch ($op) {
             // Downloads imported
             //redirect_header($currentFile, 1, _AM_WFDOWNLOADS_IMPORT_IMPORT_OK);
         } else {
-            wfdownloads\Utility::getCpHeader();
+            Wfdownloads\Utility::getCpHeader();
             xoops_confirm(['op' => 'import.wmpownloads', 'ok' => true], $currentFile, _AM_WFDOWNLOADS_IMPORT_RUSURE);
             xoops_cp_footer();
         }
@@ -91,14 +91,14 @@ switch ($op) {
         $ok = Request::getBool('ok', false, 'POST');
         if (true === $ok) {
             // Import data from wfd322
-            wfdownloads\Utility::getCpHeader();
+            Wfdownloads\Utility::getCpHeader();
             import_wfd_to_wfdownloads();
             echo _AM_WFDOWNLOADS_IMPORT_IMPORT_OK;
             xoops_cp_footer();
             // Downloads imported
             //redirect_header($currentFile, 1, _AM_WFDOWNLOADS_IMPORT_IMPORT_OK);
         } else {
-            wfdownloads\Utility::getCpHeader();
+            Wfdownloads\Utility::getCpHeader();
             xoops_confirm(['op' => 'import.wfd322', 'ok' => true], $currentFile, _AM_WFDOWNLOADS_IMPORT_RUSURE);
             xoops_cp_footer();
         }
@@ -108,14 +108,14 @@ switch ($op) {
         $ok = Request::getBool('ok', false, 'POST');
         if (true === $ok) {
             // Import data from wfd322
-            wfdownloads\Utility::getCpHeader();
+            Wfdownloads\Utility::getCpHeader();
             import_tdmdownloads_to_wfdownloads();
             echo _AM_WFDOWNLOADS_IMPORT_IMPORT_OK;
             xoops_cp_footer();
             // Downloads imported
             //redirect_header($currentFile, 1, _AM_WFDOWNLOADS_IMPORT_IMPORT_OK);
         } else {
-            wfdownloads\Utility::getCpHeader();
+            Wfdownloads\Utility::getCpHeader();
             xoops_confirm(['op' => 'import.TDMDownloads', 'ok' => true], $currentFile, _AM_WFDOWNLOADS_IMPORT_RUSURE);
             xoops_cp_footer();
         }
@@ -123,7 +123,7 @@ switch ($op) {
 
     case 'import.menu':
     default:
-        wfdownloads\Utility::getCpHeader();
+        Wfdownloads\Utility::getCpHeader();
         $adminObject = \Xmf\Module\Admin::getInstance();
         $adminObject->displayNavigation($currentFile);
 
@@ -139,8 +139,8 @@ switch ($op) {
         // Is wf-downloads installed?
         if ($helper->getModule()->dirname() !== 'wf' . 'downloads') {
             $got_options = false;
-            if (wfdownloads\Utility::checkModule('wf' . 'downloads')) { // don't modify, is for cloning
-                $moduleVersion = round(wfdownloads\Utility::checkModule('wf' . 'downloads') / 100, 2); // don't modify, is for cloning
+            if (Wfdownloads\Utility::checkModule('wf' . 'downloads')) { // don't modify, is for cloning
+                $moduleVersion = round(Wfdownloads\Utility::checkModule('wf' . 'downloads') / 100, 2); // don't modify, is for cloning
                 $button        = new \XoopsFormButton(_AM_WFDOWNLOADS_IMPORT_WFD . '<br>' . $moduleVersion, 'wmp_button', _AM_WFDOWNLOADS_IMPORT_BUTTON_IMPORT, 'submit');
                 $button->setExtra("onclick='document.forms.form.op.value=\"import.wfd322\"'");
                 $form->addElement($button);
@@ -153,8 +153,8 @@ switch ($op) {
         }
         //Is MyDownloads installed?
         $got_options = false;
-        if (wfdownloads\Utility::checkModule('mydownloads')) {
-            $moduleVersion = round(wfdownloads\Utility::checkModule('mydownloads') / 100, 2);
+        if (Wfdownloads\Utility::checkModule('mydownloads')) {
+            $moduleVersion = round(Wfdownloads\Utility::checkModule('mydownloads') / 100, 2);
             $button        = new \XoopsFormButton(_AM_WFDOWNLOADS_IMPORT_MYDOWNLOADS . '<br>' . $moduleVersion, 'myd_button', _AM_WFDOWNLOADS_IMPORT_BUTTON_IMPORT, 'submit');
             $button->setExtra("onclick='document.forms.form.op.value=\"import.MyDownloads\"'");
             $form->addElement($button);
@@ -166,8 +166,8 @@ switch ($op) {
         }
         //Is PD-Downloads installed?
         $got_options = false;
-        if (wfdownloads\Utility::checkModule('PDdownloads')) {
-            $moduleVersion = round(wfdownloads\Utility::checkModule('PDdownloads') / 100, 2);
+        if (Wfdownloads\Utility::checkModule('PDdownloads')) {
+            $moduleVersion = round(Wfdownloads\Utility::checkModule('PDdownloads') / 100, 2);
             $button        = new \XoopsFormButton(_AM_WFDOWNLOADS_IMPORT_PDDOWNLOADS . '<br>' . $moduleVersion, 'pd_button', _AM_WFDOWNLOADS_IMPORT_BUTTON_IMPORT, 'submit');
             $button->setExtra("onclick='document.forms.form.op.value=\"import.PD-Downloads\"'");
             $form->addElement($button);
@@ -179,8 +179,8 @@ switch ($op) {
         }
         //Is wmpownloads installed?
         $got_options = false;
-        if (wfdownloads\Utility::checkModule('wmpdownloads')) {
-            $moduleVersion = round(wfdownloads\Utility::checkModule('wmpdownloads') / 100, 2);
+        if (Wfdownloads\Utility::checkModule('wmpdownloads')) {
+            $moduleVersion = round(Wfdownloads\Utility::checkModule('wmpdownloads') / 100, 2);
             $button        = new \XoopsFormButton(_AM_WFDOWNLOADS_IMPORT_WMPOWNLOADS . '<br>' . $moduleVersion, 'wmp_button', _AM_WFDOWNLOADS_IMPORT_BUTTON_IMPORT, 'submit');
             $button->setExtra("onclick='document.forms.form.op.value=\"import.wmpownloads\"'");
             $form->addElement($button);
@@ -192,8 +192,8 @@ switch ($op) {
         }
         //Is TDMDownloads installed?
         $got_options = false;
-        if (wfdownloads\Utility::checkModule('TDMDownloads')) {
-            $moduleVersion = round(wfdownloads\Utility::checkModule('TDMDownloads') / 100, 2);
+        if (Wfdownloads\Utility::checkModule('TDMDownloads')) {
+            $moduleVersion = round(Wfdownloads\Utility::checkModule('TDMDownloads') / 100, 2);
             $button        = new \XoopsFormButton(_AM_WFDOWNLOADS_IMPORT_TDMDOWNLOADS . '<br>' . $moduleVersion, 'wmp_button', _AM_WFDOWNLOADS_IMPORT_BUTTON_IMPORT, 'submit');
             $button->setExtra("onclick='document.forms.form.op.value=\"import.TDMDownloads\"'");
             $form->addElement($button);
@@ -255,18 +255,18 @@ function import_wfd_to_wfdownloads()
     $wfdDownloadsHandler  = xoops_getModuleHandler('download', $wfdDirname);
 
     // Get destination module/handlers/configs
-    $helper = wfdownloads\Helper::getInstance();
+    $helper = Wfdownloads\Helper::getInstance();
 
     echo "<br><span style='font-weight: bold;'>Copying Files</span><br>";
 
     // Copy categories images/thumbnails
-    if (!wfdownloads\Utility::copyDir(XOOPS_ROOT_PATH . '/' . $wfdModuleConfig['catimage'], XOOPS_ROOT_PATH . '/' . $helper->getConfig('catimage'))) {
+    if (!Wfdownloads\Utility::copyDir(XOOPS_ROOT_PATH . '/' . $wfdModuleConfig['catimage'], XOOPS_ROOT_PATH . '/' . $helper->getConfig('catimage'))) {
         return false;
     }
     echo 'Copied categories images and thumbnails<br>';
 
     // Copy screenshots images/thumbnails
-    if (!wfdownloads\Utility::copyDir(XOOPS_ROOT_PATH . '/' . $wfdModuleConfig['screenshots'], XOOPS_ROOT_PATH . '/' . $helper->getConfig('screenshots'))) {
+    if (!Wfdownloads\Utility::copyDir(XOOPS_ROOT_PATH . '/' . $wfdModuleConfig['screenshots'], XOOPS_ROOT_PATH . '/' . $helper->getConfig('screenshots'))) {
         return false;
     }
     echo 'Copied downloads screenshots and thumbnails<br>';
@@ -276,7 +276,7 @@ function import_wfd_to_wfdownloads()
     $countCopied     = 0;
     $countNotCopied  = 0;
     foreach ($wfdDownloadObjs as $wfdDownloadObj) {
-        if (wfdownloads\Utility::copyFile($wfdModuleConfig['uploaddir'] . '/' . $wfdDownloadObj->getVar('filename'), $helper->getConfig('uploaddir') . '/' . $wfdDownloadObj->getVar('filename'))) {
+        if (Wfdownloads\Utility::copyFile($wfdModuleConfig['uploaddir'] . '/' . $wfdDownloadObj->getVar('filename'), $helper->getConfig('uploaddir') . '/' . $wfdDownloadObj->getVar('filename'))) {
             echo "<span style='color:green;'>" . $wfdModuleConfig['uploaddir'] . '/' . $wfdDownloadObj->getVar('filename') . ' copied</span><br>';
             ++$countCopied;
         } else {
@@ -335,7 +335,7 @@ function import_wfd_to_wfdownloads()
     list($max_ratingid) = $GLOBALS['xoopsDB']->fetchRow($result);
 
     //Import data into category table
-    if (wfdownloads\Utility::checkModule('wf' . 'downloads') >= 320) {
+    if (Wfdownloads\Utility::checkModule('wf' . 'downloads') >= 320) {
         $sql = "INSERT INTO {$destination['cat']} (";
         $sql .= ' `old_cid`, `old_pid`, `title`, `imgurl`, `description`, `total`, `summary`, `spotlighttop`, `spotlighthis`, `dohtml`, `dosmiley`, `doxcode`, `doimage`, `dobr`, `weight`, `formulize_fid`';
         $sql .= ' ) SELECT ';
@@ -352,7 +352,7 @@ function import_wfd_to_wfdownloads()
     echo "Imported {$GLOBALS['xoopsDB']->getAffectedRows()} categories into {$destination['cat']}<br>";
 
     //Import data into downloads table
-    if (wfdownloads\Utility::checkModule('wf' . 'downloads') >= 320) {
+    if (Wfdownloads\Utility::checkModule('wf' . 'downloads') >= 320) {
         $sql = "INSERT INTO {$destination['downloads']} (";
         $sql .= ' `cid`, `old_lid`, `old_cid`, `title`, `url`, `filename`, `filetype`, `homepage`, `version`, `size`, `platform`, `screenshot`, `screenshot2`, `screenshot3`, `screenshot4`, `submitter`, `publisher`, `status`, `date`, `hits`, `rating`, `votes`, `comments`, `license`, `mirror`, `price`, `paypalemail`, `features`, `requirements`, `homepagetitle`, `forumid`, `limitations`, `versiontypes`, `dhistory`, `published`, `expired`, `updated`, `offline`, `summary`, `description`, `ipaddress`, `notifypub`, `formulize_idreq`';
         $sql .= ' ) SELECT ';
@@ -381,7 +381,7 @@ function import_wfd_to_wfdownloads()
     echo "Imported {$GLOBALS['xoopsDB']->getAffectedRows()} mirrors into {$destination['mirrors']}<br>";
 
     //Import data into reviews table
-    if (wfdownloads\Utility::checkModule('wf' . 'downloads') >= 320) {
+    if (Wfdownloads\Utility::checkModule('wf' . 'downloads') >= 320) {
         $sql = "INSERT INTO {$destination['reviews']} (";
         $sql .= ' `lid`, `title`, `review`, `submit`, `date`, `uid`, `rate`';
         $sql .= ' ) SELECT';

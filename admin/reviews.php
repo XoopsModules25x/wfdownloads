@@ -20,7 +20,7 @@
  */
 
 use Xmf\Request;
-use Xoopsmodules\wfdownloads;
+use XoopsModules\Wfdownloads;
 
 $currentFile = basename(__FILE__);
 require_once __DIR__ . '/admin_header.php';
@@ -44,7 +44,7 @@ switch ($op) {
                 exit();
             }
         } else {
-            wfdownloads\Utility::getCpHeader();
+            Wfdownloads\Utility::getCpHeader();
             xoops_confirm(['op' => 'review.delete', 'review_id' => $review_id, 'ok' => true], $currentFile, _AM_WFDOWNLOADS_FILE_REALLYDELETEDTHIS . '<br><br>' . $reviewObj->getVar('title'), _AM_WFDOWNLOADS_BDELETE);
             xoops_cp_footer();
         }
@@ -61,7 +61,7 @@ switch ($op) {
             $helper->getHandler('review')->insert($reviewObj);
             redirect_header($currentFile, 1, sprintf(_AM_WFDOWNLOADS_REV_REVIEW_UPDATED, $reviewObj->getVar('title')));
         } else {
-            wfdownloads\Utility::getCpHeader();
+            Wfdownloads\Utility::getCpHeader();
             xoops_confirm(['op' => 'review.approve', 'review_id' => $reviewObj->getVar('review_id'), 'ok' => true], $currentFile, _AM_WFDOWNLOADS_REVIEW_APPROVETHIS . '<br><br>' . $reviewObj->getVar('title'), _AM_WFDOWNLOADS_REVIEW_APPROVETHIS);
             xoops_cp_footer();
         }
@@ -72,7 +72,7 @@ switch ($op) {
         if (!$reviewObj = $helper->getHandler('review')->get($review_id)) {
             redirect_header($currentFile, 4, _AM_WFDOWNLOADS_ERROR_REVIEWNOTFOUND);
         }
-        wfdownloads\Utility::getCpHeader();
+        Wfdownloads\Utility::getCpHeader();
         $adminObject = \Xmf\Module\Admin::getInstance();
         $adminObject->displayNavigation($currentFile);
         $sform = $reviewObj->getForm();
@@ -114,7 +114,7 @@ switch ($op) {
         $criteria_published->setStart($start_published);
         $reviews_published = $helper->getHandler('review')->getObjects($criteria_published);
 
-        wfdownloads\Utility::getCpHeader();
+        Wfdownloads\Utility::getCpHeader();
         $adminObject = \Xmf\Module\Admin::getInstance();
         $adminObject->displayNavigation($currentFile);
 

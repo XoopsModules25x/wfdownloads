@@ -20,8 +20,8 @@
  */
 
 use Xmf\Request;
-use Xoopsmodules\wfdownloads;
-use Xoopsmodules\wfdownloads\common;
+use XoopsModules\Wfdownloads;
+use XoopsModules\Wfdownloads\Common;
 
 $currentFile = basename(__FILE__);
 require_once __DIR__ . '/header.php';
@@ -47,7 +47,7 @@ if (0 == $downloadObj->getVar('published') || $downloadObj->getVar('published') 
 }
 
 // Check permissions
-if (false === $helper->getConfig('enable_brokenreports') && !wfdownloads\Utility::userIsAdmin()) {
+if (false === $helper->getConfig('enable_brokenreports') && !Wfdownloads\Utility::userIsAdmin()) {
     redirect_header('index.php', 3, _NOPERM);
 }
 
@@ -126,7 +126,7 @@ switch ($op) {
             require_once XOOPS_ROOT_PATH . '/header.php';
 
             // Begin Main page Heading etc
-            $catarray['imageheader'] = wfdownloads\Utility::headerImage();
+            $catarray['imageheader'] = Wfdownloads\Utility::headerImage();
             $xoopsTpl->assign('catarray', $catarray);
 
             $xoTheme->addScript(XOOPS_URL . '/browse.php?Frameworks/jquery/jquery.js');

@@ -20,8 +20,8 @@
  */
 
 use Xmf\Request;
-use Xoopsmodules\wfdownloads;
-use Xoopsmodules\wfdownloads\common;
+use XoopsModules\Wfdownloads;
+use XoopsModules\Wfdownloads\Common;
 
 $currentFile = basename(__FILE__);
 require_once __DIR__ . '/header.php';
@@ -84,7 +84,7 @@ switch ($op) {
 
         $xoopsTpl->assign('wfdownloads_url', WFDOWNLOADS_URL . '/');
 
-        $catarray['imageheader'] = wfdownloads\Utility::headerImage();
+        $catarray['imageheader'] = Wfdownloads\Utility::headerImage();
         $xoopsTpl->assign('catarray', $catarray);
 
         // Breadcrumb
@@ -96,7 +96,7 @@ switch ($op) {
         $xoopsTpl->assign('lid', $lid);
         $xoopsTpl->assign('cid', $cid);
 
-        $xoopsTpl->assign('image_header', wfdownloads\Utility::headerImage());
+        $xoopsTpl->assign('image_header', Wfdownloads\Utility::headerImage());
 
         $xoopsTpl->assign('submission_disclaimer', true);
         $xoopsTpl->assign('download_disclaimer', false);
@@ -113,7 +113,7 @@ switch ($op) {
         }
 
         $xoopsTpl->assign('categoryPath', _MD_WFDOWNLOADS_DISCLAIMERAGREEMENT);
-        $xoopsTpl->assign('module_home', wfdownloads\Utility::moduleHome(true));
+        $xoopsTpl->assign('module_home', Wfdownloads\Utility::moduleHome(true));
 
         require_once __DIR__ . '/footer.php';
         exit();
@@ -139,7 +139,7 @@ switch ($op) {
             $categoryObj = $helper->getHandler('category')->get($cid);
             $fid         = $categoryObj->getVar('formulize_fid');
             $customArray = [];
-            if (wfdownloads\Utility::checkModule('formulize') && $fid) {
+            if (Wfdownloads\Utility::checkModule('formulize') && $fid) {
                 require_once XOOPS_ROOT_PATH . '/modules/formulize/include/formdisplay.php';
                 require_once XOOPS_ROOT_PATH . '/modules/formulize/include/functions.php';
                 $customArray['fid']           = $fid;
@@ -150,7 +150,7 @@ switch ($op) {
                 $customArray['entry']         = $downloadObj->getVar('formulize_idreq');
                 $customArray['go_back']       = '';
                 $customArray['parentLinks']   = '';
-                if (wfdownloads\Utility::checkModule('formulize') < 300) {
+                if (Wfdownloads\Utility::checkModule('formulize') < 300) {
                     $owner = getEntryOwner($customArray['entry']); // is a Formulize function
                 } else {
                     $owner = getEntryOwner($customArray['entry'], $fid); // is a Formulize function
@@ -159,7 +159,7 @@ switch ($op) {
                 $customArray['owner_groups'] = $owner_groups;
             }
             $sform = $downloadObj->getForm($customArray);
-        } elseif (wfdownloads\Utility::checkModule('formulize')) {
+        } elseif (Wfdownloads\Utility::checkModule('formulize')) {
             // two steps form: 1st step
             $sform = $downloadObj->getCategoryForm(_MD_WFDOWNLOADS_FFS_SUBMIT1ST_STEP);
         } else {
@@ -177,7 +177,7 @@ switch ($op) {
 
         $xoopsTpl->assign('wfdownloads_url', WFDOWNLOADS_URL . '/');
 
-        $catarray['imageheader'] = wfdownloads\Utility::headerImage();
+        $catarray['imageheader'] = Wfdownloads\Utility::headerImage();
 
         // Breadcrumb
         $breadcrumb = new common\Breadcrumb();
@@ -187,7 +187,7 @@ switch ($op) {
 
         $xoopsTpl->assign('catarray', $catarray);
         $xoopsTpl->assign('categoryPath', _MD_WFDOWNLOADS_SUBMITDOWNLOAD);
-        $xoopsTpl->assign('module_home', wfdownloads\Utility::moduleHome(true));
+        $xoopsTpl->assign('module_home', Wfdownloads\Utility::moduleHome(true));
         $xoopsTpl->assign('submit_form', $sform->render());
 
         require_once __DIR__ . '/footer.php';
@@ -209,14 +209,14 @@ switch ($op) {
             $size  = empty($_POST['size']) || !is_numeric($_POST['size']) ? 0 : (int)$_POST['size'];
             $title = trim($_POST['title']);
         } else {
-            $isAdmin  = wfdownloads\Utility::userIsAdmin();
-            $down     = wfdownloads\Utility::uploading($_FILES, $helper->getConfig('uploaddir'), '', $currentFile, 0, false, $isAdmin);
+            $isAdmin  = Wfdownloads\Utility::userIsAdmin();
+            $down     = Wfdownloads\Utility::uploading($_FILES, $helper->getConfig('uploaddir'), '', $currentFile, 0, false, $isAdmin);
             $url      = ('http://' !== $_POST['url']) ? $_POST['url'] : '';
             $size     = $down['size'];
             $filename = $down['filename'];
             $filetype = $_FILES['userfile']['type'];
             $title    = $_FILES['userfile']['name'];
-            $title    = rtrim(wfdownloads\Utility::strrrchr($title, '.'), '.');
+            $title    = rtrim(Wfdownloads\Utility::strrrchr($title, '.'), '.');
             $title    = (isset($_POST['title_checkbox']) && 1 == $_POST['title_checkbox']) ? $title : trim($_POST['title']);
         }
 
@@ -301,7 +301,7 @@ switch ($op) {
         }
 
         // Formulize module support (2006/05/04) jpc - start
-        if (wfdownloads\Utility::checkModule('formulize')) {
+        if (Wfdownloads\Utility::checkModule('formulize')) {
             // Now that the $downloadObj object has been instantiated, handle the Formulize part of the submission...
             $categoryObj = $helper->getHandler('category')->get($cid);
             $fid         = $categoryObj->getVar('formulize_fid');
@@ -312,7 +312,7 @@ switch ($op) {
                 if ($lid) {
                     $entries[$fid][0] = $downloadObj->getVar('formulize_idreq');
                     if ($entries[$fid][0]) {
-                        if (wfdownloads\Utility::checkModule('formulize') < 300) {
+                        if (Wfdownloads\Utility::checkModule('formulize') < 300) {
                             $owner = getEntryOwner($entries[$fid][0]); // is a Formulize function
                         } else {
                             $owner = getEntryOwner($entries[$fid][0], $fid); // is a Formulize function

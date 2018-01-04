@@ -1,4 +1,4 @@
-<?php namespace Xoopsmodules\wfdownloads;
+<?php namespace XoopsModules\Wfdownloads;
 /**
  * XOOPS tree handler
  *
@@ -16,7 +16,7 @@
  * @author          Kazumi Ono (AKA onokazu) http://www.myweb.ne.jp/, http://jp.xoops.org/
  */
 
-use Xoopsmodules\wfdownloads;
+use XoopsModules\Wfdownloads;
 
 defined('XOOPS_ROOT_PATH') || die('XOOPS root path not defined');
 

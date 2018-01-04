@@ -17,7 +17,7 @@ How to install or Update Wfdownloads
 
 For information on how to install or update this module, please read the module documentation, available in the module package:
 
-\wfdownloads\docs\install.txt
+\Wfdownloads\docs\install.txt
 
 !!!  Please read the docs before updating or installing !!!
 
@@ -27,7 +27,7 @@ Changes in the language files
 
 To see which language constants have been modified, have a look at the diff file here :
 
-\wfdownloads\docs\lang_diff.txt
+\Wfdownloads\docs\lang_diff.txt
 
 
 XOOPS Development Team

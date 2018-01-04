@@ -18,8 +18,8 @@
  * @author          Xoops Development Team
  */
 
-use Xoopsmodules\wfdownloads;
-use Xoopsmodules\wfdownloads\common;
+use XoopsModules\Wfdownloads;
+use XoopsModules\Wfdownloads\Common;
 
 $currentFile = basename(__FILE__);
 require_once __DIR__ . '/header.php';
@@ -27,7 +27,7 @@ require_once __DIR__ . '/header.php';
 $GLOBALS['xoopsOption']['template_main'] = "{$helper->getModule()->dirname()}_topten.tpl";
 
 // Check permissions
-if (('rate' === $_GET['list']) && false === $helper->getConfig('enable_ratings') && !wfdownloads\Utility::userIsAdmin()) {
+if (('rate' === $_GET['list']) && false === $helper->getConfig('enable_ratings') && !Wfdownloads\Utility::userIsAdmin()) {
     redirect_header('index.php', 3, _NOPERM);
 }
 $groups = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : [0 => XOOPS_GROUP_ANONYMOUS];
@@ -49,15 +49,15 @@ $sort         = (isset($_GET['list']) && in_array($_GET['list'], $action_array))
 $thisselected = $action_array[$sort];
 $sortDB       = $list_array[$thisselected];
 
-$catarray['imageheader'] = wfdownloads\Utility::headerImage();
-//$catarray['letters']     = wfdownloads\Utility::lettersChoice();
+$catarray['imageheader'] = Wfdownloads\Utility::headerImage();
+//$catarray['letters']     = Wfdownloads\Utility::lettersChoice();
 /** @var \XoopsDatabase $db */
 $db           = \XoopsDatabaseFactory::getDatabase();
-$objHandler = new wfdownloads\DownloadHandler($db);
- $choicebyletter = new wfdownloads\common\ChoiceByLetter($objHandler, null, null, range('a', 'z'), 'letter');
+$objHandler = new Wfdownloads\DownloadHandler($db);
+ $choicebyletter = new Wfdownloads\Common\ChoiceByLetter($objHandler, null, null, range('a', 'z'), 'letter');
 $catarray['letters']  = $choicebyletter->render();
 
-$catarray['toolbar']     = wfdownloads\Utility::toolbar();
+$catarray['toolbar']     = Wfdownloads\Utility::toolbar();
 
 
 $xoopsTpl->assign('catarray', $catarray);
@@ -138,6 +138,6 @@ if ('rate' === $_GET['list']) {
     $xoopsTpl->assign('categoryPath', _MD_WFDOWNLOADS_DOWNLOAD_MOST_POPULAR);
 }
 
-$xoopsTpl->assign('module_home', wfdownloads\Utility::moduleHome(true));
+$xoopsTpl->assign('module_home', Wfdownloads\Utility::moduleHome(true));
 
 require_once __DIR__ . '/footer.php';

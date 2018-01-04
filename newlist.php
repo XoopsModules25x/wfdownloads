@@ -18,8 +18,8 @@
  * @author          Xoops Development Team
  */
 
-use Xoopsmodules\wfdownloads;
-use Xoopsmodules\wfdownloads\common;
+use XoopsModules\Wfdownloads;
+use XoopsModules\Wfdownloads\Common;
 
 $currentFile = basename(__FILE__);
 require_once __DIR__ . '/header.php';
@@ -36,15 +36,15 @@ $xoopsTpl->assign('wfdownloads_url', WFDOWNLOADS_URL . '/');
 
 $groups = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : [0 => XOOPS_GROUP_ANONYMOUS];
 
-$catArray['imageheader'] = wfdownloads\Utility::headerImage();
-//$catArray['letters']     = wfdownloads\Utility::lettersChoice();
+$catArray['imageheader'] = Wfdownloads\Utility::headerImage();
+//$catArray['letters']     = Wfdownloads\Utility::lettersChoice();
 /** @var \XoopsDatabase $db */
 $db           = \XoopsDatabaseFactory::getDatabase();
-$objHandler = new wfdownloads\DownloadHandler($db);
-$choicebyletter = new wfdownloads\common\ChoiceByLetter($objHandler, null, null, range('a', 'z'), 'letter');
+$objHandler = new Wfdownloads\DownloadHandler($db);
+$choicebyletter = new Wfdownloads\Common\ChoiceByLetter($objHandler, null, null, range('a', 'z'), 'letter');
 $catarray['letters']  = $choicebyletter->render();
 
-$catArray['toolbar']     = wfdownloads\Utility::toolbar();
+$catArray['toolbar']     = Wfdownloads\Utility::toolbar();
 $xoopsTpl->assign('catarray', $catArray);
 
 // Breadcrumb
@@ -110,5 +110,5 @@ if (isset($days)) {
 // Breadcrumb
 $xoopsTpl->assign('wfdownloads_breadcrumb', $breadcrumb->render());
 
-$xoopsTpl->assign('module_home', wfdownloads\Utility::moduleHome(true));
+$xoopsTpl->assign('module_home', Wfdownloads\Utility::moduleHome(true));
 require_once __DIR__ . '/footer.php';

@@ -1,4 +1,4 @@
-<h5>3.50 Alpha 1 [NOT RELEASED]</h5>
+<h5>3.50 Alpha 1 [NOT RELEASED]</h5>  Dev: Xoops 2.5.9, PHP 7.2.0
 <hr>
 - namespaces (mamba)
 
@@ -281,7 +281,7 @@ Fixed: #3293 Image upload now working   (m0nty)
 Fixed: #3306 Download description always cut off (ignoring orig. length) now working   (m0nty)
 Fixed: #3303 screenshot image not displayed now working  (m0nty)
 Fixed: #3308 Upgrade DB script now fully working  (m0nty)
-Fixed: #3353 Edited language file to say "files moved" instead of files moved and cat deleted (categories arent deleted when moving files.)  \wfdownloads\language\english\admin.php line 0076  _AM_WFDOWNLOADS_CCATEGORY_MODIFY_MOVED (m0nty)
+Fixed: #3353 Edited language file to say "files moved" instead of files moved and cat deleted (categories arent deleted when moving files.)  \Wfdownloads\language\english\admin.php line 0076  _AM_WFDOWNLOADS_CCATEGORY_MODIFY_MOVED (m0nty)
 Fixed: #3304 screenshot image doesn't display when submitted from userside via submit.php. problem was in submit.php  the scrrenshot var was not passed to the sql query. (m0nty)
 Fixed: typo in uploader.php  line 164: $_FILES[$media_name]['error'][$index] instead of $_FILES[$media_name]['errir'][$index]  (m0nty)
 Fixed: bug in user submission submit.php  when users submitted, the file wasn't displayed in the cat list.. caused by the cat select (cid) variable not being submitted to the sql query on submission.  (m0nty)

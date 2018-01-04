@@ -1,4 +1,4 @@
-<?php namespace Xoopsmodules\wfdownloads;
+<?php namespace XoopsModules\Wfdownloads;
 
 /*
  * You may not change or alter any portion of this comment or credits
@@ -18,7 +18,7 @@
  * @author       XOOPS Development Team
  */
 
-use Xoopsmodules\wfdownloads;
+use XoopsModules\Wfdownloads;
 
 defined('XOOPS_ROOT_PATH') || exit('Restricted access');
 
@@ -42,7 +42,7 @@ class Helper extends \Xmf\Module\Helper
     /**
      * @param bool $debug
      *
-     * @return \Xoopsmodules\wfdownloads\Helper
+     * @return \XoopsModules\Wfdownloads\Helper
      */
     public static function getInstance($debug = false)
     {
@@ -84,7 +84,7 @@ class Helper extends \Xmf\Module\Helper
     public function _initHandler($name)
     {
         $this->addLog('INIT ' . $name . ' HANDLER');
-        $myClass                 = 'Xoopsmodules\\wfdownloads' . '\\' . ucfirst($name) . 'Handler';
+        $myClass                 = 'XoopsModules\\Wfdownloads' . '\\' . ucfirst($name) . 'Handler';
         $db                      = \XoopsDatabaseFactory::getDatabase();
         $this->handler[$name . 'Handler'] = new $myClass($db);
     }

@@ -37,7 +37,7 @@
  * @link    http://www.smartfactory.ca The SmartFactory
  */
 
-use Xoopsmodules\wfdownloads;
+use XoopsModules\Wfdownloads;
 
 defined('XOOPS_ROOT_PATH') || die('XOOPS root path not defined');
 

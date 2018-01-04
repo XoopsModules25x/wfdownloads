@@ -20,8 +20,8 @@
  */
 
 use Xmf\Request;
-use Xoopsmodules\wfdownloads;
-use Xoopsmodules\wfdownloads\common;
+use XoopsModules\Wfdownloads;
+use XoopsModules\Wfdownloads\Common;
 
 $currentFile = basename(__FILE__);
 require_once __DIR__ . '/header.php';
@@ -47,7 +47,7 @@ if (0 == $downloadObj->getVar('published') || $downloadObj->getVar('published') 
 }
 
 // Check permissions
-if (false === $helper->getConfig('enable_mirrors') && !wfdownloads\Utility::userIsAdmin()) {
+if (false === $helper->getConfig('enable_mirrors') && !Wfdownloads\Utility::userIsAdmin()) {
     redirect_header('index.php', 3, _NOPERM);
 }
 $userGroups = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : [0 => XOOPS_GROUP_ANONYMOUS];
@@ -85,7 +85,7 @@ switch ($op) {
         // Generate content header
         $sql                     = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('wfdownloads_indexpage') . ' ';
         $head_arr                = $GLOBALS['xoopsDB']->fetchArray($GLOBALS['xoopsDB']->query($sql));
-        $catarray['imageheader'] = wfdownloads\Utility::headerImage();
+        $catarray['imageheader'] = Wfdownloads\Utility::headerImage();
         $xoopsTpl->assign('catarray', $catarray);
         $xoopsTpl->assign('category_path', $helper->getHandler('category')->getNicePath($cid));
         $xoopsTpl->assign('category_id', $cid);
@@ -126,7 +126,7 @@ switch ($op) {
             $mirror_array = $mirrorObj->toArray();
             if (1 == $helper->getConfig('enable_onlinechk')) {
                 $serverURL                = str_replace('http://', '', trim($mirror_array['homeurl']));
-                $mirror_array['isonline'] = wfdownloads\Utility::mirrorOnline($serverURL);
+                $mirror_array['isonline'] = Wfdownloads\Utility::mirrorOnline($serverURL);
             } else {
                 $mirror_array['isonline'] = 2;
             }
@@ -143,7 +143,7 @@ switch ($op) {
         $xoopsTpl->assign('navbar', $navbar);
 
         $xoopsTpl->assign('categoryPath', $pathstring . ' > ' . $download_array['title']);
-        $xoopsTpl->assign('module_home', wfdownloads\Utility::moduleHome(true));
+        $xoopsTpl->assign('module_home', Wfdownloads\Utility::moduleHome(true));
 
         require_once __DIR__ . '/footer.php';
         break;
@@ -204,7 +204,7 @@ switch ($op) {
             $breadcrumb->addLink(_MD_WFDOWNLOADS_ADDMIRROR, '');
             echo $breadcrumb->render();
 
-            echo "<div align='center'>" . wfdownloads\Utility::headerImage() . "</div><br>\n";
+            echo "<div align='center'>" . Wfdownloads\Utility::headerImage() . "</div><br>\n";
             echo '<div>' . _MD_WFDOWNLOADS_MIRROR_SNEWMNAMEDESC . "</div>\n";
 
             // Generate form

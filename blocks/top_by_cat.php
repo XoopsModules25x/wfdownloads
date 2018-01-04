@@ -26,7 +26,11 @@
  *            $options[1]   = How many downloads are displayes
  * Output  : Returns the most recent or most popular downloads
  */
+
+use XoopsModules\Wfdownloads;
+
 defined('XOOPS_ROOT_PATH') || die('XOOPS root path not defined');
+
 require_once __DIR__ . '/../include/common.php';
 /**
  * @param $options
@@ -35,7 +39,8 @@ require_once __DIR__ . '/../include/common.php';
  */
 function wfdownloads_top_by_cat_show($options)
 {
-    $helper = wfdownloads\Helper::getInstance();
+    $helper          = Wfdownloads\Helper::getInstance();
+    $categoryHandler = new Wfdownloads\CategoryHandler($GLOBALS['xoopsDB']);
 
     $gpermHandler             = xoops_getHandler('groupperm');
     $groups                   = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : [0 => XOOPS_GROUP_ANONYMOUS];
@@ -70,10 +75,13 @@ function wfdownloads_top_by_cat_show($options)
 
     $categoriesTopParentByCid = $helper->getHandler('category')->getAllSubcatsTopParentCid();
 
-    foreach ($helper->getHandler('category')->topCategories as $cid) {
-        $block['topcats'][$cid]['title']  = $helper->getHandler('category')->allCategories[$cid]->getVar('title');
-        $block['topcats'][$cid]['cid']    = $cid;
-        $block['topcats'][$cid]['imgurl'] = $helper->getHandler('category')->allCategories[$cid]->getVar('imgurl');
+    //    foreach ($helper->getHandler('Category')->topCategories as $cid) {
+    if (is_array($categoryHandler->topCategories) && count($categoryHandler->topCategories) > 0) {
+        foreach ($categoryHandler->topCategories as $cid) {
+            $block['topcats'][$cid]['title']  = $helper->getHandler('category')->allCategories[$cid]->getVar('title');
+            $block['topcats'][$cid]['cid']    = $cid;
+            $block['topcats'][$cid]['imgurl'] = $helper->getHandler('category')->allCategories[$cid]->getVar('imgurl');
+        }
     }
 
     foreach ($block['downloads'] as $value) {

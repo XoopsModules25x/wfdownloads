@@ -1,4 +1,4 @@
-<?php namespace Xoopsmodules\wfdownloads;
+<?php namespace XoopsModules\Wfdownloads;
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -19,7 +19,7 @@
  */
 
 
-use Xoopsmodules\wfdownloads;
+use XoopsModules\Wfdownloads;
 
 /*
 CREATE TABLE wfdownloads_mimetypes (
@@ -50,7 +50,7 @@ class Mimetype extends \XoopsObject
      */
     public function __construct($id = null)
     {
-        $this->helper = wfdownloads\Helper::getInstance();
+        $this->helper = Wfdownloads\Helper::getInstance();
         $this->db          = \XoopsDatabaseFactory::getDatabaseConnection();
         $this->initVar('mime_id', XOBJ_DTYPE_INT);
         $this->initVar('mime_ext', XOBJ_DTYPE_TXTBOX, '');

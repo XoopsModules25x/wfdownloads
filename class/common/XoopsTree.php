@@ -1,4 +1,4 @@
-<?php namespace Xoopsmodules\wfdownloads\common;
+<?php namespace XoopsModules\Wfdownloads\Common;
 
 /**
  * XOOPS tree handler
@@ -18,7 +18,7 @@
  * @version         $Id: xoopstree.php 12863 2014-11-22 04:11:17Z beckmi $
  */
 
-use Xoopsmodules\wfdownloads;
+use XoopsModules\Wfdownloads;
 
 defined('XOOPS_ROOT_PATH') || die('XOOPS root path not defined');
 

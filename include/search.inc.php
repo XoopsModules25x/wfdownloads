@@ -43,7 +43,7 @@ function wfdownloads_search(
     $searchIn = '',
     $extra = ''
 ) {
-    $helper = wfdownloads\Helper::getInstance();
+    $helper = Wfdownloads\Helper::getInstance();
 
     $userGroups = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : [0 => XOOPS_GROUP_ANONYMOUS];
 
@@ -109,7 +109,7 @@ function wfdownloads_search(
         of the results is returned.  If OR is in effect, then all results are returned.
         */
         // Determine what the custom forms are that need searching, if any
-        if (wfdownloads\Utility::checkModule('formulize')) {
+        if (Wfdownloads\Utility::checkModule('formulize')) {
             $fids = [];
             foreach ($allowedDownCategoriesIds as $cid) {
                 $categoryObj = $helper->getHandler('category')->get($cid);
@@ -148,7 +148,7 @@ function wfdownloads_search(
             $saved_ids = [];
 
             // Find all IDs of entries in all custom forms which match the current term
-            if (wfdownloads\Utility::checkModule('formulize')) {
+            if (Wfdownloads\Utility::checkModule('formulize')) {
                 foreach ($fids as $fid) {
                     if (!isset($formulizeElementsHandler)) {
                         $formulizeElementsHandler = xoops_getModuleHandler('elements', 'formulize');
@@ -254,7 +254,7 @@ function wfdownloads_search(
 
     /*
         // Swish-e support EXPERIMENTAL
-        if (($helper->getConfig('enable_swishe') === true) && wfdownloads\Utility::checkSwishe() === true) {
+        if (($helper->getConfig('enable_swishe') === true) && Wfdownloads\Utility::checkSwishe() === true) {
     // IN PROGRESS
             $swisheCriteria = new \CriteriaCompo(new \Criteria('cid', '(' . implode(',', $allowedDownCategoriesIds) . ')', 'IN'));
             if ($userId != 0) {
@@ -268,7 +268,7 @@ function wfdownloads_search(
                 $swisheQueryWords = '';
             }
             if (strlen($swisheQueryWords) > 0) {
-                $swisheSearchResults = wfdownloads\Utility::searchSwishe($swisheQueryWords);
+                $swisheSearchResults = Wfdownloads\Utility::searchSwishe($swisheQueryWords);
                 foreach ($swisheSearchResults as $swisheSearchResult) {
                     $tempSwisheCriteria = clone($swisheCriteria);
                     $tempSwisheCriteria->add(new \Criteria('filename', $swisheSearchResult['file_path']));

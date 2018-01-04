@@ -18,8 +18,8 @@
  * @author          Xoops Development Team
  */
 
-use Xoopsmodules\wfdownloads;
-use Xoopsmodules\wfdownloads\common;
+use XoopsModules\Wfdownloads;
+use XoopsModules\Wfdownloads\Common;
 
 $currentFile = pathinfo(__FILE__, PATHINFO_BASENAME);
 require_once __DIR__ . '/header.php';
@@ -73,7 +73,7 @@ $xoopsTpl->assign('wfdownloads_url', WFDOWNLOADS_URL . '/');
 $breadcrumb = new common\Breadcrumb();
 $breadcrumb->addLink($helper->getModule()->getVar('name'), WFDOWNLOADS_URL);
 
-$xoopsTpl->assign('module_home', wfdownloads\Utility::moduleHome(false)); // this definition is not removed for backward compatibility issues
+$xoopsTpl->assign('module_home', Wfdownloads\Utility::moduleHome(false)); // this definition is not removed for backward compatibility issues
 $xoopsTpl->assign('wfdownloads_breadcrumb', $breadcrumb->render());
 
 $categoryCriteria = new \CriteriaCompo();
@@ -86,7 +86,7 @@ $categoryObjsTree = new \XoopsObjectTree($categoryObjs, 'cid', 'pid');
 // Generate content header
 $sql                          = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('wfdownloads_indexpage') . ' ';
 $head_arr                     = $GLOBALS['xoopsDB']->fetchArray($GLOBALS['xoopsDB']->query($sql));
-$catarray['imageheader']      = wfdownloads\Utility::headerImage();
+$catarray['imageheader']      = Wfdownloads\Utility::headerImage();
 $catarray['indexheaderalign'] = $head_arr['indexheaderalign'];
 $catarray['indexfooteralign'] = $head_arr['indexfooteralign'];
 $html                         = $head_arr['nohtml'] ? 1 : 0;
@@ -96,21 +96,21 @@ $images                       = $head_arr['noimages'] ? 1 : 0;
 $breaks                       = $head_arr['nobreak'] ? 1 : 0;
 $catarray['indexheader']      =& $myts->displayTarea($head_arr['indexheader'], $html, $smiley, $xcodes, $images, $breaks);
 $catarray['indexfooter']      =& $myts->displayTarea($head_arr['indexfooter'], $html, $smiley, $xcodes, $images, $breaks);
-//$catarray['letters']          = wfdownloads\Utility::lettersChoice();
+//$catarray['letters']          = Wfdownloads\Utility::lettersChoice();
 /** @var \XoopsDatabase $db */
 $db           = \XoopsDatabaseFactory::getDatabase();
-$objHandler = new wfdownloads\DownloadHandler($db);
-$choicebyletter = new wfdownloads\common\ChoiceByLetter($objHandler, null, null, range('a', 'z'), 'letter');
+$objHandler = new Wfdownloads\DownloadHandler($db);
+$choicebyletter = new Wfdownloads\Common\ChoiceByLetter($objHandler, null, null, range('a', 'z'), 'letter');
 $catarray['letters']  = $choicebyletter->render();
 
-$catarray['toolbar']          = wfdownloads\Utility::toolbar();
+$catarray['toolbar']          = Wfdownloads\Utility::toolbar();
 $xoopsTpl->assign('catarray', $catarray);
 
 // Begin Main page download info
 $chcount = 0;
 $countin = 0;
 
-$listings = wfdownloads\Utility::getTotalDownloads($allowedDownCategoriesIds);
+$listings = Wfdownloads\Utility::getTotalDownloads($allowedDownCategoriesIds);
 
 // Get total amount of categories
 $total_cat = count($allowedDownCategoriesIds);
@@ -196,10 +196,10 @@ foreach (array_keys($mainCategoryObjs) as $i) {
                 }
             }
         }
-        $isNewImage = wfdownloads\Utility::isNewImage($publishdate);
+        $isNewImage = Wfdownloads\Utility::isNewImage($publishdate);
         if (('' !== $mainCategoryObjs[$i]->getVar('imgurl')) && is_file(XOOPS_ROOT_PATH . '/' . $helper->getConfig('catimage') . '/' . $mainCategoryObjs[$i]->getVar('imgurl'))) {
             if ($helper->getConfig('usethumbs') && function_exists('gd_info')) {
-                $imageURL = wfdownloads\Utility::createThumb(
+                $imageURL = Wfdownloads\Utility::createThumb(
                     $mainCategoryObjs[$i]->getVar('imgurl'),
                     $helper->getConfig('catimage'),
                     'thumbs',

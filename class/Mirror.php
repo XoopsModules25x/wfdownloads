@@ -1,4 +1,4 @@
-<?php namespace Xoopsmodules\wfdownloads;
+<?php namespace XoopsModules\Wfdownloads;
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -18,7 +18,7 @@
  * @author          Xoops Development Team
  */
 
-use Xoopsmodules\wfdownloads;
+use XoopsModules\Wfdownloads;
 
 defined('XOOPS_ROOT_PATH') || die('XOOPS root path not defined');
 require_once __DIR__ . '/../include/common.php';
@@ -38,7 +38,7 @@ class Mirror extends \XoopsObject
      */
     public function __construct($id = null)
     {
-        $this->helper = wfdownloads\Helper::getInstance();
+        $this->helper = Wfdownloads\Helper::getInstance();
         $this->db          = \XoopsDatabaseFactory::getDatabaseConnection();
         $this->initVar('mirror_id', XOBJ_DTYPE_INT);
         $this->initVar('lid', XOBJ_DTYPE_INT);

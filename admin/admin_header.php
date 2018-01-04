@@ -19,7 +19,7 @@
  * @author          Xoops Development Team
  */
 
-use Xoopsmodules\wfdownloads;
+use XoopsModules\Wfdownloads;
 
 $moduleDirName = basename(dirname(__DIR__));
 require_once dirname(dirname(dirname(__DIR__))) . '/mainfile.php';
@@ -30,8 +30,8 @@ require_once $GLOBALS['xoops']->path('www/class/xoopsformloader.php');
 //require_once __DIR__ . '/../class/Utility.php';
 require_once __DIR__ . '/../include/common.php';
 
-/** @var wfdownloads\Helper $helper */
-$helper = wfdownloads\Helper::getInstance();
+/** @var Wfdownloads\Helper $helper */
+$helper = Wfdownloads\Helper::getInstance();
 
 /** @var Xmf\Module\Admin $adminObject */
 $adminObject = \Xmf\Module\Admin::getInstance();

@@ -26,7 +26,11 @@
  *            $options[1]   = How many downloads are displayes
  * Output  : Returns the most recent or most popular downloads
  */
+
+use XoopsModules\Wfdownloads;
+
 defined('XOOPS_ROOT_PATH') || die('XOOPS root path not defined');
+
 require_once __DIR__ . '/../include/common.php';
 /**
  * @param $options
@@ -35,7 +39,7 @@ require_once __DIR__ . '/../include/common.php';
  */
 function wfdownloads_top_show($options)
 {
-    $helper = wfdownloads\Helper::getInstance();
+    $helper = Wfdownloads\Helper::getInstance();
 
     $groups                   = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : [0 => XOOPS_GROUP_ANONYMOUS];
     $gpermHandler             = xoops_getHandler('groupperm');

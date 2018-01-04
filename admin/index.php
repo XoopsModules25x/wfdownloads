@@ -20,8 +20,8 @@
  */
 
 use Xmf\Module\Helper;
-use Xoopsmodules\wfdownloads;
-use Xoopsmodules\wfdownloads\common;
+use XoopsModules\Wfdownloads;
+use XoopsModules\Wfdownloads\Common;
 
 $currentFile = basename(__FILE__);
 require_once __DIR__ . '/admin_header.php';
@@ -35,10 +35,10 @@ require_once __DIR__ . '/../class/common/filechecker.php';
 xoops_cp_header();
 $adminObject = \Xmf\Module\Admin::getInstance();
 
-$helper       = wfdownloads\Helper::getInstance();
+$helper       = Wfdownloads\Helper::getInstance();
 
 //--------------------------
-$categories_count           = wfdownloads\Utility::categoriesCount();
+$categories_count           = Wfdownloads\Utility::categoriesCount();
 $votes_count                = $helper->getHandler('rating')->getCount();
 $brokenDownloads_count      = $helper->getHandler('report')->getCount();
 $modificationRequests_count = $helper->getHandler('modification')->getCount();
@@ -105,11 +105,11 @@ if (false === $helper->getConfig('enable_mirrors')) {
     $adminObject->addInfoBoxLine(sprintf('<infolabel>' . _AM_WFDOWNLOADS_SMIRRORS . '</infolabel>', $newMirrors_count, 'green'));
 }
 // module max file size
-$adminObject->addInfoBoxLine(sprintf('<infolabel>' . _AM_WFDOWNLOADS_DOWN_MODULE_MAXFILESIZE . '</infolabel>', wfdownloads\Utility::bytesToSize1024($helper->getConfig('maxfilesize')), 'green'));
+$adminObject->addInfoBoxLine(sprintf('<infolabel>' . _AM_WFDOWNLOADS_DOWN_MODULE_MAXFILESIZE . '</infolabel>', Wfdownloads\Utility::bytesToSize1024($helper->getConfig('maxfilesize')), 'green'));
 // upload file size limit
 // get max file size (setup and php.ini)
 $phpiniMaxFileSize = min((int)ini_get('upload_max_filesize'), (int)ini_get('post_max_size'), (int)ini_get('memory_limit')) * 1024 * 1024; // bytes
-$maxFileSize       = wfdownloads\Utility::bytesToSize1024(min($helper->getConfig('maxfilesize'), $phpiniMaxFileSize));
+$maxFileSize       = Wfdownloads\Utility::bytesToSize1024(min($helper->getConfig('maxfilesize'), $phpiniMaxFileSize));
 $adminObject->addInfoBoxLine(sprintf('<infolabel>' . _AM_WFDOWNLOADS_UPLOAD_MAXFILESIZE . '</infolabel>', $maxFileSize, 'green'));
 
 //------ check directories ---------------
@@ -117,7 +117,7 @@ $adminObject->addInfoBoxLine(sprintf('<infolabel>' . _AM_WFDOWNLOADS_UPLOAD_MAXF
 $adminObject->addConfigBoxLine('');
 $redirectFile = $_SERVER['PHP_SELF'];
 
-if (!wfdownloads\Utility::checkModule('formulize')) {
+if (!Wfdownloads\Utility::checkModule('formulize')) {
     $adminObject->addConfigBoxLine(_AM_WFDOWNLOADS_FORMULIZE_NOT_AVILABLE);
 } else {
     $adminObject->addConfigBoxLine(_AM_WFDOWNLOADS_FORMULIZE_AVAILABLE);
@@ -159,12 +159,12 @@ $adminObject->addConfigBoxLine('');
 
 //$moduleDirName = basename(dirname(__DIR__));
 
-/** @var wfdownloads\Configurator $configurator */
-$configurator = new wfdownloads\Configurator();
+/** @var Wfdownloads\Configurator $configurator */
+$configurator = new Wfdownloads\Configurator();
 
 
-/** @var wfdownloads\Utility $utility */
-$utility = new wfdownloads\Utility();
+/** @var Wfdownloads\Utility $utility */
+$utility = new Wfdownloads\Utility();
 
 
 foreach (array_keys($configurator->uploadFolders) as $i) {

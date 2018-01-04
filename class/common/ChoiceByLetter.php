@@ -1,4 +1,4 @@
-<?php namespace Xoopsmodules\wfdownloads\common;
+<?php namespace XoopsModules\Wfdownloads\Common;
 
 /*
  You may not change or alter any portion of this comment or credits
@@ -20,11 +20,11 @@
  * @version     $Id:$
  *
  * Example:
- * $choicebyletter = new wfdownloads\ChoiceByLetter($objHandler, null, null, range('a', 'z'), 'letter');
+ * $choicebyletter = new Wfdownloads\ChoiceByLetter($objHandler, null, null, range('a', 'z'), 'letter');
  * echo $choicebyletter->render();
  */
 
-use Xoopsmodules\wfdownloads;
+use XoopsModules\Wfdownloads;
 
 defined('XOOPS_ROOT_PATH') || die('XOOPS root path not defined');
 require_once __DIR__ . '/../../include/common.php';
@@ -79,7 +79,7 @@ class ChoiceByLetter
         $extra_arg = '',
         $caseSensitive = false)
     {
-        $this->helper     = wfdownloads\Helper::getInstance();
+        $this->helper     = Wfdownloads\Helper::getInstance();
         $this->objHandler = $objHandler;
         $this->criteria   = null === $criteria ? new \CriteriaCompo() : $criteria;
         $this->field_name = null === $field_name ? $this->objHandler->identifierName : $field_name;

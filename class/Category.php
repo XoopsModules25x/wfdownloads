@@ -1,4 +1,4 @@
-<?php namespace Xoopsmodules\wfdownloads;
+<?php namespace XoopsModules\Wfdownloads;
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -18,7 +18,7 @@
  * @author          Xoops Development Team
  */
 
-use Xoopsmodules\wfdownloads;
+use XoopsModules\Wfdownloads;
 
 defined('XOOPS_ROOT_PATH') || die('XOOPS root path not defined');
 require_once __DIR__ . '/../include/common.php';
@@ -38,7 +38,7 @@ class Category extends \XoopsObject
      */
     public function __construct()
     {
-        $this->helper = wfdownloads\Helper::getInstance();
+        $this->helper = Wfdownloads\Helper::getInstance();
         $this->db          = \XoopsDatabaseFactory::getDatabaseConnection();
         $this->initVar('cid', XOBJ_DTYPE_INT);
         $this->initVar('pid', XOBJ_DTYPE_INT, 0);
@@ -94,11 +94,11 @@ class Category extends \XoopsObject
         // category: title
         $form->addElement(new \XoopsFormText(_AM_WFDOWNLOADS_FCATEGORY_TITLE, 'title', 50, 255, $this->getVar('title', 'e')), true);
         // category: pid
-        if (wfdownloads\Utility::categoriesCount() > 0) {
+        if (Wfdownloads\Utility::categoriesCount() > 0) {
             $categoryObjs     = $this->wfdownloads->getHandler('category')->getObjects();
             $categoryObjsTree = new \XoopsObjectTree($categoryObjs, 'cid', 'pid');
 
-            if (wfdownloads\Utility::checkVerXoops($GLOBALS['xoopsModule'], '2.5.9')) {
+            if (Wfdownloads\Utility::checkVerXoops($GLOBALS['xoopsModule'], '2.5.9')) {
                 $catSelect = $categoryObjsTree->makeSelectElement('pid', 'title', '-', $this->getVar('pid'), true, 0, '', _AM_WFDOWNLOADS_FCATEGORY_SUBCATEGORY);
                 $form->addElement($catSelect);
             } else {
@@ -161,7 +161,7 @@ class Category extends \XoopsObject
         $form->addElement($options_tray);
         // Formulize module support (2006/05/04) jpc - start
         // category: formulize_fid
-        if (wfdownloads\Utility::checkModule('formulize')) {
+        if (Wfdownloads\Utility::checkModule('formulize')) {
             if (file_exists(XOOPS_ROOT_PATH . '/modules/formulize/include/functions.php')) {
                 require_once XOOPS_ROOT_PATH . '/modules/formulize/include/functions.php';
                 $fids           = allowedForms(); // is a Formulize function

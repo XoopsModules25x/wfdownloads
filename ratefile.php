@@ -20,8 +20,8 @@
  */
 
 use Xmf\Request;
-use Xoopsmodules\wfdownloads;
-use Xoopsmodules\wfdownloads\common;
+use XoopsModules\Wfdownloads;
+use XoopsModules\Wfdownloads\Common;
 
 $currentFile = basename(__FILE__);
 require_once __DIR__ . '/header.php';
@@ -46,7 +46,7 @@ if (false === $downloadObj->getVar('published') || $downloadObj->getVar('publish
 }
 
 // Check permissions
-if (false === $helper->getConfig('enable_ratings') && !wfdownloads\Utility::userIsAdmin()) {
+if (false === $helper->getConfig('enable_ratings') && !Wfdownloads\Utility::userIsAdmin()) {
     redirect_header('index.php', 3, _NOPERM);
 }
 // Breadcrumb
@@ -109,7 +109,7 @@ switch ($op) {
             $ratingObj->setVar('ratingtimestamp', time());
             if ($helper->getHandler('rating')->insert($ratingObj)) {
                 // All is well. Calculate Score & Add to Summary (for quick retrieval & sorting) to DB.
-                wfdownloads\Utility::updateRating($lid);
+                Wfdownloads\Utility::updateRating($lid);
                 $thankyouMessage = _MD_WFDOWNLOADS_VOTEAPPRE . '<br>' . sprintf(_MD_WFDOWNLOADS_THANKYOU, $GLOBALS['xoopsConfig']['sitename']);
                 redirect_header("singlefile.php?cid={$cid}&amp;lid={$lid}", 4, $thankyouMessage);
             } else {
@@ -171,7 +171,7 @@ switch ($op) {
                 'lid'         => $lid,
                 'cid'         => $cid,
                 'title'       => $downloadObj->getVar('title'),
-                'imageheader' =>  wfdownloads\Utility::headerImage()
+                'imageheader' =>  Wfdownloads\Utility::headerImage()
             ]); // this definition is not removed for backward compatibility issues
             require_once __DIR__ . '/footer.php';
         }

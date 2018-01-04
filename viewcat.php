@@ -20,8 +20,8 @@
  */
 
 use Xmf\Request;
-use Xoopsmodules\wfdownloads;
-use Xoopsmodules\wfdownloads\common;
+use XoopsModules\Wfdownloads;
+use XoopsModules\Wfdownloads\Common;
 
 $currentFile = basename(__FILE__);
 require_once __DIR__ . '/header.php';
@@ -30,7 +30,7 @@ $cid   = Request::getInt('cid', 0);
 $start = Request::getInt('start', 0);
 //$list = Request::getString('list', null);
 //$orderby = Request::getString('orderby', null);
-$orderby = isset($_GET['orderby']) ? wfdownloads\Utility::convertorderbyin($_GET['orderby']) : $helper->getConfig('filexorder');
+$orderby = isset($_GET['orderby']) ? Wfdownloads\Utility::convertorderbyin($_GET['orderby']) : $helper->getConfig('filexorder');
 
 $groups = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : [0 => XOOPS_GROUP_ANONYMOUS];
 
@@ -99,7 +99,7 @@ if (!isset($_GET['list']) && !isset($_GET['selectdate'])) {
 }
 
 // Formulize module support (2006/05/04) jpc - start
-if (wfdownloads\Utility::checkModule('formulize')) {
+if (Wfdownloads\Utility::checkModule('formulize')) {
     $formulize_fid = $categoryObj->getVar('formulize_fid');
     if ($formulize_fid) {
         $xoopsTpl->assign('custom_form', true);
@@ -110,19 +110,19 @@ if (wfdownloads\Utility::checkModule('formulize')) {
 // Formulize module support (2006/05/04) jpc - end
 
 // Generate Header
-$catArray['imageheader'] = wfdownloads\Utility::headerImage();
-//$catArray['letters']     = wfdownloads\Utility::lettersChoice();
+$catArray['imageheader'] = Wfdownloads\Utility::headerImage();
+//$catArray['letters']     = Wfdownloads\Utility::lettersChoice();
 /** @var \XoopsDatabase $db */
 $db           = \XoopsDatabaseFactory::getDatabase();
-$objHandler = new wfdownloads\DownloadHandler($db);
-$choicebyletter = new wfdownloads\common\ChoiceByLetter($objHandler, null, null, range('a', 'z'), 'letter');
+$objHandler = new Wfdownloads\DownloadHandler($db);
+$choicebyletter = new Wfdownloads\Common\ChoiceByLetter($objHandler, null, null, range('a', 'z'), 'letter');
 $catarray['letters']  = $choicebyletter->render();
 
-$catArray['toolbar']     = wfdownloads\Utility::toolbar();
+$catArray['toolbar']     = Wfdownloads\Utility::toolbar();
 $xoopsTpl->assign('catarray', $catArray);
 
 $xoopsTpl->assign('categoryPath', $helper->getHandler('category')->getNicePath($cid)); // this definition is not removed for backward compatibility issues
-$xoopsTpl->assign('module_home', wfdownloads\Utility::moduleHome(true)); // this definition is not removed for backward compatibility issues
+$xoopsTpl->assign('module_home', Wfdownloads\Utility::moduleHome(true)); // this definition is not removed for backward compatibility issues
 
 // Get categories tree
 $criteria = new \CriteriaCompo();
@@ -149,7 +149,7 @@ $xoopsTpl->assign('wfdownloads_breadcrumb', $breadcrumb->render());
 $allSubCategoryObjs = $categoryObjsTree->getFirstChild($cid);
 
 if (is_array($allSubCategoryObjs) > 0 && !isset($_GET['list']) && !isset($_GET['selectdate'])) {
-    $listings = wfdownloads\Utility::getTotalDownloads($allowedDownCategoriesIds);
+    $listings = Wfdownloads\Utility::getTotalDownloads($allowedDownCategoriesIds);
     $scount   = 1;
     foreach ($allSubCategoryObjs as $subCategoryObj) {
         $download_count = 0;
@@ -165,7 +165,7 @@ if (is_array($allSubCategoryObjs) > 0 && !isset($_GET['list']) && !isset($_GET['
         // ----- added for subcat images -----
         if (('' !== $subCategoryObj->getVar('imgurl')) && is_file(XOOPS_ROOT_PATH . '/' . $helper->getConfig('catimage') . '/' . $subCategoryObj->getVar('imgurl'))) {
             if ($helper->getConfig('usethumbs') && function_exists('gd_info')) {
-                $imageURL = wfdownloads\Utility::createThumb(
+                $imageURL = Wfdownloads\Utility::createThumb(
                     $subCategoryObj->getVar('imgurl'),
                     $helper->getConfig('catimage'),
                     'thumbs',
@@ -234,7 +234,7 @@ if (isset($cid) && $cid > 0 && isset($categoryObjs[$cid])) {
     // Making the category image and title available in the template
     if (('' !== $categoryObjs[$cid]->getVar('imgurl')) && is_file(XOOPS_ROOT_PATH . '/' . $helper->getConfig('catimage') . '/' . $categoryObjs[$cid]->getVar('imgurl'))) {
         if ($helper->getConfig('usethumbs') && function_exists('gd_info')) {
-            $imageURL = wfdownloads\Utility::createThumb(
+            $imageURL = Wfdownloads\Utility::createThumb(
                 $categoryObjs[$cid]->getVar('imgurl'),
                 $helper->getConfig('catimage'),
                 'thumbs',
@@ -290,10 +290,10 @@ if ($downloads_count > 0) {
     $xoopsTpl->assign('show_links', false);
     if ($downloads_count > 1 && 0 != $cid) {
         $xoopsTpl->assign('show_links', true);
-        $orderbyTrans = wfdownloads\Utility::convertorderbytrans($orderby);
-        $xoopsTpl->assign('orderby', wfdownloads\Utility::convertorderbyout($orderby));
-        $xoopsTpl->assign('lang_cursortedby', sprintf(_MD_WFDOWNLOADS_CURSORTBY, wfdownloads\Utility::convertorderbytrans($orderby)));
-        $orderby = wfdownloads\Utility::convertorderbyout($orderby);
+        $orderbyTrans = Wfdownloads\Utility::convertorderbytrans($orderby);
+        $xoopsTpl->assign('orderby', Wfdownloads\Utility::convertorderbyout($orderby));
+        $xoopsTpl->assign('lang_cursortedby', sprintf(_MD_WFDOWNLOADS_CURSORTBY, Wfdownloads\Utility::convertorderbytrans($orderby)));
+        $orderby = Wfdownloads\Utility::convertorderbyout($orderby);
     }
     // Screenshots display
     $xoopsTpl->assign('show_screenshot', false);

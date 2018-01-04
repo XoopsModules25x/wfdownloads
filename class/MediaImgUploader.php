@@ -1,4 +1,4 @@
-<?php namespace Xoopsmodules\wfdownloads;
+<?php namespace XoopsModules\Wfdownloads;
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -70,7 +70,7 @@
  * @copyright (c) 2000-2003 The Xoops Project - www.xoops.org
  */
 
-use Xoopsmodules\wfdownloads;
+use XoopsModules\Wfdownloads;
 
 mt_srand((double)microtime() * 1000000);
 //require_once XOOPS_ROOT_PATH . '/modules/wfdownloads/class/uploader.php';
