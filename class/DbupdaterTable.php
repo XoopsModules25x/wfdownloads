@@ -1,4 +1,5 @@
-<?php
+<?php namespace XoopsModules\Wfdownloads;
+
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -28,7 +29,7 @@
  */
 
 /**
- * WfdownloadsTable class
+ * DbupdaterTable class
  *
  * Information about an individual table
  *
@@ -42,9 +43,9 @@ use XoopsModules\Wfdownloads;
 defined('XOOPS_ROOT_PATH') || die('XOOPS root path not defined');
 
 /**
- * Class WfdownloadsTable
+ * Class DbupdaterTable
  */
-class WfdownloadsTable
+class DbupdaterTable
 {
     /**
      * @var string $_name name of the table
@@ -472,132 +473,6 @@ class WfdownloadsTable
                 echo "<li class='ok'>" . sprintf(_AM_WFDOWNLOADS_DB_MSG_DROPFIELD, $dropedField, $this->name()) . '</li>';
             }
         }
-
-        return $ret;
-    }
-}
-
-/**
- * WfdownloadsDbupdater class
- *
- * Class performing the database update for the module
- *
- * @package Wfdownloads
- * @author  marcan <marcan@smartfactory.ca>
- * @link    http://www.smartfactory.ca The SmartFactory
- */
-class WfdownloadsDbupdater
-{
-    /**
-     *
-     */
-    public function __construct()
-    {
-    }
-
-    /**
-     * Use to execute a general query
-     *
-     * @param string $query   query that will be executed
-     * @param string $goodmsg message displayed on success
-     * @param string $badmsg  message displayed on error
-     *
-     * @return bool true if success, false if an error occured
-     *
-     */
-    public function runQuery($query, $goodmsg, $badmsg)
-    {
-        $ret = $GLOBALS['xoopsDB']->query($query);
-        if (!$ret) {
-            echo "<li class='err'>$badmsg</li>";
-
-            return false;
-        } else {
-            echo "<li class='ok'>$goodmsg</li>";
-
-            return true;
-        }
-    }
-
-    /**
-     * Use to rename a table
-     *
-     * @param string $from name of the table to rename
-     * @param string $to   new name of the renamed table
-     *
-     * @return bool true if success, false if an error occured
-     */
-    public function renameTable($from, $to)
-    {
-        $from = $GLOBALS['xoopsDB']->prefix($from);
-        $to   = $GLOBALS['xoopsDB']->prefix($to);
-
-        $query = sprintf('ALTER TABLE %s RENAME %s', $from, $to);
-        $ret   = $GLOBALS['xoopsDB']->query($query);
-        if (!$ret) {
-            echo "<li class='err'>" . sprintf(_AM_WFDOWNLOADS_DB_MSG_RENAME_TABLE_ERR, $from) . '</li>';
-
-            return false;
-        } else {
-            echo "<li class='ok'>" . sprintf(_AM_WFDOWNLOADS_DB_MSG_RENAME_TABLE, $from, $to) . '</li>';
-
-            return true;
-        }
-    }
-
-    /**
-     * Use to update a table
-     *
-     * @param WfdownloadsTable $table {@link WfdownloadsTable} that will be updated
-     *
-     * @return bool true if success, false if an error occured
-     */
-    public function updateTable(WfdownloadsTable $table)
-    {
-        $ret = true;
-        echo '<ul>';
-
-        // If table has a structure, create the table
-        if ($table->getStructure()) {
-            $ret = $table->createTable() && $ret;
-        }
-
-        // If table is flag for drop, drop it
-        if ($table->_flagForDrop) {
-            $ret = $table->dropTable() && $ret;
-        }
-
-        // If table has data, insert it
-        if ($table->getData()) {
-            $ret = $table->addData() && $ret;
-        }
-
-        // If table has new fields to be added, add them
-        if ($table->getNewFields()) {
-            $ret = $table->addNewFields() && $ret;
-        }
-
-        // If table has altered field, alter the table
-        if ($table->getAlteredFields()) {
-            $ret = $table->alterTable() && $ret;
-        }
-
-        // If table has updated field values, update the table
-        if ($table->getUpdatedFields()) {
-            $ret = $table->updateFieldsValues($table) && $ret;
-        }
-
-        // If table has droped field, alter the table
-        if ($table->getDropedFields()) {
-            $ret = $table->dropFields($table) && $ret;
-        }
-        //felix
-        // If table has updated field values, update the table
-        if ($table->getUpdatedWhere()) {
-            $ret = $table->updateWhereValues($table) && $ret;
-        }
-
-        echo '</ul>';
 
         return $ret;
     }
