@@ -100,7 +100,7 @@ $catarray['indexfooter']      =& $myts->displayTarea($head_arr['indexfooter'], $
 /** @var \XoopsDatabase $db */
 $db           = \XoopsDatabaseFactory::getDatabase();
 $objHandler = new Wfdownloads\DownloadHandler($db);
-$choicebyletter = new Wfdownloads\Common\ChoiceByLetter($objHandler, null, null, range('a', 'z'), 'letter');
+$choicebyletter = new Wfdownloads\Common\LetterChoice($objHandler, null, null, range('a', 'z'), 'letter');
 $catarray['letters']  = $choicebyletter->render();
 
 $catarray['toolbar']          = Wfdownloads\Utility::toolbar();

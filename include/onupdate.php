@@ -189,7 +189,7 @@ function xoops_module_update_wfdownloads2(XoopsModule $xoopsModule, $previousVer
  */
 function update_tables_to_323($module)
 {
-    $dbupdater = new WfdownloadsDbupdater();
+    $dbupdater = new Dbupdater();
 
     // update wfdownloads_downloads table
     $download_fields = [
@@ -248,7 +248,7 @@ function update_tables_to_323($module)
     //);
     echo "<br><span style='font-weight: bold;'>Checking Download table</span><br>";
     $downloadHandler = xoops_getModuleHandler('download', 'wfdownloads');
-    $download_table  = new WfdownloadsTable('wfdownloads_downloads');
+    $download_table  = new DbupdaterTable('wfdownloads_downloads');
     $fields          = get_table_info($downloadHandler->table, $download_fields);
     // check for renamed fields
     //rename_fields($download_table, $renamed_fields, $fields, $download_fields);
@@ -332,7 +332,7 @@ function update_tables_to_323($module)
     //);
     echo "<br><span style='font-weight: bold;'>Checking Modified Downloads table</span><br>";
     $modificationHandler = xoops_getModuleHandler('modification', 'wfdownloads');
-    $mod_table           = new WfdownloadsTable('wfdownloads_mod');
+    $mod_table           = new DbupdaterTable('wfdownloads_mod');
     $fields              = get_table_info($modificationHandler->table, $mod_fields);
     // check for renamed fields
     //rename_fields($mod_table, $renamed_fields, $fields, $mod_fields);
@@ -380,11 +380,11 @@ function update_permissions_to_323(XoopsModule $module)
  */
 function update_tables_to_322($module)
 {
-    $dbupdater = new WfdownloadsDbupdater();
+    $dbupdater = new Dbupdater();
 
     // create wfdownloads_meta table
     if (!Wfdownloads\Utility::tableExists('wfdownloads_meta')) {
-        $table = new WfdownloadsTable('wfdownloads_meta');
+        $table = new DbupdaterTable('wfdownloads_meta');
         $table->setStructure("CREATE TABLE %s (
                 metakey varchar(50) NOT NULL default '',
                 metavalue varchar(255) NOT NULL default '',
@@ -398,7 +398,7 @@ function update_tables_to_322($module)
 
     // create wfdownloads_mirror table
     if (!Wfdownloads\Utility::tableExists('wfdownloads_mirrors')) {
-        $table = new WfdownloadsTable('wfdownloads_mirrors');
+        $table = new DbupdaterTable('wfdownloads_mirrors');
         $table->setStructure("CREATE TABLE %s (
                 mirror_id int(11) unsigned NOT NULL auto_increment,
                 lid int(11) NOT NULL default '0',
@@ -420,7 +420,7 @@ function update_tables_to_322($module)
 
     // create wfdownloads_ip_log table
     if (!Wfdownloads\Utility::tableExists('wfdownloads_ip_log')) {
-        $table = new WfdownloadsTable('wfdownloads_ip_log');
+        $table = new DbupdaterTable('wfdownloads_ip_log');
         $table->setStructure("CREATE TABLE %s (
                 ip_logid int(11) NOT NULL auto_increment,
                 lid int(11) NOT NULL default '0',
@@ -484,7 +484,7 @@ function update_tables_to_322($module)
     ];
     echo "<br><span style='font-weight: bold;'>Checking Download table</span><br>";
     $downloadHandler = xoops_getModuleHandler('download', 'wfdownloads');
-    $download_table  = new WfdownloadsTable('wfdownloads_downloads');
+    $download_table  = new DbupdaterTable('wfdownloads_downloads');
     $fields          = get_table_info($downloadHandler->table, $download_fields);
     // check for renamed fields
     rename_fields($download_table, $renamed_fields, $fields, $download_fields);
@@ -548,7 +548,7 @@ function update_tables_to_322($module)
     ];
     echo "<br><span style='font-weight: bold;'>Checking Modified Downloads table</span><br>";
     $modificationHandler = xoops_getModuleHandler('modification', 'wfdownloads');
-    $mod_table           = new WfdownloadsTable('wfdownloads_mod');
+    $mod_table           = new DbupdaterTable('wfdownloads_mod');
     $fields              = get_table_info($modificationHandler->table, $mod_fields);
     rename_fields($mod_table, $renamed_fields, $fields, $mod_fields);
     update_table($mod_fields, $fields, $mod_table);
@@ -578,7 +578,7 @@ function update_tables_to_322($module)
     ];
     echo "<br><span style='font-weight: bold;'>Checking Category table</span><br>";
     $wfdCategoriesHandler = xoops_getModuleHandler('category', 'wfdownloads');
-    $cat_table            = new WfdownloadsTable('wfdownloads_cat');
+    $cat_table            = new DbupdaterTable('wfdownloads_cat');
     $fields               = get_table_info($wfdCategoriesHandler->table, $cat_fields);
     update_table($cat_fields, $fields, $cat_table);
     if ($dbupdater->updateTable($cat_table)) {
@@ -598,7 +598,7 @@ function update_tables_to_322($module)
     ];
     echo "<br><span style='font-weight: bold;'>Checking Broken Report table</span><br>";
     $brokenHandler = xoops_getModuleHandler('report', 'wfdownloads');
-    $broken_table  = new WfdownloadsTable('wfdownloads_broken');
+    $broken_table  = new DbupdaterTable('wfdownloads_broken');
     $fields        = get_table_info($brokenHandler->table, $broken_fields);
     update_table($broken_fields, $fields, $broken_table);
     if ($dbupdater->updateTable($broken_table)) {
@@ -624,10 +624,10 @@ function invert_nohtm_dohtml_values()
         $fields[$existing_field['Field']] = $existing_field['Type'];
     }
     if (in_array('nohtml', array_keys($fields))) {
-        $dbupdater = new WfdownloadsDbupdater();
+        $dbupdater = new Dbupdater();
         //Invert column values
         // alter options in wfdownloads_cat
-        $table = new WfdownloadsTable('wfdownloads_cat');
+        $table = new DbupdaterTable('wfdownloads_cat');
         $table->addAlteredField('nohtml', "dohtml tinyint(1) NOT NULL DEFAULT '1'");
         $table->addAlteredField('nosmiley', "dosmiley tinyint(1) NOT NULL DEFAULT '1'");
         $table->addAlteredField('noxcodes', "doxcode tinyint(1) NOT NULL DEFAULT '1'");
@@ -665,11 +665,11 @@ function invert_nohtm_dohtml_values()
  *
  * @param array            $new_fields
  * @param array            $existing_fields
- * @param WfdownloadsTable $table
+ * @param DbupdaterTable $table
  *
  * @return void
  */
-function update_table($new_fields, $existing_fields, WfdownloadsTable $table)
+function update_table($new_fields, $existing_fields, DbupdaterTable $table)
 {
     foreach ($new_fields as $field => $fieldinfo) {
         $type = $fieldinfo['Type'];
@@ -720,14 +720,14 @@ function get_table_info($table, $default_fields)
 /**
  * Renames fields in a table and updates the existing fields array to reflect it.
  *
- * @param WfdownloadsTable $table
+ * @param DbupdaterTable $table
  * @param array            $renamed_fields
  * @param array            $fields
  * @param array            $new_fields
  *
  * @return void
  */
-function rename_fields(WfdownloadsTable $table, $renamed_fields, &$fields, $new_fields)
+function rename_fields(DbupdaterTable $table, $renamed_fields, &$fields, $new_fields)
 {
     foreach (array_keys($fields) as $field) {
         if (in_array($field, array_keys($renamed_fields))) {

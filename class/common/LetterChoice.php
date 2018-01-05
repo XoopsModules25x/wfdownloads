@@ -10,7 +10,7 @@
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 /**
- * ChoiceByLetter class
+ * LetterChoice class
  *
  * @copyright   XOOPS Project (https://xoops.org)
  * @license     http://www.fsf.org/copyleft/gpl.html GNU public license
@@ -20,7 +20,7 @@
  * @version     $Id:$
  *
  * Example:
- * $choicebyletter = new Wfdownloads\ChoiceByLetter($objHandler, null, null, range('a', 'z'), 'letter');
+ * $choicebyletter = new Wfdownloads\LetterChoice($objHandler, null, null, range('a', 'z'), 'letter');
  * echo $choicebyletter->render();
  */
 
@@ -30,9 +30,9 @@ defined('XOOPS_ROOT_PATH') || die('XOOPS root path not defined');
 require_once __DIR__ . '/../../include/common.php';
 
 /**
- * Class ChoiceByLetter
+ * Class LetterChoice
  */
-class ChoiceByLetter
+class LetterChoice
 {
     /**
      * @access public

@@ -41,7 +41,7 @@ $catArray['imageheader'] = Wfdownloads\Utility::headerImage();
 /** @var \XoopsDatabase $db */
 $db           = \XoopsDatabaseFactory::getDatabase();
 $objHandler = new Wfdownloads\DownloadHandler($db);
-$choicebyletter = new Wfdownloads\Common\ChoiceByLetter($objHandler, null, null, range('a', 'z'), 'letter');
+$choicebyletter = new Wfdownloads\Common\LetterChoice($objHandler, null, null, range('a', 'z'), 'letter');
 $catarray['letters']  = $choicebyletter->render();
 
 $catArray['toolbar']     = Wfdownloads\Utility::toolbar();
