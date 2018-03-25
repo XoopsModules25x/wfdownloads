@@ -1,4 +1,4 @@
-<h5>3.50 Alpha 1 [NOT RELEASED]</h5>  Dev: Xoops 2.5.9, PHP 7.2.0
+<h5>3.50 Alpha 1 [NOT RELEASED]</h5>  Dev: Xoops 2.5.9, PHP 7.2.3
 <hr>
 - namespaces (mamba)
 
@@ -108,7 +108,7 @@
 - fixed calculations for file voting results view in admin  (mamba)
 - updated deprecated "xoops_getLinkedUnameFromId" (mamba)
 - added check for "category" in search (mamba)
-- added 'admin/permissions.php' to new XoopsGroupPermForm, as return URL (mamba)
+- added 'admin/permissions.php' to new \XoopsGroupPermForm, as return URL (mamba)
 - fixed deprecated "mysql_list_tables"
 - fixed MIME permissions for Admin (it was submitting 0 as default, which is for user) (mamba)
 

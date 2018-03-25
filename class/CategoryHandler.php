@@ -1,4 +1,5 @@
 <?php namespace XoopsModules\Wfdownloads;
+
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -128,7 +129,7 @@ class CategoryHandler extends \XoopsPersistableObjectHandler
      */
     public function getChildCats($category)
     {
-        $categoryObjs = $this->getObjects();
+        $categoryObjs =& $this->getObjects();
         require_once XOOPS_ROOT_PATH . '/class/tree.php';
         $categoryObjsTree = new \XoopsObjectTree($categoryObjs, $this->keyName, 'pid');
 
@@ -141,7 +142,7 @@ class CategoryHandler extends \XoopsPersistableObjectHandler
     public function getAllSubcatsTopParentCid()
     {
         if (!$this->allCategories) {
-            $this->allCategories = $this->getObjects(null, true);
+            $this->allCategories =& $this->getObjects(null, true);
         }
 
         require_once XOOPS_ROOT_PATH . '/class/tree.php';

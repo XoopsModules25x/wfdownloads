@@ -19,9 +19,9 @@
  * @author          Xoops Development Team
  */
 
-use Xmf\Language;
+use XoopsModules\Wfdownloads;
 
-if ((!defined('XOOPS_ROOT_PATH')) || !($GLOBALS['xoopsUser'] instanceof XoopsUser)
+if ((!defined('XOOPS_ROOT_PATH')) || !($GLOBALS['xoopsUser'] instanceof \XoopsUser)
     || !$GLOBALS['xoopsUser']->IsAdmin()) {
     exit('Restricted access' . PHP_EOL);
 }
@@ -67,17 +67,17 @@ function xoops_module_pre_update_wfdownloads(\XoopsModule $module)
  * @return void true if update successful, false if not
  */
 
-function xoops_module_update_wfdownloads(XoopsModule $module, $previousVersion = null)
+function xoops_module_update_wfdownloads(\XoopsModule $module, $previousVersion = null)
 {
     $moduleDirName = basename(dirname(__DIR__));
     $capsDirName   = strtoupper($moduleDirName);
 
     /** @var Wfdownloads\Helper $helper */
     /** @var Wfdownloads\Utility $utility */
-    /** @var Wfdownloads\Configurator $configurator */
+    /** @var Wfdownloads\Common\Configurator $configurator */
     $helper  = Wfdownloads\Helper::getInstance();
     $utility = new Wfdownloads\Utility();
-    $configurator = new Wfdownloads\Configurator();
+    $configurator = new Wfdownloads\Common\Configurator();
 
     if ($previousVersion < 325) {
 
@@ -88,7 +88,7 @@ function xoops_module_update_wfdownloads(XoopsModule $module, $previousVersion =
                 if (is_dir($templateFolder)) {
                     $templateList = array_diff(scandir($templateFolder, SCANDIR_SORT_NONE), ['..', '.']);
                     foreach ($templateList as $k => $v) {
-                        $fileInfo = new SplFileInfo($templateFolder . $v);
+                        $fileInfo = new \SplFileInfo($templateFolder . $v);
                         if ('html' === $fileInfo->getExtension() && 'index.html' !== $fileInfo->getFilename()) {
                             if (file_exists($templateFolder . $v)) {
                                 unlink($templateFolder . $v);
@@ -116,8 +116,8 @@ function xoops_module_update_wfdownloads(XoopsModule $module, $previousVersion =
             //    foreach (array_keys($GLOBALS['uploadFolders']) as $i) {
             foreach (array_keys($configurator->oldFolders) as $i) {
                 $tempFolder = $GLOBALS['xoops']->path('modules/' . $moduleDirName . $configurator->oldFolders[$i]);
-                /** @var XoopsObjectHandler $folderHandler */
-                $folderHandler = \XoopsFile::getHandler('folder', $tempFolder);
+                /** @var \XoopsObjectHandler $folderHandler */
+                $folderHandler = xoops_getModuleHandler('folder', $tempFolder);
                 $folderHandler->delete($tempFolder);
             }
         }
@@ -131,10 +131,10 @@ function xoops_module_update_wfdownloads(XoopsModule $module, $previousVersion =
         }
 
         //  ---  COPY blank.png FILES ---------------
-        if (count($configurator->blankFiles) > 0) {
+        if (count($configurator->copyBlankFiles) > 0) {
             $file = __DIR__ . '/../assets/images/blank.png';
-            foreach (array_keys($configurator->blankFiles) as $i) {
-                $dest = $configurator->blankFiles[$i] . '/blank.png';
+            foreach (array_keys($configurator->copyBlankFiles) as $i) {
+                $dest = $configurator->copyBlankFiles[$i] . '/blank.png';
                 $utilityClass::copyFile($file, $dest);
             }
         }
@@ -158,7 +158,7 @@ require_once WFDOWNLOADS_ROOT_PATH . '/class/dbupdater.php';
  * @return bool
  */
 
-function xoops_module_update_wfdownloads2(XoopsModule $xoopsModule, $previousVersion)
+function xoops_module_update_wfdownloads2(\XoopsModule $xoopsModule, $previousVersion)
 {
     ob_start();
     invert_nohtm_dohtml_values();
@@ -351,7 +351,7 @@ function update_tables_to_323($module)
 /**
  * @param XoopsModule $module
  */
-function update_permissions_to_323(XoopsModule $module)
+function update_permissions_to_323(\XoopsModule $module)
 {
     $gpermHandler         = xoops_getHandler('groupperm');
     $wfdCategoriesHandler = xoops_getModuleHandler('category', $module->dirname());
@@ -676,11 +676,11 @@ function update_table($new_fields, $existing_fields, DbupdaterTable $table)
         if (!in_array($field, array_keys($existing_fields))) {
             //Add field as it is missing
             $table->addNewField($field, $type);
-            //$GLOBALS['xoopsDB']->query("ALTER TABLE " . $table . " ADD " . $field . " " . $type);
+        //$GLOBALS['xoopsDB']->query("ALTER TABLE " . $table . " ADD " . $field . " " . $type);
             //echo $field . "(" . $type . ") <FONT COLOR='##22DD51'>Added</FONT><br>";
         } elseif ($existing_fields[$field] != $type) {
             $table->addAlteredField($field, $field . ' ' . $type);
-            // check $fields[$field]['type'] for things like "int(10) unsigned"
+        // check $fields[$field]['type'] for things like "int(10) unsigned"
             //$GLOBALS['xoopsDB']->query("ALTER TABLE " . $table . " CHANGE " . $field . " " . $field . " " . $type);
             //echo $field . " <FONT COLOR='#FF6600'>Changed to</FONT> " . $type . "<br>";
         } else {

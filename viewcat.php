@@ -26,6 +26,8 @@ use XoopsModules\Wfdownloads\Common;
 $currentFile = basename(__FILE__);
 require_once __DIR__ . '/header.php';
 
+$gpermHandler = xoops_getHandler('groupperm');
+
 $cid   = Request::getInt('cid', 0);
 $start = Request::getInt('start', 0);
 //$list = Request::getString('list', null);
@@ -113,7 +115,7 @@ if (Wfdownloads\Utility::checkModule('formulize')) {
 $catArray['imageheader'] = Wfdownloads\Utility::headerImage();
 //$catArray['letters']     = Wfdownloads\Utility::lettersChoice();
 /** @var \XoopsDatabase $db */
-$db           = \XoopsDatabaseFactory::getDatabase();
+$db           = \XoopsDatabaseFactory::getDatabaseConnection();
 $objHandler = new Wfdownloads\DownloadHandler($db);
 $choicebyletter = new Wfdownloads\Common\LetterChoice($objHandler, null, null, range('a', 'z'), 'letter');
 $catarray['letters']  = $choicebyletter->render();
@@ -265,7 +267,7 @@ if (isset($_GET['selectdate'])) {
 } elseif (isset($_GET['list'])) {
     $criteria->setSort("{$orderby}, title");
     $criteria->add(new \Criteria('title', $myts->addSlashes($_GET['list']) . '%', 'LIKE'));
-    $xoopsTpl->assign('categoryPath', sprintf(_MD_WFDOWNLOADS_DOWNLOADS_LIST, htmlspecialchars($_GET['list'])));
+    $xoopsTpl->assign('categoryPath', sprintf(_MD_WFDOWNLOADS_DOWNLOADS_LIST, htmlspecialchars($_GET['list'], ENT_QUOTES | ENT_HTML5)));
     $xoopsTpl->assign('show_categort_title', true);
 } else {
     $criteria->setSort("{$orderby}, title");

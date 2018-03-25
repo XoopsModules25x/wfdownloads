@@ -132,7 +132,7 @@ switch ($op) {
                 $mirror_waiting_array                    = $mirror_waiting->toArray();
                 $mirror_waiting_array['download_title']  = isset($downloads[$mirror_waiting->getVar('lid')]) ? $downloads[$mirror_waiting->getVar('lid')]['title'] : '';
                 $mirror_waiting_array['submitter_uname'] = \XoopsUserUtility::getUnameFromId($mirror_waiting->getVar('uid'));
-                $mirror_waiting_array['formatted_date']  = \XoopsLocal::formatTimestamp($mirror_waiting->getVar('date'), 'l');
+                $mirror_waiting_array['formatted_date']  = formatTimestamp($mirror_waiting->getVar('date'), 'l');
                 $GLOBALS['xoopsTpl']->append('mirrors_waiting', $mirror_waiting_array);
             }
             //Include page navigation
@@ -152,7 +152,7 @@ switch ($op) {
                 $mirror_published_array                    = $mirror_published->toArray();
                 $mirror_published_array['download_title']  = isset($downloads[$mirror_published->getVar('lid')]) ? $downloads[$mirror_published->getVar('lid')]['title'] : '';
                 $mirror_published_array['submitter_uname'] = \XoopsUserUtility::getUnameFromId($mirror_published->getVar('uid'));
-                $mirror_published_array['formatted_date']  = \XoopsLocal::formatTimestamp($mirror_published->getVar('date'), 'l');
+                $mirror_published_array['formatted_date']  = formatTimestamp($mirror_published->getVar('date'), 'l');
                 $GLOBALS['xoopsTpl']->append('mirrors_published', $mirror_published_array);
             }
             //Include page navigation

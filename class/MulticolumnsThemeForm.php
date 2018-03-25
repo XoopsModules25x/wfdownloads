@@ -1,4 +1,5 @@
 <?php namespace XoopsModules\Wfdownloads;
+
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -195,7 +196,7 @@ class MulticolumnsThemeForm extends \XoopsForm
             $ret .= '<tr>';
             for ($column = 0; $column < $this->_columns; ++$column) {
                 $ret .= '<th>';
-                $ret .= isset($this->_titles[$column]) ? "{$this->_titles[$column]}" : '&nbsp;';
+                $ret .= isset($this->_titles[$column]) ? (string)($this->_titles[$column]) : '&nbsp;';
                 $ret .= '</th>' . NWLINE;
             }
             $ret .= '</tr>';
@@ -226,7 +227,7 @@ class MulticolumnsThemeForm extends \XoopsForm
                         }
                         //$ret .= '</td><td class="' . $class . '">';
                         $ret .= $ele->render();
-                        //$ret .= '</td></tr>' . NWLINE;
+                    //$ret .= '</td></tr>' . NWLINE;
                     } else {
                         //$ret .= '<tr valign="top" align="left"><td class="head" colspan="2">';
                         if ('' !== ($caption = $ele->getCaption())) {
@@ -248,7 +249,7 @@ class MulticolumnsThemeForm extends \XoopsForm
             $ret .= '</tr>';
         }
         $ret .= '</table>' . NWLINE;
-        $ret .= "{$hidden}" . NWLINE;
+        $ret .= ($hidden) . NWLINE;
         $ret .= '</form>' . NWLINE;
         $ret .= $this->renderValidationJS(true);
 

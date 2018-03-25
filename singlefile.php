@@ -26,6 +26,8 @@ use XoopsModules\Wfdownloads\Common;
 $currentFile = basename(__FILE__);
 require_once __DIR__ . '/header.php';
 
+$gpermHandler = xoops_getHandler('groupperm');
+
 $lid         = Request::getInt('lid', 0);
 $downloadObj = $helper->getHandler('download')->get($lid);
 if (empty($downloadObj)) {

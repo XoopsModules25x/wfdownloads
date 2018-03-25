@@ -91,7 +91,7 @@ switch ($op) {
         echo '<div><b>' . _AM_WFDOWNLOADS_MOD_MODPOSTER . "</b> $submittername</div>";
         echo '<div><b>' . _AM_WFDOWNLOADS_MOD_MODIFYSUBMITTER . "</b> $modifyname</div>";
 
-        $mcform = new WfdownloadsMulticolumnsThemeForm('', 'modificationform', $currentFile);
+        $mcform = new Wfdownloads\MulticolumnsThemeForm('', 'modificationform', $currentFile);
 
         // Get download keys
         $downloadVars = $downloadObj->getVars();
@@ -395,7 +395,7 @@ switch ($op) {
                 $sender                         = isset($users[$reportObj->getVar('sender')]) ? $users[$reportObj->getVar('sender')] : '';
                 $report_array['reporter_email'] = isset($users[$reportObj->getVar('sender')]) ? $users[$reportObj->getVar('sender')]->getVar('email') : '';
                 $report_array['reporter_uname'] = isset($users[$reportObj->getVar('sender')]) ? $users[$reportObj->getVar('sender')]->getVar('uname') : $GLOBALS['xoopsConfig']['anonymous'];
-                $report_array['formatted_date'] = \XoopsLocal::formatTimestamp($reportObj->getVar('date'), 'l');
+                $report_array['formatted_date'] = formatTimestamp($reportObj->getVar('date'), 'l');
                 $GLOBALS['xoopsTpl']->append('reports', $report_array);
             }
             //Include page navigation
@@ -420,7 +420,7 @@ switch ($op) {
                 $modification_array                    = $modificationObj->toArray();
                 $modification_array['title']           = $modificationObj->getVar('title');
                 $modification_array['submitter_uname'] = \XoopsUserUtility::getUnameFromId($modificationObj->getVar('submitter'));
-                $modification_array['formatted_date']  = \XoopsLocal::formatTimestamp($modificationObj->getVar('requestdate'), 'l');
+                $modification_array['formatted_date']  = formatTimestamp($modificationObj->getVar('requestdate'), 'l');
                 $downloadObj                           = $helper->getHandler('download')->get($modificationObj->getVar('lid'));
                 $modification_array['download']        = $downloadObj->toArray();
                 $GLOBALS['xoopsTpl']->append('modifications', $modification_array);

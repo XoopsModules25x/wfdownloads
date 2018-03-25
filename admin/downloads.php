@@ -182,7 +182,7 @@ switch ($op) {
                 $userRatings = $helper->getHandler('rating')->getUserAverage($criteria);
 
                 foreach ($regUserRatingObjs as $regUserRatingObj) {
-                    $formatted_date = \XoopsLocal::formatTimestamp($regUserRatingObj->getVar('ratingtimestamp'), 'l');
+                    $formatted_date = formatTimestamp($regUserRatingObj->getVar('ratingtimestamp'), 'l');
                     $userAvgRating  = isset($userRatings[$regUserRatingObj->getVar('ratinguser')]) ? $userRatings[$regUserRatingObj->getVar('ratinguser')]['avg'] : 0;
                     $userVotes      = isset($userRatings[$regUserRatingObj->getVar('ratinguser')]) ? $userRatings[$regUserRatingObj->getVar('ratinguser')]['count'] : 0;
                     $ratingUserName = \XoopsUser::getUnameFromId($regUserRatingObj->getVar('ratinguser'));
@@ -222,7 +222,7 @@ switch ($op) {
                 $anonUserRatingObjs = $helper->getHandler('rating')->getObjects($anonUserCriteria);
 
                 foreach (array_keys($anonUserRatingObjs) as $anonUserRatingObj) {
-                    $formatted_date = \XoopsLocal::formatTimestamp($anonUserRatingObj->getVar('ratingtimestamp'), 'l');
+                    $formatted_date = formatTimestamp($anonUserRatingObj->getVar('ratingtimestamp'), 'l');
                     $userAvgRating  = isset($userRatings['avg']) ? $userRatings['avg'] : 0;
                     $userVotes      = isset($userRatings['count']) ? $userRatings['count'] : 0;
 
@@ -662,7 +662,7 @@ switch ($op) {
                     $publishedDownload_array['title_html']          = $myts->htmlSpecialChars(trim($publishedDownload_array['title']));
                     $publishedDownload_array['category_title']      = $categoryObjs[$publishedDownload_array['cid']]['title'];
                     $publishedDownload_array['submitter_uname']     = \XoopsUserUtility::getUnameFromId($publishedDownload_array['submitter']);
-                    $publishedDownload_array['published_formatted'] = \XoopsLocal::formatTimestamp($publishedDownload_array['published'], 'l');
+                    $publishedDownload_array['published_formatted'] = formatTimestamp($publishedDownload_array['published'], 'l');
                     $GLOBALS['xoopsTpl']->append('published_downloads', $publishedDownload_array);
                 }
             }
@@ -710,7 +710,7 @@ switch ($op) {
                                         $logourl                              = $myts->htmlSpecialChars($newDownload_array['screenshot']); // IN PROGRESS
                     */
                     $newDownload_array['submitter_uname'] = \XoopsUserUtility::getUnameFromId($newDownload_array['submitter']);
-                    $newDownload_array['date_formatted']  = \XoopsLocal::formatTimestamp($newDownload_array['date'], 'l');
+                    $newDownload_array['date_formatted']  = formatTimestamp($newDownload_array['date'], 'l');
                     $GLOBALS['xoopsTpl']->append('new_downloads', $newDownload_array);
                 }
             }
@@ -733,7 +733,7 @@ switch ($op) {
                     $autopublishedDownload_array['title_html']          = $myts->htmlSpecialChars(trim($autopublishedDownload_array['title']));
                     $autopublishedDownload_array['category_title']      = $categories[$autopublishedDownload_array['cid']]['title'];
                     $autopublishedDownload_array['submitter_uname']     = \XoopsUserUtility::getUnameFromId($autopublishedDownload_array['submitter']);
-                    $autopublishedDownload_array['published_formatted'] = \XoopsLocal::formatTimestamp($autopublishedDownload_array['published'], 'l');
+                    $autopublishedDownload_array['published_formatted'] = formatTimestamp($autopublishedDownload_array['published'], 'l');
                     $GLOBALS['xoopsTpl']->append('autopublished_downloads', $autopublishedDownload_array);
                 }
             }
@@ -757,7 +757,7 @@ switch ($op) {
                     $expiredDownload_array['title_html']          = $myts->htmlSpecialChars(trim($expiredDownload_array['title']));
                     $expiredDownload_array['category_title']      = $categories[$expiredDownload_array['cid']]['title'];
                     $expiredDownload_array['submitter_uname']     = \XoopsUserUtility::getUnameFromId($expiredDownload_array['submitter']);
-                    $expiredDownload_array['published_formatted'] = \XoopsLocal::formatTimestamp($expiredDownload_array['published'], 'l');
+                    $expiredDownload_array['published_formatted'] = formatTimestamp($expiredDownload_array['published'], 'l');
                     $GLOBALS['xoopsTpl']->append('expired_downloads', $expiredDownload_array);
                 }
             }
@@ -779,7 +779,7 @@ switch ($op) {
                     $offlineDownload_array['title_html']          = $myts->htmlSpecialChars(trim($offlineDownload_array['title']));
                     $offlineDownload_array['category_title']      = $categories[$offlineDownload_array['cid']]['title'];
                     $offlineDownload_array['submitter_uname']     = \XoopsUserUtility::getUnameFromId($offlineDownload_array['submitter']);
-                    $offlineDownload_array['published_formatted'] = \XoopsLocal::formatTimestamp($offlineDownload_array['published'], 'l');
+                    $offlineDownload_array['published_formatted'] = formatTimestamp($offlineDownload_array['published'], 'l');
                     $GLOBALS['xoopsTpl']->append('offline_downloads', $offlineDownload_array);
                 }
             }

@@ -19,7 +19,6 @@
  * @author          Xoops Development Team
  */
 
-use Xmf\Module\Helper;
 use XoopsModules\Wfdownloads;
 use XoopsModules\Wfdownloads\Common;
 
@@ -29,13 +28,16 @@ require_once __DIR__ . '/admin_header.php';
 define('INDEX_FILE_PATH', XOOPS_ROOT_PATH . '/uploads/index.html');
 define('BLANK_FILE_PATH', XOOPS_ROOT_PATH . '/uploads/blank.png');
 
-require_once __DIR__ . '/../class/common/directorychecker.php';
-require_once __DIR__ . '/../class/common/filechecker.php';
+// require_once __DIR__ . '/../class/common/directorychecker.php';
+// require_once __DIR__ . '/../class/common/filechecker.php';
 
 xoops_cp_header();
 $adminObject = \Xmf\Module\Admin::getInstance();
 
 $helper       = Wfdownloads\Helper::getInstance();
+
+$moduleDirName = basename(dirname(__DIR__));
+$moduleDirNameUpper = strtoupper($moduleDirName);
 
 //--------------------------
 $categories_count           = Wfdownloads\Utility::categoriesCount();
@@ -159,8 +161,8 @@ $adminObject->addConfigBoxLine('');
 
 //$moduleDirName = basename(dirname(__DIR__));
 
-/** @var Wfdownloads\Configurator $configurator */
-$configurator = new Wfdownloads\Configurator();
+/** @var Wfdownloads\Common\Configurator $configurator */
+$configurator = new Wfdownloads\Common\Configurator();
 
 
 /** @var Wfdownloads\Utility $utility */
@@ -172,6 +174,24 @@ foreach (array_keys($configurator->uploadFolders) as $i) {
 }
 
 $adminObject->displayNavigation(basename(__FILE__));
+
+//------------- Test Data ----------------------------
+
+if ($helper->getConfig('displaySampleButton')) {
+    xoops_loadLanguage('admin/modulesadmin', 'system');
+    require_once __DIR__ . '/../testdata/index.php';
+
+    $adminObject->addItemButton(constant('CO_' . $moduleDirNameUpper . '_' . 'ADD_SAMPLEDATA'), '__DIR__ . /../../testdata/index.php?op=load', 'add');
+
+    $adminObject->addItemButton(constant('CO_' . $moduleDirNameUpper . '_' . 'SAVE_SAMPLEDATA'), '__DIR__ . /../../testdata/index.php?op=save', 'add');
+
+    //    $adminObject->addItemButton(constant('CO_' . $moduleDirNameUpper . '_' . 'EXPORT_SCHEMA'), '__DIR__ . /../../testdata/index.php?op=exportschema', 'add');
+
+    $adminObject->displayButton('left', '');
+}
+
+//------------- End Test Data ----------------------------
+
 $adminObject->displayIndex();
 echo $utility::getServerStats();
 

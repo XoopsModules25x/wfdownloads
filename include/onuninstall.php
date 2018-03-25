@@ -27,7 +27,7 @@ xoops_loadLanguage('admin', $helper->getModule()->dirname());
  *
  * @return bool
  */
-function xoops_module_pre_uninstall_wfdownloads(XoopsModule $xoopsModule)
+function xoops_module_pre_uninstall_wfdownloads(\XoopsModule $xoopsModule)
 {
     // NOP
     return true;
@@ -36,7 +36,7 @@ function xoops_module_pre_uninstall_wfdownloads(XoopsModule $xoopsModule)
 /**
  * @param XoopsModule $xoopsModule
  */
-function xoops_module_uninstall_wfdownloads(XoopsModule $xoopsModule)
+function xoops_module_uninstall_wfdownloads(\XoopsModule $xoopsModule)
 {
     // NOP
 }

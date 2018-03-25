@@ -20,7 +20,7 @@
 
 use XoopsModules\Wfdownloads;
 
-defined('XOOPS_ROOT_PATH') || exit('Restricted access');
+defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
 /**
  * Class Helper
@@ -36,7 +36,7 @@ class Helper extends \Xmf\Module\Helper
     protected function __construct($debug = false)
     {
         $this->debug   = $debug;
-        $this->dirname = basename(dirname(__DIR__));
+        parent::__construct(basename(dirname(__DIR__)));
     }
 
     /**
@@ -63,29 +63,18 @@ class Helper extends \Xmf\Module\Helper
     }
 
     /**
-     * @param $name
+     * Get an Object Handler
      *
-     * @return mixed
+     * @param string $name name of handler to load
+     *
+     * @return bool|\XoopsObjectHandler|\XoopsPersistableObjectHandler
      */
     public function getHandler($name)
     {
-        if (!isset($this->handler[$name . 'Handler'])) {
-            $this->_initHandler($name);
-        }
-        $this->addLog("Getting handler '{$name}'");
-        if (isset($this->handler[$name . 'Handler'])) {
-            return $this->handler[$name . 'Handler'];
-        }
-    }
-
-    /**
-     * @param $name
-     */
-    public function _initHandler($name)
-    {
-        $this->addLog('INIT ' . $name . ' HANDLER');
-        $myClass                 = 'XoopsModules\\Wfdownloads' . '\\' . ucfirst($name) . 'Handler';
-        $db                      = \XoopsDatabaseFactory::getDatabase();
-        $this->handler[$name . 'Handler'] = new $myClass($db);
+        $ret   = false;
+        $db    = \XoopsDatabaseFactory::getDatabaseConnection();
+        $class = '\\XoopsModules\\' . ucfirst(strtolower(basename(dirname(__DIR__)))) . '\\' . $name . 'Handler';
+        $ret   = new $class($db);
+        return $ret;
     }
 }

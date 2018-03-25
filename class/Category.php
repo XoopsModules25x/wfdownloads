@@ -1,4 +1,5 @@
 <?php namespace XoopsModules\Wfdownloads;
+
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -104,8 +105,6 @@ class Category extends \XoopsObject
             } else {
                 $form->addElement(new \XoopsFormLabel(_AM_WFDOWNLOADS_FCATEGORY_SUBCATEGORY, $categoryObjsTree->makeSelBox('pid', 'title', '-', $this->getVar('pid', 'e'), true)));
             }
-
-
         }
         // category: weight
         $form->addElement(new \XoopsFormText(_AM_WFDOWNLOADS_FCATEGORY_WEIGHT, 'weight', 11, 11, $this->getVar('weight')), false);

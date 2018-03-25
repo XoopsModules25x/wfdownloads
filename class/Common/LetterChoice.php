@@ -77,8 +77,8 @@ class LetterChoice
         $arg_name = 'letter',
         $url = null,
         $extra_arg = '',
-        $caseSensitive = false)
-    {
+        $caseSensitive = false
+    ) {
         $this->helper     = Wfdownloads\Helper::getInstance();
         $this->objHandler = $objHandler;
         $this->criteria   = null === $criteria ? new \CriteriaCompo() : $criteria;
@@ -140,7 +140,7 @@ class LetterChoice
         // render output
         if (!isset($GLOBALS['xoTheme']) || !is_object($GLOBALS['xoTheme'])) {
             require_once $GLOBALS['xoops']->path('/class/theme.php');
-            $GLOBALS['xoTheme'] = new xos_opal_Theme();
+            $GLOBALS['xoTheme'] = new \xos_opal_Theme();
         }
         require_once $GLOBALS['xoops']->path('/class/template.php');
         $choiceByLetterTpl          = new \XoopsTpl();

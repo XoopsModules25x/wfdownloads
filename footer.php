@@ -22,7 +22,7 @@ $moduleInfo = $helper->getModule()->getInfo();
 //$xoopsTpl->assign('wfdownloadModuleInfo', $moduleInfo); // huge array but useful?
 $xoopsTpl->assign('wfdownloadModuleInfoSub', $moduleInfo['sub']);
 // Module admin
-$xoopsTpl->assign('isAdmin', $wfdownloads_isAdmin);
+$xoopsTpl->assign('isAdmin', $helper->isUserAdmin());
 $xoopsTpl->assign('wfdownloads_adminpage', "<a href='" . WFDOWNLOADS_URL . "/admin/index.php'>" . _MD_WFDOWNLOADS_ADMIN_PAGE . '</a>');
 // Extra info
 $xoopsTpl->assign('wfdownloads_url', WFDOWNLOADS_URL . '/');  // this definition is not removed for backward compatibility issues

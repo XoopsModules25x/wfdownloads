@@ -25,17 +25,16 @@ use Xmf\Request;
 use XoopsModules\Wfdownloads;
 use XoopsModules\Wfdownloads\Common;
 
-
 /**
  * Class Utility
  */
 class Utility
 {
-    use common\VersionChecks; //checkVerXoops, checkVerPhp Traits
+    use Common\VersionChecks; //checkVerXoops, checkVerPhp Traits
 
-    use common\ServerStats; // getServerStats Trait
+    use Common\ServerStats; // getServerStats Trait
 
-    use common\FilesManagement; // Files Management Trait
+    use Common\FilesManagement; // Files Management Trait
 
     //--------------- Custom module methods -----------------------------
 
@@ -401,7 +400,7 @@ class Utility
                     // Its a directory, so we need to keep reading down...
                     $ret[] = "<strong>{$spaces} {$file}</strong>";
                     $ret   = array_merge($ret, self::getDir($path . DIRECTORY_SEPARATOR . $file, $level + 1));
-                    // Re-call this same function but on a new directory.
+                // Re-call this same function but on a new directory.
                     // this is what makes function recursive.
                 } else {
                     $ret[] = "{$spaces} {$file}";
@@ -668,7 +667,7 @@ class Utility
         // Render output
         if (!isset($GLOBALS['xoTheme']) || !is_object($GLOBALS['xoTheme'])) {
             require_once $GLOBALS['xoops']->path('/class/theme.php');
-            $GLOBALS['xoTheme'] = new xos_opal_Theme();
+            $GLOBALS['xoTheme'] = new \xos_opal_Theme();
         }
         require_once $GLOBALS['xoops']->path('class/template.php');
         $letterschoiceTpl          = new \XoopsTpl();
@@ -1602,8 +1601,8 @@ class Utility
         $num = 0,
         $redirect = false,
         $isAdmin = true,
-        $onlyImages = false)
-    {
+        $onlyImages = false
+    ) {
         $helper = Wfdownloads\Helper::getInstance();
         $file   = [];
         if (empty($allowedMimetypes)) {

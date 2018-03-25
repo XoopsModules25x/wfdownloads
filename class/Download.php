@@ -1,4 +1,5 @@
 <?php namespace XoopsModules\Wfdownloads;
+
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -482,7 +483,6 @@ class Download extends \XoopsObject
             } else {
                 $sform->addElement(new \XoopsFormLabel(_MD_WFDOWNLOADS_CATEGORYC, $categoryObjsTree->makeSelBox('cid', 'title', '-', $this->getVar('cid', 'e'))));
             }
-
         }
 
         if (0 == count($customArray)) {

@@ -56,6 +56,8 @@ if (is_object($GLOBALS['xoopsUser']) && (_WFDOWNLOADS_SUBMISSIONS_DOWNLOAD == $h
 }
 
 // Get download/upload permissions
+$gpermHandler = xoops_getHandler('groupperm');
+
 $allowedDownCategoriesIds = $gpermHandler->getItemIds('WFDownCatPerm', $groups, $helper->getModule()->mid());
 $allowedUpCategoriesIds   = $gpermHandler->getItemIds('WFUpCatPerm', $groups, $helper->getModule()->mid());
 
@@ -98,7 +100,7 @@ $catarray['indexheader']      =& $myts->displayTarea($head_arr['indexheader'], $
 $catarray['indexfooter']      =& $myts->displayTarea($head_arr['indexfooter'], $html, $smiley, $xcodes, $images, $breaks);
 //$catarray['letters']          = Wfdownloads\Utility::lettersChoice();
 /** @var \XoopsDatabase $db */
-$db           = \XoopsDatabaseFactory::getDatabase();
+$db           = \XoopsDatabaseFactory::getDatabaseConnection();
 $objHandler = new Wfdownloads\DownloadHandler($db);
 $choicebyletter = new Wfdownloads\Common\LetterChoice($objHandler, null, null, range('a', 'z'), 'letter');
 $catarray['letters']  = $choicebyletter->render();
@@ -253,8 +255,8 @@ foreach (array_keys($mainCategoryObjs) as $i) {
                 'allowed_upload'   => $isSubmissionAllowed && in_array($mainCategoryObjs[$i]->getVar('cid'), $allowedUpCategoriesIds),
                 'title'            => $mainCategoryObjs[$i]->getVar('title'),
                 'summary'          => $mainCategoryObjs[$i]->getVar('summary'),
-                'totaldownloads'   => (int)$download_count, // this definition is not removed for backward compatibility issues
-                'downloads_count'  => (int)$download_count,
+                'totaldownloads'   => $download_count, // this definition is not removed for backward compatibility issues
+                'downloads_count'  => $download_count,
                 'count'            => $count,
                 'alttext'          => $isNewImage['alttext']
             ]);
@@ -270,8 +272,8 @@ foreach (array_keys($mainCategoryObjs) as $i) {
                 'title'            => $mainCategoryObjs[$i]->getVar('title'),
                 'summary'          => $mainCategoryObjs[$i]->getVar('summary'),
                 'subcategories'    => $subcategories,
-                'totaldownloads'   => (int)$download_count, // this definition is not removed for backward compatibility issues
-                'downloads_count'  => (int)$download_count,
+                'totaldownloads'   => $download_count, // this definition is not removed for backward compatibility issues
+                'downloads_count'  => $download_count,
                 'count'            => $count,
                 'alttext'          => $isNewImage['alttext']
             ]);

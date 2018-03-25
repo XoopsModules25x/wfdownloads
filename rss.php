@@ -125,8 +125,8 @@ if (!$xoopsTpl->is_cached('db:' . $xoopsOption['template_main'], $cache_prefix))
         foreach ($downloadObjs as $downloadObj) {
             $item   = $downloadObj;
             $link   = $url . 'singlefile.php?lid=' . (int)$item->getVar('lid');
-            $title  = htmlspecialchars($item->getVar('title', 'n'));
-            $teaser = htmlspecialchars($item->getVar('summary', 'n'));
+            $title  = htmlspecialchars($item->getVar('title', 'n'), ENT_QUOTES | ENT_HTML5);
+            $teaser = htmlspecialchars($item->getVar('summary', 'n'), ENT_QUOTES | ENT_HTML5);
             $author = isset($users[$item->getVar('submitter')]) ?: $GLOBALS['xoopsConfig']['anonymous'];
 
             $xoopsTpl->append('items', [

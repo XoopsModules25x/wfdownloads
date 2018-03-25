@@ -1,4 +1,5 @@
 <?php namespace XoopsModules\Wfdownloads;
+
 /**
  * XOOPS tree handler
  *

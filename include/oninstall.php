@@ -20,6 +20,7 @@
  */
 
 use Xmf\Language;
+use XoopsModules\Wfdownloads;
 
 defined('XOOPS_ROOT_PATH') || die('XOOPS root path not defined');
 require_once __DIR__ . '/common.php';
@@ -37,7 +38,7 @@ define('BLANK_FILE_PATH', XOOPS_ROOT_PATH . '/uploads/blank.png');
  *
  * @return bool true if ready to install, false if not
  */
-function xoops_module_pre_install_wfdownloads(XoopsModule $module)
+function xoops_module_pre_install_wfdownloads(\XoopsModule $module)
 {
     $moduleDirName = basename(dirname(__DIR__));
     $utilityClass  = ucfirst($moduleDirName) . 'Utility';
@@ -69,7 +70,7 @@ function xoops_module_pre_install_wfdownloads(XoopsModule $module)
  *
  * @return bool true if installation successful, false if not
  */
-function xoops_module_install_wfdownloads(XoopsModule $module)
+function xoops_module_install_wfdownloads(\XoopsModule $module)
 {
     global $xoopsModule;
     require_once dirname(dirname(dirname(__DIR__))) . '/mainfile.php';
@@ -81,7 +82,7 @@ function xoops_module_install_wfdownloads(XoopsModule $module)
     xoops_loadLanguage('modinfo', $moduleDirName);
 
     //    $configurator = include __DIR__ . '/config.php';
-    $configurator = new WfdownloadsConfigurator();
+    $configurator = new Wfdownloads\Common\Configurator();
     /** @var Wfdownloads\Utility $utilityClass */
     $utilityClass = ucfirst($moduleDirName) . 'Utility';
     ;
@@ -119,10 +120,10 @@ function xoops_module_install_wfdownloads(XoopsModule $module)
     }
 
     //  ---  COPY blank.png FILES ---------------
-    if (count($configurator->blankFiles) > 0) {
+    if (count($configurator->copyBlankFiles) > 0) {
         $file = __DIR__ . '/../assets/images/blank.png';
-        foreach (array_keys($configurator->blankFiles) as $i) {
-            $dest = $configurator->blankFiles[$i] . '/blank.png';
+        foreach (array_keys($configurator->copyBlankFiles) as $i) {
+            $dest = $configurator->copyBlankFiles[$i] . '/blank.png';
             $utilityClass::copyFile($file, $dest);
         }
     }
@@ -137,7 +138,7 @@ function xoops_module_install_wfdownloads(XoopsModule $module)
  * @return bool
  */
 /*
-function xoops_module_install_wfdownloads(XoopsModule $xoopsModule)
+function xoops_module_install_wfdownloads(\XoopsModule $xoopsModule)
 {
     // get module config values
     $hModConfig  = xoops_getHandler('config');

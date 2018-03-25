@@ -67,7 +67,7 @@ switch ($op) {
             $downloads = $helper->getHandler('download')->getObjects(new \Criteria('lid', '(' . implode(',', array_unique($lids)) . ')', 'IN'), true);
             foreach ($ratingObjs as $ratingObj) {
                 $rating_array                    = $ratingObj->toArray();
-                $rating_array['formatted_date']  = \XoopsLocal::formatTimestamp($ratingObj->getVar('ratingtimestamp'), 'l');
+                $rating_array['formatted_date']  = formatTimestamp($ratingObj->getVar('ratingtimestamp'), 'l');
                 $rating_array['submitter_uname'] = \XoopsUser::getUnameFromId($ratingObj->getVar('ratinguser'));
                 $rating_array['submitter_uid']   = $ratingObj->getVar('ratinguser');
                 $rating_array['download_title']  = $downloads[$ratingObj->getVar('lid')]->getVar('title');

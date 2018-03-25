@@ -62,7 +62,7 @@ switch ($op) {
             import_pddownloads_to_wfdownloads();
             echo _AM_WFDOWNLOADS_IMPORT_IMPORT_OK;
             xoops_cp_footer();
-            // Downloads imported
+        // Downloads imported
             //redirect_header($currentFile, 1, _AM_WFDOWNLOADS_IMPORT_IMPORT_OK);
         } else {
             Wfdownloads\Utility::getCpHeader();
@@ -78,7 +78,7 @@ switch ($op) {
             import_wmpdownloads_to_wfdownloads();
             echo _AM_WFDOWNLOADS_IMPORT_IMPORT_OK;
             xoops_cp_footer();
-            // Downloads imported
+        // Downloads imported
             //redirect_header($currentFile, 1, _AM_WFDOWNLOADS_IMPORT_IMPORT_OK);
         } else {
             Wfdownloads\Utility::getCpHeader();
@@ -95,7 +95,7 @@ switch ($op) {
             import_wfd_to_wfdownloads();
             echo _AM_WFDOWNLOADS_IMPORT_IMPORT_OK;
             xoops_cp_footer();
-            // Downloads imported
+        // Downloads imported
             //redirect_header($currentFile, 1, _AM_WFDOWNLOADS_IMPORT_IMPORT_OK);
         } else {
             Wfdownloads\Utility::getCpHeader();
@@ -112,7 +112,7 @@ switch ($op) {
             import_tdmdownloads_to_wfdownloads();
             echo _AM_WFDOWNLOADS_IMPORT_IMPORT_OK;
             xoops_cp_footer();
-            // Downloads imported
+        // Downloads imported
             //redirect_header($currentFile, 1, _AM_WFDOWNLOADS_IMPORT_IMPORT_OK);
         } else {
             Wfdownloads\Utility::getCpHeader();

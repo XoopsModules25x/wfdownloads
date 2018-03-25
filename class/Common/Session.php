@@ -1,4 +1,5 @@
 <?php namespace XoopsModules\Wfdownloads\Common;
+
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -98,13 +99,13 @@ class Session
     }
 
     /**
-     * @return WfdownloadsSession
+     * @return Wfdownloads\Session
      */
     public static function getInstance()
     {
         static $_sess;
         if (!isset($_sess)) {
-            $_sess = new WfdownloadsSession();
+            $_sess = new static();
         }
 
         return $_sess;
