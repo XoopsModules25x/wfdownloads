@@ -18,6 +18,10 @@
  * @author          Xoops Development Team
  */
 
+use XoopsModules\Wfdownloads;
+/** @var Wfdownloads\Helper $helper */
+$helper = Wfdownloads\Helper::getInstance();
+
 require_once __DIR__ . '/preloads/autoloader.php';
 
 $moduleDirName = basename(__DIR__);
@@ -126,22 +130,22 @@ $modversion['search']['func'] = $modversion['dirname'] . '_search';
 $modversion['hasMain']     = true;
 $modversion['system_menu'] = true;
 
-global $xoopsModule, $xoopsModuleConfig;
+global $xoopsModule;
 // check if submission is allowed
 $isSubmissionAllowed = false;
 if (is_object($xoopsModule) && $xoopsModule->dirname() == $modversion['dirname'] && $xoopsModule->isactive()) {
     if (is_object($GLOBALS['xoopsUser'])
-        && (_WFDOWNLOADS_SUBMISSIONS_DOWNLOAD == $xoopsModuleConfig['submissions']
-            || _WFDOWNLOADS_SUBMISSIONS_BOTH == $xoopsModuleConfig['submissions'])) {
+        && (_WFDOWNLOADS_SUBMISSIONS_DOWNLOAD == $helper->getConfig('submissions')
+            || _WFDOWNLOADS_SUBMISSIONS_BOTH == $helper->getConfig('submissions'))) {
         // if user is a registered user
         $groups = $GLOBALS['xoopsUser']->getGroups();
-        if (count(array_intersect($xoopsModuleConfig['submitarts'], $groups)) > 0) {
+        if (count(array_intersect($helper->getConfig('submitarts'), $groups)) > 0) {
             $isSubmissionAllowed = true;
         }
     } else {
         // if user is anonymous
-        if (_WFDOWNLOADS_ANONPOST_DOWNLOAD == $xoopsModuleConfig['anonpost']
-            || _WFDOWNLOADS_ANONPOST_BOTH == $xoopsModuleConfig['anonpost']) {
+        if (_WFDOWNLOADS_ANONPOST_DOWNLOAD == $helper->getConfig('anonpost')
+            || _WFDOWNLOADS_ANONPOST_BOTH == $helper->getConfig('anonpost')) {
             $isSubmissionAllowed = true;
         }
     }
