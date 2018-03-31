@@ -100,7 +100,7 @@ switch ($op) {
         $weight       = (isset($_POST['weight']) && $_POST['weight'] > 0) ? (int)$_POST['weight'] : 0;
         $down_groups  = isset($_POST['groups']) ? $_POST['groups'] : [];
         $up_groups    = isset($_POST['up_groups']) ? $_POST['up_groups'] : [];
-        $spotlighthis = isset($_POST['lid']) ? (int)$_POST['lid'] : 0;
+        $spotlighthis = \Xmf\Request::getInt('lid', 0, 'POST');
         $spotlighttop = (isset($_POST['spotlighttop']) && (1 == $_POST['spotlighttop'])) ? 1 : 0;
 
         require_once XOOPS_ROOT_PATH . '/class/uploader.php';
@@ -148,7 +148,7 @@ switch ($op) {
         $categoryObj->setVar('dobr', isset($_POST['dobr']));
         // Formulize module support (2006/05/04) jpc - start
         if (Wfdownloads\Utility::checkModule('formulize')) {
-            $formulize_fid = isset($_POST['formulize_fid']) ? (int)$_POST['formulize_fid'] : 0;
+            $formulize_fid = \Xmf\Request::getInt('formulize_fid', 0, 'POST');
             $categoryObj->setVar('formulize_fid', $formulize_fid);
         }
         // Formulize module support (2006/05/04) jpc - end

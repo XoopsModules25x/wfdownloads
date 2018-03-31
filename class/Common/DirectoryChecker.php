@@ -130,7 +130,7 @@ class DirectoryChecker
     }
 }
 
-$op = isset($_POST['op']) ? $_POST['op'] : '';
+$op = \Xmf\Request::getString('op', '', 'POST');
 switch ($op) {
     case 'createdir':
         if (isset($_POST['path'])) {

@@ -146,7 +146,7 @@ class FileChecker
     }
 }
 
-$op = isset($_POST['op']) ? $_POST['op'] : '';
+$op = \Xmf\Request::getString('op', '', 'POST');
 switch ($op) {
     case 'copyfile':
         if (isset($_POST['original_file_path'])) {

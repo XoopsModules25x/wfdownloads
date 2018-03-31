@@ -359,13 +359,13 @@ switch ($op) {
         $downloadObj->setVar('license', trim($_POST['license']));
         $downloadObj->setVar('features', trim($_POST['features']));
         $downloadObj->setVar('requirements', trim($_POST['requirements']));
-        $limitations = isset($_POST['limitations']) ? $_POST['limitations'] : '';
+        $limitations = \Xmf\Request::getString('limitations', '', 'POST');
         $downloadObj->setVar('limitations', $limitations);
-        $versiontypes = isset($_POST['versiontypes']) ? $_POST['versiontypes'] : '';
+        $versiontypes = \Xmf\Request::getString('versiontypes', '', 'POST');
         $downloadObj->setVar('versiontypes', $versiontypes);
 
-        $dhistory        = isset($_POST['dhistory']) ? $_POST['dhistory'] : '';
-        $dhistoryhistory = isset($_POST['dhistoryaddedd']) ? $_POST['dhistoryaddedd'] : '';
+        $dhistory        = \Xmf\Request::getString('dhistory', '', 'POST');
+        $dhistoryhistory = \Xmf\Request::getString('dhistoryaddedd', '', 'POST');
 
         if ($lid > 0 && !empty($dhistoryhistory)) {
             $dhistory .= "\n\n";
