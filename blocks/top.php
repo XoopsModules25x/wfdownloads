@@ -42,8 +42,8 @@ function wfdownloads_top_show($options)
     $helper = Wfdownloads\Helper::getInstance();
 
     $groups                   = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : [0 => XOOPS_GROUP_ANONYMOUS];
-    $gpermHandler             = xoops_getHandler('groupperm');
-    $allowedDownCategoriesIds = $gpermHandler->getItemIds('WFDownCatPerm', $groups, $helper->getModule()->mid());
+    $grouppermHandler             = xoops_getHandler('groupperm');
+    $allowedDownCategoriesIds = $grouppermHandler->getItemIds('WFDownCatPerm', $groups, $helper->getModule()->mid());
 
     $block = [];
 

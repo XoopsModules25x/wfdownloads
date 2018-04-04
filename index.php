@@ -56,10 +56,10 @@ if (is_object($GLOBALS['xoopsUser']) && (_WFDOWNLOADS_SUBMISSIONS_DOWNLOAD == $h
 }
 
 // Get download/upload permissions
-$gpermHandler = xoops_getHandler('groupperm');
+$grouppermHandler = xoops_getHandler('groupperm');
 
-$allowedDownCategoriesIds = $gpermHandler->getItemIds('WFDownCatPerm', $groups, $helper->getModule()->mid());
-$allowedUpCategoriesIds   = $gpermHandler->getItemIds('WFUpCatPerm', $groups, $helper->getModule()->mid());
+$allowedDownCategoriesIds = $grouppermHandler->getItemIds('WFDownCatPerm', $groups, $helper->getModule()->mid());
+$allowedUpCategoriesIds   = $grouppermHandler->getItemIds('WFUpCatPerm', $groups, $helper->getModule()->mid());
 
 $GLOBALS['xoopsOption']['template_main'] = "{$helper->getModule()->dirname()}_index.tpl";
 require_once XOOPS_ROOT_PATH . '/header.php';
@@ -83,7 +83,7 @@ $categoryCriteria->setSort('weight ASC, title');
 $categoryObjs = $helper->getHandler('category')->getObjects($categoryCriteria);
 unset($categoryCriteria);
 
-$categoryObjsTree = new \XoopsObjectTree($categoryObjs, 'cid', 'pid');
+$categoryObjsTree = new Wfdownloads\ObjectTree($categoryObjs, 'cid', 'pid');
 
 // Generate content header
 $sql                          = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('wfdownloads_indexpage') . ' ';
@@ -98,12 +98,15 @@ $images                       = $head_arr['noimages'] ? 1 : 0;
 $breaks                       = $head_arr['nobreak'] ? 1 : 0;
 $catarray['indexheader']      =& $myts->displayTarea($head_arr['indexheader'], $html, $smiley, $xcodes, $images, $breaks);
 $catarray['indexfooter']      =& $myts->displayTarea($head_arr['indexfooter'], $html, $smiley, $xcodes, $images, $breaks);
-//$catarray['letters']          = Wfdownloads\Utility::lettersChoice();
+$catarray['letters']          = Wfdownloads\Utility::lettersChoice();
+
+//----------------------
 /** @var \XoopsDatabase $db */
 $db           = \XoopsDatabaseFactory::getDatabaseConnection();
 $objHandler = new Wfdownloads\DownloadHandler($db);
 $choicebyletter = new Wfdownloads\Common\LetterChoice($objHandler, null, null, range('a', 'z'), 'letter');
-$catarray['letters']  = $choicebyletter->render();
+//$catarray['letters']  = $choicebyletter->render();
+//--------------------------
 
 $catarray['toolbar']          = Wfdownloads\Utility::toolbar();
 $xoopsTpl->assign('catarray', $catarray);

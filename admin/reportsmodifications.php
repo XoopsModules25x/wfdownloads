@@ -79,7 +79,7 @@ switch ($op) {
         $submitteremail = $orig_user->getVar('email');
 
         $categoryObjs     = $helper->getHandler('category')->getObjects();
-        $categoryObjsTree = new \XoopsObjectTree($categoryObjs, 'cid', 'pid');
+        $categoryObjsTree = new Wfdownloads\ObjectTree($categoryObjs, 'cid', 'pid');
 
         Wfdownloads\Utility::getCpHeader();
 

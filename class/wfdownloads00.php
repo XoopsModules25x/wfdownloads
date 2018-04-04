@@ -43,6 +43,7 @@ class WfdownloadsWfdownloads
     /**
      * @param bool $debug
      *
+     * @return \WfdownloadsWfdownloads
      */
     public static function getInstance($debug = false)
     {

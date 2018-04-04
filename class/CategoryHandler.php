@@ -80,10 +80,10 @@ class CategoryHandler extends \XoopsPersistableObjectHandler
      */
     public function getUserCategories($id_as_key = false, $as_object = true)
     {
-        $gpermHandler = xoops_getHandler('groupperm');
+        $grouppermHandler = xoops_getHandler('groupperm');
 
         $groups                   = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : [0 => XOOPS_GROUP_ANONYMOUS];
-        $allowedDownCategoriesIds = $gpermHandler->getItemIds('WFDownCatPerm', $groups, $this->wfdownloads->getModule()->mid());
+        $allowedDownCategoriesIds = $grouppermHandler->getItemIds('WFDownCatPerm', $groups, $this->wfdownloads->getModule()->mid());
 
         return $this->getObjects(new \Criteria('cid', '(' . implode(',', $allowedDownCategoriesIds) . ')', 'IN'), $id_as_key, $as_object);
     }
@@ -98,10 +98,10 @@ class CategoryHandler extends \XoopsPersistableObjectHandler
      */
     public function getUserDownCategories($id_as_key = false, $as_object = true)
     {
-        $gpermHandler = xoops_getHandler('groupperm');
+        $grouppermHandler = xoops_getHandler('groupperm');
 
         $groups                   = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : [0 => XOOPS_GROUP_ANONYMOUS];
-        $allowedDownCategoriesIds = $gpermHandler->getItemIds('WFDownCatPerm', $groups, $this->wfdownloads->getModule()->mid());
+        $allowedDownCategoriesIds = $grouppermHandler->getItemIds('WFDownCatPerm', $groups, $this->wfdownloads->getModule()->mid());
 
         return $this->getObjects(new \Criteria('cid', '(' . implode(',', $allowedDownCategoriesIds) . ')', 'IN'), $id_as_key, $as_object);
     }
@@ -114,10 +114,10 @@ class CategoryHandler extends \XoopsPersistableObjectHandler
      */
     public function getUserUpCategories($id_as_key = false, $as_object = true)
     {
-        $gpermHandler = xoops_getHandler('groupperm');
+        $grouppermHandler = xoops_getHandler('groupperm');
 
         $groups                 = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : XOOPS_GROUP_ANONYMOUS;
-        $allowedUpCategoriesIds = $gpermHandler->getItemIds('WFUpCatPerm', $groups, $this->wfdownloads->getModule()->mid());
+        $allowedUpCategoriesIds = $grouppermHandler->getItemIds('WFUpCatPerm', $groups, $this->wfdownloads->getModule()->mid());
 
         return $this->getObjects(new \Criteria('cid', '(' . implode(',', $allowedUpCategoriesIds) . ')', 'IN'), $id_as_key, $as_object);
     }
@@ -131,7 +131,7 @@ class CategoryHandler extends \XoopsPersistableObjectHandler
     {
         $categoryObjs =& $this->getObjects();
         require_once XOOPS_ROOT_PATH . '/class/tree.php';
-        $categoryObjsTree = new \XoopsObjectTree($categoryObjs, $this->keyName, 'pid');
+        $categoryObjsTree = new Wfdownloads\ObjectTree($categoryObjs, $this->keyName, 'pid');
 
         return $categoryObjsTree->getAllChild($category->getVar($this->keyName));
     }
@@ -146,7 +146,7 @@ class CategoryHandler extends \XoopsPersistableObjectHandler
         }
 
         require_once XOOPS_ROOT_PATH . '/class/tree.php';
-        $categoryObjsTree = new \XoopsObjectTree($this->allCategories, $this->keyName, 'pid');
+        $categoryObjsTree = new Wfdownloads\ObjectTree($this->allCategories, $this->keyName, 'pid');
 
         $allsubcats_linked_totop = [];
         foreach ($this->allCategories as $cid => $category) {

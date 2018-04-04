@@ -25,8 +25,13 @@ use XoopsModules\Wfdownloads;
 $currentFile = basename(__FILE__);
 require_once __DIR__ . '/admin_header.php';
 xoops_load('XoopsLocal');
+xoops_load('XoopsUserUtility');
+$notificationHandler = xoops_getHandler('notification');
 
 $helper       = Wfdownloads\Helper::getInstance();
+
+/** @var \XoopsMemberHandler $memberHandler */
+$memberHandler = xoops_getHandler('member');
 
 // Check directories
 if (!is_dir($helper->getConfig('uploaddir'))) {

@@ -36,7 +36,7 @@ $xoopsTpl->assign('wfdownloads_url', WFDOWNLOADS_URL . '/');
 
 $groups = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : [0 => XOOPS_GROUP_ANONYMOUS];
 
-$gpermHandler = xoops_getHandler('groupperm');
+$grouppermHandler = xoops_getHandler('groupperm');
 $catArray['imageheader'] = Wfdownloads\Utility::headerImage();
 //$catArray['letters']     = Wfdownloads\Utility::lettersChoice();
 /** @var \XoopsDatabase $db */
@@ -53,7 +53,7 @@ $breadcrumb = new common\Breadcrumb();
 $breadcrumb->addLink($helper->getModule()->getVar('name'), WFDOWNLOADS_URL);
 
 // Get number of downloads...
-$allowedCategories = $gpermHandler->getItemIds('WFDownCatPerm', $groups, $helper->getModule()->mid());
+$allowedCategories = $grouppermHandler->getItemIds('WFDownCatPerm', $groups, $helper->getModule()->mid());
 // ... in the last week
 $oneWeekAgo       = strtotime('-1 week'); //$oneWeekAgo = time() - 3600*24*7; //@TODO: Change to strtotime (TODAY-1week);
 $criteria         = new \Criteria('published', $oneWeekAgo, '>=');

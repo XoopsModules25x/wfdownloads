@@ -475,7 +475,7 @@ class Download extends \XoopsObject
             $sform->addElement(new \XoopsFormHidden('cid', $this->getVar('cid', 'e')));
         } else {
             $categoryObjs     = $this->wfdownloads->getHandler('category')->getUserUpCategories();
-            $categoryObjsTree = new \XoopsObjectTree($categoryObjs, 'cid', 'pid');
+            $categoryObjsTree = new Wfdownloads\ObjectTree($categoryObjs, 'cid', 'pid');
 
             if (Wfdownloads\Utility::checkVerXoops($GLOBALS['xoopsModule'], '2.5.9')) {
                 $catSelect = $categoryObjsTree->makeSelectElement('cid', 'title', '--', $this->getVar('cid'), true, 0, '', _MD_WFDOWNLOADS_CATEGORYC);
@@ -699,7 +699,7 @@ class Download extends \XoopsObject
         $sform->addElement($userfile_file, false);
         // download: cid
         $categoryObjs     = $this->wfdownloads->getHandler('category')->getObjects();
-        $categoryObjsTree = new \XoopsObjectTree($categoryObjs, 'cid', 'pid');
+        $categoryObjsTree = new Wfdownloads\ObjectTree($categoryObjs, 'cid', 'pid');
 
 
         if (Wfdownloads\Utility::checkVerXoops($GLOBALS['xoopsModule'], '2.5.9')) {
@@ -846,7 +846,7 @@ class Download extends \XoopsObject
         }
 
         // download: screenshot
-        $graph_array1       =& WfsLists::getListTypeAsArray(XOOPS_ROOT_PATH . '/' . $this->wfdownloads->getConfig('screenshots'), 'images');
+        $graph_array1       = WfsLists::getListTypeAsArray(XOOPS_ROOT_PATH . '/' . $this->wfdownloads->getConfig('screenshots'), 'images');
         $indeximage_select1 = new \XoopsFormSelect('', 'screenshot', $this->getVar('screenshot', 'e'));
         $indeximage_select1->addOptionArray($graph_array1);
         $indeximage_select1->setExtra("onchange='showImgSelected(\"image1\", \"screenshot\", \"" . $this->wfdownloads->getConfig('screenshots') . '", "", "' . XOOPS_URL . "\")'");
@@ -860,7 +860,7 @@ class Download extends \XoopsObject
         $sform->addElement($indeximage_tray1);
 
         // download: screenshot2
-        $graph_array2       =& WfsLists::getListTypeAsArray(XOOPS_ROOT_PATH . '/' . $this->wfdownloads->getConfig('screenshots'), 'images');
+        $graph_array2       = WfsLists::getListTypeAsArray(XOOPS_ROOT_PATH . '/' . $this->wfdownloads->getConfig('screenshots'), 'images');
         $indeximage_select2 = new \XoopsFormSelect('', 'screenshot2', $this->getVar('screenshot2', 'e'));
         $indeximage_select2->addOptionArray($graph_array2);
         $indeximage_select2->setExtra("onchange='showImgSelected(\"image2\", \"screenshot2\", \"" . $this->wfdownloads->getConfig('screenshots') . '", "", "' . XOOPS_URL . "\")'");
@@ -874,7 +874,7 @@ class Download extends \XoopsObject
         $sform->addElement($indeximage_tray2);
 
         // download: screenshot3
-        $graph_array3       =& WfsLists::getListTypeAsArray(XOOPS_ROOT_PATH . '/' . $this->wfdownloads->getConfig('screenshots'), 'images');
+        $graph_array3       = WfsLists::getListTypeAsArray(XOOPS_ROOT_PATH . '/' . $this->wfdownloads->getConfig('screenshots'), 'images');
         $indeximage_select3 = new \XoopsFormSelect('', 'screenshot3', $this->getVar('screenshot3', 'e', true));
         $indeximage_select3->addOptionArray($graph_array3);
         $indeximage_select3->setExtra("onchange='showImgSelected(\"image3\", \"screenshot3\", \"" . $this->wfdownloads->getConfig('screenshots') . '", "", "' . XOOPS_URL . "\")'");
@@ -888,7 +888,7 @@ class Download extends \XoopsObject
         $sform->addElement($indeximage_tray3);
 
         // download: screenshot4
-        $graph_array4       =& WfsLists::getListTypeAsArray(XOOPS_ROOT_PATH . '/' . $this->wfdownloads->getConfig('screenshots'), 'images');
+        $graph_array4       = WfsLists::getListTypeAsArray(XOOPS_ROOT_PATH . '/' . $this->wfdownloads->getConfig('screenshots'), 'images');
         $indeximage_select4 = new \XoopsFormSelect('', 'screenshot4', $this->getVar('screenshot4', 'e'));
         $indeximage_select4->addOptionArray($graph_array4);
         $indeximage_select4->setExtra("onchange='showImgSelected(\"image4\", \"screenshot4\", \"" . $this->wfdownloads->getConfig('screenshots') . '", "", "' . XOOPS_URL . "\")'");
@@ -990,7 +990,7 @@ class Download extends \XoopsObject
         $sform->setExtra('enctype="multipart/form-data"');
         // download: cid
         $categoryObjs     = $this->wfdownloads->getHandler('category')->getUserUpCategories();
-        $categoryObjsTree = new \XoopsObjectTree($categoryObjs, 'cid', 'pid');
+        $categoryObjsTree = new Wfdownloads\ObjectTree($categoryObjs, 'cid', 'pid');
 
         if (Wfdownloads\Utility::checkVerXoops($GLOBALS['xoopsModule'], '2.5.9')) {
             $catSelect = $categoryObjsTree->makeSelectElement('cid', 'title', '-', $this->getVar('cid'), true, 0, '', _MD_WFDOWNLOADS_CATEGORYC);

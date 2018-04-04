@@ -1,6 +1,6 @@
-<h5>3.50 Alpha 1 [NOT RELEASED]</h5>  Dev: Xoops 2.5.9, PHP 7.2.3
+<h5>3.30 Alpha 1 [NOT RELEASED]</h5>  Dev: Xoops 2.5.9, PHP 7.2.4
 <hr>
-- namespaces (mamba)
+- namespaces, autoloading (mamba)
 
 <h5>3.23 Final (2016-11-12)</h5>
 <hr>

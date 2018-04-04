@@ -313,7 +313,7 @@ class Utility
         // human readable format -- powers of 1000
         $unit = ['b', 'kb', 'mb', 'gb', 'tb', 'pb', 'eb'];
 
-        return @round($bytes / pow(1000, $i = floor(log($bytes, 1000))), $precision) . ' ' . $unit[(int)$i];
+        return @round($bytes / (1000 ** $i = floor(log($bytes, 1000))), $precision) . ' ' . $unit[(int)$i];
     }
 
     /**
@@ -327,7 +327,7 @@ class Utility
         // human readable format -- powers of 1024
         $unit = ['B', 'kB', 'MB', 'GB', 'TB', 'PB', 'EB'];
 
-        return @round($bytes / pow(1024, $i = floor(log($bytes, 1024))), $precision) . ' ' . $unit[(int)$i];
+        return @round($bytes / (1024 ** $i = floor(log($bytes, 1024))), $precision) . ' ' . $unit[(int)$i];
     }
 
     /**
@@ -655,7 +655,7 @@ class Utility
             if (isset($countsByLetters[$letter])) {
                 $letter_array['letter'] = $letter;
                 $letter_array['count']  = $countsByLetters[$letter];
-                $letter_array['url']    = XOOPS_URL . "/modules/{$helper->getModule()->dirname()}/viewcat.php?list={$letter}";
+                $letter_array['url']    = XOOPS_URL . "/modules/{$helper->getModule()->dirname()}/viewcat.php?letter={$letter}";
             } else {
                 $letter_array['letter'] = $letter;
                 $letter_array['count']  = 0;
@@ -762,7 +762,7 @@ class Utility
     public static function getMeta($key)
     {
         $GLOBALS['xoopsDB'] = \XoopsDatabaseFactory::getDatabaseConnection();
-        $sql                = sprintf('SELECT metavalue FROM %s WHERE metakey=%s', $GLOBALS['xoopsDB']->prefix('wfdownloads_meta'), $GLOBALS['xoopsDB']->quoteString($key));
+        $sql                = sprintf('SELECT metavalue FROM `%s` WHERE metakey=%s', $GLOBALS['xoopsDB']->prefix('wfdownloads_meta'), $GLOBALS['xoopsDB']->quoteString($key));
         $ret                = $GLOBALS['xoopsDB']->query($sql);
         if (!$ret) {
             $value = false;
@@ -944,13 +944,13 @@ class Utility
         $id           = (int)$id;
         $result       = true;
         $mid          = $helper->getModule()->mid();
-        $gpermHandler = xoops_getHandler('groupperm');
+        $grouppermHandler = xoops_getHandler('groupperm');
         // First, if the permissions are already there, delete them
-        $gpermHandler->deleteByModule($mid, $permName, $id);
+        $grouppermHandler->deleteByModule($mid, $permName, $id);
         // Save the new permissions
         if (is_array($groups)) {
             foreach ($groups as $group_id) {
-                $gpermHandler->addRight($permName, $id, $group_id, $mid);
+                $grouppermHandler->addRight($permName, $id, $group_id, $mid);
             }
         }
 
@@ -1215,10 +1215,10 @@ class Utility
      */
     public static function categoriesCount()
     {
-        $gpermHandler             = xoops_getHandler('groupperm');
+        $grouppermHandler             = xoops_getHandler('groupperm');
         $helper                   = Wfdownloads\Helper::getInstance();
         $groups                   = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : [0 => XOOPS_GROUP_ANONYMOUS];
-        $allowedDownCategoriesIds = $gpermHandler->getItemIds('WFDownCatPerm', $groups, $helper->getModule()->mid());
+        $allowedDownCategoriesIds = $grouppermHandler->getItemIds('WFDownCatPerm', $groups, $helper->getModule()->mid());
 
         return count($allowedDownCategoriesIds);
     }

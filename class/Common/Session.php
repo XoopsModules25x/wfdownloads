@@ -99,7 +99,7 @@ class Session
     }
 
     /**
-     * @return Wfdownloads\Session
+     * @return \XoopsModules\Wfdownloads\Common\Session
      */
     public static function getInstance()
     {

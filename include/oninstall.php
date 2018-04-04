@@ -41,17 +41,17 @@ define('BLANK_FILE_PATH', XOOPS_ROOT_PATH . '/uploads/blank.png');
 function xoops_module_pre_install_wfdownloads(\XoopsModule $module)
 {
     $moduleDirName = basename(dirname(__DIR__));
-    $utilityClass  = ucfirst($moduleDirName) . 'Utility';
-    if (!class_exists($utilityClass)) {
+    $utility  = ucfirst($moduleDirName) . 'Utility';
+    if (!class_exists($utility)) {
         xoops_load('utility', $moduleDirName);
     }
     //check for minimum XOOPS version
-    if (!$utilityClass::checkVerXoops($module)) {
+    if (!$utility::checkVerXoops($module)) {
         return false;
     }
 
     // check for minimum PHP version
-    if (!$utilityClass::checkVerPhp($module)) {
+    if (!$utility::checkVerPhp($module)) {
         return false;
     }
 
@@ -83,10 +83,10 @@ function xoops_module_install_wfdownloads(\XoopsModule $module)
 
     //    $configurator = include __DIR__ . '/config.php';
     $configurator = new Wfdownloads\Common\Configurator();
-    /** @var Wfdownloads\Utility $utilityClass */
-    $utilityClass = ucfirst($moduleDirName) . 'Utility';
+    /** @var Wfdownloads\Utility $utility */
+    $utility = ucfirst($moduleDirName) . 'Utility';
     ;
-    if (!class_exists($utilityClass)) {
+    if (!class_exists($utility)) {
         xoops_load('utility', $moduleDirName);
     }
 
@@ -95,27 +95,27 @@ function xoops_module_install_wfdownloads(\XoopsModule $module)
     $module_name    = $xoopsModule->getVar('name');
     $module_dirname = $xoopsModule->getVar('dirname');
     $module_version = $xoopsModule->getVar('version');
-    $gpermHandler   = xoops_getHandler('groupperm');
+    $grouppermHandler   = xoops_getHandler('groupperm');
     // access rights
-    $gpermHandler->addRight('nw_approve', 1, XOOPS_GROUP_ADMIN, $module_id);
-    $gpermHandler->addRight('nw_submit', 1, XOOPS_GROUP_ADMIN, $module_id);
-    $gpermHandler->addRight('nw_view', 1, XOOPS_GROUP_ADMIN, $module_id);
-    $gpermHandler->addRight('nw_view', 1, XOOPS_GROUP_USERS, $module_id);
-    $gpermHandler->addRight('nw_view', 1, XOOPS_GROUP_ANONYMOUS, $module_id);
+    $grouppermHandler->addRight('nw_approve', 1, XOOPS_GROUP_ADMIN, $module_id);
+    $grouppermHandler->addRight('nw_submit', 1, XOOPS_GROUP_ADMIN, $module_id);
+    $grouppermHandler->addRight('nw_view', 1, XOOPS_GROUP_ADMIN, $module_id);
+    $grouppermHandler->addRight('nw_view', 1, XOOPS_GROUP_USERS, $module_id);
+    $grouppermHandler->addRight('nw_view', 1, XOOPS_GROUP_ANONYMOUS, $module_id);
 
     //  ---  CREATE FOLDERS ---------------
     /*
       if (count($configurator['uploadFolders']) > 0) {
           //    foreach (array_keys($GLOBALS['uploadFolders']) as $i) {
           foreach (array_keys($configurator['uploadFolders']) as $i) {
-              $utilityClass::createFolder($configurator['uploadFolders'][$i]);
+              $utility::createFolder($configurator['uploadFolders'][$i]);
           }
       }
     */
     if (count($configurator->uploadFolders) > 0) {
         //    foreach (array_keys($GLOBALS['uploadFolders']) as $i) {
         foreach (array_keys($configurator->uploadFolders) as $i) {
-            $utilityClass::createFolder($configurator->uploadFolders[$i]);
+            $utility::createFolder($configurator->uploadFolders[$i]);
         }
     }
 
@@ -124,7 +124,7 @@ function xoops_module_install_wfdownloads(\XoopsModule $module)
         $file = __DIR__ . '/../assets/images/blank.png';
         foreach (array_keys($configurator->copyBlankFiles) as $i) {
             $dest = $configurator->copyBlankFiles[$i] . '/blank.png';
-            $utilityClass::copyFile($file, $dest);
+            $utility::copyFile($file, $dest);
         }
     }
 

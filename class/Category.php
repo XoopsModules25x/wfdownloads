@@ -80,7 +80,7 @@ class Category extends \XoopsObject
      */
     public function getForm($action = false)
     {
-        $gpermHandler = xoops_getHandler('groupperm');
+        $grouppermHandler = xoops_getHandler('groupperm');
 
         if (false === $action) {
             $action = $_SERVER['REQUEST_URI'];
@@ -97,7 +97,7 @@ class Category extends \XoopsObject
         // category: pid
         if (Wfdownloads\Utility::categoriesCount() > 0) {
             $categoryObjs     = $this->wfdownloads->getHandler('category')->getObjects();
-            $categoryObjsTree = new \XoopsObjectTree($categoryObjs, 'cid', 'pid');
+            $categoryObjsTree = new Wfdownloads\ObjectTree($categoryObjs, 'cid', 'pid');
 
             if (Wfdownloads\Utility::checkVerXoops($GLOBALS['xoopsModule'], '2.5.9')) {
                 $catSelect = $categoryObjsTree->makeSelectElement('pid', 'title', '-', $this->getVar('pid'), true, 0, '', _AM_WFDOWNLOADS_FCATEGORY_SUBCATEGORY);
@@ -109,12 +109,12 @@ class Category extends \XoopsObject
         // category: weight
         $form->addElement(new \XoopsFormText(_AM_WFDOWNLOADS_FCATEGORY_WEIGHT, 'weight', 11, 11, $this->getVar('weight')), false);
         // permission: WFDownCatPerm
-        $groups             = $gpermHandler->getGroupIds('WFDownCatPerm', $this->getVar('cid'), $this->wfdownloads->getModule()->mid());
+        $groups             = $grouppermHandler->getGroupIds('WFDownCatPerm', $this->getVar('cid'), $this->wfdownloads->getModule()->mid());
         $groups_down_select = new \XoopsFormSelectGroup(_AM_WFDOWNLOADS_FCATEGORY_GROUPPROMPT, 'groups', true, $groups, 5, true);
         $groups_down_select->setDescription(_AM_WFDOWNLOADS_FCATEGORY_GROUPPROMPT_DESC);
         $form->addElement($groups_down_select);
         // permission: WFUpCatPerm
-        $up_groups        = $gpermHandler->getGroupIds('WFUpCatPerm', $this->getVar('cid'), $this->wfdownloads->getModule()->mid());
+        $up_groups        = $grouppermHandler->getGroupIds('WFUpCatPerm', $this->getVar('cid'), $this->wfdownloads->getModule()->mid());
         $groups_up_select = new \XoopsFormSelectGroup(_AM_WFDOWNLOADS_FCATEGORY_GROUPPROMPT_UP, 'up_groups', true, $up_groups, 5, true);
         $groups_up_select->setDescription(_AM_WFDOWNLOADS_FCATEGORY_GROUPPROMPT_UP_DESC);
         $form->addElement($groups_up_select);

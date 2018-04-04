@@ -469,7 +469,7 @@ CREATE TABLE wfdownloads_ip_log (
   lid        INT(11)     NOT NULL DEFAULT '0',
   uid        INT(11)     NOT NULL DEFAULT '0',
   date       INT(11)     NOT NULL DEFAULT '0',
-  ip_address VARCHAR(20) NOT NULL DEFAULT '',
+  ip_address VARCHAR(45) NOT NULL DEFAULT '',
   PRIMARY KEY (ip_logid)
 )
   ENGINE = MyISAM;

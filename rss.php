@@ -40,7 +40,7 @@ $categoryObj = $helper->getHandler('category')->get((int)$_REQUEST['cid']);
 $groups = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : [0 => XOOPS_GROUP_ANONYMOUS];
 
 // Get download permissions
-$allowedDownCategoriesIds = $gpermHandler->getItemIds('WFDownCatPerm', $groups, $helper->getModule()->mid());
+$allowedDownCategoriesIds = $grouppermHandler->getItemIds('WFDownCatPerm', $groups, $helper->getModule()->mid());
 
 if (!$categoryObj->isNew()) {
     if (!in_array($categoryObj->getVar('cid'), $allowedDownCategoriesIds)) {

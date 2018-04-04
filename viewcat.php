@@ -26,7 +26,7 @@ use XoopsModules\Wfdownloads\Common;
 $currentFile = basename(__FILE__);
 require_once __DIR__ . '/header.php';
 
-$gpermHandler = xoops_getHandler('groupperm');
+$grouppermHandler = xoops_getHandler('groupperm');
 
 $cid   = Request::getInt('cid', 0);
 $start = Request::getInt('start', 0);
@@ -38,11 +38,11 @@ $groups = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() 
 
 // Check permissions
 if (in_array(XOOPS_GROUP_ANONYMOUS, $groups)) {
-    if (!$gpermHandler->checkRight('WFDownCatPerm', $cid, $groups, $helper->getModule()->mid())) {
+    if (!$grouppermHandler->checkRight('WFDownCatPerm', $cid, $groups, $helper->getModule()->mid())) {
         redirect_header(XOOPS_URL . '/user.php', 3, _MD_WFDOWNLOADS_NEEDLOGINVIEW);
     }
 } else {
-    if (!$gpermHandler->checkRight('WFDownCatPerm', $cid, $groups, $helper->getModule()->mid())) {
+    if (!$grouppermHandler->checkRight('WFDownCatPerm', $cid, $groups, $helper->getModule()->mid())) {
         redirect_header('index.php', 3, _NOPERM);
     }
 }
@@ -72,8 +72,8 @@ if (empty($categoryObj)) {
 }
 
 // Get download/upload permissions
-$allowedDownCategoriesIds = $gpermHandler->getItemIds('WFDownCatPerm', $groups, $helper->getModule()->mid());
-$allowedUpCategoriesIds   = $gpermHandler->getItemIds('WFUpCatPerm', $groups, $helper->getModule()->mid());
+$allowedDownCategoriesIds = $grouppermHandler->getItemIds('WFDownCatPerm', $groups, $helper->getModule()->mid());
+$allowedUpCategoriesIds   = $grouppermHandler->getItemIds('WFUpCatPerm', $groups, $helper->getModule()->mid());
 
 $GLOBALS['xoopsOption']['template_main'] = "{$helper->getModule()->dirname()}_viewcat.tpl";
 require_once XOOPS_ROOT_PATH . '/header.php';
@@ -131,7 +131,7 @@ $criteria = new \CriteriaCompo();
 $criteria->setSort('weight ASC, title');
 $categoryObjs = $helper->getHandler('category')->getObjects($criteria, true);
 require_once XOOPS_ROOT_PATH . '/class/tree.php';
-$categoryObjsTree = new \XoopsObjectTree($categoryObjs, 'cid', 'pid');
+$categoryObjsTree = new Wfdownloads\ObjectTree($categoryObjs, 'cid', 'pid');
 
 // Breadcrumb
 $breadcrumb = new common\Breadcrumb();

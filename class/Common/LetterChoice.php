@@ -60,8 +60,8 @@ class LetterChoice
     /**
      * Constructor
      *
-     * @param XoopsPersistableObjectHandler $objHandler {@link XoopsPersistableObjectHandler}
-     * @param CriteriaElement               $criteria   {@link CriteriaElement}
+     * @param \XoopsPersistableObjectHandler $objHandler {@link XoopsPersistableObjectHandler}
+     * @param \CriteriaElement               $criteria   {@link CriteriaElement}
      * @param string                        $field_name search by field
      * @param array                         $alphabet   array of alphabet letters
      * @param string                        $arg_name   item on the current page
@@ -73,7 +73,7 @@ class LetterChoice
         $objHandler,
         $criteria = null,
         $field_name = null,
-        $alphabet = [],
+        array $alphabet = [],
         $arg_name = 'letter',
         $url = null,
         $extra_arg = '',

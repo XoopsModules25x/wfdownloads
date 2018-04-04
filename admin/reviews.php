@@ -24,6 +24,7 @@ use XoopsModules\Wfdownloads;
 
 $currentFile = basename(__FILE__);
 require_once __DIR__ . '/admin_header.php';
+xoops_load('XoopsUserUtility');
 $memberHandler = xoops_getHandler('member');
 
 $op = Request::getString('op', 'reviews.list');

@@ -28,9 +28,9 @@ $moduleDirName = basename(__DIR__);
 
 defined('XOOPS_ROOT_PATH') || die('XOOPS root path not defined');
 
-$modversion['version']       = 3.50;
+$modversion['version']       = 3.30;
 $modversion['module_status'] = 'Alpha 1';
-$modversion['releasedate']   = '2017-12-12';
+$modversion['releasedate']   = '2018-04-02';
 $modversion['name']          = _MI_WFDOWNLOADS_NAME;
 $modversion['description']   = _MI_WFDOWNLOADS_DESC;
 $modversion['author']        = 'XOOPS Development Team';
@@ -48,7 +48,7 @@ $modversion['image'] = 'assets/images/logoModule.png';
 
 // Install, update, unistall
 $modversion['onInstall']   = 'include/oninstall.php';
-$modversion['onUpdate']    = 'include/onupdate.php';
+//$modversion['onUpdate']    = 'include/onupdate.php';
 $modversion['onUninstall'] = 'include/onuninstall.php';
 
 $modversion['date']                = '2014-11-22';
@@ -422,7 +422,7 @@ $modversion['config'][] = [
     'description' => '_MI_WFDOWNLOADS_UPLOAD_CONFIGS',
     'formtype'    => 'line_break',
     'valuetype'   => 'textbox',
-    'default'     => 'head'
+    'default'     => 'odd'
 ];
 
 $modversion['config'][] = [
@@ -531,7 +531,7 @@ $modversion['config'][] = [
     'description' => '_MI_WFDOWNLOADS_UPLOAD_CONFIGS',
     'formtype'    => 'line_break',
     'valuetype'   => 'textbox',
-    'default'     => 'head'
+    'default'     => 'odd'
 ];
 
 $modversion['config'][] = [
@@ -568,7 +568,7 @@ $modversion['config'][] = [
     'description' => '_MI_WFDOWNLOADS_IMAGES_CONFIGSDSC',
     'formtype'    => 'line_break',
     'valuetype'   => 'textbox',
-    'default'     => 'head'
+    'default'     => 'odd'
 ];
 
 $modversion['config'][] = [
@@ -696,7 +696,7 @@ $modversion['config'][] = [
     'description' => '_MI_WFDOWNLOADS_FILESUPLOADS_CONFIGSDSC',
     'formtype'    => 'line_break',
     'valuetype'   => 'textbox',
-    'default'     => 'head'
+    'default'     => 'odd'
 ];
 
 $modversion['config'][] = [
@@ -751,7 +751,7 @@ $modversion['config'][] = [
     'description' => '_MI_WFDOWNLOADS_SCREENSHOTS_ESTRASYSTEMSDSC',
     'formtype'    => 'line_break',
     'valuetype'   => 'textbox',
-    'default'     => 'head'
+    'default'     => 'odd'
 ];
 
 $modversion['config'][] = [
@@ -842,7 +842,7 @@ $modversion['config'][] = [
     'description' => '_MI_WFDOWNLOADS_VARIOUS_CONFIGSDSC',
     'formtype'    => 'line_break',
     'valuetype'   => 'textbox',
-    'default'     => 'head'
+    'default'     => 'odd'
 ];
 
 $modversion['config'][] = [
@@ -1012,7 +1012,7 @@ $modversion['config'][] = array(
     'description' => '_MI_WFDOWNLOADS_SWISHE_CONFIGSDSC',
     'formtype'    => 'line_break',
     'valuetype'   => 'textbox',
-    'default'     => 'head'
+    'default'     => 'odd'
 );
 
 $modversion['config'][] = array(
@@ -1043,6 +1043,19 @@ $modversion['config'][] = array(
 );
 // Swish-e support EXPERIMENTAL
 */
+
+
+/**
+ * Make Sample button visible?
+ */
+$modversion['config'][] = [
+    'name'        => 'displaySampleButton',
+    'title'       => '_MI_WFDOWNLOADS_SHOW_SAMPLE_BUTTON',
+    'description' => '_MI_WFDOWNLOADS_SHOW_SAMPLE_BUTTON_DESC',
+    'formtype'    => 'yesno',
+    'valuetype'   => 'int',
+    'default'     => 0,
+];
 
 // ------------------- Notifications -------------------
 $modversion['hasNotification']             = true;

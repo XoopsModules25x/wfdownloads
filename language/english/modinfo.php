@@ -336,19 +336,12 @@ define('_MI_WFDOWNLOADS_BROKENREPORT_ENABLE', '[broken reports] Enable Broken re
 define('_MI_WFDOWNLOADS_BROKENREPORT_ENABLEDSC', 'If enabled, Broken reports system is enabled in back end.');
 define('_MI_WFDOWNLOADS_SUBMISSIONS_CONFIGS', 'Downloads submission generals permissions');
 define('_MI_WFDOWNLOADS_SUBMISSIONS_CONFIGSDSC', '');
-define('_MI_WFDOWNLOADS_DOWNLOAD_CONFIGS', 'Download preferences');
 define('_MI_WFDOWNLOADS_DOWNLOAD_CONFIGSDSC', '');
-define('_MI_WFDOWNLOADS_UPLOAD_CONFIGS', 'Upload/submit preferences');
 define('_MI_WFDOWNLOADS_UPLOAD_CONFIGSDSC', '');
-define('_MI_WFDOWNLOADS_IMAGES_CONFIGS', 'Images preferences');
 define('_MI_WFDOWNLOADS_IMAGES_CONFIGSDSC', '');
-define('_MI_WFDOWNLOADS_SCREENSHOTS_CONFIGS', 'Screenshots preferences');
 define('_MI_WFDOWNLOADS_SCREENSHOTS_CONFIGSDSC', '');
-define('_MI_WFDOWNLOADS_FILESUPLOADS_CONFIGS', 'Files preferences');
 define('_MI_WFDOWNLOADS_FILESUPLOADS_CONFIGSDSC', '');
-define('_MI_WFDOWNLOADS_SCREENSHOTS_ESTRASYSTEMS', 'Extra systems preferences');
 define('_MI_WFDOWNLOADS_SCREENSHOTS_ESTRASYSTEMSDSC', '');
-define('_MI_WFDOWNLOADS_VARIOUS_CONFIGS', 'Various preferences');
 define('_MI_WFDOWNLOADS_VARIOUS_CONFIGSDSC', '');
 define('_MI_WFDOWNLOADS_AUTOSUMMARY1', _NO);
 define('_MI_WFDOWNLOADS_AUTOSUMMARY2', 'If blank');
@@ -410,3 +403,17 @@ define('_MI_WFDOWNLOADS_HELP_SUPPORT', 'Support');
 //define('_MI_WFDOWNLOADS_HELP4', 'YYYYY');
 //define('_MI_WFDOWNLOADS_HELP5', 'YYYYY');
 //define('_MI_WFDOWNLOADS_HELP6', 'YYYYY');
+
+
+define('_MI_WFDOWNLOADS_DOWNLOAD_CONFIGS', '<span style="color: #FF0000; font-size: Small;  font-weight: bold;">---Download preferences---</span> ');
+define('_MI_WFDOWNLOADS_UPLOAD_CONFIGS', '<span style="color: #FF0000; font-size: Small;  font-weight: bold;">---Upload/submit preferences---</span> ');
+define('_MI_WFDOWNLOADS_IMAGES_CONFIGS', '<span style="color: #FF0000; font-size: Small;  font-weight: bold;">---Images preferences---</span> ');
+define('_MI_WFDOWNLOADS_SCREENSHOTS_CONFIGS', '<span style="color: #FF0000; font-size: Small;  font-weight: bold;">---Screenshots preferences---</span> ');
+define('_MI_WFDOWNLOADS_FILESUPLOADS_CONFIGS', '<span style="color: #FF0000; font-size: Small;  font-weight: bold;">---Files preferences---</span> ');
+define('_MI_WFDOWNLOADS_SCREENSHOTS_ESTRASYSTEMS', '<span style="color: #FF0000; font-size: Small;  font-weight: bold;">---Extra systems preferences---</span> ');
+define('_MI_WFDOWNLOADS_VARIOUS_CONFIGS', '<span style="color: #FF0000; font-size: Small;  font-weight: bold;">---Various preferences---</span> ');
+
+
+
+define('_MI_WFDOWNLOADS_SHOW_SAMPLE_BUTTON', 'Show Sample Button?');
+define('_MI_WFDOWNLOADS_SHOW_SAMPLE_BUTTON_DESC', 'If yes, the "Add Sample Data" button will be visible to the Admin. It is Yes as a default for first installation.');

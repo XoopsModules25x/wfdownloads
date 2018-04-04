@@ -66,9 +66,9 @@ $arr = [];
 
 $categoryObjs = $helper->getHandler('category')->getObjects();
 
-$categoryObjsTree     = new \XoopsObjectTree($categoryObjs, 'cid', 'pid');
+$categoryObjsTree     = new Wfdownloads\ObjectTree($categoryObjs, 'cid', 'pid');
 $mainCategoryObjs     = $categoryObjsTree->getFirstChild(0);
-$allowedCategoriesIds = $gpermHandler->getItemIds('WFDownCatPerm', $groups, $helper->getModule()->mid());
+$allowedCategoriesIds = $grouppermHandler->getItemIds('WFDownCatPerm', $groups, $helper->getModule()->mid());
 
 $e        = 0;
 $rankings = [];

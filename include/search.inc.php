@@ -50,8 +50,8 @@ function wfdownloads_search(
 
     $userGroups = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : [0 => XOOPS_GROUP_ANONYMOUS];
 
-    $gpermHandler             = xoops_getHandler('groupperm');
-    $allowedDownCategoriesIds = $gpermHandler->getItemIds('WFDownCatPerm', $userGroups, $helper->getModule()->mid());
+    $grouppermHandler             = xoops_getHandler('groupperm');
+    $allowedDownCategoriesIds = $grouppermHandler->getItemIds('WFDownCatPerm', $userGroups, $helper->getModule()->mid());
 
     $criteria = new \CriteriaCompo(new \Criteria('cid', '(' . implode(',', $allowedDownCategoriesIds) . ')', 'IN'));
     if (0 != $userId) {

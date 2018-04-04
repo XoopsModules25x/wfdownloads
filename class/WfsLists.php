@@ -135,7 +135,7 @@ class WfsLists
      *
      * @return array
      */
-    public static function &getListTypeAsArray($dirname, $type = '', $prefix = '', $noselection = 1)
+    public static function getListTypeAsArray($dirname, $type = '', $prefix = '', $noselection = 1)
     {
         $filelist = [];
         switch (trim($type)) {
