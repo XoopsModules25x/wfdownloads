@@ -143,8 +143,8 @@ switch ($op) {
             $reviewObj = $helper->getHandler('review')->create();
             $reviewObj->setVar('title', trim($_POST['title']));
             $reviewObj->setVar('review', trim($_POST['review']));
-            $reviewObj->setVar('lid', (int)$_POST['lid']);
-            $reviewObj->setVar('rated', (int)$_POST['rated']);
+            $reviewObj->setVar('lid', \Xmf\Request::getInt('lid', 0, 'POST'));
+            $reviewObj->setVar('rated', \Xmf\Request::getInt('rated', 0, 'POST'));
             $reviewObj->setVar('date', time());
             $reviewObj->setVar('uid', $reviewerUid);
             $submit = (Wfdownloads\Utility::userIsAdmin() ?: $helper->getConfig('rev_approve') ? true : false);

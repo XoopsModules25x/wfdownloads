@@ -174,7 +174,7 @@ switch ($op) {
             $mirrorObj->setVar('location', trim($_POST['location']));
             $mirrorObj->setVar('continent', trim($_POST['continent']));
             $mirrorObj->setVar('downurl', trim($_POST['downurl']));
-            $mirrorObj->setVar('lid', (int)$_POST['lid']);
+            $mirrorObj->setVar('lid', \Xmf\Request::getInt('lid', 0, 'POST'));
             $mirrorObj->setVar('uid', $mirroruserUid);
             $mirrorObj->setVar('date', time());
             $approve = true;

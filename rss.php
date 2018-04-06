@@ -35,7 +35,7 @@ $xoopsTpl = new \XoopsTpl();
 
 // Find case
 $case        = 'all';
-$categoryObj = $helper->getHandler('category')->get((int)$_REQUEST['cid']);
+$categoryObj = $helper->getHandler('category')->get(\Xmf\Request::getInt('cid', 0, 'REQUEST'));
 
 $groups = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : [0 => XOOPS_GROUP_ANONYMOUS];
 

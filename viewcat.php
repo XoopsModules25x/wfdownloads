@@ -115,12 +115,12 @@ if (Wfdownloads\Utility::checkModule('formulize')) {
 $catArray['imageheader'] = Wfdownloads\Utility::headerImage();
 //$catArray['letters']     = Wfdownloads\Utility::lettersChoice();
 /** @var \XoopsDatabase $db */
-$db           = \XoopsDatabaseFactory::getDatabaseConnection();
-$objHandler = new Wfdownloads\DownloadHandler($db);
-$choicebyletter = new Wfdownloads\Common\LetterChoice($objHandler, null, null, range('a', 'z'), 'letter');
-$catarray['letters']  = $choicebyletter->render();
+$db                  = \XoopsDatabaseFactory::getDatabaseConnection();
+$objHandler          = new Wfdownloads\DownloadHandler($db);
+$choicebyletter      = new Wfdownloads\Common\LetterChoice($objHandler, null, null, range('a', 'z'), 'letter');
+$catarray['letters'] = $choicebyletter->render();
 
-$catArray['toolbar']     = Wfdownloads\Utility::toolbar();
+$catArray['toolbar'] = Wfdownloads\Utility::toolbar();
 $xoopsTpl->assign('catarray', $catArray);
 
 $xoopsTpl->assign('categoryPath', $helper->getHandler('category')->getNicePath($cid)); // this definition is not removed for backward compatibility issues
@@ -167,16 +167,8 @@ if (is_array($allSubCategoryObjs) > 0 && !isset($_GET['list']) && !isset($_GET['
         // ----- added for subcat images -----
         if (('' !== $subCategoryObj->getVar('imgurl')) && is_file(XOOPS_ROOT_PATH . '/' . $helper->getConfig('catimage') . '/' . $subCategoryObj->getVar('imgurl'))) {
             if ($helper->getConfig('usethumbs') && function_exists('gd_info')) {
-                $imageURL = Wfdownloads\Utility::createThumb(
-                    $subCategoryObj->getVar('imgurl'),
-                    $helper->getConfig('catimage'),
-                    'thumbs',
-                    $helper->getConfig('cat_imgwidth'),
-                    $helper->getConfig('cat_imgheight'),
-                    $helper->getConfig('imagequality'),
-                                                            $helper->getConfig('updatethumbs'),
-                    $helper->getConfig('keepaspect')
-                );
+                $imageURL = Wfdownloads\Utility::createThumb($subCategoryObj->getVar('imgurl'), $helper->getConfig('catimage'), 'thumbs', $helper->getConfig('cat_imgwidth'), $helper->getConfig('cat_imgheight'), $helper->getConfig('imagequality'), $helper->getConfig('updatethumbs'),
+                                                             $helper->getConfig('keepaspect'));
             } else {
                 $imageURL = XOOPS_URL . '/' . $helper->getConfig('catimage') . '/' . $subCategoryObj->getVar('imgurl');
             }
@@ -236,16 +228,8 @@ if (isset($cid) && $cid > 0 && isset($categoryObjs[$cid])) {
     // Making the category image and title available in the template
     if (('' !== $categoryObjs[$cid]->getVar('imgurl')) && is_file(XOOPS_ROOT_PATH . '/' . $helper->getConfig('catimage') . '/' . $categoryObjs[$cid]->getVar('imgurl'))) {
         if ($helper->getConfig('usethumbs') && function_exists('gd_info')) {
-            $imageURL = Wfdownloads\Utility::createThumb(
-                $categoryObjs[$cid]->getVar('imgurl'),
-                $helper->getConfig('catimage'),
-                'thumbs',
-                $helper->getConfig('cat_imgwidth'),
-                $helper->getConfig('cat_imgheight'),
-                $helper->getConfig('imagequality'),
-                                                        $helper->getConfig('updatethumbs'),
-                $helper->getConfig('keepaspect')
-            );
+            $imageURL = Wfdownloads\Utility::createThumb($categoryObjs[$cid]->getVar('imgurl'), $helper->getConfig('catimage'), 'thumbs', $helper->getConfig('cat_imgwidth'), $helper->getConfig('cat_imgheight'), $helper->getConfig('imagequality'), $helper->getConfig('updatethumbs'),
+                                                         $helper->getConfig('keepaspect'));
         } else {
             $imageURL = XOOPS_URL . '/' . $helper->getConfig('catimage') . '/' . $categoryObjs[$cid]->getVar('imgurl');
         }
@@ -262,7 +246,7 @@ if (isset($cid) && $cid > 0 && isset($categoryObjs[$cid])) {
 $xoopsTpl->assign('show_category_title', false);
 
 if (isset($_GET['selectdate'])) {
-    $criteria->add(new \Criteria('', 'TO_DAYS(FROM_UNIXTIME(' . (int)$_GET['selectdate'] . '))', '=', '', 'TO_DAYS(FROM_UNIXTIME(published))'));
+    $criteria->add(new \Criteria('', 'TO_DAYS(FROM_UNIXTIME(' . \Xmf\Request::getInt('selectdate', 0, 'GET') . '))', '=', '', 'TO_DAYS(FROM_UNIXTIME(published))'));
     $xoopsTpl->assign('show_categort_title', true);
 } elseif (isset($_GET['list'])) {
     $criteria->setSort("{$orderby}, title");

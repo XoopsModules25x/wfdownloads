@@ -20,7 +20,7 @@
  * @author          Xoops Development Team
  */
 
-use Xmf\Language;
+use Xmf\Request;
 use XoopsModules\Wfdownloads;
 
 //defined('XOOPS_ROOT_PATH') || die('XOOPS root path not defined');
@@ -146,7 +146,7 @@ class FileChecker
     }
 }
 
-$op = \Xmf\Request::getString('op', '', 'POST');
+$op = Request::getString('op', '', 'POST');
 switch ($op) {
     case 'copyfile':
         if (isset($_POST['original_file_path'])) {

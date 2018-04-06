@@ -10,6 +10,7 @@
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 
+use Xmf\Request;
 use XoopsModules\Wfdownloads;
 
 /**
@@ -130,7 +131,7 @@ class DirectoryChecker
     }
 }
 
-$op = \Xmf\Request::getString('op', '', 'POST');
+$op = Request::getString('op', '', 'POST');
 switch ($op) {
     case 'createdir':
         if (isset($_POST['path'])) {

@@ -88,7 +88,7 @@ switch ($op) {
         $mirrorObj->setVar('location', trim($_POST['location']));
         $mirrorObj->setVar('continent', trim($_POST['continent']));
         $mirrorObj->setVar('downurl', formatURL(trim($_POST['downurl'])));
-        $mirrorObj->setVar('submit', (int)$_POST['approve']);
+        $mirrorObj->setVar('submit', \Xmf\Request::getInt('approve', 0, 'POST'));
         $helper->getHandler('mirror')->insert($mirrorObj);
         redirect_header($currentFile, 1, _AM_WFDOWNLOADS_MIRROR_MIRROR_UPDATED);
         break;

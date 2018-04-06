@@ -89,8 +89,8 @@ switch ($op) {
         }
         $reviewObj->setVar('title', trim($_POST['title']));
         $reviewObj->setVar('review', trim($_POST['review']));
-        $reviewObj->setVar('rated', (int)$_POST['rated']);
-        $reviewObj->setVar('submit', (int)$_POST['approve']);
+        $reviewObj->setVar('rated', \Xmf\Request::getInt('rated', 0, 'POST'));
+        $reviewObj->setVar('submit', \Xmf\Request::getInt('approve', 0, 'POST'));
         $helper->getHandler('review')->insert($reviewObj);
         redirect_header($currentFile, 1, _AM_WFDOWNLOADS_REV_REVIEW_UPDATED);
         break;

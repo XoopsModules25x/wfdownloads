@@ -206,7 +206,7 @@ switch ($op) {
                 $filename = $_POST['filename'];
                 $filetype = $_POST['filetype'];
             }
-            $size  = empty($_POST['size']) || !is_numeric($_POST['size']) ? 0 : (int)$_POST['size'];
+            $size  = empty($_POST['size']) || !is_numeric($_POST['size']) ? 0 : \Xmf\Request::getInt('size', 0, 'POST');
             $title = trim($_POST['title']);
         } else {
             $isAdmin  = Wfdownloads\Utility::userIsAdmin();
@@ -399,7 +399,7 @@ switch ($op) {
         $paypalEmail = '';
         $downloadObj->setVar('features', trim($_POST['features']));
         $downloadObj->setVar('requirements', trim($_POST['requirements']));
-        $forumid = (isset($_POST['forumid']) && $_POST['forumid'] > 0) ? (int)$_POST['forumid'] : 0;
+        $forumid = (isset($_POST['forumid']) && $_POST['forumid'] > 0) ? \Xmf\Request::getInt('forumid', 0, 'POST') : 0;
         $downloadObj->setVar('forumid', $forumid);
         $limitations = isset($_POST['limitations']) ? $myts->addSlashes($_POST['limitations']) : '';
         $downloadObj->setVar('limitations', $limitations);

@@ -89,8 +89,8 @@ switch ($op) {
         $mimetypeObj->setVar('mime_ext', $_POST['mime_ext']);
         $mimetypeObj->setVar('mime_name', $_POST['mime_name']);
         $mimetypeObj->setVar('mime_types', $_POST['mime_type']);
-        $mimetypeObj->setVar('mime_admin', (int)$_POST['mime_admin']);
-        $mimetypeObj->setVar('mime_user', (int)$_POST['mime_user']);
+        $mimetypeObj->setVar('mime_admin', \Xmf\Request::getInt('mime_admin', 0, 'POST'));
+        $mimetypeObj->setVar('mime_user', \Xmf\Request::getInt('mime_user', 0, 'POST'));
         if (!$helper->getHandler('mimetype')->insert($mimetypeObj)) {
             $error = 'Could not update mimetype information';
             trigger_error($error, E_USER_ERROR);
@@ -122,13 +122,13 @@ switch ($op) {
         if (!$helper->getHandler('mimetype')->insert($mimetypeObj, true)) {
             trigger_error($error, E_USER_ERROR);
         }
-        redirect_header("{$currentFile}?start=" . (int)$_GET['start'] . '', 0, _AM_WFDOWNLOADS_MIME_MODIFIED);
+        redirect_header("{$currentFile}?start=" . \Xmf\Request::getInt('start', 0, 'GET') . '', 0, _AM_WFDOWNLOADS_MIME_MODIFIED);
         break;
 
     case 'mimetypes.update':
         $mime_admin = Request::getBool('admin', false);
         $mime_user  = Request::getBool('user', false);
-        $type_all   = (int)$_GET['type_all'];
+        $type_all   = \Xmf\Request::getInt('type_all', 0, 'GET');
 
         $field = 'mime_user';
         if (true === $mime_admin) {
@@ -141,7 +141,7 @@ switch ($op) {
             $error = 'Could not update mimetype information';
             trigger_error($error, E_USER_ERROR);
         }
-        redirect_header("{$currentFile}?start=" . (int)$_GET['start'] . '', 1, _AM_WFDOWNLOADS_MIME_MODIFIED);
+        redirect_header("{$currentFile}?start=" . \Xmf\Request::getInt('start', 0, 'GET') . '', 1, _AM_WFDOWNLOADS_MIME_MODIFIED);
         break;
 
     case 'mimetype.delete':

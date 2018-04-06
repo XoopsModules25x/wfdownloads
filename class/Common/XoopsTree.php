@@ -69,7 +69,7 @@ class XoopsTree
     {
         $sel_id = (int)$sel_id;
         $arr    = [];
-        $sql    = 'SELECT * FROM ' . $this->table . ' WHERE ' . $this->pid . '=' . $sel_id . '';
+        $sql    = 'SELECT * FROM ' . $this->table . ' WHERE ' . $this->pid . '=' . $sel_id . ' ';
         if ('' != $order) {
             $sql .= " ORDER BY $order";
         }

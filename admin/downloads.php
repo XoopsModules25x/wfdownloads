@@ -272,7 +272,7 @@ switch ($op) {
                 $filename = '';
                 $filetype = '';
                 // Get size from form
-                $size = (empty($_POST['size']) || !is_numeric($_POST['size'])) ? 0 : (int)$_POST['size'];
+                $size = (empty($_POST['size']) || !is_numeric($_POST['size'])) ? 0 : \Xmf\Request::getInt('size', 0, 'POST');
             } else {
                 $url      = ('http://' !== $_POST['url']) ? $_POST['url'] : '';
                 $filename = $_POST['filename'];

@@ -97,7 +97,7 @@ switch ($op) {
     case 'addCat':
         $cid          = Request::getInt('cid', 0, 'POST');
         $pid          = Request::getInt('pid', 0, 'POST');
-        $weight       = (isset($_POST['weight']) && $_POST['weight'] > 0) ? (int)$_POST['weight'] : 0;
+        $weight       = (isset($_POST['weight']) && $_POST['weight'] > 0) ? \Xmf\Request::getInt('weight', 0, 'POST') : 0;
         $down_groups  = isset($_POST['groups']) ? $_POST['groups'] : [];
         $up_groups    = isset($_POST['up_groups']) ? $_POST['up_groups'] : [];
         $spotlighthis = \Xmf\Request::getInt('lid', 0, 'POST');

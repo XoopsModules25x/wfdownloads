@@ -979,7 +979,7 @@ class Utility
         }
         $toolbar = '[ ';
         if (true === $isSubmissionAllowed) {
-            $category_suffix = !empty($_GET['cid']) ? '?cid=' . (int)$_GET['cid'] : ''; //Added by Lankford
+            $category_suffix = Request::getInt('cid', '', 'GET'); //Added by Lankford
             $toolbar         .= "<a href='submit.php{$category_suffix}'>" . _MD_WFDOWNLOADS_SUBMITDOWNLOAD . '</a> | ';
         }
         $toolbar .= "<a href='newlist.php'>" . _MD_WFDOWNLOADS_LATESTLIST . '</a>';
