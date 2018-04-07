@@ -136,7 +136,7 @@ switch ($op) {
             $indeximage_select->setExtra("onchange='showImgSelected(\"image\", \"downfile\", \"" . $dirArray[$rootPath] . '", "", "' . XOOPS_URL . "\")'");
             $indeximage_tray = new \XoopsFormElementTray(_AM_WFDOWNLOADS_DOWN_FSHOWSELECTEDIMAGE, '&nbsp;');
             $indeximage_tray->addElement($indeximage_select);
-            if (!empty($_REQUEST['downfile'])) {
+           if (\Xmf\Request::hasVar('downfile', 'REQUEST')) {
                 $indeximage_tray->addElement(new \XoopsFormLabel('', "<br><br><img src='" . XOOPS_URL . '/' . $dirArray[$rootPath] . '/' . $_REQUEST['downfile'] . "' name='image' id='image' alt='' title='image'>"));
             } else {
                 $indeximage_tray->addElement(new \XoopsFormLabel('', "<br><br><img src='" . XOOPS_URL . "/uploads/wfdownloads/blank.png' name='image' id='image' alt='' title='image'>"));

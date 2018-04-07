@@ -139,7 +139,7 @@ switch ($op) {
         // Get review poster 'uid'
         $reviewerUid = is_object($GLOBALS['xoopsUser']) ? (int)$GLOBALS['xoopsUser']->getVar('uid') : 0;
 
-        if (!empty($_POST['submit'])) {
+       if (\Xmf\Request::hasVar('submit', 'POST')) {
             $reviewObj = $helper->getHandler('review')->create();
             $reviewObj->setVar('title', trim($_POST['title']));
             $reviewObj->setVar('review', trim($_POST['review']));

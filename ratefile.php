@@ -68,7 +68,7 @@ switch ($op) {
         $ratinguserUid = is_object($GLOBALS['xoopsUser']) ? (int)$GLOBALS['xoopsUser']->getVar('uid') : 0;
         $ratinguserIp  = getenv('REMOTE_ADDR');
 
-        if (!empty($_POST['submit'])) {
+       if (\Xmf\Request::hasVar('submit', 'POST')) {
             $rating = Request::getString('rating', '--', 'POST');
 
             // Check if Rating is Null

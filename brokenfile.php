@@ -70,7 +70,7 @@ switch ($op) {
         $senderUid = is_object($GLOBALS['xoopsUser']) ? (int)$GLOBALS['xoopsUser']->getVar('uid') : 0;
         $senderIp  = getenv('REMOTE_ADDR');
 
-        if (!empty($_POST['submit'])) {
+        if (\Xmf\Request::hasVar('submit', 'POST')) {
             // Check if REG user is trying to report twice
             $criteria    = new \Criteria('lid', $lid);
             $reportCount = $helper->getHandler('report')->getCount($criteria);

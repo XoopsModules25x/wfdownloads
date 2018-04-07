@@ -167,7 +167,7 @@ switch ($op) {
         // Get mirror poster 'uid'
         $mirroruserUid = is_object($GLOBALS['xoopsUser']) ? (int)$GLOBALS['xoopsUser']->getVar('uid') : 0;
 
-        if (!empty($_POST['submit'])) {
+       if (\Xmf\Request::hasVar('submit', 'POST')) {
             $mirrorObj = $helper->getHandler('mirror')->create();
             $mirrorObj->setVar('title', trim($_POST['title']));
             $mirrorObj->setVar('homeurl', formatURL(trim($_POST['homeurl'])));
