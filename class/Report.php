@@ -49,8 +49,9 @@ class Report extends \XoopsObject
         $this->initVar('confirmed', XOBJ_DTYPE_INT);
         $this->initVar('acknowledged', XOBJ_DTYPE_INT);
 
+        /** @noinspection UnSafeIsSetOverArrayInspection */
         if (isset($id)) {
-            $item = $this->wfdownloads->getHandler('item')->get($id);
+            $item = $this->helper->getHandler('item')->get($id);
             foreach ($item->vars as $k => $v) {
                 $this->assignVar($k, $v['value']);
             }

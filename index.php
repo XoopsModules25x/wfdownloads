@@ -56,6 +56,8 @@ if (is_object($GLOBALS['xoopsUser']) && (_WFDOWNLOADS_SUBMISSIONS_DOWNLOAD == $h
 }
 
 // Get download/upload permissions
+
+/** @var \XoopsGroupPermHandler $grouppermHandler */
 $grouppermHandler = xoops_getHandler('groupperm');
 
 $allowedDownCategoriesIds = $grouppermHandler->getItemIds('WFDownCatPerm', $groups, $helper->getModule()->mid());
@@ -125,13 +127,14 @@ $count            = 0;
 
 // Comparison functions for uasort()
 /**
- * @param WfdownloadsCategory $categoryObj_a
- * @param WfdownloadsCategory $categoryObj_b
+ * @param Wfdownloads\Category $categoryObj_a
+ * @param Wfdownloads\Category $categoryObj_b
  *
  * @return int
  */
-function categoriesCompareCid(WfdownloadsCategory $categoryObj_a, WfdownloadsCategory $categoryObj_b)
+function categoriesCompareCid(Wfdownloads\Category $categoryObj_a, Wfdownloads\Category $categoryObj_b)
 {
+    /** @var Wfdownloads\Category $categoryObj_a */
     if ($categoryObj_a->getVar('cid') == $categoryObj_b->getVar('cid')) {
         return 0;
     }
@@ -140,12 +143,12 @@ function categoriesCompareCid(WfdownloadsCategory $categoryObj_a, WfdownloadsCat
 }
 
 /**
- * @param WfdownloadsCategory $categoryObj_a
- * @param WfdownloadsCategory $categoryObj_b
+ * @param Wfdownloads\Category $categoryObj_a
+ * @param Wfdownloads\Category $categoryObj_b
  *
  * @return int
  */
-function categoriesCompareTitle(WfdownloadsCategory $categoryObj_a, WfdownloadsCategory $categoryObj_b)
+function categoriesCompareTitle(Wfdownloads\Category $categoryObj_a, Wfdownloads\Category $categoryObj_b)
 {
     if ($categoryObj_a->getVar('title') == $categoryObj_b->getVar('title')) {
         return 0;
@@ -155,12 +158,12 @@ function categoriesCompareTitle(WfdownloadsCategory $categoryObj_a, WfdownloadsC
 }
 
 /**
- * @param WfdownloadsCategory $categoryObj_a
- * @param WfdownloadsCategory $categoryObj_b
+ * @param Wfdownloads\Category $categoryObj_a
+ * @param Wfdownloads\Category $categoryObj_b
  *
  * @return int
  */
-function categoriesCompareWeight(WfdownloadsCategory $categoryObj_a, WfdownloadsCategory $categoryObj_b)
+function categoriesCompareWeight(Wfdownloads\Category $categoryObj_a, Wfdownloads\Category $categoryObj_b)
 {
     if ($categoryObj_a->getVar('weight') == $categoryObj_b->getVar('weight')) {
         return 0;

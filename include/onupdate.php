@@ -35,7 +35,7 @@ function tableExists($tablename)
 {
     $result = $GLOBALS['xoopsDB']->queryF("SHOW TABLES LIKE '$tablename'");
 
-    return ($GLOBALS['xoopsDB']->getRowsNum($result) > 0) ? true : false;
+    return $GLOBALS['xoopsDB']->getRowsNum($result) > 0;
 }
 
 /**
@@ -149,7 +149,6 @@ defined('XOOPS_ROOT_PATH') || die('XOOPS root path not defined');
 require_once __DIR__ . '/common.php';
 //@require_once WFDOWNLOADS_ROOT_PATH . '/language/' . $GLOBALS['xoopsConfig']['language'] . '/admin.php';
 xoops_loadLanguage('admin', $helper->getModule()->dirname());
-require_once WFDOWNLOADS_ROOT_PATH . '/class/dbupdater.php';
 
 /**
  * @param XoopsModule $xoopsModule
@@ -623,7 +622,7 @@ function invert_nohtm_dohtml_values()
     while (false !== ($existing_field = $GLOBALS['xoopsDB']->fetchArray($result))) {
         $fields[$existing_field['Field']] = $existing_field['Type'];
     }
-    if (in_array('nohtml', array_keys($fields))) {
+    if (array_key_exists('nohtml', $fields)) {
         $dbupdater = new Wfdownloads\Dbupdater();
         //Invert column values
         // alter options in wfdownloads_cat
@@ -673,7 +672,7 @@ function update_table($new_fields, $existing_fields, Wfdownloads\DbupdaterTable 
 {
     foreach ($new_fields as $field => $fieldinfo) {
         $type = $fieldinfo['Type'];
-        if (!in_array($field, array_keys($existing_fields))) {
+        if (!array_key_exists($field, $existing_fields)) {
             //Add field as it is missing
             $table->addNewField($field, $type);
         //$GLOBALS['xoopsDB']->query("ALTER TABLE " . $table . " ADD " . $field . " " . $type);
@@ -730,7 +729,7 @@ function get_table_info($table, $default_fields)
 function rename_fields(Wfdownloads\DbupdaterTable $table, $renamed_fields, &$fields, $new_fields)
 {
     foreach (array_keys($fields) as $field) {
-        if (in_array($field, array_keys($renamed_fields))) {
+        if (array_key_exists($field, $renamed_fields)) {
             $new_field_name = $renamed_fields[$field];
             $new_field_type = $new_fields[$new_field_name]['Type'];
             $table->addAltered($field, $new_field_name . ' ' . $new_field_type);

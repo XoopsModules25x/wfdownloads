@@ -52,8 +52,8 @@ class Mirror extends \XoopsObject
         $this->initVar('date', XOBJ_DTYPE_INT);
         $this->initVar('uid', XOBJ_DTYPE_INT);
 
-        if (isset($id)) {
-            $item = $this->wfdownloads->getHandler('item')->get($id);
+        if (null !== $id) {
+            $item = $this->helper->getHandler('item')->get($id);
             foreach ($item->vars as $k => $v) {
                 $this->assignVar($k, $v['value']);
             }

@@ -18,6 +18,8 @@
  * @author          Xoops Development Team
  */
 
+use XoopsModules\Wfdownloads;
+
 defined('XOOPS_ROOT_PATH') || die('XOOPS root path not defined');
 require_once __DIR__ . '/common.php';
 

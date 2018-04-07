@@ -50,8 +50,7 @@ switch ($op) {
             $screenShot       = strtolower($_FILES['uploadfile']['name']);
             Wfdownloads\Utility::uploading($screenShot, XOOPS_ROOT_PATH . '/' . $_POST['uploadpath'], $allowedMimetypes, $currentFile, 1, false, true);
 
-            require_once WFDOWNLOADS_ROOT_PATH . '/class/img_uploader.php';
-            $uploader = new \MediaImgUploader($uploadDir . '/', $allowedMimetypes, $maxFileSize, $maxImgWidth, $maxImgHeight);
+            $uploader = new Wfdownloads\MediaImgUploader($uploadDir . '/', $allowedMimetypes, $maxFileSize, $maxImgWidth, $maxImgHeight);
 
             redirect_header($currentFile, 2, _AM_WFDOWNLOADS_DOWN_IMAGEUPLOAD);
         } else {
@@ -85,8 +84,6 @@ switch ($op) {
 
     case 'images.list':
     default:
-        require_once WFDOWNLOADS_ROOT_PATH . '/class/WfsLists.php';
-
         $displayImage = '';
         $rootPath     = Request::getInt('rootpath', 0);
 
@@ -133,7 +130,7 @@ switch ($op) {
             $iform->addElement(new \XoopsFormLabel(_AM_WFDOWNLOADS_DOWN_FUPLOADPATH, XOOPS_ROOT_PATH . '/' . $dirArray[$rootPath]));
             $iform->addElement(new \XoopsFormLabel(_AM_WFDOWNLOADS_DOWN_FUPLOADURL, XOOPS_URL . '/' . $dirArray[$rootPath]));
 
-            $graph_array       =& WfsLists::getListTypeAsArray(XOOPS_ROOT_PATH . '/' . $dirArray[$rootPath], $type = 'images');
+            $graph_array       = Wfdownloads\WfsLists::getListTypeAsArray(XOOPS_ROOT_PATH . '/' . $dirArray[$rootPath], $type = 'images');
             $indeximage_select = new \XoopsFormSelect('', 'downfile', '');
             $indeximage_select->addOptionArray($graph_array);
             $indeximage_select->setExtra("onchange='showImgSelected(\"image\", \"downfile\", \"" . $dirArray[$rootPath] . '", "", "' . XOOPS_URL . "\")'");

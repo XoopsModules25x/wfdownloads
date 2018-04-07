@@ -28,12 +28,12 @@ require_once __DIR__ . '/header.php';
 
 $lid         = Request::getInt('lid', 0);
 $downloadObj = $helper->getHandler('download')->get($lid);
-if (empty($downloadObj)) {
+if (null === $downloadObj) {
     redirect_header('index.php', 3, _CO_WFDOWNLOADS_ERROR_NODOWNLOAD);
 }
 $cid         = Request::getInt('cid', $downloadObj->getVar('cid'));
 $categoryObj = $helper->getHandler('category')->get($cid);
-if (empty($categoryObj)) {
+if (null === $categoryObj) {
     redirect_header('index.php', 3, _CO_WFDOWNLOADS_ERROR_NOCATEGORY);
 }
 

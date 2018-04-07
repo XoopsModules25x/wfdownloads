@@ -53,7 +53,7 @@ class ModificationHandler extends \XoopsPersistableObjectHandler
      */
     public function approveModification($requestid)
     {
-        $sql = "UPDATE {$this->table} m, {$this->wfdownloads->getHandler('download')->table} d";
+        $sql = "UPDATE {$this->table} m, {$this->helper->getHandler('download')->table} d";
         $sql .= " SET
             d.cid = m.cid,
             d.title = m.title,

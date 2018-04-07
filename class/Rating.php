@@ -48,8 +48,8 @@ class Rating extends \XoopsObject
         $this->initVar('ratinghostname', XOBJ_DTYPE_TXTBOX);
         $this->initVar('ratingtimestamp', XOBJ_DTYPE_INT);
 
-        if (isset($id)) {
-            $item = $this->wfdownloads->getHandler('item')->get($id);
+        if (null !== $id) {
+            $item = $this->helper->getHandler('item')->get($id);
             foreach ($item->vars as $k => $v) {
                 $this->assignVar($k, $v['value']);
             }

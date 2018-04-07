@@ -47,7 +47,7 @@ class RatingHandler extends \XoopsPersistableObjectHandler
     /**
      * Get average ratings of users matching a condition
      *
-     * @param CriteriaElement $criteria {@link CriteriaElement} to match
+     * @param \CriteriaElement $criteria {@link \CriteriaElement} to match
      *
      * @return array|int
      */
@@ -55,7 +55,7 @@ class RatingHandler extends \XoopsPersistableObjectHandler
     {
         $groupby = false;
         $field   = '';
-        if (isset($criteria) && is_subclass_of($criteria, 'CriteriaElement')) {
+        if (null !== $criteria && is_subclass_of($criteria, 'CriteriaElement')) {
             if ('' != $criteria->groupby) {
                 $groupby = true;
                 $field   = $criteria->groupby . ', '; //Not entirely secure unless you KNOW that no criteria's groupby clause is going to be mis-used
@@ -63,7 +63,7 @@ class RatingHandler extends \XoopsPersistableObjectHandler
         }
         $sql = "SELECT {$field} AVG(rating), count(*)";
         $sql .= " FROM {$this->table}";
-        if (isset($criteria) && is_subclass_of($criteria, 'CriteriaElement')) {
+        if (null !== $criteria && is_subclass_of($criteria, 'CriteriaElement')) {
             $sql .= ' ' . $criteria->renderWhere();
             if ('' != $criteria->groupby) {
                 $sql .= $criteria->getGroupby();

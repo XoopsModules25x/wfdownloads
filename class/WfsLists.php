@@ -82,7 +82,7 @@ class WfsLists
      *
      * @return string
      */
-    public function &getarray($this_array)
+    public function getarray($this_array)
     {
         $ret = "<select size='" . $this->size() . "' name='$this->value()'>";
         if ($this->emptyselect) {
@@ -108,7 +108,7 @@ class WfsLists
      *
      * @return array
      */
-    public function &getDirListAsArray($dirname)
+    public function getDirListAsArray($dirname)
     {
         $dirlist = [];
         if (is_dir($dirname) && $handle = opendir($dirname)) {

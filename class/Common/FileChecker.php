@@ -115,11 +115,7 @@ class FileChecker
         }
         $crc1 = strtoupper(dechex(crc32(file_get_contents($file1_path))));
         $crc2 = strtoupper(dechex(crc32(file_get_contents($file2_path))));
-        if ($crc1 !== $crc2) {
-            return false;
-        }
-
-        return true;
+        return !($crc1 !== $crc2);
     }
 
     /**

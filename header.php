@@ -19,7 +19,7 @@
  */
 require_once __DIR__ . '/../../mainfile.php';
 require_once __DIR__ . '/include/common.php';
-require_once __DIR__ . '/class/Utility.php';
+
 
 // uncomment the below line only if you are using Protector 3.x module
 // and you trust your users when uploading files, it is recommended to not allow anonymous uploads if you do so!!

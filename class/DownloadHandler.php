@@ -46,13 +46,13 @@ class DownloadHandler extends \XoopsPersistableObjectHandler
     /**
      * Get maximum published date from a criteria
      *
-     * @param CriteriaElement $criteria
+     * @param \CriteriaElement $criteria
      *
      * @return mixed
      */
-    public function getMaxPublishdate($criteria = null)
+    public function getMaxPublishdate(\CriteriaElement $criteria = null)
     {
-        if (isset($criteria) && is_subclass_of($criteria, 'CriteriaElement')) {
+        if (null !== $criteria && is_subclass_of($criteria, 'CriteriaElement')) {
             if ('' != $criteria->groupby) {
                 $groupby = true;
                 $field   = $criteria->groupby . ', '; //Not entirely secure unless you KNOW that no criteria's groupby clause is going to be mis-used
@@ -129,11 +129,11 @@ class DownloadHandler extends \XoopsPersistableObjectHandler
     /**
      * Get count of active downloads
      *
-     * @param CriteriaElement $crit Additional criteria
+     * @param \CriteriaElement $crit Additional criteria
      *
      * @return int /int
      */
-    public function getActiveCount($crit = null)
+    public function getActiveCount(\CriteriaElement $crit = null)
     {
         $criteria = $this->getActiveCriteria();
         if (is_object($crit)) {

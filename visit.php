@@ -53,6 +53,7 @@ if (0 == $downloadObj->getVar('published') || $downloadObj->getVar('published') 
 }
 
 // Check permissions
+$grouppermHandler = xoops_getHandler('groupperm');
 $groups = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : [0 => XOOPS_GROUP_ANONYMOUS];
 if (!$grouppermHandler->checkRight('WFDownCatPerm', $cid, $groups, $helper->getModule()->mid())) {
     redirect_header('index.php', 3, _NOPERM);

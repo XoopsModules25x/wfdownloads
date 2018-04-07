@@ -32,7 +32,7 @@ class Category extends \XoopsObject
     /**
      * @access public
      */
-    public $wfdownloads = null;
+    public $helper = null;
 
     /**
      * constructor
@@ -88,7 +88,6 @@ class Category extends \XoopsObject
         $title = $this->isNew() ? _AM_WFDOWNLOADS_CCATEGORY_CREATENEW : _AM_WFDOWNLOADS_CCATEGORY_MODIFY;
 
         require_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
-        require_once WFDOWNLOADS_ROOT_PATH . '/class/WfsLists.php';
 
         $form = new \XoopsThemeForm($title, 'form_error', $action, 'post', true);
         $form->setExtra('enctype="multipart/form-data"');
@@ -96,7 +95,7 @@ class Category extends \XoopsObject
         $form->addElement(new \XoopsFormText(_AM_WFDOWNLOADS_FCATEGORY_TITLE, 'title', 50, 255, $this->getVar('title', 'e')), true);
         // category: pid
         if (Wfdownloads\Utility::categoriesCount() > 0) {
-            $categoryObjs     = $this->wfdownloads->getHandler('category')->getObjects();
+            $categoryObjs     = $this->helper->getHandler('category')->getObjects();
             $categoryObjsTree = new Wfdownloads\ObjectTree($categoryObjs, 'cid', 'pid');
 
             if (Wfdownloads\Utility::checkVerXoops($GLOBALS['xoopsModule'], '2.5.9')) {
@@ -109,24 +108,24 @@ class Category extends \XoopsObject
         // category: weight
         $form->addElement(new \XoopsFormText(_AM_WFDOWNLOADS_FCATEGORY_WEIGHT, 'weight', 11, 11, $this->getVar('weight')), false);
         // permission: WFDownCatPerm
-        $groups             = $grouppermHandler->getGroupIds('WFDownCatPerm', $this->getVar('cid'), $this->wfdownloads->getModule()->mid());
+        $groups             = $grouppermHandler->getGroupIds('WFDownCatPerm', $this->getVar('cid'), $this->helper->getModule()->mid());
         $groups_down_select = new \XoopsFormSelectGroup(_AM_WFDOWNLOADS_FCATEGORY_GROUPPROMPT, 'groups', true, $groups, 5, true);
         $groups_down_select->setDescription(_AM_WFDOWNLOADS_FCATEGORY_GROUPPROMPT_DESC);
         $form->addElement($groups_down_select);
         // permission: WFUpCatPerm
-        $up_groups        = $grouppermHandler->getGroupIds('WFUpCatPerm', $this->getVar('cid'), $this->wfdownloads->getModule()->mid());
+        $up_groups        = $grouppermHandler->getGroupIds('WFUpCatPerm', $this->getVar('cid'), $this->helper->getModule()->mid());
         $groups_up_select = new \XoopsFormSelectGroup(_AM_WFDOWNLOADS_FCATEGORY_GROUPPROMPT_UP, 'up_groups', true, $up_groups, 5, true);
         $groups_up_select->setDescription(_AM_WFDOWNLOADS_FCATEGORY_GROUPPROMPT_UP_DESC);
         $form->addElement($groups_up_select);
         // category: imgurl
-        $imgurl_path = $this->getVar('imgurl') ? $this->wfdownloads->getConfig('catimage') . '/' . $this->getVar('imgurl') : WFDOWNLOADS_IMAGES_URL . '/blank.png';
+        $imgurl_path = $this->getVar('imgurl') ? $this->helper->getConfig('catimage') . '/' . $this->getVar('imgurl') : WFDOWNLOADS_IMAGE_URL . '/blank.png';
         $imgurl_tray = new \XoopsFormElementTray(_AM_WFDOWNLOADS_FCATEGORY_CIMAGE, '<br>');
-        $imgurl_tray->addElement(new \XoopsFormLabel(_AM_WFDOWNLOADS_DOWN_FUPLOADPATH, XOOPS_ROOT_PATH . '/' . $this->wfdownloads->getConfig('catimage')));
-        $imgurl_tray->addElement(new \XoopsFormLabel(_AM_WFDOWNLOADS_DOWN_FUPLOADURL, XOOPS_URL . '/' . $this->wfdownloads->getConfig('catimage')));
-        $graph_array   =& WfsLists::getListTypeAsArray(XOOPS_ROOT_PATH . '/' . $this->wfdownloads->getConfig('catimage'), 'images');
+        $imgurl_tray->addElement(new \XoopsFormLabel(_AM_WFDOWNLOADS_DOWN_FUPLOADPATH, XOOPS_ROOT_PATH . '/' . $this->helper->getConfig('catimage')));
+        $imgurl_tray->addElement(new \XoopsFormLabel(_AM_WFDOWNLOADS_DOWN_FUPLOADURL, XOOPS_URL . '/' . $this->helper->getConfig('catimage')));
+        $graph_array   = Wfdownloads\WfsLists::getListTypeAsArray(XOOPS_ROOT_PATH . '/' . $this->helper->getConfig('catimage'), 'images');
         $imgurl_select = new \XoopsFormSelect('', 'imgurl', $this->getVar('imgurl'));
         $imgurl_select->addOptionArray($graph_array);
-        $imgurl_select->setExtra("onchange='showImgSelected(\"image\", \"imgurl\", \"" . $this->wfdownloads->getConfig('catimage') . '", "", "' . XOOPS_URL . "\")'");
+        $imgurl_select->setExtra("onchange='showImgSelected(\"image\", \"imgurl\", \"" . $this->helper->getConfig('catimage') . '", "", "' . XOOPS_URL . "\")'");
         $imgurl_tray->addElement($imgurl_select, false);
         $imgurl_tray->addElement(new \XoopsFormLabel('', "<img src='" . XOOPS_URL . '/' . $imgurl_path . "' name='image' id='image' alt=''>"));
         $imgurl_tray->addElement(new \XoopsFormFile(_AM_WFDOWNLOADS_BUPLOAD, 'uploadfile', 0), false);

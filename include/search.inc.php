@@ -116,7 +116,7 @@ function wfdownloads_search(
             $fids = [];
             foreach ($allowedDownCategoriesIds as $cid) {
                 $categoryObj = $helper->getHandler('category')->get($cid);
-                if (isset($categoryObj) && $fid = $categoryObj->getVar('formulize_fid')) {
+                if (null !== $categoryObj && $fid = $categoryObj->getVar('formulize_fid')) {
                     $fids[] = $fid;
                 }
             }
@@ -135,7 +135,7 @@ function wfdownloads_search(
 
         $downloadObjs = [];
         // Loop through all query terms
-        for ($i = 0; $i < $queryArray_count; ++$i) {
+        foreach ($queryArray as $i => $iValue) {
             // Make a copy of the $criteria for use with this term only
             $queryCriteria = clone$criteria;
 
@@ -153,7 +153,7 @@ function wfdownloads_search(
             // Find all IDs of entries in all custom forms which match the current term
             if (Wfdownloads\Utility::checkModule('formulize')) {
                 foreach ($fids as $fid) {
-                    if (!isset($formulizeElementsHandler)) {
+                    if (null === $formulizeElementsHandler) {
                         $formulizeElementsHandler = xoops_getModuleHandler('elements', 'formulize');
                     }
                     require_once XOOPS_ROOT_PATH . '/modules/formulize/include/extract.php';
@@ -164,10 +164,10 @@ function wfdownloads_search(
                     $start             = 1;
                     foreach ($formulizeElements as $formulizeElement) {
                         if ($start) {
-                            $filter_string = $formulizeElement->getVar('ele_id') . '/**/' . $queryArray[$i];
+                            $filter_string = $formulizeElement->getVar('ele_id') . '/**/' . $iValue;
                             $start         = 0;
                         } else {
-                            $filter_string .= '][' . $formulizeElement->getVar('ele_id') . '/**/' . $queryArray[$i];
+                            $filter_string .= '][' . $formulizeElement->getVar('ele_id') . '/**/' . $iValue;
                         }
                     }
                     unset($formulizeElements);
@@ -211,10 +211,10 @@ function wfdownloads_search(
 
             // Do an intersection of the found lids if the operator is AND
             if ('AND' === $andor) {
-                if (!isset($downloads_lids)) {
+                if (null === $downloads_lids) {
                     $downloads_lids[] = '';
                 }
-                if (!isset($downloads_intersect)) {
+                if (null === $downloads_intersect) {
                     $downloads_intersect = $downloads_lids;
                 } // first time through initialize the array with all the found files
                 $downloads_intersect = array_intersect($downloads_intersect, $downloads_lids);

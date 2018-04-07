@@ -120,7 +120,7 @@ class Utility
      * @param     $categoryObj
      * @param int $level
      */
-    public static function displayCategory(WfdownloadsCategory $categoryObj, $level = 0)
+    public static function displayCategory(Wfdownloads\Category $categoryObj, $level = 0)
     {
         $helper = Wfdownloads\Helper::getInstance();
 
@@ -237,7 +237,7 @@ class Utility
             publisherOpenCollapsableBar('bottomtable', 'bottomtableicon', _AM_PUBLISHER_CAT_ITEMS, _AM_PUBLISHER_CAT_ITEMS_DSC);
             $startitem = Request::getInt('startitem');
             // Get the total number of published ITEMS
-            $totalitems = $publisher->getHandler('item')->getItemsCount($selCat, [WfdownloadsConstants::PUBLISHER_STATUS_PUBLISHED]);
+            $totalitems = $publisher->getHandler('item')->getItemsCount($selCat, [Wfdownloads\Constants::PUBLISHER_STATUS_PUBLISHED]);
             // creating the items objects that are published
             $itemsObj         = $publisher->getHandler('item')->getAllPublished($publisher->getConfig('idxcat_perpage'), $startitem, $selCat);
             $totalitemsOnPage = count($itemsObj);
@@ -430,7 +430,7 @@ class Utility
                 return false;
             } else {
                 if ($create_index) {
-                    if (false !== ($fileHandler = @fopen($dir . '/index.html', 'w'))) {
+                    if (false !== ($fileHandler = @fopen($dir . '/index.html', 'wb'))) {
                         fwrite($fileHandler, '<script>history.go(-1);</script>');
                     }
                     @fclose($fileHandler);
@@ -689,7 +689,7 @@ class Utility
         $helper = Wfdownloads\Helper::getInstance();
 
         static $wfdownloads_isAdmin;
-        if (isset($wfdownloads_isAdmin)) {
+        if (null !== $wfdownloads_isAdmin) {
             return $wfdownloads_isAdmin;
         }
         $wfdownloads_isAdmin = (!is_object($GLOBALS['xoopsUser'])) ? false : $GLOBALS['xoopsUser']->isAdmin($helper->getModule()->getVar('mid'));
@@ -801,9 +801,9 @@ class Utility
     }
 
     /**
-     * @param     $name
-     * @param     $value
-     * @param int $time
+     * @param           $name
+     * @param           $value
+     * @param int|float $time
      */
     public static function setCookieVar($name, $value, $time = 0)
     {
@@ -1226,7 +1226,7 @@ class Utility
     /**
      * getTotalDownloads()
      *
-     * @param int|array of integer $cids
+     * @param int|array $cids (array of integer)
      *
      * @return bool number of items in items table that are associated with a given table $table id
      */
@@ -1626,7 +1626,7 @@ class Utility
         if ($onlyImages) {
             require_once XOOPS_ROOT_PATH . '/modules/wfdownloads/class/img_uploader.php';
             //xoops_load('XoopsMediaUploader');
-            $uploader = new \MediaImgUploader($uploadDirectory, $allowedMimetypes, $maxFileSize, $maxImageWidth, $maxImageHeight);
+            $uploader = new Wfdownloads\MediaImgUploader($uploadDirectory, $allowedMimetypes, $maxFileSize, $maxImageWidth, $maxImageHeight);
         } else {
             require_once XOOPS_ROOT_PATH . '/class/uploader.php';
             //xoops_load('XoopsMediaUploader');
@@ -1679,7 +1679,7 @@ class Utility
         if (true === $isBinary) {
             $handler = fopen($filePath, 'rb');
         } else {
-            $handler = fopen($filePath, 'r');
+            $handler = fopen($filePath, 'rb');
         }
         if (false === $handler) {
             return false;
@@ -1741,7 +1741,7 @@ class Utility
                     preg_match('/bytes=(\d+)-(\d+)?/', $_SERVER['HTTP_RANGE'], $matches);
                     $offset  = (int)$matches[1];
                     $length  = (int)$matches[2] - $offset;
-                    $fhandle = fopen($filePath, 'r');
+                    $fhandle = fopen($filePath, 'rb');
                     fseek($fhandle, $offset); // seek to the requested offset, this is 0 if it's not a partial content request
                     $data = fread($fhandle, $length);
                     fclose($fhandle);
@@ -1916,7 +1916,7 @@ class Utility
         if (!$exact) {
             // ...search the last occurance of a space...
             $spacepos = strrpos($truncate, ' ');
-            if (isset($spacepos)) {
+            if (null !== $spacepos) {
                 // ...and cut the text in this position
                 $truncate = substr($truncate, 0, $spacepos);
             }
@@ -1983,14 +1983,14 @@ class Utility
         $swisheDocPath = $helper->getConfig('uploaddir');
         // Create _binfilter.sh
         $file = "{$swisheDocPath}/_binfilter.sh";
-        $fp   = fopen($file, 'w') || die("<BR><BR>Unable to open $file");
+        $fp   = fopen($file, 'wb') || die("<BR><BR>Unable to open $file");
         fwrite($fp, "strings \"\$1\" - 2>/dev/null\n");
         fclose($fp);
         chmod($file, 0755);
         unset($fp);
         // Create swish-e.conf
         $file = "{$swisheDocPath}/swish-e.conf";
-        $fp   = fopen($file, 'w') || die("<BR><BR>Unable to open {$file}");
+        $fp   = fopen($file, 'wb') || die("<BR><BR>Unable to open {$file}");
         // IndexDir [directories or files|URL|external program]
         // IndexDir defines the source of the documents for Swish-e. Swish-e currently supports three file access methods: File system, HTTP (also called spidering), and prog for reading files from an external program.
         fwrite($fp, "IndexDir {$swisheDocPath}/\n");

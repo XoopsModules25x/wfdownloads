@@ -104,7 +104,7 @@ class Session
     public static function getInstance()
     {
         static $_sess;
-        if (!isset($_sess)) {
+        if (null === $_sess) {
             $_sess = new static();
         }
 

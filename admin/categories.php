@@ -112,7 +112,7 @@ switch ($op) {
         $uploadDirectory  = XOOPS_ROOT_PATH . '/' . $helper->getConfig('catimage');
         $uploader         = new \XoopsMediaUploader($uploadDirectory, $allowedMimetypes, $maxFileSize, $maxImgWidth, $maxImgHeight);
         if ($uploader->fetchMedia($_POST['xoops_upload_file'][0])) {
-            $uploader->setTargetFileName('wfdownloads_' . uniqid(time()) . '--' . strtolower($_FILES['uploadfile']['name']));
+            $uploader->setTargetFileName('wfdownloads_' . uniqid(time(), true) . '--' . strtolower($_FILES['uploadfile']['name']));
             $uploader->fetchMedia($_POST['xoops_upload_file'][0]);
             if (!$uploader->upload()) {
                 $errors = $uploader->getErrors();
@@ -130,7 +130,7 @@ switch ($op) {
         } else {
             $categoryObj = $helper->getHandler('category')->get($cid);
             $childcats   = $helper->getHandler('category')->getChildCats($categoryObj);
-            if ($pid == $cid || in_array($pid, array_keys($childcats))) {
+            if ($pid == $cid || array_key_exists($pid, $childcats)) {
                 $categoryObj->setErrors(_AM_WFDOWNLOADS_CCATEGORY_CHILDASPARENT);
             }
         }

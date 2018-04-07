@@ -60,8 +60,8 @@ class Mimetype extends \XoopsObject
         $this->initVar('mime_admin', XOBJ_DTYPE_INT, true); // boolean
         $this->initVar('mime_user', XOBJ_DTYPE_INT, false); // boolean
 
-        if (isset($id)) {
-            $item = $this->wfdownloads->getHandler('item')->get($id);
+        if (null !== $id) {
+            $item = $this->helper->getHandler('item')->get($id);
             foreach ($item->vars as $k => $v) {
                 $this->assignVar($k, $v['value']);
             }

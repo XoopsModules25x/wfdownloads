@@ -388,7 +388,7 @@ switch ($op) {
         }
         $downloadObj->setVar('updated', $updated);
 
-        $offline = (true === $_POST['offline']) ? true : false;
+        $offline = (true === $_POST['offline']);
         $downloadObj->setVar('offline', $offline);
         $approved  = (isset($_POST['approved']) && true === $_POST['approved']) ? true : false;
         $notifypub = (isset($_POST['notifypub']) && true === $_POST['notifypub']);
@@ -834,7 +834,7 @@ switch ($op) {
         $savedFileName = iconv('UTF-8', 'ASCII//TRANSLIT', $batchFile);
         $savedFileName = preg_replace('!\s+!', '_', $savedFileName);
         $savedFileName = preg_replace('/[^a-zA-Z0-9\._-]/', '', $savedFileName);
-        $savedFileName = uniqid(time()) . '--' . $savedFileName;
+        $savedFileName = uniqid(time(), true) . '--' . $savedFileName;
 
         if (!Wfdownloads\Utility::copyFile($batchPath . '/' . $batchFile, $helper->getConfig('uploaddir') . '/' . $savedFileName)) {
             redirect_header($currentFile, 4, _AM_WFDOWNLOADS_ERROR_BATCHFILENOTCOPIED);

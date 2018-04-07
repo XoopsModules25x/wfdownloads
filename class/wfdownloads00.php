@@ -127,7 +127,7 @@ class WfdownloadsWfdownloads
     public function initModule()
     {
         global $xoopsModule;
-        if (isset($xoopsModule) && is_object($xoopsModule) && $xoopsModule->getVar('dirname') == $this->dirname) {
+        if (null !== $xoopsModule && is_object($xoopsModule) && $xoopsModule->getVar('dirname') == $this->dirname) {
             $this->module = $xoopsModule;
         } else {
             $hModule      = xoops_getHandler('module');

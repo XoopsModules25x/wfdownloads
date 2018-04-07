@@ -221,7 +221,6 @@ switch ($op) {
         }
 
         // Load screenshot
-        require_once WFDOWNLOADS_ROOT_PATH . '/class/img_uploader.php';
         $allowedMimetypes = ['image/gif', 'image/jpeg', 'image/pjpeg', 'image/x-png', 'image/png'];
         $uploadDirectory  = XOOPS_ROOT_PATH . '/' . $helper->getConfig('screenshots') . '/';
 
@@ -231,7 +230,7 @@ switch ($op) {
         $screenshot1 = '';
         if (isset($_FILES['screenshot']['name']) && !empty($_FILES['screenshot']['name'])) {
             $screenshot1 = strtolower($_FILES['screenshot']['name']);
-            $uploader    = new \MediaImgUploader($uploadDirectory, $allowedMimetypes, $helper->getConfig('maxfilesize'), $helper->getConfig('maximgwidth'), $helper->getConfig('maximgheight'));
+            $uploader    = new Wfdownloads\MediaImgUploader($uploadDirectory, $allowedMimetypes, $helper->getConfig('maxfilesize'), $helper->getConfig('maximgwidth'), $helper->getConfig('maximgheight'));
             if (!$uploader->fetchMedia($_POST['xoops_upload_file'][1]) && !$uploader->upload()) {
                 @unlink($uploadDirectory . $screenshot1);
                 redirect_header($currentFile, 1, $uploader->getErrors());
@@ -243,7 +242,7 @@ switch ($op) {
         if ($helper->getConfig('max_screenshot') >= 2) {
             if (isset($_FILES['screenshot2']['name']) && !empty($_FILES['screenshot2']['name'])) {
                 $screenshot2 = strtolower($_FILES['screenshot2']['name']);
-                $uploader    = new \MediaImgUploader($uploadDirectory, $allowedMimetypes, $helper->getConfig('maxfilesize'), $helper->getConfig('maximgwidth'), $helper->getConfig('maximgheight'));
+                $uploader    = new Wfdownloads\MediaImgUploader($uploadDirectory, $allowedMimetypes, $helper->getConfig('maxfilesize'), $helper->getConfig('maximgwidth'), $helper->getConfig('maximgheight'));
                 if (!$uploader->fetchMedia($_POST['xoops_upload_file'][2]) && !$uploader->upload()) {
                     @unlink($uploadDirectory . $screenshot2);
                     redirect_header($currentFile, 1, $uploader->getErrors());
@@ -256,7 +255,7 @@ switch ($op) {
         if ($helper->getConfig('max_screenshot') >= 3) {
             if (isset($_FILES['screenshot3']['name']) && !empty($_FILES['screenshot3']['name'])) {
                 $screenshot3 = strtolower($_FILES['screenshot3']['name']);
-                $uploader    = new \MediaImgUploader($uploadDirectory, $allowedMimetypes, $helper->getConfig('maxfilesize'), $helper->getConfig('maximgwidth'), $helper->getConfig('maximgheight'));
+                $uploader    = new Wfdownloads\MediaImgUploader($uploadDirectory, $allowedMimetypes, $helper->getConfig('maxfilesize'), $helper->getConfig('maximgwidth'), $helper->getConfig('maximgheight'));
                 if (!$uploader->fetchMedia($_POST['xoops_upload_file'][3]) && !$uploader->upload()) {
                     @unlink($uploadDirectory . $screenshot3);
                     redirect_header($currentFile, 1, $uploader->getErrors());
@@ -269,7 +268,7 @@ switch ($op) {
         if ($helper->getConfig('max_screenshot') >= 4) {
             if (isset($_FILES['screenshot4']['name']) && !empty($_FILES['screenshot4']['name'])) {
                 $screenshot4 = strtolower($_FILES['screenshot4']['name']);
-                $uploader    = new \MediaImgUploader($uploadDirectory, $allowedMimetypes, $helper->getConfig('maxfilesize'), $helper->getConfig('maximgwidth'), $helper->getConfig('maximgheight'));
+                $uploader    = new Wfdownloads\MediaImgUploader($uploadDirectory, $allowedMimetypes, $helper->getConfig('maxfilesize'), $helper->getConfig('maximgwidth'), $helper->getConfig('maximgheight'));
                 if (!$uploader->fetchMedia($_POST['xoops_upload_file'][4]) && !$uploader->upload()) {
                     @unlink($uploadDirectory . $screenshot4);
                     redirect_header($currentFile, 1, $uploader->getErrors());
@@ -413,7 +412,7 @@ switch ($op) {
             $dhistory .= $dhistoryhistory;
         }
         $downloadObj->setVar('dhistory', $dhistory);
-        $offline = (isset($_POST['offline']) && 1 == $_POST['offline']) ? true : false;
+        $offline = (isset($_POST['offline']) && 1 == $_POST['offline']);
         $downloadObj->setVar('offline', $offline);
         $downloadObj->setVar('date', time());
         /*

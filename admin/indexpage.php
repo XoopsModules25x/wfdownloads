@@ -40,7 +40,7 @@ switch ($op) {
         $uploadDirectory  = XOOPS_ROOT_PATH . '/' . $helper->getConfig('mainimagedir');
         $uploader         = new \XoopsMediaUploader($uploadDirectory, $allowedMimetypes, $maxFileSize, $maxImgWidth, $maxImgHeight);
         if ($uploader->fetchMedia($_POST['xoops_upload_file'][0])) {
-            $uploader->setTargetFileName('wfdownloads_' . uniqid(time()) . '--' . strtolower($_FILES['uploadfile']['name']));
+            $uploader->setTargetFileName('wfdownloads_' . uniqid(time(), true) . '--' . strtolower($_FILES['uploadfile']['name']));
             $uploader->fetchMedia($_POST['xoops_upload_file'][0]);
             if (!$uploader->upload()) {
                 $errors = $uploader->getErrors();
@@ -77,7 +77,6 @@ switch ($op) {
 
     case 'indexpage.form':
     default:
-        require_once WFDOWNLOADS_ROOT_PATH . '/class/WfsLists.php';
         require_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
 
         $sql    = 'SELECT indeximage, indexheading, indexheader, indexfooter, nohtml, nosmiley, noxcodes, noimages, nobreak, indexheaderalign, indexfooteralign';
@@ -98,11 +97,11 @@ switch ($op) {
         // indexpage: indexheading
         $sform->addElement(new \XoopsFormText(_AM_WFDOWNLOADS_IPAGE_CTITLE, 'indexheading', 60, 60, $indexheading), false);
         // indexpage: indeximage
-        $indeximage_path = $indeximage ? $helper->getConfig('mainimagedir') . '/' . $indeximage : WFDOWNLOADS_IMAGES_URL . '/blank.png';
+        $indeximage_path = $indeximage ? $helper->getConfig('mainimagedir') . '/' . $indeximage : WFDOWNLOADS_IMAGE_URL . '/blank.png';
         $indeximage_tray = new \XoopsFormElementTray(_AM_WFDOWNLOADS_IPAGE_CIMAGE, '<br>');
         $indeximage_tray->addElement(new \XoopsFormLabel(_AM_WFDOWNLOADS_DOWN_FUPLOADPATH, XOOPS_ROOT_PATH . '/' . $helper->getConfig('mainimagedir')));
         $indeximage_tray->addElement(new \XoopsFormLabel(_AM_WFDOWNLOADS_DOWN_FUPLOADURL, XOOPS_URL . '/' . $helper->getConfig('mainimagedir')));
-        $graph_array       =& Wfdownloads\WfsLists::getListTypeAsArray(XOOPS_ROOT_PATH . '/' . $helper->getConfig('mainimagedir'), 'images');
+        $graph_array       = Wfdownloads\WfsLists::getListTypeAsArray(XOOPS_ROOT_PATH . '/' . $helper->getConfig('mainimagedir'), 'images');
         $indeximage_select = new \XoopsFormSelect('', 'indeximage', $indeximage);
         $indeximage_select->addOptionArray($graph_array);
         $indeximage_select->setExtra("onchange='showImgSelected(\"image\", \"indeximage\", \"" . $helper->getConfig('mainimagedir') . '", "", "' . XOOPS_URL . "\")'");
