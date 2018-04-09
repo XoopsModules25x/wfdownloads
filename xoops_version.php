@@ -29,8 +29,8 @@ $moduleDirName = basename(__DIR__);
 defined('XOOPS_ROOT_PATH') || die('XOOPS root path not defined');
 
 $modversion['version']       = 3.30;
-$modversion['module_status'] = 'Alpha 1';
-$modversion['releasedate']   = '2018-04-02';
+$modversion['module_status'] = 'Beta 1';
+$modversion['releasedate']   = '2018-04-08';
 $modversion['name']          = _MI_WFDOWNLOADS_NAME;
 $modversion['description']   = _MI_WFDOWNLOADS_DESC;
 $modversion['author']        = 'XOOPS Development Team';
