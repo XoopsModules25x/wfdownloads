@@ -82,7 +82,7 @@ $xoopsTpl->assign('wfdownloads_breadcrumb', $breadcrumb->render());
 
 $categoryCriteria = new \CriteriaCompo();
 $categoryCriteria->setSort('weight ASC, title');
-$categoryObjs = $helper->getHandler('Category')->getObjects($categoryCriteria);
+$categoryObjs = $helper->getHandler('category')->getObjects($categoryCriteria);
 unset($categoryCriteria);
 
 $categoryObjsTree = new Wfdownloads\ObjectTree($categoryObjs, 'cid', 'pid');
@@ -100,15 +100,29 @@ $images                       = $head_arr['noimages'] ? 1 : 0;
 $breaks                       = $head_arr['nobreak'] ? 1 : 0;
 $catarray['indexheader']      =& $myts->displayTarea($head_arr['indexheader'], $html, $smiley, $xcodes, $images, $breaks);
 $catarray['indexfooter']      =& $myts->displayTarea($head_arr['indexfooter'], $html, $smiley, $xcodes, $images, $breaks);
-$catarray['letters']          = Wfdownloads\Utility::lettersChoice();
 
-//----------------------
+//$catarray['letters']          = Wfdownloads\Utility::lettersChoice();
+
+
+// Letter Choice Start ---------------------------------------
+
+XoopsModules\Wfdownloads\Helper::getInstance()->loadLanguage('common');
+$xoopsTpl->assign('letterChoiceTitle', constant('CO_'.$moduleDirNameUpper.'_'.'BROWSETOTOPIC'));
 /** @var \XoopsDatabase $db */
-$db           = \XoopsDatabaseFactory::getDatabaseConnection();
+$db = \XoopsDatabaseFactory::getDatabaseConnection();
 $objHandler = new Wfdownloads\DownloadHandler($db);
-$choicebyletter = new Wfdownloads\Common\LetterChoice($objHandler, null, null, range('a', 'z'), 'letter');
-//$catarray['letters']  = $choicebyletter->render();
-//--------------------------
+$choicebyletter = new Wfdownloads\Common\LetterChoice($objHandler, null, null, range('a', 'z'), 'letter', 'viewcat.php');
+//$choicebyletter = new Wfdownloads\Common\LetterChoice($objHandler, null, null, range('a', 'z'), 'init', XOOPSTUBE_URL . '/letter.php');
+//render the LetterChoice partial and story as part of the Category array
+//$catarray['letters']  = $choicebyletter->render($alphaCount, $howmanyother);
+
+$catarray['letters'] = $choicebyletter->render();
+
+//now assign it to the Smarty variable
+$xoopsTpl->assign('catarray', $catarray);
+
+// Letter Choice End ------------------------------------
+
 
 $catarray['toolbar']          = Wfdownloads\Utility::toolbar();
 $xoopsTpl->assign('catarray', $catarray);

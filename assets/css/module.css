@@ -550,3 +550,9 @@ tr.wfdownloads_mirrors_end {
     background-color: #BEC8D1;
     border: 2px solid #000000;
 }
+
+
+.wfdownloads_head_catletters {
+    text-align: center;
+    font-size: 80%;
+}

@@ -1,0 +1,6 @@
+TODO: Planned features in the future
+=====================================
+
+Features that are being considered/planned for the future releases:
+
+- fixing some of the problems with alphabet view, as it does not work consistently

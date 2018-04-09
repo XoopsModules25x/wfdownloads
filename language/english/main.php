@@ -284,55 +284,6 @@ define('_MD_WFDOWNLOADS_FFS_DOWNLOADCUSTOMDETAILS', 'Custom details:');
 define('_MD_WFDOWNLOADS_FFS_BACK', 'Back');
 define('_MD_WFDOWNLOADS_FFS_DOWNLOADTITLE', "Submitting a '{category}' file.");
 // Added Formulize module support (2006/05/04) jpc - end
-
-// 3.23
-/**
- * @return array
- */
-function getLocalAlphabet()
-{
-    $alphabet = [
-        '0',
-        '1',
-        '2',
-        '3',
-        '4',
-        '5',
-        '6',
-        '7',
-        '8',
-        '9',
-        'A',
-        'B',
-        'C',
-        'D',
-        'E',
-        'F',
-        'G',
-        'H',
-        'I',
-        'J',
-        'K',
-        'L',
-        'M',
-        'N',
-        'O',
-        'P',
-        'Q',
-        'R',
-        'S',
-        'T',
-        'U',
-        'V',
-        'W',
-        'X',
-        'Y',
-        'Z',
-    ];
-
-    return $alphabet;
-}
-
 define('_MD_WFDOWNLOADS_MIRROR_HOMEURLTITLE_DESC', '');
 define('_MD_WFDOWNLOADS_MIRROR_HOMEURL_DESC', 'Enter your home page URL.');
 define('_MD_WFDOWNLOADS_MIRROR_UPLOADMIRRORIMAGE_DESC', 'A small logo representing your website.');

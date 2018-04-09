@@ -329,6 +329,11 @@ $modversion['templates'][] = [
     'description' => ''
 ];
 
+$modversion['templates'][] = [
+    'file'        => $modversion['dirname'] . '_letterschoice.tpl',
+    'description' => ''
+];
+
 // ------------------- Preferences -------------------
 
 xoops_load('XoopsEditorHandler');

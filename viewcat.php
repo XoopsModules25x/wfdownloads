@@ -30,7 +30,7 @@ $grouppermHandler = xoops_getHandler('groupperm');
 
 $cid   = Request::getInt('cid', 0);
 $start = Request::getInt('start', 0);
-//$list = Request::getString('list', null);
+$list = Request::getString('letter', '', 'GET');
 //$orderby = Request::getString('orderby', null);
 $orderby = isset($_GET['orderby']) ? Wfdownloads\Utility::convertorderbyin($_GET['orderby']) : $helper->getConfig('filexorder');
 
@@ -66,7 +66,7 @@ if (is_object($GLOBALS['xoopsUser'])
 }
 
 // Get category object
-$categoryObj = $helper->getHandler('Category')->get($cid);
+$categoryObj = $helper->getHandler('category')->get($cid);
 if (null === $categoryObj) {
     redirect_header('index.php', 3, _CO_WFDOWNLOADS_ERROR_NOCATEGORY);
 }
@@ -90,9 +90,9 @@ $xoopsTpl->assign('category_id', $cid); // this definition is not removed for ba
 $xoopsTpl->assign('category_cid', $cid);
 
 // Retreiving the top parent category
-if (!isset($_GET['list']) && !isset($_GET['selectdate'])) {
-    $categoriesTopParentByCid = $helper->getHandler('Category')->getAllSubcatsTopParentCid();
-    $topCategoryObj           = $helper->getHandler('Category')->get(@$categoriesTopParentByCid[$cid]);
+if (!isset($list) && !isset($_GET['selectdate'])) {
+    $categoriesTopParentByCid = $helper->getHandler('category')->getAllSubcatsTopParentCid();
+    $topCategoryObj           = $helper->getHandler('category')->get(@$categoriesTopParentByCid[$cid]);
 
     $xoopsTpl->assign('topcategory_title', $topCategoryObj->getVar('title'));
     $xoopsTpl->assign('topcategory_image', $topCategoryObj->getVar('imgurl')); // this definition is not removed for backward compatibility issues
@@ -112,6 +112,13 @@ if (Wfdownloads\Utility::checkModule('formulize')) {
 // Formulize module support (2006/05/04) jpc - end
 
 // Generate Header
+
+$helper->loadLanguage('common');
+
+$xoopsTpl->assign('letterChoiceTitle', constant('CO_'.$moduleDirNameUpper.'_'.'BROWSETOTOPIC'));
+
+// ------------------- Letter Choice Start ---------------------------------------
+
 $catArray['imageheader'] = Wfdownloads\Utility::headerImage();
 //$catArray['letters']     = Wfdownloads\Utility::lettersChoice();
 /** @var \XoopsDatabase $db */
@@ -119,17 +126,22 @@ $db                  = \XoopsDatabaseFactory::getDatabaseConnection();
 $objHandler          = new Wfdownloads\DownloadHandler($db);
 $choicebyletter      = new Wfdownloads\Common\LetterChoice($objHandler, null, null, range('a', 'z'), 'letter');
 $catarray['letters'] = $choicebyletter->render();
+$xoopsTpl->assign('catarray', $catarray);
 
-$catArray['toolbar'] = Wfdownloads\Utility::toolbar();
-$xoopsTpl->assign('catarray', $catArray);
+//$catArray['toolbar'] = Wfdownloads\Utility::toolbar();
+//$xoopsTpl->assign('catarray', $catArray);
 
-$xoopsTpl->assign('categoryPath', $helper->getHandler('Category')->getNicePath($cid)); // this definition is not removed for backward compatibility issues
+// ------------------- Letter Choice End ------------------------------------
+
+
+
+$xoopsTpl->assign('categoryPath', $helper->getHandler('category')->getNicePath($cid)); // this definition is not removed for backward compatibility issues
 $xoopsTpl->assign('module_home', Wfdownloads\Utility::moduleHome(true)); // this definition is not removed for backward compatibility issues
 
 // Get categories tree
 $criteria = new \CriteriaCompo();
 $criteria->setSort('weight ASC, title');
-$categoryObjs = $helper->getHandler('Category')->getObjects($criteria, true);
+$categoryObjs = $helper->getHandler('category')->getObjects($criteria, true);
 require_once XOOPS_ROOT_PATH . '/class/tree.php';
 $categoryObjsTree = new Wfdownloads\ObjectTree($categoryObjs, 'cid', 'pid');
 
@@ -142,15 +154,15 @@ foreach (array_reverse($categoryObjsTree->getAllParent($cid)) as $parentCategory
 if ('' != $categoryObj->getVar('title')) {
     $breadcrumb->addLink($categoryObj->getVar('title'), '');
 }
-if (isset($_GET['list'])) {
-    $breadcrumb->addLink($_GET['list'], '');
+if (isset($list)) {
+    $breadcrumb->addLink($list, '');
 }
 $xoopsTpl->assign('wfdownloads_breadcrumb', $breadcrumb->render());
 
 // Display Subcategories for selected Category
 $allSubCategoryObjs = $categoryObjsTree->getFirstChild($cid);
 
-if (is_array($allSubCategoryObjs) > 0 && !isset($_GET['list']) && !isset($_GET['selectdate'])) {
+if (is_array($allSubCategoryObjs) > 0 && !$list  && !isset($_GET['selectdate'])) {
     $listings = Wfdownloads\Utility::getTotalDownloads($allowedDownCategoriesIds);
     $scount   = 1;
     foreach ($allSubCategoryObjs as $subCategoryObj) {
@@ -248,19 +260,29 @@ $xoopsTpl->assign('show_category_title', false);
 if (isset($_GET['selectdate'])) {
     $criteria->add(new \Criteria('', 'TO_DAYS(FROM_UNIXTIME(' . \Xmf\Request::getInt('selectdate', 0, 'GET') . '))', '=', '', 'TO_DAYS(FROM_UNIXTIME(published))'));
     $xoopsTpl->assign('show_categort_title', true);
-} elseif (isset($_GET['list'])) {
+    
+    
+    
+    
+} elseif (isset($list)) {
     $criteria->setSort("{$orderby}, title");
-    $criteria->add(new \Criteria('title', $myts->addSlashes($_GET['list']) . '%', 'LIKE'));
-    $xoopsTpl->assign('categoryPath', sprintf(_MD_WFDOWNLOADS_DOWNLOADS_LIST, htmlspecialchars($_GET['list'], ENT_QUOTES | ENT_HTML5)));
+    $criteria->add(new \Criteria('title', $myts->addSlashes($list) . '%', 'LIKE'));
+    $xoopsTpl->assign('categoryPath', sprintf(_MD_WFDOWNLOADS_DOWNLOADS_LIST, htmlspecialchars($list, ENT_QUOTES | ENT_HTML5)));
     $xoopsTpl->assign('show_categort_title', true);
+    
+    
+    
 } else {
     $criteria->setSort("{$orderby}, title");
     $criteria->add(new \Criteria('cid', $cid));
 }
-$downloads_count = $helper->getHandler('Download')->getActiveCount($criteria);
+
+
+
+$downloads_count = $helper->getHandler('download')->getActiveCount($criteria);
 $criteria->setLimit($helper->getConfig('perpage'));
 $criteria->setStart($start);
-$downloadObjs = $helper->getHandler('Download')->getActiveDownloads($criteria);
+$downloadObjs = $helper->getHandler('download')->getActiveDownloads($criteria);
 
 // Show Downloads by file
 if ($downloads_count > 0) {
@@ -295,8 +317,8 @@ if ($downloads_count > 0) {
     require_once XOOPS_ROOT_PATH . '/class/pagenav.php';
     if (isset($_GET['selectdate'])) {
         $pagenav = new \XoopsPageNav($downloads_count, $helper->getConfig('perpage'), $start, 'start', 'list=' . urlencode($_GET['selectdate']));
-    } elseif (isset($_GET['list'])) {
-        $pagenav = new \XoopsPageNav($downloads_count, $helper->getConfig('perpage'), $start, 'start', 'list=' . urlencode($_GET['list']));
+    } elseif (isset($list)) {
+        $pagenav = new \XoopsPageNav($downloads_count, $helper->getConfig('perpage'), $start, 'start', 'list=' . urlencode($list));
     } else {
         $pagenav = new \XoopsPageNav($downloads_count, $helper->getConfig('perpage'), $start, 'start', 'cid=' . $cid);
     }
