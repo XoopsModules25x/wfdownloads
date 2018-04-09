@@ -55,6 +55,25 @@ function xoops_module_pre_update_wfdownloads(\XoopsModule $module)
 
     $xoopsSuccess = $utility::checkVerXoops($module);
     $phpSuccess   = $utility::checkVerPhp($module);
+
+
+//    XoopsLoad::load('migrate', 'newbb');
+    $newbbMigrate = new Wfdownloads\Migrate();
+    $newbbMigrate->synchronizeSchema();
+
+    return true;
+
+
+
+
+
+
+
+
+
+
+
+
     return $xoopsSuccess && $phpSuccess;
 }
 

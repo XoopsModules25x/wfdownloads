@@ -8,7 +8,7 @@
                 <th><{$smarty.const._AM_WFDOWNLOADS_FCATEGORY_TITLE}></th>
                 <th><{$smarty.const._AM_WFDOWNLOADS_FCATEGORY_WEIGHT}></th>
                 <th><{$smarty.const._AM_WFDOWNLOADS_FCATEGORY_DESCRIPTION}></th>
-                <th><{$smarty.const._AM_WFDOWNLOADS_ACTION}></th>
+                <th width="5%"><{$smarty.const._AM_WFDOWNLOADS_ACTION}></th>
             </tr>
             <{foreach item=sorted_category from=$sorted_categories}>
                 <tr class="<{cycle values='even, odd'}>">

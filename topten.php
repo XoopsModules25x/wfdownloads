@@ -54,6 +54,7 @@ $catarray['imageheader'] = Wfdownloads\Utility::headerImage();
 /** @var \XoopsDatabase $db */
 $db           = \XoopsDatabaseFactory::getDatabaseConnection();
 $objHandler = new Wfdownloads\DownloadHandler($db);
+$grouppermHandler = xoops_getHandler('groupperm');
  $choicebyletter = new Wfdownloads\Common\LetterChoice($objHandler, null, null, range('a', 'z'), 'letter');
 $catarray['letters']  = $choicebyletter->render();
 
