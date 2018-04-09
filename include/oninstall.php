@@ -85,7 +85,6 @@ function xoops_module_install_wfdownloads(\XoopsModule $module)
     $configurator = new Wfdownloads\Common\Configurator();
     /** @var Wfdownloads\Utility $utility */
     $utility = ucfirst($moduleDirName) . 'Utility';
-    ;
     if (!class_exists($utility)) {
         xoops_load('utility', $moduleDirName);
     }

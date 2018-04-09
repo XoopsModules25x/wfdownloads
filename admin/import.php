@@ -245,6 +245,9 @@ function import_wfd_to_wfdownloads()
 {
     /** @var \XoopsModuleHandler $moduleHandler */
     $moduleHandler = xoops_getHandler('module');
+    // Get destination module/handlers/configs
+    $helper = Wfdownloads\Helper::getInstance();
+
     // Get source module/config
     $wfdDirname = 'wf' . 'downloads'; // don't modify, is for cloning
     $wfdModule  = $moduleHandler->getByDirname($wfdDirname);
@@ -252,12 +255,9 @@ function import_wfd_to_wfdownloads()
         $configHandler   = xoops_getHandler('config');
         $wfdModuleConfig = $configHandler->getConfigsByCat(0, $wfdModule->mid());
     }
-    $categoriesHandler = xoops_getModuleHandler('category', $wfdDirname);
-    /** @var Wfdownloads\DownloadHandler $wfdDownloadsHandler */
-    $wfdDownloadsHandler = xoops_getModuleHandler('download', $wfdDirname);
-
-    // Get destination module/handlers/configs
-    $helper = Wfdownloads\Helper::getInstance();
+    $categoriesHandler = $helper->getHandler('Category');
+    /** @var Wfdownloads\DownloadHandler $downloadsHandler */
+    $downloadsHandler = $helper->getHandler('Download');
 
     echo "<br><span style='font-weight: bold;'>Copying Files</span><br>";
 
@@ -274,7 +274,7 @@ function import_wfd_to_wfdownloads()
     echo 'Copied downloads screenshots and thumbnails<br>';
 
     // Copy files
-    $wfdDownloadObjs = $wfdDownloadsHandler->getObjects();
+    $wfdDownloadObjs = $downloadsHandler->getObjects();
     $countCopied     = 0;
     $countNotCopied  = 0;
     foreach ($wfdDownloadObjs as $wfdDownloadObj) {

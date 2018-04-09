@@ -218,7 +218,7 @@ if ($xoopsUser) {
     $xoopsTpl->assign('syndication', true);
 }
 // Meta data
-if ($publishedwords == 0) {
+if (0 == $publishedwords) {
     $meta_description = xoops_substr($utility::convertHtml2text($eachentry['definition']), 0, 150);
     if (1 == $helper->getConfig('multicats')) {
         $utility::extractKeywords($xoopsModule->name() . ' ,' . $eachentry['term'] . ', ' . $meta_description);

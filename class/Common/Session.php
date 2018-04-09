@@ -36,10 +36,11 @@ class Session
      * Starts the session with session_start()
      * <strong>Note:</strong> that if the session has already started,
      * session_start() does nothing
+      * @throws \RuntimeException
      */
     protected function __construct()
     {
-        if (@session_start() === false) {
+        if (false === @session_start()) {
             throw new \RuntimeException('Session could not start.');
         }
     }

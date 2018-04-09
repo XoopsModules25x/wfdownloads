@@ -232,7 +232,7 @@ switch ($op) {
             $screenshot1 = strtolower($_FILES['screenshot']['name']);
             $uploader    = new Wfdownloads\MediaImgUploader($uploadDirectory, $allowedMimetypes, $helper->getConfig('maxfilesize'), $helper->getConfig('maximgwidth'), $helper->getConfig('maximgheight'));
             if (!$uploader->fetchMedia($_POST['xoops_upload_file'][1]) && !$uploader->upload()) {
-                if (@unlink($uploadDirectory . $screenshot1) === false) {
+                if (false === @unlink($uploadDirectory . $screenshot1)) {
                     throw new \RuntimeException('The file '.$uploadDirectory . $screenshot1.' could not be uploaded.');
                 }
                 redirect_header($currentFile, 1, $uploader->getErrors());

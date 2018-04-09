@@ -506,10 +506,10 @@ switch ($op) {
             }
             $file = $helper->getConfig('uploaddir') . '/' . $downloadObj->getVar('filename');
             if (is_file($file)) {
-                if (@chmod($file, 0777) === false) {
+                if (false === @chmod($file, 0777)) {
                     throw new \RuntimeException('The file mode for '.$file.' could not be changed.');
                 }
-                if (@unlink($file) === false) {
+                if (false === @unlink($file)) {
                     throw new \RuntimeException('The file '.$file.' could not be deleted.');
                 }
             }

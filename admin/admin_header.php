@@ -51,9 +51,6 @@ if (!isset($GLOBALS['xoopsTpl']) || !($GLOBALS['xoopsTpl'] instanceof XoopsTpl))
 //require_once $GLOBALS['xoops']->path("modules/{$moduleDirName}/include/functions.php");
 //require_once $GLOBALS['xoops']->path("modules/{$moduleDirName}/include/config.php");
 
-//Handlers
-//$XXXHandler = xoops_getModuleHandler('XXX', $moduleDirName);
-
 // Load language files
 $helper->loadLanguage('admin');
 $helper->loadLanguage('modinfo');

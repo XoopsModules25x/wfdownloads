@@ -346,6 +346,8 @@ class Utility
      * @param bool   $create_index if true create index.html
      *
      * @return bool Returns true on success or false on failure
+     * @throws \RuntimeException
+     * @throws \Exception
      */
     public static function makeDir($dir, $perm = 0777, $create_index = true)
     {
@@ -356,7 +358,7 @@ class Utility
                 if (false !== ($fileHandler = @fopen($dir . '/index.html', 'wb'))) {
                     fwrite($fileHandler, '<script>history.go(-1);</script>');
                 }
-                if (@fclose($fileHandler) === false) {
+                if (false === @fclose($fileHandler)) {
                     throw new \RuntimeException('The file ' . $fileHandler . ' could not be created.');
                 }
             }
@@ -415,6 +417,8 @@ class Utility
      *
      * @return bool Returns true on success or false on failure
      *
+     * @throws \RuntimeException
+     * @throws \Exception
      */
     public static function copyDir($source, $destination)
     {
