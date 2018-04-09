@@ -25,10 +25,10 @@ require_once __DIR__ . '/admin_header.php';
 
 require_once XOOPS_ROOT_PATH . '/class/xoopsform/grouppermform.php';
 
-if (0 == $helper->getHandler('category')->getCount()) {
+if (0 == $helper->getHandler('Category')->getCount()) {
     redirect_header('categories.php', 1, _AM_WFDOWNLOADS_CCATEGORY_NOEXISTS);
 }
-$categoryObjObjs = $helper->getHandler('category')->getObjects();
+$categoryObjObjs = $helper->getHandler('Category')->getObjects();
 
 $WFDownCatPermForm = new \XoopsGroupPermForm(_AM_WFDOWNLOADS_FCATEGORY_GROUPPROMPT, $helper->getModule()->mid(), 'WFDownCatPerm', _AM_WFDOWNLOADS_PERM_CSELECTPERMISSIONS, "admin/{$currentFile}", true);
 $WFUpCatPermForm   = new \XoopsGroupPermForm(_AM_WFDOWNLOADS_FCATEGORY_GROUPPROMPT_UP, $helper->getModule()->mid(), 'WFUpCatPerm', _AM_WFDOWNLOADS_PERM_CSELECTPERMISSIONS_UP, "admin/{$currentFile}", true);

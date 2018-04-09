@@ -54,7 +54,7 @@ function wfdownloads_top_show($options)
     $criteria->setSort($options[0]);
     $criteria->setOrder('DESC');
     $criteria->setLimit($options[1]);
-    $downloadObjs = $helper->getHandler('download')->getObjects($criteria);
+    $downloadObjs = $helper->getHandler('Download')->getObjects($criteria);
 
     foreach ($downloadObjs as $downloadObj) {
         $download = $downloadObj->toArray();

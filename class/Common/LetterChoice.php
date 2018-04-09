@@ -37,7 +37,7 @@ class LetterChoice
     /**
      * @access public
      */
-    public $helper = null;
+    public $helper;
 
     /**
      * *#@+

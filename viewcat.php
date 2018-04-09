@@ -66,7 +66,7 @@ if (is_object($GLOBALS['xoopsUser'])
 }
 
 // Get category object
-$categoryObj = $helper->getHandler('category')->get($cid);
+$categoryObj = $helper->getHandler('Category')->get($cid);
 if (null === $categoryObj) {
     redirect_header('index.php', 3, _CO_WFDOWNLOADS_ERROR_NOCATEGORY);
 }
@@ -91,8 +91,8 @@ $xoopsTpl->assign('category_cid', $cid);
 
 // Retreiving the top parent category
 if (!isset($_GET['list']) && !isset($_GET['selectdate'])) {
-    $categoriesTopParentByCid = $helper->getHandler('category')->getAllSubcatsTopParentCid();
-    $topCategoryObj           = $helper->getHandler('category')->get(@$categoriesTopParentByCid[$cid]);
+    $categoriesTopParentByCid = $helper->getHandler('Category')->getAllSubcatsTopParentCid();
+    $topCategoryObj           = $helper->getHandler('Category')->get(@$categoriesTopParentByCid[$cid]);
 
     $xoopsTpl->assign('topcategory_title', $topCategoryObj->getVar('title'));
     $xoopsTpl->assign('topcategory_image', $topCategoryObj->getVar('imgurl')); // this definition is not removed for backward compatibility issues
@@ -123,13 +123,13 @@ $catarray['letters'] = $choicebyletter->render();
 $catArray['toolbar'] = Wfdownloads\Utility::toolbar();
 $xoopsTpl->assign('catarray', $catArray);
 
-$xoopsTpl->assign('categoryPath', $helper->getHandler('category')->getNicePath($cid)); // this definition is not removed for backward compatibility issues
+$xoopsTpl->assign('categoryPath', $helper->getHandler('Category')->getNicePath($cid)); // this definition is not removed for backward compatibility issues
 $xoopsTpl->assign('module_home', Wfdownloads\Utility::moduleHome(true)); // this definition is not removed for backward compatibility issues
 
 // Get categories tree
 $criteria = new \CriteriaCompo();
 $criteria->setSort('weight ASC, title');
-$categoryObjs = $helper->getHandler('category')->getObjects($criteria, true);
+$categoryObjs = $helper->getHandler('Category')->getObjects($criteria, true);
 require_once XOOPS_ROOT_PATH . '/class/tree.php';
 $categoryObjsTree = new Wfdownloads\ObjectTree($categoryObjs, 'cid', 'pid');
 
@@ -257,10 +257,10 @@ if (isset($_GET['selectdate'])) {
     $criteria->setSort("{$orderby}, title");
     $criteria->add(new \Criteria('cid', $cid));
 }
-$downloads_count = $helper->getHandler('download')->getActiveCount($criteria);
+$downloads_count = $helper->getHandler('Download')->getActiveCount($criteria);
 $criteria->setLimit($helper->getConfig('perpage'));
 $criteria->setStart($start);
-$downloadObjs = $helper->getHandler('download')->getActiveDownloads($criteria);
+$downloadObjs = $helper->getHandler('Download')->getActiveDownloads($criteria);
 
 // Show Downloads by file
 if ($downloads_count > 0) {

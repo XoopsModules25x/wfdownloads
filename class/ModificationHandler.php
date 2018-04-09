@@ -24,7 +24,7 @@ use XoopsModules\Wfdownloads;
 defined('XOOPS_ROOT_PATH') || die('XOOPS root path not defined');
 require_once __DIR__ . '/../include/common.php';
 
-require_once XOOPS_ROOT_PATH . '/modules/wfdownloads/class/Download.php';
+//require_once XOOPS_ROOT_PATH . '/modules/wfdownloads/class/Download.php';
 
 
 /**
@@ -35,7 +35,7 @@ class ModificationHandler extends \XoopsPersistableObjectHandler
     /**
      * @access public
      */
-    public $helper = null;
+    public $helper;
 
     /**
      * @param \XoopsDatabase $db
@@ -53,7 +53,7 @@ class ModificationHandler extends \XoopsPersistableObjectHandler
      */
     public function approveModification($requestid)
     {
-        $sql = "UPDATE {$this->table} m, {$this->helper->getHandler('download')->table} d";
+        $sql = "UPDATE {$this->table} m, {$this->helper->getHandler('Download')->table} d";
         $sql .= " SET
             d.cid = m.cid,
             d.title = m.title,

@@ -33,7 +33,7 @@ class RatingHandler extends \XoopsPersistableObjectHandler
     /**
      * @access public
      */
-    public $helper = null;
+    public $helper;
 
     /**
      * @param \XoopsDatabase $db
@@ -47,7 +47,7 @@ class RatingHandler extends \XoopsPersistableObjectHandler
     /**
      * Get average ratings of users matching a condition
      *
-     * @param \CriteriaElement $criteria {@link \CriteriaElement} to match
+     * @param \CriteriaElement|\CriteriaCompo $criteria {@link \CriteriaElement} to match
      *
      * @return array|int
      */

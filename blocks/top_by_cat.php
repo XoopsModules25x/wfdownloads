@@ -40,9 +40,11 @@ require_once __DIR__ . '/../include/common.php';
 function wfdownloads_top_by_cat_show($options)
 {
     $helper          = Wfdownloads\Helper::getInstance();
+    /** @var Wfdownloads\CategoryHandler $categoryHandler */
     $categoryHandler = new Wfdownloads\CategoryHandler($GLOBALS['xoopsDB']);
 
-    $grouppermHandler             = xoops_getHandler('groupperm');
+    /** @var \XoopsGroupPermHandler $grouppermHandler */
+    $grouppermHandler         = xoops_getHandler('groupperm');
     $groups                   = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : [0 => XOOPS_GROUP_ANONYMOUS];
     $allowedDownCategoriesIds = $grouppermHandler->getItemIds('WFDownCatPerm', $groups, $helper->getModule()->mid());
 
@@ -55,7 +57,7 @@ function wfdownloads_top_by_cat_show($options)
     $criteria->setSort('date');
     $criteria->setOrder('DESC');
     $criteria->setLimit($options[1]);
-    $downloadObjs = $helper->getHandler('download')->getObjects($criteria);
+    $downloadObjs = $helper->getHandler('Download')->getObjects($criteria);
 
     foreach ($downloadObjs as $downloadObj) {
         $download = $downloadObj->toArray();
@@ -73,14 +75,14 @@ function wfdownloads_top_by_cat_show($options)
         $block['downloads'][] = $download;
     }
 
-    $categoriesTopParentByCid = $helper->getHandler('category')->getAllSubcatsTopParentCid();
+    $categoriesTopParentByCid = $helper->getHandler('Category')->getAllSubcatsTopParentCid();
 
     //    foreach ($helper->getHandler('Category')->topCategories as $cid) {
     if (is_array($categoryHandler->topCategories) && count($categoryHandler->topCategories) > 0) {
         foreach ($categoryHandler->topCategories as $cid) {
-            $block['topcats'][$cid]['title']  = $helper->getHandler('category')->allCategories[$cid]->getVar('title');
+            $block['topcats'][$cid]['title']  = $helper->getHandler('Category')->allCategories[$cid]->getVar('title');
             $block['topcats'][$cid]['cid']    = $cid;
-            $block['topcats'][$cid]['imgurl'] = $helper->getHandler('category')->allCategories[$cid]->getVar('imgurl');
+            $block['topcats'][$cid]['imgurl'] = $helper->getHandler('Category')->allCategories[$cid]->getVar('imgurl');
         }
     }
 

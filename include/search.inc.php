@@ -115,7 +115,7 @@ function wfdownloads_search(
         if (Wfdownloads\Utility::checkModule('formulize')) {
             $fids = [];
             foreach ($allowedDownCategoriesIds as $cid) {
-                $categoryObj = $helper->getHandler('category')->get($cid);
+                $categoryObj = $helper->getHandler('Category')->get($cid);
                 if (null !== $categoryObj && $fid = $categoryObj->getVar('formulize_fid')) {
                     $fids[] = $fid;
                 }
@@ -199,7 +199,7 @@ function wfdownloads_search(
             }
 
             // Check to see if this term matches any files
-            $tempDownloadObjs = $helper->getHandler('download')->getActiveDownloads($queryCriteria);
+            $tempDownloadObjs = $helper->getHandler('Download')->getActiveDownloads($queryCriteria);
             unset($queryCriteria);
 
             // Make an array of the downloads based on the lid, and a separate list of all the lids found (the separate list is used in the case of an AND operator to derive an intersection of the hits across all search terms -- and it is used to determine the start and limit points of the main results array for an OR query)
@@ -275,7 +275,7 @@ function wfdownloads_search(
                 foreach ($swisheSearchResults as $swisheSearchResult) {
                     $tempSwisheCriteria = clone($swisheCriteria);
                     $tempSwisheCriteria->add(new \Criteria('filename', $swisheSearchResult['file_path']));
-                    $tempDownloadObjs = $helper->getHandler('download')->getActiveDownloads($tempSwisheCriteria);
+                    $tempDownloadObjs = $helper->getHandler('Download')->getActiveDownloads($tempSwisheCriteria);
                     $tempDownloadObj = $tempDownloadObjs[0];
                     if (is_object($tempDownloadObj)) {
                         $tempRet['image'] = "assets/images/size2.gif";

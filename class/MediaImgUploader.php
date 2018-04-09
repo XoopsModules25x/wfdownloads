@@ -82,6 +82,8 @@ require_once XOOPS_ROOT_PATH . '/class/uploader.php';
  */
 class MediaImgUploader extends \XoopsMediaUploader
 {
+
+    public $randomfilename;
     /**
      * Constructor
      *

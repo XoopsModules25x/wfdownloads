@@ -32,7 +32,7 @@ class DownloadHandler extends \XoopsPersistableObjectHandler
     /**
      * @access public
      */
-    public $helper = null;
+    public $helper;
 
     /**
      * @param null|\XoopsDatabase $db
@@ -90,6 +90,7 @@ class DownloadHandler extends \XoopsPersistableObjectHandler
      */
     public function getActiveCriteria()
     {
+        /** @var \XoopsGroupPermHandler $grouppermHandler */
         $grouppermHandler = xoops_getHandler('groupperm');
 
         $criteria = new \CriteriaCompo(new \Criteria('offline', false));
@@ -167,10 +168,10 @@ class DownloadHandler extends \XoopsPersistableObjectHandler
     {
         if (parent::delete($download, $force)) {
             $criteria = new \Criteria('lid', (int)$download->getVar('lid'));
-            $this->helper->getHandler('rating')->deleteAll($criteria);
-            $this->helper->getHandler('mirror')->deleteAll($criteria);
-            $this->helper->getHandler('review')->deleteAll($criteria);
-            $this->helper->getHandler('report')->deleteAll($criteria);
+            $this->helper->getHandler('Rating')->deleteAll($criteria);
+            $this->helper->getHandler('Mirror')->deleteAll($criteria);
+            $this->helper->getHandler('Review')->deleteAll($criteria);
+            $this->helper->getHandler('Report')->deleteAll($criteria);
             // delete comments
             xoops_comment_delete((int)$this->helper->getModule()->mid(), (int)$download->getVar('lid'));
 
@@ -179,7 +180,7 @@ class DownloadHandler extends \XoopsPersistableObjectHandler
                 if (file_exists(XOOPS_ROOT_PATH . '/modules/formulize/include/functions.php') && $download->getVar('formulize_idreq') > 0) {
                     require_once XOOPS_ROOT_PATH . '/modules/formulize/include/functions.php';
                     //deleteFormEntries(array($download->getVar('formulize_idreq')));
-                    $category = $this->helper->getHandler('category')->get($download->getVar('cid'));
+                    $category = $this->helper->getHandler('Category')->get($download->getVar('cid'));
                     deleteFormEntries([$download->getVar('formulize_idreq')], $category->getVar('formulize_fid'));
                 }
             }

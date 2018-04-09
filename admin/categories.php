@@ -52,7 +52,7 @@ switch ($op) {
             xoops_load('XoopsFormLoader');
             $sform = new \XoopsThemeForm(_AM_WFDOWNLOADS_CCATEGORY_MOVE, 'move', xoops_getenv('PHP_SELF'), 'post', true);
 
-            $categoryObjs     = $helper->getHandler('category')->getObjects();
+            $categoryObjs     = $helper->getHandler('Category')->getObjects();
             $categoryObjsTree = new Wfdownloads\ObjectTree($categoryObjs, 'cid', 'pid');
 
             if (Wfdownloads\Utility::checkVerXoops($GLOBALS['xoopsModule'], '2.5.9')) {
@@ -84,7 +84,7 @@ switch ($op) {
             if (!$target) {
                 redirect_header($currentFile . "?op=category.move&amp;ok=0&amp;cid={$source}", 5, _AM_WFDOWNLOADS_CCATEGORY_MODIFY_FAILEDT);
             }
-            $result = $helper->getHandler('download')->updateAll('cid', $target, new \Criteria('cid', $source), true);
+            $result = $helper->getHandler('Download')->updateAll('cid', $target, new \Criteria('cid', $source), true);
             if (!$result) {
                 $error = _AM_WFDOWNLOADS_DBERROR;
                 trigger_error($error, E_USER_ERROR);
@@ -126,10 +126,10 @@ switch ($op) {
         }
 
         if (!$cid) {
-            $categoryObj = $helper->getHandler('category')->create();
+            $categoryObj = $helper->getHandler('Category')->create();
         } else {
-            $categoryObj = $helper->getHandler('category')->get($cid);
-            $childcats   = $helper->getHandler('category')->getChildCats($categoryObj);
+            $categoryObj = $helper->getHandler('Category')->get($cid);
+            $childcats   = $helper->getHandler('Category')->getChildCats($categoryObj);
             if ($pid == $cid || array_key_exists($pid, $childcats)) {
                 $categoryObj->setErrors(_AM_WFDOWNLOADS_CCATEGORY_CHILDASPARENT);
             }
@@ -155,7 +155,7 @@ switch ($op) {
         $categoryObj->setVar('spotlighthis', $spotlighthis);
         $categoryObj->setVar('spotlighttop', $spotlighttop);
 
-        if (!$helper->getHandler('category')->insert($categoryObj)) {
+        if (!$helper->getHandler('Category')->insert($categoryObj)) {
             echo $categoryObj->getHtmlErrors();
         }
         if (!$cid) {
@@ -168,7 +168,8 @@ switch ($op) {
             $tags                  = [];
             $tags['CATEGORY_NAME'] = $_POST['title'];
             $tags['CATEGORY_URL']  = WFDOWNLOADS_URL . '/viewcat.php?cid=' . $newid;
-            $notificationHandler   = xoops_getHandler('notification');
+            /** @var \XoopsNotificationHandler $notificationHandler */
+            $notificationHandler = xoops_getHandler('notification');
             $notificationHandler->triggerEvent('global', 0, 'new_category', $tags);
             $database_mess = _AM_WFDOWNLOADS_CCATEGORY_CREATED;
         } else {
@@ -183,7 +184,7 @@ switch ($op) {
     case 'del':
         $cid              = Request::getInt('cid', 0);
         $ok               = Request::getBool('ok', false, 'POST');
-        $categoryObjs     = $helper->getHandler('category')->getObjects();
+        $categoryObjs     = $helper->getHandler('Category')->getObjects();
         $categoryObjsTree = new Wfdownloads\ObjectTree($categoryObjs, 'cid', 'pid');
         if (true === $ok) {
             // get all subcategories under the specified category
@@ -197,20 +198,20 @@ switch ($op) {
             $criteria = new \Criteria('cid', '(' . implode(',', $cids) . ')', 'IN');
 
             //get list of downloads in these subcategories
-            $downloads = $helper->getHandler('download')->getList($criteria);
+            $downloads = $helper->getHandler('Download')->getList($criteria);
 
             $download_criteria = new \Criteria('lid', '(' . implode(',', array_keys($downloads)) . ')', 'IN');
 
             // now for each download, delete the text data and vote data associated with the download
-            $helper->getHandler('rating')->deleteAll($download_criteria);
-            $helper->getHandler('report')->deleteAll($download_criteria);
-            $helper->getHandler('download')->deleteAll($download_criteria);
+            $helper->getHandler('Rating')->deleteAll($download_criteria);
+            $helper->getHandler('Report')->deleteAll($download_criteria);
+            $helper->getHandler('Download')->deleteAll($download_criteria);
             foreach (array_keys($downloads) as $lid) {
                 xoops_comment_delete($helper->getModule()->mid(), (int)$lid);
             }
 
             // all downloads for each category is deleted, now delete the category data
-            $helper->getHandler('category')->deleteAll($criteria);
+            $helper->getHandler('Category')->deleteAll($criteria);
             $error = _AM_WFDOWNLOADS_DBERROR;
 
             foreach ($cids as $cid) {
@@ -238,9 +239,9 @@ switch ($op) {
         $adminObject->displayButton('left');
 
         if (isset($_REQUEST['cid'])) {
-            $categoryObj = $helper->getHandler('category')->get($_REQUEST['cid']);
+            $categoryObj = $helper->getHandler('Category')->get($_REQUEST['cid']);
         } else {
-            $categoryObj = $helper->getHandler('category')->create();
+            $categoryObj = $helper->getHandler('Category')->create();
         }
         $form = $categoryObj->getForm();
         $form->display();
@@ -280,9 +281,9 @@ switch ($op) {
             $new_weights = $_POST['new_weights'];
             $ids         = [];
             foreach ($new_weights as $cid => $new_weight) {
-                $categoryObj = $helper->getHandler('category')->get($cid);
+                $categoryObj = $helper->getHandler('Category')->get($cid);
                 $categoryObj->setVar('weight', $new_weight);
-                if (!$helper->getHandler('category')->insert($categoryObj)) {
+                if (!$helper->getHandler('Category')->insert($categoryObj)) {
                     redirect_header($currentFile, 3, $categoryObj->getErrors());
                 }
                 unset($categoryObj);

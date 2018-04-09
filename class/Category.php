@@ -32,7 +32,8 @@ class Category extends \XoopsObject
     /**
      * @access public
      */
-    public $helper = null;
+    public $helper;
+    public $db;
 
     /**
      * constructor
@@ -95,7 +96,7 @@ class Category extends \XoopsObject
         $form->addElement(new \XoopsFormText(_AM_WFDOWNLOADS_FCATEGORY_TITLE, 'title', 50, 255, $this->getVar('title', 'e')), true);
         // category: pid
         if (Wfdownloads\Utility::categoriesCount() > 0) {
-            $categoryObjs     = $this->helper->getHandler('category')->getObjects();
+            $categoryObjs     = $this->helper->getHandler('Category')->getObjects();
             $categoryObjsTree = new Wfdownloads\ObjectTree($categoryObjs, 'cid', 'pid');
 
             if (Wfdownloads\Utility::checkVerXoops($GLOBALS['xoopsModule'], '2.5.9')) {

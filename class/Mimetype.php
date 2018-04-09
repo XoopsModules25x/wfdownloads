@@ -44,7 +44,8 @@ class Mimetype extends \XoopsObject
     /**
      * @access public
      */
-    public $helper = null;
+    public $helper;
+    public $db;
 
     /**
      * @param int|null $id
@@ -61,7 +62,7 @@ class Mimetype extends \XoopsObject
         $this->initVar('mime_user', XOBJ_DTYPE_INT, false); // boolean
 
         if (null !== $id) {
-            $item = $this->helper->getHandler('item')->get($id);
+            $item = $this->helper->getHandler('Item')->get($id);
             foreach ($item->vars as $k => $v) {
                 $this->assignVar($k, $v['value']);
             }

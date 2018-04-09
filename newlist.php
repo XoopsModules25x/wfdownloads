@@ -36,6 +36,7 @@ $xoopsTpl->assign('wfdownloads_url', WFDOWNLOADS_URL . '/');
 
 $groups = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : [0 => XOOPS_GROUP_ANONYMOUS];
 
+/** @var \XoopsGroupPermHandler $grouppermHandler */
 $grouppermHandler = xoops_getHandler('groupperm');
 $catArray['imageheader'] = Wfdownloads\Utility::headerImage();
 //$catArray['letters']     = Wfdownloads\Utility::lettersChoice();
@@ -57,11 +58,11 @@ $allowedCategories = $grouppermHandler->getItemIds('WFDownCatPerm', $groups, $he
 // ... in the last week
 $oneWeekAgo       = strtotime('-1 week'); //$oneWeekAgo = time() - 3600*24*7; //@TODO: Change to strtotime (TODAY-1week);
 $criteria         = new \Criteria('published', $oneWeekAgo, '>=');
-$allWeekDownloads = $helper->getHandler('download')->getActiveCount($criteria);
+$allWeekDownloads = $helper->getHandler('Download')->getActiveCount($criteria);
 // ... in the last month
 $oneMonthAgo       = strtotime('-1 month'); //$one_month_ago = time() - 3600*24*7; //@TODO: Change to strtotime (TODAY-1month);
 $criteria          = new \Criteria('published', $oneMonthAgo, '>=');
-$allMonthDownloads = $helper->getHandler('download')->getActiveCount($criteria);
+$allMonthDownloads = $helper->getHandler('Download')->getActiveCount($criteria);
 $xoopsTpl->assign('allweekdownloads', $allWeekDownloads);
 $xoopsTpl->assign('allmonthdownloads', $allMonthDownloads);
 
@@ -80,7 +81,7 @@ $criteria->setSort('published');
 $criteria->setOrder('DESC');
 $criteria->setLimit($helper->getConfig('perpage'));
 $criteria->setStart(0);
-$downloadObjs = $helper->getHandler('download')->getActiveDownloads($criteria);
+$downloadObjs = $helper->getHandler('Download')->getActiveDownloads($criteria);
 foreach ($downloadObjs as $downloadObj) {
     $downloadInfo = $downloadObj->getDownloadInfo();
     $xoopsTpl->assign('lang_dltimes', sprintf(_MD_WFDOWNLOADS_DLTIMES, $downloadInfo['hits']));

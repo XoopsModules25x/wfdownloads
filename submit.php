@@ -47,7 +47,7 @@ if (is_object($GLOBALS['xoopsUser'])
     }
 }
 // Get categories where user can submit
-$categoryObjs = $helper->getHandler('category')->getUserUpCategories();
+$categoryObjs = $helper->getHandler('Category')->getUserUpCategories();
 if (0 == count($categoryObjs)) {
     $isSubmissionAllowed = false;
 }
@@ -124,19 +124,19 @@ switch ($op) {
     case 'download.add':
         // Show submit form
         if ((0 != $lid) && is_object($GLOBALS['xoopsUser'])) {
-            $downloadObj = $helper->getHandler('download')->get($lid);
+            $downloadObj = $helper->getHandler('Download')->get($lid);
             if ($GLOBALS['xoopsUser']->uid() != $downloadObj->getVar('submitter')) {
                 redirect_header('index.php', 5, _MD_WFDOWNLOADS_NOTALLOWEDTOMOD);
             }
             $cid = $downloadObj->getVar('cid');
         } else {
-            $downloadObj = $helper->getHandler('download')->create();
+            $downloadObj = $helper->getHandler('Download')->create();
             $downloadObj->setVar('cid', $cid);
         }
         // Formulize module support - jpc - start
         if (isset($_POST['submit_category']) && !empty($_POST['submit_category'])) {
             // two steps form: 2nd step
-            $categoryObj = $helper->getHandler('category')->get($cid);
+            $categoryObj = $helper->getHandler('Category')->get($cid);
             $fid         = $categoryObj->getVar('formulize_fid');
             $customArray = [];
             if (Wfdownloads\Utility::checkModule('formulize') && $fid) {
@@ -232,7 +232,9 @@ switch ($op) {
             $screenshot1 = strtolower($_FILES['screenshot']['name']);
             $uploader    = new Wfdownloads\MediaImgUploader($uploadDirectory, $allowedMimetypes, $helper->getConfig('maxfilesize'), $helper->getConfig('maximgwidth'), $helper->getConfig('maximgheight'));
             if (!$uploader->fetchMedia($_POST['xoops_upload_file'][1]) && !$uploader->upload()) {
-                @unlink($uploadDirectory . $screenshot1);
+                if (@unlink($uploadDirectory . $screenshot1) === false) {
+                    throw new \RuntimeException('The file '.$uploadDirectory . $screenshot1.' could not be uploaded.');
+                }
                 redirect_header($currentFile, 1, $uploader->getErrors());
             }
         }
@@ -281,14 +283,14 @@ switch ($op) {
             $isANewRecord = false;
             if (_WFDOWNLOADS_AUTOAPPROVE_DOWNLOAD == $helper->getConfig('autoapprove')
                 || _WFDOWNLOADS_AUTOAPPROVE_BOTH == $helper->getConfig('autoapprove')) {
-                $downloadObj = $helper->getHandler('download')->get($lid);
+                $downloadObj = $helper->getHandler('Download')->get($lid);
             } else {
-                $downloadObj = $helper->getHandler('modification')->create();
+                $downloadObj = $helper->getHandler('Modification')->create();
                 $downloadObj->setVar('lid', $lid);
             }
         } else {
             $isANewRecord = true;
-            $downloadObj  = $helper->getHandler('download')->create();
+            $downloadObj  = $helper->getHandler('Download')->create();
             if (_WFDOWNLOADS_AUTOAPPROVE_DOWNLOAD == $helper->getConfig('autoapprove')
                 || _WFDOWNLOADS_AUTOAPPROVE_BOTH == $helper->getConfig('autoapprove')) {
                 $downloadObj->setVar('published', time());
@@ -302,7 +304,7 @@ switch ($op) {
         // Formulize module support (2006/05/04) jpc - start
         if (Wfdownloads\Utility::checkModule('formulize')) {
             // Now that the $downloadObj object has been instantiated, handle the Formulize part of the submission...
-            $categoryObj = $helper->getHandler('category')->get($cid);
+            $categoryObj = $helper->getHandler('Category')->get($cid);
             $fid         = $categoryObj->getVar('formulize_fid');
             if ($fid) {
                 require_once XOOPS_ROOT_PATH . '/modules/formulize/include/formread.php';
@@ -360,7 +362,7 @@ switch ($op) {
             $tags                  = [];
             $tags['FILE_NAME']     = $title;
             $tags['FILE_URL']      = WFDOWNLOADS_URL . "/singlefile.php?cid={$cid}&amp;lid={$lid}";
-            $categoryObj           = $helper->getHandler('category')->get($cid);
+            $categoryObj           = $helper->getHandler('Category')->get($cid);
             $tags['FILE_VERSION']  = $version;
             $tags['CATEGORY_NAME'] = $categoryObj->getVar('title');
             $tags['CATEGORY_URL']  = WFDOWNLOADS_URL . "/viewcat.php?cid={$cid}";
@@ -426,7 +428,7 @@ switch ($op) {
             $downloadObj->setVar('notifypub', $notifypub);
             $downloadObj->setVar('ipaddress', $_SERVER['REMOTE_ADDR']);
 
-            if (!$helper->getHandler('download')->insert($downloadObj)) {
+            if (!$helper->getHandler('Download')->insert($downloadObj)) {
                 $error = _MD_WFDOWNLOADS_INFONOSAVEDB;
                 trigger_error($error, E_USER_ERROR);
             }
@@ -436,7 +438,7 @@ switch ($op) {
             $tags                  = [];
             $tags['FILE_NAME']     = $title;
             $tags['FILE_URL']      = WFDOWNLOADS_URL . "/singlefile.php?cid={$cid}&amp;lid={$newid}";
-            $categoryObj           = $helper->getHandler('category')->get($cid);
+            $categoryObj           = $helper->getHandler('Category')->get($cid);
             $tags['CATEGORY_NAME'] = $categoryObj->getVar('title');
             $tags['CATEGORY_URL']  = WFDOWNLOADS_URL . "/viewcat.php?cid={$cid}";
 
@@ -461,12 +463,12 @@ switch ($op) {
                 $downloadObj->setVar('notifypub', $notifypub);
                 $downloadObj->setVar('ipaddress', $_SERVER['REMOTE_ADDR']);
                 $downloadObj->setVar('updated', time());
-                $helper->getHandler('download')->insert($downloadObj);
+                $helper->getHandler('Download')->insert($downloadObj);
 
                 $tags                  = [];
                 $tags['FILE_NAME']     = $title;
                 $tags['FILE_URL']      = WFDOWNLOADS_URL . "/singlefile.php?cid={$cid}&amp;lid={$lid}";
-                $categoryObj           = $helper->getHandler('category')->get($cid);
+                $categoryObj           = $helper->getHandler('Category')->get($cid);
                 $tags['CATEGORY_NAME'] = $categoryObj->getVar('title');
                 $tags['CATEGORY_URL']  = WFDOWNLOADS_URL . "/viewcat.php?cid={$cid}";
                 $notificationHandler->triggerEvent('global', 0, 'file_modify', $tags);
@@ -476,7 +478,7 @@ switch ($op) {
                 $downloadObj->setVar('updated', $updated);
                 $downloadObj->setVar('modifysubmitter', (int)$GLOBALS['xoopsUser']->uid());
                 $downloadObj->setVar('requestdate', time());
-                if (!$helper->getHandler('modification')->insert($downloadObj)) {
+                if (!$helper->getHandler('Modification')->insert($downloadObj)) {
                     $error = _MD_WFDOWNLOADS_INFONOSAVEDB;
                     trigger_error($error, E_USER_ERROR);
                 }

@@ -34,7 +34,7 @@ class MirrorHandler extends \XoopsPersistableObjectHandler
     /**
      * @access public
      */
-    public $helper = null;
+    public $helper;
 
     /**
      * @param \XoopsDatabase $db

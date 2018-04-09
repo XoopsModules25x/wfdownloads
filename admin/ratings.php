@@ -30,7 +30,7 @@ switch ($op) {
     case 'vote.delete':
         $rid = Request::getInt('rid', 0);
         $lid = Request::getInt('lid', 0);
-        $helper->getHandler('rating')->deleteAll(new \Criteria('ratingid', $rid), true);
+        $helper->getHandler('Rating')->deleteAll(new \Criteria('ratingid', $rid), true);
         Wfdownloads\Utility::updateRating($lid);
         redirect_header($currentFile, 1, _AM_WFDOWNLOADS_VOTEDELETED);
         break;
@@ -42,15 +42,15 @@ switch ($op) {
         $uservotes     = '0';
 
         $criteria      = new \CriteriaCompo();
-        $votes         = $helper->getHandler('rating')->getCount($criteria);
-        $ratings_count = $helper->getHandler('rating')->getCount($criteria);
+        $votes         = $helper->getHandler('Rating')->getCount($criteria);
+        $ratings_count = $helper->getHandler('Rating')->getCount($criteria);
         $criteria->setSort('ratingtimestamp');
         $criteria->setOrder('DESC');
         $criteria->setStart($start);
         $criteria->setLimit(20);
-        $ratingObjs = $helper->getHandler('rating')->getObjects($criteria);
+        $ratingObjs = $helper->getHandler('Rating')->getObjects($criteria);
 
-        $useravgrating = $helper->getHandler('rating')->getUserAverage();
+        $useravgrating = $helper->getHandler('Rating')->getUserAverage();
         $useravgrating = number_format($useravgrating['avg'], 2);
 
         Wfdownloads\Utility::getCpHeader();
@@ -64,7 +64,7 @@ switch ($op) {
             foreach ($ratingObjs as $ratingObj) {
                 $lids[] = $ratingObj->getVar('lid');
             }
-            $downloads = $helper->getHandler('download')->getObjects(new \Criteria('lid', '(' . implode(',', array_unique($lids)) . ')', 'IN'), true);
+            $downloads = $helper->getHandler('Download')->getObjects(new \Criteria('lid', '(' . implode(',', array_unique($lids)) . ')', 'IN'), true);
             foreach ($ratingObjs as $ratingObj) {
                 $rating_array                    = $ratingObj->toArray();
                 $rating_array['formatted_date']  = formatTimestamp($ratingObj->getVar('ratingtimestamp'), 'l');

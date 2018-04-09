@@ -243,6 +243,7 @@ switch ($op) {
  */
 function import_wfd_to_wfdownloads()
 {
+    /** @var \XoopsModuleHandler $moduleHandler */
     $moduleHandler = xoops_getHandler('module');
     // Get source module/config
     $wfdDirname = 'wf' . 'downloads'; // don't modify, is for cloning
@@ -251,8 +252,9 @@ function import_wfd_to_wfdownloads()
         $configHandler   = xoops_getHandler('config');
         $wfdModuleConfig = $configHandler->getConfigsByCat(0, $wfdModule->mid());
     }
-    $wfdCategoriesHandler = xoops_getModuleHandler('category', $wfdDirname);
-    $wfdDownloadsHandler  = xoops_getModuleHandler('download', $wfdDirname);
+    $categoriesHandler = xoops_getModuleHandler('category', $wfdDirname);
+    /** @var Wfdownloads\DownloadHandler $wfdDownloadsHandler */
+    $wfdDownloadsHandler = xoops_getModuleHandler('download', $wfdDirname);
 
     // Get destination module/handlers/configs
     $helper = Wfdownloads\Helper::getInstance();

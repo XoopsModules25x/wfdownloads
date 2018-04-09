@@ -29,12 +29,12 @@ require_once __DIR__ . '/header.php';
 $grouppermHandler = xoops_getHandler('groupperm');
 
 $lid         = Request::getInt('lid', 0);
-$downloadObj = $helper->getHandler('download')->get($lid);
+$downloadObj = $helper->getHandler('Download')->get($lid);
 if (null === $downloadObj) {
     redirect_header('index.php', 3, _CO_WFDOWNLOADS_ERROR_NODOWNLOAD);
 }
 $cid         = Request::getInt('cid', $downloadObj->getVar('cid'));
-$categoryObj = $helper->getHandler('category')->get($cid);
+$categoryObj = $helper->getHandler('Category')->get($cid);
 if (null === $categoryObj) {
     redirect_header('index.php', 3, _CO_WFDOWNLOADS_ERROR_NOCATEGORY);
 }
@@ -98,8 +98,8 @@ $xoopsTpl->assign('category_title', $categoryObj->getVar('title'));
 $xoopsTpl->assign('category_image', $imgurl);
 
 // Retreiving the top parent category
-$categoriesTopParentByCid = $helper->getHandler('category')->getAllSubcatsTopParentCid();
-$topCategoryObj           = $helper->getHandler('category')->get($categoriesTopParentByCid[$cid]);
+$categoriesTopParentByCid = $helper->getHandler('Category')->getAllSubcatsTopParentCid();
+$topCategoryObj           = $helper->getHandler('Category')->get($categoriesTopParentByCid[$cid]);
 
 $xoopsTpl->assign('topcategory_title', $topCategoryObj->getVar('title'));
 $xoopsTpl->assign('topcategory_image', $topCategoryObj->getVar('imgurl'));
@@ -207,7 +207,7 @@ if (1 == $helper->getConfig('screenshot')) {
 
 // Breadcrumb
 require_once XOOPS_ROOT_PATH . '/class/tree.php';
-$categoryObjsTree = new Wfdownloads\ObjectTree($helper->getHandler('category')->getObjects(), 'cid', 'pid');
+$categoryObjsTree = new Wfdownloads\ObjectTree($helper->getHandler('Category')->getObjects(), 'cid', 'pid');
 $breadcrumb       = new common\Breadcrumb();
 $breadcrumb->addLink($helper->getModule()->getVar('name'), WFDOWNLOADS_URL);
 foreach (array_reverse($categoryObjsTree->getAllParent($cid)) as $parentCategory) {
@@ -223,7 +223,7 @@ $downloadByUserCriteria->add(new \Criteria('lid', $lid, '!='));
 $downloadByUserCriteria->setLimit(20);
 $downloadByUserCriteria->setSort('published');
 $downloadByUserCriteria->setOrder('DESC');
-$downloadByUserObjs = $helper->getHandler('download')->getActiveDownloads($downloadByUserCriteria);
+$downloadByUserObjs = $helper->getHandler('Download')->getActiveDownloads($downloadByUserCriteria);
 foreach ($downloadByUserObjs as $downloadByUserObj) {
     $downloadByUser['title']     = $downloadByUserObj->getVar('title');
     $downloadByUser['lid']       = (int)$downloadByUserObj->getVar('lid');
@@ -239,7 +239,7 @@ $lid = (int)$downloadObj->getVar('lid');
 // User reviews
 $criteria = new \CriteriaCompo(new \Criteria('lid', $lid));
 $criteria->add(new \Criteria('submit', 1));
-$reviewCount = $helper->getHandler('review')->getCount($criteria);
+$reviewCount = $helper->getHandler('Review')->getCount($criteria);
 if ($reviewCount > 0) {
     $user_reviews = "op=list&amp;cid={$cid}&amp;lid={$lid}\">" . _MD_WFDOWNLOADS_USERREVIEWS;
 } else {
@@ -253,7 +253,7 @@ $xoopsTpl->assign('review_amount', $reviewCount);
 $downloadInfo['add_mirror'] = $add_mirror;
 $criteria                   = new \CriteriaCompo(new \Criteria('lid', $lid));
 $criteria->add(new \Criteria('submit', 1));
-$mirrorCount = $helper->getHandler('mirror')->getCount($criteria);
+$mirrorCount = $helper->getHandler('Mirror')->getCount($criteria);
 if ($mirrorCount > 0) {
     $user_mirrors = "op=list&amp;cid={$cid}&amp;lid={$lid}\">" . _MD_WFDOWNLOADS_USERMIRRORS;
 } else {

@@ -26,6 +26,7 @@ $currentFile = basename(__FILE__);
 require_once __DIR__ . '/admin_header.php';
 xoops_load('XoopsLocal');
 xoops_load('XoopsUserUtility');
+/** @var \XoopsNotificationHandler $notificationHandler */
 $notificationHandler = xoops_getHandler('notification');
 
 $helper       = Wfdownloads\Helper::getInstance();
@@ -62,13 +63,13 @@ switch ($op) {
 
         $lid = Request::getInt('lid', 0);
 
-        $categoriesCount = $helper->getHandler('category')->getCount();
+        $categoriesCount = $helper->getHandler('Category')->getCount();
         if ($categoriesCount) {
             // Allowed mimetypes list
             echo "<fieldset><legend style='font-weight: bold; color: #900;'>" . _AM_WFDOWNLOADS_FILE_ALLOWEDAMIME . "</legend>\n";
             echo "<div style='padding: 8px;'>\n";
             $criteria       = new \Criteria('mime_admin', true);
-            $mimetypes      = $helper->getHandler('mimetype')->getList($criteria);
+            $mimetypes      = $helper->getHandler('Mimetype')->getList($criteria);
             $allowMimetypes = implode(' | ', $mimetypes);
             echo $allowMimetypes;
             echo "</div>\n";
@@ -76,11 +77,11 @@ switch ($op) {
 
             if ($lid) {
                 // edit download
-                if (!$downloadObj = $helper->getHandler('download')->get($lid)) {
+                if (!$downloadObj = $helper->getHandler('Download')->get($lid)) {
                     redirect_header($currentFile, 4, _AM_WFDOWNLOADS_DOWN_ERROR_FILENOTFOUND);
                 }
                 $cid = $downloadObj->getVar('cid');
-                if (!$categoryObj = $helper->getHandler('category')->get($cid)) {
+                if (!$categoryObj = $helper->getHandler('Category')->get($cid)) {
                     redirect_header($currentFile, 4, _AM_WFDOWNLOADS_DOWN_ERROR_CATEGORYNOTFOUND);
                 }
                 $title   = preg_replace('/{category}/', $categoryObj->getVar('title'), _AM_WFDOWNLOADS_FILE_EDIT);
@@ -88,9 +89,10 @@ switch ($op) {
                 $title22 = preg_replace('/{category}/', $categoryObj->getVar('title'), _AM_WFDOWNLOADS_FFS_EDITDOWNLOADTITLE);
             } else {
                 // create download
-                $downloadObj = $helper->getHandler('download')->create();
+                /** @var Wfdownloads\Download $downloadObj */
+                $downloadObj = $helper->getHandler('Download')->create();
                 $cid         = Request::getInt('cid', 0, 'POST');
-                $categoryObj = $helper->getHandler('category')->get($cid);
+                $categoryObj = $helper->getHandler('Category')->get($cid);
                 $downloadObj->setVar('cid', $cid);
                 $title   = preg_replace('/{category}/', $categoryObj->getVar('title'), _AM_WFDOWNLOADS_FILE_CREATE);
                 $title12 = preg_replace('/{category}/', $categoryObj->getVar('title'), _AM_WFDOWNLOADS_FFS_1STEP);
@@ -137,18 +139,18 @@ switch ($op) {
 
         // Vote data list/manager
         if ($lid) {
-            $ratingCount = $helper->getHandler('rating')->getCount();
+            $ratingCount = $helper->getHandler('Rating')->getCount();
 
             $regUserCriteria = new \CriteriaCompo(new \Criteria('lid', $lid));
             $regUserCriteria->add(new \Criteria('ratinguser', 0, '>'));
-            $regUserRatingCount = $helper->getHandler('rating')->getCount($regUserCriteria);
+            $regUserRatingCount = $helper->getHandler('Rating')->getCount($regUserCriteria);
             $regUserCriteria->setSort('ratingtimestamp');
             $regUserCriteria->setOrder('DESC');
-            $regUserRatingObjs = $helper->getHandler('rating')->getObjects($regUserCriteria);
+           $regUserRatingObjs = $helper->getHandler('Rating')->getObjects($regUserCriteria);
 
             $anonUserCriteria = new \CriteriaCompo(new \Criteria('lid', $lid));
             $anonUserCriteria->add(new \Criteria('ratinguser', 0, '='));
-            $anonUserRatingCount = $helper->getHandler('rating')->getCount($anonUserCriteria);
+            $anonUserRatingCount = $helper->getHandler('Rating')->getCount($anonUserCriteria);
             $anonUserCriteria->setSort('ratingtimestamp');
             $anonUserCriteria->setOrder('DESC');
 
@@ -184,7 +186,7 @@ switch ($op) {
 
                 $criteria = new \Criteria('ratinguser', '(' . implode(',', $uids) . ')', 'IN');
                 $criteria->setGroupBy('ratinguser');
-                $userRatings = $helper->getHandler('rating')->getUserAverage($criteria);
+                $userRatings = $helper->getHandler('Rating')->getUserAverage($criteria);
 
                 foreach ($regUserRatingObjs as $regUserRatingObj) {
                     $formatted_date = formatTimestamp($regUserRatingObj->getVar('ratingtimestamp'), 'l');
@@ -223,8 +225,8 @@ switch ($op) {
                 echo "<tr><td colspan='7' class='even'><b>" . _AM_WFDOWNLOADS_VOTE_NOUNREGVOTES . '</b></td></tr>';
             } else {
                 $criteria           = new \Criteria('ratinguser', 0);
-                $userRatings        = $helper->getHandler('rating')->getUserAverage($criteria);
-                $anonUserRatingObjs = $helper->getHandler('rating')->getObjects($anonUserCriteria);
+                $userRatings        = $helper->getHandler('Rating')->getUserAverage($criteria);
+                $anonUserRatingObjs = $helper->getHandler('Rating')->getObjects($anonUserCriteria);
 
                 foreach (array_keys($anonUserRatingObjs) as $anonUserRatingObj) {
                     $formatted_date = formatTimestamp($anonUserRatingObj->getVar('ratingtimestamp'), 'l');
@@ -260,10 +262,10 @@ switch ($op) {
 
         if ($lid > 0) {
             $thisIsANewRecord = false; /* Added by Lankford on 2007/3/21 */
-            $downloadObj      = $helper->getHandler('download')->get($lid);
+            $downloadObj      = $helper->getHandler('Download')->get($lid);
         } else {
             $thisIsANewRecord = true; /* Added by Lankford on 2007/3/21 */
-            $downloadObj      = $helper->getHandler('download')->create();
+            $downloadObj      = $helper->getHandler('Download')->create();
         }
         // Define URL
         if (empty($_FILES['userfile']['name'])) {
@@ -323,7 +325,7 @@ switch ($op) {
             $tags                  = [];
             $tags['FILE_NAME']     = $title;
             $tags['FILE_URL']      = WFDOWNLOADS_URL . "/singlefile.php?cid={$cid}&amp;lid={$lid}";
-            $categoryObj           = $helper->getHandler('category')->get($cid);
+            $categoryObj           = $helper->getHandler('Category')->get($cid);
             $tags['FILE_VERSION']  = $version;
             $tags['CATEGORY_NAME'] = $categoryObj->getVar('title');
             $tags['CATEGORY_URL']  = WFDOWNLOADS_URL . "/viewcat.php?cid='{$cid}";
@@ -424,7 +426,7 @@ switch ($op) {
             $downloadObj->setVar('ipaddress', $_SERVER['REMOTE_ADDR']);
         }
 
-        $categoryObj = $helper->getHandler('category')->get($cid);
+        $categoryObj = $helper->getHandler('Category')->get($cid);
 
         // Formulize module support (2006/05/04) jpc - start
         if (Wfdownloads\Utility::checkModule('formulize')) {
@@ -462,7 +464,7 @@ switch ($op) {
             }
         }
         // Formulize module support (2006/05/04) jpc - end
-        $helper->getHandler('download')->insert($downloadObj);
+        $helper->getHandler('Download')->insert($downloadObj);
         $newid = (int)$downloadObj->getVar('lid');
         // Send notifications
         if (!$lid) {
@@ -478,7 +480,7 @@ switch ($op) {
             $tags                  = [];
             $tags['FILE_NAME']     = $title;
             $tags['FILE_URL']      = WFDOWNLOADS_URL . "/singlefile.php?cid={$cid}&amp;lid={$lid}";
-            $categoryObj           = $helper->getHandler('category')->get($cid);
+            $categoryObj           = $helper->getHandler('Category')->get($cid);
             $tags['CATEGORY_NAME'] = $categoryObj->getVar('title');
             $tags['CATEGORY_URL']  = WFDOWNLOADS_URL . '/viewcat.php?cid=' . $cid;
             $notificationHandler->triggerEvent('global', 0, 'new_file', $tags);
@@ -494,7 +496,7 @@ switch ($op) {
     case 'download.delete':
         $lid = Request::getInt('lid', 0);
         $ok  = Request::getBool('ok', false, 'POST');
-        if (!$downloadObj = $helper->getHandler('download')->get($lid)) {
+        if (!$downloadObj = $helper->getHandler('Download')->get($lid)) {
             redirect_header($currentFile, 4, _AM_WFDOWNLOADS_ERROR_DOWNLOADNOTFOUND);
         }
         $title = $downloadObj->getVar('title');
@@ -504,10 +506,14 @@ switch ($op) {
             }
             $file = $helper->getConfig('uploaddir') . '/' . $downloadObj->getVar('filename');
             if (is_file($file)) {
-                @chmod($file, 0777);
-                @unlink($file);
+                if (@chmod($file, 0777) === false) {
+                    throw new \RuntimeException('The file mode for '.$file.' could not be changed.');
+                }
+                if (@unlink($file) === false) {
+                    throw new \RuntimeException('The file '.$file.' could not be deleted.');
+                }
             }
-            if ($helper->getHandler('download')->delete($downloadObj)) {
+            if ($helper->getHandler('Download')->delete($downloadObj)) {
                 redirect_header($currentFile, 1, sprintf(_AM_WFDOWNLOADS_FILE_FILEWASDELETED, $title));
             } else {
                 echo $downloadObj->getHtmlErrors();
@@ -521,8 +527,8 @@ switch ($op) {
 
     case 'vote.delete':
     case 'delVote':
-        $ratingObj = $helper->getHandler('rating')->get($_GET['rid']);
-        if ($helper->getHandler('rating')->delete($ratingObj, true)) {
+        $ratingObj = $helper->getHandler('Rating')->get($_GET['rid']);
+        if ($helper->getHandler('Rating')->delete($ratingObj, true)) {
             Wfdownloads\Utility::updateRating((int)$ratingObj->getVar('lid'));
         }
         redirect_header($currentFile, 1, _AM_WFDOWNLOADS_VOTE_VOTEDELETED);
@@ -552,20 +558,20 @@ switch ($op) {
     case 'newdownload.approve':
     case 'approve':
         $lid = Request::getInt('lid', 0);
-        if (!$downloadObj = $helper->getHandler('download')->get($lid)) {
+        if (!$downloadObj = $helper->getHandler('Download')->get($lid)) {
             redirect_header($currentFile, 4, _AM_WFDOWNLOADS_ERROR_DOWNLOADNOTFOUND);
         }
         // Update the database
         $downloadObj->setVar('published', time());
         $downloadObj->setVar('status', _WFDOWNLOADS_STATUS_APPROVED);
-        if (!$helper->getHandler('download')->insert($downloadObj, true)) {
+        if (!$helper->getHandler('Download')->insert($downloadObj, true)) {
             echo $downloadObj->getHtmlErrors();
             exit();
         }
         // Trigger notify
         $title                 = $downloadObj->getVar('title');
         $cid                   = $downloadObj->getVar('cid');
-        $categoryObj           = $helper->getHandler('category')->get($cid);
+        $categoryObj           = $helper->getHandler('Category')->get($cid);
         $tags                  = [];
         $tags['FILE_NAME']     = $title;
         $tags['FILE_URL']      = WFDOWNLOADS_URL . "/singlefile.php?cid={$cid}&amp;lid={$lid}";
@@ -599,7 +605,7 @@ switch ($op) {
 
         require_once XOOPS_ROOT_PATH . '/class/pagenav.php';
 
-        $categoryObjs = $helper->getHandler('category')->getObjects();
+        $categoryObjs = $helper->getHandler('Category')->getObjects();
 
         $start_published     = Request::getInt('start_published', 0);
         $start_new           = Request::getInt('start_new', 0);
@@ -608,9 +614,9 @@ switch ($op) {
         $start_offline       = Request::getInt('start_offline', 0);
 
         $totalCategoriesCount = Wfdownloads\Utility::categoriesCount();
-        $categoryObjs         = $helper->getHandler('category')->getObjects(null, true, false);
+        $categoryObjs         = $helper->getHandler('Category')->getObjects(null, true, false);
 
-        $totalDownloadsCount = $helper->getHandler('download')->getCount();
+        $totalDownloadsCount = $helper->getHandler('Download')->getCount();
 //    $totalDownloadsCount = $downloadHandler->getCount();
 
         Wfdownloads\Utility::getCpHeader();
@@ -636,10 +642,10 @@ switch ($op) {
                 // Evaluate cid criteria
                 if ('' != $filter_category_title) {
                     if ('LIKE' === $filter_category_title_condition) {
-                        $cids = $helper->getHandler('category')->getIds(new \Criteria('title', "%{$filter_category_title}%", 'LIKE'));
+                        $cids = $helper->getHandler('Category')->getIds(new \Criteria('title', "%{$filter_category_title}%", 'LIKE'));
                         $criteria->add(new \Criteria('cid', '(' . implode(',', $cids) . ')', 'IN'));
                     } else {
-                        $cids = $helper->getHandler('category')->getIds(new \Criteria('title', $filter_category_title, '='));
+                        $cids = $helper->getHandler('Category')->getIds(new \Criteria('title', $filter_category_title, '='));
                         $criteria->add(new \Criteria('cid', '(' . implode(',', $cids) . ')', 'IN'));
                     }
                 }
@@ -657,8 +663,8 @@ switch ($op) {
             $criteria->setOrder('DESC');
             $criteria->setStart($start_published);
             $criteria->setLimit($helper->getConfig('admin_perpage'));
-            $publishedDownloadObjs  = $helper->getHandler('download')->getActiveDownloads($criteria);
-            $publishedDownloadCount = $helper->getHandler('download')->getActiveCount();
+            $publishedDownloadObjs  = $helper->getHandler('Download')->getActiveDownloads($criteria);
+            $publishedDownloadCount = $helper->getHandler('Download')->getActiveCount();
             $GLOBALS['xoopsTpl']->assign('published_downloads_count', $publishedDownloadCount);
 
             if ($publishedDownloadCount > 0) {
@@ -678,7 +684,7 @@ switch ($op) {
             $GLOBALS['xoopsTpl']->assign('filter_category_title', $filter_category_title);
             $GLOBALS['xoopsTpl']->assign('filter_category_title_condition', $filter_category_title_condition);
             $submitters                = [];
-            $downloadsSubmitters_array = $helper->getHandler('download')->getAll(null, ['submitter'], false, false);
+            $downloadsSubmitters_array = $helper->getHandler('Download')->getAll(null, ['submitter'], false, false);
             foreach ($downloadsSubmitters_array as $downloadSubmitters_array) {
                 $submitters[$downloadSubmitters_array['submitter']] = \XoopsUserUtility::getUnameFromId($downloadSubmitters_array['submitter']);
             }
@@ -697,8 +703,8 @@ switch ($op) {
             $criteria->add(new \Criteria('published', 0));
             $criteria->setStart($start_new);
             $criteria->setLimit($helper->getConfig('admin_perpage'));
-            $newDownloadObjs  = $helper->getHandler('download')->getObjects($criteria);
-            $newDownloadCount = $helper->getHandler('download')->getCount($criteria);
+            $newDownloadObjs  = $helper->getHandler('Download')->getObjects($criteria);
+            $newDownloadCount = $helper->getHandler('Download')->getCount($criteria);
             $GLOBALS['xoopsTpl']->assign('new_downloads_count', $newDownloadCount);
             if ($newDownloadCount > 0) {
                 foreach ($newDownloadObjs as $newDownloadObj) {
@@ -729,8 +735,8 @@ switch ($op) {
             $criteria->setOrder('ASC');
             $criteria->setStart($start_autopublished);
             $criteria->setLimit($helper->getConfig('admin_perpage'));
-            $autopublishedDownloadObjs  = $helper->getHandler('download')->getObjects($criteria);
-            $autopublishedDownloadCount = $helper->getHandler('download')->getCount($criteria);
+            $autopublishedDownloadObjs  = $helper->getHandler('Download')->getObjects($criteria);
+            $autopublishedDownloadCount = $helper->getHandler('Download')->getCount($criteria);
             $GLOBALS['xoopsTpl']->assign('autopublished_downloads_count', $autopublishedDownloadCount);
             if ($autopublishedDownloadCount > 0) {
                 foreach ($autopublishedDownloadObjs as $autopublishedDownloadObj) {
@@ -753,8 +759,8 @@ switch ($op) {
             $criteria->setOrder('ASC');
             $criteria->setStart($start_expired);
             $criteria->setLimit($helper->getConfig('admin_perpage'));
-            $expiredDownloadObjs  = $helper->getHandler('download')->getObjects($criteria);
-            $expiredDownloadCount = $helper->getHandler('download')->getCount($criteria);
+            $expiredDownloadObjs  = $helper->getHandler('Download')->getObjects($criteria);
+            $expiredDownloadCount = $helper->getHandler('Download')->getCount($criteria);
             $GLOBALS['xoopsTpl']->assign('expired_downloads_count', $expiredDownloadCount);
             if ($expiredDownloadCount > 0) {
                 foreach ($expiredDownloadObjs as $expiredDownloadObj) {
@@ -775,8 +781,8 @@ switch ($op) {
             $criteria->setOrder('ASC');
             $criteria->setStart($start_offline);
             $criteria->setLimit($helper->getConfig('admin_perpage'));
-            $offlineDownloadObjs  = $helper->getHandler('download')->getObjects($criteria);
-            $offlineDownloadCount = $helper->getHandler('download')->getCount($criteria);
+            $offlineDownloadObjs  = $helper->getHandler('Download')->getObjects($criteria);
+            $offlineDownloadCount = $helper->getHandler('Download')->getCount($criteria);
             $GLOBALS['xoopsTpl']->assign('offline_downloads_count', $offlineDownloadCount);
             if ($offlineDownloadCount > 0) {
                 foreach ($offlineDownloadObjs as $offlineDownloadObj) {
@@ -840,7 +846,7 @@ switch ($op) {
             redirect_header($currentFile, 4, _AM_WFDOWNLOADS_ERROR_BATCHFILENOTCOPIED);
         }
 
-        $downloadObj = $helper->getHandler('download')->create();
+        $downloadObj = $helper->getHandler('Download')->create();
         $downloadObj->setVar('title', $batchFile);
         $downloadObj->setVar('filename', $savedFileName);
         $downloadObj->setVar('size', filesize($helper->getConfig('uploaddir') . '/' . $savedFileName));
@@ -853,7 +859,7 @@ switch ($op) {
         $downloadObj->setVar('submitter', $GLOBALS['xoopsUser']->getVar('uid', 'e'));
         $downloadObj->setVar('publisher', $GLOBALS['xoopsUser']->getVar('uid', 'e'));
 
-        if (!$helper->getHandler('download')->insert($downloadObj)) {
+        if (!$helper->getHandler('Download')->insert($downloadObj)) {
             Wfdownloads\Utility::delFile($helper->getConfig('uploaddir') . '/' . $savedFileName);
             redirect_header($currentFile, 4, _AM_WFDOWNLOADS_ERROR_BATCHFILENOTADDED);
         }
@@ -915,7 +921,7 @@ switch ($op) {
 
         // Get download info
         if (0 != $lid) {
-            $downloadObj                 = $helper->getHandler('download')->get($lid);
+            $downloadObj                 = $helper->getHandler('Download')->get($lid);
             $download_array              = $downloadObj->toArray();
             $download_array['log_title'] = sprintf(_AM_WFDOWNLOADS_LOG_FOR_LID, $download_array['title']);
             $GLOBALS['xoopsTpl']->assign('download', $download_array);

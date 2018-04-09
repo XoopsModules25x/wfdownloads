@@ -56,21 +56,13 @@ function xoops_module_pre_update_wfdownloads(\XoopsModule $module)
     $xoopsSuccess = $utility::checkVerXoops($module);
     $phpSuccess   = $utility::checkVerPhp($module);
 
-
+//TODO Migration
 //    XoopsLoad::load('migrate', 'newbb');
-    $newbbMigrate = new Wfdownloads\Migrate();
-    $newbbMigrate->synchronizeSchema();
 
-    return true;
-
-
-
-
-
-
-
-
-
+//    $newbbMigrate = new Wfdownloads\Migrate();
+//    $newbbMigrate->synchronizeSchema();
+//
+//    return true;
 
 
 
@@ -265,6 +257,7 @@ function update_tables_to_323(\XoopsModule $module)
     //    "old_name" => "new_name"
     //);
     echo "<br><span style='font-weight: bold;'>Checking Download table</span><br>";
+    /** @var Wfdownloads\DownloadHandler $downloadHandler */
     $downloadHandler = xoops_getModuleHandler('download', 'wfdownloads');
     $download_table  = new Wfdownloads\DbupdaterTable('wfdownloads_downloads');
     $fields          = get_table_info($downloadHandler->table, $download_fields);
@@ -371,10 +364,12 @@ function update_tables_to_323(\XoopsModule $module)
  */
 function update_permissions_to_323(\XoopsModule $module)
 {
+    /** @var \XoopsGroupPermHandler $grouppermHandler */
     $grouppermHandler         = xoops_getHandler('groupperm');
-    $wfdCategoriesHandler = xoops_getModuleHandler('category', $module->dirname());
+    /** @var Wfdownloads\CategoryHandler $categoriesHandler */
+    $categoriesHandler = xoops_getModuleHandler('category', $module->dirname());
 
-    $cids = $wfdCategoriesHandler->getIds();
+    $cids = $categoriesHandler->getIds();
     if (count($cids) > 0) {
         echo "<br><span style='font-weight: bold;'>Adding upload permissions to categories</span><br>";
         foreach ($cids as $cid) {
@@ -595,9 +590,9 @@ function update_tables_to_322($module)
         'formulize_fid' => ['Type' => "int(5) NOT NULL default '0'", 'Default' => true]
     ];
     echo "<br><span style='font-weight: bold;'>Checking Category table</span><br>";
-    $wfdCategoriesHandler = xoops_getModuleHandler('category', 'wfdownloads');
+    $categoriesHandler = xoops_getModuleHandler('category', 'wfdownloads');
     $cat_table            = new Wfdownloads\DbupdaterTable('wfdownloads_cat');
-    $fields               = get_table_info($wfdCategoriesHandler->table, $cat_fields);
+    $fields               = get_table_info($categoriesHandler->table, $cat_fields);
     update_table($cat_fields, $fields, $cat_table);
     if ($dbupdater->updateTable($cat_table)) {
         echo 'Category table updated<br>';
@@ -636,8 +631,8 @@ function update_tables_to_322($module)
 function invert_nohtm_dohtml_values()
 {
     $ret                  = [];
-    $wfdCategoriesHandler = xoops_getModuleHandler('category', 'wfdownloads');
-    $result               = $GLOBALS['xoopsDB']->query('SHOW COLUMNS FROM ' . $wfdCategoriesHandler->table);
+    $categoriesHandler = xoops_getModuleHandler('category', 'wfdownloads');
+    $result               = $GLOBALS['xoopsDB']->query('SHOW COLUMNS FROM ' . $categoriesHandler->table);
     while (false !== ($existing_field = $GLOBALS['xoopsDB']->fetchArray($result))) {
         $fields[$existing_field['Field']] = $existing_field['Type'];
     }

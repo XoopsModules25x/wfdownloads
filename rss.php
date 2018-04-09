@@ -35,7 +35,7 @@ $xoopsTpl = new \XoopsTpl();
 
 // Find case
 $case        = 'all';
-$categoryObj = $helper->getHandler('category')->get(\Xmf\Request::getInt('cid', 0, 'REQUEST'));
+$categoryObj = $helper->getHandler('Category')->get(\Xmf\Request::getInt('cid', 0, 'REQUEST'));
 
 $groups = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : [0 => XOOPS_GROUP_ANONYMOUS];
 
@@ -81,7 +81,7 @@ if (!$xoopsTpl->is_cached('db:' . $xoopsOption['template_main'], $cache_prefix))
             $channel_url = XOOPS_URL . '/modules/' . $helper->getModule()->getVat('dirname') . '/rss.php';
 
             $criteria->add(new \Criteria('cid', '(' . implode(',', $allowedDownCategoriesIds) . ')', 'IN'));
-            $downloadObjs = $helper->getHandler('download')->getObjects($criteria);
+            $downloadObjs = $helper->getHandler('Download')->getObjects($criteria);
             $id           = 0;
             break;
 
@@ -92,7 +92,7 @@ if (!$xoopsTpl->is_cached('db:' . $xoopsOption['template_main'], $cache_prefix))
             $channel_url = XOOPS_URL . '/modules/' . $helper->getModule()->getVat('dirname') . '/rss.php?cid=' . (int)$categoryObj->getVar('cid');
 
             $criteria->add(new \Criteria('cid', (int)$categoryObj->getVar('cid')));
-            $downloadObjs = $helper->getHandler('download')->getObjects($criteria);
+            $downloadObjs = $helper->getHandler('Download')->getObjects($criteria);
             $id           = $categoryObj->getVar('categoryid');
             break;
     }

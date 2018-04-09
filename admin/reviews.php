@@ -25,6 +25,8 @@ use XoopsModules\Wfdownloads;
 $currentFile = basename(__FILE__);
 require_once __DIR__ . '/admin_header.php';
 xoops_load('XoopsUserUtility');
+
+/** @var \XoopsMemberHandler $memberHandler */
 $memberHandler = xoops_getHandler('member');
 
 $op = Request::getString('op', 'reviews.list');
@@ -32,14 +34,14 @@ switch ($op) {
     case 'review.delete':
         $review_id = Request::getInt('review_id', 0);
         $ok        = Request::getBool('ok', false, 'POST');
-        if (!$reviewObj = $helper->getHandler('review')->get($review_id)) {
+        if (!$reviewObj = $helper->getHandler('Review')->get($review_id)) {
             redirect_header($currentFile, 4, _AM_WFDOWNLOADS_ERROR_REVIEWNOTFOUND);
         }
         if (true === $ok) {
             if (!$GLOBALS['xoopsSecurity']->check()) {
                 redirect_header($currentFile, 3, implode(',', $GLOBALS['xoopsSecurity']->getErrors()));
             }
-            if ($helper->getHandler('review')->delete($reviewObj)) {
+            if ($helper->getHandler('Review')->delete($reviewObj)) {
                 redirect_header($currentFile, 1, sprintf(_AM_WFDOWNLOADS_FILE_FILEWASDELETED, $reviewObj->getVar('title')));
             } else {
                 echo $reviewObj->getHtmlErrors();
@@ -55,12 +57,12 @@ switch ($op) {
     case 'review.approve':
         $review_id = Request::getInt('review_id', 0);
         $ok        = Request::getBool('ok', false, 'POST');
-        if (!$reviewObj = $helper->getHandler('review')->get($review_id)) {
+        if (!$reviewObj = $helper->getHandler('Review')->get($review_id)) {
             redirect_header($currentFile, 4, _AM_WFDOWNLOADS_ERROR_REVIEWNOTFOUND);
         }
         if (true === $ok) {
             $reviewObj->setVar('submit', 1); // true
-            $helper->getHandler('review')->insert($reviewObj);
+            $helper->getHandler('Review')->insert($reviewObj);
             redirect_header($currentFile, 1, sprintf(_AM_WFDOWNLOADS_REV_REVIEW_UPDATED, $reviewObj->getVar('title')));
         } else {
             Wfdownloads\Utility::getCpHeader();
@@ -71,7 +73,7 @@ switch ($op) {
 
     case 'review.edit':
         $review_id = Request::getInt('review_id', 0);
-        if (!$reviewObj = $helper->getHandler('review')->get($review_id)) {
+        if (!$reviewObj = $helper->getHandler('Review')->get($review_id)) {
             redirect_header($currentFile, 4, _AM_WFDOWNLOADS_ERROR_REVIEWNOTFOUND);
         }
         Wfdownloads\Utility::getCpHeader();
@@ -84,14 +86,14 @@ switch ($op) {
 
     case 'review.save':
         $review_id = Request::getInt('review_id', 0);
-        if (!$reviewObj = $helper->getHandler('review')->get($review_id)) {
+        if (!$reviewObj = $helper->getHandler('Review')->get($review_id)) {
             redirect_header($currentFile, 4, _AM_WFDOWNLOADS_ERROR_REVIEWNOTFOUND);
         }
         $reviewObj->setVar('title', trim($_POST['title']));
         $reviewObj->setVar('review', trim($_POST['review']));
         $reviewObj->setVar('rated', \Xmf\Request::getInt('rated', 0, 'POST'));
         $reviewObj->setVar('submit', \Xmf\Request::getInt('approve', 0, 'POST'));
-        $helper->getHandler('review')->insert($reviewObj);
+        $helper->getHandler('Review')->insert($reviewObj);
         redirect_header($currentFile, 1, _AM_WFDOWNLOADS_REV_REVIEW_UPDATED);
         break;
 
@@ -101,20 +103,20 @@ switch ($op) {
         $start_published = Request::getInt('start_published', 0);
 
         $criteria_waiting = new \Criteria('submit', 0); // false
-        $waiting_count    = $helper->getHandler('review')->getCount($criteria_waiting);
+        $waiting_count    = $helper->getHandler('Review')->getCount($criteria_waiting);
         $criteria_waiting->setSort('date');
         $criteria_waiting->setOrder('DESC');
         $criteria_waiting->setLimit($helper->getConfig('admin_perpage'));
         $criteria_waiting->setStart($start_waiting);
-        $reviews_waiting = $helper->getHandler('review')->getObjects($criteria_waiting);
+        $reviews_waiting = $helper->getHandler('Review')->getObjects($criteria_waiting);
 
         $criteria_published = new \Criteria('submit', 1); // true
-        $published_count    = $helper->getHandler('review')->getCount($criteria_published);
+        $published_count    = $helper->getHandler('Review')->getCount($criteria_published);
         $criteria_published->setSort('date');
         $criteria_published->setOrder('DESC');
         $criteria_published->setLimit($helper->getConfig('admin_perpage'));
         $criteria_published->setStart($start_published);
-        $reviews_published = $helper->getHandler('review')->getObjects($criteria_published);
+        $reviews_published = $helper->getHandler('Review')->getObjects($criteria_published);
 
         Wfdownloads\Utility::getCpHeader();
         $adminObject = \Xmf\Module\Admin::getInstance();
@@ -129,7 +131,7 @@ switch ($op) {
                 $uids_waiting[] = $review_waiting->getVar('uid');
             }
             if (isset($lids_waiting)) {
-                $downloads = $helper->getHandler('download')->getObjects(new \Criteria('lid', '(' . implode(',', array_unique($lids_waiting)) . ')', 'IN'), true, false);
+                $downloads = $helper->getHandler('Download')->getObjects(new \Criteria('lid', '(' . implode(',', array_unique($lids_waiting)) . ')', 'IN'), true, false);
             }
             if (isset($uids_waiting)) {
                 $users = $memberHandler->getUserList(new \Criteria('uid', '(' . implode(',', $uids_waiting) . ')'));
@@ -155,7 +157,7 @@ switch ($op) {
                 $uids_published[] = $review_published->getVar('uid');
             }
             if (isset($lids_published)) {
-                $downloads = $helper->getHandler('download')->getObjects(new \Criteria('lid', '(' . implode(',', array_unique($lids_published)) . ')', 'IN'), true, false);
+                $downloads = $helper->getHandler('Download')->getObjects(new \Criteria('lid', '(' . implode(',', array_unique($lids_published)) . ')', 'IN'), true, false);
             }
             if (isset($uids_published)) {
                 $users = $memberHandler->getUserList(new \Criteria('uid', '(' . implode(',', $uids_published) . ')'));

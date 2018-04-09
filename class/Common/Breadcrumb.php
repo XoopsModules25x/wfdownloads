@@ -41,7 +41,7 @@ class Breadcrumb
     /**
      * @access public
      */
-    public $helper = null;
+    public $helper;
 
     private $dirname;
     private $_bread = [];

@@ -65,7 +65,7 @@ $xoopsTpl->assign('catarray', $catarray);
 
 $arr = [];
 
-$categoryObjs = $helper->getHandler('category')->getObjects();
+$categoryObjs = $helper->getHandler('Category')->getObjects();
 
 $categoryObjsTree     = new Wfdownloads\ObjectTree($categoryObjs, 'cid', 'pid');
 $mainCategoryObjs     = $categoryObjsTree->getFirstChild(0);
@@ -89,7 +89,7 @@ foreach ($mainCategoryObjs as $mainCategoryObj) {
         $criteria->setSort($sortDB);
         $criteria->setOrder('DESC');
         $criteria->setLimit(10);
-        $downloadObjs = $helper->getHandler('download')->getActiveDownloads($criteria);
+        $downloadObjs = $helper->getHandler('Download')->getActiveDownloads($criteria);
         $filecount    = count($downloadObjs);
 
         if ($filecount > 0) {

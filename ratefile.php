@@ -27,12 +27,12 @@ $currentFile = basename(__FILE__);
 require_once __DIR__ . '/header.php';
 
 $lid         = Request::getInt('lid', 0);
-$downloadObj = $helper->getHandler('download')->get($lid);
+$downloadObj = $helper->getHandler('Download')->get($lid);
 if (null === $downloadObj) {
     redirect_header('index.php', 3, _CO_WFDOWNLOADS_ERROR_NODOWNLOAD);
 }
 $cid         = Request::getInt('cid', $downloadObj->getVar('cid'));
-$categoryObj = $helper->getHandler('category')->get($cid);
+$categoryObj = $helper->getHandler('Category')->get($cid);
 if (null === $categoryObj) {
     redirect_header('index.php', 3, _CO_WFDOWNLOADS_ERROR_NOCATEGORY);
 }
@@ -51,7 +51,7 @@ if (false === $helper->getConfig('enable_ratings') && !Wfdownloads\Utility::user
 }
 // Breadcrumb
 require_once XOOPS_ROOT_PATH . '/class/tree.php';
-$categoryObjsTree = new Wfdownloads\ObjectTree($helper->getHandler('category')->getObjects(), 'cid', 'pid');
+$categoryObjsTree = new Wfdownloads\ObjectTree($helper->getHandler('Category')->getObjects(), 'cid', 'pid');
 $breadcrumb       = new common\Breadcrumb();
 $breadcrumb->addLink($helper->getModule()->getVar('name'), WFDOWNLOADS_URL);
 foreach (array_reverse($categoryObjsTree->getAllParent($cid)) as $parentCategory) {
@@ -83,7 +83,7 @@ switch ($op) {
                 // Check if REG user is trying to vote twice.
                 $criteria = new \CriteriaCompo(new \Criteria('lid', $lid));
                 $criteria->add(new \Criteria('ratinguser', $ratinguserUid));
-                $ratingsCount = $helper->getHandler('rating')->getCount($criteria);
+                $ratingsCount = $helper->getHandler('Rating')->getCount($criteria);
                 if ($ratingsCount > 0) {
                     redirect_header("singlefile.php?cid={$cid}&amp;lid={$lid}", 4, _MD_WFDOWNLOADS_VOTEONCE);
                 }
@@ -95,19 +95,19 @@ switch ($op) {
                 $criteria->add(new \Criteria('ratinguser', 0));
                 $criteria->add(new \Criteria('ratinghostname', $ratinguserIp));
                 $criteria->add(new \Criteria('ratingtimestamp', $yesterday, '>'));
-                $anonymousVotesCount = $helper->getHandler('rating')->getCount($criteria);
+                $anonymousVotesCount = $helper->getHandler('Rating')->getCount($criteria);
                 if ($anonymousVotesCount > 0) {
                     redirect_header("singlefile.php?cid={$cid}&amp;lid={$lid}", 4, _MD_WFDOWNLOADS_VOTEONCE);
                 }
             }
             // All is well. Add to Line Item Rate to DB.
-            $ratingObj = $helper->getHandler('rating')->create();
+            $ratingObj = $helper->getHandler('Rating')->create();
             $ratingObj->setVar('lid', $lid);
             $ratingObj->setVar('ratinguser', $ratinguserUid);
             $ratingObj->setVar('rating', (int)$rating);
             $ratingObj->setVar('ratinghostname', $ratinguserIp);
             $ratingObj->setVar('ratingtimestamp', time());
-            if ($helper->getHandler('rating')->insert($ratingObj)) {
+            if ($helper->getHandler('Rating')->insert($ratingObj)) {
                 // All is well. Calculate Score & Add to Summary (for quick retrieval & sorting) to DB.
                 Wfdownloads\Utility::updateRating($lid);
                 $thankyouMessage = _MD_WFDOWNLOADS_VOTEAPPRE . '<br>' . sprintf(_MD_WFDOWNLOADS_THANKYOU, $GLOBALS['xoopsConfig']['sitename']);

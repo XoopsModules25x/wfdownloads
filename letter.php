@@ -8,15 +8,17 @@
  * Licence: GNU
  */
 
+//TODO needs to be adjusted for Wfdonwloads
+
 use Xmf\Request;
-use XoopsModules\Lexikon;
+use XoopsModules\Wfdownloads;
 
 include __DIR__ . '/header.php';
 $GLOBALS['xoopsOption']['template_main'] = 'lx_letter.tpl';
 require_once XOOPS_ROOT_PATH . '/header.php';
-require_once XOOPS_ROOT_PATH . '/modules/lexikon/include/common.inc.php';
-/** @var Lexikon\Helper $helper */
-$helper = Lexikon\Helper::getInstance();
+require_once XOOPS_ROOT_PATH . '/modules/wfdownloads/include/common.inc.php';
+/** @var Wfdownloads\Helper $helper */
+$helper = Wfdownloads\Helper::getInstance();
 
 global $xoTheme, $xoopsUser;
 $myts = \MyTextSanitizer::getInstance();
@@ -216,7 +218,7 @@ if ($xoopsUser) {
     $xoopsTpl->assign('syndication', true);
 }
 // Meta data
-if ($publishedwords = 0) {
+if ($publishedwords == 0) {
     $meta_description = xoops_substr($utility::convertHtml2text($eachentry['definition']), 0, 150);
     if (1 == $helper->getConfig('multicats')) {
         $utility::extractKeywords($xoopsModule->name() . ' ,' . $eachentry['term'] . ', ' . $meta_description);

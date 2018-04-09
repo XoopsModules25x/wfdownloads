@@ -32,13 +32,14 @@ class Download extends \XoopsObject
     /**
      * @access public
      */
-    public $helper = null;
+    public $helper;
 
     /**
      * @var Category
      * @access public
      */
-    public $category = null;
+    public $category;
+    public $db;
 
     /**
      * @param int|null $id
@@ -99,7 +100,7 @@ class Download extends \XoopsObject
         $this->initVar('dobr', XOBJ_DTYPE_INT, true); // boolean
 
         if (null !== $id) {
-            $item = $this->helper->getHandler('item')->get($id);
+            $item = $this->helper->getHandler('Item')->get($id);
             foreach ($item->vars as $k => $v) {
                 $this->assignVar($k, $v['value']);
             }
@@ -125,7 +126,7 @@ class Download extends \XoopsObject
     public function category()
     {
         if (!isset($this->_category)) {
-            $this->_category = $this->helper->getHandler('category')->get($this->getVar('cid'));
+            $this->_category = $this->helper->getHandler('Category')->get($this->getVar('cid'));
         }
 
         return $this->_category;
@@ -168,7 +169,7 @@ class Download extends \XoopsObject
         $download['votes']          = (1 == $this->getVar('votes')) ? _MD_WFDOWNLOADS_ONEVOTE : sprintf(_MD_WFDOWNLOADS_NUMVOTES, $this->getVar('votes'));
         $download['hits']           = $this->getVar('hits');
 
-        $download['path'] = $this->helper->getHandler('category')->getNicePath($download['cid']);
+        $download['path'] = $this->helper->getHandler('Category')->getNicePath($download['cid']);
 
         $download['imageheader'] = Wfdownloads\Utility::headerImage();
 
@@ -460,7 +461,7 @@ class Download extends \XoopsObject
             } else {
                 $criteria = new \Criteria('mime_user', true);
             }
-            $mimetypes         = $this->helper->getHandler('mimetype')->getList($criteria);
+            $mimetypes         = $this->helper->getHandler('Mimetype')->getList($criteria);
             $allowedExtensions = implode(' | ', $mimetypes);
             $userfile_file->setDescription(sprintf(_MD_WFDOWNLOADS_UPLOAD_FILEC_DESC, $maxFileSize, $this->helper->getConfig('maximgwidth'), $this->helper->getConfig('maximgheight'), $allowedExtensions, substr($allowedExtensions, 0, 40) . '...'));
             $sform->addElement($userfile_file, false);
@@ -474,7 +475,7 @@ class Download extends \XoopsObject
         if (Wfdownloads\Utility::checkModule('formulize')) {
             $sform->addElement(new \XoopsFormHidden('cid', $this->getVar('cid', 'e')));
         } else {
-            $categoryObjs     = $this->helper->getHandler('category')->getUserUpCategories();
+            $categoryObjs     = $this->helper->getHandler('Category')->getUserUpCategories();
             $categoryObjsTree = new Wfdownloads\ObjectTree($categoryObjs, 'cid', 'pid');
 
             if (Wfdownloads\Utility::checkVerXoops($GLOBALS['xoopsModule'], '2.5.9')) {
@@ -692,12 +693,12 @@ class Download extends \XoopsObject
         $maxFileSize       = Wfdownloads\Utility::bytesToSize1024(min($this->helper->getConfig('maxfilesize'), $phpiniMaxFileSize));
         // get allowed mimetypes
         $criteria          = new \Criteria('mime_admin', true);
-        $mimetypes         = $this->helper->getHandler('mimetype')->getList($criteria);
+        $mimetypes         = $this->helper->getHandler('Mimetype')->getList($criteria);
         $allowedExtensions = implode(' | ', $mimetypes);
         $userfile_file->setDescription(sprintf(_MD_WFDOWNLOADS_UPLOAD_FILEC_DESC, $maxFileSize, $this->helper->getConfig('maximgwidth'), $this->helper->getConfig('maximgheight'), $allowedExtensions, substr($allowedExtensions, 0, 40) . '...'));
         $sform->addElement($userfile_file, false);
         // download: cid
-        $categoryObjs     = $this->helper->getHandler('category')->getObjects();
+        $categoryObjs     = $this->helper->getHandler('Category')->getObjects();
         $categoryObjsTree = new Wfdownloads\ObjectTree($categoryObjs, 'cid', 'pid');
 
 
@@ -988,7 +989,7 @@ class Download extends \XoopsObject
         $sform = new \XoopsThemeForm($title, 'storyform', $_SERVER['REQUEST_URI']);
         $sform->setExtra('enctype="multipart/form-data"');
         // download: cid
-        $categoryObjs     = $this->helper->getHandler('category')->getUserUpCategories();
+        $categoryObjs     = $this->helper->getHandler('Category')->getUserUpCategories();
         $categoryObjsTree = new Wfdownloads\ObjectTree($categoryObjs, 'cid', 'pid');
 
         if (Wfdownloads\Utility::checkVerXoops($GLOBALS['xoopsModule'], '2.5.9')) {

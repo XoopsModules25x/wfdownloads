@@ -33,7 +33,7 @@ class CategoryHandler extends \XoopsPersistableObjectHandler
     /**
      * @access public
      */
-    public $helper = null;
+    public $helper;
 
     public $allCategories = false;
     public $topCategories = false;

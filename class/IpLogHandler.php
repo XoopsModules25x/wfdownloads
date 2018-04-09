@@ -33,7 +33,7 @@ class IpLogHandler extends \XoopsPersistableObjectHandler
     /**
      * @access public
      */
-    public $helper = null;
+    public $helper;
 
     /**
      * @param null|\XoopsDatabase $db

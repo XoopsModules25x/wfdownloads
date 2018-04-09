@@ -30,14 +30,14 @@ switch ($op) {
     case 'mirror.delete':
         $mirror_id = Request::getInt('mirror_id', 0);
         $ok        = Request::getBool('ok', false, 'POST');
-        if (!$mirrorObj = $helper->getHandler('mirror')->get($mirror_id)) {
+        if (!$mirrorObj = $helper->getHandler('Mirror')->get($mirror_id)) {
             redirect_header($currentFile, 4, _AM_WFDOWNLOADS_ERROR_MIRRORNOTFOUND);
         }
         if (true === $ok) {
             if (!$GLOBALS['xoopsSecurity']->check()) {
                 redirect_header($currentFile, 3, implode(',', $GLOBALS['xoopsSecurity']->getErrors()));
             }
-            if ($helper->getHandler('mirror')->delete($mirrorObj)) {
+            if ($helper->getHandler('Mirror')->delete($mirrorObj)) {
                 redirect_header($currentFile, 1, sprintf(_AM_WFDOWNLOADS_FILE_FILEWASDELETED, $mirrorObj->getVar('title')));
             } else {
                 echo $mirrorObj->getHtmlErrors();
@@ -53,12 +53,12 @@ switch ($op) {
     case 'mirror.approve':
         $mirror_id = Request::getInt('mirror_id', 0);
         $ok        = Request::getBool('ok', false, 'POST');
-        if (!$mirrorObj = $helper->getHandler('mirror')->get($mirror_id)) {
+        if (!$mirrorObj = $helper->getHandler('Mirror')->get($mirror_id)) {
             redirect_header($currentFile, 4, _AM_WFDOWNLOADS_ERROR_MIRRORNOTFOUND);
         }
         if (true === $ok) {
             $mirrorObj->setVar('submit', true);
-            $helper->getHandler('mirror')->insert($mirrorObj);
+            $helper->getHandler('Mirror')->insert($mirrorObj);
             redirect_header($currentFile, 1, sprintf(_AM_WFDOWNLOADS_MIRROR_MIRROR_UPDATED, $mirrorObj->getVar('title')));
         } else {
             Wfdownloads\Utility::getCpHeader();
@@ -69,7 +69,7 @@ switch ($op) {
 
     case 'mirror.edit':
         $mirror_id = Request::getInt('mirror_id', 0);
-        if (!$mirrorObj = $helper->getHandler('mirror')->get($mirror_id)) {
+        if (!$mirrorObj = $helper->getHandler('Mirror')->get($mirror_id)) {
             redirect_header($currentFile, 4, _AM_WFDOWNLOADS_ERROR_MIRRORNOTFOUND);
         }
         Wfdownloads\Utility::getCpHeader();
@@ -80,7 +80,7 @@ switch ($op) {
 
     case 'mirror.save':
         $mirror_id = Request::getInt('mirror_id', 0);
-        if (!$mirrorObj = $helper->getHandler('mirror')->get($mirror_id)) {
+        if (!$mirrorObj = $helper->getHandler('Mirror')->get($mirror_id)) {
             redirect_header($currentFile, 4, _AM_WFDOWNLOADS_ERROR_MIRRORNOTFOUND);
         }
         $mirrorObj->setVar('title', trim($_POST['title']));
@@ -89,7 +89,7 @@ switch ($op) {
         $mirrorObj->setVar('continent', trim($_POST['continent']));
         $mirrorObj->setVar('downurl', formatURL(trim($_POST['downurl'])));
         $mirrorObj->setVar('submit', \Xmf\Request::getInt('approve', 0, 'POST'));
-        $helper->getHandler('mirror')->insert($mirrorObj);
+        $helper->getHandler('Mirror')->insert($mirrorObj);
         redirect_header($currentFile, 1, _AM_WFDOWNLOADS_MIRROR_MIRROR_UPDATED);
         break;
 
@@ -103,20 +103,20 @@ switch ($op) {
         $start_published = Request::getInt('start_published', 0);
 
         $criteria_waiting = new \Criteria('submit', 0); // false
-        $waiting_count    = $helper->getHandler('mirror')->getCount($criteria_waiting);
+        $waiting_count    = $helper->getHandler('Mirror')->getCount($criteria_waiting);
         $criteria_waiting->setSort('date');
         $criteria_waiting->setOrder('DESC');
         $criteria_waiting->setLimit($helper->getConfig('admin_perpage'));
         $criteria_waiting->setStart($start_waiting);
-        $mirrors_waiting = $helper->getHandler('mirror')->getObjects($criteria_waiting);
+        $mirrors_waiting = $helper->getHandler('Mirror')->getObjects($criteria_waiting);
 
         $criteria_published = new \Criteria('submit', 1); // true
-        $published_count    = $helper->getHandler('mirror')->getCount($criteria_published);
+        $published_count    = $helper->getHandler('Mirror')->getCount($criteria_published);
         $criteria_published->setSort('date');
         $criteria_published->setOrder('DESC');
         $criteria_published->setLimit($helper->getConfig('admin_perpage'));
         $criteria_published->setStart($start_published);
-        $mirrors_published = $helper->getHandler('mirror')->getObjects($criteria_published);
+        $mirrors_published = $helper->getHandler('Mirror')->getObjects($criteria_published);
 
         $GLOBALS['xoopsTpl']->assign('mirrors_waiting_count', $waiting_count);
         $GLOBALS['xoopsTpl']->assign('mirrors_published_count', $published_count);
@@ -126,7 +126,7 @@ switch ($op) {
                 $lids_waiting[] = $mirror_waiting->getVar('lid');
                 $uids_waiting[] = $mirror_waiting->getVar('uid');
             }
-            $downloads = $helper->getHandler('download')->getObjects(new \Criteria('lid', '(' . implode(',', array_unique($lids_waiting)) . ')', 'IN'), true, false);
+            $downloads = $helper->getHandler('Download')->getObjects(new \Criteria('lid', '(' . implode(',', array_unique($lids_waiting)) . ')', 'IN'), true, false);
             $users     = $memberHandler->getUserList(new \Criteria('uid', '(' . implode(',', $uids_waiting) . ')'));
             foreach ($mirrors_waiting as $mirror_waiting) {
                 $mirror_waiting_array                    = $mirror_waiting->toArray();
@@ -146,7 +146,7 @@ switch ($op) {
                 $lids_published[] = $mirror_published->getVar('lid');
                 $uids_published[] = $mirror_published->getVar('uid');
             }
-            $downloads = $helper->getHandler('download')->getObjects(new \Criteria('lid', '(' . implode(',', array_unique($lids_published)) . ')', 'IN'), true, false);
+            $downloads = $helper->getHandler('Download')->getObjects(new \Criteria('lid', '(' . implode(',', array_unique($lids_published)) . ')', 'IN'), true, false);
             $users     = $memberHandler->getUserList(new \Criteria('uid', '(' . implode(',', $uids_published) . ')'));
             foreach ($mirrors_published as $mirror_published) {
                 $mirror_published_array                    = $mirror_published->toArray();

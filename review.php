@@ -27,12 +27,12 @@ $currentFile = basename(__FILE__);
 require_once __DIR__ . '/header.php';
 
 $lid         = Request::getInt('lid', 0);
-$downloadObj = $helper->getHandler('download')->get($lid);
+$downloadObj = $helper->getHandler('Download')->get($lid);
 if (null === $downloadObj) {
     redirect_header('index.php', 3, _CO_WFDOWNLOADS_ERROR_NODOWNLOAD);
 }
 $cid         = Request::getInt('cid', $downloadObj->getVar('cid'));
-$categoryObj = $helper->getHandler('category')->get($cid);
+$categoryObj = $helper->getHandler('Category')->get($cid);
 if (null === $categoryObj) {
     redirect_header('index.php', 3, _CO_WFDOWNLOADS_ERROR_NOCATEGORY);
 }
@@ -57,7 +57,7 @@ if (!$grouppermHandler->checkRight('WFDownCatPerm', $cid, $userGroups, $helper->
 
 // Breadcrumb
 require_once XOOPS_ROOT_PATH . '/class/tree.php';
-$categoryObjsTree = new Wfdownloads\ObjectTree($helper->getHandler('category')->getObjects(), 'cid', 'pid');
+$categoryObjsTree = new Wfdownloads\ObjectTree($helper->getHandler('Category')->getObjects(), 'cid', 'pid');
 $breadcrumb       = new common\Breadcrumb();
 $breadcrumb->addLink($helper->getModule()->getVar('name'), WFDOWNLOADS_URL);
 foreach (array_reverse($categoryObjsTree->getAllParent($cid)) as $parentCategory) {
@@ -87,7 +87,7 @@ switch ($op) {
         $head_arr                = $GLOBALS['xoopsDB']->fetchArray($GLOBALS['xoopsDB']->query($sql));
         $catarray['imageheader'] = Wfdownloads\Utility::headerImage();
         $xoopsTpl->assign('catarray', $catarray);
-        $xoopsTpl->assign('category_path', $helper->getHandler('category')->getNicePath($cid));
+        $xoopsTpl->assign('category_path', $helper->getHandler('Category')->getNicePath($cid));
         $xoopsTpl->assign('category_id', $cid);
 
         // Breadcrumb
@@ -97,13 +97,13 @@ switch ($op) {
         // Count reviews
         $criteria = new \CriteriaCompo(new \Criteria('lid', $lid));
         $criteria->add(new \Criteria('submit', 1));
-        $reviewsCount = $helper->getHandler('review')->getCount($criteria);
+        $reviewsCount = $helper->getHandler('Review')->getCount($criteria);
 
         // Get reviews
         $criteria->setSort('date');
         $criteria->setLimit(5);
         $criteria->setStart($start);
-        $reviewObjs = $helper->getHandler('review')->getObjects($criteria);
+        $reviewObjs = $helper->getHandler('Review')->getObjects($criteria);
 
         $download_array = $downloadObj->toArray();
         $xoopsTpl->assign('down_arr', $download_array);
@@ -140,7 +140,7 @@ switch ($op) {
         $reviewerUid = is_object($GLOBALS['xoopsUser']) ? (int)$GLOBALS['xoopsUser']->getVar('uid') : 0;
 
        if (\Xmf\Request::hasVar('submit', 'POST')) {
-            $reviewObj = $helper->getHandler('review')->create();
+            $reviewObj = $helper->getHandler('Review')->create();
             $reviewObj->setVar('title', trim($_POST['title']));
             $reviewObj->setVar('review', trim($_POST['review']));
             $reviewObj->setVar('lid', \Xmf\Request::getInt('lid', 0, 'POST'));
@@ -150,7 +150,7 @@ switch ($op) {
             $submit = (Wfdownloads\Utility::userIsAdmin() ?: $helper->getConfig('rev_approve') ? true : false);
             $reviewObj->setVar('submit', $submit);
 
-            if (!$helper->getHandler('review')->insert($reviewObj)) {
+            if (!$helper->getHandler('Review')->insert($reviewObj)) {
                 redirect_header('index.php', 3, _MD_WFDOWNLOADS_ERROR_CREATEREVIEW);
             } else {
                 $databaseMessage = $submit ? _MD_WFDOWNLOADS_ISAPPROVED : _MD_WFDOWNLOADS_ISNOTAPPROVED;

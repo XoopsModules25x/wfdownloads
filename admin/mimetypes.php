@@ -56,10 +56,11 @@ switch ($op) {
         echo '<div>' . _AM_WFDOWNLOADS_MIME_INFOTEXT . "</div>\n";
         echo "</fieldset>\n";
 
+    /** @var Wfdownloads\Mimetype $mimetypeObj */
         if (isset($_REQUEST['mime_id'])) {
-            $mimetypeObj = $helper->getHandler('mimetype')->get($_REQUEST['mime_id']);
+            $mimetypeObj = $helper->getHandler('Mimetype')->get($_REQUEST['mime_id']);
         } else {
-            $mimetypeObj = $helper->getHandler('mimetype')->create();
+            $mimetypeObj = $helper->getHandler('Mimetype')->create();
         }
         $form = $mimetypeObj->getForm();
         $form->display();
@@ -82,7 +83,7 @@ switch ($op) {
 
     case 'mimetype.save':
         $mime_id = Request::getInt('mime_id', 0, 'POST');
-        if (!$mimetypeObj = $helper->getHandler('mimetype')->get($mime_id)) {
+        if (!$mimetypeObj = $helper->getHandler('Mimetype')->get($mime_id)) {
             redirect_header($currentFile, 4, _AM_WFDOWNLOADS_ERROR_MIMETYPENOTFOUND);
         }
 
@@ -91,7 +92,7 @@ switch ($op) {
         $mimetypeObj->setVar('mime_types', $_POST['mime_type']);
         $mimetypeObj->setVar('mime_admin', \Xmf\Request::getInt('mime_admin', 0, 'POST'));
         $mimetypeObj->setVar('mime_user', \Xmf\Request::getInt('mime_user', 0, 'POST'));
-        if (!$helper->getHandler('mimetype')->insert($mimetypeObj)) {
+        if (!$helper->getHandler('Mimetype')->insert($mimetypeObj)) {
             $error = 'Could not update mimetype information';
             trigger_error($error, E_USER_ERROR);
         }
@@ -101,7 +102,7 @@ switch ($op) {
 
     case 'mimetype.update':
         $mime_id = Request::getInt('mime_id', 0);
-        if (!$mimetypeObj = $helper->getHandler('mimetype')->get($mime_id)) {
+        if (!$mimetypeObj = $helper->getHandler('Mimetype')->get($mime_id)) {
             redirect_header($currentFile, 4, _AM_WFDOWNLOADS_ERROR_MIMETYPENOTFOUND);
         }
 
@@ -119,7 +120,7 @@ switch ($op) {
                 $mimetypeObj->setVar('mime_user', true);
             }
         }
-        if (!$helper->getHandler('mimetype')->insert($mimetypeObj, true)) {
+        if (!$helper->getHandler('Mimetype')->insert($mimetypeObj, true)) {
             trigger_error($error, E_USER_ERROR);
         }
         redirect_header("{$currentFile}?start=" . \Xmf\Request::getInt('start', 0, 'GET') . '', 0, _AM_WFDOWNLOADS_MIME_MODIFIED);
@@ -137,7 +138,7 @@ switch ($op) {
         $criteria = new \CriteriaCompo();
         $criteria->setStart($start);
         $criteria->setLimit(20);
-        if (!$helper->getHandler('mimetype')->updateAll($field, $type_all, $criteria, true)) {
+        if (!$helper->getHandler('Mimetype')->updateAll($field, $type_all, $criteria, true)) {
             $error = 'Could not update mimetype information';
             trigger_error($error, E_USER_ERROR);
         }
@@ -147,14 +148,14 @@ switch ($op) {
     case 'mimetype.delete':
         $mime_id = Request::getInt('mime_id', 0);
         $ok      = Request::getBool('ok', false, 'POST');
-        if (!$mimetypeObj = $helper->getHandler('mimetype')->get($mime_id)) {
+        if (!$mimetypeObj = $helper->getHandler('Mimetype')->get($mime_id)) {
             redirect_header($currentFile, 4, _AM_WFDOWNLOADS_ERROR_MIMETYPENOTFOUND);
         }
         if (true === $ok) {
             if (!$GLOBALS['xoopsSecurity']->check()) {
                 redirect_header($currentFile, 3, implode(',', $GLOBALS['xoopsSecurity']->getErrors()));
             }
-            if ($helper->getHandler('mimetype')->delete($mimetypeObj)) {
+            if ($helper->getHandler('Mimetype')->delete($mimetypeObj)) {
                 redirect_header($currentFile, 1, sprintf(_AM_WFDOWNLOADS_MIME_MIMEDELETED, $mimetypeObj->getVar('mime_name')));
             } else {
                 echo $mimetypeObj->getHtmlErrors();
@@ -176,8 +177,8 @@ switch ($op) {
         $criteria->setSort('mime_name');
         $criteria->setStart($start);
         $criteria->setLimit(20);
-        $mimetypeObjs    = $helper->getHandler('mimetype')->getObjects($criteria);
-        $mimetypes_count = $helper->getHandler('mimetype')->getCount();
+        $mimetypeObjs    = $helper->getHandler('Mimetype')->getObjects($criteria);
+        $mimetypes_count = $helper->getHandler('Mimetype')->getCount();
 
         Wfdownloads\Utility::getCpHeader();
         $adminObject = \Xmf\Module\Admin::getInstance();
@@ -205,8 +206,8 @@ switch ($op) {
         }
 
         // Get allowed mimetypes/estensione
-        $allowAdminMimetypes = $helper->getHandler('mimetype')->getList(new \Criteria('mime_admin', true));
-        $allowUserMimetypes  = $helper->getHandler('mimetype')->getList(new \Criteria('mime_user', true));
+        $allowAdminMimetypes = $helper->getHandler('Mimetype')->getList(new \Criteria('mime_admin', true));
+        $allowUserMimetypes  = $helper->getHandler('Mimetype')->getList(new \Criteria('mime_user', true));
         $GLOBALS['xoopsTpl']->assign('allowAdminMimetypes', $allowAdminMimetypes);
         $GLOBALS['xoopsTpl']->assign('allowUserMimetypes', $allowUserMimetypes);
 

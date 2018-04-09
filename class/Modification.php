@@ -24,7 +24,7 @@ use XoopsModules\Wfdownloads;
 defined('XOOPS_ROOT_PATH') || die('XOOPS root path not defined');
 require_once __DIR__ . '/../include/common.php';
 
-require_once XOOPS_ROOT_PATH . '/modules/wfdownloads/class/Download.php';
+//require_once XOOPS_ROOT_PATH . '/modules/wfdownloads/class/Download.php';
 
 /**
  * Class Modification
@@ -95,7 +95,7 @@ class Modification extends Wfdownloads\Download
         unset($this->vars['ipaddress'], $this->vars['notifypub']);
 
         if (null !== $id) {
-            $item = $this->helper->getHandler('item')->get($id);
+            $item = $this->helper->getHandler('Item')->get($id);
             foreach ($item->vars as $k => $v) {
                 $this->assignVar($k, $v['value']);
             }

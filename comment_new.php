@@ -27,7 +27,7 @@ require_once __DIR__ . '/header.php';
 $com_itemid = Request::getInt('com_itemid', 0);
 if ($com_itemid > 0) {
     // Get file title
-    $downloadObj    = $helper->getHandler('download')->get($com_itemid);
+    $downloadObj    = $helper->getHandler('Download')->get($com_itemid);
     $com_replytitle = $downloadObj->getVar('title');
     require_once XOOPS_ROOT_PATH . '/include/comment_new.php';
 }

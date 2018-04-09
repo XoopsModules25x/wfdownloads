@@ -36,7 +36,7 @@ if (is_object($GLOBALS['xoopsUser'])) {
 }
 
 $lid         = Request::getInt('lid', 0);
-$downloadObj = $helper->getHandler('download')->get($lid);
+$downloadObj = $helper->getHandler('Download')->get($lid);
 // Check if download exists
 if ($downloadObj->isNew()) {
     redirect_header('index.php', 1, _MD_WFDOWNLOADS_NODOWNLOAD);
@@ -112,7 +112,7 @@ if ($helper->getConfig('showDowndisclaimer') && false === $agreed) {
     require_once __DIR__ . '/footer.php';
 } else {
     if (!Wfdownloads\Utility::userIsAdmin()) {
-        $helper->getHandler('download')->incrementHits($lid);
+        $helper->getHandler('Download')->incrementHits($lid);
     }
     // Create ip log
     $ip_logObj = $helper->getHandler('iplog')->create();

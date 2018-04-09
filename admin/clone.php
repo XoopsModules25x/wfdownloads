@@ -99,7 +99,10 @@ function wfdownloads_cloneFileDir($path)
 
     if (is_dir($path)) {
         // create new dir
-        mkdir($newPath);
+        if (!mkdir($newPath) && !is_dir($newPath)) {
+            throw new \RuntimeException('The directory '.$newPath.' could not be created.');
+        }
+
         // check all files in dir, and process it
         if (false !== ($handle = opendir($path))) {
             while (false !== ($file = readdir($handle))) {

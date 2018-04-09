@@ -32,12 +32,12 @@ switch ($op) {
         $criteria = new \Criteria('lid', $lid);
         if (isset($_GET['ack'])) {
             $acknowledged = (isset($_GET['ack']) && 0 == $_GET['ack']) ? 1 : 0;
-            $helper->getHandler('report')->updateAll('acknowledged', $acknowledged, $criteria, true);
+            $helper->getHandler('Report')->updateAll('acknowledged', $acknowledged, $criteria, true);
             $update_mess = _AM_WFDOWNLOADS_BROKEN_NOWACK;
         }
         if (isset($_GET['con'])) {
             $confirmed = (isset($_GET['con']) && 0 == $_GET['con']) ? 1 : 0;
-            $helper->getHandler('report')->updateAll('confirmed', $confirmed, $criteria, true);
+            $helper->getHandler('Report')->updateAll('confirmed', $confirmed, $criteria, true);
             $update_mess = _AM_WFDOWNLOADS_BROKEN_NOWCON;
         }
         redirect_header($currentFile, 1, $update_mess);
@@ -46,21 +46,21 @@ switch ($op) {
     case 'report.delete':
         $lid        = Request::getInt('lid', 0);
         $criteria   = new \Criteria('lid', $lid);
-        $reportObjs = $helper->getHandler('report')->getObjects($criteria);
+        $reportObjs = $helper->getHandler('Report')->getObjects($criteria);
         if (isset($reportObjs[0])) {
-            $helper->getHandler('report')->delete($reportObjs[0], true);
+            $helper->getHandler('Report')->delete($reportObjs[0], true);
         }
-        $downloadObj = $helper->getHandler('download')->get($lid);
-        $helper->getHandler('download')->delete($downloadObj, true);
+        $downloadObj = $helper->getHandler('Download')->get($lid);
+        $helper->getHandler('Download')->delete($downloadObj, true);
         redirect_header($currentFile, 1, _AM_WFDOWNLOADS_BROKENFILEDELETED);
         break;
 
     case 'report.ignore':
         $lid        = Request::getInt('lid', 0);
         $criteria   = new \Criteria('lid', $lid);
-        $reportObjs = $helper->getHandler('report')->getObjects($criteria);
+        $reportObjs = $helper->getHandler('Report')->getObjects($criteria);
         if (isset($reportObjs[0])) {
-            $helper->getHandler('report')->delete($reportObjs[0], true);
+            $helper->getHandler('Report')->delete($reportObjs[0], true);
         }
         redirect_header($currentFile, 1, _AM_WFDOWNLOADS_BROKEN_FILEIGNORED);
         break;
@@ -68,17 +68,17 @@ switch ($op) {
     case 'modification.show':
         $requestid = Request::getInt('requestid', 0);
 
-        $modificationObj = $helper->getHandler('modification')->get($requestid);
+        $modificationObj = $helper->getHandler('Modification')->get($requestid);
         $modify_user     = new \XoopsUser($modificationObj->getVar('modifysubmitter'));
         $modifyname      = \XoopsUserUtility::getUnameFromId((int)$modify_user->getVar('uid'));
         $modifyemail     = $modify_user->getVar('email');
 
-        $downloadObj    = $helper->getHandler('download')->get($modificationObj->getVar('lid'));
+        $downloadObj    = $helper->getHandler('Download')->get($modificationObj->getVar('lid'));
         $orig_user      = new \XoopsUser($downloadObj->getVar('submitter'));
         $submittername  = \XoopsUserUtility::getUnameFromId($downloadObj->getVar('submitter')); // $orig_user->getvar("uname");
         $submitteremail = $orig_user->getVar('email');
 
-        $categoryObjs     = $helper->getHandler('category')->getObjects();
+        $categoryObjs     = $helper->getHandler('Category')->getObjects();
         $categoryObjsTree = new Wfdownloads\ObjectTree($categoryObjs, 'cid', 'pid');
 
         Wfdownloads\Utility::getCpHeader();
@@ -152,13 +152,13 @@ switch ($op) {
                     $modificationContent = isset($tempArray[$modificationObj->getVar($key)]) ? $tempArray[$modificationObj->getVar($key)] : '';
                     break;
                 case 'cid':
-                    $category_list = $helper->getHandler('category')->getObjects(new \Criteria('cid', $downloadObj->getVar($key)));
+                    $category_list = $helper->getHandler('Category')->getObjects(new \Criteria('cid', $downloadObj->getVar($key)));
                     if (!isset($category_list[0])) {
                         continue 2;
                     }
                     $downloadContent = $category_list[0]->getVar('title', 'e');
                     //
-                    $category_list = $helper->getHandler('category')->getObjects(new \Criteria('cid', $modificationObj->getVar($key)));
+                    $category_list = $helper->getHandler('Category')->getObjects(new \Criteria('cid', $modificationObj->getVar($key)));
                     if (!isset($category_list[0])) {
                         continue 2;
                     }
@@ -284,15 +284,15 @@ switch ($op) {
         // Get a pointer to the download record and the modification record, then compare their 'versions' to see if they are different.  If they are, then raise filemodify events.
         $requestid = Request::getInt('requestid', 0, 'POST');
 
-        $modificationObj = $helper->getHandler('modification')->get($requestid);
-        $downloadObj     = $helper->getHandler('download')->get($modificationObj->getVar('lid'));
+        $modificationObj = $helper->getHandler('Modification')->get($requestid);
+        $downloadObj     = $helper->getHandler('Download')->get($modificationObj->getVar('lid'));
 
         $raiseModifyEvents = true;
         if ($modificationObj->getVar('version') == $downloadObj->getVar('version')) {
             $raiseModifyEvents = false;
         }
         /* end add block */
-        $helper->getHandler('modification')->approveModification($_POST['requestid']);
+        $helper->getHandler('Modification')->approveModification($_POST['requestid']);
 
         $cid = $downloadObj->getVar('cid');
         $lid = $downloadObj->getVar('lid');
@@ -303,7 +303,7 @@ switch ($op) {
             $tags                  = [];
             $tags['FILE_NAME']     = $downloadObj->getVar('title');
             $tags['FILE_URL']      = WFDOWNLOADS_URL . '/singlefile.php?cid=' . $cid . '&amp;lid=' . $lid;
-            $category              = $helper->getHandler('category')->get($cid);
+            $category              = $helper->getHandler('Category')->get($cid);
             $tags['FILE_VERSION']  = $downloadObj->getVar('version');
             $tags['CATEGORY_NAME'] = $category->getVar('title');
             $tags['CATEGORY_URL']  = WFDOWNLOADS_URL . '/viewcat.php?cid=' . $cid;
@@ -321,7 +321,7 @@ switch ($op) {
     case 'modification.delete':
         $requestid = Request::getInt('requestid', 0);
         $ok        = Request::getBool('ok', false, 'POST');
-        if (!$modificationObj = $helper->getHandler('modification')->get($requestid)) {
+        if (!$modificationObj = $helper->getHandler('Modification')->get($requestid)) {
             redirect_header($currentFile, 4, _AM_WFDOWNLOADS_MOD_NOTFOUND);
         }
         $title = $modificationObj->getVar('title');
@@ -334,7 +334,7 @@ switch ($op) {
                             redirect_header($currentFile, 3, implode(',', $GLOBALS['xoopsSecurity']->getErrors()));
                         }
             */
-            if ($helper->getHandler('modification')->deleteAll(new \Criteria('requestid', $requestid), true)) {
+            if ($helper->getHandler('Modification')->deleteAll(new \Criteria('requestid', $requestid), true)) {
                 redirect_header(WFDOWNLOADS_URL . '/admin/index.php', 1, _AM_WFDOWNLOADS_MOD_REQDELETED);
             } else {
                 echo $modificationObj->getHtmlErrors();
@@ -351,12 +351,12 @@ switch ($op) {
         $start_report = Request::getInt('start_report', 0);
 
         $criteria      = new \CriteriaCompo();
-        $reports_count = $helper->getHandler('report')->getCount();
+        $reports_count = $helper->getHandler('Report')->getCount();
         $criteria->setSort('date');
         $criteria->setOrder('DESC');
         $criteria->setLimit($helper->getConfig('admin_perpage'));
         $criteria->setStart($start_report);
-        $reportObjs = $helper->getHandler('report')->getObjects($criteria);
+        $reportObjs = $helper->getHandler('Report')->getObjects($criteria);
 
         Wfdownloads\Utility::getCpHeader();
         $adminObject = \Xmf\Module\Admin::getInstance();
@@ -369,7 +369,7 @@ switch ($op) {
                 $lids[] = $reportObj->getVar('lid');
                 $uids[] = $reportObj->getVar('sender');
             }
-            $downloadObjs = $helper->getHandler('download')->getObjects(new \Criteria('lid', '(' . implode(',', array_unique($lids)) . ')', 'IN'), true);
+            $downloadObjs = $helper->getHandler('Download')->getObjects(new \Criteria('lid', '(' . implode(',', array_unique($lids)) . ')', 'IN'), true);
             foreach (array_keys($downloadObjs) as $i) {
                 $uids[] = $downloadObjs[$i]->getVar('submitter');
             }
@@ -406,12 +406,12 @@ switch ($op) {
 
         $start_modification = Request::getInt('start_modification', 0);
 
-        $modifications_count = $helper->getHandler('modification')->getCount();
+        $modifications_count = $helper->getHandler('Modification')->getCount();
         $criteria            = new \CriteriaCompo();
         $criteria->setLimit($helper->getConfig('admin_perpage'));
         $criteria->setStart($start_modification);
         $criteria->setSort('requestdate');
-        $modificationObjs = $helper->getHandler('modification')->getObjects($criteria);
+        $modificationObjs = $helper->getHandler('Modification')->getObjects($criteria);
 
         $GLOBALS['xoopsTpl']->assign('modifications_count', $modifications_count);
 
@@ -421,7 +421,7 @@ switch ($op) {
                 $modification_array['title']           = $modificationObj->getVar('title');
                 $modification_array['submitter_uname'] = \XoopsUserUtility::getUnameFromId($modificationObj->getVar('submitter'));
                 $modification_array['formatted_date']  = formatTimestamp($modificationObj->getVar('requestdate'), 'l');
-                $downloadObj                           = $helper->getHandler('download')->get($modificationObj->getVar('lid'));
+                $downloadObj                           = $helper->getHandler('Download')->get($modificationObj->getVar('lid'));
                 $modification_array['download']        = $downloadObj->toArray();
                 $GLOBALS['xoopsTpl']->append('modifications', $modification_array);
             }

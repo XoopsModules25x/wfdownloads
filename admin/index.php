@@ -41,13 +41,13 @@ $moduleDirNameUpper = strtoupper($moduleDirName);
 
 //--------------------------
 $categories_count           = Wfdownloads\Utility::categoriesCount();
-$votes_count                = $helper->getHandler('rating')->getCount();
-$brokenDownloads_count      = $helper->getHandler('report')->getCount();
-$modificationRequests_count = $helper->getHandler('modification')->getCount();
-$newReviews_count           = $helper->getHandler('review')->getCount();
-$newMirrors_count           = $helper->getHandler('mirror')->getCount();
-$newDownloads_count         = $helper->getHandler('download')->getCount(new \Criteria('published', 0));
-$downloads_count            = $helper->getHandler('download')->getCount(new \Criteria('published', 0, '>'));
+$votes_count                = $helper->getHandler('Rating')->getCount();
+$brokenDownloads_count      = $helper->getHandler('Report')->getCount();
+$modificationRequests_count = $helper->getHandler('Modification')->getCount();
+$newReviews_count           = $helper->getHandler('Review')->getCount();
+$newMirrors_count           = $helper->getHandler('Mirror')->getCount();
+$newDownloads_count         = $helper->getHandler('Download')->getCount(new \Criteria('published', 0));
+$downloads_count            = $helper->getHandler('Download')->getCount(new \Criteria('published', 0, '>'));
 
 $adminObject->addInfoBox(_AM_WFDOWNLOADS_MINDEX_DOWNSUMMARY);
 // Categories

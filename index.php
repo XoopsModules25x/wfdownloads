@@ -82,7 +82,7 @@ $xoopsTpl->assign('wfdownloads_breadcrumb', $breadcrumb->render());
 
 $categoryCriteria = new \CriteriaCompo();
 $categoryCriteria->setSort('weight ASC, title');
-$categoryObjs = $helper->getHandler('category')->getObjects($categoryCriteria);
+$categoryObjs = $helper->getHandler('Category')->getObjects($categoryCriteria);
 unset($categoryCriteria);
 
 $categoryObjsTree = new Wfdownloads\ObjectTree($categoryObjs, 'cid', 'pid');

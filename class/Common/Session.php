@@ -39,7 +39,9 @@ class Session
      */
     protected function __construct()
     {
-        @session_start();
+        if (@session_start() === false) {
+            throw new \RuntimeException('Session could not start.');
+        }
     }
 
     /**
@@ -103,11 +105,10 @@ class Session
      */
     public static function getInstance()
     {
-        static $_sess;
-        if (null === $_sess) {
-            $_sess = new static();
+        static $instance;
+        if (null === $instance) {
+            $instance = new static();
         }
-
-        return $_sess;
+        return $instance;
     }
 }

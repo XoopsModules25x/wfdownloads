@@ -40,82 +40,6 @@ class Utility
 
 
 
-    // auto create folders----------------------------------------
-    //TODO rename this function? And exclude image folder?
-    public static function createDir()
-    {
-        // auto crate folders
-        //        $thePath = publisherGetUploadDir();
-
-        if (publisherGetPathStatus('root', true) < 0) {
-            $thePath = publisherGetUploadDir();
-            $res     = publisherMkdir($thePath);
-            $msg     = $res ? _AM_PUBLISHER_DIRCREATED : _AM_PUBLISHER_DIRNOTCREATED;
-        }
-
-        if (publisherGetPathStatus('images', true) < 0) {
-            $thePath = publisherGetImageDir();
-            $res     = publisherMkdir($thePath);
-
-            if ($res) {
-                $source = PUBLISHER_ROOT_PATH . '/assets/images/blank.png';
-                $dest   = $thePath . 'blank.png';
-                publisherCopyr($source, $dest);
-            }
-            $msg = $res ? _AM_PUBLISHER_DIRCREATED : _AM_PUBLISHER_DIRNOTCREATED;
-        }
-
-        if (publisherGetPathStatus('images/category', true) < 0) {
-            $thePath = publisherGetImageDir('category');
-            $res     = publisherMkdir($thePath);
-
-            if ($res) {
-                $source = PUBLISHER_ROOT_PATH . '/assets/images/blank.png';
-                $dest   = $thePath . 'blank.png';
-                publisherCopyr($source, $dest);
-            }
-            $msg = $res ? _AM_PUBLISHER_DIRCREATED : _AM_PUBLISHER_DIRNOTCREATED;
-        }
-
-        if (publisherGetPathStatus('images/item', true) < 0) {
-            $thePath = publisherGetImageDir('item');
-            $res     = publisherMkdir($thePath);
-
-            if ($res) {
-                $source = PUBLISHER_ROOT_PATH . '/assets/images/blank.png';
-                $dest   = $thePath . 'blank.png';
-                publisherCopyr($source, $dest);
-            }
-            $msg = $res ? _AM_PUBLISHER_DIRCREATED : _AM_PUBLISHER_DIRNOTCREATED;
-        }
-
-        if (publisherGetPathStatus('content', true) < 0) {
-            $thePath = publisherGetUploadDir(true, 'content');
-            $res     = publisherMkdir($thePath);
-            $msg     = $res ? _AM_PUBLISHER_DIRCREATED : _AM_PUBLISHER_DIRNOTCREATED;
-        }
-    }
-
-    public static function buildTableItemTitleRow()
-    {
-        echo "<table width='100%' cellspacing='1' cellpadding='3' border='0' class='outer'>";
-        echo '<tr>';
-        echo "<th width='40px' class='bg3' align='center'><strong>" . _AM_PUBLISHER_ITEMID . '</strong></td>';
-        echo "<th width='100px' class='bg3' align='center'><strong>" . _AM_PUBLISHER_ITEMCAT . '</strong></td>';
-        echo "<th class='bg3' align='center'><strong>" . _AM_PUBLISHER_TITLE . '</strong></td>';
-        echo "<th width='100px' class='bg3' align='center'><strong>" . _AM_PUBLISHER_CREATED . '</strong></td>';
-
-        echo "<th width='50px' class='bg3' align='center'><strong>" . _CO_PUBLISHER_WEIGHT . '</strong></td>';
-        echo "<th width='50px' class='bg3' align='center'><strong>" . _AM_PUBLISHER_HITS . '</strong></td>';
-        echo "<th width='60px' class='bg3' align='center'><strong>" . _AM_PUBLISHER_RATE . '</strong></td>';
-        echo "<th width='50px' class='bg3' align='center'><strong>" . _AM_PUBLISHER_VOTES . '</strong></td>';
-        echo "<th width='60px' class='bg3' align='center'><strong>" . _AM_PUBLISHER_COMMENTS_COUNT . '</strong></td>';
-
-        echo "<th width='90px' class='bg3' align='center'><strong>" . _CO_PUBLISHER_STATUS . '</strong></td>';
-        echo "<th width='90px' class='bg3' align='center'><strong>" . _AM_PUBLISHER_ACTION . '</strong></td>';
-        echo '</tr>';
-    }
-
     /**
      * @param     $categoryObj
      * @param int $level
@@ -144,7 +68,7 @@ class Utility
         echo "<td class='even' align='center'>" . $categoryObj->weight() . '</td>';
         echo "<td class='even' align='center'> $modify $delete </td>";
         echo '</tr>';
-        $subCategoriesObj = $publisher->getHandler('category')->getCategories(0, 0, $categoryObj->categoryid());
+        $subCategoriesObj = $publisher->getHandler('Category')->getCategories(0, 0, $categoryObj->categoryid());
         if (count($subCategoriesObj) > 0) {
             ++$level;
             foreach ($subCategoriesObj as $key => $thiscat) {
@@ -168,14 +92,14 @@ class Utility
         // if there is a parameter, and the id exists, retrieve data: we're editing a category
         if (0 != $categoryId) {
             // Creating the category object for the selected category
-            $categoryObj = $publisher->getHandler('category')->get($categoryId);
+            $categoryObj = $publisher->getHandler('Category')->get($categoryId);
             if ($categoryObj->notLoaded()) {
                 redirect_header('category.php', 1, _AM_PUBLISHER_NOCOLTOEDIT);
                 //            exit();
             }
         } else {
             if (!$categoryObj) {
-                $categoryObj = $publisher->getHandler('category')->create();
+                $categoryObj = $publisher->getHandler('Category')->create();
             }
         }
 
@@ -201,10 +125,10 @@ class Utility
 
             publisherOpenCollapsableBar('subcatstable', 'subcatsicon', _AM_PUBLISHER_SUBCAT_CAT, _AM_PUBLISHER_SUBCAT_CAT_DSC);
             // Get the total number of sub-categories
-            $categoriesObj = $publisher->getHandler('category')->get($selCat);
-            $totalsubs     = $publisher->getHandler('category')->getCategoriesCount($selCat);
+            $categoriesObj = $publisher->getHandler('Category')->get($selCat);
+            $totalsubs     = $publisher->getHandler('Category')->getCategoriesCount($selCat);
             // creating the categories objects that are published
-            $subcatsObj    = $publisher->getHandler('category')->getCategories(0, 0, $categoriesObj->categoryid());
+            $subcatsObj    = $publisher->getHandler('Category')->getCategories(0, 0, $categoriesObj->categoryid());
             $totalSCOnPage = count($subcatsObj);
             echo "<table width='100%' cellspacing=1 cellpadding=3 border=0 class = outer>";
             echo '<tr>';
@@ -237,11 +161,11 @@ class Utility
             publisherOpenCollapsableBar('bottomtable', 'bottomtableicon', _AM_PUBLISHER_CAT_ITEMS, _AM_PUBLISHER_CAT_ITEMS_DSC);
             $startitem = Request::getInt('startitem');
             // Get the total number of published ITEMS
-            $totalitems = $publisher->getHandler('item')->getItemsCount($selCat, [Wfdownloads\Constants::PUBLISHER_STATUS_PUBLISHED]);
+            $totalitems = $publisher->getHandler('Item')->getItemsCount($selCat, [Wfdownloads\Constants::PUBLISHER_STATUS_PUBLISHED]);
             // creating the items objects that are published
-            $itemsObj         = $publisher->getHandler('item')->getAllPublished($publisher->getConfig('idxcat_perpage'), $startitem, $selCat);
+            $itemsObj         = $publisher->getHandler('Item')->getAllPublished($publisher->getConfig('idxcat_perpage'), $startitem, $selCat);
             $totalitemsOnPage = count($itemsObj);
-            $allcats          = $publisher->getHandler('category')->getObjects(null, true);
+            $allcats          = $publisher->getHandler('Category')->getObjects(null, true);
             echo "<table width='100%' cellspacing=1 cellpadding=3 border=0 class = outer>";
             echo '<tr>';
             echo "<td width='40' class='bg3' align='center'><strong>" . _AM_PUBLISHER_ITEMID . '</strong></td>';
@@ -425,21 +349,20 @@ class Utility
      */
     public static function makeDir($dir, $perm = 0777, $create_index = true)
     {
-        if (!is_dir($dir)) {
-            if (!@mkdir($dir, $perm)) {
-                return false;
-            } else {
-                if ($create_index) {
-                    if (false !== ($fileHandler = @fopen($dir . '/index.html', 'wb'))) {
-                        fwrite($fileHandler, '<script>history.go(-1);</script>');
-                    }
-                    @fclose($fileHandler);
+        if (!mkdir($dir, $perm) && !is_dir($dir)) {
+            throw new \RuntimeException('The directory ' . $dir . ' could not be created.');
+        } else {
+            if ($create_index) {
+                if (false !== ($fileHandler = @fopen($dir . '/index.html', 'wb'))) {
+                    fwrite($fileHandler, '<script>history.go(-1);</script>');
                 }
-
-                return true;
+                if (@fclose($fileHandler) === false) {
+                    throw new \RuntimeException('The file ' . $fileHandler . ' could not be created.');
+                }
             }
-        }
 
+            return true;
+        }
         return null;
     }
 
@@ -498,7 +421,9 @@ class Utility
         if (!$dirHandler = opendir($source)) {
             return false;
         }
-        @mkdir($destination);
+        if (mkdir($destination) || is_dir($destination)) {
+            throw new \RuntimeException('The directory ' . $destination . ' could not be created.');
+        }
         while (false !== ($file = readdir($dirHandler))) {
             if (('.' !== $file) && ('..' !== $file)) {
                 if (is_dir("{$source}/{$file}")) {
@@ -589,6 +514,7 @@ class Utility
         if (!xoops_isActiveModule($dirname)) {
             return false;
         }
+        /** @var \XoopsModuleHandler $moduleHandler */
         $moduleHandler = xoops_getHandler('module');
         $module        = $moduleHandler->getByDirname($dirname);
 
@@ -615,7 +541,7 @@ class Utility
         $criteria->add(new \Criteria('pid', $pid));
         $criteria->setSort('weight');
         $criteria->setOrder('ASC');
-        $subCategoryObjs = $helper->getHandler('category')->getObjects($criteria);
+        $subCategoryObjs = $helper->getHandler('Category')->getObjects($criteria);
         if (count($subCategoryObjs) > 0) {
             ++$level;
             foreach ($subCategoryObjs as $subCategoryObj) {
@@ -644,9 +570,9 @@ class Utility
     {
         $helper = Wfdownloads\Helper::getInstance();
 
-        $criteria = $helper->getHandler('download')->getActiveCriteria();
+        $criteria = $helper->getHandler('Download')->getActiveCriteria();
         $criteria->setGroupby('UPPER(LEFT(title,1))');
-        $countsByLetters = $helper->getHandler('download')->getCounts($criteria);
+        $countsByLetters = $helper->getHandler('Download')->getCounts($criteria);
         // Fill alphabet array
         $alphabet       = getLocalAlphabet();
         $alphabetArray = [];
@@ -811,7 +737,7 @@ class Utility
             $time = time() + 3600 * 24 * 365;
             //$time = '';
         }
-        setcookie($name, $value, $time, '/');
+        setcookie($name, $value, $time, '/', ini_get('session.cookie_domain'), ini_get('session.cookie_secure'), ini_get('session.cookie_httponly'));
     }
 
     /**
@@ -1194,7 +1120,7 @@ class Utility
     {
         $helper = Wfdownloads\Helper::getInstance();
 
-        $ratingObjs    = $helper->getHandler('rating')->getObjects(new \Criteria('lid', (int)$lid));
+        $ratingObjs    = $helper->getHandler('Rating')->getObjects(new \Criteria('lid', (int)$lid));
         $ratings_count = count($ratingObjs);
         $totalRating   = 0;
         foreach ($ratingObjs as $ratingObj) {
@@ -1202,10 +1128,10 @@ class Utility
         }
         $averageRating = $totalRating / $ratings_count;
         $averageRating = number_format($averageRating, 4);
-        $downloadObj   = $helper->getHandler('download')->get($lid);
+        $downloadObj   = $helper->getHandler('Download')->get($lid);
         $downloadObj->setVar('rating', $averageRating);
         $downloadObj->setVar('votes', $ratings_count);
-        $helper->getHandler('download')->insert($downloadObj);
+        $helper->getHandler('Download')->insert($downloadObj);
     }
 
     /**
@@ -1248,8 +1174,8 @@ class Utility
             return false;
         }
         $criteria->setGroupBy('cid');
-        $info['published'] = $helper->getHandler('download')->getMaxPublishdate($criteria);
-        $info['count']     = $helper->getHandler('download')->getCount($criteria);
+        $info['published'] = $helper->getHandler('Download')->getMaxPublishdate($criteria);
+        $info['count']     = $helper->getHandler('Download')->getCount($criteria);
 
         return $info;
     }
@@ -1547,7 +1473,7 @@ class Utility
         } else {
             $criteria->add(new \Criteria('mime_user', true));
         }
-        if (false !== ($mimetypeObjs = $helper->getHandler('mimetype')->getObjects($criteria))) {
+        if (false !== ($mimetypeObjs = $helper->getHandler('Mimetype')->getObjects($criteria))) {
             $mimetypeObj = $mimetypeObjs[0];
             $ret         = explode(' ', $mimetypeObj->getVar('mime_types'));
         } else {
@@ -1624,7 +1550,7 @@ class Utility
         $maxImageHeight = $helper->getConfig('maximgheight');
         // TODO: use Xoops XoopsMediaUploader class
         if ($onlyImages) {
-            require_once XOOPS_ROOT_PATH . '/modules/wfdownloads/class/img_uploader.php';
+//            require_once XOOPS_ROOT_PATH . '/modules/wfdownloads/class/img_uploader.php';
             //xoops_load('XoopsMediaUploader');
             $uploader = new Wfdownloads\MediaImgUploader($uploadDirectory, $allowedMimetypes, $maxFileSize, $maxImageWidth, $maxImageHeight);
         } else {
@@ -2083,7 +2009,7 @@ class Utility
             if (!$swishePipeHandler) {
                 die('The search request generated an error...Please try again.');
             }
-            error_log("{$swisheCommand} -w {$swisheQueryWords} -f {$swisheIndexFilePath} {$swisheSearchParams}");
+            trigger_error("{$swisheCommand} -w {$swisheQueryWords} -f {$swisheIndexFilePath} {$swisheSearchParams}");
 
             $line_cnt = 1;
             // loop through each line of the pipe result (i.e. swish-e output) to find hit number

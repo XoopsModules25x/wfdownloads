@@ -71,7 +71,7 @@ class MulticolumnsThemeForm extends \XoopsForm
      *
      * @var array
      */
-    public $_elements = [];
+    //    public $_elements = [];
 
     /**
      * mono-dimensional array of column titles
@@ -83,10 +83,10 @@ class MulticolumnsThemeForm extends \XoopsForm
     /**
      * Add an element to the form
      *
-     * @param string|\XoopsFormElement $formElement
-     * @param bool             $required is this a "required" element?
-     * @param int              $row      two-dimensional array (matrix) row (0 first key)
-     * @param int              $column   two-dimensional array (matrix) column (0 first key)
+     * @param string|\XoopsFormElement|\XoopsForm $formElement
+     * @param bool                     $required is this a "required" element?
+     * @param int                      $row      two-dimensional array (matrix) row (0 first key)
+     * @param int                      $column   two-dimensional array (matrix) column (0 first key)
      *
      */
     public function addElement($formElement, $required = false, $row = null, $column = null)
@@ -227,7 +227,7 @@ class MulticolumnsThemeForm extends \XoopsForm
                         }
                         //$ret .= '</td><td class="' . $class . '">';
                         $ret .= $ele->render();
-                    //$ret .= '</td></tr>' . NWLINE;
+                        //$ret .= '</td></tr>' . NWLINE;
                     } else {
                         //$ret .= '<tr valign="top" align="left"><td class="head" colspan="2">';
                         if ('' !== ($caption = $ele->getCaption())) {

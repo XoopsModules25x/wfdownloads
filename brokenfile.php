@@ -27,12 +27,12 @@ $currentFile = basename(__FILE__);
 require_once __DIR__ . '/header.php';
 
 $lid         = Request::getInt('lid', 0);
-$downloadObj = $helper->getHandler('download')->get($lid);
+$downloadObj = $helper->getHandler('Download')->get($lid);
 if (null === $downloadObj) {
     redirect_header('index.php', 3, _CO_WFDOWNLOADS_ERROR_NODOWNLOAD);
 }
 $cid         = Request::getInt('cid', $downloadObj->getVar('cid'));
-$categoryObj = $helper->getHandler('category')->get($cid);
+$categoryObj = $helper->getHandler('Category')->get($cid);
 if (null === $categoryObj) {
     redirect_header('index.php', 3, _CO_WFDOWNLOADS_ERROR_NOCATEGORY);
 }
@@ -53,7 +53,7 @@ if (false === $helper->getConfig('enable_brokenreports') && !Wfdownloads\Utility
 
 // Breadcrumb
 require_once XOOPS_ROOT_PATH . '/class/tree.php';
-$categoryObjsTree = new Wfdownloads\ObjectTree($helper->getHandler('category')->getObjects(), 'cid', 'pid');
+$categoryObjsTree = new Wfdownloads\ObjectTree($helper->getHandler('Category')->getObjects(), 'cid', 'pid');
 $breadcrumb       = new common\Breadcrumb();
 $breadcrumb->addLink($helper->getModule()->getVar('name'), WFDOWNLOADS_URL);
 foreach (array_reverse($categoryObjsTree->getAllParent($cid)) as $parentCategory) {
@@ -73,18 +73,18 @@ switch ($op) {
         if (\Xmf\Request::hasVar('submit', 'POST')) {
             // Check if REG user is trying to report twice
             $criteria    = new \Criteria('lid', $lid);
-            $reportCount = $helper->getHandler('report')->getCount($criteria);
+            $reportCount = $helper->getHandler('Report')->getCount($criteria);
             if ($reportCount > 0) {
                 redirect_header('index.php', 2, _MD_WFDOWNLOADS_ALREADYREPORTED);
             } else {
-                $reportObj = $helper->getHandler('report')->create();
+                $reportObj = $helper->getHandler('Report')->create();
                 $reportObj->setVar('lid', $lid);
                 $reportObj->setVar('sender', $senderUid);
                 $reportObj->setVar('ip', $senderIp);
                 $reportObj->setVar('date', time());
                 $reportObj->setVar('confirmed', 0);
                 $reportObj->setVar('acknowledged', 0);
-                if ($helper->getHandler('report')->insert($reportObj)) {
+                if ($helper->getHandler('Report')->insert($reportObj)) {
                     // All is well
                     // Send notification
                     $tags                      = [];
@@ -163,7 +163,7 @@ switch ($op) {
 
             $criteria = new \Criteria('lid', $lid);
 
-            $reportObjs = $helper->getHandler('report')->getObjects($criteria);
+            $reportObjs = $helper->getHandler('Report')->getObjects($criteria);
 
             if (count($reportObjs) > 0) {
                 $reportObj = $reportObjs[0];

@@ -45,7 +45,7 @@ class MimetypeHandler extends \XoopsPersistableObjectHandler
     /**
      * @access public
      */
-    public $helper = null;
+    public $helper;
 
     /**
      * @param \XoopsDatabase $db

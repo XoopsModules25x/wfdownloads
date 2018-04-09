@@ -32,7 +32,7 @@ class IpLog extends \XoopsObject
     /**
      * @access public
      */
-    public $helper = null;
+    public $helper;
 
     /**
      * @param int|null $id
@@ -48,7 +48,7 @@ class IpLog extends \XoopsObject
         $this->initVar('uid', XOBJ_DTYPE_INT);
 
         if (null !== $id) {
-            $item = $this->helper->getHandler('item')->get($id);
+            $item = $this->helper->getHandler('Item')->get($id);
             foreach ($item->vars as $k => $v) {
                 $this->assignVar($k, $v['value']);
             }
