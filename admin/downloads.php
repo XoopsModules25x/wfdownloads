@@ -308,12 +308,12 @@ switch ($op) {
         $screenshots[] = ('blank.png' !== $_POST['screenshot3']) ? $_POST['screenshot3'] : '';
         $screenshots[] = ('blank.png' !== $_POST['screenshot4']) ? $_POST['screenshot4'] : '';
 
-        if (!empty($_POST['homepage']) || 'http://' !== $_POST['homepage']) {
-            $downloadObj->setVar('homepage', trim($_POST['homepage']));
-            $downloadObj->setVar('homepagetitle', trim($_POST['homepagetitle']));
+        if (Request::hasVar('homepage') || 'http://' !== Request::getString('homepage', '', 'POST')) {
+            $downloadObj->setVar('homepage', Request::getString('homepage', '', 'POST')); //trim($_POST['homepage']));
+            $downloadObj->setVar('homepagetitle', Request::getString('homepagetitle', '', 'POST')); //trim($_POST['homepagetitle']));
         }
 
-        $version = !empty($_POST['version']) ? trim($_POST['version']) : 0;
+        $version =  Request::getInt('version', 0, 'POST');
 
         /* Added by Lankford on 2007/3/21 */
         // Here, I want to know if:
@@ -349,30 +349,32 @@ switch ($op) {
         $downloadObj->setVar('screenshot3', $screenshots[2]); // old style
         $downloadObj->setVar('screenshot4', $screenshots[3]); // old style
         $downloadObj->setVar('screenshots', $screenshots); // new style
-        $downloadObj->setVar('platform', trim($_POST['platform']));
-        $downloadObj->setVar('summary', trim($_POST['summary']));
-        $downloadObj->setVar('description', trim($_POST['description']));
-        $downloadObj->setVar('dohtml', isset($_POST['dohtml']));
-        $downloadObj->setVar('dosmiley', isset($_POST['dosmiley']));
-        $downloadObj->setVar('doxcode', isset($_POST['doxcode']));
-        $downloadObj->setVar('doimage', isset($_POST['doimage']));
-        $downloadObj->setVar('dobr', isset($_POST['dobr']));
-        $downloadObj->setVar('submitter', trim($_POST['submitter']));
-        $downloadObj->setVar('publisher', trim($_POST['publisher']));
-        $downloadObj->setVar('price', trim($_POST['price']));
-        if (!$helper->getConfig('enable_mirrors')) {
-            $downloadObj->setVar('mirror', formatURL(trim($_POST['mirror'])));
-        }
-        $downloadObj->setVar('license', trim($_POST['license']));
-        $downloadObj->setVar('features', trim($_POST['features']));
-        $downloadObj->setVar('requirements', trim($_POST['requirements']));
-        $limitations = \Xmf\Request::getString('limitations', '', 'POST');
+        $downloadObj->setVar('platform', Request::getInt('platform', 0, 'POST'));
+        $downloadObj->setVar('summary', Request::getInt('summary', 0, 'POST'));
+        $downloadObj->setVar('description', Request::getText('description', '', 'POST'));
+        $downloadObj->setVar('dohtml', Request::getInt('dohtml', 0, 'POST'));
+        $downloadObj->setVar('dosmiley', Request::getInt('dosmiley', 0, 'POST'));
+        $downloadObj->setVar('doxcode', Request::getInt('doxcode', 0, 'POST'));
+        $downloadObj->setVar('doimage', Request::getInt('doimage', 0, 'POST'));
+        $downloadObj->setVar('dobr', Request::getInt('dobr', 0, 'POST'));
+        $downloadObj->setVar('submitter', Request::getInt('submitter', 0, 'POST'));
+        $downloadObj->setVar('publisher', Request::getString('publisher', '', 'POST'));
+        $downloadObj->setVar('price', Request::getInt('price', 0, 'POST'));
+        $downloadObj->setVar('paypalemail', Request::getString('paypalemail', '', 'POST'));
+
+//        if (!$helper->getConfig('enable_mirrors')) {
+            $downloadObj->setVar('mirror', formatURL(Request::getString('mirror', '', 'POST')));
+//        }
+        $downloadObj->setVar('license', Request::getInt('license', 0, 'POST'));
+        $downloadObj->setVar('features', Request::getString('features', '', 'POST'));
+        $downloadObj->setVar('requirements', Request::getString('requirements', '', 'POST'));
+        $limitations = Request::getString('limitations', '', 'POST');
         $downloadObj->setVar('limitations', $limitations);
-        $versiontypes = \Xmf\Request::getString('versiontypes', '', 'POST');
+        $versiontypes = Request::getString('versiontypes', '', 'POST');
         $downloadObj->setVar('versiontypes', $versiontypes);
 
-        $dhistory        = \Xmf\Request::getString('dhistory', '', 'POST');
-        $dhistoryhistory = \Xmf\Request::getString('dhistoryaddedd', '', 'POST');
+        $dhistory        = Request::getString('dhistory', '', 'POST');
+        $dhistoryhistory = Request::getString('dhistoryaddedd', '', 'POST');
 
         if ($lid > 0 && !empty($dhistoryhistory)) {
             $dhistory .= "\n\n";
@@ -383,35 +385,33 @@ switch ($op) {
         $downloadObj->setVar('dhistory', $dhistory);
         $downloadObj->setVar('dhistoryhistory', $dhistoryhistory);
 
-        $updated = (isset($_POST['was_published']) && 0 == $_POST['was_published']) ? 0 : time();
+        $updated = (Request::hasVar('was_published', 'POST') && 0 == Request::getInt('was_published', 0, 'POST')) ? 0 : time();
 
-        if (0 == $_POST['up_dated']) {
+        if (0 == Request::getInt('up_dated', 0, 'POST')) {
             $updated = 0;
         }
-        $downloadObj->setVar('updated', $updated);
-
-        $offline = (true === $_POST['offline']);
-        $downloadObj->setVar('offline', $offline);
-        $approved  = (isset($_POST['approved']) && true === $_POST['approved']) ? true : false;
-        $notifypub = (isset($_POST['notifypub']) && true === $_POST['notifypub']);
+        $downloadObj->setVar('updated', Request::getInt('up_dated', 0, 'POST'));
+        $downloadObj->setVar('offline', Request::getInt('offline', 0, 'POST'));
+        $approved  = Request::getInt('approved', 0, 'POST');
+        $notifypub = Request::getInt('notifypub', 0, 'POST');
 
         $expiredate = 0;
         if (!$lid) {
             $publishdate = time();
         } else {
-            $publishdate = $_POST['was_published'];
-            $expiredate  = $_POST['was_expired'];
+            $publishdate = Request::getInt('was_published', 0, 'POST');
+            $expiredate  = Request::getInt('was_expired', 0, 'POST');
         }
         if (1 == $approved && empty($publishdate)) {
             $publishdate = time();
         }
-        if (isset($_POST['publishdateactivate'])) {
-            $publishdate = strtotime($_POST['published']['date']) + $_POST['published']['time'];
+        if (Request::hasVar('publishdateactivate')) {
+            $publishdate = strtotime(Request::getArray('published')['date']) + Request::getArray('published')['time'];
         }
         if ($_POST['clearpublish']) {
             $publishdate = $downloadObj->getVar('published');
         }
-        if (isset($_POST['expiredateactivate'])) {
+        if (Request::hasVar('expiredateactivate')) {
             $expiredate = strtotime($_POST['expired']['date']) + $_POST['expired']['time'];
         }
         if ($_POST['clearexpire']) {
@@ -423,7 +423,7 @@ switch ($op) {
         $downloadObj->setVar('date', time());
         // Update or insert download data into database
         if (!$lid) {
-            $downloadObj->setVar('ipaddress', $_SERVER['REMOTE_ADDR']);
+            $downloadObj->setVar('ipaddress', \Xmf\IPAddress::fromRequest()->asReadable()); //$_SERVER['REMOTE_ADDR']);
         }
 
         $categoryObj = $helper->getHandler('Category')->get($cid);
@@ -855,7 +855,7 @@ switch ($op) {
         $downloadObj->setVar('status', _WFDOWNLOADS_STATUS_APPROVED); // IN PROGRESS
         $downloadObj->setVar('published', time());
         $downloadObj->setVar('date', time());
-        $downloadObj->setVar('ipaddress', $_SERVER['REMOTE_ADDR']);
+        $downloadObj->setVar('ipaddress', \Xmf\IPAddress::fromRequest()->asReadable());//$_SERVER['REMOTE_ADDR']);
         $downloadObj->setVar('submitter', $GLOBALS['xoopsUser']->getVar('uid', 'e'));
         $downloadObj->setVar('publisher', $GLOBALS['xoopsUser']->getVar('uid', 'e'));
 

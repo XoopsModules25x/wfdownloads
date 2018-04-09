@@ -25,6 +25,9 @@ use XoopsModules\Wfdownloads;
 $currentFile = basename(__FILE__);
 require_once __DIR__ . '/admin_header.php';
 
+/** @var \XoopsMemberHandler $memberHandler */
+$memberHandler = xoops_getHandler('member');
+
 $op = Request::getString('op', 'reports.modifications.list');
 switch ($op) {
     case 'reports.update':
