@@ -27,8 +27,8 @@ require_once $GLOBALS['xoops']->path('www/include/cp_functions.php');
 require_once $GLOBALS['xoops']->path('www/include/cp_header.php');
 require_once $GLOBALS['xoops']->path('www/class/xoopsformloader.php');
 
-// require_once __DIR__ . '/../class/Utility.php';
-require_once __DIR__ . '/../include/common.php';
+// require_once  dirname(__DIR__) . '/class/Utility.php';
+require_once  dirname(__DIR__) . '/include/common.php';
 
 /** @var Wfdownloads\Helper $helper */
 $helper = Wfdownloads\Helper::getInstance();

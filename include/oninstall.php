@@ -40,11 +40,9 @@ define('BLANK_FILE_PATH', XOOPS_ROOT_PATH . '/uploads/blank.png');
  */
 function xoops_module_pre_install_wfdownloads(\XoopsModule $module)
 {
-    $moduleDirName = basename(dirname(__DIR__));
-    $utility  = ucfirst($moduleDirName) . 'Utility';
-    if (!class_exists($utility)) {
-        xoops_load('utility', $moduleDirName);
-    }
+    /** @var \XoopsModules\Wfdownloads\Utility $utility */
+    $utility = new \XoopsModules\Wfdownloads\Utility();
+
     //check for minimum XOOPS version
     if (!$utility::checkVerXoops($module)) {
         return false;
@@ -83,11 +81,8 @@ function xoops_module_install_wfdownloads(\XoopsModule $module)
 
     //    $configurator = include __DIR__ . '/config.php';
     $configurator = new Wfdownloads\Common\Configurator();
-    /** @var Wfdownloads\Utility $utility */
-    $utility = ucfirst($moduleDirName) . 'Utility';
-    if (!class_exists($utility)) {
-        xoops_load('utility', $moduleDirName);
-    }
+    /** @var \XoopsModules\Wfdownloads\Utility $utility */
+    $utility = new \XoopsModules\Wfdownloads\Utility();
 
     // default Permission Settings
     $module_id      = $xoopsModule->getVar('mid');
@@ -120,7 +115,7 @@ function xoops_module_install_wfdownloads(\XoopsModule $module)
 
     //  ---  COPY blank.png FILES ---------------
     if (count($configurator->copyBlankFiles) > 0) {
-        $file = __DIR__ . '/../assets/images/blank.png';
+        $file =  dirname(__DIR__) . '/assets/images/blank.png';
         foreach (array_keys($configurator->copyBlankFiles) as $i) {
             $dest = $configurator->copyBlankFiles[$i] . '/blank.png';
             $utility::copyFile($file, $dest);

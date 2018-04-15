@@ -25,7 +25,7 @@ use XoopsModules\Wfdownloads;
 
 //defined('XOOPS_ROOT_PATH') || die('XOOPS root path not defined');
 
-require_once __DIR__ . '/../../../../mainfile.php';
+require_once  dirname(dirname(dirname(dirname(__DIR__)))) . '/mainfile.php';
 $moduleDirName = basename(dirname(dirname(__DIR__)));
 xoops_loadLanguage('filechecker', $moduleDirName);
 

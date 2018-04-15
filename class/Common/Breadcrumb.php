@@ -31,7 +31,7 @@ use XoopsModules\Wfdownloads;
 use XoopsModules\Wfdownloads\Common;
 
 defined('XOOPS_ROOT_PATH') || die('XOOPS root path not defined');
-require_once __DIR__ . '/../../include/common.php';
+require_once  dirname(dirname(__DIR__)) . '/include/common.php';
 
 /**
  * Class Breadcrumb

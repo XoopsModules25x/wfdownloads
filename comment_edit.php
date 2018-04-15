@@ -17,5 +17,5 @@
  * @since           3.23
  * @author          Xoops Development Team
  */
-require_once __DIR__ . '/../../mainfile.php';
+require_once  dirname(dirname(__DIR__)) . '/mainfile.php';
 require_once XOOPS_ROOT_PATH . '/include/comment_edit.php';
