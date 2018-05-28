@@ -47,10 +47,10 @@ function tableExists($tablename)
  */
 function xoops_module_pre_update_wfdownloads(\XoopsModule $module)
 {
-    /** @var Wfdownloads\Helper $helper */
+    /** @var \XoopsModules\Wfdownloads\Helper $helper */
     /** @var Wfdownloads\Utility $utility */
     $moduleDirName = basename(dirname(__DIR__));
-    $helper       = Wfdownloads\Helper::getInstance();
+    $helper       = \XoopsModules\Wfdownloads\Helper::getInstance();
     $utility      = new Wfdownloads\Utility();
 
     $xoopsSuccess = $utility::checkVerXoops($module);
@@ -83,10 +83,10 @@ function xoops_module_update_wfdownloads(\XoopsModule $module, $previousVersion 
     $moduleDirName = basename(dirname(__DIR__));
     $capsDirName   = strtoupper($moduleDirName);
 
-    /** @var Wfdownloads\Helper $helper */
+    /** @var \XoopsModules\Wfdownloads\Helper $helper */
     /** @var Wfdownloads\Utility $utility */
     /** @var Wfdownloads\Common\Configurator $configurator */
-    $helper  = Wfdownloads\Helper::getInstance();
+    $helper  = \XoopsModules\Wfdownloads\Helper::getInstance();
     $utility = new Wfdownloads\Utility();
     $configurator = new Wfdownloads\Common\Configurator();
 

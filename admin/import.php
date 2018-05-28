@@ -240,13 +240,15 @@ switch ($op) {
 // =========================================================================================
 /**
  * @return null
+ * @throws \Exception
  */
 function import_wfd_to_wfdownloads()
 {
     /** @var \XoopsModuleHandler $moduleHandler */
     $moduleHandler = xoops_getHandler('module');
     // Get destination module/handlers/configs
-    $helper = Wfdownloads\Helper::getInstance();
+    /** @var \XoopsModules\Wfdownloads\Helper $helper */
+    $helper = \XoopsModules\Wfdownloads\Helper::getInstance();
 
     // Get source module/config
     $wfdDirname = 'wf' . 'downloads'; // don't modify, is for cloning

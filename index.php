@@ -8,6 +8,7 @@
  but WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
+
 /**
  * Wfdownloads module
  *
@@ -21,8 +22,12 @@
 use XoopsModules\Wfdownloads;
 use XoopsModules\Wfdownloads\Common;
 
-$currentFile = pathinfo(__FILE__, PATHINFO_BASENAME);
+//$currentFile = pathinfo(__FILE__, PATHINFO_BASENAME);
+//$currentFile = basename(__FILE__);
 require_once __DIR__ . '/header.php';
+
+$moduleDirName      = basename(__DIR__);
+$moduleDirNameUpper = strtoupper($moduleDirName);
 
 // Check directories
 if (!is_dir($helper->getConfig('uploaddir'))) {
@@ -74,7 +79,7 @@ $xoTheme->addStylesheet(WFDOWNLOADS_URL . '/assets/css/module.css');
 $xoopsTpl->assign('wfdownloads_url', WFDOWNLOADS_URL . '/');
 
 // Breadcrumb
-$breadcrumb = new common\Breadcrumb();
+$breadcrumb = new Common\Breadcrumb();
 $breadcrumb->addLink($helper->getModule()->getVar('name'), WFDOWNLOADS_URL);
 
 $xoopsTpl->assign('module_home', Wfdownloads\Utility::moduleHome(false)); // this definition is not removed for backward compatibility issues
@@ -103,14 +108,13 @@ $catarray['indexfooter']      =& $myts->displayTarea($head_arr['indexfooter'], $
 
 //$catarray['letters']          = Wfdownloads\Utility::lettersChoice();
 
-
 // Letter Choice Start ---------------------------------------
 
-XoopsModules\Wfdownloads\Helper::getInstance()->loadLanguage('common');
-$xoopsTpl->assign('letterChoiceTitle', constant('CO_'.$moduleDirNameUpper.'_'.'BROWSETOTOPIC'));
+$helper->loadLanguage('common');
+$xoopsTpl->assign('letterChoiceTitle', constant('CO_' . $moduleDirNameUpper . '_' . 'BROWSETOTOPIC'));
 /** @var \XoopsDatabase $db */
-$db = \XoopsDatabaseFactory::getDatabaseConnection();
-$objHandler = new Wfdownloads\DownloadHandler($db);
+$db             = \XoopsDatabaseFactory::getDatabaseConnection();
+$objHandler     = new Wfdownloads\DownloadHandler($db);
 $choicebyletter = new Wfdownloads\Common\LetterChoice($objHandler, null, null, range('a', 'z'), 'letter', 'viewcat.php');
 //$choicebyletter = new Wfdownloads\Common\LetterChoice($objHandler, null, null, range('a', 'z'), 'init', XOOPSTUBE_URL . '/letter.php');
 //render the LetterChoice partial and story as part of the Category array
@@ -123,8 +127,7 @@ $xoopsTpl->assign('catarray', $catarray);
 
 // Letter Choice End ------------------------------------
 
-
-$catarray['toolbar']          = Wfdownloads\Utility::toolbar();
+$catarray['toolbar'] = Wfdownloads\Utility::toolbar();
 $xoopsTpl->assign('catarray', $catarray);
 
 // Begin Main page download info
@@ -228,7 +231,7 @@ foreach (array_keys($mainCategoryObjs) as $i) {
                     $helper->getConfig('cat_imgwidth'),
                     $helper->getConfig('cat_imgheight'),
                     $helper->getConfig('imagequality'),
-                                                            $helper->getConfig('updatethumbs'),
+                    $helper->getConfig('updatethumbs'),
                     $helper->getConfig('keepaspect')
                 );
             } else {

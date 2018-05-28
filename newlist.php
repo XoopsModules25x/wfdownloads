@@ -50,7 +50,7 @@ $catArray['toolbar']     = Wfdownloads\Utility::toolbar();
 $xoopsTpl->assign('catarray', $catArray);
 
 // Breadcrumb
-$breadcrumb = new common\Breadcrumb();
+$breadcrumb = new Common\Breadcrumb();
 $breadcrumb->addLink($helper->getModule()->getVar('name'), WFDOWNLOADS_URL);
 
 // Get number of downloads...

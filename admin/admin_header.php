@@ -30,8 +30,8 @@ require_once $GLOBALS['xoops']->path('www/class/xoopsformloader.php');
 // require_once  dirname(__DIR__) . '/class/Utility.php';
 require_once  dirname(__DIR__) . '/include/common.php';
 
-/** @var Wfdownloads\Helper $helper */
-$helper = Wfdownloads\Helper::getInstance();
+/** @var \XoopsModules\Wfdownloads\Helper $helper */
+$helper = \XoopsModules\Wfdownloads\Helper::getInstance();
 
 /** @var Xmf\Module\Admin $adminObject */
 $adminObject = \Xmf\Module\Admin::getInstance();

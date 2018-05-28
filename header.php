@@ -17,8 +17,32 @@
  * @since           3.23
  * @author          Xoops Development Team
  */
+
+use XoopsModules\Wfdownloads;
+
 require_once  dirname(dirname(__DIR__)) . '/mainfile.php';
 require_once __DIR__ . '/include/common.php';
+
+//require_once XOOPS_ROOT_PATH . '/header.php';
+
+$moduleDirName = basename(__DIR__);
+
+/** @var \XoopsModules\Wfdownloads\Helper $helper */
+$helper = \XoopsModules\Wfdownloads\Helper::getInstance();
+
+
+$myts = \MyTextSanitizer::getInstance();
+
+//Handlers
+//$XXXHandler = xoops_getModuleHandler('XXX', $moduleDirName);
+
+// Load language files
+$helper->loadLanguage('main');
+
+if (!isset($GLOBALS['xoopsTpl']) || !($GLOBALS['xoopsTpl'] instanceof XoopsTpl)) {
+    require_once $GLOBALS['xoops']->path('class/template.php');
+    $xoopsTpl = new XoopsTpl();
+}
 
 
 // uncomment the below line only if you are using Protector 3.x module

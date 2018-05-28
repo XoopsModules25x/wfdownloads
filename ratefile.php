@@ -52,7 +52,7 @@ if (false === $helper->getConfig('enable_ratings') && !Wfdownloads\Utility::user
 // Breadcrumb
 require_once XOOPS_ROOT_PATH . '/class/tree.php';
 $categoryObjsTree = new Wfdownloads\ObjectTree($helper->getHandler('Category')->getObjects(), 'cid', 'pid');
-$breadcrumb       = new common\Breadcrumb();
+$breadcrumb       = new Common\Breadcrumb();
 $breadcrumb->addLink($helper->getModule()->getVar('name'), WFDOWNLOADS_URL);
 foreach (array_reverse($categoryObjsTree->getAllParent($cid)) as $parentCategory) {
     $breadcrumb->addLink($parentCategory->getVar('title'), 'viewcat.php?cid=' . $parentCategory->getVar('cid'));

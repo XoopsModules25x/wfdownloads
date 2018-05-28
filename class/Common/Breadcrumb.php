@@ -20,7 +20,7 @@
  * @version     $Id:$
  *
  * Example:
- * $breadcrumb = new common\Breadcrumb();
+ * $breadcrumb = new Common\Breadcrumb();
  * $breadcrumb->addLink( 'bread 1', 'index1.php' );
  * $breadcrumb->addLink( 'bread 2', '' );
  * $breadcrumb->addLink( 'bread 3', 'index3.php' );
@@ -51,7 +51,8 @@ class Breadcrumb
      */
     public function __construct()
     {
-        $this->helper  = Wfdownloads\Helper::getInstance();
+        /** @var \XoopsModules\Wfdownloads\Helper $this->helper */
+        $this->helper  = \XoopsModules\Wfdownloads\Helper::getInstance();
         $this->dirname = basename(dirname(dirname(__DIR__)));
     }
 

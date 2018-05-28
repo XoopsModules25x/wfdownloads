@@ -34,7 +34,8 @@ define('BLANK_FILE_PATH', XOOPS_ROOT_PATH . '/uploads/blank.png');
 xoops_cp_header();
 $adminObject = \Xmf\Module\Admin::getInstance();
 
-$helper       = Wfdownloads\Helper::getInstance();
+/** @var \XoopsModules\Wfdownloads\Helper $helper */
+$helper = \XoopsModules\Wfdownloads\Helper::getInstance();
 
 $moduleDirName = basename(dirname(__DIR__));
 $moduleDirNameUpper = strtoupper($moduleDirName);
@@ -119,55 +120,46 @@ $adminObject->addInfoBoxLine(sprintf('<infolabel>' . _AM_WFDOWNLOADS_UPLOAD_MAXF
 $adminObject->addConfigBoxLine('');
 $redirectFile = $_SERVER['PHP_SELF'];
 
+//check Formulize presence
 if (!Wfdownloads\Utility::checkModule('formulize')) {
     $adminObject->addConfigBoxLine(_AM_WFDOWNLOADS_FORMULIZE_NOT_AVILABLE);
 } else {
     $adminObject->addConfigBoxLine(_AM_WFDOWNLOADS_FORMULIZE_AVAILABLE);
 }
 
+//check directories
 $adminObject->addConfigBoxLine('');
-
 //$path = $helper->getConfig('uploaddir') . '/';
 $path = $helper->getConfig('uploaddir');
-$adminObject->addConfigBoxLine(common\DirectoryChecker::getDirectoryStatus($path, 0777, $redirectFile));
+$adminObject->addConfigBoxLine(Common\DirectoryChecker::getDirectoryStatus($path, 0777, $redirectFile));
 
 $path = $helper->getConfig('batchdir') . '/';
-$adminObject->addConfigBoxLine(common\DirectoryChecker::getDirectoryStatus($path, 0777, $redirectFile));
-
-//$adminObject->addConfigBoxLine('');
+$adminObject->addConfigBoxLine(Common\DirectoryChecker::getDirectoryStatus($path, 0777, $redirectFile));
 
 $path = XOOPS_ROOT_PATH . '/' . $helper->getConfig('mainimagedir') . '/';
-$adminObject->addConfigBoxLine(common\DirectoryChecker::getDirectoryStatus($path, 0777, $redirectFile));
+$adminObject->addConfigBoxLine(Common\DirectoryChecker::getDirectoryStatus($path, 0777, $redirectFile));
 //$adminObject->addConfigBoxLine(FileChecker::getFileStatus($path . 'blank.png', BLANK_FILE_PATH, $redirectFile));
-
-//$adminObject->addConfigBoxLine('');
 
 $path = XOOPS_ROOT_PATH . '/' . $helper->getConfig('screenshots') . '/';
-$adminObject->addConfigBoxLine(common\DirectoryChecker::getDirectoryStatus($path, 0777, $redirectFile));
+$adminObject->addConfigBoxLine(Common\DirectoryChecker::getDirectoryStatus($path, 0777, $redirectFile));
 //$adminObject->addConfigBoxLine(FileChecker::getFileStatus($path . 'blank.png', BLANK_FILE_PATH, $redirectFile));
-$adminObject->addConfigBoxLine(common\DirectoryChecker::getDirectoryStatus($path . 'thumbs' . '/', 0777, $redirectFile));
+$adminObject->addConfigBoxLine(Common\DirectoryChecker::getDirectoryStatus($path . 'thumbs' . '/', 0777, $redirectFile));
 //$adminObject->addConfigBoxLine(FileChecker::getFileStatus($path . 'thumbs' . '/' . 'blank.png', BLANK_FILE_PATH, $redirectFile));
 
-//$adminObject->addConfigBoxLine('');
-
 $path = XOOPS_ROOT_PATH . '/' . $helper->getConfig('catimage') . '/';
-$adminObject->addConfigBoxLine(common\DirectoryChecker::getDirectoryStatus($path, 0777, $redirectFile));
+$adminObject->addConfigBoxLine(Common\DirectoryChecker::getDirectoryStatus($path, 0777, $redirectFile));
 //$adminObject->addConfigBoxLine(FileChecker::getFileStatus($path . 'blank.png', BLANK_FILE_PATH, $redirectFile));
-$adminObject->addConfigBoxLine(common\DirectoryChecker::getDirectoryStatus($path . 'thumbs' . '/', 0777, $redirectFile));
+$adminObject->addConfigBoxLine(Common\DirectoryChecker::getDirectoryStatus($path . 'thumbs' . '/', 0777, $redirectFile));
 //$adminObject->addConfigBoxLine(FileChecker::getFileStatus($path . 'thumbs' . '/' . 'blank.png', BLANK_FILE_PATH, $redirectFile));
 
 //---------------------------
 $adminObject->addConfigBoxLine('');
 
-//$moduleDirName = basename(dirname(__DIR__));
-
 /** @var Wfdownloads\Common\Configurator $configurator */
 $configurator = new Wfdownloads\Common\Configurator();
 
-
 /** @var Wfdownloads\Utility $utility */
 $utility = new Wfdownloads\Utility();
-
 
 foreach (array_keys($configurator->uploadFolders) as $i) {
     $utility::createFolder($configurator->uploadFolders[$i]);

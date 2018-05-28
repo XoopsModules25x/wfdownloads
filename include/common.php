@@ -27,11 +27,11 @@ $moduleDirName      = basename(dirname(__DIR__));
 $moduleDirNameUpper = strtoupper($moduleDirName); //$capsDirName
 
 /** @var \XoopsDatabase $db */
-/** @var Wfdownloads\Helper $helper */
-/** @var Wfdownloads\Utility $utility */
+/** @var \XoopsModules\Wfdownloads\Helper $helper */
+/** @var \XoopsModules\Wfdownloads\Utility $utility */
 $db           = \XoopsDatabaseFactory::getDatabaseConnection();
-$helper       = Wfdownloads\Helper::getInstance();
-$utility      = new Wfdownloads\Utility();
+$helper       = \XoopsModules\Wfdownloads\Helper::getInstance();
+$utility      = new \XoopsModules\Wfdownloads\Utility();
 //$configurator = new Wfdownloads\Common\Configurator();
 
 $helper->loadLanguage('common');

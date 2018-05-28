@@ -40,7 +40,8 @@ class Report extends \XoopsObject
      */
     public function __construct($id = null)
     {
-        $this->helper = Wfdownloads\Helper::getInstance();
+        /** @var \XoopsModules\Wfdownloads\Helper $this->helper */
+        $this->helper = \XoopsModules\Wfdownloads\Helper::getInstance();
         $this->db          = \XoopsDatabaseFactory::getDatabaseConnection();
         $this->initVar('reportid', XOBJ_DTYPE_INT);
         $this->initVar('lid', XOBJ_DTYPE_INT);

@@ -42,6 +42,7 @@ class MirrorHandler extends \XoopsPersistableObjectHandler
     public function __construct(\XoopsDatabase $db)
     {
         parent::__construct($db, 'wfdownloads_mirrors', Mirror::class, 'mirror_id', 'title');
-        $this->helper = Wfdownloads\Helper::getInstance();
+        /** @var \XoopsModules\Wfdownloads\Helper $helper */
+        $this->helper = \XoopsModules\Wfdownloads\Helper::getInstance();
     }
 }

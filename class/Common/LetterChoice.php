@@ -79,7 +79,8 @@ class LetterChoice
         $extra_arg = '',
         $caseSensitive = false
     ) {
-        $this->helper     = Wfdownloads\Helper::getInstance();
+        /** @var \XoopsModules\Wfdownloads\Helper $this->helper */
+        $this->helper     = \XoopsModules\Wfdownloads\Helper::getInstance();
         $this->objHandler = $objHandler;
         $this->criteria   = null === $criteria ? new \CriteriaCompo() : $criteria;
         $this->field_name = null === $field_name ? $this->objHandler->identifierName : $field_name;

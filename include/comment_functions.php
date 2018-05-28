@@ -31,7 +31,8 @@ require_once __DIR__ . '/common.php';
  */
 function wfdownloads_com_update($download_id, $commentCount)
 {
-    $helper = Wfdownloads\Helper::getInstance();
+    /** @var \XoopsModules\Wfdownloads\Helper $helper */
+    $helper = \XoopsModules\Wfdownloads\Helper::getInstance();
     $helper->getHandler('Download')->updateAll('comments', (int)$commentCount, new \Criteria('lid', (int)$download_id));
 }
 

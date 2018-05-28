@@ -88,7 +88,7 @@ switch ($op) {
         $xoopsTpl->assign('catarray', $catarray);
 
         // Breadcrumb
-        $breadcrumb = new common\Breadcrumb();
+        $breadcrumb = new Common\Breadcrumb();
         $breadcrumb->addLink($helper->getModule()->getVar('name'), WFDOWNLOADS_URL);
         $breadcrumb->addLink(_MD_WFDOWNLOADS_SUBMITDOWNLOAD, '');
         $xoopsTpl->assign('wfdownloads_breadcrumb', $breadcrumb->render());
@@ -180,7 +180,7 @@ switch ($op) {
         $catarray['imageheader'] = Wfdownloads\Utility::headerImage();
 
         // Breadcrumb
-        $breadcrumb = new common\Breadcrumb();
+        $breadcrumb = new Common\Breadcrumb();
         $breadcrumb->addLink($helper->getModule()->getVar('name'), WFDOWNLOADS_URL);
         $breadcrumb->addLink(_MD_WFDOWNLOADS_SUBMITDOWNLOAD, '');
         $xoopsTpl->assign('wfdownloads_breadcrumb', $breadcrumb->render());

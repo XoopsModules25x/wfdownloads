@@ -29,7 +29,8 @@ xoops_load('XoopsUserUtility');
 /** @var \XoopsNotificationHandler $notificationHandler */
 $notificationHandler = xoops_getHandler('notification');
 
-$helper       = Wfdownloads\Helper::getInstance();
+/** @var \XoopsModules\Wfdownloads\Helper $helper */
+$helper = \XoopsModules\Wfdownloads\Helper::getInstance();
 
 /** @var \XoopsMemberHandler $memberHandler */
 $memberHandler = xoops_getHandler('member');
@@ -303,10 +304,10 @@ switch ($op) {
         }
         // Get data from form
         $screenshots   = [];
-        $screenshots[] = ('blank.png' !== $_POST['screenshot']) ? $_POST['screenshot'] : '';
-        $screenshots[] = ('blank.png' !== $_POST['screenshot2']) ? $_POST['screenshot2'] : '';
-        $screenshots[] = ('blank.png' !== $_POST['screenshot3']) ? $_POST['screenshot3'] : '';
-        $screenshots[] = ('blank.png' !== $_POST['screenshot4']) ? $_POST['screenshot4'] : '';
+        $screenshots[] = ('blank.png' !== Request::getString('screenshot', '', 'POST')) ? Request::getString('screenshot', '', 'POST'): '';  //$_POST['screenshot']) ? $_POST['screenshot'] : '';
+        $screenshots[] = ('blank.png' !== Request::getString('screenshot2', '', 'POST')) ? Request::getString('screenshot2', '', 'POST'): '';  //('blank.png' !== $_POST['screenshot2']) ? $_POST['screenshot2'] : '';
+        $screenshots[] = ('blank.png' !== Request::getString('screenshot3', '', 'POST')) ? Request::getString('screenshot3', '', 'POST'): '';  //('blank.png' !== $_POST['screenshot3']) ? $_POST['screenshot3'] : '';
+        $screenshots[] = ('blank.png' !== Request::getString('screenshot4', '', 'POST')) ? Request::getString('screenshot4', '', 'POST'): '';  //('blank.png' !== $_POST['screenshot4']) ? $_POST['screenshot4'] : '';
 
         if (Request::hasVar('homepage') || 'http://' !== Request::getString('homepage', '', 'POST')) {
             $downloadObj->setVar('homepage', Request::getString('homepage', '', 'POST')); //trim($_POST['homepage']));
@@ -349,8 +350,8 @@ switch ($op) {
         $downloadObj->setVar('screenshot3', $screenshots[2]); // old style
         $downloadObj->setVar('screenshot4', $screenshots[3]); // old style
         $downloadObj->setVar('screenshots', $screenshots); // new style
-        $downloadObj->setVar('platform', Request::getInt('platform', 0, 'POST'));
-        $downloadObj->setVar('summary', Request::getInt('summary', 0, 'POST'));
+        $downloadObj->setVar('platform', Request::getString('platform', '', 'POST'));
+        $downloadObj->setVar('summary', Request::getText('summary', '', 'POST'));
         $downloadObj->setVar('description', Request::getText('description', '', 'POST'));
         $downloadObj->setVar('dohtml', Request::getInt('dohtml', 0, 'POST'));
         $downloadObj->setVar('dosmiley', Request::getInt('dosmiley', 0, 'POST'));
@@ -359,21 +360,18 @@ switch ($op) {
         $downloadObj->setVar('dobr', Request::getInt('dobr', 0, 'POST'));
         $downloadObj->setVar('submitter', Request::getInt('submitter', 0, 'POST'));
         $downloadObj->setVar('publisher', Request::getString('publisher', '', 'POST'));
-        $downloadObj->setVar('price', Request::getInt('price', 0, 'POST'));
+        $downloadObj->setVar('price', Request::getString('price', '', 'POST'));
         $downloadObj->setVar('paypalemail', Request::getString('paypalemail', '', 'POST'));
-
-//        if (!$helper->getConfig('enable_mirrors')) {
+        if (!$helper->getConfig('enable_mirrors')) {
             $downloadObj->setVar('mirror', formatURL(Request::getString('mirror', '', 'POST')));
-//        }
-        $downloadObj->setVar('license', Request::getInt('license', 0, 'POST'));
-        $downloadObj->setVar('features', Request::getString('features', '', 'POST'));
-        $downloadObj->setVar('requirements', Request::getString('requirements', '', 'POST'));
-        $limitations = Request::getString('limitations', '', 'POST');
-        $downloadObj->setVar('limitations', $limitations);
-        $versiontypes = Request::getString('versiontypes', '', 'POST');
-        $downloadObj->setVar('versiontypes', $versiontypes);
+        }
+        $downloadObj->setVar('license', Request::getString('license', '', 'POST'));
+        $downloadObj->setVar('features', Request::getText('features', '', 'POST'));
+        $downloadObj->setVar('requirements', Request::getText('requirements', '', 'POST'));
+        $downloadObj->setVar('limitations', $Request::getString('limitations', '', 'POST'));
+        $downloadObj->setVar('versiontypes', $Request::getString('versiontypes', '', 'POST'));
 
-        $dhistory        = Request::getString('dhistory', '', 'POST');
+        $dhistory        = Request::getText('dhistory', '', 'POST');
         $dhistoryhistory = Request::getString('dhistoryaddedd', '', 'POST');
 
         if ($lid > 0 && !empty($dhistoryhistory)) {
@@ -697,6 +695,8 @@ switch ($op) {
             $date_select = new \XoopsFormDateTime(null, 'filter_date', 15, time(), false);
             $GLOBALS['xoopsTpl']->assign('filter_date_select', $date_select->render());
             $GLOBALS['xoopsTpl']->assign('filter_date_condition', $filter_date_condition);
+//mb
+            $GLOBALS['xoopsTpl']->assign('published_downloads_pagenav', $pagenav->renderNav());
 
             // New Downloads
             $criteria = new \CriteriaCompo();

@@ -95,9 +95,6 @@ define('CO_' . $moduleDirNameUpper . '_' . 'EXPORT_SCHEMA_SUCCESS', 'Export DB S
 define('CO_' . $moduleDirNameUpper . '_' . 'EXPORT_SCHEMA_ERROR', 'ERROR: Export of DB Schema to YAML failed');
 
 //letter choice
-define(
-    'CO_'.$moduleDirNameUpper.'_'.'BROWSETOTOPIC',
-    "<span style='font-weight: bold;'>Browse items alphabetically</span>"
-);
+define('CO_'.$moduleDirNameUpper.'_'.'BROWSETOTOPIC', "<span style='font-weight: bold;'>Browse items alphabetically</span>");
 define('CO_'.$moduleDirNameUpper.'_'.'OTHER', 'Other');
 define('CO_'.$moduleDirNameUpper.'_'.'ALL', 'All');

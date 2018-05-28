@@ -21,8 +21,8 @@
 use XoopsModules\Wfdownloads;
 require_once __DIR__ . '/preloads/autoloader.php';
 
-/** @var Wfdownloads\Helper $helper */
-$helper = Wfdownloads\Helper::getInstance();
+/** @var \XoopsModules\Wfdownloads\Helper $helper */
+$helper = \XoopsModules\Wfdownloads\Helper::getInstance();
 
 $moduleDirName = basename(__DIR__);
 

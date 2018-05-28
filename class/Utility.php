@@ -46,7 +46,8 @@ class Utility
      */
     public static function displayCategory(Wfdownloads\Category $categoryObj, $level = 0)
     {
-        $helper = Wfdownloads\Helper::getInstance();
+        /** @var \XoopsModules\Wfdownloads\Helper $helper */
+        $helper = \XoopsModules\Wfdownloads\Helper::getInstance();
 
         $description = $categoryObj->description();
         if (!XOOPS_USE_MULTIBYTES) {
@@ -68,7 +69,7 @@ class Utility
         echo "<td class='even' align='center'>" . $categoryObj->weight() . '</td>';
         echo "<td class='even' align='center'> $modify $delete </td>";
         echo '</tr>';
-        $subCategoriesObj = $publisher->getHandler('Category')->getCategories(0, 0, $categoryObj->categoryid());
+        $subCategoriesObj = $helper->getHandler('Category')->getCategories(0, 0, $categoryObj->categoryid());
         if (count($subCategoriesObj) > 0) {
             ++$level;
             foreach ($subCategoriesObj as $key => $thiscat) {
@@ -87,19 +88,20 @@ class Utility
      */
     public static function editCategory($showmenu = false, $categoryId = 0, $nbSubCats = 4, $categoryObj = null)
     {
-        $publisher = Wfdownloads\Helper::getInstance();
+        /** @var \XoopsModules\Wfdownloads\Helper $helper */
+        $helper = \XoopsModules\Wfdownloads\Helper::getInstance();
 
         // if there is a parameter, and the id exists, retrieve data: we're editing a category
         if (0 != $categoryId) {
             // Creating the category object for the selected category
-            $categoryObj = $publisher->getHandler('Category')->get($categoryId);
+            $categoryObj = $helper->getHandler('Category')->get($categoryId);
             if ($categoryObj->notLoaded()) {
                 redirect_header('category.php', 1, _AM_PUBLISHER_NOCOLTOEDIT);
                 //            exit();
             }
         } else {
             if (!$categoryObj) {
-                $categoryObj = $publisher->getHandler('Category')->create();
+                $categoryObj = $helper->getHandler('Category')->create();
             }
         }
 
@@ -125,10 +127,10 @@ class Utility
 
             publisherOpenCollapsableBar('subcatstable', 'subcatsicon', _AM_PUBLISHER_SUBCAT_CAT, _AM_PUBLISHER_SUBCAT_CAT_DSC);
             // Get the total number of sub-categories
-            $categoriesObj = $publisher->getHandler('Category')->get($selCat);
-            $totalsubs     = $publisher->getHandler('Category')->getCategoriesCount($selCat);
+            $categoriesObj = $helper->getHandler('Category')->get($selCat);
+            $totalsubs     = $helper->getHandler('Category')->getCategoriesCount($selCat);
             // creating the categories objects that are published
-            $subcatsObj    = $publisher->getHandler('Category')->getCategories(0, 0, $categoriesObj->categoryid());
+            $subcatsObj    = $helper->getHandler('Category')->getCategories(0, 0, $categoriesObj->categoryid());
             $totalSCOnPage = count($subcatsObj);
             echo "<table width='100%' cellspacing=1 cellpadding=3 border=0 class = outer>";
             echo '<tr>';
@@ -139,11 +141,11 @@ class Utility
             echo '</tr>';
             if ($totalsubs > 0) {
                 foreach ($subcatsObj as $subcat) {
-                    $modify = "<a href='category.php?op=mod&amp;categoryid=" . $subcat->categoryid() . "'><img src='" . XOOPS_URL . '/modules/' . $publisher->getModule()->dirname() . "/assets/images/links/edit.gif' title='" . _AM_PUBLISHER_MODIFY . "' alt='" . _AM_PUBLISHER_MODIFY . "'></a>";
-                    $delete = "<a href='category.php?op=del&amp;categoryid=" . $subcat->categoryid() . "'><img src='" . XOOPS_URL . '/modules/' . $publisher->getModule()->dirname() . "/assets/images/links/delete.png' title='" . _AM_PUBLISHER_DELETE . "' alt='" . _AM_PUBLISHER_DELETE . "'></a>";
+                    $modify = "<a href='category.php?op=mod&amp;categoryid=" . $subcat->categoryid() . "'><img src='" . XOOPS_URL . '/modules/' . $helper->getModule()->dirname() . "/assets/images/links/edit.gif' title='" . _AM_PUBLISHER_MODIFY . "' alt='" . _AM_PUBLISHER_MODIFY . "'></a>";
+                    $delete = "<a href='category.php?op=del&amp;categoryid=" . $subcat->categoryid() . "'><img src='" . XOOPS_URL . '/modules/' . $helper->getModule()->dirname() . "/assets/images/links/delete.png' title='" . _AM_PUBLISHER_DELETE . "' alt='" . _AM_PUBLISHER_DELETE . "'></a>";
                     echo '<tr>';
                     echo "<td class='head' align='left'>" . $subcat->categoryid() . '</td>';
-                    echo "<td class='even' align='left'><a href='" . XOOPS_URL . '/modules/' . $publisher->getModule()->dirname() . '/category.php?categoryid=' . $subcat->categoryid() . '&amp;parentid=' . $subcat->parentid() . "'>" . $subcat->name() . '</a></td>';
+                    echo "<td class='even' align='left'><a href='" . XOOPS_URL . '/modules/' . $helper->getModule()->dirname() . '/category.php?categoryid=' . $subcat->categoryid() . '&amp;parentid=' . $subcat->parentid() . "'>" . $subcat->name() . '</a></td>';
                     echo "<td class='even' align='left'>" . $subcat->description() . '</td>';
                     echo "<td class='even' align='right'> {$modify} {$delete} </td>";
                     echo '</tr>';
@@ -161,11 +163,11 @@ class Utility
             publisherOpenCollapsableBar('bottomtable', 'bottomtableicon', _AM_PUBLISHER_CAT_ITEMS, _AM_PUBLISHER_CAT_ITEMS_DSC);
             $startitem = Request::getInt('startitem');
             // Get the total number of published ITEMS
-            $totalitems = $publisher->getHandler('Item')->getItemsCount($selCat, [Wfdownloads\Constants::PUBLISHER_STATUS_PUBLISHED]);
+            $totalitems = $helper->getHandler('Item')->getItemsCount($selCat, [Wfdownloads\Constants::PUBLISHER_STATUS_PUBLISHED]);
             // creating the items objects that are published
-            $itemsObj         = $publisher->getHandler('Item')->getAllPublished($publisher->getConfig('idxcat_perpage'), $startitem, $selCat);
+            $itemsObj         = $helper->getHandler('Item')->getAllPublished($helper->getConfig('idxcat_perpage'), $startitem, $selCat);
             $totalitemsOnPage = count($itemsObj);
-            $allcats          = $publisher->getHandler('Category')->getObjects(null, true);
+            $allcats          = $helper->getHandler('Category')->getObjects(null, true);
             echo "<table width='100%' cellspacing=1 cellpadding=3 border=0 class = outer>";
             echo '<tr>';
             echo "<td width='40' class='bg3' align='center'><strong>" . _AM_PUBLISHER_ITEMID . '</strong></td>';
@@ -177,13 +179,13 @@ class Utility
             if ($totalitems > 0) {
                 for ($i = 0; $i < $totalitemsOnPage; ++$i) {
                     $categoryObj = $allcats[$itemsObj[$i]->categoryid()];
-                    $modify      = "<a href='item.php?op=mod&amp;itemid=" . $itemsObj[$i]->itemid() . "'><img src='" . XOOPS_URL . '/modules/' . $publisher->getModule()->dirname() . "/assets/images/links/edit.gif' title='" . _AM_PUBLISHER_EDITITEM . "' alt='" . _AM_PUBLISHER_EDITITEM . "'></a>";
+                    $modify      = "<a href='item.php?op=mod&amp;itemid=" . $itemsObj[$i]->itemid() . "'><img src='" . XOOPS_URL . '/modules/' . $helper->getModule()->dirname() . "/assets/images/links/edit.gif' title='" . _AM_PUBLISHER_EDITITEM . "' alt='" . _AM_PUBLISHER_EDITITEM . "'></a>";
                     $delete      = "<a href='item.php?op=del&amp;itemid="
                                    . $itemsObj[$i]->itemid()
                                    . "'><img src='"
                                    . XOOPS_URL
                                    . '/modules/'
-                                   . $publisher->getModule()->dirname()
+                                   . $helper->getModule()->dirname()
                                    . "/assets/images/links/delete.png' title='"
                                    . _AM_PUBLISHER_DELETEITEM
                                    . "' alt='"
@@ -208,7 +210,7 @@ class Utility
             $parentid         = Request::getInt('parentid', 0, 'GET');
             $pagenavExtraArgs = "op=mod&categoryid=$selCat&parentid=$parentid";
             xoops_load('XoopsPageNav');
-            $pagenav = new \XoopsPageNav($totalitems, $publisher->getConfig('idxcat_perpage'), $startitem, 'startitem', $pagenavExtraArgs);
+            $pagenav = new \XoopsPageNav($totalitems, $helper->getConfig('idxcat_perpage'), $startitem, 'startitem', $pagenavExtraArgs);
             echo '<div style="text-align:right;">' . $pagenav->renderNav() . '</div>';
             echo "<input type='button' name='button' onclick=\"location='item.php?op=mod&categoryid=" . $selCat . "'\" value='" . _AM_PUBLISHER_CREATEITEM . "'>&nbsp;&nbsp;";
             echo '</div>';
@@ -538,7 +540,8 @@ class Utility
      */
     public static function sortCategories($pid = 0, $level = 0)
     {
-        $helper = Wfdownloads\Helper::getInstance();
+        /** @var \XoopsModules\Wfdownloads\Helper $helper */
+        $helper = \XoopsModules\Wfdownloads\Helper::getInstance();
 
         $sorted   = [];
         $criteria = new \CriteriaCompo();
@@ -572,7 +575,8 @@ class Utility
      */
     public static function lettersChoice()
     {
-        $helper = Wfdownloads\Helper::getInstance();
+        /** @var \XoopsModules\Wfdownloads\Helper $helper */
+        $helper = \XoopsModules\Wfdownloads\Helper::getInstance();
 
         $criteria = $helper->getHandler('Download')->getActiveCriteria();
         $criteria->setGroupby('UPPER(LEFT(title,1))');
@@ -616,7 +620,8 @@ class Utility
      */
     public static function userIsAdmin()
     {
-        $helper = Wfdownloads\Helper::getInstance();
+        /** @var \XoopsModules\Wfdownloads\Helper $helper */
+        $helper = \XoopsModules\Wfdownloads\Helper::getInstance();
 
         static $wfdownloads_isAdmin;
         if (null !== $wfdownloads_isAdmin) {
@@ -639,7 +644,8 @@ class Utility
      */
     public static function moduleHome($withLink = true)
     {
-        $helper = Wfdownloads\Helper::getInstance();
+        /** @var \XoopsModules\Wfdownloads\Helper $helper */
+        $helper = \XoopsModules\Wfdownloads\Helper::getInstance();
 
         $wfdownloadsModuleName = $helper->getModule()->getVar('name');
         if (!$withLink) {
@@ -869,7 +875,8 @@ class Utility
      */
     public static function savePermissions($groups, $id, $permName)
     {
-        $helper = Wfdownloads\Helper::getInstance();
+        /** @var \XoopsModules\Wfdownloads\Helper $helper */
+        $helper = \XoopsModules\Wfdownloads\Helper::getInstance();
 
         $id           = (int)$id;
         $result       = true;
@@ -894,7 +901,8 @@ class Utility
      */
     public static function toolbar()
     {
-        $helper = Wfdownloads\Helper::getInstance();
+        /** @var \XoopsModules\Wfdownloads\Helper $helper */
+        $helper = \XoopsModules\Wfdownloads\Helper::getInstance();
 
         $isSubmissionAllowed = false;
         if (is_object($GLOBALS['xoopsUser'])
@@ -935,7 +943,8 @@ class Utility
      */
     public static function displayIcons($time, $status = _WFDOWNLOADS_STATUS_WAITING, $counter = 0)
     {
-        $helper = Wfdownloads\Helper::getInstance();
+        /** @var \XoopsModules\Wfdownloads\Helper $helper */
+        $helper = \XoopsModules\Wfdownloads\Helper::getInstance();
 
         $new     = '';
         $pop     = '';
@@ -1122,7 +1131,8 @@ class Utility
      */
     public static function updateRating($lid)
     {
-        $helper = Wfdownloads\Helper::getInstance();
+        /** @var \XoopsModules\Wfdownloads\Helper $helper */
+        $helper = \XoopsModules\Wfdownloads\Helper::getInstance();
 
         $ratingObjs    = $helper->getHandler('Rating')->getObjects(new \Criteria('lid', (int)$lid));
         $ratings_count = count($ratingObjs);
@@ -1146,7 +1156,8 @@ class Utility
     public static function categoriesCount()
     {
         $grouppermHandler             = xoops_getHandler('groupperm');
-        $helper                   = Wfdownloads\Helper::getInstance();
+        /** @var \XoopsModules\Wfdownloads\Helper $helper */
+        $helper = \XoopsModules\Wfdownloads\Helper::getInstance();
         $groups                   = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : [0 => XOOPS_GROUP_ANONYMOUS];
         $allowedDownCategoriesIds = $grouppermHandler->getItemIds('WFDownCatPerm', $groups, $helper->getModule()->mid());
 
@@ -1162,7 +1173,8 @@ class Utility
      */
     public static function getTotalDownloads($cids = 0)
     {
-        $helper = Wfdownloads\Helper::getInstance();
+        /** @var \XoopsModules\Wfdownloads\Helper $helper */
+        $helper = \XoopsModules\Wfdownloads\Helper::getInstance();
 
         $criteria = new \CriteriaCompo(new \Criteria('offline', false));
         $criteria->add(new \Criteria('published', 0, '>'));
@@ -1189,7 +1201,8 @@ class Utility
      */
     public static function headerImage()
     {
-        $helper = Wfdownloads\Helper::getInstance();
+        /** @var \XoopsModules\Wfdownloads\Helper $helper */
+        $helper = \XoopsModules\Wfdownloads\Helper::getInstance();
 
         $image  = '';
         $result = $GLOBALS['xoopsDB']->query('SELECT indeximage, indexheading FROM ' . $GLOBALS['xoopsDB']->prefix('wfdownloads_indexpage') . ' ');
@@ -1211,7 +1224,8 @@ class Utility
      */
     public static function displayImage($image = '', $href = '', $imgSource = '', $altText = '')
     {
-        $helper = Wfdownloads\Helper::getInstance();
+        /** @var \XoopsModules\Wfdownloads\Helper $helper */
+        $helper = \XoopsModules\Wfdownloads\Helper::getInstance();
 
         $showImage = '';
 
@@ -1253,7 +1267,8 @@ class Utility
      */
     public static function createThumb($imgName, $imgPath, $imgSavePath, $width = 100, $height = 100, $quality = 100, $update = false, $aspect = 1)
     {
-        $helper = Wfdownloads\Helper::getInstance();
+        /** @var \XoopsModules\Wfdownloads\Helper $helper */
+        $helper = \XoopsModules\Wfdownloads\Helper::getInstance();
 
         // Paths
         if (false === $helper->getConfig('usethumbs')) {
@@ -1468,7 +1483,8 @@ class Utility
      */
     public static function allowedMimetypes($fileName, $isAdmin = true)
     {
-        $helper = Wfdownloads\Helper::getInstance();
+        /** @var \XoopsModules\Wfdownloads\Helper $helper */
+        $helper = \XoopsModules\Wfdownloads\Helper::getInstance();
 
         $ext      = ltrim(strrchr($fileName, '.'), '.');
         $criteria = new \CriteriaCompo(new \Criteria('mime_ext', strtolower($ext)));
@@ -1533,7 +1549,8 @@ class Utility
         $isAdmin = true,
         $onlyImages = false
     ) {
-        $helper = Wfdownloads\Helper::getInstance();
+        /** @var \XoopsModules\Wfdownloads\Helper $helper */
+        $helper = \XoopsModules\Wfdownloads\Helper::getInstance();
         $file   = [];
         if (empty($allowedMimetypes)) {
             $allowedMimetypes = self::allowedMimetypes($_FILES['userfile']['name'], $isAdmin);
@@ -1883,7 +1900,8 @@ class Utility
      */
     public static function checkSwishe()
     {
-        $helper = Wfdownloads\Helper::getInstance();
+        /** @var \XoopsModules\Wfdownloads\Helper $helper */
+        $helper = \XoopsModules\Wfdownloads\Helper::getInstance();
 
         // Get the location of the document repository (the index files are located in the root)
         $swisheDocPath = $helper->getConfig('uploaddir');
@@ -1907,7 +1925,8 @@ class Utility
 
     public static function swishe_config()
     {
-        $helper = Wfdownloads\Helper::getInstance();
+        /** @var \XoopsModules\Wfdownloads\Helper $helper */
+        $helper = \XoopsModules\Wfdownloads\Helper::getInstance();
 
         // Get the location of the document repository (the index files are located in the root)
         $swisheDocPath = $helper->getConfig('uploaddir');
@@ -1968,7 +1987,8 @@ class Utility
             return substr($str, $str_length - $num_chars, $str_length);
         }
 
-        $helper = Wfdownloads\Helper::getInstance();
+        /** @var \XoopsModules\Wfdownloads\Helper $helper */
+        $helper = \XoopsModules\Wfdownloads\Helper::getInstance();
 
         $ret = false;
         // IN PROGRESS

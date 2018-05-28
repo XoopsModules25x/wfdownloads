@@ -128,7 +128,7 @@ $xoopsTpl->assign('lang_sortby', $lang_array[$thisselected]);
 $xoopsTpl->assign('rankings', $rankings);
 
 // Breadcrumb
-$breadcrumb = new common\Breadcrumb();
+$breadcrumb = new Common\Breadcrumb();
 $breadcrumb->addLink($helper->getModule()->getVar('name'), WFDOWNLOADS_URL);
 $breadcrumb->addLink($lang_array[$thisselected], '');
 $xoopsTpl->assign('wfdownloads_breadcrumb', $breadcrumb->render());

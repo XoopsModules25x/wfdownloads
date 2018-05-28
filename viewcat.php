@@ -30,7 +30,8 @@ $grouppermHandler = xoops_getHandler('groupperm');
 
 $cid   = Request::getInt('cid', 0);
 $start = Request::getInt('start', 0);
-$list = Request::getString('letter', '', 'GET');
+//$list = Request::getString('letter', '', 'GET');
+$list = Request::getString('list', null);
 //$orderby = Request::getString('orderby', null);
 $orderby = isset($_GET['orderby']) ? Wfdownloads\Utility::convertorderbyin($_GET['orderby']) : $helper->getConfig('filexorder');
 
@@ -146,7 +147,7 @@ require_once XOOPS_ROOT_PATH . '/class/tree.php';
 $categoryObjsTree = new Wfdownloads\ObjectTree($categoryObjs, 'cid', 'pid');
 
 // Breadcrumb
-$breadcrumb = new common\Breadcrumb();
+$breadcrumb = new Common\Breadcrumb();
 $breadcrumb->addLink($helper->getModule()->getVar('name'), WFDOWNLOADS_URL);
 foreach (array_reverse($categoryObjsTree->getAllParent($cid)) as $parentCategoryObj) {
     $breadcrumb->addLink($parentCategoryObj->getVar('title'), 'viewcat.php?cid=' . $parentCategoryObj->getVar('cid'));

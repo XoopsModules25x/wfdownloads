@@ -298,7 +298,7 @@
             &nbsp;|&nbsp;
         <{/if}>
         <a target="_top" href="mailto:?subject=<{$download.mail_subject}>&amp;body=<{$download.mail_body}>"><{$smarty.const._MD_WFDOWNLOADS_TELLAFRIEND}></a>
-        <{if $com_rule <> 0}>
+        <{if $com_rule != 0}>
             &nbsp;|&nbsp;
             <a href="#comments"><{$smarty.const._COMMENTS}> (<{$download.comments}>)</a>
         <{/if}>

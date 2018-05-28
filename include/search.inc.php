@@ -46,7 +46,8 @@ function wfdownloads_search(
     $searchIn = '',
     $extra = ''
 ) {
-    $helper = Wfdownloads\Helper::getInstance();
+    /** @var \XoopsModules\Wfdownloads\Helper $helper */
+    $helper = \XoopsModules\Wfdownloads\Helper::getInstance();
 
     $userGroups = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : [0 => XOOPS_GROUP_ANONYMOUS];
 

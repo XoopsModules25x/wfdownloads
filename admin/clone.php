@@ -132,7 +132,8 @@ function wfdownloads_cloneFileDir($path)
  */
 function wfdownloads_createLogo($dirname)
 {
-    $helper = Wfdownloads\Helper::getInstance();
+    /** @var \XoopsModules\Wfdownloads\Helper $helper */
+    $helper = \XoopsModules\Wfdownloads\Helper::getInstance();
     // Check extension/functions
     if (!extension_loaded('gd')) {
         return false;

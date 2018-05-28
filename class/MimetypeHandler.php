@@ -53,6 +53,7 @@ class MimetypeHandler extends \XoopsPersistableObjectHandler
     public function __construct(\XoopsDatabase $db)
     {
         parent::__construct($db, 'wfdownloads_mimetypes', Mimetype::class, 'mime_id', 'mime_ext');
-        $this->helper = Wfdownloads\Helper::getInstance();
+        /** @var \XoopsModules\Wfdownloads\Helper $helper */
+        $this->helper = \XoopsModules\Wfdownloads\Helper::getInstance();
     }
 }

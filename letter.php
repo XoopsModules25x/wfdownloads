@@ -17,8 +17,8 @@ include __DIR__ . '/header.php';
 $GLOBALS['xoopsOption']['template_main'] = 'lx_letter.tpl';
 require_once XOOPS_ROOT_PATH . '/header.php';
 require_once XOOPS_ROOT_PATH . '/modules/wfdownloads/include/common.inc.php';
-/** @var Wfdownloads\Helper $helper */
-$helper = Wfdownloads\Helper::getInstance();
+/** @var \XoopsModules\Wfdownloads\Helper $helper */
+$helper = \XoopsModules\Wfdownloads\Helper::getInstance();
 
 global $xoTheme, $xoopsUser;
 $myts = \MyTextSanitizer::getInstance();

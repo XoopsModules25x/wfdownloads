@@ -25,7 +25,8 @@ use XoopsModules\Wfdownloads;
 $currentFile = basename(__FILE__);
 require_once __DIR__ . '/admin_header.php';
 
-$helper       = Wfdownloads\Helper::getInstance();
+/** @var \XoopsModules\Wfdownloads\Helper $helper */
+$helper = \XoopsModules\Wfdownloads\Helper::getInstance();
 
 $op = Request::getString('op', 'mimetypes.list');
 switch ($op) {

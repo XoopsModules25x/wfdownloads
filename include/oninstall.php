@@ -25,6 +25,7 @@ use XoopsModules\Wfdownloads;
 defined('XOOPS_ROOT_PATH') || die('XOOPS root path not defined');
 require_once __DIR__ . '/common.php';
 //@require_once WFDOWNLOADS_ROOT_PATH . '/language/' . $GLOBALS['xoopsConfig']['language'] . '/admin.php';
+/** @var \XoopsModules\Wfdownloads\Helper $helper */
 $helper = \XoopsModules\Wfdownloads\Helper::getInstance();
 xoops_loadLanguage('admin', $GLOBALS['xoopsModule']->dirname());
 

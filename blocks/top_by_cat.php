@@ -39,7 +39,8 @@ require_once  dirname(__DIR__) . '/include/common.php';
  */
 function wfdownloads_top_by_cat_show($options)
 {
-    $helper          = Wfdownloads\Helper::getInstance();
+    /** @var \XoopsModules\Wfdownloads\Helper $helper */
+    $helper = \XoopsModules\Wfdownloads\Helper::getInstance();
     /** @var Wfdownloads\CategoryHandler $categoryHandler */
     $categoryHandler = new Wfdownloads\CategoryHandler($GLOBALS['xoopsDB']);
 

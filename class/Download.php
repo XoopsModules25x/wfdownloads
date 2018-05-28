@@ -46,7 +46,8 @@ class Download extends \XoopsObject
      */
     public function __construct($id = null)
     {
-        $this->helper = Wfdownloads\Helper::getInstance();
+        /** @var \XoopsModules\Wfdownloads\Helper $this->helper */
+        $this->helper = \XoopsModules\Wfdownloads\Helper::getInstance();
         $this->db          = \XoopsDatabaseFactory::getDatabaseConnection();
         $this->initVar('lid', XOBJ_DTYPE_INT);
         $this->initVar('cid', XOBJ_DTYPE_INT, 0);
@@ -332,10 +333,12 @@ class Download extends \XoopsObject
         $limitationsArray        = $this->helper->getConfig('limitations');
         $download['limitations'] = ('' === $this->getVar('limitations')) ? _MD_WFDOWNLOADS_NOTSPECIFIED : $GLOBALS['myts']->htmlSpecialChars(trim($limitationsArray[$this->getVar('limitations')]));
         //
-        $versiontypesArray        = $this->helper->getConfig('versiontypes');
-        $download['versiontypes'] = ('' === $this->getVar('versionypes')) ? _MD_WFDOWNLOADS_NOTSPECIFIED : $GLOBALS['myts']->htmlSpecialChars(trim($versiontypesArray[$this->getVar('versiontypes')]));
+//        $versiontypesArray        = $this->helper->getConfig('versiontypes');
+//        $download['versiontypes'] = ('' === $this->getVar('versiontypes')) ? _MD_WFDOWNLOADS_NOTSPECIFIED : $GLOBALS['myts']->htmlSpecialChars(trim($versiontypesArray[$this->getVar('versiontypes')]));
+        $temp = null !== ($this->getVar('versiontypes')) ? $this->getVar('versiontypes') : '';
+        $download['versiontypes'] = (!$temp) ? _MD_WFDOWNLOADS_NOTSPECIFIED : $temp;
+
         $licenseArray             = $this->helper->getConfig('license');
-        //
         $download['license'] = ('' === $this->getVar('license')) ? _MD_WFDOWNLOADS_NOTSPECIFIED : $GLOBALS['myts']->htmlSpecialChars(trim($licenseArray[$this->getVar('license')]));
         //
         $download['submitter'] = \XoopsUserUtility::getUnameFromId($this->getVar('submitter'));

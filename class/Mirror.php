@@ -40,6 +40,7 @@ class Mirror extends \XoopsObject
      */
     public function __construct($id = null)
     {
+        /** @var Wfdownloads\Helper $this->helper */
         $this->helper = Wfdownloads\Helper::getInstance();
         $this->db          = \XoopsDatabaseFactory::getDatabaseConnection();
         $this->initVar('mirror_id', XOBJ_DTYPE_INT);

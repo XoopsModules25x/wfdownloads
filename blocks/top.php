@@ -39,7 +39,8 @@ require_once  dirname(__DIR__) . '/include/common.php';
  */
 function wfdownloads_top_show($options)
 {
-    $helper = Wfdownloads\Helper::getInstance();
+    /** @var \XoopsModules\Wfdownloads\Helper $helper */
+    $helper = \XoopsModules\Wfdownloads\Helper::getInstance();
 
     $groups                   = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : [0 => XOOPS_GROUP_ANONYMOUS];
     $grouppermHandler             = xoops_getHandler('groupperm');
