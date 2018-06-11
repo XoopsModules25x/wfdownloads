@@ -50,6 +50,8 @@
         <span style="font-size: small;"><{$lang_thereare}></span>
     </div>
     <br>
+
+    <{if $showNewArrivals}>
     <div>
     <span style="font-size: small;">
     <ul>
@@ -61,6 +63,7 @@
     </ul>
     </span>
     </div>
+    <{/if}>
 <{/if}>
 
 <{if $full_rssfeed_URL != ''}>

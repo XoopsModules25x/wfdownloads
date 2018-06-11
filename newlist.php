@@ -68,7 +68,7 @@ $xoopsTpl->assign('allmonthdownloads', $allMonthDownloads);
 
 // Get latest downloads
 $criteria = new \CriteriaCompo(new \Criteria('offline', 0));
-if (isset($_GET['newdownloadshowdays'])) {
+if (\Xmf\Request::hasVar('newdownloadshowdays', 'GET')) {
     $days       = \Xmf\Request::getInt('newdownloadshowdays', 0, 'GET');
     $days_limit = [7, 14, 30];
     if (in_array($days, $days_limit)) {

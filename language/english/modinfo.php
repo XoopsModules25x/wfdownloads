@@ -404,6 +404,9 @@ define('_MI_WFDOWNLOADS_HELP_SUPPORT', 'Support');
 //define('_MI_WFDOWNLOADS_HELP5', 'YYYYY');
 //define('_MI_WFDOWNLOADS_HELP6', 'YYYYY');
 
+//show button to import sample data
+define('_MI_WFDOWNLOADS_SHOW_SAMPLE_BUTTON', 'Show Sample Button?');
+define('_MI_WFDOWNLOADS_SHOW_SAMPLE_BUTTON_DESC', 'If yes, the "Add Sample Data" button will be visible to the Admin. It is Yes as a default for first installation.');
 
 define('_MI_WFDOWNLOADS_DOWNLOAD_CONFIGS', '<span style="color: #FF0000; font-size: Small;  font-weight: bold;">---Download preferences---</span> ');
 define('_MI_WFDOWNLOADS_UPLOAD_CONFIGS', '<span style="color: #FF0000; font-size: Small;  font-weight: bold;">---Upload/submit preferences---</span> ');
@@ -414,6 +417,33 @@ define('_MI_WFDOWNLOADS_SCREENSHOTS_ESTRASYSTEMS', '<span style="color: #FF0000;
 define('_MI_WFDOWNLOADS_VARIOUS_CONFIGS', '<span style="color: #FF0000; font-size: Small;  font-weight: bold;">---Various preferences---</span> ');
 
 
+//Publisher templates
+define('_MI_WFDOWNLOADS_DISPLAY_CONFIGS', '<span style="color: #FF0000; font-size: Small;  font-weight: bold;">--- Category Display preferences---</span> ');
 
-define('_MI_WFDOWNLOADS_SHOW_SAMPLE_BUTTON', 'Show Sample Button?');
-define('_MI_WFDOWNLOADS_SHOW_SAMPLE_BUTTON_DESC', 'If yes, the "Add Sample Data" button will be visible to the Admin. It is Yes as a default for first installation.');
+define('_MI_WFDOWNLOADS_CATEGORIES_TABLE_DSC', 'Display the category list table used in other templates');
+
+define('_MI_WFDOWNLOADS_DISPLAY_CATVIEW_DSC', 'Display index and category');
+define('_MI_WFDOWNLOADS_DISPLAY_LIST_DSC', 'Display index and category with Bullet List display type');
+define('_MI_WFDOWNLOADS_DISPLAY_SUMMARY_DSC', 'Display index and category with Summary display type');
+define('_MI_WFDOWNLOADS_DISPLAY_FULL_DSC', 'Display index and category with Full display type');
+define('_MI_WFDOWNLOADS_DISPLAY_WFSECTION_DSC', 'Display index and category in a WF-Section like style');
+define('_MI_WFDOWNLOADS_DISPLAY_LEGACY_DSC', 'Display index and category in a legacy style');
+
+define('_CO_WFDOWNLOADS_DISPLAY_SUMMARY', 'Display summary on the item page ?');
+
+
+define('_MI_WFDOWNLOADS_DISPLAYTYPE_CATVIEW', 'Category View');
+define('_MI_WFDOWNLOADS_DISPLAYTYPE_FULL', 'Full View');
+define('_MI_WFDOWNLOADS_DISPLAYTYPE_LIST', 'Bullet list');
+define('_MI_WFDOWNLOADS_DISPLAYTYPE_WFSECTION', 'WFSection style');
+define('_MI_WFDOWNLOADS_DISPLAYTYPE_SUMMARY', 'Summary View');
+define('_MI_WFDOWNLOADS_DISPLAYTYPE_LEGACY', 'Legacy');
+
+define('_MI_WFDOWNLOADS_DISP_CAT_CONFIGS', 'Full View');
+
+define('_MI_WFDOWNLOADS_DISTYPE', 'Downloads display type:');
+define('_MI_WFDOWNLOADS_DISTYPE_DSC', 'if “Summary View” is selected, only the Title, Date and Hits of each item will be displayed in a selected category. If “Full View” is selected, each item will be fully displayed in a selected category.');
+
+
+define('_MI_WFDOWNLOADS_ALPHABET_SHOW', 'Show the Alphabet?');
+define('_MI_WFDOWNLOADS_ALPHABET_SHOW_DESC', 'If Yes, it will show the downloads grouped alphabetically');

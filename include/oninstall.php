@@ -45,21 +45,19 @@ function xoops_module_pre_install_wfdownloads(\XoopsModule $module)
     $utility = new \XoopsModules\Wfdownloads\Utility();
 
     //check for minimum XOOPS version
-    if (!$utility::checkVerXoops($module)) {
-        return false;
-    }
+    $xoopsSuccess = $utility::checkVerXoops($module);
 
     // check for minimum PHP version
-    if (!$utility::checkVerPhp($module)) {
-        return false;
+    $phpSuccess   = $utility::checkVerPhp($module);
+
+    if (false !== $xoopsSuccess && false !==  $phpSuccess) {
+        $moduleTables =& $module->getInfo('tables');
+        foreach ($moduleTables as $table) {
+            $GLOBALS['xoopsDB']->queryF('DROP TABLE IF EXISTS ' . $GLOBALS['xoopsDB']->prefix($table) . ';');
+        }
     }
 
-    $mod_tables = $module->getInfo('tables');
-    foreach ($mod_tables as $table) {
-        $GLOBALS['xoopsDB']->queryF('DROP TABLE IF EXISTS ' . $GLOBALS['xoopsDB']->prefix($table) . ';');
-    }
-
-    return true;
+    return $xoopsSuccess && $phpSuccess;
 }
 
 /**
@@ -81,7 +79,7 @@ function xoops_module_install_wfdownloads(\XoopsModule $module)
     xoops_loadLanguage('modinfo', $moduleDirName);
 
     //    $configurator = include __DIR__ . '/config.php';
-    $configurator = new Wfdownloads\Common\Configurator();
+    $configurator = new  \XoopsModules\Wfdownloads\Common\Configurator();
     /** @var \XoopsModules\Wfdownloads\Utility $utility */
     $utility = new \XoopsModules\Wfdownloads\Utility();
 

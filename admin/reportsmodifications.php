@@ -33,12 +33,12 @@ switch ($op) {
     case 'reports.update':
         $lid      = Request::getInt('lid', 0);
         $criteria = new \Criteria('lid', $lid);
-        if (isset($_GET['ack'])) {
+        if (\Xmf\Request::hasVar('ack', 'GET')) {
             $acknowledged = (isset($_GET['ack']) && 0 == $_GET['ack']) ? 1 : 0;
             $helper->getHandler('Report')->updateAll('acknowledged', $acknowledged, $criteria, true);
             $update_mess = _AM_WFDOWNLOADS_BROKEN_NOWACK;
         }
-        if (isset($_GET['con'])) {
+        if (\Xmf\Request::hasVar('con', 'GET')) {
             $confirmed = (isset($_GET['con']) && 0 == $_GET['con']) ? 1 : 0;
             $helper->getHandler('Report')->updateAll('confirmed', $confirmed, $criteria, true);
             $update_mess = _AM_WFDOWNLOADS_BROKEN_NOWCON;

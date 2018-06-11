@@ -1,5 +1,5 @@
 <!-- Thank you for keeping this line in the template :-) //-->
-<div style="display: none;"><{$ref_smartfactory}></div>
+<{*<div style="display: none;"><{$ref_smartfactory}></div>*}>
 <!-- Thank you for keeping this line in the template :-) //-->
 
 

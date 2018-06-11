@@ -104,7 +104,7 @@ switch ($op) {
             if (!Wfdownloads\Utility::checkModule('formulize')) {
                 // one step form: 1st step
                 $sform = $downloadObj->getAdminForm($title);
-            } elseif (isset($_POST['submit_category']) && !empty($_POST['submit_category'])) {
+            } elseif (\Xmf\Request::hasVar('submit_category', 'POST') && !empty($_POST['submit_category'])) {
                 // two steps form: 2nd step
                 $fid         = $categoryObj->getVar('formulize_fid');
                 $customArray = [];

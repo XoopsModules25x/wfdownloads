@@ -238,7 +238,7 @@ switch ($op) {
         $adminObject->addItemButton(_MI_WFDOWNLOADS_MENU_CATEGORIES, "{$currentFile}?op=categories.list", 'list');
         $adminObject->displayButton('left');
 
-        if (isset($_REQUEST['cid'])) {
+        if (\Xmf\Request::hasVar('cid', 'REQUEST')) {
             $categoryObj = $helper->getHandler('Category')->get($_REQUEST['cid']);
         } else {
             $categoryObj = $helper->getHandler('Category')->create();
@@ -277,7 +277,7 @@ switch ($op) {
             redirect_header($currentFile, 3, implode(',', $GLOBALS['xoopsSecurity']->getErrors()));
         }
 
-        if (isset($_POST['new_weights']) && count($_POST['new_weights']) > 0) {
+        if (\Xmf\Request::hasVar('new_weights', 'POST') && count($_POST['new_weights']) > 0) {
             $new_weights = $_POST['new_weights'];
             $ids         = [];
             foreach ($new_weights as $cid => $new_weight) {

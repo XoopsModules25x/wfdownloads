@@ -324,3 +324,7 @@ define('_MD_WFDOWNLOADS_ERROR_SCREENSHOTSDIRNOTEXISTS', 'Warning: contact the ad
 define('_MD_WFDOWNLOADS_ERROR_CATIMAGEDIRNOTEXISTS', 'Warning: contact the administrator, the upload directory does not exist');
 
 define('_MD_WFDOWNLOADS_FFS_SUBMIT1ST_STEP', '1st step: choose category');
+
+//---------------------
+define('_MI_WFDOWNLOADS_NEW_ITEMS', 'Show new items indicators');
+define('_MI_WFDOWNLOADS_NEW_ITEMS_DESC', 'If yes, it will show new items today, last 3 days, this week, and older than one week');

@@ -134,7 +134,7 @@ switch ($op) {
             $downloadObj->setVar('cid', $cid);
         }
         // Formulize module support - jpc - start
-        if (isset($_POST['submit_category']) && !empty($_POST['submit_category'])) {
+        if (\Xmf\Request::hasVar('submit_category', 'POST') && !empty($_POST['submit_category'])) {
             // two steps form: 2nd step
             $categoryObj = $helper->getHandler('Category')->get($cid);
             $fid         = $categoryObj->getVar('formulize_fid');

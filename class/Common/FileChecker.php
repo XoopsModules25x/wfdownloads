@@ -145,13 +145,13 @@ class FileChecker
 $op = Request::getString('op', '', 'POST');
 switch ($op) {
     case 'copyfile':
-        if (isset($_POST['original_file_path'])) {
+        if (\Xmf\Request::hasVar('original_file_path', 'POST')) {
             $original_file_path = $_POST['original_file_path'];
         }
-        if (isset($_POST['file_path'])) {
+        if (\Xmf\Request::hasVar('file_path', 'POST')) {
             $file_path = $_POST['file_path'];
         }
-        if (isset($_POST['redirect'])) {
+        if (\Xmf\Request::hasVar('redirect', 'POST')) {
             $redirect = $_POST['redirect'];
         }
         $msg = FileChecker::copyFile($original_file_path, $file_path) ? _FC_WFDOWNLOADS_FILECOPIED : _FC_WFDOWNLOADS_FILENOTCOPIED;

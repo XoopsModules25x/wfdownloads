@@ -58,7 +58,7 @@ switch ($op) {
         echo "</fieldset>\n";
 
     /** @var Wfdownloads\Mimetype $mimetypeObj */
-        if (isset($_REQUEST['mime_id'])) {
+        if (\Xmf\Request::hasVar('mime_id', 'REQUEST')) {
             $mimetypeObj = $helper->getHandler('Mimetype')->get($_REQUEST['mime_id']);
         } else {
             $mimetypeObj = $helper->getHandler('Mimetype')->create();
@@ -107,14 +107,14 @@ switch ($op) {
             redirect_header($currentFile, 4, _AM_WFDOWNLOADS_ERROR_MIMETYPENOTFOUND);
         }
 
-        if (isset($_REQUEST['admin']) && true === $_REQUEST['admin']) {
+        if (\Xmf\Request::hasVar('admin', 'REQUEST') && true === $_REQUEST['admin']) {
             if (true === $mimetypeObj->getVar('mime_admin')) {
                 $mimetypeObj->setVar('mime_admin', false);
             } else {
                 $mimetypeObj->setVar('mime_admin', true);
             }
         }
-        if (isset($_REQUEST['user']) && true === $_REQUEST['user']) {
+        if (\Xmf\Request::hasVar('user', 'REQUEST') && true === $_REQUEST['user']) {
             if (true === $mimetypeObj->getVar('mime_user')) {
                 $mimetypeObj->setVar('mime_user', false);
             } else {

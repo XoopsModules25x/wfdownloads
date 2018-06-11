@@ -76,7 +76,8 @@ if (null === $categoryObj) {
 $allowedDownCategoriesIds = $grouppermHandler->getItemIds('WFDownCatPerm', $groups, $helper->getModule()->mid());
 $allowedUpCategoriesIds   = $grouppermHandler->getItemIds('WFUpCatPerm', $groups, $helper->getModule()->mid());
 
-$GLOBALS['xoopsOption']['template_main'] = "{$helper->getModule()->dirname()}_viewcat.tpl";
+//$GLOBALS['xoopsOption']['template_main'] = "{$helper->getModule()->dirname()}_viewcat.tpl";
+$GLOBALS['xoopsOption']['template_main'] = (string)$helper->getDirname() . '_display_' . $helper->getConfig('idxcat_items_display_type') . '.tpl';
 require_once XOOPS_ROOT_PATH . '/header.php';
 
 $xoTheme->addScript(XOOPS_URL . '/browse.php?Frameworks/jquery/jquery.js');
@@ -114,27 +115,31 @@ if (Wfdownloads\Utility::checkModule('formulize')) {
 
 // Generate Header
 
-$helper->loadLanguage('common');
 
-$xoopsTpl->assign('letterChoiceTitle', constant('CO_'.$moduleDirNameUpper.'_'.'BROWSETOTOPIC'));
+$showAlphabet = $helper->getConfig('showAlphabet');
 
-// ------------------- Letter Choice Start ---------------------------------------
+if ($showAlphabet) {
 
-$catArray['imageheader'] = Wfdownloads\Utility::headerImage();
-//$catArray['letters']     = Wfdownloads\Utility::lettersChoice();
-/** @var \XoopsDatabase $db */
-$db                  = \XoopsDatabaseFactory::getDatabaseConnection();
-$objHandler          = new Wfdownloads\DownloadHandler($db);
-$choicebyletter      = new Wfdownloads\Common\LetterChoice($objHandler, null, null, range('a', 'z'), 'letter');
-$catarray['letters'] = $choicebyletter->render();
-$xoopsTpl->assign('catarray', $catarray);
+    $helper->loadLanguage('common');
+    $xoopsTpl->assign('letterChoiceTitle', constant('CO_' . $moduleDirNameUpper . '_' . 'BROWSETOTOPIC'));
 
-//$catArray['toolbar'] = Wfdownloads\Utility::toolbar();
-//$xoopsTpl->assign('catarray', $catArray);
+    // ------------------- Letter Choice Start ---------------------------------------
 
-// ------------------- Letter Choice End ------------------------------------
+    $catArray['imageheader'] = Wfdownloads\Utility::headerImage();
+    //$catArray['letters']     = Wfdownloads\Utility::lettersChoice();
+    /** @var \XoopsDatabase $db */
+    $db                  = \XoopsDatabaseFactory::getDatabaseConnection();
+    $objHandler          = new Wfdownloads\DownloadHandler($db);
+    $choicebyletter      = new Wfdownloads\Common\LetterChoice($objHandler, null, null, range('a', 'z'), 'letter');
+    $catarray['letters'] = $choicebyletter->render();
+    $xoopsTpl->assign('catarray', $catarray);
 
+    //$catArray['toolbar'] = Wfdownloads\Utility::toolbar();
+    //$xoopsTpl->assign('catarray', $catArray);
 
+    // ------------------- Letter Choice End ------------------------------------
+
+}
 
 $xoopsTpl->assign('categoryPath', $helper->getHandler('category')->getNicePath($cid)); // this definition is not removed for backward compatibility issues
 $xoopsTpl->assign('module_home', Wfdownloads\Utility::moduleHome(true)); // this definition is not removed for backward compatibility issues
@@ -258,7 +263,7 @@ if (isset($cid) && $cid > 0 && isset($categoryObjs[$cid])) {
 // Extract Download information from database
 $xoopsTpl->assign('show_category_title', false);
 
-if (isset($_GET['selectdate'])) {
+if (\Xmf\Request::hasVar('selectdate', 'GET')) {
     $criteria->add(new \Criteria('', 'TO_DAYS(FROM_UNIXTIME(' . \Xmf\Request::getInt('selectdate', 0, 'GET') . '))', '=', '', 'TO_DAYS(FROM_UNIXTIME(published))'));
     $xoopsTpl->assign('show_categort_title', true);
     
@@ -316,7 +321,7 @@ if ($downloads_count > 0) {
 
     // Nav page render
     require_once XOOPS_ROOT_PATH . '/class/pagenav.php';
-    if (isset($_GET['selectdate'])) {
+    if (\Xmf\Request::hasVar('selectdate', 'GET')) {
         $pagenav = new \XoopsPageNav($downloads_count, $helper->getConfig('perpage'), $start, 'start', 'list=' . urlencode($_GET['selectdate']));
     } elseif (isset($list)) {
         $pagenav = new \XoopsPageNav($downloads_count, $helper->getConfig('perpage'), $start, 'start', 'list=' . urlencode($list));

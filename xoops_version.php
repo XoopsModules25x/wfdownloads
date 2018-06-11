@@ -205,135 +205,52 @@ $modversion['comments']['callback']['approve'] = $modversion['dirname'] . '_com_
 $modversion['comments']['callback']['update']  = $modversion['dirname'] . '_com_update';
 
 // Templates
-$modversion['templates'][] = [
-    'file'        => $modversion['dirname'] . '_header.tpl',
-    'description' => 'Header info'
-];
-$modversion['templates'][] = [
-    'file'        => $modversion['dirname'] . '_footer.tpl',
-    'description' => 'Footer info'
-];
-$modversion['templates'][] = [
-    'file'        => $modversion['dirname'] . '_brokenfile.tpl',
-    'description' => ''
-];
-$modversion['templates'][] = [
-    'file'        => $modversion['dirname'] . '_download.tpl',
-    'description' => ''
-];
-$modversion['templates'][] = [
-    'file'        => $modversion['dirname'] . '_index.tpl',
-    'description' => ''
-];
-$modversion['templates'][] = [
-    'file'        => $modversion['dirname'] . '_ratefile.tpl',
-    'description' => ''
-];
-$modversion['templates'][] = [
-    'file'        => $modversion['dirname'] . '_singlefile.tpl',
-    'description' => ''
-];
-$modversion['templates'][] = [
-    'file'        => $modversion['dirname'] . '_topten.tpl',
-    'description' => ''
-];
-$modversion['templates'][] = [
-    'file'        => $modversion['dirname'] . '_viewcat.tpl',
-    'description' => ''
-];
-$modversion['templates'][] = [
-    'file'        => $modversion['dirname'] . '_newlistindex.tpl',
-    'description' => ''
-];
-$modversion['templates'][] = [
-    'file'        => $modversion['dirname'] . '_reviews.tpl',
-    'description' => ''
-];
-$modversion['templates'][] = [
-    'file'        => $modversion['dirname'] . '_mirrors.tpl',
-    'description' => ''
-];
-$modversion['templates'][] = [
-    'file'        => $modversion['dirname'] . '_disclaimer.tpl',
-    'description' => ''
-];
+$modversion['templates'] = [
+    ['file' => $moduleDirName . '_' . 'header.tpl', 'description' => 'Header info'],
+    ['file' => $moduleDirName . '_' . 'footer.tpl', 'description' => 'Footer info'],
+    ['file' => $moduleDirName . '_' . 'brokenfile.tpl', 'description' => ''],
+    ['file' => $moduleDirName . '_' . 'download.tpl', 'description' => ''],
+    ['file' => $moduleDirName . '_' . 'index.tpl', 'description' => ''],
+    ['file' => $moduleDirName . '_' . 'ratefile.tpl', 'description' => ''],
+    ['file' => $moduleDirName . '_' . 'singlefile.tpl', 'description' => ''],
+    ['file' => $moduleDirName . '_' . 'topten.tpl', 'description' => ''],
+    ['file' => $moduleDirName . '_' . 'viewcat.tpl', 'description' => ''],
+    ['file' => $moduleDirName . '_' . 'newlistindex.tpl', 'description' => ''],
+    ['file' => $moduleDirName . '_' . 'reviews.tpl', 'description' => ''],
+    ['file' => $moduleDirName . '_' . 'mirrors.tpl', 'description' => ''],
+    ['file' => $moduleDirName . '_' . 'disclaimer.tpl', 'description' => ''],
+    
+    //display templates
+    ['file' => $moduleDirName . '_' . 'categories_table.tpl', 'description' => '_MI_WFDOWNLOADS_CATEGORIES_TABLE_DSC'],
 
-// Admin templates
+    ['file' => $moduleDirName . '_' . 'display_catview.tpl', 'description' => '_MI_WFDOWNLOADS_DISPLAY_CATVIEW_DSC'],
+    ['file' => $moduleDirName . '_' . 'display_list.tpl', 'description' => '_MI_WFDOWNLOADS_DISPLAY_LIST_DSC'],
+    ['file' => $moduleDirName . '_' . 'display_summary.tpl', 'description' => '_MI_WFDOWNLOADS_DISPLAY_SUMMARY_DSC'],
+    ['file' => $moduleDirName . '_' . 'display_full.tpl', 'description' => '_MI_WFDOWNLOADS_DISPLAY_FULL_DSC'],
+    ['file' => $moduleDirName . '_' . 'display_wfsection.tpl', 'description' => '_MI_WFDOWNLOADS_DISPLAY_WFSECTION_DSC'],
+    ['file' => $moduleDirName . '_' . 'display_legacy.tpl', 'description' => '_MI_WFDOWNLOADS_DISPLAY_LEGACY_DSC'],
+    
+    // Admin templates
+    ['file' => $moduleDirName . '_' . 'submit.tpl', 'description' => ''],
+    ['file' => $moduleDirName . '_' . 'am_categorieslist.tpl', 'type' => 'admin', 'description' => ''],
+    ['file' => $moduleDirName . '_' . 'am_downloadslist.tpl', 'type' => 'admin', 'description' => ''],
+    ['file' => $moduleDirName . '_' . 'am_ip_logslist.tpl', 'type' => 'admin', 'description' => ''],
+    ['file' => $moduleDirName . '_' . 'am_reportsmodificationslist.tpl', 'type' => 'admin', 'description' => ''],
+    ['file' => $moduleDirName . '_' . 'am_ratingslist.tpl', 'type' => 'admin', 'description' => ''],
+    ['file' => $moduleDirName . '_' . 'am_reviewslist.tpl', 'type' => 'admin', 'description' => ''],
+    ['file' => $moduleDirName . '_' . 'am_mirrorslist.tpl', 'type' => 'admin', 'description' => ''],
+    ['file' => $moduleDirName . '_' . 'am_mimetypeslist.tpl', 'type' => 'admin', 'description' => ''],
+    ['file' => $moduleDirName . '_' . 'am_permissions.tpl', 'type' => 'admin', 'description' => ''],
+    // Common templates
+    ['file' => $moduleDirName . '_' . 'co_breadcrumb.tpl', 'description' => ''],
+    ['file' => $moduleDirName . '_' . 'co_letterschoice.tpl', 'description' => ''],
+    ['file' => $moduleDirName . '_' . 'letterschoice.tpl', 'description' => ''],
 
-$modversion['templates'][] = [
-    'file'        => $modversion['dirname'] . '_submit.tpl',
-    'description' => ''
-];
-$modversion['templates'][] = [
-    'file'        => $modversion['dirname'] . '_am_categorieslist.tpl',
-    'type'        => 'admin',
-    'description' => ''
-];
 
-$modversion['templates'][] = [
-    'file'        => $modversion['dirname'] . '_am_downloadslist.tpl',
-    'type'        => 'admin',
-    'description' => ''
-];
+    ['file' => $moduleDirName . '_' . 'header0.tpl', 'description' => 'Header info'],
+    ['file' => $moduleDirName . '_' . 'download0.tpl', 'description' => ''],
 
-$modversion['templates'][] = [
-    'file'        => $modversion['dirname'] . '_am_ip_logslist.tpl',
-    'type'        => 'admin',
-    'description' => ''
 ];
-
-$modversion['templates'][] = [
-    'file'        => $modversion['dirname'] . '_am_reportsmodificationslist.tpl',
-    'type'        => 'admin',
-    'description' => ''
-];
-
-$modversion['templates'][] = [
-    'file'        => $modversion['dirname'] . '_am_ratingslist.tpl',
-    'type'        => 'admin',
-    'description' => ''
-];
-
-$modversion['templates'][] = [
-    'file'        => $modversion['dirname'] . '_am_reviewslist.tpl',
-    'type'        => 'admin',
-    'description' => ''
-];
-
-$modversion['templates'][] = [
-    'file'        => $modversion['dirname'] . '_am_mirrorslist.tpl',
-    'type'        => 'admin',
-    'description' => ''
-];
-
-$modversion['templates'][] = [
-    'file'        => $modversion['dirname'] . '_am_mimetypeslist.tpl',
-    'type'        => 'admin',
-    'description' => ''
-];
-
-$modversion['templates'][] = [
-    'file'        => $modversion['dirname'] . '_am_permissions.tpl',
-    'type'        => 'admin',
-    'description' => ''
-];
-
-// Common templates
-$modversion['templates'][] = [
-    'file'        => $modversion['dirname'] . '_co_breadcrumb.tpl',
-    'description' => ''
-];
-
-$modversion['templates'][] = [
-    'file'        => $modversion['dirname'] . '_co_letterschoice.tpl',
-    'description' => ''
-];
-
-$modversion['templates'][] = [
-    'file'        => $modversion['dirname'] . '_letterschoice.tpl',
-    'description' => ''
-];
-
 // ------------------- Preferences -------------------
 
 xoops_load('XoopsEditorHandler');
@@ -419,6 +336,55 @@ $modversion['config'][] = [
     'valuetype'   => 'text',
     'default'     => _DATESTRING
 ]; //'D, d-M-Y');
+
+
+// Category View Display (Publisher)
+$modversion['config'][] = [
+    'name'        => 'displaycategory_configs',
+    'title'       => '_MI_WFDOWNLOADS_DISPLAY_CONFIGS',
+    'description' => '_MI_WFDOWNLOADS_DISPLAY_CONFIGS',
+    'formtype'    => 'line_break',
+    'valuetype'   => 'textbox',
+    'default'     => 'odd'
+];
+
+$modversion['config'][] = [
+    'name'        => 'idxcat_items_display_type',
+    'title'       => '_MI_WFDOWNLOADS_DISTYPE',
+    'description' => '_MI_WFDOWNLOADS_DISTYPE_DSC',
+    'formtype'    => 'select',
+    'valuetype'   => 'text',
+    'options'     => [
+        _MI_WFDOWNLOADS_DISPLAYTYPE_CATVIEW   => 'catview',
+        _MI_WFDOWNLOADS_DISPLAYTYPE_SUMMARY   => 'summary',
+        _MI_WFDOWNLOADS_DISPLAYTYPE_FULL      => 'full',
+        _MI_WFDOWNLOADS_DISPLAYTYPE_LIST      => 'list',
+        _MI_WFDOWNLOADS_DISPLAYTYPE_WFSECTION => 'wfsection',
+        _MI_WFDOWNLOADS_DISPLAYTYPE_LEGACY    => 'legacy'
+    ],
+    'default'     => 'catview',
+    'category'    => 'indexcat'
+];
+
+
+$modversion['config'][] = [
+    'name'        => 'showAlphabet',
+    'title'       => '_MI_WFDOWNLOADS_ALPHABET_SHOW',
+    'description' => '_MI_WFDOWNLOADS_ALPHABET_SHOW_DESC',
+    'formtype'    => 'yesno',
+    'valuetype'   => 'int',
+    'default'     => false
+];
+
+$modversion['config'][] = [
+    'name'        => 'showNewArrivals',
+    'title'       => '_MI_WFDOWNLOADS_NEW_ITEMS',
+    'description' => '_MI_WFDOWNLOADS_NEW_ITEMS_DESC',
+    'formtype'    => 'yesno',
+    'valuetype'   => 'int',
+    'default'     => false
+];
+
 
 // Upload configs
 $modversion['config'][] = [

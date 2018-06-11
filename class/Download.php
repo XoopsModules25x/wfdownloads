@@ -335,7 +335,7 @@ class Download extends \XoopsObject
         //
 //        $versiontypesArray        = $this->helper->getConfig('versiontypes');
 //        $download['versiontypes'] = ('' === $this->getVar('versiontypes')) ? _MD_WFDOWNLOADS_NOTSPECIFIED : $GLOBALS['myts']->htmlSpecialChars(trim($versiontypesArray[$this->getVar('versiontypes')]));
-        $temp = null !== ($this->getVar('versiontypes')) ? $this->getVar('versiontypes') : '';
+        $temp = null !== $this->getVar('versiontypes') ? $this->getVar('versiontypes') : '';
         $download['versiontypes'] = (!$temp) ? _MD_WFDOWNLOADS_NOTSPECIFIED : $temp;
 
         $licenseArray             = $this->helper->getConfig('license');

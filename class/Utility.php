@@ -1684,7 +1684,7 @@ class Utility
                 $offset = 0;
                 $length = $size;
                 //HEADERS FOR PARTIAL DOWNLOAD FACILITY BEGINS
-                if (isset($_SERVER['HTTP_RANGE'])) {
+                if (\Xmf\Request::hasVar('HTTP_RANGE', 'SERVER')) {
                     preg_match('/bytes=(\d+)-(\d+)?/', $_SERVER['HTTP_RANGE'], $matches);
                     $offset  = (int)$matches[1];
                     $length  = (int)$matches[2] - $offset;

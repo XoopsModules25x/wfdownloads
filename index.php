@@ -68,7 +68,8 @@ $grouppermHandler = xoops_getHandler('groupperm');
 $allowedDownCategoriesIds = $grouppermHandler->getItemIds('WFDownCatPerm', $groups, $helper->getModule()->mid());
 $allowedUpCategoriesIds   = $grouppermHandler->getItemIds('WFUpCatPerm', $groups, $helper->getModule()->mid());
 
-$GLOBALS['xoopsOption']['template_main'] = "{$helper->getModule()->dirname()}_index.tpl";
+$GLOBALS['xoopsOption']['template_main'] = "{$helper->getDirname()}_index.tpl";
+
 require_once XOOPS_ROOT_PATH . '/header.php';
 
 $xoTheme->addScript(XOOPS_URL . '/browse.php?Frameworks/jquery/jquery.js');
@@ -106,27 +107,31 @@ $breaks                       = $head_arr['nobreak'] ? 1 : 0;
 $catarray['indexheader']      =& $myts->displayTarea($head_arr['indexheader'], $html, $smiley, $xcodes, $images, $breaks);
 $catarray['indexfooter']      =& $myts->displayTarea($head_arr['indexfooter'], $html, $smiley, $xcodes, $images, $breaks);
 
-//$catarray['letters']          = Wfdownloads\Utility::lettersChoice();
 
-// Letter Choice Start ---------------------------------------
+$showAlphabet = $helper->getConfig('showAlphabet');
+if ($showAlphabet) {
 
-$helper->loadLanguage('common');
-$xoopsTpl->assign('letterChoiceTitle', constant('CO_' . $moduleDirNameUpper . '_' . 'BROWSETOTOPIC'));
-/** @var \XoopsDatabase $db */
-$db             = \XoopsDatabaseFactory::getDatabaseConnection();
-$objHandler     = new Wfdownloads\DownloadHandler($db);
-$choicebyletter = new Wfdownloads\Common\LetterChoice($objHandler, null, null, range('a', 'z'), 'letter', 'viewcat.php');
-//$choicebyletter = new Wfdownloads\Common\LetterChoice($objHandler, null, null, range('a', 'z'), 'init', XOOPSTUBE_URL . '/letter.php');
-//render the LetterChoice partial and story as part of the Category array
-//$catarray['letters']  = $choicebyletter->render($alphaCount, $howmanyother);
+    //$catarray['letters']          = Wfdownloads\Utility::lettersChoice();
 
-$catarray['letters'] = $choicebyletter->render();
+    // Letter Choice Start ---------------------------------------
 
-//now assign it to the Smarty variable
-$xoopsTpl->assign('catarray', $catarray);
+    $helper->loadLanguage('common');
+    $xoopsTpl->assign('letterChoiceTitle', constant('CO_' . $moduleDirNameUpper . '_' . 'BROWSETOTOPIC'));
+    /** @var \XoopsDatabase $db */
+    $db             = \XoopsDatabaseFactory::getDatabaseConnection();
+    $objHandler     = new Wfdownloads\DownloadHandler($db);
+    $choicebyletter = new Wfdownloads\Common\LetterChoice($objHandler, null, null, range('a', 'z'), 'letter', 'viewcat.php');
+    //$choicebyletter = new Wfdownloads\Common\LetterChoice($objHandler, null, null, range('a', 'z'), 'init', XOOPSTUBE_URL . '/letter.php');
+    //render the LetterChoice partial and story as part of the Category array
+    //$catarray['letters']  = $choicebyletter->render($alphaCount, $howmanyother);
 
-// Letter Choice End ------------------------------------
+    $catarray['letters'] = $choicebyletter->render();
 
+    //now assign it to the Smarty variable
+    $xoopsTpl->assign('catarray', $catarray);
+
+    // Letter Choice End ------------------------------------
+}
 $catarray['toolbar'] = Wfdownloads\Utility::toolbar();
 $xoopsTpl->assign('catarray', $catarray);
 
