@@ -425,14 +425,13 @@ CREATE TABLE `wfdownloads_meta` (
   `metavalue` VARCHAR(255) NOT NULL DEFAULT '',
   PRIMARY KEY (`metakey`)
 )
-  ENGINE = MyISAM
-  COMMENT = 'Wfdownloads by The SmartFactory <www.smartfactory.ca>';
+  ENGINE = MyISAM;
 
 #
 # Dumping data for table `wfdownloads_meta`
 #
 
-INSERT INTO `wfdownloads_meta` VALUES ('version', '3.23');
+INSERT INTO `wfdownloads_meta` VALUES ('version', '3.30');
 
 # --------------------------------------------------------
 
