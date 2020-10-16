@@ -8,11 +8,12 @@
  but WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
+
 /**
  * Wfdownloads module
  *
  * @copyright       XOOPS Project (https://xoops.org)
- * @license         GNU GPL 2 or later (http://www.gnu.org/licenses/gpl-2.0.html)
+ * @license         GNU GPL 2 or later (https://www.gnu.org/licenses/gpl-2.0.html)
  * @package         wfdownload
  * @since           3.23
  * @author          Xoops Development Team
@@ -55,7 +56,6 @@ switch ($case) {
     case 'all':
         $cache_prefix = 'wfd|feed|' . $feed_type;
         break;
-
     case 'category':
         $cache_prefix = 'wfd|catfeed|' . $feed_type . '|' . (int)$categoryObj->getVar('cid');
         break;
@@ -84,7 +84,6 @@ if (!$xoopsTpl->is_cached('db:' . $xoopsOption['template_main'], $cache_prefix))
             $downloadObjs = $helper->getHandler('Download')->getObjects($criteria);
             $id           = 0;
             break;
-
         case 'category':
             $shorthand   = 'cat';
             $title       = $GLOBALS['xoopsConfig']['sitename'] . ' - ' . htmlspecialchars($categoryObj->getVar('title'), ENT_QUOTES);
@@ -129,30 +128,36 @@ if (!$xoopsTpl->is_cached('db:' . $xoopsOption['template_main'], $cache_prefix))
             $teaser = htmlspecialchars($item->getVar('summary', 'n'), ENT_QUOTES | ENT_HTML5);
             $author = isset($users[$item->getVar('submitter')]) ?: $GLOBALS['xoopsConfig']['anonymous'];
 
-            $xoopsTpl->append('items', [
-                'title'        => xoops_utf8_encode($title),
-                'author'       => xoops_utf8_encode($author),
-                'link'         => $link,
-                'guid'         => $link,
-                'is_permalink' => false,
-                'pubdate'      => formatTimestamp($item->getVar('published'), $feed_type),
-                'dc_date'      => formatTimestamp($item->getVar('published'), 'd/m H:i'),
-                'description'  => xoops_utf8_encode($teaser)
-            ]);
+            $xoopsTpl->append(
+                'items',
+                [
+                    'title'        => xoops_utf8_encode($title),
+                    'author'       => xoops_utf8_encode($author),
+                    'link'         => $link,
+                    'guid'         => $link,
+                    'is_permalink' => false,
+                    'pubdate'      => formatTimestamp($item->getVar('published'), $feed_type),
+                    'dc_date'      => formatTimestamp($item->getVar('published'), 'd/m H:i'),
+                    'description'  => xoops_utf8_encode($teaser),
+                ]
+            );
         }
     } else {
         $excuse_title = 'No items!';
         $excuse       = 'There are no items for this feed!';
         $art_title    = htmlspecialchars($excuse_title, ENT_QUOTES);
         $art_teaser   = htmlspecialchars($excuse, ENT_QUOTES);
-        $xoopsTpl->append('items', [
-            'title'       => xoops_utf8_encode($art_title),
-            'link'        => $url,
-            'guid'        => $url,
-            'pubdate'     => formatTimestamp(time(), $feed_type),
-            'dc_date'     => formatTimestamp(time(), 'd/m H:i'),
-            'description' => xoops_utf8_encode($art_teaser)
-        ]);
+        $xoopsTpl->append(
+            'items',
+            [
+                'title'       => xoops_utf8_encode($art_title),
+                'link'        => $url,
+                'guid'        => $url,
+                'pubdate'     => formatTimestamp(time(), $feed_type),
+                'dc_date'     => formatTimestamp(time(), 'd/m H:i'),
+                'description' => xoops_utf8_encode($art_teaser),
+            ]
+        );
     }
 }
 

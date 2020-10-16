@@ -8,11 +8,12 @@
  but WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
+
 /**
  * Wfdownloads module
  *
  * @copyright       XOOPS Project (https://xoops.org)
- * @license         GNU GPL 2 or later (http://www.gnu.org/licenses/gpl-2.0.html)
+ * @license         GNU GPL 2 or later (https://www.gnu.org/licenses/gpl-2.0.html)
  * @package         wfdownload
  * @since           3.23
  * @author          Xoops Development Team
@@ -41,12 +42,12 @@ $grouppermHandler = xoops_getHandler('groupperm');
 $catArray['imageheader'] = Wfdownloads\Utility::headerImage();
 //$catArray['letters']     = Wfdownloads\Utility::lettersChoice();
 /** @var \XoopsDatabase $db */
-$db           = \XoopsDatabaseFactory::getDatabaseConnection();
-$objHandler = new Wfdownloads\DownloadHandler($db);
-$choicebyletter = new Wfdownloads\Common\LetterChoice($objHandler, null, null, range('a', 'z'), 'letter');
-$catarray['letters']  = $choicebyletter->render();
+$db                  = \XoopsDatabaseFactory::getDatabaseConnection();
+$objHandler          = new Wfdownloads\DownloadHandler($db);
+$choicebyletter      = new Wfdownloads\Common\LetterChoice($objHandler, null, null, range('a', 'z'), 'letter');
+$catarray['letters'] = $choicebyletter->render();
 
-$catArray['toolbar']     = Wfdownloads\Utility::toolbar();
+$catArray['toolbar'] = Wfdownloads\Utility::toolbar();
 $xoopsTpl->assign('catarray', $catArray);
 
 // Breadcrumb

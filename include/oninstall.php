@@ -13,7 +13,7 @@
  * Wfdownloads module
  *
  * @copyright       XOOPS Project (https://xoops.org)
- * @license         GNU GPL 2 or later (http://www.gnu.org/licenses/gpl-2.0.html)
+ * @license         GNU GPL 2 or later (https://www.gnu.org/licenses/gpl-2.0.html)
  * @package         wfdownload
  * @since           3.23
  * @author          Xoops Development Team
@@ -22,7 +22,7 @@
 use Xmf\Language;
 use XoopsModules\Wfdownloads;
 
-defined('XOOPS_ROOT_PATH') || die('XOOPS root path not defined');
+defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
 require_once __DIR__ . '/common.php';
 //@require_once WFDOWNLOADS_ROOT_PATH . '/language/' . $GLOBALS['xoopsConfig']['language'] . '/admin.php';
 /** @var \XoopsModules\Wfdownloads\Helper $helper */
@@ -33,9 +33,8 @@ define('INDEX_FILE_PATH', XOOPS_ROOT_PATH . '/uploads/index.html');
 define('BLANK_FILE_PATH', XOOPS_ROOT_PATH . '/uploads/blank.png');
 
 /**
- *
  * Prepares system prior to attempting to install module
- * @param XoopsModule $module {@link XoopsModule}
+ * @param \XoopsModule $module {@link XoopsModule}
  *
  * @return bool true if ready to install, false if not
  */
@@ -48,10 +47,10 @@ function xoops_module_pre_install_wfdownloads(\XoopsModule $module)
     $xoopsSuccess = $utility::checkVerXoops($module);
 
     // check for minimum PHP version
-    $phpSuccess   = $utility::checkVerPhp($module);
+    $phpSuccess = $utility::checkVerPhp($module);
 
-    if (false !== $xoopsSuccess && false !==  $phpSuccess) {
-        $moduleTables =& $module->getInfo('tables');
+    if (false !== $xoopsSuccess && false !== $phpSuccess) {
+        $moduleTables = &$module->getInfo('tables');
         foreach ($moduleTables as $table) {
             $GLOBALS['xoopsDB']->queryF('DROP TABLE IF EXISTS ' . $GLOBALS['xoopsDB']->prefix($table) . ';');
         }
@@ -61,9 +60,8 @@ function xoops_module_pre_install_wfdownloads(\XoopsModule $module)
 }
 
 /**
- *
  * Performs tasks required during installation of the module
- * @param XoopsModule $module {@link XoopsModule}
+ * @param \XoopsModule $module {@link XoopsModule}
  *
  * @return bool true if installation successful, false if not
  */
@@ -78,17 +76,18 @@ function xoops_module_install_wfdownloads(\XoopsModule $module)
     xoops_loadLanguage('admin', $moduleDirName);
     xoops_loadLanguage('modinfo', $moduleDirName);
 
-    //    $configurator = include __DIR__ . '/config.php';
+    //    $configurator = require __DIR__   . '/config.php';
     $configurator = new  \XoopsModules\Wfdownloads\Common\Configurator();
     /** @var \XoopsModules\Wfdownloads\Utility $utility */
     $utility = new \XoopsModules\Wfdownloads\Utility();
 
     // default Permission Settings
-    $module_id      = $xoopsModule->getVar('mid');
-    $module_name    = $xoopsModule->getVar('name');
-    $module_dirname = $xoopsModule->getVar('dirname');
-    $module_version = $xoopsModule->getVar('version');
-    $grouppermHandler   = xoops_getHandler('groupperm');
+    $module_id        = $xoopsModule->getVar('mid');
+    $module_name      = $xoopsModule->getVar('name');
+    $module_dirname   = $xoopsModule->getVar('dirname');
+    $module_version   = $xoopsModule->getVar('version');
+    /** @var \XoopsGroupPermHandler $grouppermHandler */
+$grouppermHandler = xoops_getHandler('groupperm');
     // access rights
     $grouppermHandler->addRight('nw_approve', 1, XOOPS_GROUP_ADMIN, $module_id);
     $grouppermHandler->addRight('nw_submit', 1, XOOPS_GROUP_ADMIN, $module_id);
@@ -114,7 +113,7 @@ function xoops_module_install_wfdownloads(\XoopsModule $module)
 
     //  ---  COPY blank.png FILES ---------------
     if (count($configurator->copyBlankFiles) > 0) {
-        $file =  dirname(__DIR__) . '/assets/images/blank.png';
+        $file = dirname(__DIR__) . '/assets/images/blank.png';
         foreach (array_keys($configurator->copyBlankFiles) as $i) {
             $dest = $configurator->copyBlankFiles[$i] . '/blank.png';
             $utility::copyFile($file, $dest);
@@ -124,9 +123,8 @@ function xoops_module_install_wfdownloads(\XoopsModule $module)
     return true;
 }
 
-
 /**
- * @param XoopsModule $xoopsModule
+ * @param \XoopsModule $xoopsModule
  *
  * @return bool
  */

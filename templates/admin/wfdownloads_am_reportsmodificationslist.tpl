@@ -1,4 +1,4 @@
-<{if $use_brokenreports == false}>
+<{if $use_brokenreports === false}>
     <div class="errorMsg"><{$smarty.const._AM_WFDOWNLOADS_BROKENREPORT_DISABLED}></div>
 <{/if}>
 <fieldset>
@@ -54,7 +54,7 @@
                         <{/if}>
                     </td>
                     <td>
-                        <{if ($report.download_lid) == false}>
+                        <{if ($report.download_lid) === false}>
                             <{$smarty.const._AM_WFDOWNLOADS_BROKEN_DOWNLOAD_DONT_EXISTS}>
                         <{else}>
                             <a href='" . WFDOWNLOADS_URL . "/singlefile.php?cid=<{$report.download_cid}>&amp;lid=<{$report.download_lid}>' target='_blank'><{$report.download_title}></a>

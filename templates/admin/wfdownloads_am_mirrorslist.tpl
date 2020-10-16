@@ -1,4 +1,4 @@
-<{if $use_mirrors == false}>
+<{if $use_mirrors === false}>
 <div class="errorMsg"><{$smarty.const._AM_WFDOWNLOADS_MIRROR_DISABLED}></div>
 <{/if}>
 <fieldset>

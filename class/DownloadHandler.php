@@ -1,4 +1,6 @@
-<?php namespace XoopsModules\Wfdownloads;
+<?php
+
+namespace XoopsModules\Wfdownloads;
 
 /*
  You may not change or alter any portion of this comment or credits
@@ -9,11 +11,12 @@
  but WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
+
 /**
  * Wfdownloads module
  *
  * @copyright       XOOPS Project (https://xoops.org)
- * @license         GNU GPL 2 or later (http://www.gnu.org/licenses/gpl-2.0.html)
+ * @license         GNU GPL 2 or later (https://www.gnu.org/licenses/gpl-2.0.html)
  * @package         wfdownload
  * @since           3.23
  * @author          Xoops Development Team
@@ -21,8 +24,8 @@
 
 use XoopsModules\Wfdownloads;
 
-defined('XOOPS_ROOT_PATH') || die('XOOPS root path not defined');
-require_once  dirname(__DIR__) . '/include/common.php';
+
+require_once \dirname(__DIR__) . '/include/common.php';
 
 /**
  * Class DownloadHandler
@@ -37,10 +40,10 @@ class DownloadHandler extends \XoopsPersistableObjectHandler
     /**
      * @param null|\XoopsDatabase $db
      */
-    public function __construct(\XoopsDatabase $db)
+    public function __construct(\XoopsDatabase $db = null)
     {
         parent::__construct($db, 'wfdownloads_downloads', Download::class, 'lid', 'title');
-        /** @var \XoopsModules\Wfdownloads\Helper $this->helper */
+        /** @var \XoopsModules\Wfdownloads\Helper $this ->helper */
         $this->helper = \XoopsModules\Wfdownloads\Helper::getInstance();
     }
 
@@ -53,14 +56,14 @@ class DownloadHandler extends \XoopsPersistableObjectHandler
      */
     public function getMaxPublishdate(\CriteriaElement $criteria = null)
     {
-        if (null !== $criteria && is_subclass_of($criteria, 'CriteriaElement')) {
+        if (null !== $criteria && $criteria instanceof \CriteriaElement) {
             if ('' != $criteria->groupby) {
                 $groupby = true;
                 $field   = $criteria->groupby . ', '; //Not entirely secure unless you KNOW that no criteria's groupby clause is going to be mis-used
             }
         }
         $sql = 'SELECT ' . $field . 'MAX(published) FROM ' . $this->table;
-        if (is_object($criteria)) {
+        if (\is_object($criteria)) {
             $sql .= ' ' . $criteria->renderWhere();
             if ('' != $criteria->groupby) {
                 $sql .= $criteria->getGroupby();
@@ -71,17 +74,16 @@ class DownloadHandler extends \XoopsPersistableObjectHandler
             return 0;
         }
         if (false === $groupby) {
-            list($count) = $this->db->fetchRow($result);
+            [$count] = $this->db->fetchRow($result);
 
             return $count;
-        } else {
-            $ret = [];
-            while (false !== (list($id, $count) = $this->db->fetchRow($result))) {
-                $ret[$id] = $count;
-            }
-
-            return $ret;
         }
+        $ret = [];
+        while (list($id, $count) = $this->db->fetchRow($result)) {
+            $ret[$id] = $count;
+        }
+
+        return $ret;
     }
 
     /**
@@ -92,18 +94,18 @@ class DownloadHandler extends \XoopsPersistableObjectHandler
     public function getActiveCriteria()
     {
         /** @var \XoopsGroupPermHandler $grouppermHandler */
-        $grouppermHandler = xoops_getHandler('groupperm');
+        $grouppermHandler = \xoops_getHandler('groupperm');
 
         $criteria = new \CriteriaCompo(new \Criteria('offline', false));
         $criteria->add(new \Criteria('published', 0, '>'));
-        $criteria->add(new \Criteria('published', time(), '<='));
+        $criteria->add(new \Criteria('published', \time(), '<='));
         $expiredCriteria = new \CriteriaCompo(new \Criteria('expired', 0));
-        $expiredCriteria->add(new \Criteria('expired', time(), '>='), 'OR');
+        $expiredCriteria->add(new \Criteria('expired', \time(), '>='), 'OR');
         $criteria->add($expiredCriteria);
         // add criteria for categories that the user has permissions for
-        $groups                   = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : [0 => XOOPS_GROUP_ANONYMOUS];
+        $groups                   = \is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : [0 => XOOPS_GROUP_ANONYMOUS];
         $allowedDownCategoriesIds = $grouppermHandler->getItemIds('WFDownCatPerm', $groups, $this->helper->getModule()->mid());
-        $criteria->add(new \Criteria('cid', '(' . implode(',', $allowedDownCategoriesIds) . ')', 'IN'));
+        $criteria->add(new \Criteria('cid', '(' . \implode(',', $allowedDownCategoriesIds) . ')', 'IN'));
 
         return $criteria;
     }
@@ -117,7 +119,7 @@ class DownloadHandler extends \XoopsPersistableObjectHandler
      */
     public function getActiveDownloads(\CriteriaCompo $crit = null)
     {
-        if (is_object($crit)) {
+        if (\is_object($crit)) {
             $criteria = $crit;
         } else {
             $criteria = new \CriteriaCompo();
@@ -138,7 +140,7 @@ class DownloadHandler extends \XoopsPersistableObjectHandler
     public function getActiveCount(\CriteriaElement $crit = null)
     {
         $criteria = $this->getActiveCriteria();
-        if (is_object($crit)) {
+        if (\is_object($crit)) {
             $criteria->add($crit);
         }
 
@@ -161,7 +163,7 @@ class DownloadHandler extends \XoopsPersistableObjectHandler
 
     /**
      * @param \XoopsObject $download
-     * @param bool        $force
+     * @param bool         $force
      *
      * @return bool
      */
@@ -174,11 +176,11 @@ class DownloadHandler extends \XoopsPersistableObjectHandler
             $this->helper->getHandler('Review')->deleteAll($criteria);
             $this->helper->getHandler('Report')->deleteAll($criteria);
             // delete comments
-            xoops_comment_delete((int)$this->helper->getModule()->mid(), (int)$download->getVar('lid'));
+            \xoops_comment_delete((int)$this->helper->getModule()->mid(), (int)$download->getVar('lid'));
 
             // Formulize module support (2006/05/04) jpc - start
             if (Wfdownloads\Utility::checkModule('formulize')) {
-                if (file_exists(XOOPS_ROOT_PATH . '/modules/formulize/include/functions.php') && $download->getVar('formulize_idreq') > 0) {
+                if (\is_file(XOOPS_ROOT_PATH . '/modules/formulize/include/functions.php') && $download->getVar('formulize_idreq') > 0) {
                     require_once XOOPS_ROOT_PATH . '/modules/formulize/include/functions.php';
                     //deleteFormEntries(array($download->getVar('formulize_idreq')));
                     $category = $this->helper->getHandler('Category')->get($download->getVar('cid'));

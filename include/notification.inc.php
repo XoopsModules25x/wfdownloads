@@ -8,18 +8,18 @@
  but WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
+
 /**
  * Wfdownloads module
  *
  * @copyright       XOOPS Project (https://xoops.org)
- * @license         GNU GPL 2 or later (http://www.gnu.org/licenses/gpl-2.0.html)
+ * @license         GNU GPL 2 or later (https://www.gnu.org/licenses/gpl-2.0.html)
  * @package         wfdownload
  * @since           3.23
  * @author          Xoops Development Team
  *
  * @param $category
  * @param $item_id
- *
  * @return null
  */
 function wfdownloads_notify_iteminfo($category, $item_id)
@@ -27,7 +27,7 @@ function wfdownloads_notify_iteminfo($category, $item_id)
     global $xoopsModule, $xoopsModuleConfig;
 
     if (empty($xoopsModule) || 'wfdownloads' !== $xoopsModule->dirname()) {
-        /** @var XoopsModuleHandler $moduleHandler */
+        /** @var \XoopsModuleHandler $moduleHandler */
         $moduleHandler = xoops_getHandler('module');
         /** @var \XoopsModule $module */
         $module = $moduleHandler->getByDirname('wfdownloads');

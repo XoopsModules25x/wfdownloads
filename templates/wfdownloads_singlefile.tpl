@@ -15,7 +15,7 @@
 <div>
     <h3>
         <{$download.title}>&nbsp;<{$download.icons}>
-        <{if ($download.isadmin == true) }>
+        <{if ($download.isadmin === true) }>
             <a href="admin/downloads.php?op=download.edit&amp;lid=<{$download.id}>">
                 <img src="<{xoModuleIcons16 edit.png}>"
                      title="<{$smarty.const._EDIT}>"
@@ -26,7 +26,7 @@
                      title="<{$smarty.const._DELETE}>"
                      alt="<{$smarty.const._DELETE}>">
             </a>
-        <{elseif ($download.issubmitter == true && $download.has_custom_fields == false)}>
+        <{elseif ($download.issubmitter === true && $download.has_custom_fields === false)}>
             <a href="submit.php?op=download.edit&amp;lid=<{$download.id}>">
                 <img src="<{xoModuleIcons16 edit.png}>"
                      title="<{$smarty.const._EDIT}>"
@@ -74,7 +74,9 @@
                 <br>
 
 
-                                                    <{elseif @in_array($download.filetype, array('audio/mpeg', 'audio/mp3', 'audio/ogg'))}>
+
+<{elseif @in_array($download.filetype, array('audio/mpeg', 'audio/mp3', 'audio/ogg'))}>
+
 
 
                 <div style="margin-left: 10px; margin-right: 10px; padding: 4px; background-color:#e6e6e6; border-color:#999999;" class="outer">
@@ -88,7 +90,9 @@
                 <br>
 
 
-                                                    <{elseif @in_array($download.filetype, array('application/pdf'))}>
+
+<{elseif @in_array($download.filetype, array('application/pdf'))}>
+
 
 
                 <div style="margin-left: 10px; margin-right: 10px; padding: 4px; background-color:#e6e6e6; border-color:#999999;" class="outer">
@@ -101,7 +105,9 @@
                 <br>
 
 
-                                                    <{elseif @in_array($download.filetype, array('video/flv', 'application/octet-stream', 'video/x-flv', 'video/mp4', 'video/ogg', 'video/x-m4v'))}>
+
+<{elseif @in_array($download.filetype, array('video/flv', 'application/octet-stream', 'video/x-flv', 'video/mp4', 'video/ogg', 'video/x-m4v'))}>
+
 
 
                 <div style="margin-left: 10px; margin-right: 10px; padding: 4px; background-color:#e6e6e6; border-color:#999999;" class="outer">
@@ -174,7 +180,7 @@
                 <{$smarty.const._MD_WFDOWNLOADS_DOWNLOADNOW}>
             </a>
             &nbsp;&nbsp;
-            <{if $download.use_mirrors == true && $download.mirrors_num >= 1}>
+            <{if $download.use_mirrors === true && $download.mirrors_num >= 1}>
                 <a href="mirror.php?op=mirrors.list&amp;cid=<{$download.cid}>&amp;lid=<{$download.id}>">
                     <img src="<{xoModuleIcons16 download.png}>" alt="<{$smarty.const._MD_WFDOWNLOADS_DOWNLOADMIRRORS}>"
                          title="<{$smarty.const._MD_WFDOWNLOADS_DOWNLOADMIRRORS}>">
@@ -182,7 +188,7 @@
                     <{$smarty.const._MD_WFDOWNLOADS_DOWNLOADMIRRORS}>
                 </a>
             <{/if}>
-            <{if $download.use_mirrors != true && $download.mirror != ''}>
+            <{if $download.use_mirrors !== true && $download.mirror != ''}>
                 <img src="<{xoModuleIcons16 download.png}>" alt="<{$download.mirror}>" title="<{$download.mirror}>">
                 &nbsp;
                 <{$download.mirror}>
@@ -203,12 +209,13 @@
 
     <br>
 
-    <{if $show_screenshot == true}>
+    <{if $show_screenshot === true}>
         <{foreach key=key item=screenshot from=$download.screenshots}>
             <{if $screenshot.filename}>
                 <div style="margin-left: 10px; margin-right: 10px; padding: 4px;">
                     <span style="font-weight: bold;"><{$key+1}></span>
-                    <div><a href="<{$xoops_url}>/<{$shots_dir}>/<{$screenshot.filename}>" class="magnific_zoom" rel="<{$download.title}>">
+                    <div>
+                        <a href="<{$xoops_url}>/<{$shots_dir}>/<{$screenshot.filename}>" class="magnific_zoom" rel="<{$download.title}>">
                             <img src="<{$screenshot.thumb_url}>" alt="<{$smarty.const._MD_WFDOWNLOADS_SCREENSHOTCLICK}>"
                                  title="<{$smarty.const._MD_WFDOWNLOADS_SCREENSHOTCLICK}>" style="border: 1px solid black;"></a>
                     </div>
@@ -289,7 +296,7 @@
             <a href="ratefile.php?cid=<{$download.cid}>&amp;lid=<{$download.id}>"><{$smarty.const._MD_WFDOWNLOADS_RATETHISFILE}></a>
             &nbsp;|&nbsp;
         <{/if}>
-        <{if $download.useradminlink == true}>
+        <{if $download.useradminlink === true}>
             <a href="submit.php?cid=<{$download.cid}>&amp;lid=<{$download.id}>"><{$smarty.const._MD_WFDOWNLOADS_MODIFY}></a>
             &nbsp;|&nbsp;
         <{/if}>

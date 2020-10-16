@@ -8,11 +8,12 @@
  but WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
+
 /**
  * Wfdownloads module
  *
  * @copyright       XOOPS Project (https://xoops.org)
- * @license         GNU GPL 2 or later (http://www.gnu.org/licenses/gpl-2.0.html)
+ * @license         GNU GPL 2 or later (https://www.gnu.org/licenses/gpl-2.0.html)
  * @package         wfdownload
  * @since           3.23
  * @author          Xoops Development Team
@@ -20,20 +21,20 @@
 
 use XoopsModules\Wfdownloads;
 
-defined('XOOPS_ROOT_PATH') || die('XOOPS root path not defined');
+defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
 require_once __DIR__ . '/common.php';
 
 // comment callback functions
 
 /**
- * @param $download_id
+ * @param $downloadId
  * @param $commentCount
  */
-function wfdownloads_com_update($download_id, $commentCount)
+function wfdownloads_com_update($downloadId, $commentCount)
 {
     /** @var \XoopsModules\Wfdownloads\Helper $helper */
     $helper = \XoopsModules\Wfdownloads\Helper::getInstance();
-    $helper->getHandler('Download')->updateAll('comments', (int)$commentCount, new \Criteria('lid', (int)$download_id));
+    $helper->getHandler('Download')->updateAll('comments', (int)$commentCount, new \Criteria('lid', (int)$downloadId));
 }
 
 /**

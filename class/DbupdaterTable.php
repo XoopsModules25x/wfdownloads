@@ -1,4 +1,6 @@
-<?php namespace XoopsModules\Wfdownloads;
+<?php
+
+namespace XoopsModules\Wfdownloads;
 
 /*
  You may not change or alter any portion of this comment or credits
@@ -13,7 +15,7 @@
  * Wfdownloads module
  *
  * @copyright       XOOPS Project (https://xoops.org)
- * @license         GNU GPL 2 or later (http://www.gnu.org/licenses/gpl-2.0.html)
+ * @license         GNU GPL 2 or later (https://www.gnu.org/licenses/gpl-2.0.html)
  * @package         wfdownload
  * @since           3.23
  * @author          marcan <marcan@smartfactory.ca>, Xoops Development Team
@@ -39,8 +41,6 @@
  */
 
 use XoopsModules\Wfdownloads;
-
-defined('XOOPS_ROOT_PATH') || die('XOOPS root path not defined');
 
 /**
  * Class DbupdaterTable
@@ -96,7 +96,6 @@ class DbupdaterTable
      * Constructor
      *
      * @param string $name name of the table
-     *
      */
     public function __construct($name)
     {
@@ -108,7 +107,6 @@ class DbupdaterTable
      * Return the table name, prefixed with site table prefix
      *
      * @return string table name
-     *
      */
     public function name()
     {
@@ -119,7 +117,6 @@ class DbupdaterTable
      * Set the table structure
      *
      * @param string $structure table structure
-     *
      */
     public function setStructure($structure)
     {
@@ -130,18 +127,16 @@ class DbupdaterTable
      * Return the table structure
      *
      * @return string table structure
-     *
      */
     public function getStructure()
     {
-        return sprintf($this->_structure, $this->name());
+        return \sprintf($this->_structure, $this->name());
     }
 
     /**
      * Add values of a record to be added
      *
      * @param string $data values of a record
-     *
      */
     public function setData($data)
     {
@@ -152,7 +147,6 @@ class DbupdaterTable
      * Get the data array
      *
      * @return array containing the records values to be added
-     *
      */
     public function getData()
     {
@@ -163,18 +157,17 @@ class DbupdaterTable
      * Use to insert data in a table
      *
      * @return bool true if success, false if an error occured
-     *
      */
     public function addData()
     {
         $ret = null;
         foreach ($this->getData() as $data) {
-            $query = sprintf('INSERT INTO `%s` VALUES (%s)', $this->name(), $data);
+            $query = \sprintf('INSERT INTO `%s` VALUES (%s)', $this->name(), $data);
             $ret   = $GLOBALS['xoopsDB']->query($query);
             if (!$ret) {
-                echo "<li class='err'>" . sprintf(_AM_WFDOWNLOADS_DB_MSG_ADD_DATA_ERR, $this->name()) . '</li>';
+                echo "<li class='err'>" . \sprintf(\_AM_WFDOWNLOADS_DB_MSG_ADD_DATA_ERR, $this->name()) . '</li>';
             } else {
-                echo "<li class='ok'>" . sprintf(_AM_WFDOWNLOADS_DB_MSG_ADD_DATA, $this->name()) . '</li>';
+                echo "<li class='ok'>" . \sprintf(\_AM_WFDOWNLOADS_DB_MSG_ADD_DATA, $this->name()) . '</li>';
             }
         }
 
@@ -186,7 +179,6 @@ class DbupdaterTable
      *
      * @param string $name       name of the field
      * @param string $properties properties of the field
-     *
      */
     public function addAlteredField($name, $properties)
     {
@@ -202,8 +194,8 @@ class DbupdaterTable
      * @param string $name name of the field
      * @param string $newValue
      * @param string $oldValue
-     *
      */ //felix
+
     public function addUpdatedWhere($name, $newValue, $oldValue)
     {
         $field                 = [];
@@ -218,7 +210,6 @@ class DbupdaterTable
      *
      * @param string $name       name of the field
      * @param string $properties properties of the field
-     *
      */
     public function addNewField($name, $properties)
     {
@@ -232,7 +223,6 @@ class DbupdaterTable
      * Get fields that need to be altered
      *
      * @return array fields that need to be altered
-     *
      */
     public function getAlteredFields()
     {
@@ -244,7 +234,6 @@ class DbupdaterTable
      *
      * @param string $name  name of the field
      * @param string $value value to be set
-     *
      */
     public function addUpdatedField($name, $value)
     {
@@ -258,7 +247,6 @@ class DbupdaterTable
      * Get new fields to be added
      *
      * @return array fields to be added
-     *
      */
     public function getNewFields()
     {
@@ -269,7 +257,6 @@ class DbupdaterTable
      * Get fields which values need to be updated
      *
      * @return array fields which values need to be updated
-     *
      */
     public function getUpdatedFields()
     {
@@ -280,8 +267,8 @@ class DbupdaterTable
      * Get fields which values need to be updated
      *
      * @return array fields which values need to be updated
-     *
      */ //felix
+
     public function getUpdatedWhere()
     {
         return $this->_updatedWhere;
@@ -291,7 +278,6 @@ class DbupdaterTable
      * Add values of a record to be added
      *
      * @param string $name name of the field
-     *
      */
     public function addDropedField($name)
     {
@@ -302,7 +288,6 @@ class DbupdaterTable
      * Get fields that need to be droped
      *
      * @return array fields that need to be droped
-     *
      */
     public function getDropedFields()
     {
@@ -311,7 +296,6 @@ class DbupdaterTable
 
     /**
      * Set the flag to drop the table
-     *
      */
     public function setFlagForDrop()
     {
@@ -322,7 +306,6 @@ class DbupdaterTable
      * Use to create a table
      *
      * @return bool true if success, false if an error occured
-     *
      */
     public function createTable()
     {
@@ -330,9 +313,9 @@ class DbupdaterTable
 
         $ret = $GLOBALS['xoopsDB']->query($query);
         if (!$ret) {
-            echo "<li class='err'>" . sprintf(_AM_WFDOWNLOADS_DB_MSG_CREATE_TABLE_ERR, $this->name()) . '</li>';
+            echo "<li class='err'>" . \sprintf(\_AM_WFDOWNLOADS_DB_MSG_CREATE_TABLE_ERR, $this->name()) . '</li>';
         } else {
-            echo "<li class='ok'>" . sprintf(_AM_WFDOWNLOADS_DB_MSG_CREATE_TABLE, $this->name()) . '</li>';
+            echo "<li class='ok'>" . \sprintf(\_AM_WFDOWNLOADS_DB_MSG_CREATE_TABLE, $this->name()) . '</li>';
         }
 
         return $ret;
@@ -342,41 +325,38 @@ class DbupdaterTable
      * Use to drop a table
      *
      * @return bool true if success, false if an error occured
-     *
      */
     public function dropTable()
     {
-        $query = sprintf('DROP TABLE %s', $this->name());
+        $query = \sprintf('DROP TABLE %s', $this->name());
         $ret   = $GLOBALS['xoopsDB']->query($query);
         if (!$ret) {
-            echo "<li class='err'>" . sprintf(_AM_WFDOWNLOADS_DB_MSG_DROP_TABLE_ERR, $this->name()) . '</li>';
+            echo "<li class='err'>" . \sprintf(\_AM_WFDOWNLOADS_DB_MSG_DROP_TABLE_ERR, $this->name()) . '</li>';
 
             return false;
-        } else {
-            echo "<li class='ok'>" . sprintf(_AM_WFDOWNLOADS_DB_MSG_DROP_TABLE, $this->name()) . '</li>';
-
-            return true;
         }
+        echo "<li class='ok'>" . \sprintf(\_AM_WFDOWNLOADS_DB_MSG_DROP_TABLE, $this->name()) . '</li>';
+
+        return true;
     }
 
     /**
      * Use to alter a table
      *
      * @return bool true if success, false if an error occured
-     *
      */
     public function alterTable()
     {
         $ret = true;
 
         foreach ($this->getAlteredFields() as $alteredField) {
-            $query = sprintf('ALTER TABLE `%s` CHANGE `%s` %s', $this->name(), $alteredField['name'], $alteredField['properties']);
+            $query = \sprintf('ALTER TABLE `%s` CHANGE `%s` %s', $this->name(), $alteredField['name'], $alteredField['properties']);
             //echo $query;
             $ret = $ret && $GLOBALS['xoopsDB']->query($query);
             if (!$ret) {
-                echo "<li class='err'>" . sprintf(_AM_WFDOWNLOADS_DB_MSG_CHGFIELD_ERR, $alteredField['name'], $this->name()) . '</li>';
+                echo "<li class='err'>" . \sprintf(\_AM_WFDOWNLOADS_DB_MSG_CHGFIELD_ERR, $alteredField['name'], $this->name()) . '</li>';
             } else {
-                echo "<li class='ok'>" . sprintf(_AM_WFDOWNLOADS_DB_MSG_CHGFIELD, $alteredField['name'], $this->name()) . '</li>';
+                echo "<li class='ok'>" . \sprintf(\_AM_WFDOWNLOADS_DB_MSG_CHGFIELD, $alteredField['name'], $this->name()) . '</li>';
             }
         }
 
@@ -387,19 +367,18 @@ class DbupdaterTable
      * Use to add new fileds in the table
      *
      * @return bool true if success, false if an error occured
-     *
      */
     public function addNewFields()
     {
         $ret = true;
         foreach ($this->getNewFields() as $newField) {
-            $query = sprintf('ALTER TABLE `%s` ADD `%s` %s', $this->name(), $newField['name'], $newField['properties']);
+            $query = \sprintf('ALTER TABLE `%s` ADD `%s` %s', $this->name(), $newField['name'], $newField['properties']);
             //echo $query;
             $ret = $ret && $GLOBALS['xoopsDB']->query($query);
             if (!$ret) {
-                echo "<li class='err'>" . sprintf(_AM_WFDOWNLOADS_DB_MSG_NEWFIELD_ERR, $newField['name'], $this->name()) . '</li>';
+                echo "<li class='err'>" . \sprintf(\_AM_WFDOWNLOADS_DB_MSG_NEWFIELD_ERR, $newField['name'], $this->name()) . '</li>';
             } else {
-                echo "<li class='ok'>" . sprintf(_AM_WFDOWNLOADS_DB_MSG_NEWFIELD, $newField['name'], $this->name()) . '</li>';
+                echo "<li class='ok'>" . \sprintf(\_AM_WFDOWNLOADS_DB_MSG_NEWFIELD, $newField['name'], $this->name()) . '</li>';
             }
         }
 
@@ -410,19 +389,18 @@ class DbupdaterTable
      * Use to update fields values
      *
      * @return bool true if success, false if an error occured
-     *
      */
     public function updateFieldsValues()
     {
         $ret = true;
 
         foreach ($this->getUpdatedFields() as $updatedField) {
-            $query = sprintf('UPDATE `%s` SET %s = %s', $this->name(), $updatedField['name'], $updatedField['value']);
+            $query = \sprintf('UPDATE `%s` SET %s = %s', $this->name(), $updatedField['name'], $updatedField['value']);
             $ret   = $ret && $GLOBALS['xoopsDB']->query($query);
             if (!$ret) {
-                echo "<li class='err'>" . sprintf(_AM_WFDOWNLOADS_DB_MSG_UPDATE_TABLE_ERR, $this->name()) . '</li>';
+                echo "<li class='err'>" . \sprintf(\_AM_WFDOWNLOADS_DB_MSG_UPDATE_TABLE_ERR, $this->name()) . '</li>';
             } else {
-                echo "<li class='ok'>" . sprintf(_AM_WFDOWNLOADS_DB_MSG_UPDATE_TABLE, $this->name()) . '</li>';
+                echo "<li class='ok'>" . \sprintf(\_AM_WFDOWNLOADS_DB_MSG_UPDATE_TABLE, $this->name()) . '</li>';
             }
         }
 
@@ -433,20 +411,20 @@ class DbupdaterTable
      * Use to update fields values
      *
      * @return bool true if success, false if an error occured
-     *
      */ //felix
+
     public function updateWhereValues()
     {
         $ret = true;
 
         foreach ($this->getUpdatedWhere() as $updatedWhere) {
-            $query = sprintf('UPDATE `%s` SET %s = %s WHERE %s  %s', $this->name(), $updatedWhere['name'], $updatedWhere['value'], $updatedWhere['name'], $updatedWhere['where']);
+            $query = \sprintf('UPDATE `%s` SET %s = %s WHERE %s  %s', $this->name(), $updatedWhere['name'], $updatedWhere['value'], $updatedWhere['name'], $updatedWhere['where']);
             //echo $query."<br>";
             $ret = $ret && $GLOBALS['xoopsDB']->query($query);
             if (!$ret) {
-                echo "<li class='err'>" . sprintf(_AM_WFDOWNLOADS_DB_MSG_UPDATE_TABLE_ERR, $this->name()) . '</li>';
+                echo "<li class='err'>" . \sprintf(\_AM_WFDOWNLOADS_DB_MSG_UPDATE_TABLE_ERR, $this->name()) . '</li>';
             } else {
-                echo "<li class='ok'>" . sprintf(_AM_WFDOWNLOADS_DB_MSG_UPDATE_TABLE, $this->name()) . '</li>';
+                echo "<li class='ok'>" . \sprintf(\_AM_WFDOWNLOADS_DB_MSG_UPDATE_TABLE, $this->name()) . '</li>';
             }
         }
 
@@ -457,20 +435,19 @@ class DbupdaterTable
      * Use to drop fields
      *
      * @return bool true if success, false if an error occured
-     *
      */
     public function dropFields()
     {
         $ret = true;
 
         foreach ($this->getDropedFields() as $dropedField) {
-            $query = sprintf('ALTER TABLE %s DROP %s', $this->name(), $dropedField);
+            $query = \sprintf('ALTER TABLE %s DROP %s', $this->name(), $dropedField);
 
             $ret = $ret && $GLOBALS['xoopsDB']->query($query);
             if (!$ret) {
-                echo "<li class='err'>" . sprintf(_AM_WFDOWNLOADS_DB_MSG_DROPFIELD_ERR, $dropedField, $this->name()) . '</li>';
+                echo "<li class='err'>" . \sprintf(\_AM_WFDOWNLOADS_DB_MSG_DROPFIELD_ERR, $dropedField, $this->name()) . '</li>';
             } else {
-                echo "<li class='ok'>" . sprintf(_AM_WFDOWNLOADS_DB_MSG_DROPFIELD, $dropedField, $this->name()) . '</li>';
+                echo "<li class='ok'>" . \sprintf(\_AM_WFDOWNLOADS_DB_MSG_DROPFIELD, $dropedField, $this->name()) . '</li>';
             }
         }
 

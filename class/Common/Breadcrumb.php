@@ -1,4 +1,6 @@
-<?php namespace XoopsModules\Wfdownloads\Common;
+<?php
+
+namespace XoopsModules\Wfdownloads\Common;
 
 /*
  You may not change or alter any portion of this comment or credits
@@ -9,15 +11,14 @@
  but WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
+
 /**
  * Breadcrumb Class
  *
  * @copyright   XOOPS Project (https://xoops.org)
  * @license     http://www.fsf.org/copyleft/gpl.html GNU public license
  * @author      lucio <lucio.rota@gmail.com>
- * @package     wfdownloads
- * @since       3.23
- * @version     $Id:$
+ * @package     Wfdownloads
  *
  * Example:
  * $breadcrumb = new Common\Breadcrumb();
@@ -30,30 +31,24 @@
 use XoopsModules\Wfdownloads;
 use XoopsModules\Wfdownloads\Common;
 
-defined('XOOPS_ROOT_PATH') || die('XOOPS root path not defined');
-require_once  dirname(dirname(__DIR__)) . '/include/common.php';
+
+require_once \dirname(\dirname(__DIR__)) . '/include/common.php';
 
 /**
  * Class Breadcrumb
  */
 class Breadcrumb
 {
-    /**
-     * @access public
-     */
     public $helper;
 
     private $dirname;
-    private $_bread = [];
+    private $bread = [];
 
-    /**
-     *
-     */
     public function __construct()
     {
-        /** @var \XoopsModules\Wfdownloads\Helper $this->helper */
+        /** @var \XoopsModules\Wfdownloads\Helper $this ->helper */
         $this->helper  = \XoopsModules\Wfdownloads\Helper::getInstance();
-        $this->dirname = basename(dirname(dirname(__DIR__)));
+        $this->dirname = \basename(\dirname(\dirname(__DIR__)));
     }
 
     /**
@@ -64,21 +59,20 @@ class Breadcrumb
      */
     public function addLink($title = '', $link = '')
     {
-        $this->_bread[] = [
+        $this->bread[] = [
             'link'  => $link,
-            'title' => $title
+            'title' => $title,
         ];
     }
 
     /**
-     * Render Wfdownloads BreadCrumb
-     *
+     * Render BreadCrumb
      */
     public function render()
     {
         $ret = '';
 
-        if (!isset($GLOBALS['xoTheme']) || !is_object($GLOBALS['xoTheme'])) {
+        if (!isset($GLOBALS['xoTheme']) || !\is_object($GLOBALS['xoTheme'])) {
             require_once $GLOBALS['xoops']->path('/class/theme.php');
             $GLOBALS['xoTheme'] = new \xos_opal_Theme();
         }

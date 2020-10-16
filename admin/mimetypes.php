@@ -13,7 +13,7 @@
  * Wfdownloads module
  *
  * @copyright       XOOPS Project (https://xoops.org)
- * @license         GNU GPL 2 or later (http://www.gnu.org/licenses/gpl-2.0.html)
+ * @license         GNU GPL 2 or later (https://www.gnu.org/licenses/gpl-2.0.html)
  * @package         wfdownload
  * @since           3.23
  * @author          Xoops Development Team
@@ -57,7 +57,7 @@ switch ($op) {
         echo '<div>' . _AM_WFDOWNLOADS_MIME_INFOTEXT . "</div>\n";
         echo "</fieldset>\n";
 
-    /** @var Wfdownloads\Mimetype $mimetypeObj */
+        /** @var Wfdownloads\Mimetype $mimetypeObj */
         if (\Xmf\Request::hasVar('mime_id', 'REQUEST')) {
             $mimetypeObj = $helper->getHandler('Mimetype')->get($_REQUEST['mime_id']);
         } else {
@@ -74,14 +74,13 @@ switch ($op) {
         $button_open = new \XoopsFormButton('', '', _AM_WFDOWNLOADS_MIME_FINDIT, 'button');
         $button_open->setExtra('onclick="document.getElementById(\'filext_iframe\').src = \'http://filext.com/detaillist.php?extdetail=\' + this.form.elements.fileext.value"');
         $extform->addElement($button_open);
-        $extform->addElement($button_tray);
+        $extform->addElement($buttonTray);
         $extform->display();
 
         echo "<iframe src='http://filext.com/detaillist.php?extdetail=" . $mimetypeObj->getVar('mime_ext') . "' id='filext_iframe' name='filext_iframe' class='outer' style='width:100%; height:400px;'></iframe>";
 
         xoops_cp_footer();
         break;
-
     case 'mimetype.save':
         $mime_id = Request::getInt('mime_id', 0, 'POST');
         if (!$mimetypeObj = $helper->getHandler('Mimetype')->get($mime_id)) {
@@ -100,7 +99,6 @@ switch ($op) {
         $dbupted = (0 == $mime_id) ? _AM_WFDOWNLOADS_MIME_CREATED : _AM_WFDOWNLOADS_MIME_MODIFIED;
         redirect_header($currentFile, 1, $dbupted);
         break;
-
     case 'mimetype.update':
         $mime_id = Request::getInt('mime_id', 0);
         if (!$mimetypeObj = $helper->getHandler('Mimetype')->get($mime_id)) {
@@ -126,7 +124,6 @@ switch ($op) {
         }
         redirect_header("{$currentFile}?start=" . \Xmf\Request::getInt('start', 0, 'GET') . '', 0, _AM_WFDOWNLOADS_MIME_MODIFIED);
         break;
-
     case 'mimetypes.update':
         $mime_admin = Request::getBool('admin', false);
         $mime_user  = Request::getBool('user', false);
@@ -145,7 +142,6 @@ switch ($op) {
         }
         redirect_header("{$currentFile}?start=" . \Xmf\Request::getInt('start', 0, 'GET') . '', 1, _AM_WFDOWNLOADS_MIME_MODIFIED);
         break;
-
     case 'mimetype.delete':
         $mime_id = Request::getInt('mime_id', 0);
         $ok      = Request::getBool('ok', false, 'POST');
@@ -168,7 +164,6 @@ switch ($op) {
             xoops_cp_footer();
         }
         break;
-
     case 'mimetypes.list':
     default:
         $start = Request::getInt('start', 0);

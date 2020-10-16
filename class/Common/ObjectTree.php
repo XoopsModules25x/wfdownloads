@@ -1,4 +1,6 @@
-<?php namespace XoopsModules\Wfdownloads\Common;
+<?php
+
+namespace XoopsModules\Wfdownloads\Common;
 
 /*
  You may not change or alter any portion of this comment or credits
@@ -9,6 +11,7 @@
  but WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
+
 /**
  * WfdownloadsObjectTree
  *
@@ -21,7 +24,7 @@
 
 use XoopsModules\Wfdownloads;
 
-defined('XOOPS_ROOT_PATH') || die('XOOPS root path not defined');
+
 
 //xoops_load('XoopsObjectTree');
 require_once XOOPS_ROOT_PATH . '/class/tree.php';
@@ -41,7 +44,7 @@ class ObjectTree extends \XoopsObjectTree
      * @param string $prefix_curr  String to indent the current item
      *
      * @return string
-    @access private
+     * @access private
      */
     public function makeSelBoxOptionsArray($fieldName, $key, &$optionsArray, $prefix_orig, $prefix_curr = '')
     {
@@ -62,18 +65,17 @@ class ObjectTree extends \XoopsObjectTree
     /**
      * Make a select box with options from the tree
      *
-     * @param string  $name
-     * @param string  $fieldName      Name of the member variable from the node objects that should be used as the title for the options.
-     * @param string  $prefix         String to indent deeper levels
-     * @param string  $selected
-     * @param bool    $addEmptyOption Set TRUE to add an empty option with value "0" at the top of the hierarchy
-     * @param integer $key            ID of the object to display as the root of select options
+     * @param string $name
+     * @param string $fieldName       Name of the member variable from the node objects that should be used as the title for the options.
+     * @param string $prefix          String to indent deeper levels
+     * @param string $selected
+     * @param bool   $addEmptyOption  Set TRUE to add an empty option with value "0" at the top of the hierarchy
+     * @param int    $key             ID of the object to display as the root of select options
      *
-     * @param string  $extra
+     * @param string $extra
      * @return string $optionsArray   Associative array of value->name pairs, useful for <a href='psi_element://XoopsFormSelect'>XoopsFormSelect</a>->addOptionArray method
      *                                addOptionArray method
      */
-
     public function makeSelBox($name, $fieldName, $prefix = '-', $selected = '', $addEmptyOption = false, $key = 0, $extra = '')
         //    public function makeSelBox($fieldName, $prefix = '-', $addEmptyOption = false, $key = 0)
     {

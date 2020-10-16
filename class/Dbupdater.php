@@ -1,4 +1,6 @@
-<?php namespace XoopsModules\Wfdownloads;
+<?php
+
+namespace XoopsModules\Wfdownloads;
 
 /*
  You may not change or alter any portion of this comment or credits
@@ -13,11 +15,12 @@
  * Wfdownloads module
  *
  * @copyright       XOOPS Project (https://xoops.org)
- * @license         GNU GPL 2 or later (http://www.gnu.org/licenses/gpl-2.0.html)
+ * @license         GNU GPL 2 or later (https://www.gnu.org/licenses/gpl-2.0.html)
  * @package         wfdownload
  * @since           3.23
  * @author          marcan <marcan@smartfactory.ca>, Xoops Development Team
  */
+
 /**
  * Contains the classes for updating database tables
  *
@@ -41,9 +44,6 @@ use XoopsModules\Wfdownloads;
  */
 class Dbupdater
 {
-    /**
-     *
-     */
     public function __construct()
     {
     }
@@ -56,7 +56,6 @@ class Dbupdater
      * @param string $badmsg  message displayed on error
      *
      * @return bool true if success, false if an error occured
-     *
      */
     public function runQuery($query, $goodmsg, $badmsg)
     {
@@ -65,11 +64,10 @@ class Dbupdater
             echo "<li class='err'>$badmsg</li>";
 
             return false;
-        } else {
-            echo "<li class='ok'>$goodmsg</li>";
-
-            return true;
         }
+        echo "<li class='ok'>$goodmsg</li>";
+
+        return true;
     }
 
     /**
@@ -85,17 +83,16 @@ class Dbupdater
         $from = $GLOBALS['xoopsDB']->prefix($from);
         $to   = $GLOBALS['xoopsDB']->prefix($to);
 
-        $query = sprintf('ALTER TABLE %s RENAME %s', $from, $to);
+        $query = \sprintf('ALTER TABLE %s RENAME %s', $from, $to);
         $ret   = $GLOBALS['xoopsDB']->query($query);
         if (!$ret) {
-            echo "<li class='err'>" . sprintf(_AM_WFDOWNLOADS_DB_MSG_RENAME_TABLE_ERR, $from) . '</li>';
+            echo "<li class='err'>" . \sprintf(\_AM_WFDOWNLOADS_DB_MSG_RENAME_TABLE_ERR, $from) . '</li>';
 
             return false;
-        } else {
-            echo "<li class='ok'>" . sprintf(_AM_WFDOWNLOADS_DB_MSG_RENAME_TABLE, $from, $to) . '</li>';
-
-            return true;
         }
+        echo "<li class='ok'>" . \sprintf(\_AM_WFDOWNLOADS_DB_MSG_RENAME_TABLE, $from, $to) . '</li>';
+
+        return true;
     }
 
     /**

@@ -13,7 +13,7 @@
  * Wfdownloads module
  *
  * @copyright       XOOPS Project (https://xoops.org)
- * @license         GNU GPL 2 or later (http://www.gnu.org/licenses/gpl-2.0.html)
+ * @license         GNU GPL 2 or later (https://www.gnu.org/licenses/gpl-2.0.html)
  * @package         wfdownload
  * @since           3.23
  * @author          Xoops Development Team
@@ -34,7 +34,6 @@ switch ($op) {
         Wfdownloads\Utility::updateRating($lid);
         redirect_header($currentFile, 1, _AM_WFDOWNLOADS_VOTEDELETED);
         break;
-
     case 'votes.list':
     default:
         $start         = Request::getInt('start', 0);
@@ -66,12 +65,12 @@ switch ($op) {
             }
             $downloads = $helper->getHandler('Download')->getObjects(new \Criteria('lid', '(' . implode(',', array_unique($lids)) . ')', 'IN'), true);
             foreach ($ratingObjs as $ratingObj) {
-                $rating_array                    = $ratingObj->toArray();
-                $rating_array['formatted_date']  = formatTimestamp($ratingObj->getVar('ratingtimestamp'), 'l');
-                $rating_array['submitter_uname'] = \XoopsUser::getUnameFromId($ratingObj->getVar('ratinguser'));
-                $rating_array['submitter_uid']   = $ratingObj->getVar('ratinguser');
-                $rating_array['download_title']  = $downloads[$ratingObj->getVar('lid')]->getVar('title');
-                $GLOBALS['xoopsTpl']->append('ratings', $rating_array);
+                $ratingArray                    = $ratingObj->toArray();
+                $ratingArray['formatted_date']  = formatTimestamp($ratingObj->getVar('ratingtimestamp'), 'l');
+                $ratingArray['submitter_uname'] = \XoopsUser::getUnameFromId($ratingObj->getVar('ratinguser'));
+                $ratingArray['submitter_uid']   = $ratingObj->getVar('ratinguser');
+                $ratingArray['download_title']  = $downloads[$ratingObj->getVar('lid')]->getVar('title');
+                $GLOBALS['xoopsTpl']->append('ratings', $ratingArray);
             }
         }
         //Include page navigation

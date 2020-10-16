@@ -1,4 +1,6 @@
-<?php namespace XoopsModules\Wfdownloads;
+<?php
+
+namespace XoopsModules\Wfdownloads;
 
 /*
  You may not change or alter any portion of this comment or credits
@@ -9,11 +11,12 @@
  but WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
+
 /**
  * Wfdownloads module
  *
  * @copyright       XOOPS Project (https://xoops.org)
- * @license         GNU GPL 2 or later (http://www.gnu.org/licenses/gpl-2.0.html)
+ * @license         GNU GPL 2 or later (https://www.gnu.org/licenses/gpl-2.0.html)
  * @package         wfdownload
  * @since           3.23
  * @author          Xoops Development Team
@@ -21,8 +24,8 @@
 
 use XoopsModules\Wfdownloads;
 
-defined('XOOPS_ROOT_PATH') || die('XOOPS root path not defined');
-require_once  dirname(__DIR__) . '/include/common.php';
+
+require_once \dirname(__DIR__) . '/include/common.php';
 
 /**
  * Class Review
@@ -40,17 +43,17 @@ class Review extends \XoopsObject
      */
     public function __construct($id = null)
     {
-        /** @var \XoopsModules\Wfdownloads\Helper $this->helper */
+        /** @var \XoopsModules\Wfdownloads\Helper $this ->helper */
         $this->helper = \XoopsModules\Wfdownloads\Helper::getInstance();
-        $this->db          = \XoopsDatabaseFactory::getDatabaseConnection();
-        $this->initVar('review_id', XOBJ_DTYPE_INT);
-        $this->initVar('lid', XOBJ_DTYPE_INT);
-        $this->initVar('title', XOBJ_DTYPE_TXTBOX);
-        $this->initVar('review', XOBJ_DTYPE_TXTAREA);
-        $this->initVar('submit', XOBJ_DTYPE_INT); // boolean
-        $this->initVar('date', XOBJ_DTYPE_INT);
-        $this->initVar('uid', XOBJ_DTYPE_INT);
-        $this->initVar('rated', XOBJ_DTYPE_INT);
+        $this->db     = \XoopsDatabaseFactory::getDatabaseConnection();
+        $this->initVar('review_id', \XOBJ_DTYPE_INT);
+        $this->initVar('lid', \XOBJ_DTYPE_INT);
+        $this->initVar('title', \XOBJ_DTYPE_TXTBOX);
+        $this->initVar('review', \XOBJ_DTYPE_TXTAREA);
+        $this->initVar('submit', \XOBJ_DTYPE_INT); // boolean
+        $this->initVar('date', \XOBJ_DTYPE_INT);
+        $this->initVar('uid', \XOBJ_DTYPE_INT);
+        $this->initVar('rated', \XOBJ_DTYPE_INT);
 
         if (null !== $id) {
             $item = $this->helper->getHandler('Item')->get($id);
@@ -68,29 +71,31 @@ class Review extends \XoopsObject
         require_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
         $uid = !empty($GLOBALS['xoopsUser']) ? (int)$GLOBALS['xoopsUser']->getVar('uid') : 0;
 
-        $form = new \XoopsThemeForm(_AM_WFDOWNLOADS_REV_SNEWMNAMEDESC, 'reviewform', $_SERVER['REQUEST_URI']);
+        $form = new \XoopsThemeForm(\_AM_WFDOWNLOADS_REV_SNEWMNAMEDESC, 'reviewform', $_SERVER['REQUEST_URI']);
         // review: title
-        $form->addElement(new \XoopsFormText(_AM_WFDOWNLOADS_REV_FTITLE, 'title', 30, 40, $this->getVar('title', 'e')), true);
+        $form->addElement(new \XoopsFormText(\_AM_WFDOWNLOADS_REV_FTITLE, 'title', 30, 40, $this->getVar('title', 'e')), true);
         // review: rated
-        $rating_select = new \XoopsFormSelect(_AM_WFDOWNLOADS_REV_FRATING, 'rated', $this->getVar('rated'));
-        $rating_select->addOptionArray([
-                                           '1'  => 1,
-                                           '2'  => 2,
-                                           '3'  => 3,
-                                           '4'  => 4,
-                                           '5'  => 5,
-                                           '6'  => 6,
-                                           '7'  => 7,
-                                           '8'  => 8,
-                                           '9'  => 9,
-                                           '10' => 10
-                                       ]);
+        $rating_select = new \XoopsFormSelect(\_AM_WFDOWNLOADS_REV_FRATING, 'rated', $this->getVar('rated'));
+        $rating_select->addOptionArray(
+            [
+                '1'  => 1,
+                '2'  => 2,
+                '3'  => 3,
+                '4'  => 4,
+                '5'  => 5,
+                '6'  => 6,
+                '7'  => 7,
+                '8'  => 8,
+                '9'  => 9,
+                '10' => 10,
+            ]
+        );
         $form->addElement($rating_select);
         // review: review
-        $form->addElement(new \XoopsFormDhtmlTextArea(_AM_WFDOWNLOADS_REV_FDESCRIPTION, 'review', $this->getVar('review', 'e'), 15, 60), true);
+        $form->addElement(new \XoopsFormDhtmlTextArea(\_AM_WFDOWNLOADS_REV_FDESCRIPTION, 'review', $this->getVar('review', 'e'), 15, 60), true);
         // form: approve
         $approved         = (0 == $this->getVar('submit')) ? 0 : 1;
-        $approve_checkbox = new \XoopsFormCheckBox(_AM_WFDOWNLOADS_REV_FAPPROVE, 'approve', $approved);
+        $approve_checkbox = new \XoopsFormCheckBox(\_AM_WFDOWNLOADS_REV_FAPPROVE, 'approve', $approved);
         $approve_checkbox->addOption(1, ' ');
         $form->addElement($approve_checkbox);
         // review: lid
@@ -104,28 +109,28 @@ class Review extends \XoopsObject
         // form: op
         $form->addElement(new \XoopsFormHidden('op', ''));
         // form: buttons
-        $button_tray = new \XoopsFormElementTray('', '');
+        $buttonTray = new \XoopsFormElementTray('', '');
         if ($this->isNew()) {
-            $butt_create = new \XoopsFormButton('', '', _AM_WFDOWNLOADS_BSAVE, 'submit');
+            $butt_create = new \XoopsFormButton('', '', \_AM_WFDOWNLOADS_BSAVE, 'submit');
             $butt_create->setExtra('onclick="this.form.elements.op.value=\'review.save\'"');
-            $button_tray->addElement($butt_create);
-            $butt_clear = new \XoopsFormButton('', '', _AM_WFDOWNLOADS_BRESET, 'reset');
-            $button_tray->addElement($butt_clear);
-            $butt_cancel = new \XoopsFormButton('', '', _AM_WFDOWNLOADS_BCANCEL, 'button');
+            $buttonTray->addElement($butt_create);
+            $butt_clear = new \XoopsFormButton('', '', \_AM_WFDOWNLOADS_BRESET, 'reset');
+            $buttonTray->addElement($butt_clear);
+            $butt_cancel = new \XoopsFormButton('', '', \_AM_WFDOWNLOADS_BCANCEL, 'button');
             $butt_cancel->setExtra('onclick="history.go(-1)"');
-            $button_tray->addElement($butt_cancel);
+            $buttonTray->addElement($butt_cancel);
         } else {
-            $butt_create = new \XoopsFormButton('', '', _AM_WFDOWNLOADS_BSAVE, 'submit');
+            $butt_create = new \XoopsFormButton('', '', \_AM_WFDOWNLOADS_BSAVE, 'submit');
             $butt_create->setExtra('onclick="this.form.elements.op.value=\'review.save\'"');
-            $button_tray->addElement($butt_create);
-            $butt_delete = new \XoopsFormButton('', '', _AM_WFDOWNLOADS_BDELETE, 'submit');
+            $buttonTray->addElement($butt_create);
+            $butt_delete = new \XoopsFormButton('', '', \_AM_WFDOWNLOADS_BDELETE, 'submit');
             $butt_delete->setExtra('onclick="this.form.elements.op.value=\'review.delete\'"');
-            $button_tray->addElement($butt_delete);
-            $butt_cancel = new \XoopsFormButton('', '', _AM_WFDOWNLOADS_BCANCEL, 'button');
+            $buttonTray->addElement($butt_delete);
+            $butt_cancel = new \XoopsFormButton('', '', \_AM_WFDOWNLOADS_BCANCEL, 'button');
             $butt_cancel->setExtra('onclick="history.go(-1)"');
-            $button_tray->addElement($butt_cancel);
+            $buttonTray->addElement($butt_cancel);
         }
-        $form->addElement($button_tray);
+        $form->addElement($buttonTray);
 
         return $form;
     }

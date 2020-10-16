@@ -8,11 +8,12 @@
  but WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
+
 /**
  * Wfdownloads module
  *
  * @copyright       XOOPS Project (https://xoops.org)
- * @license         GNU GPL 2 or later (http://www.gnu.org/licenses/gpl-2.0.html)
+ * @license         GNU GPL 2 or later (https://www.gnu.org/licenses/gpl-2.0.html)
  * @package         wfdownload
  * @since           3.23
  * @author          Xoops Development Team
@@ -114,7 +115,7 @@ define('_AM_WFDOWNLOADS_IPAGE_CRIGHT', 'Align right');
 define('_AM_WFDOWNLOADS_PERM_MANAGEMENT', 'Permissions management');
 define(
     '_AM_WFDOWNLOADS_PERM_PERMSNOTE',
-       "Please be aware that even if you've set correct viewing permissions here, a group might not see the articles or blocks if you don't also grant that group permissions to access the module. To do that, go to <span style='font-weight: bold;'>System admin > Groups</span>, choose the appropriate group and click the checkboxes to grant its members the access."
+    "Please be aware that even if you've set correct viewing permissions here, a group might not see the articles or blocks if you don't also grant that group permissions to access the module. To do that, go to <span style='font-weight: bold;'>System admin > Groups</span>, choose the appropriate group and click the checkboxes to grant its members the access."
 );
 define('_AM_WFDOWNLOADS_PERM_CPERMISSIONS', 'Category permissions');
 define('_AM_WFDOWNLOADS_PERM_CSELECTPERMISSIONS', 'Select categories that each group is allowed to view');
@@ -207,10 +208,13 @@ define('_AM_WFDOWNLOADS_MIME_USERFINFO', "<span style='font-weight: bold;'>MIME 
 define('_AM_WFDOWNLOADS_MIME_NOMIMEINFO', 'No MIME types selected');
 define('_AM_WFDOWNLOADS_MIME_FINDMIMETYPE', 'Find MIME type information');
 define('_AM_WFDOWNLOADS_MIME_EXTFIND', 'Search file extension');
-define('_AM_WFDOWNLOADS_MIME_INFOTEXT', '<ul><li>New MIME types can be created, edited or deleted easily via this form</li>
+define(
+    '_AM_WFDOWNLOADS_MIME_INFOTEXT',
+    '<ul><li>New MIME types can be created, edited or deleted easily via this form</li>
     <li>Looking for a new MIME type via an external website.</li>
     <li>View displayed MIME types for Admin and user uploads.</li>
-    <li>Change MIME type upload status.</li></ul>');
+    <li>Change MIME type upload status.</li></ul>'
+);
 // Mime type Buttons
 define('_AM_WFDOWNLOADS_MIME_CREATE', 'Create');
 define('_AM_WFDOWNLOADS_MIME_CLEAR', 'Reset');
@@ -568,7 +572,7 @@ define('_AM_WFDOWNLOADS_PERM_NOTE', 'Note');
 define('_AM_WFDOWNLOADS_IMPORT_INFORMATION', 'Import page information');
 define(
     '_AM_WFDOWNLOADS_IMPORT_INFORMATION_TEXT',
-       "To import categories and downloads from other modules click on buttons bellow.<br><br><span style='font-weight: bold;'>WARNINGS</span><br><ul><li>Import procedure will not overwrite existing categories/downloads.</li><li>Import procedure will not copy files, <span style='font-weight: bold;'>DO NOT remove orginal module/categories/downloads!</span></li><li>Import procedure will not copy permissions, <span style='font-weight: bold;'>remember to set permissions</span>.</li></ul>"
+    "To import categories and downloads from other modules click on buttons bellow.<br><br><span style='font-weight: bold;'>WARNINGS</span><br><ul><li>Import procedure will not overwrite existing categories/downloads.</li><li>Import procedure will not copy files, <span style='font-weight: bold;'>DO NOT remove orginal module/categories/downloads!</span></li><li>Import procedure will not copy permissions, <span style='font-weight: bold;'>remember to set permissions</span>.</li></ul>"
 );
 
 define('_AM_WFDOWNLOADS_IMPORT_BUTTON_IMPORT', 'Import');
@@ -587,7 +591,7 @@ define('_AM_WFDOWNLOADS_IMPORT_TDMDOWNLOADS', 'Import data from TDMDownloads');
 define('_AM_WFDOWNLOADS_IMPORT_TDMDOWNLOADS_NOTFOUND', 'Module TDMDownloads not found on this site');
 define('_AM_WFDOWNLOADS_FCATEGORY_GROUPPROMPT_UP', 'Category upload permissions');
 define('_AM_WFDOWNLOADS_PERM_CSELECTPERMISSIONS_UP', 'Select categories that each group is allowed to upload');
-define('_AM_WFDOWNLOADS_FCATEGORY_GROUPPROMPT_DESC', 'Select groups allowed to download from this category');
+define('_AM_WFDOWNLOADS_FCATEGORY_GROUPPROMPT_DESC', 'SELECT GROUPS allowed TO download FROM this category');
 define('_AM_WFDOWNLOADS_FCATEGORY_GROUPPROMPT_UP_DESC', 'Select groups allowed to upload to this category');
 // admin/ratings.php
 define('_AM_WFDOWNLOADS_VOTE_VOTES', 'Votes');

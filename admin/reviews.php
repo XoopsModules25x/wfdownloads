@@ -13,7 +13,7 @@
  * Wfdownloads module
  *
  * @copyright       XOOPS Project (https://xoops.org)
- * @license         GNU GPL 2 or later (http://www.gnu.org/licenses/gpl-2.0.html)
+ * @license         GNU GPL 2 or later (https://www.gnu.org/licenses/gpl-2.0.html)
  * @package         wfdownload
  * @since           3.23
  * @author          Xoops Development Team
@@ -53,7 +53,6 @@ switch ($op) {
             xoops_cp_footer();
         }
         break;
-
     case 'review.approve':
         $review_id = Request::getInt('review_id', 0);
         $ok        = Request::getBool('ok', false, 'POST');
@@ -70,7 +69,6 @@ switch ($op) {
             xoops_cp_footer();
         }
         break;
-
     case 'review.edit':
         $review_id = Request::getInt('review_id', 0);
         if (!$reviewObj = $helper->getHandler('Review')->get($review_id)) {
@@ -83,7 +81,6 @@ switch ($op) {
         $sform->display();
         xoops_cp_footer();
         break;
-
     case 'review.save':
         $review_id = Request::getInt('review_id', 0);
         if (!$reviewObj = $helper->getHandler('Review')->get($review_id)) {
@@ -96,7 +93,6 @@ switch ($op) {
         $helper->getHandler('Review')->insert($reviewObj);
         redirect_header($currentFile, 1, _AM_WFDOWNLOADS_REV_REVIEW_UPDATED);
         break;
-
     case 'reviews.list':
     default:
         $start_waiting   = Request::getInt('start_waiting', 0);

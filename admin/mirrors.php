@@ -13,7 +13,7 @@
  * Wfdownloads module
  *
  * @copyright       XOOPS Project (https://xoops.org)
- * @license         GNU GPL 2 or later (http://www.gnu.org/licenses/gpl-2.0.html)
+ * @license         GNU GPL 2 or later (https://www.gnu.org/licenses/gpl-2.0.html)
  * @package         wfdownload
  * @since           3.23
  * @author          Xoops Development Team
@@ -49,7 +49,6 @@ switch ($op) {
             xoops_cp_footer();
         }
         break;
-
     case 'mirror.approve':
         $mirror_id = Request::getInt('mirror_id', 0);
         $ok        = Request::getBool('ok', false, 'POST');
@@ -66,7 +65,6 @@ switch ($op) {
             xoops_cp_footer();
         }
         break;
-
     case 'mirror.edit':
         $mirror_id = Request::getInt('mirror_id', 0);
         if (!$mirrorObj = $helper->getHandler('Mirror')->get($mirror_id)) {
@@ -77,7 +75,6 @@ switch ($op) {
         $sform->display();
         xoops_cp_footer();
         break;
-
     case 'mirror.save':
         $mirror_id = Request::getInt('mirror_id', 0);
         if (!$mirrorObj = $helper->getHandler('Mirror')->get($mirror_id)) {
@@ -92,7 +89,6 @@ switch ($op) {
         $helper->getHandler('Mirror')->insert($mirrorObj);
         redirect_header($currentFile, 1, _AM_WFDOWNLOADS_MIRROR_MIRROR_UPDATED);
         break;
-
     case 'mirrors.list':
     default:
         Wfdownloads\Utility::getCpHeader();

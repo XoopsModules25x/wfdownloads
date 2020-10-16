@@ -13,7 +13,7 @@
  * Wfdownloads module
  *
  * @copyright       XOOPS Project (https://xoops.org)
- * @license         GNU GPL 2 or later (http://www.gnu.org/licenses/gpl-2.0.html)
+ * @license         GNU GPL 2 or later (https://www.gnu.org/licenses/gpl-2.0.html)
  * @package         wfdownload
  * @since           3.23
  * @author          Xoops Development Team
@@ -26,6 +26,7 @@ use XoopsModules\Wfdownloads\Common;
 $currentFile = basename(__FILE__);
 require_once __DIR__ . '/header.php';
 
+/** @var \XoopsGroupPermHandler $grouppermHandler */
 $grouppermHandler = xoops_getHandler('groupperm');
 
 $lid         = Request::getInt('lid', 0);
@@ -86,7 +87,7 @@ if (('' != $categoryObj->getVar('imgurl'))
             $helper->getConfig('cat_imgheight'),
             $helper->getConfig('imagequality'),
             $helper->getConfig('updatethumbs'),
-                                                  $helper->getConfig('keepaspect')
+            $helper->getConfig('keepaspect')
         );
     } else {
         $imgurl = XOOPS_URL . '/' . $helper->getConfig('catimage') . '/' . $categoryObj->getVar('imgurl');

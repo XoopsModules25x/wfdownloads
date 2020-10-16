@@ -13,7 +13,7 @@
  * Wfdownloads module
  *
  * @copyright       XOOPS Project (https://xoops.org)
- * @license         GNU GPL 2 or later (http://www.gnu.org/licenses/gpl-2.0.html)
+ * @license         GNU GPL 2 or later (https://www.gnu.org/licenses/gpl-2.0.html)
  * @package         wfdownload
  * @since           3.23
  * @author          Xoops Development Team
@@ -22,7 +22,7 @@
 use XoopsModules\Wfdownloads;
 
 if ((!defined('XOOPS_ROOT_PATH')) || !($GLOBALS['xoopsUser'] instanceof \XoopsUser)
-    || !$GLOBALS['xoopsUser']->IsAdmin()) {
+    || !$GLOBALS['xoopsUser']->isAdmin()) {
     exit('Restricted access' . PHP_EOL);
 }
 
@@ -39,9 +39,8 @@ function tableExists($tablename)
 }
 
 /**
- *
  * Prepares system prior to attempting to install module
- * @param XoopsModule $module {@link XoopsModule}
+ * @param \XoopsModule $module {@link XoopsModule}
  *
  * @return bool true if ready to install, false if not
  */
@@ -50,48 +49,41 @@ function xoops_module_pre_update_wfdownloads(\XoopsModule $module)
     /** @var \XoopsModules\Wfdownloads\Helper $helper */
     /** @var Wfdownloads\Utility $utility */
     $moduleDirName = basename(dirname(__DIR__));
-    $helper       = \XoopsModules\Wfdownloads\Helper::getInstance();
-    $utility      = new Wfdownloads\Utility();
+    $helper        = \XoopsModules\Wfdownloads\Helper::getInstance();
+    $utility       = new Wfdownloads\Utility();
 
     $xoopsSuccess = $utility::checkVerXoops($module);
     $phpSuccess   = $utility::checkVerPhp($module);
 
-//TODO Migration
-//    XoopsLoad::load('migrate', 'newbb');
+    //TODO Migration
+    //    XoopsLoad::load('migrate', 'newbb');
 
-//    $newbbMigrate = new Wfdownloads\Migrate();
-//    $newbbMigrate->synchronizeSchema();
-//
-//    return true;
-
-
+    //    $newbbMigrate = new Wfdownloads\Migrate();
+    //    $newbbMigrate->synchronizeSchema();
+    //
+    //    return true;
 
     return $xoopsSuccess && $phpSuccess;
 }
 
 /**
- *
  * Performs tasks required during update of the module
- * @param XoopsModule $module {@link XoopsModule}
- * @param null        $previousVersion
- *
- * @return void true if update successful, false if not
+ * @param \XoopsModule $module {@link XoopsModule}
+ * @param null         $previousVersion
  */
-
 function xoops_module_update_wfdownloads(\XoopsModule $module, $previousVersion = null)
 {
-    $moduleDirName = basename(dirname(__DIR__));
-    $capsDirName   = strtoupper($moduleDirName);
+    $moduleDirName      = basename(dirname(__DIR__));
+    $moduleDirNameUpper = mb_strtoupper($moduleDirName);
 
-    /** @var \XoopsModules\Wfdownloads\Helper $helper */
+    /** @var \XoopsModules\Wfdownloads\Helper $helper */ 
     /** @var Wfdownloads\Utility $utility */
     /** @var Wfdownloads\Common\Configurator $configurator */
-    $helper  = \XoopsModules\Wfdownloads\Helper::getInstance();
-    $utility = new Wfdownloads\Utility();
+    $helper       = \XoopsModules\Wfdownloads\Helper::getInstance();
+    $utility      = new Wfdownloads\Utility();
     $configurator = new Wfdownloads\Common\Configurator();
 
     if ($previousVersion < 325) {
-
         //delete old HTML templates
         if (count($configurator->templateFolders) > 0) {
             foreach ($configurator->templateFolders as $folder) {
@@ -101,7 +93,7 @@ function xoops_module_update_wfdownloads(\XoopsModule $module, $previousVersion 
                     foreach ($templateList as $k => $v) {
                         $fileInfo = new \SplFileInfo($templateFolder . $v);
                         if ('html' === $fileInfo->getExtension() && 'index.html' !== $fileInfo->getFilename()) {
-                            if (file_exists($templateFolder . $v)) {
+                            if (is_file($templateFolder . $v)) {
                                 unlink($templateFolder . $v);
                             }
                         }
@@ -128,7 +120,7 @@ function xoops_module_update_wfdownloads(\XoopsModule $module, $previousVersion 
             foreach (array_keys($configurator->oldFolders) as $i) {
                 $tempFolder = $GLOBALS['xoops']->path('modules/' . $moduleDirName . $configurator->oldFolders[$i]);
                 /** @var \XoopsObjectHandler $folderHandler */
-                $folderHandler = xoops_getModuleHandler('folder', $tempFolder);
+                $folderHandler = $helper->getHandler('Folder', $tempFolder);
                 $folderHandler->delete($tempFolder);
             }
         }
@@ -143,7 +135,7 @@ function xoops_module_update_wfdownloads(\XoopsModule $module, $previousVersion 
 
         //  ---  COPY blank.png FILES ---------------
         if (count($configurator->copyBlankFiles) > 0) {
-            $file =  dirname(__DIR__) . '/assets/images/blank.png';
+            $file = dirname(__DIR__) . '/assets/images/blank.png';
             foreach (array_keys($configurator->copyBlankFiles) as $i) {
                 $dest = $configurator->copyBlankFiles[$i] . '/blank.png';
                 $utility::copyFile($file, $dest);
@@ -156,18 +148,17 @@ function xoops_module_update_wfdownloads(\XoopsModule $module, $previousVersion 
     }
 }
 
-defined('XOOPS_ROOT_PATH') || die('XOOPS root path not defined');
+defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
 require_once __DIR__ . '/common.php';
 //@require_once WFDOWNLOADS_ROOT_PATH . '/language/' . $GLOBALS['xoopsConfig']['language'] . '/admin.php';
 xoops_loadLanguage('admin', $helper->getModule()->dirname());
 
 /**
- * @param XoopsModule $xoopsModule
- * @param             $previousVersion
+ * @param \XoopsModule $xoopsModule
+ * @param              $previousVersion
  *
  * @return bool
  */
-
 function xoops_module_update_wfdownloads2(\XoopsModule $xoopsModule, $previousVersion)
 {
     ob_start();
@@ -251,14 +242,14 @@ function update_tables_to_323(\XoopsModule $module)
         'dosmiley'        => ['Type' => "tinyint(1) NOT NULL default '1'", 'Default' => true],
         'doxcode'         => ['Type' => "tinyint(1) NOT NULL default '1'", 'Default' => true],
         'doimage'         => ['Type' => "tinyint(1) NOT NULL default '1'", 'Default' => true],
-        'dobr'            => ['Type' => "tinyint(1) NOT NULL default '1'", 'Default' => true]
+        'dobr'            => ['Type' => "tinyint(1) NOT NULL default '1'", 'Default' => true],
     ];
     //$renamed_fields = array(
     //    "old_name" => "new_name"
     //);
     echo "<br><span style='font-weight: bold;'>Checking Download table</span><br>";
     /** @var Wfdownloads\DownloadHandler $downloadHandler */
-    $downloadHandler = xoops_getModuleHandler('download', 'wfdownloads');
+    $downloadHandler = $helper->getHandler('Download');
     $download_table  = new Wfdownloads\DbupdaterTable('wfdownloads_downloads');
     $fields          = get_table_info($downloadHandler->table, $download_fields);
     // check for renamed fields
@@ -284,11 +275,11 @@ function update_tables_to_323(\XoopsModule $module)
 
     // update wfdownloads_mod table
     $mod_fields = [
-        'requestid'       => ['Type' => 'int(11) NOT NULL auto_increment', 'Default' => false],
-        //
+        'requestid' => ['Type' => 'int(11) NOT NULL auto_increment', 'Default' => false],
+
         'modifysubmitter' => ['Type' => "int(11) NOT NULL default '0'", 'Default' => true],
         'requestdate'     => ['Type' => "int(11) NOT NULL default '0'", 'Default' => true],
-        //
+
         'lid'             => ['Type' => "int(11) unsigned NOT NULL default '0'", 'Default' => true],
         'cid'             => ['Type' => "int(5) unsigned NOT NULL default '0'", 'Default' => true],
         'title'           => ['Type' => "varchar(255) NOT NULL default ''", 'Default' => true],
@@ -336,13 +327,13 @@ function update_tables_to_323(\XoopsModule $module)
         'dosmiley'        => ['Type' => "tinyint(1) NOT NULL default '1'", 'Default' => true],
         'doxcode'         => ['Type' => "tinyint(1) NOT NULL default '1'", 'Default' => true],
         'doimage'         => ['Type' => "tinyint(1) NOT NULL default '1'", 'Default' => true],
-        'dobr'            => ['Type' => "tinyint(1) NOT NULL default '1'", 'Default' => true]
+        'dobr'            => ['Type' => "tinyint(1) NOT NULL default '1'", 'Default' => true],
     ];
     //$renamed_fields = array(
     //    "old_name" => "new_name"
     //);
     echo "<br><span style='font-weight: bold;'>Checking Modified Downloads table</span><br>";
-    $modificationHandler = xoops_getModuleHandler('modification', 'wfdownloads');
+    $modificationHandler = $helper->getHandler('Modification');
     $mod_table           = new Wfdownloads\DbupdaterTable('wfdownloads_mod');
     $fields              = get_table_info($modificationHandler->table, $mod_fields);
     // check for renamed fields
@@ -360,14 +351,14 @@ function update_tables_to_323(\XoopsModule $module)
 // add 'WFUpCatPerm' permission where is set 'WFDownCatPerm' permission
 // =========================================================================================
 /**
- * @param XoopsModule $module
+ * @param \XoopsModule $module
  */
 function update_permissions_to_323(\XoopsModule $module)
 {
-    /** @var \XoopsGroupPermHandler $grouppermHandler */
-    $grouppermHandler         = xoops_getHandler('groupperm');
+/** @var \XoopsGroupPermHandler $grouppermHandler */
+$grouppermHandler = xoops_getHandler('groupperm');
     /** @var Wfdownloads\CategoryHandler $categoriesHandler */
-    $categoriesHandler = xoops_getModuleHandler('category', $module->dirname());
+    $categoriesHandler = $helper->getHandler('Category', $module->dirname());
 
     $cids = $categoriesHandler->getIds();
     if (count($cids) > 0) {
@@ -398,11 +389,13 @@ function update_tables_to_322($module)
     // create wfdownloads_meta table
     if (!Wfdownloads\Utility::tableExists('wfdownloads_meta')) {
         $table = new Wfdownloads\DbupdaterTable('wfdownloads_meta');
-        $table->setStructure("CREATE TABLE %s (
-                metakey varchar(50) NOT NULL default '',
-                metavalue varchar(255) NOT NULL default '',
+        $table->setStructure(
+            "CREATE TABLE %s (
+                metakey VARCHAR(50) NOT NULL DEFAULT '',
+                metavalue VARCHAR(255) NOT NULL DEFAULT '',
                 PRIMARY KEY (metakey))
-                ENGINE=MyISAM;");
+                ENGINE=MyISAM;"
+        );
         $table->setData(sprintf("'version', %s", round($GLOBALS['xoopsModule']->getVar('version') / 100, 2)));
         if ($dbupdater->updateTable($table)) {
             echo 'wfdownloads_meta table created<br>';
@@ -412,20 +405,22 @@ function update_tables_to_322($module)
     // create wfdownloads_mirror table
     if (!Wfdownloads\Utility::tableExists('wfdownloads_mirrors')) {
         $table = new Wfdownloads\DbupdaterTable('wfdownloads_mirrors');
-        $table->setStructure("CREATE TABLE %s (
-                mirror_id int(11) unsigned NOT NULL auto_increment,
-                lid int(11) NOT NULL default '0',
-                title varchar(255) NOT NULL default '',
-                homeurl varchar(100) NOT NULL default '',
-                location varchar(255) NOT NULL default '',
-                continent varchar(255) NOT NULL default '',
-                downurl varchar(255) NOT NULL default '',
-                submit int(11) NOT NULL default '0',
-                date int(11) NOT NULL default '0',
-                uid int(10) NOT NULL default '0',
+        $table->setStructure(
+            "CREATE TABLE %s (
+                mirror_id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+                lid INT(11) NOT NULL DEFAULT '0',
+                title VARCHAR(255) NOT NULL DEFAULT '',
+                homeurl VARCHAR(100) NOT NULL DEFAULT '',
+                location VARCHAR(255) NOT NULL DEFAULT '',
+                continent VARCHAR(255) NOT NULL DEFAULT '',
+                downurl VARCHAR(255) NOT NULL DEFAULT '',
+                submit INT(11) NOT NULL DEFAULT '0',
+                date INT(11) NOT NULL DEFAULT '0',
+                uid INT(10) NOT NULL DEFAULT '0',
                 PRIMARY KEY  (mirror_id),
                 KEY categoryid (lid))
-                ENGINE=MyISAM;");
+                ENGINE=MyISAM;"
+        );
         if ($dbupdater->updateTable($table)) {
             echo 'wfdownloads_mirrors table created<br>';
         }
@@ -434,14 +429,16 @@ function update_tables_to_322($module)
     // create wfdownloads_ip_log table
     if (!Wfdownloads\Utility::tableExists('wfdownloads_ip_log')) {
         $table = new Wfdownloads\DbupdaterTable('wfdownloads_ip_log');
-        $table->setStructure("CREATE TABLE %s (
-                ip_logid int(11) NOT NULL auto_increment,
-                lid int(11) NOT NULL default '0',
-                uid int(11) NOT NULL default '0',
-                date int(11) NOT NULL default '0',
-                ip_address varchar(20) NOT NULL default '',
+        $table->setStructure(
+            "CREATE TABLE %s (
+                ip_logid INT(11) NOT NULL AUTO_INCREMENT,
+                lid INT(11) NOT NULL DEFAULT '0',
+                uid INT(11) NOT NULL DEFAULT '0',
+                date INT(11) NOT NULL DEFAULT '0',
+                ip_address VARCHAR(20) NOT NULL DEFAULT '',
                 PRIMARY KEY  (ip_logid)
-                ENGINE=MyISAM;");
+                ENGINE=MyISAM;"
+        );
         if ($dbupdater->updateTable($table)) {
             echo 'wfdownloads_mirrors table created<br>';
         }
@@ -490,13 +487,13 @@ function update_tables_to_322($module)
         'ipaddress'       => ['Type' => "varchar(120) NOT NULL default '0'", 'Default' => true],
         'notifypub'       => ['Type' => "int(1) NOT NULL default '0'", 'Default' => true],
         'summary'         => ['Type' => 'text NULL', 'Default' => false],
-        'formulize_idreq' => ['Type' => "int(5) NOT NULL default '0'", 'Default' => true]
+        'formulize_idreq' => ['Type' => "int(5) NOT NULL default '0'", 'Default' => true],
     ];
     $renamed_fields  = [
-        'logourl' => 'screenshot'
+        'logourl' => 'screenshot',
     ];
     echo "<br><span style='font-weight: bold;'>Checking Download table</span><br>";
-    $downloadHandler = xoops_getModuleHandler('download', 'wfdownloads');
+    $downloadHandler = $helper->getHandler('Download');
     $download_table  = new Wfdownloads\DbupdaterTable('wfdownloads_downloads');
     $fields          = get_table_info($downloadHandler->table, $download_fields);
     // check for renamed fields
@@ -509,11 +506,11 @@ function update_tables_to_322($module)
 
     // update wfdownloads_mod table
     $mod_fields     = [
-        'requestid'       => ['Type' => 'int(11) NOT NULL auto_increment', 'Default' => false],
-        //
+        'requestid' => ['Type' => 'int(11) NOT NULL auto_increment', 'Default' => false],
+
         'modifysubmitter' => ['Type' => "int(11) NOT NULL default '0'", 'Default' => true],
         'requestdate'     => ['Type' => "int(11) NOT NULL default '0'", 'Default' => true],
-        //
+
         'lid'             => ['Type' => "int(11) unsigned NOT NULL default '0'", 'Default' => true],
         'cid'             => ['Type' => "int(5) unsigned NOT NULL default '0'", 'Default' => true],
         'title'           => ['Type' => "varchar(255) NOT NULL default ''", 'Default' => true],
@@ -554,13 +551,13 @@ function update_tables_to_322($module)
         'summary'         => ['Type' => 'text NULL', 'Default' => false],
         'description'     => ['Type' => 'text NULL', 'Default' => false],
         // ???
-        'formulize_idreq' => ['Type' => "int(5) NOT NULL default '0'", 'Default' => true]
+        'formulize_idreq' => ['Type' => "int(5) NOT NULL default '0'", 'Default' => true],
     ];
     $renamed_fields = [
-        'logourl' => 'screenshot'
+        'logourl' => 'screenshot',
     ];
     echo "<br><span style='font-weight: bold;'>Checking Modified Downloads table</span><br>";
-    $modificationHandler = xoops_getModuleHandler('modification', 'wfdownloads');
+    $modificationHandler = $helper->getHandler('Modification');
     $mod_table           = new Wfdownloads\DbupdaterTable('wfdownloads_mod');
     $fields              = get_table_info($modificationHandler->table, $mod_fields);
     rename_fields($mod_table, $renamed_fields, $fields, $mod_fields);
@@ -587,12 +584,12 @@ function update_tables_to_322($module)
         'doimage'       => ['Type' => "tinyint(1) NOT NULL default '1'", 'Default' => true],
         'dobr'          => ['Type' => "tinyint(1) NOT NULL default '1'", 'Default' => true],
         'weight'        => ['Type' => "int(11) NOT NULL default '0'", 'Default' => true],
-        'formulize_fid' => ['Type' => "int(5) NOT NULL default '0'", 'Default' => true]
+        'formulize_fid' => ['Type' => "int(5) NOT NULL default '0'", 'Default' => true],
     ];
     echo "<br><span style='font-weight: bold;'>Checking Category table</span><br>";
-    $categoriesHandler = xoops_getModuleHandler('category', 'wfdownloads');
-    $cat_table            = new Wfdownloads\DbupdaterTable('wfdownloads_cat');
-    $fields               = get_table_info($categoriesHandler->table, $cat_fields);
+    $categoriesHandler = $helper->getHandler('Category');
+    $cat_table         = new Wfdownloads\DbupdaterTable('wfdownloads_cat');
+    $fields            = get_table_info($categoriesHandler->table, $cat_fields);
     update_table($cat_fields, $fields, $cat_table);
     if ($dbupdater->updateTable($cat_table)) {
         echo 'Category table updated<br>';
@@ -607,10 +604,10 @@ function update_tables_to_322($module)
         'ip'           => ['Type' => "varchar(20) NOT NULL default ''", 'Default' => true],
         'date'         => ['Type' => "varchar(11) NOT NULL default '0'", 'Default' => true],
         'confirmed'    => ['Type' => "tinyint(1) NOT NULL default '0'", 'Default' => true],
-        'acknowledged' => ['Type' => "tinyint(1) NOT NULL default '0'", 'Default' => true]
+        'acknowledged' => ['Type' => "tinyint(1) NOT NULL default '0'", 'Default' => true],
     ];
     echo "<br><span style='font-weight: bold;'>Checking Broken Report table</span><br>";
-    $brokenHandler = xoops_getModuleHandler('report', 'wfdownloads');
+    $brokenHandler = $helper->getHandler('Report');
     $broken_table  = new Wfdownloads\DbupdaterTable('wfdownloads_broken');
     $fields        = get_table_info($brokenHandler->table, $broken_fields);
     update_table($broken_fields, $fields, $broken_table);
@@ -630,9 +627,9 @@ function update_tables_to_322($module)
  */
 function invert_nohtm_dohtml_values()
 {
-    $ret                  = [];
-    $categoriesHandler = xoops_getModuleHandler('category', 'wfdownloads');
-    $result               = $GLOBALS['xoopsDB']->query('SHOW COLUMNS FROM ' . $categoriesHandler->table);
+    $ret               = [];
+    $categoriesHandler = $helper->getHandler('Category');
+    $result            = $GLOBALS['xoopsDB']->query('SHOW COLUMNS FROM ' . $categoriesHandler->table);
     while (false !== ($existing_field = $GLOBALS['xoopsDB']->fetchArray($result))) {
         $fields[$existing_field['Field']] = $existing_field['Type'];
     }
@@ -676,11 +673,9 @@ function invert_nohtm_dohtml_values()
 /**
  * Updates a table by comparing correct fields with existing ones
  *
- * @param array            $new_fields
- * @param array            $existing_fields
+ * @param array                      $new_fields
+ * @param array                      $existing_fields
  * @param Wfdownloads\DbupdaterTable $table
- *
- * @return void
  */
 function update_table($new_fields, $existing_fields, Wfdownloads\DbupdaterTable $table)
 {
@@ -689,16 +684,15 @@ function update_table($new_fields, $existing_fields, Wfdownloads\DbupdaterTable 
         if (!array_key_exists($field, $existing_fields)) {
             //Add field as it is missing
             $table->addNewField($field, $type);
-        //$GLOBALS['xoopsDB']->query("ALTER TABLE " . $table . " ADD " . $field . " " . $type);
+            //$GLOBALS['xoopsDB']->query("ALTER TABLE " . $table . " ADD " . $field . " " . $type);
             //echo $field . "(" . $type . ") <FONT COLOR='##22DD51'>Added</FONT><br>";
         } elseif ($existing_fields[$field] != $type) {
             $table->addAlteredField($field, $field . ' ' . $type);
-        // check $fields[$field]['type'] for things like "int(10) unsigned"
+            // check $fields[$field]['type'] for things like "int(10) unsigned"
             //$GLOBALS['xoopsDB']->query("ALTER TABLE " . $table . " CHANGE " . $field . " " . $field . " " . $type);
             //echo $field . " <FONT COLOR='#FF6600'>Changed to</FONT> " . $type . "<br>";
-        } else {
-            //echo $field . " <FONT COLOR='#0033FF'>Uptodate</FONT><br>";
         }
+        //echo $field . " <FONT COLOR='#0033FF'>Uptodate</FONT><br>";
     }
 }
 
@@ -734,11 +728,9 @@ function get_table_info($table, $default_fields)
  * Renames fields in a table and updates the existing fields array to reflect it.
  *
  * @param Wfdownloads\DbupdaterTable $table
- * @param array            $renamed_fields
- * @param array            $fields
- * @param array            $new_fields
- *
- * @return void
+ * @param array                      $renamed_fields
+ * @param array                      $fields
+ * @param array                      $new_fields
  */
 function rename_fields(Wfdownloads\DbupdaterTable $table, $renamed_fields, &$fields, $new_fields)
 {

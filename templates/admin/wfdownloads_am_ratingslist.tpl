@@ -1,4 +1,4 @@
-<{if $use_ratings == false}>
+<{if $use_ratings === false}>
 <div class="errorMsg"><{$smarty.const._AM_WFDOWNLOADS_RATING_DISABLED}></div>
 <{/if}>
 <fieldset>

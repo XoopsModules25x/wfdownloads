@@ -8,11 +8,12 @@
  but WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
+
 /**
  * Wfdownloads module
  *
  * @copyright       XOOPS Project (https://xoops.org)
- * @license         GNU GPL 2 or later (http://www.gnu.org/licenses/gpl-2.0.html)
+ * @license         GNU GPL 2 or later (https://www.gnu.org/licenses/gpl-2.0.html)
  * @package         wfdownload
  * @since           3.23
  * @author          Xoops Development Team
@@ -29,9 +30,9 @@
 
 use XoopsModules\Wfdownloads;
 
-defined('XOOPS_ROOT_PATH') || die('XOOPS root path not defined');
+defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
 
-require_once  dirname(__DIR__) . '/include/common.php';
+require_once dirname(__DIR__) . '/include/common.php';
 /**
  * @param $options
  *
@@ -44,8 +45,8 @@ function wfdownloads_top_by_cat_show($options)
     /** @var Wfdownloads\CategoryHandler $categoryHandler */
     $categoryHandler = new Wfdownloads\CategoryHandler($GLOBALS['xoopsDB']);
 
-    /** @var \XoopsGroupPermHandler $grouppermHandler */
-    $grouppermHandler         = xoops_getHandler('groupperm');
+/** @var \XoopsGroupPermHandler $grouppermHandler */
+$grouppermHandler = xoops_getHandler('groupperm');
     $groups                   = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : [0 => XOOPS_GROUP_ANONYMOUS];
     $allowedDownCategoriesIds = $grouppermHandler->getItemIds('WFDownCatPerm', $groups, $helper->getModule()->mid());
 
@@ -79,7 +80,7 @@ function wfdownloads_top_by_cat_show($options)
     $categoriesTopParentByCid = $helper->getHandler('Category')->getAllSubcatsTopParentCid();
 
     //    foreach ($helper->getHandler('Category')->topCategories as $cid) {
-    if (is_array($categoryHandler->topCategories) && count($categoryHandler->topCategories) > 0) {
+    if ($categoryHandler->topCategories && is_array($categoryHandler->topCategories)) {
         foreach ($categoryHandler->topCategories as $cid) {
             $block['topcats'][$cid]['title']  = $helper->getHandler('Category')->allCategories[$cid]->getVar('title');
             $block['topcats'][$cid]['cid']    = $cid;

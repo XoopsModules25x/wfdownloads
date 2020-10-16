@@ -1,6 +1,5 @@
 <?php
 /**
- *
  * Module: Lexikon - glossary module
  * Version: v 1.00
  * Release Date: 8 May 2004
@@ -11,9 +10,8 @@
 //TODO needs to be adjusted for Wfdonwloads
 
 use Xmf\Request;
-use XoopsModules\Wfdownloads;
 
-include __DIR__ . '/header.php';
+require __DIR__ . '/header.php';
 $GLOBALS['xoopsOption']['template_main'] = 'lx_letter.tpl';
 require_once XOOPS_ROOT_PATH . '/header.php';
 require_once XOOPS_ROOT_PATH . '/modules/wfdownloads/include/common.inc.php';
@@ -32,12 +30,13 @@ $publishedwords = $utility::countWords();
 $xoopsTpl->assign('publishedwords', $publishedwords);
 
 //permissions
+/** @var \XoopsGroupPermHandler $grouppermHandler */
 $grouppermHandler = xoops_getHandler('groupperm');
-$groups       = is_object($xoopsUser) ? $xoopsUser->getGroups() : XOOPS_GROUP_ANONYMOUS;
-$module_id    = $xoopsModule->getVar('mid');
-$allowed_cats = $grouppermHandler->getItemIds('lexikon_view', $groups, $module_id);
-$catids       = implode(',', $allowed_cats);
-$catperms     = " AND categoryID IN ($catids) ";
+$groups           = is_object($xoopsUser) ? $xoopsUser->getGroups() : XOOPS_GROUP_ANONYMOUS;
+$module_id        = $xoopsModule->getVar('mid');
+$allowed_cats     = $grouppermHandler->getItemIds('lexikon_view', $groups, $module_id);
+$catids           = implode(',', $allowed_cats);
+$catperms         = " AND categoryID IN ($catids) ";
 
 $xoopsTpl->assign('multicats', (int)$helper->getConfig('multicats'));
 
@@ -50,6 +49,7 @@ if (!function_exists('mb_ucfirst') && function_exists('mb_substr')) {
     {
         $string = mb_ereg_replace("^[\ ]+", '', $string);
         $string = mb_strtoupper(mb_substr($string, 0, 1, 'UTF-8'), 'UTF-8') . mb_substr($string, 1, mb_strlen($string), 'UTF-8');
+
         return $string;
     }
 }
@@ -88,7 +88,7 @@ if (!$init) {
     $totalentries = $xoopsDB->getRowsNum($allentries);
     $xoopsTpl->assign('totalentries', $totalentries);
 
-    while (false !== (list($entryID, $categoryID, $term, $init, $definition, $ref, $url, $uid, $submit, $datesub, $counter, $html, $smiley, $xcodes, $breaks, $block, $offline, $comments) = $xoopsDB->fetchRow($resultA))) {
+    while (list($entryID, $categoryID, $term, $init, $definition, $ref, $url, $uid, $submit, $datesub, $counter, $html, $smiley, $xcodes, $breaks, $block, $offline, $comments) = $xoopsDB->fetchRow($resultA)) {
         $eachentry        = [];
         $xoopsModule      = XoopsModule::getByDirname('lexikon');
         $eachentry['dir'] = $xoopsModule->dirname();
@@ -96,7 +96,7 @@ if (!$init) {
         if (1 == $helper->getConfig('multicats')) {
             $eachentry['catid'] = (int)$categoryID;
             $resultF            = $xoopsDB->query('SELECT name FROM ' . $xoopsDB->prefix('lxcategories') . " WHERE categoryID = $categoryID ORDER BY name ASC");
-            while (false !== (list($name) = $xoopsDB->fetchRow($resultF))) {
+            while (list($name) = $xoopsDB->fetchRow($resultF)) {
                 $eachentry['catname'] = $myts->htmlSpecialChars($name);
             }
         }
@@ -146,7 +146,7 @@ if (!$init) {
 
     $entrieshere = $xoopsDB->getRowsNum($resultB);
     if (0 == $entrieshere) {
-        redirect_header('javascript:history.go(-1)', 1, _MD_LEXIKON_NOTERMSINLETTER);
+        redirect_header('<script>javascript:history.go(-1)</script>', 1, _MD_LEXIKON_NOTERMSINLETTER);
     }
 
     if (_MD_LEXIKON_OTHER == $init) {
@@ -158,7 +158,7 @@ if (!$init) {
     $xoopsTpl->assign('totalentries', $totalentries);
     $utility::createPageTitle($myts->htmlSpecialChars(_MD_LEXIKON_BROWSELETTER . (isset($init['init']) ? (' - ' . $init['init']) : '')));
 
-    while (false !== (list($entryID, $categoryID, $term, $definition, $uid, $html, $smiley, $xcodes, $breaks, $comments) = $xoopsDB->fetchRow($resultB))) {
+    while (list($entryID, $categoryID, $term, $definition, $uid, $html, $smiley, $xcodes, $breaks, $comments) = $xoopsDB->fetchRow($resultB)) {
         $eachentry        = [];
         $xoopsModule      = XoopsModule::getByDirname('lexikon');
         $eachentry['dir'] = $xoopsModule->dirname();
@@ -166,7 +166,7 @@ if (!$init) {
         if (1 == $helper->getConfig('multicats')) {
             $eachentry['catid'] = (int)$categoryID;
             $resultF            = $xoopsDB->query('SELECT name FROM ' . $xoopsDB->prefix('lxcategories') . " WHERE categoryID = $categoryID ORDER BY name ASC");
-            while (false !== (list($name) = $xoopsDB->fetchRow($resultF))) {
+            while (list($name) = $xoopsDB->fetchRow($resultF)) {
                 $eachentry['catname'] = $myts->htmlSpecialChars($name);
             }
         }
@@ -231,4 +231,4 @@ if (0 == $publishedwords) {
 
 $xoopsTpl->assign('xoops_module_header', '<link rel="stylesheet" type="text/css" href="assets/css/style.css">');
 
-include XOOPS_ROOT_PATH . '/footer.php';
+require_once XOOPS_ROOT_PATH . '/footer.php';

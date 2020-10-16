@@ -1,4 +1,6 @@
-<?php namespace XoopsModules\Wfdownloads;
+<?php
+
+namespace XoopsModules\Wfdownloads;
 
 /*
  You may not change or alter any portion of this comment or credits
@@ -9,11 +11,12 @@
  but WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
+
 /**
  * Wfdownloads module
  *
  * @copyright       XOOPS Project (https://xoops.org)
- * @license         GNU GPL 2 or later (http://www.gnu.org/licenses/gpl-2.0.html)
+ * @license         GNU GPL 2 or later (https://www.gnu.org/licenses/gpl-2.0.html)
  * @package         wfdownload
  * @since           3.23
  * @author          Xoops Development Team
@@ -21,9 +24,8 @@
 
 use XoopsModules\Wfdownloads;
 
-defined('XOOPS_ROOT_PATH') || die('XOOPS root path not defined');
-require_once  dirname(__DIR__) . '/include/common.php';
 
+require_once \dirname(__DIR__) . '/include/common.php';
 
 /**
  * Class RatingHandler
@@ -36,12 +38,12 @@ class RatingHandler extends \XoopsPersistableObjectHandler
     public $helper;
 
     /**
-     * @param \XoopsDatabase $db
+     * @param \XoopsDatabase|null $db
      */
-    public function __construct(\XoopsDatabase $db)
+    public function __construct(\XoopsDatabase $db = null)
     {
         parent::__construct($db, 'wfdownloads_votedata', Rating::class, 'ratingid');
-        /** @var \XoopsModules\Wfdownloads\Helper $this->helper */
+        /** @var \XoopsModules\Wfdownloads\Helper $this ->helper */
         $this->helper = \XoopsModules\Wfdownloads\Helper::getInstance();
     }
 
@@ -56,7 +58,7 @@ class RatingHandler extends \XoopsPersistableObjectHandler
     {
         $groupby = false;
         $field   = '';
-        if (null !== $criteria && is_subclass_of($criteria, 'CriteriaElement')) {
+        if (null !== $criteria && $criteria instanceof \CriteriaElement) {
             if ('' != $criteria->groupby) {
                 $groupby = true;
                 $field   = $criteria->groupby . ', '; //Not entirely secure unless you KNOW that no criteria's groupby clause is going to be mis-used
@@ -64,7 +66,7 @@ class RatingHandler extends \XoopsPersistableObjectHandler
         }
         $sql = "SELECT {$field} AVG(rating), count(*)";
         $sql .= " FROM {$this->table}";
-        if (null !== $criteria && is_subclass_of($criteria, 'CriteriaElement')) {
+        if (null !== $criteria && $criteria instanceof \CriteriaElement) {
             $sql .= ' ' . $criteria->renderWhere();
             if ('' != $criteria->groupby) {
                 $sql .= $criteria->getGroupby();
@@ -79,18 +81,17 @@ class RatingHandler extends \XoopsPersistableObjectHandler
 
             return [
                 'avg'   => $average,
-                'count' => $count
+                'count' => $count,
             ];
-        } else {
-            $ret = [];
-            while (false !== (list($id, $average, $count) = $this->db->fetchRow($result))) {
-                $ret[$id] = [
-                    'avg'   => $average,
-                    'count' => $count
-                ];
-            }
-
-            return $ret;
         }
+        $ret = [];
+        while (list($id, $average, $count) = $this->db->fetchRow($result)) {
+            $ret[$id] = [
+                'avg'   => $average,
+                'count' => $count,
+            ];
+        }
+
+        return $ret;
     }
 }

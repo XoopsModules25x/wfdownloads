@@ -3,18 +3,18 @@
 <h4><{$smarty.const._MD_WFDOWNLOADS_DISCLAIMERAGREEMENT}></h4>
 
 <div>
-<{if $download_disclaimer == true}>
+<{if $download_disclaimer === true}>
     <{$download_disclaimer_content}>
-<{elseif $submission_disclaimer == true}>
+<{elseif $submission_disclaimer === true}>
     <{$submission_disclaimer_content}>
 <{/if}>
 </div>
 
 <br>
 
-<{if $download_disclaimer == true}>
+<{if $download_disclaimer === true}>
 <form action="visit.php" method="post">
-<{elseif $submission_disclaimer == true}>
+<{elseif $submission_disclaimer === true}>
 <form action="submit.php" method="post">
 <{/if}>
     <div align="center">

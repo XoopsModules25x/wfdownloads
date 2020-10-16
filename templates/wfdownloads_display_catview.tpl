@@ -10,14 +10,14 @@
     <{if $category_title != ""}>
         <h1>
             <{$category_title}>
-            <{if $isAdmin == true}>
+            <{if $isAdmin === true}>
                 <a href="admin/categories.php?op=category.edit&amp;cid=<{$category_cid}>"><img src="<{xoModuleIcons16 edit.png}>"
                                                                                                title="<{$smarty.const._EDIT}>" alt="<{$smarty.const._EDIT}>"></a>
                 <a href="admin/categories.php?op=category.delete&amp;cid=<{$category_cid}>"><img src="<{xoModuleIcons16 delete.png}>"
                                                                                                  title="<{$smarty.const._DELETE}>"
                                                                                                  alt="<{$smarty.const._DELETE}>"></a>
             <{/if}>
-            <{if $category_allowed_upload == true}>
+            <{if $category_allowed_upload === true}>
                 <a href="submit.php?cid=<{$category_cid}>"><img src="<{xoModuleIcons16 add.png}>" title="<{$smarty.const._MD_WFDOWNLOADS_SUBMITDOWNLOAD}>"
                                                                 alt="<{$smarty.const._MD_WFDOWNLOADS_SUBMITDOWNLOAD}>"></a>
             <{/if}>
@@ -56,7 +56,7 @@
             <div>
                 <div>
                     <a href="viewcat.php?cid=<{$subcategory.cid}>" style="font-weight: bold;"><{$subcategory.title}></a>&nbsp;(<{$subcategory.downloads_count}>)
-                    <{if $isAdmin == true}>
+                    <{if $isAdmin === true}>
                         <a href="admin/categories.php?op=category.edit&amp;cid=<{$subcategory.cid}>"><img src="<{xoModuleIcons16 edit.png}>"
                                                                                                           title="<{$smarty.const._EDIT}>"
                                                                                                           alt="<{$smarty.const._EDIT}>"></a>
@@ -64,7 +64,7 @@
                                                                                                             title="<{$smarty.const._DELETE}>"
                                                                                                             alt="<{$smarty.const._DELETE}>"></a>
                     <{/if}>
-                    <{if $subcategory.allowed_upload == true}>
+                    <{if $subcategory.allowed_upload === true}>
                         <a href="submit.php?cid=<{$subcategory.cid}>"><img src="<{xoModuleIcons16 add.png}>"
                                                                            title="<{$smarty.const._MD_WFDOWNLOADS_SUBMITDOWNLOAD}>"
                                                                            alt="<{$smarty.const._MD_WFDOWNLOADS_SUBMITDOWNLOAD}>"></a>
@@ -89,7 +89,7 @@
 <{if $downloads}>
     <div>
         <h3><{$smarty.const._MD_WFDOWNLOADS_DOWNLOADSLISTING}></h3>
-        <{if $show_links == true}>
+        <{if $show_links === true}>
             <style type="text/css">
                 .button_green {
                     -moz-box-shadow: inset 0 1px 0 0 #d9fbbe;
@@ -208,7 +208,7 @@
                                     src="<{xoModuleIcons16 down.gif}>" alt="&darr;"></a>
                     <{/if}>
                     |
-                    <{if $use_ratings == true}>
+                    <{if $use_ratings === true}>
                         <{if ($orderby == "ratingA")}>
                             <span class='button_green' title="<{$smarty.const._MD_WFDOWNLOADS_RATINGLTOH}>"><{$smarty.const._MD_WFDOWNLOADS_RATING}>&nbsp;<img
                                         src="<{xoModuleIcons16 up.gif}>" alt="&uarr;"></span>

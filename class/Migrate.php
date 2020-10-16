@@ -1,4 +1,6 @@
-<?php namespace XoopsModules\Wfdownloads;
+<?php
+
+namespace XoopsModules\Wfdownloads;
 
 /*
  You may not change or alter any portion of this comment or credits
@@ -10,8 +12,6 @@
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 
-
-
 /**
  * Class Migrate synchronize existing tables with target schema
  *
@@ -19,31 +19,31 @@
  * @package   Newbb
  * @author    Richard Griffith <richard@geekwright.com>
  * @copyright 2016 XOOPS Project (https://xoops.org)
- * @license   GNU GPL 2 or later (http://www.gnu.org/licenses/gpl-2.0.html)
+ * @license   GNU GPL 2 or later (https://www.gnu.org/licenses/gpl-2.0.html)
  * @link      https://xoops.org
  */
 class Migrate extends \Xmf\Database\Migrate
 {
-//    private $renameTables = [
-//        'bb_archive'     => 'newbb_archive',
-//        'bb_categories'  => 'newbb_categories',
-//        'bb_votedata'    => 'newbb_votedata',
-//        'bb_forums'      => 'newbb_forums',
-//        'bb_posts'       => 'newbb_posts',
-//        'bb_posts_text'  => 'newbb_posts_text',
-//        'bb_topics'      => 'newbb_topics',
-//        'bb_online'      => 'newbb_online',
-//        'bb_digest'      => 'newbb_digest',
-//        'bb_report'      => 'newbb_report',
-//        'bb_attachments' => 'newbb_attachments',
-//        'bb_moderates'   => 'newbb_moderates',
-//        'bb_reads_forum' => 'newbb_reads_forum',
-//        'bb_reads_topic' => 'newbb_reads_topic',
-//        'bb_type'        => 'newbb_type',
-//        'bb_type_forum'  => 'newbb_type_forum',
-//        'bb_stats'       => 'newbb_stats',
-//        'bb_user_stats'  => 'newbb_user_stats',
-//    ];
+    //    private $renameTables = [
+    //        'bb_archive'     => 'newbb_archive',
+    //        'bb_categories'  => 'newbb_categories',
+    //        'bb_votedata'    => 'newbb_votedata',
+    //        'bb_forums'      => 'newbb_forums',
+    //        'bb_posts'       => 'newbb_posts',
+    //        'bb_posts_text'  => 'newbb_posts_text',
+    //        'bb_topics'      => 'newbb_topics',
+    //        'bb_online'      => 'newbb_online',
+    //        'bb_digest'      => 'newbb_digest',
+    //        'bb_report'      => 'newbb_report',
+    //        'bb_attachments' => 'newbb_attachments',
+    //        'bb_moderates'   => 'newbb_moderates',
+    //        'bb_reads_forum' => 'newbb_reads_forum',
+    //        'bb_reads_topic' => 'newbb_reads_topic',
+    //        'bb_type'        => 'newbb_type',
+    //        'bb_type_forum'  => 'newbb_type_forum',
+    //        'bb_stats'       => 'newbb_stats',
+    //        'bb_user_stats'  => 'newbb_user_stats',
+    //    ];
 
     /**
      * Migrate constructor.
@@ -52,7 +52,7 @@ class Migrate extends \Xmf\Database\Migrate
      */
     public function __construct()
     {
-        $moduleDirName = basename(dirname(__DIR__));
+        $moduleDirName = \basename(\dirname(__DIR__));
         parent::__construct($moduleDirName);
     }
 
@@ -73,15 +73,13 @@ class Migrate extends \Xmf\Database\Migrate
      *
      * @param string $tableName  table to convert
      * @param string $columnName column with IP address
-     *
-     * @return void
      */
     private function convertIPAddresses($tableName, $columnName)
     {
         if ($this->tableHandler->useTable($tableName)) {
             $attributes = $this->tableHandler->getColumnAttributes($tableName, $columnName);
-            if (false !== strpos($attributes, ' int(')) {
-                if (false === strpos($attributes, 'unsigned')) {
+            if (false !== mb_strpos($attributes, ' int(')) {
+                if (false === mb_strpos($attributes, 'unsigned')) {
                     $this->tableHandler->alterColumn($tableName, $columnName, " bigint(16) NOT NULL  DEFAULT '0' ");
                     $this->tableHandler->update($tableName, [$columnName => "4294967296 + $columnName"], "WHERE $columnName < 0", false);
                 }
@@ -93,15 +91,13 @@ class Migrate extends \Xmf\Database\Migrate
 
     /**
      * Move do* columns from newbb_posts to newbb_posts_text table
-     *
-     * @return void
      */
     private function moveDoColumns()
     {
         $tableName    = 'newbb_posts_text';
         $srcTableName = 'newbb_posts';
-        if (false !== $this->tableHandler->useTable($tableName)
-            && false !== $this->tableHandler->useTable($srcTableName)) {
+        if ($this->tableHandler->useTable($tableName)
+            && $this->tableHandler->useTable($srcTableName)) {
             $attributes = $this->tableHandler->getColumnAttributes($tableName, 'dohtml');
             if (false === $attributes) {
                 $this->synchronizeTable($tableName);
@@ -119,8 +115,6 @@ class Migrate extends \Xmf\Database\Migrate
      * Some typical uses include
      *   table and column renames
      *   data conversions
-     *
-     * @return void
      */
     protected function preSyncActions()
     {
@@ -129,7 +123,6 @@ class Migrate extends \Xmf\Database\Migrate
 
         // or Convert IP address columns from varchar(20) to readable varchar(45) for IPv6
         $this->convertIPAddresses('wfdownloads_ip_log', 'ip_address');
-
 
         // change 'bb' table prefix to 'newbb'
         $this->changePrefix();

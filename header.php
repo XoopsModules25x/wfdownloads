@@ -8,11 +8,12 @@
  but WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
+
 /**
  * Wfdownloads module
  *
  * @copyright       XOOPS Project (https://xoops.org)
- * @license         GNU GPL 2 or later (http://www.gnu.org/licenses/gpl-2.0.html)
+ * @license         GNU GPL 2 or later (https://www.gnu.org/licenses/gpl-2.0.html)
  * @package         wfdownload
  * @since           3.23
  * @author          Xoops Development Team
@@ -20,7 +21,7 @@
 
 use XoopsModules\Wfdownloads;
 
-require_once  dirname(dirname(__DIR__)) . '/mainfile.php';
+require_once dirname(dirname(__DIR__)) . '/mainfile.php';
 require_once __DIR__ . '/include/common.php';
 
 //require_once XOOPS_ROOT_PATH . '/header.php';
@@ -30,7 +31,6 @@ $moduleDirName = basename(__DIR__);
 /** @var \XoopsModules\Wfdownloads\Helper $helper */
 $helper = \XoopsModules\Wfdownloads\Helper::getInstance();
 
-
 $myts = \MyTextSanitizer::getInstance();
 
 //Handlers
@@ -39,11 +39,10 @@ $myts = \MyTextSanitizer::getInstance();
 // Load language files
 $helper->loadLanguage('main');
 
-if (!isset($GLOBALS['xoopsTpl']) || !($GLOBALS['xoopsTpl'] instanceof XoopsTpl)) {
+if (!isset($GLOBALS['xoopsTpl']) || !($GLOBALS['xoopsTpl'] instanceof \XoopsTpl)) {
     require_once $GLOBALS['xoops']->path('class/template.php');
     $xoopsTpl = new XoopsTpl();
 }
-
 
 // uncomment the below line only if you are using Protector 3.x module
 // and you trust your users when uploading files, it is recommended to not allow anonymous uploads if you do so!!

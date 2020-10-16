@@ -8,11 +8,12 @@
  but WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
+
 /**
  * Wfdownloads module
  *
  * @copyright       XOOPS Project (https://xoops.org)
- * @license         GNU GPL 2 or later (http://www.gnu.org/licenses/gpl-2.0.html)
+ * @license         GNU GPL 2 or later (https://www.gnu.org/licenses/gpl-2.0.html)
  * @package         wfdownload
  * @since           3.23
  * @author          Xoops Development Team
@@ -233,7 +234,9 @@ define('_MI_WFDOWNLOADS_MODULE_MAILFEATURES', 'Features Mailing List');
 define('_MI_WFDOWNLOADS_MODULE_MAILANNOUNCEMENTSDSC', 'Get the latest announcements from XOOPS.');
 define('_MI_WFDOWNLOADS_MODULE_MAILBUGSDSC', 'Bug Tracking and submission mailing list');
 define('_MI_WFDOWNLOADS_MODULE_MAILFEATURESDSC', 'Request New Features mailing list.');
-define('_MI_WFDOWNLOADS_WARNINGTEXT', 'THE SOFTWARE IS PROVIDED BY XOOPS "AS IS" AND "WITH ALL FAULTS."
+define(
+    '_MI_WFDOWNLOADS_WARNINGTEXT',
+    'THE SOFTWARE IS PROVIDED BY XOOPS "AS IS" AND "WITH ALL FAULTS."
 XOOPS MAKES NO REPRESENTATIONS OR WARRANTIES OF ANY KIND CONCERNING
 THE QUALITY, SAFETY OR SUITABILITY OF THE SOFTWARE, EITHER EXPRESS OR
 IMPLIED, INCLUDING WITHOUT LIMITATION ANY IMPLIED WARRANTIES OF
@@ -243,10 +246,11 @@ ACCURACY OR COMPLETENESS OF ANY STATEMENTS, INFORMATION OR MATERIALS
 CONCERNING THE SOFTWARE THAT IS CONTAINED IN XOOPS WEBSITE. IN NO
 EVENT WILL XOOPS BE LIABLE FOR ANY INDIRECT, PUNITIVE, SPECIAL,
 INCIDENTAL OR CONSEQUENTIAL DAMAGES, HOWEVER THEY MAY ARISE AND EVEN IF
-XOOPS HAS BEEN PREVIOUSLY ADVISED OF THE POSSIBILITY OF SUCH DAMAGES..');
+XOOPS HAS BEEN PREVIOUSLY ADVISED OF THE POSSIBILITY OF SUCH DAMAGES..'
+);
 define(
     '_MI_WFDOWNLOADS_AUTHOR_CREDITSTEXT',
-       'The XOOPS Team would like to thank the following people for their help and support during the development phase of this module: <br><br>tom, mking, paco1969, mharoun, Talis, m0nty, steenlnielsen, Clubby, Geronimo, bd_csmc, herko, LANG, Stewdio, tedsmith, veggieryan, carnuke, MadFish, Kiang, SmartFactory team<br>and anyone else who has contributed to either directly or indirectly.'
+    'The XOOPS Team would like to thank the following people for their help and support during the development phase of this module: <br><br>tom, mking, paco1969, mharoun, Talis, m0nty, steenlnielsen, Clubby, Geronimo, bd_csmc, herko, LANG, Stewdio, tedsmith, veggieryan, carnuke, MadFish, Kiang, SmartFactory team<br>and anyone else who has contributed to either directly or indirectly.'
 );
 define('_MI_WFDOWNLOADS_AUTHOR_BUGFIXES', 'Bug Fix History');
 define('_MI_WFDOWNLOADS_COPYRIGHTIMAGE', 'Images copyright XOOPS, WF-Project/SmartFactory and may only be used with permission');
@@ -352,11 +356,11 @@ define('_MI_WFDOWNLOADS_AUTOSUMMARYPLAINTEXTDESC', "If '" . _YES . "' all html t
 
 define(
     '_MI_WFDOWNLOADS_DISCLAIMER_DEFAULT',
-       'We have the right, but not the obligation to monitor and review submissions submitted by users, in the forums. We shall not be responsible for any of the content of these messages. We further reserve the right, to delete, move or edit submissions that the we, in its exclusive discretion, deems abusive, defamatory, obscene or in violation of any Copyright or Trademark laws or otherwise objectionable.'
+    'We have the right, but not the obligation to monitor and review submissions submitted by users, in the forums. We shall not be responsible for any of the content of these messages. We further reserve the right, to delete, move or edit submissions that the we, in its exclusive discretion, deems abusive, defamatory, obscene or in violation of any Copyright or Trademark laws or otherwise objectionable.'
 );
 define(
     '_MI_WFDOWNLOADS_DOWNDISCLAIMER_DEFAULT',
-       'The file downloads on this site are provided as is without warranty either expressed or implied. Downloaded files should be checked for possible virus infection using the most up-to-date detection and security packages. If you have a question concerning a particular piece of software, feel free to contact the developer. We refuse liability for any damage or loss resulting from the use or misuse of any software offered from this site for downloading. If you have any doubt at all about the safety and operation of software made available to you on this site, do not download it.<br><br>Contact us if you have questions concerning this disclaimer.'
+    'The file downloads on this site are provided as is without warranty either expressed or implied. Downloaded files should be checked for possible virus infection using the most up-to-date detection and security packages. If you have a question concerning a particular piece of software, feel free to contact the developer. We refuse liability for any damage or loss resulting from the use or misuse of any software offered from this site for downloading. If you have any doubt at all about the safety and operation of software made available to you on this site, do not download it.<br><br>Contact us if you have questions concerning this disclaimer.'
 );
 
 define('_MI_WFDOWNLOADS_HELP_OVERVIEW', 'Overview');
@@ -416,7 +420,6 @@ define('_MI_WFDOWNLOADS_FILESUPLOADS_CONFIGS', '<span style="color: #FF0000; fon
 define('_MI_WFDOWNLOADS_SCREENSHOTS_ESTRASYSTEMS', '<span style="color: #FF0000; font-size: Small;  font-weight: bold;">---Extra systems preferences---</span> ');
 define('_MI_WFDOWNLOADS_VARIOUS_CONFIGS', '<span style="color: #FF0000; font-size: Small;  font-weight: bold;">---Various preferences---</span> ');
 
-
 //Publisher templates
 define('_MI_WFDOWNLOADS_DISPLAY_CONFIGS', '<span style="color: #FF0000; font-size: Small;  font-weight: bold;">--- Category Display preferences---</span> ');
 
@@ -431,7 +434,6 @@ define('_MI_WFDOWNLOADS_DISPLAY_LEGACY_DSC', 'Display index and category in a le
 
 define('_CO_WFDOWNLOADS_DISPLAY_SUMMARY', 'Display summary on the item page ?');
 
-
 define('_MI_WFDOWNLOADS_DISPLAYTYPE_CATVIEW', 'Category View');
 define('_MI_WFDOWNLOADS_DISPLAYTYPE_FULL', 'Full View');
 define('_MI_WFDOWNLOADS_DISPLAYTYPE_LIST', 'Bullet list');
@@ -444,6 +446,7 @@ define('_MI_WFDOWNLOADS_DISP_CAT_CONFIGS', 'Full View');
 define('_MI_WFDOWNLOADS_DISTYPE', 'Downloads display type:');
 define('_MI_WFDOWNLOADS_DISTYPE_DSC', 'if “Summary View” is selected, only the Title, Date and Hits of each item will be displayed in a selected category. If “Full View” is selected, each item will be fully displayed in a selected category.');
 
-
 define('_MI_WFDOWNLOADS_ALPHABET_SHOW', 'Show the Alphabet?');
 define('_MI_WFDOWNLOADS_ALPHABET_SHOW_DESC', 'If Yes, it will show the downloads grouped alphabetically');
+
+define('_MI_WFDOWNLOADS_ADMENU_MIGRATE', 'Migrate');

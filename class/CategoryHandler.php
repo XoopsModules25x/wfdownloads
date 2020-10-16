@@ -1,4 +1,6 @@
-<?php namespace XoopsModules\Wfdownloads;
+<?php
+
+namespace XoopsModules\Wfdownloads;
 
 /*
  You may not change or alter any portion of this comment or credits
@@ -9,11 +11,12 @@
  but WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
+
 /**
  * Wfdownloads module
  *
  * @copyright       XOOPS Project (https://xoops.org)
- * @license         GNU GPL 2 or later (http://www.gnu.org/licenses/gpl-2.0.html)
+ * @license         GNU GPL 2 or later (https://www.gnu.org/licenses/gpl-2.0.html)
  * @package         wfdownload
  * @since           3.23
  * @author          Xoops Development Team
@@ -21,9 +24,8 @@
 
 use XoopsModules\Wfdownloads;
 
-defined('XOOPS_ROOT_PATH') || die('XOOPS root path not defined');
-require_once  dirname(__DIR__) . '/include/common.php';
 
+require_once \dirname(__DIR__) . '/include/common.php';
 
 /**
  * Class CategoryHandler
@@ -41,10 +43,10 @@ class CategoryHandler extends \XoopsPersistableObjectHandler
     /**
      * @param null|\XoopsDatabase $db
      */
-    public function __construct(\XoopsDatabase $db)
+    public function __construct(\XoopsDatabase $db = null)
     {
         parent::__construct($db, 'wfdownloads_cat', Category::class, 'cid', 'title');
-        /** @var \XoopsModules\Wfdownloads\Helper $this->helper */
+        /** @var \XoopsModules\Wfdownloads\Helper $this ->helper */
         $this->helper = \XoopsModules\Wfdownloads\Helper::getInstance();
     }
 
@@ -63,8 +65,8 @@ class CategoryHandler extends \XoopsPersistableObjectHandler
         /**
          * Replacing the " with ">" and deleteing the last ">" at the end
          */
-        $pathString = trim($pathString);
-        $pathString = str_replace(':', '>', $pathString);
+        $pathString = \trim($pathString);
+        $pathString = \str_replace(':', '>', $pathString);
 
         //      $pathString = substr($pathString, 0, strlen($pathString) - 13); // not needed now with fixed icms core! but required for XOOPS
         return $pathString;
@@ -80,12 +82,12 @@ class CategoryHandler extends \XoopsPersistableObjectHandler
      */
     public function getUserCategories($id_as_key = false, $as_object = true)
     {
-        $grouppermHandler = xoops_getHandler('groupperm');
+        $grouppermHandler = \xoops_getHandler('groupperm');
 
-        $groups                   = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : [0 => XOOPS_GROUP_ANONYMOUS];
+        $groups                   = \is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : [0 => XOOPS_GROUP_ANONYMOUS];
         $allowedDownCategoriesIds = $grouppermHandler->getItemIds('WFDownCatPerm', $groups, $this->helper->getModule()->mid());
 
-        return $this->getObjects(new \Criteria('cid', '(' . implode(',', $allowedDownCategoriesIds) . ')', 'IN'), $id_as_key, $as_object);
+        return $this->getObjects(new \Criteria('cid', '(' . \implode(',', $allowedDownCategoriesIds) . ')', 'IN'), $id_as_key, $as_object);
     }
 
     /**
@@ -98,12 +100,12 @@ class CategoryHandler extends \XoopsPersistableObjectHandler
      */
     public function getUserDownCategories($id_as_key = false, $as_object = true)
     {
-        $grouppermHandler = xoops_getHandler('groupperm');
+        $grouppermHandler = \xoops_getHandler('groupperm');
 
-        $groups                   = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : [0 => XOOPS_GROUP_ANONYMOUS];
+        $groups                   = \is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : [0 => XOOPS_GROUP_ANONYMOUS];
         $allowedDownCategoriesIds = $grouppermHandler->getItemIds('WFDownCatPerm', $groups, $this->helper->getModule()->mid());
 
-        return $this->getObjects(new \Criteria('cid', '(' . implode(',', $allowedDownCategoriesIds) . ')', 'IN'), $id_as_key, $as_object);
+        return $this->getObjects(new \Criteria('cid', '(' . \implode(',', $allowedDownCategoriesIds) . ')', 'IN'), $id_as_key, $as_object);
     }
 
     /**
@@ -114,12 +116,12 @@ class CategoryHandler extends \XoopsPersistableObjectHandler
      */
     public function getUserUpCategories($id_as_key = false, $as_object = true)
     {
-        $grouppermHandler = xoops_getHandler('groupperm');
+        $grouppermHandler = \xoops_getHandler('groupperm');
 
-        $groups                 = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : XOOPS_GROUP_ANONYMOUS;
+        $groups                 = \is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : XOOPS_GROUP_ANONYMOUS;
         $allowedUpCategoriesIds = $grouppermHandler->getItemIds('WFUpCatPerm', $groups, $this->helper->getModule()->mid());
 
-        return $this->getObjects(new \Criteria('cid', '(' . implode(',', $allowedUpCategoriesIds) . ')', 'IN'), $id_as_key, $as_object);
+        return $this->getObjects(new \Criteria('cid', '(' . \implode(',', $allowedUpCategoriesIds) . ')', 'IN'), $id_as_key, $as_object);
     }
 
     /**
@@ -151,12 +153,12 @@ class CategoryHandler extends \XoopsPersistableObjectHandler
         $allsubcats_linked_totop = [];
         foreach ($this->allCategories as $cid => $category) {
             $parentCategoryObjs = $categoryObjsTree->getAllParent($cid);
-            if (0 == count($parentCategoryObjs)) {
+            if (0 == \count($parentCategoryObjs)) {
                 // is a top category
                 $allsubcats_linked_totop[$cid] = $cid;
             } else {
                 // is not a top category
-                $topParentCategoryObj          = end($parentCategoryObjs);
+                $topParentCategoryObj          = \end($parentCategoryObjs);
                 $allsubcats_linked_totop[$cid] = $topParentCategoryObj->getVar($cid);
             }
             unset($parentCategoryObjs);
@@ -169,7 +171,7 @@ class CategoryHandler extends \XoopsPersistableObjectHandler
                 // Let's create an array where key will be cid of the top categories and
                 // value will be an array containing all the cid of its subcategories
                 // If value = 0, then this topcat does not have any subcats
-                $topCategories = array();
+                $topCategories = [];
                 foreach ($categoryObjsTreeNodes[0]['child'] as $topCategory_cid) {
                     if (!isset($this->topCategories[$topCategory_cid])) {
                         $this->topCategories[$topCategory_cid] = $topCategory_cid;
@@ -184,7 +186,7 @@ class CategoryHandler extends \XoopsPersistableObjectHandler
 
                 // Now we need to create another array where key will be all subcategories cid and
                 // value will be the cid of its top most category
-                $allsubcats_linked_totop = array();
+                $allsubcats_linked_totop = [];
 
                 foreach ($topCategories as $topCategory_cid => $childCategory_cids) {
                     if ($childCategory_cids == 0) {

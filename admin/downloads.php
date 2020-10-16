@@ -13,7 +13,7 @@
  * Wfdownloads module
  *
  * @copyright       XOOPS Project (https://xoops.org)
- * @license         GNU GPL 2 or later (http://www.gnu.org/licenses/gpl-2.0.html)
+ * @license         GNU GPL 2 or later (https://www.gnu.org/licenses/gpl-2.0.html)
  * @package         wfdownload
  * @since           3.23
  * @author          Xoops Development Team
@@ -112,10 +112,19 @@ switch ($op) {
                     require_once XOOPS_ROOT_PATH . '/modules/formulize/include/formdisplay.php';
                     require_once XOOPS_ROOT_PATH . '/modules/formulize/include/functions.php';
                     $customArray['fid']           = $fid;
-                    $customArray['formulize_mgr'] = xoops_getModuleHandler('elements', 'formulize');
+                    $customArray['formulize_mgr'] = $helper->getHandler('Elements', 'formulize');
                     $customArray['groups']        = $GLOBALS['xoopsUser'] ? $GLOBALS['xoopsUser']->getGroups() : [0 => XOOPS_GROUP_ANONYMOUS];
                     $customArray['prevEntry']     = getEntryValues(// is a Formulize function
-                        $downloadObj->getVar('formulize_idreq'), $customArray['formulize_mgr'], $customArray['groups'], $fid, null, null, null, null, null);
+                        $downloadObj->getVar('formulize_idreq'),
+                        $customArray['formulize_mgr'],
+                        $customArray['groups'],
+                        $fid,
+                        null,
+                        null,
+                        null,
+                        null,
+                        null
+                    );
                     $customArray['entry']         = $downloadObj->getVar('formulize_idreq');
                     $customArray['go_back']       = '';
                     $customArray['parentLinks']   = '';
@@ -147,7 +156,7 @@ switch ($op) {
             $regUserRatingCount = $helper->getHandler('Rating')->getCount($regUserCriteria);
             $regUserCriteria->setSort('ratingtimestamp');
             $regUserCriteria->setOrder('DESC');
-           $regUserRatingObjs = $helper->getHandler('Rating')->getObjects($regUserCriteria);
+            $regUserRatingObjs = $helper->getHandler('Rating')->getObjects($regUserCriteria);
 
             $anonUserCriteria = new \CriteriaCompo(new \Criteria('lid', $lid));
             $anonUserCriteria->add(new \Criteria('ratinguser', 0, '='));
@@ -254,7 +263,6 @@ switch ($op) {
         }
         require_once __DIR__ . '/admin_footer.php';
         break;
-
     case 'download.save':
     case 'addDownload':
         $lid    = Request::getInt('lid', 0, 'POST');
@@ -293,7 +301,7 @@ switch ($op) {
             $size  = $down['size'];
             $title = $_FILES['userfile']['name'];
 
-            $ext   = rtrim(strrchr($title, '.'), '.');
+            $ext   = rtrim(mb_strrchr($title, '.'), '.');
             $title = str_replace($ext, '', $title);
             $title = (isset($_POST['title_checkbox']) && 1 == $_POST['title_checkbox']) ? $title : trim($_POST['title']);
 
@@ -304,17 +312,17 @@ switch ($op) {
         }
         // Get data from form
         $screenshots   = [];
-        $screenshots[] = ('blank.png' !== Request::getString('screenshot', '', 'POST')) ? Request::getString('screenshot', '', 'POST'): '';  //$_POST['screenshot']) ? $_POST['screenshot'] : '';
-        $screenshots[] = ('blank.png' !== Request::getString('screenshot2', '', 'POST')) ? Request::getString('screenshot2', '', 'POST'): '';  //('blank.png' !== $_POST['screenshot2']) ? $_POST['screenshot2'] : '';
-        $screenshots[] = ('blank.png' !== Request::getString('screenshot3', '', 'POST')) ? Request::getString('screenshot3', '', 'POST'): '';  //('blank.png' !== $_POST['screenshot3']) ? $_POST['screenshot3'] : '';
-        $screenshots[] = ('blank.png' !== Request::getString('screenshot4', '', 'POST')) ? Request::getString('screenshot4', '', 'POST'): '';  //('blank.png' !== $_POST['screenshot4']) ? $_POST['screenshot4'] : '';
+        $screenshots[] = ('blank.png' !== Request::getString('screenshot', '', 'POST')) ? Request::getString('screenshot', '', 'POST') : '';  //$_POST['screenshot']) ? $_POST['screenshot'] : '';
+        $screenshots[] = ('blank.png' !== Request::getString('screenshot2', '', 'POST')) ? Request::getString('screenshot2', '', 'POST') : '';  //('blank.png' !== $_POST['screenshot2']) ? $_POST['screenshot2'] : '';
+        $screenshots[] = ('blank.png' !== Request::getString('screenshot3', '', 'POST')) ? Request::getString('screenshot3', '', 'POST') : '';  //('blank.png' !== $_POST['screenshot3']) ? $_POST['screenshot3'] : '';
+        $screenshots[] = ('blank.png' !== Request::getString('screenshot4', '', 'POST')) ? Request::getString('screenshot4', '', 'POST') : '';  //('blank.png' !== $_POST['screenshot4']) ? $_POST['screenshot4'] : '';
 
         if (Request::hasVar('homepage') || 'http://' !== Request::getString('homepage', '', 'POST')) {
             $downloadObj->setVar('homepage', Request::getString('homepage', '', 'POST')); //trim($_POST['homepage']));
             $downloadObj->setVar('homepagetitle', Request::getString('homepagetitle', '', 'POST')); //trim($_POST['homepagetitle']));
         }
 
-        $version =  Request::getInt('version', 0, 'POST');
+        $version = Request::getInt('version', 0, 'POST');
 
         /* Added by Lankford on 2007/3/21 */
         // Here, I want to know if:
@@ -432,7 +440,7 @@ switch ($op) {
             if ($fid) {
                 require_once XOOPS_ROOT_PATH . '/modules/formulize/include/formread.php';
                 require_once XOOPS_ROOT_PATH . '/modules/formulize/include/functions.php';
-                $formulizeElementsHandler = xoops_getModuleHandler('elements', 'formulize');
+                $formulizeElementsHandler = $helper->getHandler('Elements', 'formulize');
                 if ($lid) {
                     $entries[$fid][0] = $downloadObj->getVar('formulize_idreq');
                     if ($entries[$fid][0]) {
@@ -490,7 +498,6 @@ switch ($op) {
 
         redirect_header($currentFile, 1, $message);
         break;
-
     case 'download.delete':
         $lid = Request::getInt('lid', 0);
         $ok  = Request::getBool('ok', false, 'POST');
@@ -505,10 +512,10 @@ switch ($op) {
             $file = $helper->getConfig('uploaddir') . '/' . $downloadObj->getVar('filename');
             if (is_file($file)) {
                 if (false === @chmod($file, 0777)) {
-                    throw new \RuntimeException('The file mode for '.$file.' could not be changed.');
+                    throw new \RuntimeException('The file mode for ' . $file . ' could not be changed.');
                 }
                 if (false === @unlink($file)) {
-                    throw new \RuntimeException('The file '.$file.' could not be deleted.');
+                    throw new \RuntimeException('The file ' . $file . ' could not be deleted.');
                 }
             }
             if ($helper->getHandler('Download')->delete($downloadObj)) {
@@ -522,7 +529,6 @@ switch ($op) {
             xoops_cp_footer();
         }
         break;
-
     case 'vote.delete':
     case 'delVote':
         $ratingObj = $helper->getHandler('Rating')->get($_GET['rid']);
@@ -531,7 +537,6 @@ switch ($op) {
         }
         redirect_header($currentFile, 1, _AM_WFDOWNLOADS_VOTE_VOTEDELETED);
         break;
-
     // Formulize module support (2006/05/04) jpc - start
     case 'patch_formulize':
         if (Wfdownloads\Utility::checkModule('formulize')) {
@@ -582,7 +587,6 @@ switch ($op) {
         }
         redirect_header($currentFile, 1, _AM_WFDOWNLOADS_SUB_NEWFILECREATED);
         break;
-
     case 'downloads.list':
     case 'downloads.filter':
     default:
@@ -615,7 +619,7 @@ switch ($op) {
         $categoryObjs         = $helper->getHandler('Category')->getObjects(null, true, false);
 
         $totalDownloadsCount = $helper->getHandler('Download')->getCount();
-//    $totalDownloadsCount = $downloadHandler->getCount();
+        //    $totalDownloadsCount = $downloadHandler->getCount();
 
         Wfdownloads\Utility::getCpHeader();
         $adminObject = \Xmf\Module\Admin::getInstance();
@@ -695,7 +699,7 @@ switch ($op) {
             $date_select = new \XoopsFormDateTime(null, 'filter_date', 15, time(), false);
             $GLOBALS['xoopsTpl']->assign('filter_date_select', $date_select->render());
             $GLOBALS['xoopsTpl']->assign('filter_date_condition', $filter_date_condition);
-//mb
+            //mb
             $GLOBALS['xoopsTpl']->assign('published_downloads_pagenav', $pagenav->renderNav());
 
             // New Downloads
@@ -796,12 +800,11 @@ switch ($op) {
             }
             $pagenav = new \XoopsPageNav($offlineDownloadCount, $helper->getConfig('admin_perpage'), $start_offline, 'start_offline');
             $GLOBALS['xoopsTpl']->assign('offline_downloads_pagenav', $pagenav->renderNav());
-        } else {
-            // NOP
         }
+        // NOP
 
         // Batch files
-        $extensionToMime = include $GLOBALS['xoops']->path('include/mimetypes.inc.php');
+        $extensionToMime = require_once $GLOBALS['xoops']->path('include/mimetypes.inc.php');
         $batchPath       = $helper->getConfig('batchdir');
         $GLOBALS['xoopsTpl']->assign('batch_path', $batchPath);
         $batchFiles      = Wfdownloads\Utility::getFiles($batchPath . '/');
@@ -824,11 +827,10 @@ switch ($op) {
 
         require_once __DIR__ . '/admin_footer.php';
         break;
-
     case 'batchfile.add':
         $batchid = Request::getInt('batchid', 0);
 
-        $extensionToMime = include $GLOBALS['xoops']->path('include/mimetypes.inc.php');
+        $extensionToMime = require_once $GLOBALS['xoops']->path('include/mimetypes.inc.php');
         $batchPath       = $helper->getConfig('batchdir');
         $batchFiles      = Wfdownloads\Utility::getFiles($batchPath . '/');
 
@@ -855,7 +857,7 @@ switch ($op) {
         $downloadObj->setVar('status', _WFDOWNLOADS_STATUS_APPROVED); // IN PROGRESS
         $downloadObj->setVar('published', time());
         $downloadObj->setVar('date', time());
-        $downloadObj->setVar('ipaddress', \Xmf\IPAddress::fromRequest()->asReadable());//$_SERVER['REMOTE_ADDR']);
+        $downloadObj->setVar('ipaddress', \Xmf\IPAddress::fromRequest()->asReadable()); //$_SERVER['REMOTE_ADDR']);
         $downloadObj->setVar('submitter', $GLOBALS['xoopsUser']->getVar('uid', 'e'));
         $downloadObj->setVar('publisher', $GLOBALS['xoopsUser']->getVar('uid', 'e'));
 
@@ -868,7 +870,6 @@ switch ($op) {
         Wfdownloads\Utility::delFile($batchPath . '/' . $batchFile);
         redirect_header("{$currentFile}?op=download.edit&lid={$newid}", 3, _AM_WFDOWNLOADS_BATCHFILE_MOVEDEDITNOW);
         break;
-
     case 'batchfile.delete':
         $batchid = Request::getInt('batchid', 0);
         $ok      = Request::getBool('ok', false, 'POST');
@@ -892,7 +893,6 @@ switch ($op) {
             xoops_cp_footer();
         }
         break;
-
     case 'ip_logs.list':
         $lid = Request::getInt('lid', 0);
         if (!$lid) {
@@ -914,8 +914,8 @@ switch ($op) {
         }
         $criteria->setSort('date');
         $criteria->setOrder('DESC');
-        $ip_logObjs  = $helper->getHandler('iplog')->getObjects($criteria);
-        $ip_logCount = $helper->getHandler('iplog')->getCount($criteria);
+        $ip_logObjs  = $helper->getHandler('Iplog')->getObjects($criteria);
+        $ip_logCount = $helper->getHandler('Iplog')->getCount($criteria);
         $GLOBALS['xoopsTpl']->assign('ip_logs_count', $ip_logCount);
         unset($criteria);
 

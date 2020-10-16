@@ -8,11 +8,12 @@
  but WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
+
 /**
  * Wfdownloads module
  *
  * @copyright       XOOPS Project (https://xoops.org)
- * @license         GNU GPL 2 or later (http://www.gnu.org/licenses/gpl-2.0.html)
+ * @license         GNU GPL 2 or later (https://www.gnu.org/licenses/gpl-2.0.html)
  * @package         wfdownload
  * @since           3.23
  * @author          Xoops Development Team
@@ -31,7 +32,7 @@ define('_MD_WFDOWNLOADS_THANKSFORHELP', "Thank you for helping to maintain this 
 define('_MD_WFDOWNLOADS_FORSECURITY', 'For security reasons your user name and IP address will also be temporarily recorded.');
 define(
     '_MD_WFDOWNLOADS_NOPERMISETOLINK',
-       "This file doesn't belong to the site you came from <br><br>Please e-mail the webmaster of the site you came from and tell him: <br><span style='font-weight: bold;'>NOT TO LEECH OTHER SITES LINKS!</span> <br><br><span style='font-weight: bold;'>Definition of a Leecher:</span> One who is too lazy to link from his own server or steals other people's hard work and makes it look like his own <br><br>  Your IP address <span style='font-weight: bold;'>has been logged</span>."
+    "This file doesn't belong to the site you came from <br><br>Please e-mail the webmaster of the site you came from and tell him: <br><span style='font-weight: bold;'>NOT TO LEECH OTHER SITES LINKS!</span> <br><br><span style='font-weight: bold;'>Definition of a Leecher:</span> One who is too lazy to link from his own server or steals other people's hard work and makes it look like his own <br><br>  Your IP address <span style='font-weight: bold;'>has been logged</span>."
 );
 define('_MD_WFDOWNLOADS_SUMMARY', 'Summary');
 define('_MD_WFDOWNLOADS_DESCRIPTION', 'Description');
@@ -178,10 +179,13 @@ define('_MD_WFDOWNLOADS_REV_RATING', 'Review rating');
 define('_MD_WFDOWNLOADS_REV_DESCRIPTION', 'Review');
 define('_MD_WFDOWNLOADS_REV_SUBMITREV', 'Submit review');
 define('_MD_WFDOWNLOADS_ERROR_CREATEREVIEW', 'ERROR: unable to create a review');
-define('_MD_WFDOWNLOADS_REV_SNEWMNAMEDESC', "
+define(
+    '_MD_WFDOWNLOADS_REV_SNEWMNAMEDESC',
+    "
 Please completely fill out the form below, and we'll add your review as soon as possible. <br><br>
 Thank you for taking the time to submit your opinion. We want to give our users a possibility to find quality software faster. <br><br>All reviews will be reviewed by one of our webmasters before they are put up on the web site.
-");
+"
+);
 define('_MD_WFDOWNLOADS_ISNOTAPPROVED', 'Your submission has to be approved by a moderator first.');
 define('_MD_WFDOWNLOADS_LICENCEC', 'Software licence');
 define('_MD_WFDOWNLOADS_LIMITATIONS', 'Software limitations');
@@ -224,7 +228,7 @@ define('_MD_WFDOWNLOADS_NOTALLOWEDTOMOD', 'You are not allowed to modify this do
 define('_MD_WFDOWNLOADS_ERROR_CREATCHANNEL', 'Create channel first');
 define('_MD_WFDOWNLOADS_REVIEW_CATPATH', 'Category path');
 define('_MD_WFDOWNLOADS_ADDREVIEW', 'Add review');
-//
+
 define('_MD_WFDOWNLOADS_NEWLAST', 'New submitted before last week');
 define('_MD_WFDOWNLOADS_NEWTHIS', 'New submitted within this week');
 define('_MD_WFDOWNLOADS_THREE', 'New submitted within last three days');
@@ -252,10 +256,13 @@ define('_MD_WFDOWNLOADS_MIRROR_LOCATION', 'Location');
 define('_MD_WFDOWNLOADS_MIRROR_DOWNURL', 'Download URL');
 define('_MD_WFDOWNLOADS_MIRROR_SUBMITMIRROR', 'Submit mirror');
 define('_MD_WFDOWNLOADS_ERROR_CREATEMIRROR', 'ERROR: unable to create a mirror');
-define('_MD_WFDOWNLOADS_MIRROR_SNEWMNAMEDESC', "
+define(
+    '_MD_WFDOWNLOADS_MIRROR_SNEWMNAMEDESC',
+    "
 Please completely fill out the form below, and we'll add your mirror as soon as possible. <br><br>
 Thank you for your assistance in providing another location to download these files. We want to give our users a possibility to find quality software faster. <br><br>All mirror submissions will be reviewed by one of our webmasters before they are put up on the web site.
-");
+"
+);
 define('_MD_WFDOWNLOADS_MIRROR_HHOST', 'Host');
 define('_MD_WFDOWNLOADS_MIRROR_HLOCATION', 'Location');
 define('_MD_WFDOWNLOADS_MIRROR_HCONTINENT', 'Continent');

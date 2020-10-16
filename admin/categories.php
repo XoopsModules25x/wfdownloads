@@ -13,7 +13,7 @@
  * Wfdownloads module
  *
  * @copyright       XOOPS Project (https://xoops.org)
- * @license         GNU GPL 2 or later (http://www.gnu.org/licenses/gpl-2.0.html)
+ * @license         GNU GPL 2 or later (https://www.gnu.org/licenses/gpl-2.0.html)
  * @package         wfdownload
  * @since           3.23
  * @author          Xoops Development Team
@@ -50,7 +50,7 @@ switch ($op) {
             Wfdownloads\Utility::getCpHeader();
 
             xoops_load('XoopsFormLoader');
-            $sform = new \XoopsThemeForm(_AM_WFDOWNLOADS_CCATEGORY_MOVE, 'move', xoops_getenv('PHP_SELF'), 'post', true);
+            $sform = new \XoopsThemeForm(_AM_WFDOWNLOADS_CCATEGORY_MOVE, 'move', xoops_getenv('SCRIPT_NAME'), 'post', true);
 
             $categoryObjs     = $helper->getHandler('Category')->getObjects();
             $categoryObjsTree = new Wfdownloads\ObjectTree($categoryObjs, 'cid', 'pid');
@@ -92,7 +92,6 @@ switch ($op) {
             redirect_header($currentFile, 1, _AM_WFDOWNLOADS_CCATEGORY_MODIFY_MOVED);
         }
         break;
-
     case 'category.save':
     case 'addCat':
         $cid          = Request::getInt('cid', 0, 'POST');
@@ -112,11 +111,11 @@ switch ($op) {
         $uploadDirectory  = XOOPS_ROOT_PATH . '/' . $helper->getConfig('catimage');
         $uploader         = new \XoopsMediaUploader($uploadDirectory, $allowedMimetypes, $maxFileSize, $maxImgWidth, $maxImgHeight);
         if ($uploader->fetchMedia($_POST['xoops_upload_file'][0])) {
-            $uploader->setTargetFileName('wfdownloads_' . uniqid(time(), true) . '--' . strtolower($_FILES['uploadfile']['name']));
+            $uploader->setTargetFileName('wfdownloads_' . uniqid(time(), true) . '--' . mb_strtolower($_FILES['uploadfile']['name']));
             $uploader->fetchMedia($_POST['xoops_upload_file'][0]);
             if (!$uploader->upload()) {
                 $errors = $uploader->getErrors();
-                redirect_header('javascript:history.go(-1)', 3, $errors);
+                redirect_header('<script>javascript:history.go(-1)</script>', 3, $errors);
             } else {
                 $imgUrl = $uploader->getSavedFileName();
             }
@@ -179,7 +178,6 @@ switch ($op) {
         }
         redirect_header($currentFile, 1, $database_mess);
         break;
-
     case 'category.delete':
     case 'del':
         $cid              = Request::getInt('cid', 0);
@@ -226,7 +224,6 @@ switch ($op) {
             xoops_cp_footer();
         }
         break;
-
     case 'category.add':
     case 'category.edit':
     case 'modCat':
@@ -248,7 +245,6 @@ switch ($op) {
 
         require_once __DIR__ . '/admin_footer.php';
         break;
-
     case 'categories.list':
     case 'main':
     default:
@@ -271,7 +267,6 @@ switch ($op) {
         }
         require_once __DIR__ . '/admin_footer.php';
         break;
-
     case 'categories.reorder':
         if (!$GLOBALS['xoopsSecurity']->check()) {
             redirect_header($currentFile, 3, implode(',', $GLOBALS['xoopsSecurity']->getErrors()));

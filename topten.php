@@ -8,11 +8,12 @@
  but WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
+
 /**
  * Wfdownloads module
  *
  * @copyright       XOOPS Project (https://xoops.org)
- * @license         GNU GPL 2 or later (http://www.gnu.org/licenses/gpl-2.0.html)
+ * @license         GNU GPL 2 or later (https://www.gnu.org/licenses/gpl-2.0.html)
  * @package         wfdownload
  * @since           3.23
  * @author          Xoops Development Team
@@ -52,14 +53,14 @@ $sortDB       = $list_array[$thisselected];
 $catarray['imageheader'] = Wfdownloads\Utility::headerImage();
 //$catarray['letters']     = Wfdownloads\Utility::lettersChoice();
 /** @var \XoopsDatabase $db */
-$db           = \XoopsDatabaseFactory::getDatabaseConnection();
-$objHandler = new Wfdownloads\DownloadHandler($db);
+$db                  = \XoopsDatabaseFactory::getDatabaseConnection();
+$objHandler          = new Wfdownloads\DownloadHandler($db);
+/** @var \XoopsGroupPermHandler $grouppermHandler */
 $grouppermHandler = xoops_getHandler('groupperm');
- $choicebyletter = new Wfdownloads\Common\LetterChoice($objHandler, null, null, range('a', 'z'), 'letter');
-$catarray['letters']  = $choicebyletter->render();
+$choicebyletter      = new Wfdownloads\Common\LetterChoice($objHandler, null, null, range('a', 'z'), 'letter');
+$catarray['letters'] = $choicebyletter->render();
 
-$catarray['toolbar']     = Wfdownloads\Utility::toolbar();
-
+$catarray['toolbar'] = Wfdownloads\Utility::toolbar();
 
 $xoopsTpl->assign('catarray', $catarray);
 
@@ -104,7 +105,7 @@ foreach ($mainCategoryObjs as $mainCategoryObj) {
                         $parentCategory_titles[] = $parentCategoryObj->getVar('title');
                     }
                 }
-                $thisCategoryObj         =& $categoryObjsTree->getByKey($downloadObjs[$k]->getVar('cid'));
+                $thisCategoryObj         = &$categoryObjsTree->getByKey($downloadObjs[$k]->getVar('cid'));
                 $parentCategory_titles[] = $thisCategoryObj->getVar('title');
 
                 $rankings[$e]['file'][] = [
@@ -115,7 +116,7 @@ foreach ($mainCategoryObjs as $mainCategoryObj) {
                     'category' => implode('/', $parentCategory_titles),
                     'hits'     => $downloadObjs[$k]->getVar('hits'),
                     'rating'   => number_format($downloadObjs[$k]->getVar('rating'), 2),
-                    'votes'    => $downloadObjs[$k]->getVar('votes')
+                    'votes'    => $downloadObjs[$k]->getVar('votes'),
                 ];
                 ++$rank;
             }

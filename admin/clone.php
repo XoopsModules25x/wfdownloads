@@ -8,11 +8,12 @@
  but WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
+
 /**
  * Wfdownloads module
  *
  * @copyright       XOOPS Project (https://xoops.org)
- * @license         GNU GPL 2 or later (http://www.gnu.org/licenses/gpl-2.0.html)
+ * @license         GNU GPL 2 or later (https://www.gnu.org/licenses/gpl-2.0.html)
  * @package         wfdownload
  * @since           3.23
  * @author          Xoops Development Team
@@ -39,24 +40,24 @@ if ('submit' === @$_POST['op']) {
         redirect_header($currentFile, 3, sprintf(_AM_WFDOWNLOADS_CLONE_EXISTS, $cloneDirname));
     }
     // Check dirname length for template file name length issues (template file name cannot be longer than 50 chars)
-    if (strlen($cloneDirname) > 18) {
+    if (mb_strlen($cloneDirname) > 18) {
         redirect_header($currentFile, 3, sprintf(_AM_WFDOWNLOADS_CLONE_TOOLONG, $cloneDirname));
     }
 
     $patterns = [
-        strtolower(WFDOWNLOADS_DIRNAME)          => strtolower($cloneDirname),
-        strtoupper(WFDOWNLOADS_DIRNAME)          => strtoupper($cloneDirname),
-        ucfirst(strtolower(WFDOWNLOADS_DIRNAME)) => ucfirst(strtolower($cloneDirname))
+        mb_strtolower(WFDOWNLOADS_DIRNAME)          => mb_strtolower($cloneDirname),
+        mb_strtoupper(WFDOWNLOADS_DIRNAME)          => mb_strtoupper($cloneDirname),
+        ucfirst(mb_strtolower(WFDOWNLOADS_DIRNAME)) => ucfirst(mb_strtolower($cloneDirname)),
     ];
 
     $patKeys   = array_keys($patterns);
     $patValues = array_values($patterns);
     wfdownloads_cloneFileDir(WFDOWNLOADS_ROOT_PATH);
-    $logocreated = wfdownloads_createLogo(strtolower($cloneDirname));
+    $logocreated = wfdownloads_createLogo(mb_strtolower($cloneDirname));
 
     $message = '';
-    if (is_dir(XOOPS_ROOT_PATH . '/modules/' . strtolower($cloneDirname))) {
-        $message .= sprintf(_AM_WFDOWNLOADS_CLONE_CONGRAT, "<a href='" . XOOPS_URL . "/modules/system/admin.php?fct=modulesadmin&op=installlist'>" . ucfirst(strtolower($cloneDirname)) . '</a>') . "<br>\n";
+    if (is_dir(XOOPS_ROOT_PATH . '/modules/' . mb_strtolower($cloneDirname))) {
+        $message .= sprintf(_AM_WFDOWNLOADS_CLONE_CONGRAT, "<a href='" . XOOPS_URL . "/modules/system/admin.php?fct=modulesadmin&op=installlist'>" . ucfirst(mb_strtolower($cloneDirname)) . '</a>') . "<br>\n";
         if (!$logocreated) {
             $message .= _AM_WFDOWNLOADS_CLONE_IMAGEFAIL;
         }
@@ -70,21 +71,20 @@ if ('submit' === @$_POST['op']) {
     echo $message;
     require_once __DIR__ . '/admin_footer.php';
     exit();
-} else {
-    Wfdownloads\Utility::getCpHeader();
-    $adminObject = \Xmf\Module\Admin::getInstance();
-    $adminObject->displayNavigation($currentFile);
-    xoops_load('XoopsFormLoader');
-    $form              = new \XoopsThemeForm(sprintf(_AM_WFDOWNLOADS_CLONE_TITLE, $helper->getModule()->getVar('name', 'E')), 'clone', $currentFile, 'post', true);
-    $cloneDirname_text = new \XoopsFormText(_AM_WFDOWNLOADS_CLONE_NAME, 'clonedirname', 18, 18, '');
-    $cloneDirname_text->setDescription(_AM_WFDOWNLOADS_CLONE_NAME_DSC);
-    $form->addElement($cloneDirname_text, true);
-    $form->addElement(new \XoopsFormHidden('op', 'submit'));
-    $form->addElement(new \XoopsFormButton('', '', _SUBMIT, 'submit'));
-    $form->display();
-    require_once __DIR__ . '/admin_footer.php';
-    exit();
 }
+Wfdownloads\Utility::getCpHeader();
+$adminObject = \Xmf\Module\Admin::getInstance();
+$adminObject->displayNavigation($currentFile);
+xoops_load('XoopsFormLoader');
+$form              = new \XoopsThemeForm(sprintf(_AM_WFDOWNLOADS_CLONE_TITLE, $helper->getModule()->getVar('name', 'E')), 'clone', $currentFile, 'post', true);
+$cloneDirname_text = new \XoopsFormText(_AM_WFDOWNLOADS_CLONE_NAME, 'clonedirname', 18, 18, '');
+$cloneDirname_text->setDescription(_AM_WFDOWNLOADS_CLONE_NAME_DSC);
+$form->addElement($cloneDirname_text, true);
+$form->addElement(new \XoopsFormHidden('op', 'submit'));
+$form->addElement(new \XoopsFormButton('', '', _SUBMIT, 'submit'));
+$form->display();
+require_once __DIR__ . '/admin_footer.php';
+exit();
 
 // recursive clonning script
 /**
@@ -100,7 +100,7 @@ function wfdownloads_cloneFileDir($path)
     if (is_dir($path)) {
         // create new dir
         if (!mkdir($newPath) && !is_dir($newPath)) {
-            throw new \RuntimeException('The directory '.$newPath.' could not be created.');
+            throw new \RuntimeException('The directory ' . $newPath . ' could not be created.');
         }
 
         // check all files in dir, and process it
@@ -137,21 +137,21 @@ function wfdownloads_createLogo($dirname)
     // Check extension/functions
     if (!extension_loaded('gd')) {
         return false;
-    } else {
-        $required_functions = [
-            'imagecreatetruecolor',
-            'imagecolorallocate',
-            'imagefilledrectangle',
-            'imagejpeg',
-            'imagedestroy',
-            'imageftbbox'
-        ];
-        foreach ($required_functions as $func) {
-            if (!function_exists($func)) {
-                return false;
-            }
+    }
+    $required_functions = [
+        'imagecreatetruecolor',
+        'imagecolorallocate',
+        'imagefilledrectangle',
+        'imagejpeg',
+        'imagedestroy',
+        'imageftbbox',
+    ];
+    foreach ($required_functions as $func) {
+        if (!function_exists($func)) {
+            return false;
         }
     }
+
     // Check original image/font
     if (!file_exists($imageBase = XOOPS_ROOT_PATH . "/modules/{$dirname}/assets/images/module_logo_blank.png")) {
         return false;
@@ -166,7 +166,7 @@ function wfdownloads_createLogo($dirname)
     imagefilledrectangle($imageModule, 5, 35, 85, 46, $greyColor);
     // Write text
     $textColor       = imagecolorallocate($imageModule, 0, 0, 0);
-    $space_to_border = (80 - strlen($dirname) * 6.5) / 2;
+    $space_to_border = (80 - mb_strlen($dirname) * 6.5) / 2;
     imagefttext($imageModule, 8.5, 0, $space_to_border, 45, $textColor, $font, ucfirst($dirname), []);
     // Set transparency color
     $whiteColor = imagecolorallocatealpha($imageModule, 255, 255, 255, 127);

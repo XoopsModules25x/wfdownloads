@@ -13,7 +13,7 @@
  * Wfdownloads module
  *
  * @copyright       XOOPS Project (https://xoops.org)
- * @license         GNU GPL 2 or later (http://www.gnu.org/licenses/gpl-2.0.html)
+ * @license         GNU GPL 2 or later (https://www.gnu.org/licenses/gpl-2.0.html)
  * @package         wfdownload
  * @since           3.23
  * @author          Xoops Development Team
@@ -37,8 +37,8 @@ $adminObject = \Xmf\Module\Admin::getInstance();
 /** @var \XoopsModules\Wfdownloads\Helper $helper */
 $helper = \XoopsModules\Wfdownloads\Helper::getInstance();
 
-$moduleDirName = basename(dirname(__DIR__));
-$moduleDirNameUpper = strtoupper($moduleDirName);
+$moduleDirName      = basename(dirname(__DIR__));
+$moduleDirNameUpper = mb_strtoupper($moduleDirName);
 
 //--------------------------
 $categories_count           = Wfdownloads\Utility::categoriesCount();
@@ -118,7 +118,7 @@ $adminObject->addInfoBoxLine(sprintf('<infolabel>' . _AM_WFDOWNLOADS_UPLOAD_MAXF
 //------ check directories ---------------
 
 $adminObject->addConfigBoxLine('');
-$redirectFile = $_SERVER['PHP_SELF'];
+$redirectFile = $_SERVER['SCRIPT_NAME'];
 
 //check Formulize presence
 if (!Wfdownloads\Utility::checkModule('formulize')) {
@@ -131,6 +131,7 @@ if (!Wfdownloads\Utility::checkModule('formulize')) {
 $adminObject->addConfigBoxLine('');
 //$path = $helper->getConfig('uploaddir') . '/';
 $path = $helper->getConfig('uploaddir');
+//$path0 = $helper->getModule()->getInfo('uploaddir');
 $adminObject->addConfigBoxLine(Common\DirectoryChecker::getDirectoryStatus($path, 0777, $redirectFile));
 
 $path = $helper->getConfig('batchdir') . '/';
@@ -155,29 +156,35 @@ $adminObject->addConfigBoxLine(Common\DirectoryChecker::getDirectoryStatus($path
 //---------------------------
 $adminObject->addConfigBoxLine('');
 
-/** @var Wfdownloads\Common\Configurator $configurator */
-$configurator = new Wfdownloads\Common\Configurator();
+/** @var \XoopsModules\Wfdownloads\Common\Configurator $configurator */
+$configurator = new \XoopsModules\Wfdownloads\Common\Configurator();
 
-/** @var Wfdownloads\Utility $utility */
-$utility = new Wfdownloads\Utility();
+/** @var \XoopsModules\Wfdownloads\Utility $utility */
+$utility = new \XoopsModules\Wfdownloads\Utility();
 
 foreach (array_keys($configurator->uploadFolders) as $i) {
-    $utility::createFolder($configurator->uploadFolders[$i]);
+    //    $utility::createFolder($configurator->uploadFolders[$i]);
 }
 
 $adminObject->displayNavigation(basename(__FILE__));
+
+//check for latest release
+//$newRelease = $utility::checkVerModule($helper);
+//if (!empty($newRelease)) {
+//    $adminObject->addItemButton($newRelease[0], $newRelease[1], 'download', 'style="color : Red"');
+//}
 
 //------------- Test Data ----------------------------
 
 if ($helper->getConfig('displaySampleButton')) {
     xoops_loadLanguage('admin/modulesadmin', 'system');
-    require_once  dirname(__DIR__) . '/testdata/index.php';
+    require_once dirname(__DIR__) . '/testdata/index.php';
 
-    $adminObject->addItemButton(constant('CO_' . $moduleDirNameUpper . '_' . 'ADD_SAMPLEDATA'), '__DIR__ . /../../testdata/index.php?op=load', 'add');
+    $adminObject->addItemButton(constant('CO_' . $moduleDirNameUpper . '_' . 'ADD_SAMPLEDATA'), './../testdata/index.php?op=load', 'add');
 
-    $adminObject->addItemButton(constant('CO_' . $moduleDirNameUpper . '_' . 'SAVE_SAMPLEDATA'), '__DIR__ . /../../testdata/index.php?op=save', 'add');
+    $adminObject->addItemButton(constant('CO_' . $moduleDirNameUpper . '_' . 'SAVE_SAMPLEDATA'), './../testdata/index.php?op=save', 'add');
 
-    //    $adminObject->addItemButton(constant('CO_' . $moduleDirNameUpper . '_' . 'EXPORT_SCHEMA'), '__DIR__ . /../../testdata/index.php?op=exportschema', 'add');
+    //    $adminObject->addItemButton(constant('CO_' . $moduleDirNameUpper . '_' . 'EXPORT_SCHEMA'), './../testdata/index.php?op=exportschema', 'add');
 
     $adminObject->displayButton('left', '');
 }

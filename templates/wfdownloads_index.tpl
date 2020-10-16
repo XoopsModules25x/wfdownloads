@@ -1,6 +1,6 @@
 <{include file='db:wfdownloads_header.tpl'}>
 
-<{if count($categories) gt 0}>
+<{if $categories|is_array && count($categories) > 0}>
     <div>
         <h3><{$smarty.const._MD_WFDOWNLOADS_MAINLISTING}></h3>
         <br>
@@ -9,7 +9,7 @@
             <div>
                 <div>
                     <a href="viewcat.php?cid=<{$category.id}>" style="font-weight: bold;"><{$category.title}></a>&nbsp;(<{$category.downloads_count}>)
-                    <{if $isAdmin == true}>
+                    <{if $isAdmin === true}>
                         <a href="admin/categories.php?op=category.edit&amp;cid=<{$category.cid}>"><img src="<{xoModuleIcons16 edit.png}>"
                                                                                                        title="<{$smarty.const._EDIT}>"
                                                                                                        alt="<{$smarty.const._EDIT}>"></a>
@@ -17,7 +17,7 @@
                                                                                                          title="<{$smarty.const._DELETE}>"
                                                                                                          alt="<{$smarty.const._DELETE}>"></a>
                     <{/if}>
-                    <{if $category.allowed_upload == true}>
+                    <{if $category.allowed_upload === true}>
                         <a href="submit.php?cid=<{$category.cid}>"><img src="<{xoModuleIcons16 add.png}>" title="<{$smarty.const._MD_WFDOWNLOADS_SUBMITDOWNLOAD}>"
                                                                         alt="<{$smarty.const._MD_WFDOWNLOADS_SUBMITDOWNLOAD}>"></a>
                     <{/if}>

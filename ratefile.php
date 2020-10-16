@@ -13,7 +13,7 @@
  * Wfdownloads module
  *
  * @copyright       XOOPS Project (https://xoops.org)
- * @license         GNU GPL 2 or later (http://www.gnu.org/licenses/gpl-2.0.html)
+ * @license         GNU GPL 2 or later (https://www.gnu.org/licenses/gpl-2.0.html)
  * @package         wfdownload
  * @since           3.23
  * @author          Xoops Development Team
@@ -68,7 +68,7 @@ switch ($op) {
         $ratinguserUid = is_object($GLOBALS['xoopsUser']) ? (int)$GLOBALS['xoopsUser']->getVar('uid') : 0;
         $ratinguserIp  = getenv('REMOTE_ADDR');
 
-       if (\Xmf\Request::hasVar('submit', 'POST')) {
+        if (\Xmf\Request::hasVar('submit', 'POST')) {
             $rating = Request::getString('rating', '--', 'POST');
 
             // Check if Rating is Null
@@ -132,47 +132,55 @@ switch ($op) {
 
             // Generate form
             require_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
-            $sform         = new \XoopsThemeForm(_MD_WFDOWNLOADS_RATETHISFILE, 'voteform', xoops_getenv('PHP_SELF'), 'post', true);
+            $sform         = new \XoopsThemeForm(_MD_WFDOWNLOADS_RATETHISFILE, 'voteform', xoops_getenv('SCRIPT_NAME'), 'post', true);
             $rating_select = new \XoopsFormSelect(_MD_WFDOWNLOADS_REV_RATING, 'rating', '10');
             //$rating_select->setDescription(_MD_WFDOWNLOADS_REV_RATING_DESC);
-            $rating_select->addOptionArray([
-                                               '1'  => 1,
-                                               '2'  => 2,
-                                               '3'  => 3,
-                                               '4'  => 4,
-                                               '5'  => 5,
-                                               '6'  => 6,
-                                               '7'  => 7,
-                                               '8'  => 8,
-                                               '9'  => 9,
-                                               '10' => 10
-                                           ]);
+            $rating_select->addOptionArray(
+                [
+                    '1'  => 1,
+                    '2'  => 2,
+                    '3'  => 3,
+                    '4'  => 4,
+                    '5'  => 5,
+                    '6'  => 6,
+                    '7'  => 7,
+                    '8'  => 8,
+                    '9'  => 9,
+                    '10' => 10,
+                ]
+            );
             $sform->addElement($rating_select);
             $sform->addElement(new \XoopsFormHidden('lid', $lid));
             $sform->addElement(new \XoopsFormHidden('cid', $cid));
             $sform->addElement(new \XoopsFormHidden('uid', $reviewerUid));
-            $button_tray   = new \XoopsFormElementTray('', '');
-            $submit_button = new \XoopsFormButton('', 'submit', _MD_WFDOWNLOADS_RATEIT, 'submit');
-            $button_tray->addElement($submit_button);
-            $cancel_button = new \XoopsFormButton('', '', _CANCEL, 'button');
-            $cancel_button->setExtra('onclick="history.go(-1)"');
-            $button_tray->addElement($cancel_button);
-            $sform->addElement($button_tray);
+            $buttonTray    = new \XoopsFormElementTray('', '');
+            $submitButton = new \XoopsFormButton('', 'submit', _MD_WFDOWNLOADS_RATEIT, 'submit');
+            $buttonTray->addElement($submitButton);
+            $cancelButton = new \XoopsFormButton('', '', _CANCEL, 'button');
+            $cancelButton->setExtra('onclick="history.go(-1)"');
+            $buttonTray->addElement($cancelButton);
+            $sform->addElement($buttonTray);
             $xoopsTpl->assign('voteform', $sform->render());
-            $xoopsTpl->assign('download', [
-                'lid'         => $lid,
-                'cid'         => $cid,
-                'title'       => $downloadObj->getVar('title'),
-                'description' => $downloadObj->getVar('description')
-            ]);
+            $xoopsTpl->assign(
+                'download',
+                [
+                    'lid'         => $lid,
+                    'cid'         => $cid,
+                    'title'       => $downloadObj->getVar('title'),
+                    'description' => $downloadObj->getVar('description'),
+                ]
+            );
 
-            $xoopsTpl->assign('file', [
-                'id'          => $lid,
-                'lid'         => $lid,
-                'cid'         => $cid,
-                'title'       => $downloadObj->getVar('title'),
-                'imageheader' =>  Wfdownloads\Utility::headerImage()
-            ]); // this definition is not removed for backward compatibility issues
+            $xoopsTpl->assign(
+                'file',
+                [
+                    'id'          => $lid,
+                    'lid'         => $lid,
+                    'cid'         => $cid,
+                    'title'       => $downloadObj->getVar('title'),
+                    'imageheader' => Wfdownloads\Utility::headerImage(),
+                ]
+            ); // this definition is not removed for backward compatibility issues
             require_once __DIR__ . '/footer.php';
         }
         break;

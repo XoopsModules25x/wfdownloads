@@ -13,7 +13,7 @@
  * Wfdownloads module
  *
  * @copyright       XOOPS Project (https://xoops.org)
- * @license         GNU GPL 2 or later (http://www.gnu.org/licenses/gpl-2.0.html)
+ * @license         GNU GPL 2 or later (https://www.gnu.org/licenses/gpl-2.0.html)
  * @package         wfdownload
  * @since           3.23
  * @author          Xoops Development Team
@@ -27,7 +27,7 @@ use XoopsModules\Wfdownloads\Common;
 require_once __DIR__ . '/header.php';
 
 $moduleDirName      = basename(__DIR__);
-$moduleDirNameUpper = strtoupper($moduleDirName);
+$moduleDirNameUpper = mb_strtoupper($moduleDirName);
 
 // Check directories
 if (!is_dir($helper->getConfig('uploaddir'))) {
@@ -88,7 +88,7 @@ $xoopsTpl->assign('wfdownloads_breadcrumb', $breadcrumb->render());
 
 $categoryCriteria = new \CriteriaCompo();
 $categoryCriteria->setSort('weight ASC, title');
-$categoryObjs = $helper->getHandler('category')->getObjects($categoryCriteria);
+$categoryObjs = $helper->getHandler('Category')->getObjects($categoryCriteria);
 unset($categoryCriteria);
 
 $categoryObjsTree = new Wfdownloads\ObjectTree($categoryObjs, 'cid', 'pid');
@@ -104,13 +104,11 @@ $smiley                       = $head_arr['nosmiley'] ? 1 : 0;
 $xcodes                       = $head_arr['noxcodes'] ? 1 : 0;
 $images                       = $head_arr['noimages'] ? 1 : 0;
 $breaks                       = $head_arr['nobreak'] ? 1 : 0;
-$catarray['indexheader']      =& $myts->displayTarea($head_arr['indexheader'], $html, $smiley, $xcodes, $images, $breaks);
-$catarray['indexfooter']      =& $myts->displayTarea($head_arr['indexfooter'], $html, $smiley, $xcodes, $images, $breaks);
-
+$catarray['indexheader']      = &$myts->displayTarea($head_arr['indexheader'], $html, $smiley, $xcodes, $images, $breaks);
+$catarray['indexfooter']      = &$myts->displayTarea($head_arr['indexfooter'], $html, $smiley, $xcodes, $images, $breaks);
 
 $showAlphabet = $helper->getConfig('showAlphabet');
 if ($showAlphabet) {
-
     //$catarray['letters']          = Wfdownloads\Utility::lettersChoice();
 
     // Letter Choice Start ---------------------------------------
@@ -129,7 +127,6 @@ if ($showAlphabet) {
 
     //now assign it to the Smarty variable
     $xoopsTpl->assign('catarray', $catarray);
-
     // Letter Choice End ------------------------------------
 }
 $catarray['toolbar'] = Wfdownloads\Utility::toolbar();
@@ -264,7 +261,7 @@ foreach (array_keys($mainCategoryObjs) as $i) {
                             'cid'              => $allSubcategoryObjs[$k]->getVar('cid'),
                             'allowed_download' => in_array($allSubcategoryObjs[$k]->getVar('cid'), $allowedDownCategoriesIds),
                             'allowed_upload'   => $isSubmissionAllowed && in_array($allSubcategoryObjs[$k]->getVar('cid'), $allowedUpCategoriesIds),
-                            'title'            => $allSubcategoryObjs[$k]->getVar('title')
+                            'title'            => $allSubcategoryObjs[$k]->getVar('title'),
                         ];
                     }
                 }
@@ -273,38 +270,44 @@ foreach (array_keys($mainCategoryObjs) as $i) {
 
         if (true !== $helper->getConfig('subcats')) {
             unset($subcategories);
-            $xoopsTpl->append('categories', [
-                'image'            => $imageURL, // this definition is not removed for backward compatibility issues
-                'image_URL'        => $imageURL,
-                'days'             => $isNewImage['days'],
-                'id'               => (int)$mainCategoryObjs[$i]->getVar('cid'), // this definition is not removed for backward compatibility issues
-                'cid'              => (int)$mainCategoryObjs[$i]->getVar('cid'),
-                'allowed_download' => in_array($mainCategoryObjs[$i]->getVar('cid'), $allowedDownCategoriesIds),
-                'allowed_upload'   => $isSubmissionAllowed && in_array($mainCategoryObjs[$i]->getVar('cid'), $allowedUpCategoriesIds),
-                'title'            => $mainCategoryObjs[$i]->getVar('title'),
-                'summary'          => $mainCategoryObjs[$i]->getVar('summary'),
-                'totaldownloads'   => $download_count, // this definition is not removed for backward compatibility issues
-                'downloads_count'  => $download_count,
-                'count'            => $count,
-                'alttext'          => $isNewImage['alttext']
-            ]);
+            $xoopsTpl->append(
+                'categories',
+                [
+                    'image'            => $imageURL, // this definition is not removed for backward compatibility issues
+                    'image_URL'        => $imageURL,
+                    'days'             => $isNewImage['days'],
+                    'id'               => (int)$mainCategoryObjs[$i]->getVar('cid'), // this definition is not removed for backward compatibility issues
+                    'cid'              => (int)$mainCategoryObjs[$i]->getVar('cid'),
+                    'allowed_download' => in_array($mainCategoryObjs[$i]->getVar('cid'), $allowedDownCategoriesIds),
+                    'allowed_upload'   => $isSubmissionAllowed && in_array($mainCategoryObjs[$i]->getVar('cid'), $allowedUpCategoriesIds),
+                    'title'            => $mainCategoryObjs[$i]->getVar('title'),
+                    'summary'          => $mainCategoryObjs[$i]->getVar('summary'),
+                    'totaldownloads'   => $download_count, // this definition is not removed for backward compatibility issues
+                    'downloads_count'  => $download_count,
+                    'count'            => $count,
+                    'alttext'          => $isNewImage['alttext'],
+                ]
+            );
         } else {
-            $xoopsTpl->append('categories', [
-                'image'            => $imageURL, // this definition is not removed for backward compatibility issues
-                'image_URL'        => $imageURL,
-                'days'             => $isNewImage['days'],
-                'id'               => (int)$mainCategoryObjs[$i]->getVar('cid'), // this definition is not removed for backward compatibility issues
-                'cid'              => (int)$mainCategoryObjs[$i]->getVar('cid'),
-                'allowed_download' => in_array($mainCategoryObjs[$i]->getVar('cid'), $allowedDownCategoriesIds),
-                'allowed_upload'   => $isSubmissionAllowed && in_array($mainCategoryObjs[$i]->getVar('cid'), $allowedUpCategoriesIds),
-                'title'            => $mainCategoryObjs[$i]->getVar('title'),
-                'summary'          => $mainCategoryObjs[$i]->getVar('summary'),
-                'subcategories'    => $subcategories,
-                'totaldownloads'   => $download_count, // this definition is not removed for backward compatibility issues
-                'downloads_count'  => $download_count,
-                'count'            => $count,
-                'alttext'          => $isNewImage['alttext']
-            ]);
+            $xoopsTpl->append(
+                'categories',
+                [
+                    'image'            => $imageURL, // this definition is not removed for backward compatibility issues
+                    'image_URL'        => $imageURL,
+                    'days'             => $isNewImage['days'],
+                    'id'               => (int)$mainCategoryObjs[$i]->getVar('cid'), // this definition is not removed for backward compatibility issues
+                    'cid'              => (int)$mainCategoryObjs[$i]->getVar('cid'),
+                    'allowed_download' => in_array($mainCategoryObjs[$i]->getVar('cid'), $allowedDownCategoriesIds),
+                    'allowed_upload'   => $isSubmissionAllowed && in_array($mainCategoryObjs[$i]->getVar('cid'), $allowedUpCategoriesIds),
+                    'title'            => $mainCategoryObjs[$i]->getVar('title'),
+                    'summary'          => $mainCategoryObjs[$i]->getVar('summary'),
+                    'subcategories'    => $subcategories,
+                    'totaldownloads'   => $download_count, // this definition is not removed for backward compatibility issues
+                    'downloads_count'  => $download_count,
+                    'count'            => $count,
+                    'alttext'          => $isNewImage['alttext'],
+                ]
+            );
         }
     }
 }

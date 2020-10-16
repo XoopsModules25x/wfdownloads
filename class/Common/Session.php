@@ -1,4 +1,6 @@
-<?php namespace XoopsModules\Wfdownloads\Common;
+<?php
+
+namespace XoopsModules\Wfdownloads\Common;
 
 /*
  You may not change or alter any portion of this comment or credits
@@ -9,6 +11,7 @@
  but WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
+
 /**
  *  WfdownloadsSession class
  *
@@ -22,9 +25,9 @@
 
 use XoopsModules\Wfdownloads;
 
-defined('XOOPS_ROOT_PATH') || die('XOOPS root path not defined');
 
-require_once  dirname(dirname(__DIR__)) . '/include/common.php';
+
+// require_once  dirname(dirname(__DIR__)) . '/include/common.php';
 
 /**
  * Class Session
@@ -36,11 +39,11 @@ class Session
      * Starts the session with session_start()
      * <strong>Note:</strong> that if the session has already started,
      * session_start() does nothing
-      * @throws \RuntimeException
+     * @throws \RuntimeException
      */
     protected function __construct()
     {
-        if (false === @session_start()) {
+        if (false === @\session_start()) {
             throw new \RuntimeException('Session could not start.');
         }
     }
@@ -51,7 +54,6 @@ class Session
      * @param string $name  name of variable
      * @param mixed  $value value of variable
      *
-     * @return void
      * @access public
      */
     public function set($name, $value)
@@ -71,9 +73,9 @@ class Session
     {
         if (isset($_SESSION[$name])) {
             return $_SESSION[$name];
-        } else {
-            return false;
         }
+
+        return false;
     }
 
     /**
@@ -81,7 +83,6 @@ class Session
      *
      * @param string $name name of variable
      *
-     * @return void
      * @access public
      */
     public function del($name)
@@ -92,13 +93,12 @@ class Session
     /**
      * Destroys the whole session
      *
-     * @return void
      * @access public
      */
     public function destroy()
     {
         $_SESSION = [];
-        session_destroy();
+        \session_destroy();
     }
 
     /**
@@ -110,6 +110,7 @@ class Session
         if (null === $instance) {
             $instance = new static();
         }
+
         return $instance;
     }
 }

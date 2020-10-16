@@ -1,6 +1,8 @@
-<h5>3.30 Beta 1 [NOT RELEASED]</h5>  Dev: Xoops 2.5.9, PHP 7.2.4
+<h5>3.30 Beta 1 [WORK IN PROGRESS - NOT RELEASED]</h5>  Dev: XOOPS 2.5.11, PHP 7.4.11, PHP 8.0 RC 1
 <hr>
 - namespaces, autoloading (mamba)
+- code cosmetics (mamba)
+- PHP7, PHP8 (mamba)
 
 <h5>3.23 Final (2016-11-12)</h5>
 <hr>

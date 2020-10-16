@@ -13,7 +13,7 @@
  * Wfdownloads module
  *
  * @copyright       XOOPS Project (https://xoops.org)
- * @license         GNU GPL 2 or later (http://www.gnu.org/licenses/gpl-2.0.html)
+ * @license         GNU GPL 2 or later (https://www.gnu.org/licenses/gpl-2.0.html)
  * @package         wfdownload
  * @since           3.23
  * @author          Xoops Development Team
@@ -53,19 +53,20 @@ if (0 == $downloadObj->getVar('published') || $downloadObj->getVar('published') 
 }
 
 // Check permissions
+/** @var \XoopsGroupPermHandler $grouppermHandler */
 $grouppermHandler = xoops_getHandler('groupperm');
-$groups = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : [0 => XOOPS_GROUP_ANONYMOUS];
+$groups           = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : [0 => XOOPS_GROUP_ANONYMOUS];
 if (!$grouppermHandler->checkRight('WFDownCatPerm', $cid, $groups, $helper->getModule()->mid())) {
     redirect_header('index.php', 3, _NOPERM);
 }
 
 if (false === $agreed) {
     if ($helper->getConfig('check_host')) {
-        $isAGoodHost  = false;
-        $referer      = parse_url(xoops_getenv('HTTP_REFERER'));
-        $referer_host = $referer['host'];
+        $isAGoodHost = false;
+        $referer     = parse_url(xoops_getenv('HTTP_REFERER'));
+        $refererHost = $referer['host'];
         foreach ($helper->getConfig('referers') as $ref) {
-            if (!empty($ref) && preg_match("/{$ref}/i", $referer_host)) {
+            if (!empty($ref) && preg_match("/{$ref}/i", $refererHost)) {
                 $isAGoodHost = true;
                 break;
             }
@@ -115,12 +116,12 @@ if ($helper->getConfig('showDowndisclaimer') && false === $agreed) {
         $helper->getHandler('Download')->incrementHits($lid);
     }
     // Create ip log
-    $ip_logObj = $helper->getHandler('iplog')->create();
+    $ip_logObj = $helper->getHandler('Iplog')->create();
     $ip_logObj->setVar('lid', $lid);
     $ip_logObj->setVar('date', time());
     $ip_logObj->setVar('ip_address', getenv('REMOTE_ADDR'));
     $ip_logObj->setVar('uid', is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getVar('uid') : 0);
-    $helper->getHandler('iplog')->insert($ip_logObj, true);
+    $helper->getHandler('Iplog')->insert($ip_logObj, true);
 
     // Download file
     $fileFilename = trim($downloadObj->getVar('filename')); // IN PROGRESS: why 'trim'?
@@ -165,13 +166,13 @@ if ($helper->getConfig('showDowndisclaimer') && false === $agreed) {
         $fileName      = $fileInfo['basename'];
         $fileExtension = $fileInfo['extension'];
 
-        $headerFilename = strtolower(strrev(substr(strrev($fileFilename), 0, strpos(strrev($fileFilename), '--'))));
+        $headerFilename = mb_strtolower(strrev(mb_substr(strrev($fileFilename), 0, mb_strpos(strrev($fileFilename), '--'))));
         $headerFilename = ('' == $headerFilename) ? $fileFilename : $headerFilename;
         // MSIE Bug fix
-        if (false !== strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE')) {
-            $headerFilename = preg_replace('/\./', '%2e', $headerFilename, substr_count($headerFilename, '.') - 1);
+        if (false !== mb_strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE')) {
+            $headerFilename = preg_replace('/\./', '%2e', $headerFilename, mb_substr_count($headerFilename, '.') - 1);
         }
-        //
+
         header('Pragma: public');
         header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
         header('Cache-Control: private', false);
@@ -179,7 +180,7 @@ if ($helper->getConfig('showDowndisclaimer') && false === $agreed) {
         header('Content-Transfer-Encoding: binary');
         header("Content-Type: {$fileMimetype}");
         header("Content-Disposition: attachment; filename={$headerFilename}");
-        if (false !== strpos($fileMimetype, 'text/')) {
+        if (false !== mb_strpos($fileMimetype, 'text/')) {
             // downladed file is not binary
             Wfdownloads\Utility::download($filePath, false, true);
         } else {

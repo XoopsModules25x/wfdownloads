@@ -8,11 +8,12 @@
  but WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
+
 /**
  * Wfdownloads module
  *
  * @copyright       XOOPS Project (https://xoops.org)
- * @license         GNU GPL 2 or later (http://www.gnu.org/licenses/gpl-2.0.html)
+ * @license         GNU GPL 2 or later (https://www.gnu.org/licenses/gpl-2.0.html)
  * @package         wfdownload
  * @since           3.23
  * @author          Xoops Development Team
@@ -31,8 +32,6 @@ $xoopsTpl->assign('displayCatview', 'catview' === $helper->getConfig('idxcat_ite
 $xoopsTpl->assign('module_dirname', $helper->getDirname());
 $xoopsTpl->assign('showAlphabet', $helper->getConfig('showAlphabet'));
 $xoopsTpl->assign('showNewArrivals', $helper->getConfig('showNewArrivals'));
-
-
 
 // Module admin
 $xoopsTpl->assign('isAdmin', $helper->isUserAdmin());

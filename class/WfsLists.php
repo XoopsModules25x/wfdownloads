@@ -1,4 +1,6 @@
-<?php namespace XoopsModules\Wfdownloads;
+<?php
+
+namespace XoopsModules\Wfdownloads;
 
 /*
  You may not change or alter any portion of this comment or credits
@@ -14,7 +16,7 @@
  * Wfdownloads module
  *
  * @copyright       XOOPS Project (https://xoops.org)
- * @license         GNU GPL 2 or later (http://www.gnu.org/licenses/gpl-2.0.html)
+ * @license         GNU GPL 2 or later (https://www.gnu.org/licenses/gpl-2.0.html)
  * @package         wfdownload
  * @since           3.23
  * @author          Xoops Development Team
@@ -58,7 +60,6 @@ class WfsLists
      * @param string $prefix
      * @param string $suffix
      */
-
     public function __construct(
         $path = 'uploads',
         $value = null,
@@ -111,17 +112,17 @@ class WfsLists
     public function getDirListAsArray($dirname)
     {
         $dirlist = [];
-        if (is_dir($dirname) && $handle = opendir($dirname)) {
-            while (false !== ($file = readdir($handle))) {
-                if (!preg_match('/^[.]{1,2}$/', $file)) {
-                    if ('cvs' !== strtolower($file) && is_dir($dirname . $file)) {
+        if (\is_dir($dirname) && $handle = \opendir($dirname)) {
+            while (false !== ($file = \readdir($handle))) {
+                if (!\preg_match('/^[.]{1,2}$/', $file)) {
+                    if ('cvs' !== mb_strtolower($file) && \is_dir($dirname . $file)) {
                         $dirlist[$file] = $file;
                     }
                 }
             }
-            closedir($handle);
+            \closedir($handle);
 
-            reset($dirlist);
+            \reset($dirlist);
         }
 
         return $dirlist;
@@ -138,7 +139,7 @@ class WfsLists
     public static function getListTypeAsArray($dirname, $type = '', $prefix = '', $noselection = 1)
     {
         $filelist = [];
-        switch (trim($type)) {
+        switch (\trim($type)) {
             case 'images':
                 $types = '[.gif|.jpg|.png]';
                 if ($noselection) {
@@ -159,32 +160,29 @@ class WfsLists
                 break;
         }
 
-        if ('/' === substr($dirname, -1)) {
-            $dirname = substr($dirname, 0, -1);
+        if ('/' === mb_substr($dirname, -1)) {
+            $dirname = mb_substr($dirname, 0, -1);
         }
 
-        if (is_dir($dirname) && $handle = opendir($dirname)) {
-            while (false !== ($file = readdir($handle))) {
-                if (!preg_match('/^[.]{1,2}$/', $file) && preg_match("/$types$/i", $file)
-                    && is_file($dirname . '/' . $file)) {
-                    if ('blank.png' === strtolower($file)) {
+        if (\is_dir($dirname) && $handle = \opendir($dirname)) {
+            while (false !== ($file = \readdir($handle))) {
+                if (!\preg_match('/^[.]{1,2}$/', $file) && \preg_match("/$types$/i", $file)
+                    && \is_file($dirname . '/' . $file)) {
+                    if ('blank.png' === mb_strtolower($file)) {
                         continue;
                     }
                     $file            = $prefix . $file;
                     $filelist[$file] = $file;
                 }
             }
-            closedir($handle);
-            asort($filelist);
-            reset($filelist);
+            \closedir($handle);
+            \asort($filelist);
+            \reset($filelist);
         }
 
         return $filelist;
     }
 
-    /**
-     * @return null
-     */
     public function value()
     {
         return $this->value;

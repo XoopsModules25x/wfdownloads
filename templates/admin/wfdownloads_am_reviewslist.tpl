@@ -1,4 +1,4 @@
-<{if $use_reviews == false}>
+<{if $use_reviews === false}>
 <div class="errorMsg"><{$smarty.const._AM_WFDOWNLOADS_REVIEW_DISABLED}></div>
 <{/if}>
 <fieldset>

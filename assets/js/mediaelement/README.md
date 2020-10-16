@@ -25,10 +25,10 @@ A complete HTML/CSS audio/video player built on top `MediaElement.js` and `jQuer
 ### 2. Add `<video>` or `<audio>` tags
 If your users have JavaScript and/or Flash, the easist route for all browsers and mobile devices is to use a single MP4 or MP3 file.
 
-```html	
+```html    
 <video src="myvideo.mp4" width="320" height="240"></video>
 ```
-```html	
+```html    
 <video src="myaudio.mp3"></video>
 ```
 
@@ -37,9 +37,9 @@ This includes multiple codecs for various browsers (H.264 for IE9+, Safari, and 
 
 ```html
 <video width="320" height="240" poster="poster.jpg" controls="controls" preload="none">
-	<source type="video/mp4" src="myvideo.mp4" />
-	<source type="video/webm" src="myvideo.webm" />
-	<source type="video/ogg" src="myvideo.ogv" />
+    <source type="video/mp4" src="myvideo.mp4" />
+    <source type="video/webm" src="myvideo.webm" />
+    <source type="video/ogg" src="myvideo.ogv" />
 </video>
 ```
 
@@ -47,14 +47,14 @@ This includes multiple codecs for various browsers (H.264 for IE9+, Safari, and 
 In very rare cases, you might have an non-HTML5 browser with Flash turned on and JavaScript turned off. In that specific case, you can also include the Flash `<object>` code.
 ```html
 <video width="320" height="240" poster="poster.jpg" controls="controls" preload="none">
-	<source type="video/mp4" src="myvideo.mp4" />
-	<source type="video/webm" src="myvideo.webm" />
-	<source type="video/ogg" src="myvideo.ogv" />
-	<object width="320" height="240" type="application/x-shockwave-flash" data="flashmediaelement.swf">
-		<param name="movie" value="flashmediaelement.swf" /> 
-		<param name="flashvars" value="controls=true&amp;poster=myvideo.jpg&amp;file=myvideo.mp4" /> 		
-		<img src="myvideo.jpg" width="320" height="240" title="No video playback capabilities" />
-	</object>
+    <source type="video/mp4" src="myvideo.mp4" />
+    <source type="video/webm" src="myvideo.webm" />
+    <source type="video/ogg" src="myvideo.ogv" />
+    <object width="320" height="240" type="application/x-shockwave-flash" data="flashmediaelement.swf">
+        <param name="movie" value="flashmediaelement.swf" /> 
+        <param name="flashvars" value="controls=true&amp;poster=myvideo.jpg&amp;file=myvideo.mp4" />         
+        <img src="myvideo.jpg" width="320" height="240" title="No video playback capabilities" />
+    </object>
 </video>
 ```
 
@@ -62,26 +62,26 @@ In very rare cases, you might have an non-HTML5 browser with Flash turned on and
 
 #### Automatic start
 You can avoid running any startup scripts by added `class="mejs-player"` to the `<video>` or `<audio>` tag. Options can be added using the `data-mejsoptions` attribute
-```html	
+```html    
 <video src="myvideo.mp4" width="320" height="240" 
-		class="mejs-player" 
-		data-mejsoptions='{"alwaysShowControls": true}'></video>
+        class="mejs-player" 
+        data-mejsoptions='{"alwaysShowControls": true}'></video>
 ```
 
 #### Normal JavaScirpt
 ```html
 <script>
 var player = new MediaElementPlayer('#player', {success: function(mediaElement, originalNode) {
-	// do things
+    // do things
 }});
-</script>	
+</script>    
 ```
 
 #### jQuery plugin
 ```html
 <script>
 $('video').mediaelementplayer({success: function(mediaElement, originalNode) {
-	// do things
+    // do things
 }});
 </script>
 ```
@@ -98,7 +98,7 @@ Instead of using Flash as a _fallback_, Flash is used to make the browser seem H
 <script>
 var v = document.getElementsByTagName("video")[0];
 new MediaElement(v, {success: function(media) {
-	media.play();
+    media.play();
 }});
 </script>
 ```
@@ -191,17 +191,17 @@ You can use this as a standalone library if you wish, or just stick with the ful
 * Properly treat namespace-only events for `globalUnbind()` (odnamrataizem) https://github.com/johndyer/mediaelement/pull/878
 * Fixed issue with slash character separating time (S2) https://github.com/johndyer/mediaelement/pull/879
 
-*2.11.3	(2013/04/13)*
+*2.11.3    (2013/04/13)*
 
 * Change to `getScriptPath` to allow querystring variables to be added (for Wordpress Core)
 
-*2.11.2	(2013/04/12)*
+*2.11.2    (2013/04/12)*
 
 * Fixed overly aggressive XSS testing (excluding forward slashes)
 * Fixed line endings on Flash (*.as) files (markjaquith) (https://github.com/johndyer/mediaelement/pull/834)
 * Included protocol relative URL for YouTube (Dan Tsosie) (https://github.com/johndyer/mediaelement/pull/832)
 
-*2.11.1	(2013/04/11)*
+*2.11.1    (2013/04/11)*
 
 Major changes
 
@@ -279,7 +279,7 @@ Fixes and updates
 
 *2.10.0 (2012/11/23)*
 
-* Support of matchMedia where possible	[zachleat]
+* Support of matchMedia where possible    [zachleat]
 * Fix for 100% audio using correct sizing [dougwilson]
 * SVG icons for better Retina support [johndyer]
 * Localized buttons [latzt] https://github.com/johndyer/mediaelement/pull/627
@@ -355,7 +355,7 @@ Fixes and updates
 * Full set of controls under Silverlight ([Birol2010](https://github.com/Birol2010/))
 * YouTube fix [raknam]
 * shim now has a .tagName property, and other DOM-like methods [tantalic]
-* Poster display fix when HTML5, Flash, and Silverlight are all missing	 [bruha]
+* Poster display fix when HTML5, Flash, and Silverlight are all missing     [bruha]
 * Source Chooser plugin [markomarkovic]
 * Fix for flash audio mute [lbernau]
 

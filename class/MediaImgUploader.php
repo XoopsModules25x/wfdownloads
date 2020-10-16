@@ -1,4 +1,6 @@
-<?php namespace XoopsModules\Wfdownloads;
+<?php
+
+namespace XoopsModules\Wfdownloads;
 
 /*
  You may not change or alter any portion of this comment or credits
@@ -13,7 +15,7 @@
  * Wfdownloads module
  *
  * @copyright       XOOPS Project (https://xoops.org)
- * @license         GNU GPL 2 or later (http://www.gnu.org/licenses/gpl-2.0.html)
+ * @license         GNU GPL 2 or later (https://www.gnu.org/licenses/gpl-2.0.html)
  * @package         wfdownload
  * @since           3.23
  * @author          Xoops Development Team
@@ -73,7 +75,6 @@
 
 use XoopsModules\Wfdownloads;
 
-mt_srand((double)microtime() * 1000000);
 //require_once XOOPS_ROOT_PATH . '/modules/wfdownloads/class/uploader.php';
 require_once XOOPS_ROOT_PATH . '/class/uploader.php';
 
@@ -82,8 +83,8 @@ require_once XOOPS_ROOT_PATH . '/class/uploader.php';
  */
 class MediaImgUploader extends \XoopsMediaUploader
 {
-
     public $randomfilename;
+
     /**
      * Constructor
      *
@@ -93,7 +94,7 @@ class MediaImgUploader extends \XoopsMediaUploader
      * @param int       $maxWidth
      * @param int       $maxHeight
      */
-    public function __construct($uploadDir, $allowedMimeTypes = 0, $maxFileSize, $maxWidth = 0, $maxHeight = 0)
+    public function __construct($uploadDir, $allowedMimeTypes, $maxFileSize, $maxWidth = 0, $maxHeight = 0)
     {
         parent::__construct($uploadDir, $allowedMimeTypes, $maxFileSize, $maxWidth, $maxHeight);
         $this->randomfilename = false;

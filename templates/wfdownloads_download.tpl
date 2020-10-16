@@ -1,6 +1,6 @@
 <div>
     <span style="font-weight: bold;"><a href="singlefile.php?cid=<{$download.cid}>&amp;lid=<{$download.id}>" title="<{$smarty.const._MD_WFDOWNLOADS_VIEWDETAILS}>"><{$download.title}></a></span>&nbsp;<{$download.icons}>
-    <{if ($download.isadmin == true) }>
+    <{if ($download.isadmin === true) }>
         <a href="admin/downloads.php?op=download.edit&amp;lid=<{$download.id}>">
             <img src="<{xoModuleIcons16 edit.png}>"
                 title="<{$smarty.const._EDIT}>"
@@ -11,7 +11,7 @@
                 title="<{$smarty.const._DELETE}>"
                 alt="<{$smarty.const._DELETE}>">
         </a>
-    <{elseif ($download.issubmitter == true && $download.has_custom_fields == false)}>
+    <{elseif ($download.issubmitter === true && $download.has_custom_fields === false)}>
         <a href="submit.php?op=download.edit&amp;lid=<{$download.id}>">
             <img src="<{xoModuleIcons16 edit.png}>"
                 title="<{$smarty.const._EDIT}>"
@@ -20,7 +20,7 @@
     <{/if}>
 </div>
 
-<{if $show_screenshot == true}>
+<{if $show_screenshot === true}>
     <div>
         <{if $download.screenshots.0.filename != ''}>
             <div>
@@ -29,21 +29,21 @@
                 </a>
             </div>
         <{/if}>
-        <{if $download.screenshots.1.filename != '' && $viewcat != true}>
+        <{if $download.screenshots.1.filename != '' && $viewcat !== true}>
             <div>
                 <a href="<{$xoops_url}>/<{$shots_dir}>/<{$download.screenshots.1.filename}>" class="magnific_zoom" rel="<{$download.title}>">
                     <img src="<{$download.screenshots.1.thumb_url}>" alt="<{$download.title}>" title="<{$download.title}>" style='border: 1px solid black;'>
                 </a>
             </div>
         <{/if}>
-        <{if $download.screenshots.2.filename != '' && $viewcat != true}>
+        <{if $download.screenshots.2.filename != '' && $viewcat !== true}>
             <div>
                 <a href="<{$xoops_url}>/<{$shots_dir}>/<{$download.screenshots.2.filename}>" class="magnific_zoom" rel="<{$download.title}>">
                     <img src="<{$download.screenshots.2.thumb_url}>" alt="<{$download.title}>" title="<{$download.title}>" style='border: 1px solid black;'>
                 </a>
             </div>
         <{/if}>
-        <{if $download.screenshots.3.filename != '' && $viewcat != true}>
+        <{if $download.screenshots.3.filename != '' && $viewcat !== true}>
             <div>
                 <a href="<{$xoops_url}>/<{$shots_dir}>/<{$download.screenshots.3.filename}>" class="magnific_zoom" rel="<{$download.title}>">
                     <img src="<{$download.screenshots.3.thumb_url}>" alt="<{$download.title}>" title="<{$download.title}>" style='border: 1px solid black;'>

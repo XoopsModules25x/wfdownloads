@@ -13,7 +13,7 @@
  * Wfdownloads module
  *
  * @copyright       XOOPS Project (https://xoops.org)
- * @license         GNU GPL 2 or later (http://www.gnu.org/licenses/gpl-2.0.html)
+ * @license         GNU GPL 2 or later (https://www.gnu.org/licenses/gpl-2.0.html)
  * @package         wfdownload
  * @since           3.23
  * @author          Xoops Development Team
@@ -45,7 +45,6 @@ switch ($op) {
         }
         redirect_header($currentFile, 1, $update_mess);
         break;
-
     case 'report.delete':
         $lid        = Request::getInt('lid', 0);
         $criteria   = new \Criteria('lid', $lid);
@@ -57,7 +56,6 @@ switch ($op) {
         $helper->getHandler('Download')->delete($downloadObj, true);
         redirect_header($currentFile, 1, _AM_WFDOWNLOADS_BROKENFILEDELETED);
         break;
-
     case 'report.ignore':
         $lid        = Request::getInt('lid', 0);
         $criteria   = new \Criteria('lid', $lid);
@@ -67,7 +65,6 @@ switch ($op) {
         }
         redirect_header($currentFile, 1, _AM_WFDOWNLOADS_BROKEN_FILEIGNORED);
         break;
-
     case 'modification.show':
         $requestid = Request::getInt('requestid', 0);
 
@@ -112,7 +109,7 @@ switch ($op) {
             'requestid',
             'forumid',
             'modifysubmitter',
-            'paypalemail'
+            'paypalemail',
         ];
 
         $i = 0;
@@ -123,7 +120,7 @@ switch ($op) {
             if (in_array($key, $notAllowedKeys)) {
                 continue;
             }
-            $caption             = constant('_AM_WFDOWNLOADS_MOD_' . strtoupper($key));
+            $caption             = constant('_AM_WFDOWNLOADS_MOD_' . mb_strtoupper($key));
             $downloadContent     = $downloadObj->getVar($key);
             $modificationContent = $modificationObj->getVar($key);
             // Extra jobs for some keys
@@ -134,7 +131,7 @@ switch ($op) {
                     break;
                 case 'size':
                     $downloadContent = Wfdownloads\Utility::bytesToSize1024($downloadContent);
-                    //
+
                     $modificationContent = Wfdownloads\Utility::bytesToSize1024($modificationContent);
                     break;
                 case 'date':
@@ -142,7 +139,7 @@ switch ($op) {
                 case 'expired':
                 case 'updated':
                     $downloadContent = (false !== $downloadContent) ? XoopsLocal::formatTimestamp($downloadContent, 'l') : _NO;
-                    //
+
                     $modificationContent = (false !== $modificationContent) ? XoopsLocal::formatTimestamp($modificationContent, 'l') : _NO;
                     break;
                 case 'platform':
@@ -151,7 +148,7 @@ switch ($op) {
                 case 'versiontypes':
                     $tempArray       = $helper->getConfig($key);
                     $downloadContent = isset($tempArray[$downloadObj->getVar($key)]) ? $tempArray[$downloadObj->getVar($key)] : '';
-                    //
+
                     $modificationContent = isset($tempArray[$modificationObj->getVar($key)]) ? $tempArray[$modificationObj->getVar($key)] : '';
                     break;
                 case 'cid':
@@ -160,7 +157,7 @@ switch ($op) {
                         continue 2;
                     }
                     $downloadContent = $category_list[0]->getVar('title', 'e');
-                    //
+
                     $category_list = $helper->getHandler('Category')->getObjects(new \Criteria('cid', $modificationObj->getVar($key)));
                     if (!isset($category_list[0])) {
                         continue 2;
@@ -174,7 +171,7 @@ switch ($op) {
                     if ('' != $downloadContent) {
                         $downloadContent = "<img src='" . XOOPS_URL . "/{$helper->getConfig('screenshots')}/{$downloadContent}' width='{$helper->getConfig('shotwidth')}' alt='' title=''>";
                     }
-                    //
+
                     if ('' != $modificationContent) {
                         $modificationContent = "<img src='" . XOOPS_URL . "/{$helper->getConfig('screenshots')}/{$modificationContent}' width='{$helper->getConfig('shotwidth')}' alt='' title=''>";
                     }
@@ -193,7 +190,7 @@ switch ($op) {
                                     'shotwidth'
                                 )}' alt='' title=''>";
                         }
-                        //
+
                         if ('' != $modificationContent) {
                             $modificationContent += "<img src='" . XOOPS_URL . "/{$helper->getConfig('screenshots')}/{$modificationScreenshot}' width='{$helper->getConfig(
                                     'shotwidth'
@@ -203,7 +200,7 @@ switch ($op) {
                     break;
                 case 'publisher':
                     $downloadContent = \XoopsUserUtility::getUnameFromId($downloadContent);
-                    //
+
                     $modificationContent = \XoopsUserUtility::getUnameFromId($modificationContent);
                     break;
                 case 'features':
@@ -216,7 +213,7 @@ switch ($op) {
                         }
                         $downloadContent .= '</ul>';
                     }
-                    //
+
                     if ('' != $modificationContent) {
                         $downrequirements    = explode('|', trim($modificationContent));
                         $modificationContent = '<ul>';
@@ -227,9 +224,9 @@ switch ($op) {
                     }
                     break;
                 case 'dhistory':
-                    $downloadContent =& $myts->displayTarea($downloadContent, true, false, false, false, true);
-                    //
-                    $modificationContent =& $myts->displayTarea($modificationContent, true, false, false, false, true);
+                    $downloadContent = &$myts->displayTarea($downloadContent, true, false, false, false, true);
+
+                    $modificationContent = &$myts->displayTarea($modificationContent, true, false, false, false, true);
                     break;
                 case 'summary':
                 case 'description':
@@ -244,7 +241,7 @@ switch ($op) {
                 case 'doimage':
                 case 'dobr':
                     $downloadContent = $downloadContent ? _YES : _NO;
-                    //
+
                     $modificationContent = $modificationContent ? _YES : _NO;
             }
             $mcform->addElement($caption, false, $i, 0);
@@ -258,30 +255,29 @@ switch ($op) {
             ++$i;
         }
 
-        $button_tray = new \XoopsFormElementTray('', '');
-        $button_tray->addElement(new \XoopsFormHidden('requestid', $requestid));
-        $button_tray->addElement(new \XoopsFormHidden('lid', (int)$modificationObj->getVar('lid')));
+        $buttonTray = new \XoopsFormElementTray('', '');
+        $buttonTray->addElement(new \XoopsFormHidden('requestid', $requestid));
+        $buttonTray->addElement(new \XoopsFormHidden('lid', (int)$modificationObj->getVar('lid')));
         $hidden = new \XoopsFormHidden('op', 'modification.change');
-        $button_tray->addElement($hidden);
+        $buttonTray->addElement($hidden);
         if (!$modificationObj->isNew()) {
-            $approve_button = new \XoopsFormButton('', '', _AM_WFDOWNLOADS_BAPPROVE, 'submit');
-            $approve_button->setExtra('onclick="this.form.elements.op.value=\'modification.change\'"');
-            $button_tray->addElement($approve_button);
+            $approveButton = new \XoopsFormButton('', '', _AM_WFDOWNLOADS_BAPPROVE, 'submit');
+            $approveButton->setExtra('onclick="this.form.elements.op.value=\'modification.change\'"');
+            $buttonTray->addElement($approveButton);
         }
-        $ignore_button = new \XoopsFormButton('', '', _AM_WFDOWNLOADS_BIGNORE, 'submit');
-        $ignore_button->setExtra('onclick="this.form.elements.op.value=\'modification.ignore\'"');
-        $button_tray->addElement($ignore_button);
-        $button_cancel = new \XoopsFormButton('', '', _CANCEL, 'button');
-        $button_cancel->setExtra('onclick="history.go(-1)"');
-        $button_tray->addElement($button_cancel);
-        $mcform->addElement($button_tray, false, $i, 2);
+        $ignoreButton = new \XoopsFormButton('', '', _AM_WFDOWNLOADS_BIGNORE, 'submit');
+        $ignoreButton->setExtra('onclick="this.form.elements.op.value=\'modification.ignore\'"');
+        $buttonTray->addElement($ignoreButton);
+        $buttonCancel = new \XoopsFormButton('', '', _CANCEL, 'button');
+        $buttonCancel->setExtra('onclick="history.go(-1)"');
+        $buttonTray->addElement($buttonCancel);
+        $mcform->addElement($buttonTray, false, $i, 2);
 
         $mcform->display();
 
         xoops_cp_footer();
         exit();
         break;
-
     case 'modification.change':
         /* Added by Lankford on 2007/3/21 */
         // Get a pointer to the download record and the modification record, then compare their 'versions' to see if they are different.  If they are, then raise filemodify events.
@@ -319,7 +315,6 @@ switch ($op) {
 
         redirect_header($currentFile, 1, _AM_WFDOWNLOADS_MOD_REQUPDATED);
         break;
-
     case 'modification.ignore':
     case 'modification.delete':
         $requestid = Request::getInt('requestid', 0);
@@ -348,7 +343,6 @@ switch ($op) {
             xoops_cp_footer();
         }
         break;
-
     case 'reports.modifications.list':
     default:
         $start_report = Request::getInt('start_report', 0);

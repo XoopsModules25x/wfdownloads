@@ -5,7 +5,7 @@
 <{*<{if $cat_rssfeed_link !== ""}>*}>
 <{*<{$cat_rssfeed_link}>*}>
 <{*<{/if}>*}>
-<{*<{$description}></div><br />*}>
+<{*<{$description}></div><br>*}>
 -->
 
 <{if $subcategories}>
@@ -15,66 +15,66 @@
  <table width="540">
   <tr>
    <{foreach item=subcat from=$subcategories}>
-    <td width="298" height="30"><a href="viewcat.php?cid=<{$subcat.id}>"><{$subcat.title}></a>&nbsp;<!-- (<{$subcat.totallinks}>) --><br />
+    <td width="298" height="30"><a href="viewcat.php?cid=<{$subcat.id}>"><{$subcat.title}></a>&nbsp;<!-- (<{$subcat.totallinks}>) --><br>
 <!-- removed below due to issues with subcats display when deeper than 2 levels
-		<{*<{if $subcat.infercategories}>*}>
-			<{*<{foreach item=subsubcat from=$subcat.infercategories}>*}>
-			    <{*<{$subsubcat.title}>*}>
-	    	<{*<{/foreach}>*}>
-	    <{*<{/if}>*}>
+        <{*<{if $subcat.infercategories}>*}>
+            <{*<{foreach item=subsubcat from=$subcat.infercategories}>*}>
+                <{*<{$subsubcat.title}>*}>
+            <{*<{/foreach}>*}>
+        <{*<{/if}>*}>
 -->
-	</td>
-	 <{if $subcat.count is div by 2}>
+    </td>
+     <{if $subcat.count % 2 == 0}>
       </tr><tr>
      <{/if}>
    <{/foreach}>
    </tr>
- </table>    
+ </table>
 </div></fieldset>
-<br />
+<br>
 <{/if}>
 
 <!--
-<{*<div><b><{$category_path}></b></div><br />*}>
+<{*<div><b><{$category_path}></b></div><br>*}>
 
-<{*<{if $show_links == true}> *}>
+<{*<{if $show_links === true}> *}>
 <{*<div align="center"><small>*}>
 <{*<b><{$smarty.const._MD_WFDOWNLOADS_SORTBY}></b>&nbsp;<{$smarty.const._MD_WFDOWNLOADS_TITLE}> (*}>
 <{*<a href="viewcat.php?cid=<{$category_id}>&amp;orderby=titleA">*}>
-<{*<img src="images/up.gif" align="middle" alt="" /></a>*}>
+<{*<img src="images/up.gif" align="middle" alt=""></a>*}>
 <{*<a href="viewcat.php?cid=<{$category_id}>&amp;orderby=titleD">*}>
-<{*<img src="images/down.gif" align="middle" alt="" /></a>*}>
+<{*<img src="images/down.gif" align="middle" alt=""></a>*}>
 <{*)*}>
 <{*&nbsp;*}>
 <{*<{$smarty.const._MD_WFDOWNLOADS_DATE}> (*}>
 <{*<a href="viewcat.php?cid=<{$category_id}>&amp;orderby=dateA">*}>
-<{*<img src="images/up.gif" align="middle" alt="" /></a>*}>
+<{*<img src="images/up.gif" align="middle" alt=""></a>*}>
 <{*<a href="viewcat.php?cid=<{$category_id}>&amp;orderby=dateD">*}>
-<{*<img src="images/down.gif" align="middle" alt="" /></a>*}>
+<{*<img src="images/down.gif" align="middle" alt=""></a>*}>
 <{*)*}>
 <{*&nbsp;*}>
 <{*<{$smarty.const._MD_WFDOWNLOADS_RATING}> (*}>
 <{*<a href="viewcat.php?cid=<{$category_id}>&amp;orderby=ratingA">*}>
-<{*<img src="images/up.gif" align="middle" alt="" /></a>*}>
+<{*<img src="images/up.gif" align="middle" alt=""></a>*}>
 <{*<a href="viewcat.php?cid=<{$category_id}>&amp;orderby=ratingD">*}>
-<{*<img src="images/down.gif" align="middle" alt="" /></a>*}>
+<{*<img src="images/down.gif" align="middle" alt=""></a>*}>
 <{*)*}>
 <{*&nbsp;*}>
 <{*<{$smarty.const._MD_WFDOWNLOADS_POPULARITY}> (*}>
 <{*<a href="viewcat.php?cid=<{$category_id}>&amp;orderby=hitsA">*}>
-<{*<img src="images/up.gif" align="middle" alt="" />*}>
+<{*<img src="images/up.gif" align="middle" alt="">*}>
 <{*</a><a href="viewcat.php?cid=<{$category_id}>&amp;orderby=hitsD">*}>
-<{*<img src="images/down.gif" align="middle" alt="" /></a>*}>
+<{*<img src="images/down.gif" align="middle" alt=""></a>*}>
 <{*)*}>
-<{*<br />*}>
+<{*<br>*}>
 <{*<b><{$lang_cursortedby}></b>*}>
 <{*</small></div>*}>
-<{*<br />*}>
+<{*<br>*}>
 <{*<{/if}>*}>
 -->
 
-<{*<{if $page_nav == true}>*}>
-<{*<div><{$smarty.const._MD_WFDOWNLOADS_PAGES}>: <{$pagenav}></div><br />*}>
+<{*<{if $page_nav === true}>*}>
+<{*<div><{$smarty.const._MD_WFDOWNLOADS_PAGES}>: <{$pagenav}></div><br>*}>
 <{*<{/if}>*}>
 
 <table width="100%" cellspacing="0" cellpadding="10" border="0">
@@ -89,7 +89,7 @@
  </tr>
 </table>
 
-<{*<{if $page_nav == true}>*}>
+<{*<{if $page_nav === true}>*}>
 <{*<div align="right"><{$smarty.const._MD_WFDOWNLOADS_PAGES}>: <{$pagenav}></div>*}>
 <{*<{/if}>*}>
 

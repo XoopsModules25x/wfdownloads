@@ -1,4 +1,6 @@
-<?php namespace XoopsModules\Wfdownloads;
+<?php
+
+namespace XoopsModules\Wfdownloads;
 
 /*
  You may not change or alter any portion of this comment or credits
@@ -9,6 +11,7 @@
  but WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
+
 /**
  * WfdownloadsMulticolumnsThemeForm Class
  *
@@ -21,9 +24,9 @@
 
 use XoopsModules\Wfdownloads;
 
-defined('XOOPS_ROOT_PATH') || die('XOOPS root path not defined');
 
-xoops_load('XoopsForm');
+
+\xoops_load('XoopsForm');
 
 /**
  * Form that will output formatted as a HTML table
@@ -84,10 +87,9 @@ class MulticolumnsThemeForm extends \XoopsForm
      * Add an element to the form
      *
      * @param string|\XoopsFormElement|\XoopsForm $formElement
-     * @param bool                     $required is this a "required" element?
-     * @param int                      $row      two-dimensional array (matrix) row (0 first key)
-     * @param int                      $column   two-dimensional array (matrix) column (0 first key)
-     *
+     * @param bool                                $required is this a "required" element?
+     * @param int                                 $row      two-dimensional array (matrix) row (0 first key)
+     * @param int                                 $column   two-dimensional array (matrix) column (0 first key)
      */
     public function addElement($formElement, $required = false, $row = null, $column = null)
     {
@@ -97,7 +99,7 @@ class MulticolumnsThemeForm extends \XoopsForm
         if (null === $column) {
             $column = (0 == $this->_columns) ? $this->_columns : $this->_columns - 1;
         } // add new element as new row of the last column
-        if (is_string($formElement)) {
+        if (\is_string($formElement)) {
             $this->_elements[$row][$column] = $formElement;
             if ($row >= $this->_rows) {
                 $this->_rows = $row + 1;
@@ -105,8 +107,8 @@ class MulticolumnsThemeForm extends \XoopsForm
             if ($column >= $this->_columns) {
                 $this->_columns = $column + 1;
             }
-        } elseif (is_subclass_of($formElement, 'xoopsformelement')) {
-            $this->_elements[$row][$column] =& $formElement;
+        } elseif (\is_subclass_of($formElement, 'xoopsformelement')) {
+            $this->_elements[$row][$column] = &$formElement;
             if ($row >= $this->_rows) {
                 $this->_rows = $row + 1;
             }
@@ -116,13 +118,13 @@ class MulticolumnsThemeForm extends \XoopsForm
             if (!$formElement->isContainer()) {
                 if ($required) {
                     $formElement->_required = true;
-                    $this->_required[]      =& $formElement;
+                    $this->_required[]      = &$formElement;
                 }
             } else {
-                $required_elements =& $formElement->getRequired();
-                $count             = count($required_elements);
+                $required_elements = &$formElement->getRequired();
+                $count             = \count($required_elements);
                 for ($i = 0; $i < $count; ++$i) {
-                    $this->_required[] =& $required_elements[$i];
+                    $this->_required[] = &$required_elements[$i];
                 }
             }
         }
@@ -163,7 +165,7 @@ class MulticolumnsThemeForm extends \XoopsForm
      */
     public function setTitles($titles)
     {
-        if (is_array($titles)) {
+        if (\is_array($titles)) {
             foreach ($titles as $key => $title) {
                 $this->_titles[$key] = $title;
             }
@@ -192,7 +194,7 @@ class MulticolumnsThemeForm extends \XoopsForm
         $ret      .= "<form name='{$ele_name}' id='{$ele_name}' action='{$this->getAction()}' method='{$this->getMethod()}' onsubmit='return xoopsFormValidate_{$ele_name}();' {$this->getExtra()} >" . NWLINE;
         $ret      .= "<table width='100%' class='outer' cellspacing='1'>" . NWLINE;
         $ret      .= "<tr><th colspan='{$this->_columns}'>{$this->getTitle()}</th></tr>" . NWLINE;
-        if (count($this->_titles) > 0) {
+        if (\count($this->_titles) > 0) {
             $ret .= '<tr>';
             for ($column = 0; $column < $this->_columns; ++$column) {
                 $ret .= '<th>';
@@ -211,7 +213,7 @@ class MulticolumnsThemeForm extends \XoopsForm
                 if (isset($this->_elements[$row][$column])) {
                     $ele = $this->_elements[$row][$column];
                 }
-                if (!is_object($ele)) {
+                if (!\is_object($ele)) {
                     $ret .= $ele;
                 } elseif (!$ele->isHidden()) {
                     if (!$ele->getNocolspan()) {

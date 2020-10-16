@@ -13,7 +13,7 @@
  * Wfdownloads module
  *
  * @copyright       XOOPS Project (https://xoops.org)
- * @license         GNU GPL 2 or later (http://www.gnu.org/licenses/gpl-2.0.html)
+ * @license         GNU GPL 2 or later (https://www.gnu.org/licenses/gpl-2.0.html)
  * @package         wfdownload
  * @since           3.23
  * @author          Xoops Development Team
@@ -142,24 +142,27 @@ switch ($op) {
 
             // Generate form
             require_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
-            $sform = new \XoopsThemeForm(_MD_WFDOWNLOADS_RATETHISFILE, 'reportform', xoops_getenv('PHP_SELF'), 'post', true);
+            $sform = new \XoopsThemeForm(_MD_WFDOWNLOADS_RATETHISFILE, 'reportform', xoops_getenv('SCRIPT_NAME'), 'post', true);
             $sform->addElement(new \XoopsFormHidden('lid', $lid));
             $sform->addElement(new \XoopsFormHidden('cid', $cid));
             $sform->addElement(new \XoopsFormHidden('uid', $senderUid));
-            $button_tray   = new \XoopsFormElementTray('', '');
-            $submit_button = new \XoopsFormButton('', 'submit', _MD_WFDOWNLOADS_SUBMITBROKEN, 'submit');
-            $button_tray->addElement($submit_button);
-            $cancel_button = new \XoopsFormButton('', '', _CANCEL, 'button');
-            $cancel_button->setExtra('onclick="history.go(-1)"');
-            $button_tray->addElement($cancel_button);
-            $sform->addElement($button_tray);
+            $buttonTray    = new \XoopsFormElementTray('', '');
+            $submitButton = new \XoopsFormButton('', 'submit', _MD_WFDOWNLOADS_SUBMITBROKEN, 'submit');
+            $buttonTray->addElement($submitButton);
+            $cancelButton = new \XoopsFormButton('', '', _CANCEL, 'button');
+            $cancelButton->setExtra('onclick="history.go(-1)"');
+            $buttonTray->addElement($cancelButton);
+            $sform->addElement($buttonTray);
             $xoopsTpl->assign('reportform', $sform->render());
-            $xoopsTpl->assign('download', [
-                'lid'         => $lid,
-                'cid'         => $cid,
-                'title'       => $downloadObj->getVar('title'),
-                'description' => $downloadObj->getVar('description')
-            ]);
+            $xoopsTpl->assign(
+                'download',
+                [
+                    'lid'         => $lid,
+                    'cid'         => $cid,
+                    'title'       => $downloadObj->getVar('title'),
+                    'description' => $downloadObj->getVar('description'),
+                ]
+            );
 
             $criteria = new \Criteria('lid', $lid);
 

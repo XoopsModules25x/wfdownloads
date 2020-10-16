@@ -13,7 +13,7 @@
  * Wfdownloads module
  *
  * @copyright       XOOPS Project (https://xoops.org)
- * @license         GNU GPL 2 or later (http://www.gnu.org/licenses/gpl-2.0.html)
+ * @license         GNU GPL 2 or later (https://www.gnu.org/licenses/gpl-2.0.html)
  * @package         wfdownload
  * @since           3.23
  * @author          Xoops Development Team
@@ -21,17 +21,17 @@
 
 use XoopsModules\Wfdownloads;
 
-include  dirname(__DIR__) . '/preloads/autoloader.php';
+require dirname(__DIR__) . '/preloads/autoloader.php';
 
 $moduleDirName      = basename(dirname(__DIR__));
-$moduleDirNameUpper = strtoupper($moduleDirName); //$capsDirName
+$moduleDirNameUpper = mb_strtoupper($moduleDirName); //$capsDirName
 
 /** @var \XoopsDatabase $db */
 /** @var \XoopsModules\Wfdownloads\Helper $helper */
 /** @var \XoopsModules\Wfdownloads\Utility $utility */
-$db           = \XoopsDatabaseFactory::getDatabaseConnection();
-$helper       = \XoopsModules\Wfdownloads\Helper::getInstance();
-$utility      = new \XoopsModules\Wfdownloads\Utility();
+$db      = \XoopsDatabaseFactory::getDatabaseConnection();
+$helper  = \XoopsModules\Wfdownloads\Helper::getInstance();
+$utility = new \XoopsModules\Wfdownloads\Utility();
 //$configurator = new Wfdownloads\Common\Configurator();
 
 $helper->loadLanguage('common');

@@ -13,7 +13,7 @@
  * Wfdownloads module
  *
  * @copyright       XOOPS Project (https://xoops.org)
- * @license         GNU GPL 2 or later (http://www.gnu.org/licenses/gpl-2.0.html)
+ * @license         GNU GPL 2 or later (https://www.gnu.org/licenses/gpl-2.0.html)
  * @package         wfdownload
  * @since           3.23
  * @author          Xoops Development Team
@@ -40,11 +40,11 @@ switch ($op) {
         $uploadDirectory  = XOOPS_ROOT_PATH . '/' . $helper->getConfig('mainimagedir');
         $uploader         = new \XoopsMediaUploader($uploadDirectory, $allowedMimetypes, $maxFileSize, $maxImgWidth, $maxImgHeight);
         if ($uploader->fetchMedia($_POST['xoops_upload_file'][0])) {
-            $uploader->setTargetFileName('wfdownloads_' . uniqid(time(), true) . '--' . strtolower($_FILES['uploadfile']['name']));
+            $uploader->setTargetFileName('wfdownloads_' . uniqid(time(), true) . '--' . mb_strtolower($_FILES['uploadfile']['name']));
             $uploader->fetchMedia($_POST['xoops_upload_file'][0]);
             if (!$uploader->upload()) {
                 $errors = $uploader->getErrors();
-                redirect_header('javascript:history.go(-1)', 3, $errors);
+                redirect_header('<script>javascript:history.go(-1)</script>', 3, $errors);
             } else {
                 $indeximage = $uploader->getSavedFileName();
             }
@@ -74,7 +74,6 @@ switch ($op) {
         $GLOBALS['xoopsDB']->query($sql);
         redirect_header(WFDOWNLOADS_URL . '/admin/indexpage.php', 1, _AM_WFDOWNLOADS_IPAGE_UPDATED);
         break;
-
     case 'indexpage.form':
     default:
         require_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
@@ -92,7 +91,7 @@ switch ($op) {
         echo '<div>' . _AM_WFDOWNLOADS_MINDEX_PAGEINFOTXT . "</div>\n";
         echo "</fieldset>\n";
 
-        $sform = new \XoopsThemeForm(_AM_WFDOWNLOADS_IPAGE_MODIFY, 'op', xoops_getenv('PHP_SELF'), 'post', true);
+        $sform = new \XoopsThemeForm(_AM_WFDOWNLOADS_IPAGE_MODIFY, 'op', xoops_getenv('SCRIPT_NAME'), 'post', true);
         $sform->setExtra('enctype="multipart/form-data"');
         // indexpage: indexheading
         $sform->addElement(new \XoopsFormText(_AM_WFDOWNLOADS_IPAGE_CTITLE, 'indexheading', 60, 60, $indexheading), false);
@@ -140,11 +139,11 @@ switch ($op) {
         $options_tray->addElement($breaks_checkbox);
         $sform->addElement($options_tray);
         // form: button try
-        $button_tray = new \XoopsFormElementTray('', '');
-        $hidden      = new \XoopsFormHidden('op', 'indexpage.save');
-        $button_tray->addElement($hidden);
-        $button_tray->addElement(new \XoopsFormButton('', 'post', _AM_WFDOWNLOADS_BSAVE, 'submit'));
-        $sform->addElement($button_tray);
+        $buttonTray = new \XoopsFormElementTray('', '');
+        $hidden     = new \XoopsFormHidden('op', 'indexpage.save');
+        $buttonTray->addElement($hidden);
+        $buttonTray->addElement(new \XoopsFormButton('', 'post', _AM_WFDOWNLOADS_BSAVE, 'submit'));
+        $sform->addElement($buttonTray);
         $sform->display();
         break;
 }
