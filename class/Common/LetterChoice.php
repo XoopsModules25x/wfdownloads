@@ -28,6 +28,7 @@ namespace XoopsModules\Wfdownloads\Common;
  */
 
 use XoopsModules\Wfdownloads;
+use XoopsModules\Wfdownloads\Helper;
 
 // require_once  dirname(dirname(__DIR__)) . '/include/common.php';
 
@@ -87,7 +88,7 @@ class LetterChoice
         $caseSensitive = false
     ) {
         /** @var \XoopsModules\Wfdownloads\Helper $this ->helper */
-        $this->helper     = \XoopsModules\Wfdownloads\Helper::getInstance();
+        $this->helper     = Helper::getInstance();
         $this->objHandler = $objHandler;
         $this->criteria   = null === $criteria ? new \CriteriaCompo() : $criteria;
         $this->field_name = null === $field_name ? $this->objHandler->identifierName : $field_name;
