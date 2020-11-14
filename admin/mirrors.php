@@ -19,6 +19,7 @@
  * @author          Xoops Development Team
  */
 
+use Xmf\Module\Admin;
 use Xmf\Request;
 use XoopsModules\Wfdownloads;
 
@@ -92,7 +93,7 @@ switch ($op) {
     case 'mirrors.list':
     default:
         Wfdownloads\Utility::getCpHeader();
-        $adminObject = \Xmf\Module\Admin::getInstance();
+        $adminObject = Admin::getInstance();
         $adminObject->displayNavigation($currentFile);
 
         $start_waiting   = Request::getInt('start_waiting', 0);

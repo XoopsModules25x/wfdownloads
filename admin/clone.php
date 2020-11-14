@@ -19,7 +19,15 @@
  * @author          Xoops Development Team
  */
 
-use XoopsModules\Wfdownloads;
+use XoopsModules\Wfdownloads\{
+
+    Helper,
+    Utility
+};
+use Xmf\Module\Admin;
+
+/** @var Helper $helper */
+/** @var Utility $utility */
 
 $currentFile = basename(__FILE__);
 require_once __DIR__ . '/admin_header.php';
@@ -66,14 +74,14 @@ if ('submit' === @$_POST['op']) {
     }
 
     Wfdownloads\Utility::getCpHeader();
-    $adminObject = \Xmf\Module\Admin::getInstance();
+    $adminObject = Admin::getInstance();
     $adminObject->displayNavigation($currentFile);
     echo $message;
     require_once __DIR__ . '/admin_footer.php';
     exit();
 }
 Wfdownloads\Utility::getCpHeader();
-$adminObject = \Xmf\Module\Admin::getInstance();
+$adminObject = Admin::getInstance();
 $adminObject->displayNavigation($currentFile);
 xoops_load('XoopsFormLoader');
 $form              = new \XoopsThemeForm(sprintf(_AM_WFDOWNLOADS_CLONE_TITLE, $helper->getModule()->getVar('name', 'E')), 'clone', $currentFile, 'post', true);
@@ -132,8 +140,7 @@ function wfdownloads_cloneFileDir($path)
  */
 function wfdownloads_createLogo($dirname)
 {
-    /** @var \XoopsModules\Wfdownloads\Helper $helper */
-    $helper = \XoopsModules\Wfdownloads\Helper::getInstance();
+    $helper = Helper::getInstance();
     // Check extension/functions
     if (!extension_loaded('gd')) {
         return false;

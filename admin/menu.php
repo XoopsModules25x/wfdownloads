@@ -19,14 +19,18 @@
  * @author          Xoops Development Team
  */
 
-use XoopsModules\Wfdownloads;
+use XoopsModules\Wfdownloads\{
+    Helper
+};
+use Xmf\Module\Admin;
 
-/** @var \XoopsModules\Wfdownloads\Helper $helper */
-$helper = \XoopsModules\Wfdownloads\Helper::getInstance();
+/** @var Helper $helper */
+
+$helper = Helper::getInstance();
 $helper->loadLanguage('common');
 $helper->loadLanguage('feedback');
 
-$pathIcon32 = \Xmf\Module\Admin::menuIconPath('');
+$pathIcon32 = Admin::menuIconPath('');
 if (is_object($helper->getModule())) {
     $pathModIcon32 = $helper->getModule()->getInfo('modicons32');
 }

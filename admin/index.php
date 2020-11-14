@@ -19,8 +19,11 @@
  * @author          Xoops Development Team
  */
 
-use XoopsModules\Wfdownloads;
-use XoopsModules\Wfdownloads\Common;
+use XoopsModules\Wfdownloads\{Common, Common\Configurator, Helper, Utility};
+use Xmf\Module\Admin;
+
+/** @var Helper $helper */
+/** @var Utility $utility */
 
 $currentFile = basename(__FILE__);
 require_once __DIR__ . '/admin_header.php';
@@ -32,10 +35,9 @@ define('BLANK_FILE_PATH', XOOPS_ROOT_PATH . '/uploads/blank.png');
 // require_once  dirname(__DIR__) . '/class/common/filechecker.php';
 
 xoops_cp_header();
-$adminObject = \Xmf\Module\Admin::getInstance();
+$adminObject = Admin::getInstance();
 
-/** @var \XoopsModules\Wfdownloads\Helper $helper */
-$helper = \XoopsModules\Wfdownloads\Helper::getInstance();
+$helper = Helper::getInstance();
 
 $moduleDirName      = basename(dirname(__DIR__));
 $moduleDirNameUpper = mb_strtoupper($moduleDirName);
@@ -157,7 +159,7 @@ $adminObject->addConfigBoxLine(Common\DirectoryChecker::getDirectoryStatus($path
 $adminObject->addConfigBoxLine('');
 
 /** @var \XoopsModules\Wfdownloads\Common\Configurator $configurator */
-$configurator = new \XoopsModules\Wfdownloads\Common\Configurator();
+$configurator = new Configurator();
 
 /** @var \XoopsModules\Wfdownloads\Utility $utility */
 $utility = new \XoopsModules\Wfdownloads\Utility();

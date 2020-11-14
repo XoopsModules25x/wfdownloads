@@ -19,7 +19,14 @@
  * @author          Xoops Development Team
  */
 
-use XoopsModules\Wfdownloads;
+use XoopsModules\Wfdownloads\{
+
+    Helper,
+    Utility
+};
+/** @var Helper $helper */
+/** @var Utility $utility */
+
 
 require_once dirname(dirname(__DIR__)) . '/mainfile.php';
 require_once __DIR__ . '/include/common.php';
@@ -28,8 +35,7 @@ require_once __DIR__ . '/include/common.php';
 
 $moduleDirName = basename(__DIR__);
 
-/** @var \XoopsModules\Wfdownloads\Helper $helper */
-$helper = \XoopsModules\Wfdownloads\Helper::getInstance();
+$helper = Helper::getInstance();
 
 $myts = \MyTextSanitizer::getInstance();
 

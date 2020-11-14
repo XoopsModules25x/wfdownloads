@@ -19,14 +19,16 @@
  * @author          Xoops Development Team
  */
 
+use Xmf\Module\Admin;
 use Xmf\Request;
 use XoopsModules\Wfdownloads;
+use XoopsModules\Wfdownloads\Helper;
 
 $currentFile = basename(__FILE__);
 require_once __DIR__ . '/admin_header.php';
 
 /** @var \XoopsModules\Wfdownloads\Helper $helper */
-$helper = \XoopsModules\Wfdownloads\Helper::getInstance();
+$helper = Helper::getInstance();
 
 $op = Request::getString('op', 'mimetypes.list');
 switch ($op) {
@@ -44,7 +46,7 @@ switch ($op) {
     case 'mimetype.edit':
     case 'mimetype.add':
         Wfdownloads\Utility::getCpHeader();
-        $adminObject = \Xmf\Module\Admin::getInstance();
+        $adminObject = Admin::getInstance();
         $adminObject->displayNavigation($currentFile);
 
         //$adminObject = \Xmf\Module\Admin::getInstance();
@@ -177,7 +179,7 @@ switch ($op) {
         $mimetypes_count = $helper->getHandler('Mimetype')->getCount();
 
         Wfdownloads\Utility::getCpHeader();
-        $adminObject = \Xmf\Module\Admin::getInstance();
+        $adminObject = Admin::getInstance();
         $adminObject->displayNavigation($currentFile);
 
         //$adminObject = \Xmf\Module\Admin::getInstance();

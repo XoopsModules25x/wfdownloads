@@ -19,8 +19,16 @@
  * @author          Xoops Development Team
  */
 
+use Xmf\IPAddress;
+use Xmf\Module\Admin;
 use Xmf\Request;
-use XoopsModules\Wfdownloads;
+use XoopsModules\Wfdownloads\{
+
+    Helper,
+    Utility
+};
+/** @var Helper $helper */
+/** @var Utility $utility */
 
 $currentFile = basename(__FILE__);
 require_once __DIR__ . '/admin_header.php';
@@ -29,8 +37,7 @@ xoops_load('XoopsUserUtility');
 /** @var \XoopsNotificationHandler $notificationHandler */
 $notificationHandler = xoops_getHandler('notification');
 
-/** @var \XoopsModules\Wfdownloads\Helper $helper */
-$helper = \XoopsModules\Wfdownloads\Helper::getInstance();
+$helper = Helper::getInstance();
 
 /** @var \XoopsMemberHandler $memberHandler */
 $memberHandler = xoops_getHandler('member');
@@ -55,7 +62,7 @@ switch ($op) {
     case 'download.add':
     case 'Download':
         Wfdownloads\Utility::getCpHeader();
-        $adminObject = \Xmf\Module\Admin::getInstance();
+        $adminObject = Admin::getInstance();
         $adminObject->displayNavigation($currentFile);
 
         //$adminObject = \Xmf\Module\Admin::getInstance();
@@ -429,7 +436,7 @@ switch ($op) {
         $downloadObj->setVar('date', time());
         // Update or insert download data into database
         if (!$lid) {
-            $downloadObj->setVar('ipaddress', \Xmf\IPAddress::fromRequest()->asReadable()); //$_SERVER['REMOTE_ADDR']);
+            $downloadObj->setVar('ipaddress', IPAddress::fromRequest()->asReadable()); //$_SERVER['REMOTE_ADDR']);
         }
 
         $categoryObj = $helper->getHandler('Category')->get($cid);
@@ -622,7 +629,7 @@ switch ($op) {
         //    $totalDownloadsCount = $downloadHandler->getCount();
 
         Wfdownloads\Utility::getCpHeader();
-        $adminObject = \Xmf\Module\Admin::getInstance();
+        $adminObject = Admin::getInstance();
         $adminObject->displayNavigation($currentFile);
 
         //$adminObject = \Xmf\Module\Admin::getInstance();
@@ -857,7 +864,7 @@ switch ($op) {
         $downloadObj->setVar('status', _WFDOWNLOADS_STATUS_APPROVED); // IN PROGRESS
         $downloadObj->setVar('published', time());
         $downloadObj->setVar('date', time());
-        $downloadObj->setVar('ipaddress', \Xmf\IPAddress::fromRequest()->asReadable()); //$_SERVER['REMOTE_ADDR']);
+        $downloadObj->setVar('ipaddress', IPAddress::fromRequest()->asReadable()); //$_SERVER['REMOTE_ADDR']);
         $downloadObj->setVar('submitter', $GLOBALS['xoopsUser']->getVar('uid', 'e'));
         $downloadObj->setVar('publisher', $GLOBALS['xoopsUser']->getVar('uid', 'e'));
 
@@ -900,7 +907,7 @@ switch ($op) {
         }
 
         Wfdownloads\Utility::getCpHeader();
-        $adminObject = \Xmf\Module\Admin::getInstance();
+        $adminObject = Admin::getInstance();
         $adminObject->displayNavigation($currentFile);
 
         //$adminObject = \Xmf\Module\Admin::getInstance();

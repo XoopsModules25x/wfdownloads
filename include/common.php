@@ -20,6 +20,8 @@
  */
 
 use XoopsModules\Wfdownloads;
+use XoopsModules\Wfdownloads\Helper;
+use XoopsModules\Wfdownloads\Utility;
 
 require dirname(__DIR__) . '/preloads/autoloader.php';
 
@@ -30,8 +32,8 @@ $moduleDirNameUpper = mb_strtoupper($moduleDirName); //$capsDirName
 /** @var \XoopsModules\Wfdownloads\Helper $helper */
 /** @var \XoopsModules\Wfdownloads\Utility $utility */
 $db      = \XoopsDatabaseFactory::getDatabaseConnection();
-$helper  = \XoopsModules\Wfdownloads\Helper::getInstance();
-$utility = new \XoopsModules\Wfdownloads\Utility();
+$helper  = Helper::getInstance();
+$utility = new Utility();
 //$configurator = new Wfdownloads\Common\Configurator();
 
 $helper->loadLanguage('common');

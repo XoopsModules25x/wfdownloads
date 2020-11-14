@@ -20,6 +20,7 @@
  */
 
 use XoopsModules\Wfdownloads;
+use XoopsModules\Wfdownloads\Helper;
 
 defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
 require_once __DIR__ . '/common.php';
@@ -33,7 +34,7 @@ require_once __DIR__ . '/common.php';
 function wfdownloads_com_update($downloadId, $commentCount)
 {
     /** @var \XoopsModules\Wfdownloads\Helper $helper */
-    $helper = \XoopsModules\Wfdownloads\Helper::getInstance();
+    $helper = Helper::getInstance();
     $helper->getHandler('Download')->updateAll('comments', (int)$commentCount, new \Criteria('lid', (int)$downloadId));
 }
 

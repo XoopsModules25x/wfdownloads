@@ -19,6 +19,7 @@
  * @author          Xoops Development Team
  */
 
+use Xmf\Module\Admin;
 use Xmf\Request;
 use XoopsModules\Wfdownloads;
 
@@ -228,7 +229,7 @@ switch ($op) {
     case 'category.edit':
     case 'modCat':
         Wfdownloads\Utility::getCpHeader();
-        $adminObject = \Xmf\Module\Admin::getInstance();
+        $adminObject = Admin::getInstance();
         $adminObject->displayNavigation($currentFile);
 
         //$adminObject = \Xmf\Module\Admin::getInstance();
@@ -249,7 +250,7 @@ switch ($op) {
     case 'main':
     default:
         Wfdownloads\Utility::getCpHeader();
-        $adminObject = \Xmf\Module\Admin::getInstance();
+        $adminObject = Admin::getInstance();
         $adminObject->displayNavigation($currentFile);
 
         //$adminObject = \Xmf\Module\Admin::getInstance();

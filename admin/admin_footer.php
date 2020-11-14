@@ -18,7 +18,10 @@
  * @since           3.23
  * @author          Xoops Development Team
  */
-$pathIcon32 = \Xmf\Module\Admin::iconUrl('', 32);
+
+use Xmf\Module\Admin;
+
+$pathIcon32 = Admin::iconUrl('', 32);
 echo "<div class='adminfooter'>\n";
 echo "    <div style='text-align: center;'>\n";
 echo "        <a href='https://xoops.org' rel='external'><img src='{$pathIcon32}/xoopsmicrobutton.gif' alt='XOOPS' title='XOOPS'></a>\n";

@@ -20,6 +20,7 @@
  */
 
 use XoopsModules\Wfdownloads;
+use XoopsModules\Wfdownloads\Helper;
 
 defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
 require_once __DIR__ . '/common.php';
@@ -39,7 +40,7 @@ require_once __DIR__ . '/common.php';
 function wfdownloads_search($queryArray, $andor, $limit, $offset, $userId = 0, $categories = [], $sortBy = 0, $searchIn = '', $extra = '')
 {
     /** @var \XoopsModules\Wfdownloads\Helper $helper */
-    $helper = \XoopsModules\Wfdownloads\Helper::getInstance();
+    $helper = Helper::getInstance();
 
     $userGroups = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : [0 => XOOPS_GROUP_ANONYMOUS];
 

@@ -19,6 +19,7 @@
  * @author          Xoops Development Team
  */
 
+use Xmf\Module\Admin;
 use XoopsModules\Wfdownloads;
 
 $currentFile = basename(__FILE__);
@@ -39,7 +40,7 @@ foreach ($categoryObjObjs as $categoryObj) {
 }
 
 Wfdownloads\Utility::getCpHeader();
-$adminObject = \Xmf\Module\Admin::getInstance();
+$adminObject = Admin::getInstance();
 $adminObject->displayNavigation($currentFile);
 
 $GLOBALS['xoopsTpl']->assign('down_cat_form', $WFDownCatPermForm->render());

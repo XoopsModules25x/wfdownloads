@@ -19,6 +19,7 @@
  * @author          Xoops Development Team
  */
 
+use Xmf\Module\Admin;
 use Xmf\Request;
 use XoopsModules\Wfdownloads;
 
@@ -84,7 +85,7 @@ switch ($op) {
         [$indeximage, $indexheading, $indexheader, $indexfooter, $nohtml, $nosmiley, $noxcodes, $noimages, $nobreak, $indexheaderalign, $indexfooteralign] = $GLOBALS['xoopsDB']->fetchrow($result);
 
         Wfdownloads\Utility::getCpHeader();
-        $adminObject = \Xmf\Module\Admin::getInstance();
+        $adminObject = Admin::getInstance();
         $adminObject->displayNavigation(basename(__FILE__));
 
         echo '<fieldset><legend>' . _AM_WFDOWNLOADS_IPAGE_INFORMATION . "</legend>\n";

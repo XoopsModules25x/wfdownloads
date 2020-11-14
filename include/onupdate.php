@@ -20,6 +20,7 @@
  */
 
 use XoopsModules\Wfdownloads;
+use XoopsModules\Wfdownloads\Helper;
 
 if ((!defined('XOOPS_ROOT_PATH')) || !($GLOBALS['xoopsUser'] instanceof \XoopsUser)
     || !$GLOBALS['xoopsUser']->isAdmin()) {
@@ -49,7 +50,7 @@ function xoops_module_pre_update_wfdownloads(\XoopsModule $module)
     /** @var \XoopsModules\Wfdownloads\Helper $helper */
     /** @var Wfdownloads\Utility $utility */
     $moduleDirName = basename(dirname(__DIR__));
-    $helper        = \XoopsModules\Wfdownloads\Helper::getInstance();
+    $helper        = Helper::getInstance();
     $utility       = new Wfdownloads\Utility();
 
     $xoopsSuccess = $utility::checkVerXoops($module);
@@ -78,7 +79,7 @@ function xoops_module_update_wfdownloads(\XoopsModule $module, $previousVersion 
 
     /** @var \XoopsModules\Wfdownloads\Helper $helper */ /** @var Wfdownloads\Utility $utility */
     /** @var Wfdownloads\Common\Configurator $configurator */
-    $helper       = \XoopsModules\Wfdownloads\Helper::getInstance();
+    $helper       = Helper::getInstance();
     $utility      = new Wfdownloads\Utility();
     $configurator = new Wfdownloads\Common\Configurator();
 

@@ -33,6 +33,7 @@ use Xmf\Request;
 use XoopsModules\Wfdownloads;
 
 use Xmf\Module\Admin;
+use XoopsModules\Wfdownloads\Common\Migrate;
 
 /** @var Admin $adminObject */
 
@@ -59,7 +60,7 @@ EOF;
 $configurator = new Wfdownloads\Common\Configurator();
 
 /** @var \XoopsModules\Wfdownloads\Common\Migrate $migrator */
-$migrator = new \XoopsModules\Wfdownloads\Common\Migrate($configurator);
+$migrator = new Migrate($configurator);
 
 $op        = Request::getCmd('op', 'show');
 $opShow    = Request::getCmd('show', null, 'POST');

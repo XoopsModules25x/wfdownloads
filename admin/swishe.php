@@ -19,6 +19,7 @@
  * @author          Xoops Development Team
  */
 
+use Xmf\Module\Admin;
 use XoopsModules\Wfdownloads;
 
 $currentFile = basename(__FILE__);
@@ -30,7 +31,7 @@ if ('submit' === @$_POST['op']) {
     }
 
     Wfdownloads\Utility::getCpHeader();
-    $adminObject = \Xmf\Module\Admin::getInstance();
+    $adminObject = Admin::getInstance();
     $adminObject->displayNavigation($currentFile);
 
     // Swish-e support EXPERIMENTAL
@@ -41,7 +42,7 @@ if ('submit' === @$_POST['op']) {
     exit();
 }
 Wfdownloads\Utility::getCpHeader();
-$adminObject = \Xmf\Module\Admin::getInstance();
+$adminObject = Admin::getInstance();
 $adminObject->displayNavigation($currentFile);
 
 // Swish-e support EXPERIMENTAL

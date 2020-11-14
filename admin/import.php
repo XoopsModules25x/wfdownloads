@@ -19,8 +19,14 @@
  * @author          Xoops Development Team
  */
 
+use Xmf\Module\Admin;
 use Xmf\Request;
-use XoopsModules\Wfdownloads;
+use XoopsModules\Wfdownloads\{
+    Helper,
+    Utility
+};
+/** @var Helper $helper */
+/** @var Utility $utility */
 
 $currentFile = basename(__FILE__);
 require_once __DIR__ . '/admin_header.php';
@@ -119,7 +125,7 @@ switch ($op) {
     case 'import.menu':
     default:
         Wfdownloads\Utility::getCpHeader();
-        $adminObject = \Xmf\Module\Admin::getInstance();
+        $adminObject = Admin::getInstance();
         $adminObject->displayNavigation($currentFile);
 
         echo '<fieldset><legend>' . _AM_WFDOWNLOADS_IMPORT_INFORMATION . "</legend>\n";
@@ -241,8 +247,7 @@ function import_wfd_to_wfdownloads()
     /** @var \XoopsModuleHandler $moduleHandler */
     $moduleHandler = xoops_getHandler('module');
     // Get destination module/handlers/configs
-    /** @var \XoopsModules\Wfdownloads\Helper $helper */
-    $helper = \XoopsModules\Wfdownloads\Helper::getInstance();
+    $helper = Helper::getInstance();
 
     // Get source module/config
     $wfdDirname = 'wf' . 'downloads'; // don't modify, is for cloning

@@ -19,6 +19,7 @@
  * @author          Xoops Development Team
  */
 
+use Xmf\Module\Admin;
 use Xmf\Request;
 use XoopsModules\Wfdownloads;
 
@@ -75,7 +76,7 @@ switch ($op) {
             redirect_header($currentFile, 4, _AM_WFDOWNLOADS_ERROR_REVIEWNOTFOUND);
         }
         Wfdownloads\Utility::getCpHeader();
-        $adminObject = \Xmf\Module\Admin::getInstance();
+        $adminObject = Admin::getInstance();
         $adminObject->displayNavigation($currentFile);
         $sform = $reviewObj->getForm();
         $sform->display();
@@ -115,7 +116,7 @@ switch ($op) {
         $reviews_published = $helper->getHandler('Review')->getObjects($criteria_published);
 
         Wfdownloads\Utility::getCpHeader();
-        $adminObject = \Xmf\Module\Admin::getInstance();
+        $adminObject = Admin::getInstance();
         $adminObject->displayNavigation($currentFile);
 
         $GLOBALS['xoopsTpl']->assign('reviews_waiting_count', $waiting_count);

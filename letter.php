@@ -10,13 +10,14 @@
 //TODO needs to be adjusted for Wfdonwloads
 
 use Xmf\Request;
+use XoopsModules\Wfdownloads\Helper;
 
 require __DIR__ . '/header.php';
 $GLOBALS['xoopsOption']['template_main'] = 'lx_letter.tpl';
 require_once XOOPS_ROOT_PATH . '/header.php';
 require_once XOOPS_ROOT_PATH . '/modules/wfdownloads/include/common.inc.php';
 /** @var \XoopsModules\Wfdownloads\Helper $helper */
-$helper = \XoopsModules\Wfdownloads\Helper::getInstance();
+$helper = Helper::getInstance();
 
 global $xoTheme, $xoopsUser;
 $myts = \MyTextSanitizer::getInstance();

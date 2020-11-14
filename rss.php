@@ -18,6 +18,9 @@
  * @since           3.23
  * @author          Xoops Development Team
  */
+
+use Xmf\Request;
+
 $currentFile = basename(__FILE__);
 require_once __DIR__ . '/header.php';
 
@@ -36,7 +39,7 @@ $xoopsTpl = new \XoopsTpl();
 
 // Find case
 $case        = 'all';
-$categoryObj = $helper->getHandler('Category')->get(\Xmf\Request::getInt('cid', 0, 'REQUEST'));
+$categoryObj = $helper->getHandler('Category')->get(Request::getInt('cid', 0, 'REQUEST'));
 
 $groups = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : [0 => XOOPS_GROUP_ANONYMOUS];
 

@@ -19,6 +19,7 @@
  * @author          Xoops Development Team
  */
 
+use Xmf\Request;
 use XoopsModules\Wfdownloads;
 use XoopsModules\Wfdownloads\Common;
 
@@ -69,8 +70,8 @@ $xoopsTpl->assign('allmonthdownloads', $allMonthDownloads);
 
 // Get latest downloads
 $criteria = new \CriteriaCompo(new \Criteria('offline', 0));
-if (\Xmf\Request::hasVar('newdownloadshowdays', 'GET')) {
-    $days       = \Xmf\Request::getInt('newdownloadshowdays', 0, 'GET');
+if (Request::hasVar('newdownloadshowdays', 'GET')) {
+    $days       = Request::getInt('newdownloadshowdays', 0, 'GET');
     $days_limit = [7, 14, 30];
     if (in_array($days, $days_limit)) {
         $xoopsTpl->assign('newdownloadshowdays', $days);

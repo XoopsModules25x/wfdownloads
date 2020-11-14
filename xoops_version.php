@@ -21,6 +21,7 @@
 
 use XoopsModules\Wfdownloads\{Helper
 };
+use Xmf\Request;
 
 /** @var Helper $helper */
 
@@ -158,7 +159,7 @@ $i = 0;
 if ($isSubmissionAllowed) {
     ++$i;
     $modversion['sub'][$i]['name'] = _MI_WFDOWNLOADS_SMNAME1;
-    $category_suffix               = \Xmf\Request::hasVar('cid', 'GET') ? '?cid=' . \Xmf\Request::getInt('cid', 0, 'GET') : ''; //Added by Lankford on 2008/2/20
+    $category_suffix               = Request::hasVar('cid', 'GET') ? '?cid=' . Request::getInt('cid', 0, 'GET') : ''; //Added by Lankford on 2008/2/20
     $modversion['sub'][$i]['url']  = "submit.php{$category_suffix}";
 }
 

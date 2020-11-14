@@ -29,6 +29,7 @@
  */
 
 use XoopsModules\Wfdownloads;
+use XoopsModules\Wfdownloads\Helper;
 
 defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
 
@@ -41,7 +42,7 @@ require_once dirname(__DIR__) . '/include/common.php';
 function wfdownloads_top_show($options)
 {
     /** @var \XoopsModules\Wfdownloads\Helper $helper */
-    $helper = \XoopsModules\Wfdownloads\Helper::getInstance();
+    $helper = Helper::getInstance();
 
     $groups = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : [0 => XOOPS_GROUP_ANONYMOUS];
     /** @var \XoopsGroupPermHandler $grouppermHandler */
