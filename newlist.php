@@ -38,7 +38,7 @@ $xoopsTpl->assign('wfdownloads_url', WFDOWNLOADS_URL . '/');
 $groups = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : [0 => XOOPS_GROUP_ANONYMOUS];
 
 /** @var \XoopsGroupPermHandler $grouppermHandler */
-$grouppermHandler = xoops_getHandler('groupperm');
+$grouppermHandler        = xoops_getHandler('groupperm');
 $catArray['imageheader'] = Wfdownloads\Utility::headerImage();
 //$catArray['letters']     = Wfdownloads\Utility::lettersChoice();
 /** @var \XoopsDatabase $db */

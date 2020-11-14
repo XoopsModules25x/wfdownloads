@@ -149,8 +149,8 @@ trait FilesManagement
                         break;
                     }
                 } elseif (!($success = \unlink($fileInfo->getRealPath()))) {
-                        break;
-                    }
+                    break;
+                }
             }
             // now delete this (sub)directory if all the files are gone
             if ($success) {

@@ -24,7 +24,6 @@ namespace XoopsModules\Wfdownloads;
 
 use XoopsModules\Wfdownloads;
 
-
 require_once \dirname(__DIR__) . '/include/common.php';
 
 /**
@@ -77,7 +76,7 @@ class RatingHandler extends \XoopsPersistableObjectHandler
             return 0;
         }
         if (false === $groupby) {
-            list($average, $count) = $this->db->fetchRow($result);
+            [$average, $count] = $this->db->fetchRow($result);
 
             return [
                 'avg'   => $average,

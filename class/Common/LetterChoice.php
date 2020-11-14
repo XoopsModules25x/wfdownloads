@@ -29,7 +29,6 @@ namespace XoopsModules\Wfdownloads\Common;
 
 use XoopsModules\Wfdownloads;
 
-
 // require_once  dirname(dirname(__DIR__)) . '/include/common.php';
 
 /**
@@ -41,7 +40,6 @@ class LetterChoice
      * @access public
      */
     public $helper;
-
     /**
      * *#@+
      *
@@ -55,7 +53,6 @@ class LetterChoice
     private $url;
     private $extra;
     private $caseSensitive;
-
     /**
      * *#@-
      * @param mixed      $objHandler

@@ -81,7 +81,7 @@ switch ($op) {
         $sql    = 'SELECT indeximage, indexheading, indexheader, indexfooter, nohtml, nosmiley, noxcodes, noimages, nobreak, indexheaderalign, indexfooteralign';
         $sql    .= " FROM {$GLOBALS['xoopsDB']->prefix('wfdownloads_indexpage')} ";
         $result = $GLOBALS['xoopsDB']->query($sql);
-        list($indeximage, $indexheading, $indexheader, $indexfooter, $nohtml, $nosmiley, $noxcodes, $noimages, $nobreak, $indexheaderalign, $indexfooteralign) = $GLOBALS['xoopsDB']->fetchrow($result);
+        [$indeximage, $indexheading, $indexheader, $indexfooter, $nohtml, $nosmiley, $noxcodes, $noimages, $nobreak, $indexheaderalign, $indexfooteralign] = $GLOBALS['xoopsDB']->fetchrow($result);
 
         Wfdownloads\Utility::getCpHeader();
         $adminObject = \Xmf\Module\Admin::getInstance();

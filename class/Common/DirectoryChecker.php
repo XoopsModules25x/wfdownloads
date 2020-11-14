@@ -25,8 +25,6 @@ use XoopsModules\Wfdownloads;
  * @author          Xoops Development Team
  */
 
-
-
 require_once \dirname(\dirname(\dirname(\dirname(__DIR__)))) . '/mainfile.php';
 $moduleDirName = \basename(\dirname(\dirname(__DIR__)));
 \xoops_loadLanguage('directorychecker', $moduleDirName);

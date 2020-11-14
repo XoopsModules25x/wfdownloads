@@ -237,7 +237,7 @@ switch ($op) {
             $sform->addElement(new \XoopsFormHidden('lid', $lid));
             $sform->addElement(new \XoopsFormHidden('cid', $cid));
             $sform->addElement(new \XoopsFormHidden('uid', $mirroruserUid));
-            $buttonTray    = new \XoopsFormElementTray('', '');
+            $buttonTray   = new \XoopsFormElementTray('', '');
             $submitButton = new \XoopsFormButton('', 'submit', _SUBMIT, 'submit');
             $buttonTray->addElement($submitButton);
             $cancelButton = new \XoopsFormButton('', '', _CANCEL, 'button');

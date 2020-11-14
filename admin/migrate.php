@@ -33,6 +33,7 @@ use Xmf\Request;
 use XoopsModules\Wfdownloads;
 
 use Xmf\Module\Admin;
+
 /** @var Admin $adminObject */
 
 require __DIR__ . '/admin_header.php';

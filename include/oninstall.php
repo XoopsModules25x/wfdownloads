@@ -82,12 +82,12 @@ function xoops_module_install_wfdownloads(\XoopsModule $module)
     $utility = new \XoopsModules\Wfdownloads\Utility();
 
     // default Permission Settings
-    $module_id        = $xoopsModule->getVar('mid');
-    $module_name      = $xoopsModule->getVar('name');
-    $module_dirname   = $xoopsModule->getVar('dirname');
-    $module_version   = $xoopsModule->getVar('version');
+    $module_id      = $xoopsModule->getVar('mid');
+    $module_name    = $xoopsModule->getVar('name');
+    $module_dirname = $xoopsModule->getVar('dirname');
+    $module_version = $xoopsModule->getVar('version');
     /** @var \XoopsGroupPermHandler $grouppermHandler */
-$grouppermHandler = xoops_getHandler('groupperm');
+    $grouppermHandler = xoops_getHandler('groupperm');
     // access rights
     $grouppermHandler->addRight('nw_approve', 1, XOOPS_GROUP_ADMIN, $module_id);
     $grouppermHandler->addRight('nw_submit', 1, XOOPS_GROUP_ADMIN, $module_id);

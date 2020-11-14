@@ -24,7 +24,6 @@ namespace XoopsModules\Wfdownloads;
 
 use XoopsModules\Wfdownloads;
 
-
 require_once \dirname(__DIR__) . '/include/common.php';
 
 /**

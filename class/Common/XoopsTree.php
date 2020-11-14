@@ -20,7 +20,6 @@ namespace XoopsModules\Wfdownloads\Common;
  * @version         $Id: xoopstree.php 12863 2014-11-22 04:11:17Z beckmi $
  */
 
-
 /**
  * Abstract base class for forms
  *
@@ -39,7 +38,6 @@ class XoopsTree
     public $order; //specifies the order of query results
     public $title; // name of a field in table $table which will be used when  selection box and paths are generated
     public $db;
-
     //constructor of class XoopsTree
     //sets the names of table, unique id, and parend id
 

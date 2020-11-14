@@ -24,8 +24,6 @@ namespace XoopsModules\Wfdownloads\Common;
 
 use XoopsModules\Wfdownloads;
 
-
-
 //xoops_load('XoopsObjectTree');
 require_once XOOPS_ROOT_PATH . '/class/tree.php';
 

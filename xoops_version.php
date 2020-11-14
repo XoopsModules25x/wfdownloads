@@ -19,9 +19,9 @@
  * @author          Xoops Development Team
  */
 
-use XoopsModules\Wfdownloads\{
-    Helper
+use XoopsModules\Wfdownloads\{Helper
 };
+
 /** @var Helper $helper */
 
 require_once __DIR__ . '/preloads/autoloader.php';

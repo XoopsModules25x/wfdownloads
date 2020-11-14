@@ -26,7 +26,7 @@ namespace XoopsModules\Wfdownloads\Common;
 use MyTextSanitizer;
 use XoopsFormDhtmlTextArea;
 use XoopsFormTextArea;
-use XoopsModules\Wfdownloads;
+use XoopsModules\Wfdownloads\Helper;
 
 /**
  * Class SysUtility

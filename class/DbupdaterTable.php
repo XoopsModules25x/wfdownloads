@@ -51,42 +51,34 @@ class DbupdaterTable
      * @var string $_name name of the table
      */
     public $_name;
-
     /**
      * @var string $_structure structure of the table
      */
     public $_structure;
-
     /**
      * @var array $_data containing valued of each records to be added
      */
     public $_data;
-
     /**
      * @var array $_alteredFields containing fields to be altered
      */
     public $_alteredFields;
-
     /**
      * @var array $_newFields containing new fields to be added
      */
     public $_newFields;
-
     /**
      * @var array $_dropedFields containing fields to be droped
      */
     public $_dropedFields;
-
     /**
      * @var array $_flagForDrop flag table to drop it
      */
     public $_flagForDrop = false;
-
     /**
      * @var array $_updatedFields containing fields which values will be updated
      */
     public $_updatedFields;
-
     /**
      * @var array $_updatedFields containing fields which values will be updated
      */ //felix

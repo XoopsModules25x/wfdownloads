@@ -76,8 +76,7 @@ function xoops_module_update_wfdownloads(\XoopsModule $module, $previousVersion 
     $moduleDirName      = basename(dirname(__DIR__));
     $moduleDirNameUpper = mb_strtoupper($moduleDirName);
 
-    /** @var \XoopsModules\Wfdownloads\Helper $helper */ 
-    /** @var Wfdownloads\Utility $utility */
+    /** @var \XoopsModules\Wfdownloads\Helper $helper */ /** @var Wfdownloads\Utility $utility */
     /** @var Wfdownloads\Common\Configurator $configurator */
     $helper       = \XoopsModules\Wfdownloads\Helper::getInstance();
     $utility      = new Wfdownloads\Utility();
@@ -355,8 +354,8 @@ function update_tables_to_323(\XoopsModule $module)
  */
 function update_permissions_to_323(\XoopsModule $module)
 {
-/** @var \XoopsGroupPermHandler $grouppermHandler */
-$grouppermHandler = xoops_getHandler('groupperm');
+    /** @var \XoopsGroupPermHandler $grouppermHandler */
+    $grouppermHandler = xoops_getHandler('groupperm');
     /** @var Wfdownloads\CategoryHandler $categoriesHandler */
     $categoriesHandler = $helper->getHandler('Category', $module->dirname());
 

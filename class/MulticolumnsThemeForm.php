@@ -24,8 +24,6 @@ namespace XoopsModules\Wfdownloads;
 
 use XoopsModules\Wfdownloads;
 
-
-
 \xoops_load('XoopsForm');
 
 /**

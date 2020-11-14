@@ -239,7 +239,7 @@ switch ($op) {
 function import_wfd_to_wfdownloads()
 {
     /** @var \XoopsModuleHandler $moduleHandler */
-$moduleHandler = xoops_getHandler('module');
+    $moduleHandler = xoops_getHandler('module');
     // Get destination module/handlers/configs
     /** @var \XoopsModules\Wfdownloads\Helper $helper */
     $helper = \XoopsModules\Wfdownloads\Helper::getInstance();
@@ -249,7 +249,7 @@ $moduleHandler = xoops_getHandler('module');
     $wfdModule  = $moduleHandler->getByDirname($wfdDirname);
     if (empty($wfdModuleConfig)) {
         /** @var \XoopsConfigHandler $configHandler */
-        $configHandler = xoops_getHandler('config');
+        $configHandler   = xoops_getHandler('config');
         $wfdModuleConfig = $configHandler->getConfigsByCat(0, $wfdModule->mid());
     }
     $categoriesHandler = $helper->getHandler('Category');
@@ -319,19 +319,19 @@ $moduleHandler = xoops_getHandler('module');
 
     //Get latest mirror ID to determine which records will need an updated lid value afterwards
     $result = $GLOBALS['xoopsDB']->query("SELECT MAX(mirror_id) FROM {$destination['mirrors']}");
-    list($max_mirrorid) = $GLOBALS['xoopsDB']->fetchRow($result);
+    [$max_mirrorid] = $GLOBALS['xoopsDB']->fetchRow($result);
     //Get latest review ID to determine which records will need an updated lid value afterwards
     $result = $GLOBALS['xoopsDB']->query("SELECT MAX(review_id) FROM {$destination['reviews']}");
-    list($max_reviewid) = $GLOBALS['xoopsDB']->fetchRow($result);
+    [$max_reviewid] = $GLOBALS['xoopsDB']->fetchRow($result);
     //Get latest mod request ID to determine which records will need an updated lid value afterwards
     $result = $GLOBALS['xoopsDB']->query("SELECT MAX(requestid) FROM {$destination['mod']}");
-    list($max_requestid) = $GLOBALS['xoopsDB']->fetchRow($result);
+    [$max_requestid] = $GLOBALS['xoopsDB']->fetchRow($result);
     //Get latest report ID to determine, which records will need an updated lid value afterwards
     $result = $GLOBALS['xoopsDB']->query("SELECT MAX(reportid) FROM {$destination['broken']}");
-    list($max_reportid) = $GLOBALS['xoopsDB']->fetchRow($result);
+    [$max_reportid] = $GLOBALS['xoopsDB']->fetchRow($result);
     //Get latest vote ID to determine which records will need an updated lid value afterwards
     $result = $GLOBALS['xoopsDB']->query("SELECT MAX(ratingid) FROM {$destination['votes']}");
-    list($max_ratingid) = $GLOBALS['xoopsDB']->fetchRow($result);
+    [$max_ratingid] = $GLOBALS['xoopsDB']->fetchRow($result);
 
     //Import data into category table
     if (Wfdownloads\Utility::checkModule('wf' . 'downloads') >= 320) {
@@ -495,13 +495,13 @@ function import_wmpdownloads_to_wfdownloads()
 
     //Get latest mod request ID to determine which records will need an updated lid value afterwards
     $result = $GLOBALS['xoopsDB']->query('SELECT MAX(requestid) FROM ' . $destination['mod']);
-    list($max_requestid) = $GLOBALS['xoopsDB']->fetchRow($result);
+    [$max_requestid] = $GLOBALS['xoopsDB']->fetchRow($result);
     //Get latest report ID to determine, which records will need an updated lid value afterwards
     $result = $GLOBALS['xoopsDB']->query('SELECT MAX(reportid) FROM ' . $destination['broken']);
-    list($max_reportid) = $GLOBALS['xoopsDB']->fetchRow($result);
+    [$max_reportid] = $GLOBALS['xoopsDB']->fetchRow($result);
     //Get latest vote ID to determine which records will need an updated lid value afterwards
     $result = $GLOBALS['xoopsDB']->query('SELECT MAX(ratingid) FROM ' . $destination['votes']);
-    list($max_ratingid) = $GLOBALS['xoopsDB']->fetchRow($result);
+    [$max_ratingid] = $GLOBALS['xoopsDB']->fetchRow($result);
 
     //Import data into category table
     $GLOBALS['xoopsDB']->query('INSERT' . ' INTO ' . $destination['cat'] . ' (`old_cid`, `old_pid`, `title`, `imgurl`, `summary`)' . " SELECT `cid`, `pid`, `title`, `imgurl`, ''" . ' FROM ' . $source['cat']);
@@ -597,13 +597,13 @@ function import_pddownloads_to_wfdownloads()
 
     //Get latest mod request ID to determine which records will need an updated lid value afterwards
     $result = $GLOBALS['xoopsDB']->query('SELECT MAX(requestid) FROM ' . $destination['mod']);
-    list($max_requestid) = $GLOBALS['xoopsDB']->fetchRow($result);
+    [$max_requestid] = $GLOBALS['xoopsDB']->fetchRow($result);
     //Get latest report ID to determine, which records will need an updated lid value afterwards
     $result = $GLOBALS['xoopsDB']->query('SELECT MAX(reportid) FROM ' . $destination['broken']);
-    list($max_reportid) = $GLOBALS['xoopsDB']->fetchRow($result);
+    [$max_reportid] = $GLOBALS['xoopsDB']->fetchRow($result);
     //Get latest vote ID to determine which records will need an updated lid value afterwards
     $result = $GLOBALS['xoopsDB']->query('SELECT MAX(ratingid) FROM ' . $destination['votes']);
-    list($max_ratingid) = $GLOBALS['xoopsDB']->fetchRow($result);
+    [$max_ratingid] = $GLOBALS['xoopsDB']->fetchRow($result);
 
     //Import data into category table
     $GLOBALS['xoopsDB']->query('INSERT INTO ' . $destination['cat'] . ' (`old_cid`, `old_pid`, `title`, `imgurl`, `description`, `total`, `weight`)' . ' SELECT `cid`, `pid`, `title`, `imgurl`, `description`, `total`, `weight`' . ' FROM ' . $source['cat']);
@@ -697,13 +697,13 @@ function import_mydownloads_to_wfdownloads()
 
     //Get latest mod request ID to determine which records will need an updated lid value afterwards
     $result = $GLOBALS['xoopsDB']->query('SELECT MAX(requestid) FROM ' . $destination['mod']);
-    list($max_requestid) = $GLOBALS['xoopsDB']->fetchRow($result);
+    [$max_requestid] = $GLOBALS['xoopsDB']->fetchRow($result);
     //Get latest report ID to determine, which records will need an updated lid value afterwards
     $result = $GLOBALS['xoopsDB']->query('SELECT MAX(reportid) FROM ' . $destination['broken']);
-    list($max_reportid) = $GLOBALS['xoopsDB']->fetchRow($result);
+    [$max_reportid] = $GLOBALS['xoopsDB']->fetchRow($result);
     //Get latest vote ID to determine which records will need an updated lid value afterwards
     $result = $GLOBALS['xoopsDB']->query('SELECT MAX(ratingid) FROM ' . $destination['votes']);
-    list($max_ratingid) = $GLOBALS['xoopsDB']->fetchRow($result);
+    [$max_ratingid] = $GLOBALS['xoopsDB']->fetchRow($result);
 
     //Import data into category table
     $GLOBALS['xoopsDB']->query('INSERT INTO ' . $destination['cat'] . ' (`old_cid`, `old_pid`, `title`, `imgurl`, `summary`)' . " SELECT `cid`, `pid`, `title`, `imgurl`, ''" . ' FROM ' . $source['cat']);
@@ -799,13 +799,13 @@ function import_tdmdownloads_to_wfdownloads()
 
     //Get latest mod request ID to determine which records will need an updated lid value afterwards
     $result = $GLOBALS['xoopsDB']->query('SELECT MAX(requestid) FROM ' . $destination['mod']);
-    list($max_requestid) = $GLOBALS['xoopsDB']->fetchRow($result);
+    [$max_requestid] = $GLOBALS['xoopsDB']->fetchRow($result);
     //Get latest report ID to determine, which records will need an updated lid value afterwards
     $result = $GLOBALS['xoopsDB']->query('SELECT MAX(reportid) FROM ' . $destination['broken']);
-    list($max_reportid) = $GLOBALS['xoopsDB']->fetchRow($result);
+    [$max_reportid] = $GLOBALS['xoopsDB']->fetchRow($result);
     //Get latest vote ID to determine which records will need an updated lid value afterwards
     $result = $GLOBALS['xoopsDB']->query('SELECT MAX(ratingid) FROM ' . $destination['votes']);
-    list($max_ratingid) = $GLOBALS['xoopsDB']->fetchRow($result);
+    [$max_ratingid] = $GLOBALS['xoopsDB']->fetchRow($result);
 
     //Import data into category table
     $GLOBALS['xoopsDB']->query('INSERT' . ' INTO ' . $destination['cat'] . ' (`old_cid`, `old_pid`, `title`, `imgurl`, `description`, `weight`, `dohtml`)' . ' SELECT `cat_cid`, `cat_pid`, `cat_title`, `cat_imgurl`, `cat_description_main`, `cat_weight`, 1' . ' FROM ' . $source['cat']);

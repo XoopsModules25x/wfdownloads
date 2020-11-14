@@ -33,7 +33,6 @@ use XoopsModules\Wfdownloads\Constants;
 class Utility extends Common\SysUtility
 {
     //--------------- Custom module methods -----------------------------
-
     /**
      * @param     $categoryObj
      * @param int $level
@@ -174,7 +173,17 @@ class Utility extends Common\SysUtility
                 for ($i = 0; $i < $totalitemsOnPage; ++$i) {
                     $categoryObj = $allcats[$itemsObj[$i]->categoryid()];
                     $modify      = "<a href='item.php?op=mod&amp;itemid=" . $itemsObj[$i]->itemid() . "'><img src='" . XOOPS_URL . '/modules/' . $helper->getModule()->dirname() . "/assets/images/links/edit.gif' title='" . \_AM_PUBLISHER_EDITITEM . "' alt='" . \_AM_PUBLISHER_EDITITEM . "'></a>";
-                    $delete      = "<a href='item.php?op=del&amp;itemid=" . $itemsObj[$i]->itemid() . "'><img src='" . XOOPS_URL . '/modules/' . $helper->getModule()->dirname() . "/assets/images/links/delete.png' title='" . \_AM_PUBLISHER_DELETEITEM . "' alt='" . \_AM_PUBLISHER_DELETEITEM . "'></a>";
+                    $delete      = "<a href='item.php?op=del&amp;itemid="
+                                   . $itemsObj[$i]->itemid()
+                                   . "'><img src='"
+                                   . XOOPS_URL
+                                   . '/modules/'
+                                   . $helper->getModule()->dirname()
+                                   . "/assets/images/links/delete.png' title='"
+                                   . \_AM_PUBLISHER_DELETEITEM
+                                   . "' alt='"
+                                   . \_AM_PUBLISHER_DELETEITEM
+                                   . "'></a>";
                     echo '<tr>';
                     echo "<td class='head' align='center'>" . $itemsObj[$i]->itemid() . '</td>';
                     echo "<td class='even' align='left'>" . $categoryObj->name() . '</td>';

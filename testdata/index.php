@@ -23,8 +23,7 @@
  */
 
 use \Xmf\Request;
-use XoopsModules\Wfdownloads\{
-    Helper,
+use XoopsModules\Wfdownloads\{Helper,
     Common,
     Utility
 };
@@ -99,7 +98,7 @@ function loadSampleData()
             $utility::rcopy($src, $dest);
         }
     }
-    redirect_header('../admin/index.php', 1, constant('CO_' . $moduleDirNameUpper . '_' . 'SAMPLEDATA_SUCCESS'));
+    \redirect_header('../admin/index.php', 1, \constant('CO_' . $moduleDirNameUpper . '_' . 'SAVE_SAMPLEDATA_SUCCESS'));
 }
 
 function saveSampleData()
@@ -129,7 +128,7 @@ function saveSampleData()
     \Xmf\Database\TableLoad::saveTableToYamlFile('group_permission', $exportFolder . 'group_permission.yml', $criteria, $skipColumns);
     unset($criteria);
 
-    redirect_header('../admin/index.php', 1, constant('CO_' . $moduleDirNameUpper . '_' . 'SAMPLEDATA_SUCCESS'));
+    \redirect_header('../admin/index.php', 1, \constant('CO_' . $moduleDirNameUpper . '_' . 'SAVE_SAMPLEDATA_SUCCESS'));
 }
 
 function exportSchema()

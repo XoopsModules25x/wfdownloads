@@ -31,7 +31,6 @@ namespace XoopsModules\Wfdownloads\Common;
 use XoopsModules\Wfdownloads;
 use XoopsModules\Wfdownloads\Common;
 
-
 require_once \dirname(\dirname(__DIR__)) . '/include/common.php';
 
 /**
@@ -40,7 +39,6 @@ require_once \dirname(\dirname(__DIR__)) . '/include/common.php';
 class Breadcrumb
 {
     public $helper;
-
     private $dirname;
     private $bread = [];
 

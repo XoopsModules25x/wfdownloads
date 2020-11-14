@@ -153,7 +153,7 @@ switch ($op) {
             $sform->addElement(new \XoopsFormHidden('lid', $lid));
             $sform->addElement(new \XoopsFormHidden('cid', $cid));
             $sform->addElement(new \XoopsFormHidden('uid', $reviewerUid));
-            $buttonTray    = new \XoopsFormElementTray('', '');
+            $buttonTray   = new \XoopsFormElementTray('', '');
             $submitButton = new \XoopsFormButton('', 'submit', _MD_WFDOWNLOADS_RATEIT, 'submit');
             $buttonTray->addElement($submitButton);
             $cancelButton = new \XoopsFormButton('', '', _CANCEL, 'button');

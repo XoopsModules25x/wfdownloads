@@ -44,7 +44,7 @@ function wfdownloads_search($queryArray, $andor, $limit, $offset, $userId = 0, $
     $userGroups = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : [0 => XOOPS_GROUP_ANONYMOUS];
 
     /** @var \XoopsGroupPermHandler $grouppermHandler */
-$grouppermHandler = xoops_getHandler('groupperm');
+    $grouppermHandler         = xoops_getHandler('groupperm');
     $allowedDownCategoriesIds = $grouppermHandler->getItemIds('WFDownCatPerm', $userGroups, $helper->getModule()->mid());
     $downloads_lids           = $downloads_intersect = [];
     $criteria                 = new \CriteriaCompo(new \Criteria('cid', '(' . implode(',', $allowedDownCategoriesIds) . ')', 'IN'));

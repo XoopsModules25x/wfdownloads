@@ -24,7 +24,6 @@ namespace XoopsModules\Wfdownloads;
 
 use XoopsModules\Wfdownloads;
 
-
 require_once \dirname(__DIR__) . '/include/common.php';
 
 /**
@@ -36,7 +35,6 @@ class CategoryHandler extends \XoopsPersistableObjectHandler
      * @access public
      */
     public $helper;
-
     public $allCategories = false;
     public $topCategories = false;
 

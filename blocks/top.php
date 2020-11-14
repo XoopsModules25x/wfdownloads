@@ -43,9 +43,9 @@ function wfdownloads_top_show($options)
     /** @var \XoopsModules\Wfdownloads\Helper $helper */
     $helper = \XoopsModules\Wfdownloads\Helper::getInstance();
 
-    $groups                   = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : [0 => XOOPS_GROUP_ANONYMOUS];
+    $groups = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : [0 => XOOPS_GROUP_ANONYMOUS];
     /** @var \XoopsGroupPermHandler $grouppermHandler */
-$grouppermHandler = xoops_getHandler('groupperm');
+    $grouppermHandler         = xoops_getHandler('groupperm');
     $allowedDownCategoriesIds = $grouppermHandler->getItemIds('WFDownCatPerm', $groups, $helper->getModule()->mid());
 
     $block = [];
