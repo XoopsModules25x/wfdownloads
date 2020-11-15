@@ -183,7 +183,7 @@ if (is_array($allSubCategoryObjs) > 0 && !$list && !isset($_GET['selectdate'])) 
         }
 
         $infercategories    = [];
-        $catdowncount       = isset($listings['count'][$subCategoryObj->getVar('cid')]) ? $listings['count'][$subCategoryObj->getVar('cid')] : 0;
+        $catdowncount       = $listings['count'][$subCategoryObj->getVar('cid')] ?? 0;
         $subsubCategoryObjs = $categoryObjsTree->getAllChild($subCategoryObj->getVar('cid'));
 
         // ----- added for subcat images -----
@@ -210,7 +210,7 @@ if (is_array($allSubCategoryObjs) > 0 && !$list && !isset($_GET['selectdate'])) 
         if (count($subsubCategoryObjs) > 0) {
             foreach ($subsubCategoryObjs as $subsubCategoryObj) {
                 if (in_array($subsubCategoryObj->getVar('cid'), $allowedDownCategoriesIds)) {
-                    $download_count    += isset($listings['count'][$subsubCategoryObj->getVar('cid')]) ? $listings['count'][$subsubCategoryObj->getVar('cid')] : 0;
+                    $download_count    += $listings['count'][$subsubCategoryObj->getVar('cid')] ?? 0;
                     $infercategories[] = [
                         'cid'             => $subsubCategoryObj->getVar('cid'),
                         'id'              => $subsubCategoryObj->getVar('cid'), // this definition is not removed for backward compatibility issues

@@ -206,10 +206,7 @@ class MulticolumnsThemeForm extends \XoopsForm
             $ret .= '<tr>';
             for ($column = 0; $column < $this->_columns; ++$column) {
                 $ret .= "<td class='{$class}'>";
-                $ele = '&nbsp;';
-                if (isset($this->_elements[$row][$column])) {
-                    $ele = $this->_elements[$row][$column];
-                }
+                $ele = $this->_elements[$row][$column] ?? '&nbsp;';
                 if (!\is_object($ele)) {
                     $ret .= $ele;
                 } elseif (!$ele->isHidden()) {

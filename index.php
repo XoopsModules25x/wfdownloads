@@ -221,7 +221,7 @@ foreach (array_keys($mainCategoryObjs) as $i) {
         }
 
         // Get this category indicator image
-        $publishdate = isset($listings['published'][$mainCategoryObjs[$i]->getVar('cid')]) ? $listings['published'][$mainCategoryObjs[$i]->getVar('cid')] : 0;
+        $publishdate = $listings['published'][$mainCategoryObjs[$i]->getVar('cid')] ?? 0;
         if (count($allSubcategoryObjs) > 0) {
             // Foreach subcategory
             foreach (array_keys($allSubcategoryObjs) as $k) {
@@ -254,14 +254,14 @@ foreach (array_keys($mainCategoryObjs) as $i) {
         // Get this category subcategories id and title
         $subcategories = [];
         ++$count;
-        $download_count = isset($listings['count'][$mainCategoryObjs[$i]->getVar('cid')]) ? $listings['count'][$mainCategoryObjs[$i]->getVar('cid')] : 0;
+        $download_count = $listings['count'][$mainCategoryObjs[$i]->getVar('cid')] ?? 0;
         // modified July 5 2006 by Freeform Solutions (jwe)
         // make download count recursive, to include all sub categories that the user has permission to view
         //$allSubcategoryObjs = $categoryObjsTree->getAllChild($mainCategoryObjs[$i]->getVar('cid'));
         if (count($allSubcategoryObjs) > 0) {
             foreach (array_keys($allSubcategoryObjs) as $k) {
                 if (in_array($allSubcategoryObjs[$k]->getVar('cid'), $allowedDownCategoriesIds)) {
-                    $download_count += isset($listings['count'][$allSubcategoryObjs[$k]->getVar('cid')]) ? $listings['count'][$allSubcategoryObjs[$k]->getVar('cid')] : 0;
+                    $download_count += $listings['count'][$allSubcategoryObjs[$k]->getVar('cid')] ?? 0;
                     if (1 == $helper->getConfig('subcats') && $allSubcategoryObjs[$k]->getVar('pid') == $mainCategoryObjs[$i]->getVar('cid')) {
                         // if we are collecting subcat info for displaying, and this subcat is a first level child...
                         $subcategories[] = [

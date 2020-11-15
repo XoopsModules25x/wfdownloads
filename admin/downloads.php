@@ -246,8 +246,8 @@ switch ($op) {
 
                 foreach (array_keys($anonUserRatingObjs) as $anonUserRatingObj) {
                     $formatted_date = formatTimestamp($anonUserRatingObj->getVar('ratingtimestamp'), 'l');
-                    $userAvgRating  = isset($userRatings['avg']) ? $userRatings['avg'] : 0;
-                    $userVotes      = isset($userRatings['count']) ? $userRatings['count'] : 0;
+                    $userAvgRating  = $userRatings['avg'] ?? 0;
+                    $userVotes      = $userRatings['count'] ?? 0;
 
                     $ratingUserName = $GLOBALS['xoopsConfig']['anonymous'];
 

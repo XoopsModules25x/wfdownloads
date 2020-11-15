@@ -154,9 +154,9 @@ switch ($op) {
                 case 'limitations':
                 case 'versiontypes':
                     $tempArray       = $helper->getConfig($key);
-                    $downloadContent = isset($tempArray[$downloadObj->getVar($key)]) ? $tempArray[$downloadObj->getVar($key)] : '';
+                    $downloadContent = $tempArray[$downloadObj->getVar($key)] ?? '';
 
-                    $modificationContent = isset($tempArray[$modificationObj->getVar($key)]) ? $tempArray[$modificationObj->getVar($key)] : '';
+                    $modificationContent = $tempArray[$modificationObj->getVar($key)] ?? '';
                     break;
                 case 'cid':
                     $category_list = $helper->getHandler('Category')->getObjects(new Criteria('cid', $downloadObj->getVar($key)));
@@ -387,7 +387,7 @@ switch ($op) {
                     $report_array['download_lid']    = $downloadObj->getVar('lid');
                     $report_array['download_cid']    = $downloadObj->getVar('cid');
                     $report_array['download_title']  = $downloadObj->getVar('title');
-                    $submitter                       = isset($users[$downloadObjs[$reportObj->getVar('lid')]->getVar('submitter')]) ? $users[$downloadObjs[$reportObj->getVar('lid')]->getVar('submitter')] : false;
+                    $submitter                       = $users[$downloadObjs[$reportObj->getVar('lid')]->getVar('submitter')] ?? false;
                     $report_array['submitter_email'] = is_object($submitter) ? $submitter->getVar('email') : '';
                     $report_array['submitter_uname'] = is_object($submitter) ? $submitter->getVar('uname') : $GLOBALS['xoopsConfig']['anonymous'];
                 } else {
@@ -396,7 +396,7 @@ switch ($op) {
                     $report_array['submitter_email'] = '';
                     $report_array['submitter_uname'] = $GLOBALS['xoopsConfig']['anonymous'];
                 }
-                $sender                         = isset($users[$reportObj->getVar('sender')]) ? $users[$reportObj->getVar('sender')] : '';
+                $sender                         = $users[$reportObj->getVar('sender')] ?? '';
                 $report_array['reporter_email'] = isset($users[$reportObj->getVar('sender')]) ? $users[$reportObj->getVar('sender')]->getVar('email') : '';
                 $report_array['reporter_uname'] = isset($users[$reportObj->getVar('sender')]) ? $users[$reportObj->getVar('sender')]->getVar('uname') : $GLOBALS['xoopsConfig']['anonymous'];
                 $report_array['formatted_date'] = formatTimestamp($reportObj->getVar('date'), 'l');
