@@ -157,7 +157,6 @@ class Utility extends Common\SysUtility
             $totalitems = $helper->getHandler('Item')->getItemsCount($selCat, [Wfdownloads\Constants::PUBLISHER_STATUS_PUBLISHED]);
             // creating the items objects that are published
             $itemsObj         = $helper->getHandler('Item')->getAllPublished($helper->getConfig('idxcat_perpage'), $startitem, $selCat);
-            $totalitemsOnPage = \count($itemsObj);
             $allcats          = $helper->getHandler('Category')->getObjects(null, true);
             echo "<table width='100%' cellspacing=1 cellpadding=3 border=0 class = outer>";
             echo '<tr>';
@@ -168,11 +167,11 @@ class Utility extends Common\SysUtility
             echo "<td width='60' class='bg3' align='center'><strong>" . \_AM_PUBLISHER_ACTION . '</strong></td>';
             echo '</tr>';
             if ($totalitems > 0) {
-                for ($i = 0; $i < $totalitemsOnPage; ++$i) {
-                    $categoryObj = $allcats[$itemsObj[$i]->categoryid()];
-                    $modify      = "<a href='item.php?op=mod&amp;itemid=" . $itemsObj[$i]->itemid() . "'><img src='" . XOOPS_URL . '/modules/' . $helper->getModule()->dirname() . "/assets/images/links/edit.gif' title='" . \_AM_PUBLISHER_EDITITEM . "' alt='" . \_AM_PUBLISHER_EDITITEM . "'></a>";
+                foreach ($itemsObj as $iValue) {
+                    $categoryObj = $allcats[$iValue->categoryid()];
+                    $modify      = "<a href='item.php?op=mod&amp;itemid=" . $iValue->itemid() . "'><img src='" . XOOPS_URL . '/modules/' . $helper->getModule()->dirname() . "/assets/images/links/edit.gif' title='" . \_AM_PUBLISHER_EDITITEM . "' alt='" . \_AM_PUBLISHER_EDITITEM . "'></a>";
                     $delete      = "<a href='item.php?op=del&amp;itemid="
-                                   . $itemsObj[$i]->itemid()
+                                   . $iValue->itemid()
                                    . "'><img src='"
                                    . XOOPS_URL
                                    . '/modules/'
@@ -183,10 +182,10 @@ class Utility extends Common\SysUtility
                                    . \_AM_PUBLISHER_DELETEITEM
                                    . "'></a>";
                     echo '<tr>';
-                    echo "<td class='head' align='center'>" . $itemsObj[$i]->itemid() . '</td>';
+                    echo "<td class='head' align='center'>" . $iValue->itemid() . '</td>';
                     echo "<td class='even' align='left'>" . $categoryObj->name() . '</td>';
-                    echo "<td class='even' align='left'>" . $itemsObj[$i]->getitemLink() . '</td>';
-                    echo "<td class='even' align='center'>" . $itemsObj[$i]->getDatesub('s') . '</td>';
+                    echo "<td class='even' align='left'>" . $iValue->getitemLink() . '</td>';
+                    echo "<td class='even' align='center'>" . $iValue->getDatesub('s') . '</td>';
                     echo "<td class='even' align='center'> $modify $delete </td>";
                     echo '</tr>';
                 }

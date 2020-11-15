@@ -120,8 +120,7 @@ class MulticolumnsThemeForm extends \XoopsForm
                 }
             } else {
                 $required_elements = &$formElement->getRequired();
-                $count             = \count($required_elements);
-                for ($i = 0; $i < $count; ++$i) {
+                foreach ($required_elements as $i => $iValue) {
                     $this->_required[] = &$required_elements[$i];
                 }
             }
