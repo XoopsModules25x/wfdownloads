@@ -133,23 +133,23 @@ class DirectoryChecker
 $op = Request::getString('op', '', 'POST');
 switch ($op) {
     case 'createdir':
-        if (\Xmf\Request::hasVar('path', 'POST')) {
+        if (Request::hasVar('path', 'POST')) {
             $path = $_POST['path'];
         }
-        if (\Xmf\Request::hasVar('redirect', 'POST')) {
+        if (Request::hasVar('redirect', 'POST')) {
             $redirect = $_POST['redirect'];
         }
         $msg = DirectoryChecker::createDirectory($path) ? \_DC_WFDOWNLOADS_DIRCREATED : \_DC_WFDOWNLOADS_DIRNOTCREATED;
         \redirect_header($redirect, 2, $msg . ': ' . $path);
         break;
     case 'setdirperm':
-        if (\Xmf\Request::hasVar('path', 'POST')) {
+        if (Request::hasVar('path', 'POST')) {
             $path = $_POST['path'];
         }
-        if (\Xmf\Request::hasVar('redirect', 'POST')) {
+        if (Request::hasVar('redirect', 'POST')) {
             $redirect = $_POST['redirect'];
         }
-        if (\Xmf\Request::hasVar('mode', 'POST')) {
+        if (Request::hasVar('mode', 'POST')) {
             $mode = $_POST['mode'];
         }
         $msg = DirectoryChecker::setDirectoryPermissions($path, $mode) ? \_DC_WFDOWNLOADS_PERMSET : \_DC_WFDOWNLOADS_PERMNOTSET;

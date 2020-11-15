@@ -20,8 +20,13 @@
  */
 
 use Xmf\Request;
-use XoopsModules\Wfdownloads;
-use XoopsModules\Wfdownloads\Common;
+use XoopsModules\Wfdownloads\{
+    Common,
+    Helper,
+    Utility
+};
+/** @var Helper $helper */
+/** @var Utility $utility */
 
 $currentFile = basename(__FILE__);
 require_once __DIR__ . '/header.php';
@@ -47,7 +52,7 @@ if (0 == $downloadObj->getVar('published') || $downloadObj->getVar('published') 
 }
 
 // Check permissions
-if (false === $helper->getConfig('enable_mirrors') && !Wfdownloads\Utility::userIsAdmin()) {
+if (false === $helper->getConfig('enable_mirrors') && !Utility::userIsAdmin()) {
     redirect_header('index.php', 3, _NOPERM);
 }
 $userGroups = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : [0 => XOOPS_GROUP_ANONYMOUS];
@@ -85,7 +90,7 @@ switch ($op) {
         // Generate content header
         $sql                     = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('wfdownloads_indexpage') . ' ';
         $head_arr                = $GLOBALS['xoopsDB']->fetchArray($GLOBALS['xoopsDB']->query($sql));
-        $catarray['imageheader'] = Wfdownloads\Utility::headerImage();
+        $catarray['imageheader'] = Utility::headerImage();
         $xoopsTpl->assign('catarray', $catarray);
         $xoopsTpl->assign('category_path', $helper->getHandler('Category')->getNicePath($cid));
         $xoopsTpl->assign('category_id', $cid);
@@ -95,8 +100,8 @@ switch ($op) {
         $xoopsTpl->assign('wfdownloads_breadcrumb', $breadcrumb->render());
 
         // Count mirrors
-        $criteria = new \CriteriaCompo(new \Criteria('lid', $lid));
-        $criteria->add(new \Criteria('submit', 1)); // true
+        $criteria = new CriteriaCompo(new Criteria('lid', $lid));
+        $criteria->add(new Criteria('submit', 1)); // true
         $mirrorsCount = $helper->getHandler('Mirror')->getCount($criteria);
 
         // Get mirrors
@@ -126,24 +131,24 @@ switch ($op) {
             $mirror_array = $mirrorObj->toArray();
             if (1 == $helper->getConfig('enable_onlinechk')) {
                 $serverURL                = str_replace('http://', '', trim($mirror_array['homeurl']));
-                $mirror_array['isonline'] = Wfdownloads\Utility::mirrorOnline($serverURL);
+                $mirror_array['isonline'] = Utility::mirrorOnline($serverURL);
             } else {
                 $mirror_array['isonline'] = 2;
             }
             $mirror_array['add_mirror'] = $add_mirror;
             $mirror_array['date']       = formatTimestamp($mirror_array['date'], $helper->getConfig('dateformat'));
-            $mirror_array['submitter']  = \XoopsUserUtility::getUnameFromId($mirror_array['uid']);
+            $mirror_array['submitter']  = XoopsUserUtility::getUnameFromId($mirror_array['uid']);
             $xoopsTpl->append('down_mirror', $mirror_array);
         }
         $xoopsTpl->assign('lang_mirror_found', sprintf(_MD_WFDOWNLOADS_MIRROR_TOTAL, $mirrorsCount));
 
         require_once XOOPS_ROOT_PATH . '/class/pagenav.php';
-        $pagenav          = new \XoopsPageNav($mirrorsCount, 5, $start, 'start', "op=mirrors.list&amp;cid={$cid}&amp;lid={$lid}", 1);
+        $pagenav          = new XoopsPageNav($mirrorsCount, 5, $start, 'start', "op=mirrors.list&amp;cid={$cid}&amp;lid={$lid}", 1);
         $navbar['navbar'] = $pagenav->renderNav();
         $xoopsTpl->assign('navbar', $navbar);
 
         $xoopsTpl->assign('categoryPath', $pathstring . ' > ' . $download_array['title']);
-        $xoopsTpl->assign('module_home', Wfdownloads\Utility::moduleHome(true));
+        $xoopsTpl->assign('module_home', Utility::moduleHome(true));
 
         require_once __DIR__ . '/footer.php';
         break;
@@ -166,14 +171,14 @@ switch ($op) {
         // Get mirror poster 'uid'
         $mirroruserUid = is_object($GLOBALS['xoopsUser']) ? (int)$GLOBALS['xoopsUser']->getVar('uid') : 0;
 
-        if (\Xmf\Request::hasVar('submit', 'POST')) {
+        if (Request::hasVar('submit', 'POST')) {
             $mirrorObj = $helper->getHandler('Mirror')->create();
             $mirrorObj->setVar('title', trim($_POST['title']));
             $mirrorObj->setVar('homeurl', formatURL(trim($_POST['homeurl'])));
             $mirrorObj->setVar('location', trim($_POST['location']));
             $mirrorObj->setVar('continent', trim($_POST['continent']));
             $mirrorObj->setVar('downurl', trim($_POST['downurl']));
-            $mirrorObj->setVar('lid', \Xmf\Request::getInt('lid', 0, 'POST'));
+            $mirrorObj->setVar('lid', Request::getInt('lid', 0, 'POST'));
             $mirrorObj->setVar('uid', $mirroruserUid);
             $mirrorObj->setVar('date', time());
             $approve = true;
@@ -203,22 +208,22 @@ switch ($op) {
             $breadcrumb->addLink(_MD_WFDOWNLOADS_ADDMIRROR, '');
             echo $breadcrumb->render();
 
-            echo "<div align='center'>" . Wfdownloads\Utility::headerImage() . "</div><br>\n";
+            echo "<div align='center'>" . Utility::headerImage() . "</div><br>\n";
             echo '<div>' . _MD_WFDOWNLOADS_MIRROR_SNEWMNAMEDESC . "</div>\n";
 
             // Generate form
             require_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
-            $sform      = new \XoopsThemeForm(_MD_WFDOWNLOADS_MIRROR_SUBMITMIRROR, 'mirrorform', xoops_getenv('SCRIPT_NAME'), 'post', true);
-            $title_text = new \XoopsFormText(_MD_WFDOWNLOADS_MIRROR_HOMEURLTITLE, 'title', 50, 255);
+            $sform      = new XoopsThemeForm(_MD_WFDOWNLOADS_MIRROR_SUBMITMIRROR, 'mirrorform', xoops_getenv('SCRIPT_NAME'), 'post', true);
+            $title_text = new XoopsFormText(_MD_WFDOWNLOADS_MIRROR_HOMEURLTITLE, 'title', 50, 255);
             $title_text->setDescription(_MD_WFDOWNLOADS_MIRROR_HOMEURLTITLE_DESC);
             $sform->addElement($title_text, true);
-            $homeurl_text = new \XoopsFormText(_MD_WFDOWNLOADS_MIRROR_HOMEURL, 'homeurl', 50, 255);
+            $homeurl_text = new XoopsFormText(_MD_WFDOWNLOADS_MIRROR_HOMEURL, 'homeurl', 50, 255);
             $homeurl_text->setDescription(_MD_WFDOWNLOADS_MIRROR_HOMEURL_DESC);
             $sform->addElement($homeurl_text, true);
-            $location_text = new \XoopsFormText(_MD_WFDOWNLOADS_MIRROR_LOCATION, 'location', 50, 255);
+            $location_text = new XoopsFormText(_MD_WFDOWNLOADS_MIRROR_LOCATION, 'location', 50, 255);
             $location_text->setDescription(_MD_WFDOWNLOADS_MIRROR_LOCATION_DESC);
             $sform->addElement($location_text, true);
-            $continent_select = new \XoopsFormSelect(_MD_WFDOWNLOADS_MIRROR_CONTINENT, 'continent');
+            $continent_select = new XoopsFormSelect(_MD_WFDOWNLOADS_MIRROR_CONTINENT, 'continent');
             $continent_select->addOptionArray(
                 [
                     _MD_WFDOWNLOADS_CONT1 => _MD_WFDOWNLOADS_CONT1,
@@ -231,16 +236,16 @@ switch ($op) {
                 ]
             );
             $sform->addElement($continent_select);
-            $downurl_text = new \XoopsFormText(_MD_WFDOWNLOADS_MIRROR_DOWNURL, 'downurl', 50, 255);
+            $downurl_text = new XoopsFormText(_MD_WFDOWNLOADS_MIRROR_DOWNURL, 'downurl', 50, 255);
             $downurl_text->setDescription(_MD_WFDOWNLOADS_MIRROR_DOWNURL_DESC);
             $sform->addElement($downurl_text, true);
-            $sform->addElement(new \XoopsFormHidden('lid', $lid));
-            $sform->addElement(new \XoopsFormHidden('cid', $cid));
-            $sform->addElement(new \XoopsFormHidden('uid', $mirroruserUid));
-            $buttonTray   = new \XoopsFormElementTray('', '');
-            $submitButton = new \XoopsFormButton('', 'submit', _SUBMIT, 'submit');
+            $sform->addElement(new XoopsFormHidden('lid', $lid));
+            $sform->addElement(new XoopsFormHidden('cid', $cid));
+            $sform->addElement(new XoopsFormHidden('uid', $mirroruserUid));
+            $buttonTray   = new XoopsFormElementTray('', '');
+            $submitButton = new XoopsFormButton('', 'submit', _SUBMIT, 'submit');
             $buttonTray->addElement($submitButton);
-            $cancelButton = new \XoopsFormButton('', '', _CANCEL, 'button');
+            $cancelButton = new XoopsFormButton('', '', _CANCEL, 'button');
             $cancelButton->setExtra('onclick="history.go(-1)"');
             $buttonTray->addElement($cancelButton);
             $sform->addElement($buttonTray);

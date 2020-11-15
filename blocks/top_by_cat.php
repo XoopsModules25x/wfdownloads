@@ -54,9 +54,9 @@ function wfdownloads_top_by_cat_show($options)
     $block = [];
 
     // get downloads
-    $criteria = new \CriteriaCompo();
-    $criteria->add(new \Criteria('cid', '(' . implode(',', $allowedDownCategoriesIds) . ')', 'IN'));
-    $criteria->add(new \Criteria('offline', false));
+    $criteria = new CriteriaCompo();
+    $criteria->add(new Criteria('cid', '(' . implode(',', $allowedDownCategoriesIds) . ')', 'IN'));
+    $criteria->add(new Criteria('offline', false));
     $criteria->setSort('date');
     $criteria->setOrder('DESC');
     $criteria->setLimit($options[1]);

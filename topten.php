@@ -19,8 +19,18 @@
  * @author          Xoops Development Team
  */
 
-use XoopsModules\Wfdownloads;
-use XoopsModules\Wfdownloads\Common;
+use Xmf\Request;
+use XoopsModules\Wfdownloads\{
+    Common,
+    Common\LetterChoice,
+    Helper,
+    Utility,
+    DownloadHandler,
+    ObjectTree
+};
+
+/** @var Helper $helper */
+/** @var Utility $utility */
 
 $currentFile = basename(__FILE__);
 require_once __DIR__ . '/header.php';
@@ -28,7 +38,8 @@ require_once __DIR__ . '/header.php';
 $GLOBALS['xoopsOption']['template_main'] = "{$helper->getModule()->dirname()}_topten.tpl";
 
 // Check permissions
-if (('rate' === $_GET['list']) && false === $helper->getConfig('enable_ratings') && !Wfdownloads\Utility::userIsAdmin()) {
+if ('rate' === Request::getString('list', '', 'GET')
+    && false === $helper->getConfig('enable_ratings') && !Utility::userIsAdmin()) {
     redirect_header('index.php', 3, _NOPERM);
 }
 $groups = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : [0 => XOOPS_GROUP_ANONYMOUS];
@@ -50,17 +61,17 @@ $sort         = (isset($_GET['list']) && in_array($_GET['list'], $action_array))
 $thisselected = $action_array[$sort];
 $sortDB       = $list_array[$thisselected];
 
-$catarray['imageheader'] = Wfdownloads\Utility::headerImage();
-//$catarray['letters']     = Wfdownloads\Utility::lettersChoice();
+$catarray['imageheader'] = Utility::headerImage();
+//$catarray['letters']     = Utility::lettersChoice();
 /** @var \XoopsDatabase $db */
-$db         = \XoopsDatabaseFactory::getDatabaseConnection();
-$objHandler = new Wfdownloads\DownloadHandler($db);
+$db         = XoopsDatabaseFactory::getDatabaseConnection();
+$objHandler = new DownloadHandler($db);
 /** @var \XoopsGroupPermHandler $grouppermHandler */
 $grouppermHandler    = xoops_getHandler('groupperm');
-$choicebyletter      = new Wfdownloads\Common\LetterChoice($objHandler, null, null, range('a', 'z'), 'letter');
+$choicebyletter      = new LetterChoice($objHandler, null, null, range('a', 'z'), 'letter');
 $catarray['letters'] = $choicebyletter->render();
 
-$catarray['toolbar'] = Wfdownloads\Utility::toolbar();
+$catarray['toolbar'] = Utility::toolbar();
 
 $xoopsTpl->assign('catarray', $catarray);
 
@@ -68,7 +79,7 @@ $arr = [];
 
 $categoryObjs = $helper->getHandler('Category')->getObjects();
 
-$categoryObjsTree     = new Wfdownloads\ObjectTree($categoryObjs, 'cid', 'pid');
+$categoryObjsTree     = new ObjectTree($categoryObjs, 'cid', 'pid');
 $mainCategoryObjs     = $categoryObjsTree->getFirstChild(0);
 $allowedCategoriesIds = $grouppermHandler->getItemIds('WFDownCatPerm', $groups, $helper->getModule()->mid());
 
@@ -86,7 +97,7 @@ foreach ($mainCategoryObjs as $mainCategoryObj) {
         }
         $cids[] = $cid;
 
-        $criteria = new \CriteriaCompo(new \Criteria('cid', '(' . implode(',', $cids) . ')', 'IN'));
+        $criteria = new CriteriaCompo(new Criteria('cid', '(' . implode(',', $cids) . ')', 'IN'));
         $criteria->setSort($sortDB);
         $criteria->setOrder('DESC');
         $criteria->setLimit(10);
@@ -134,12 +145,12 @@ $breadcrumb->addLink($helper->getModule()->getVar('name'), WFDOWNLOADS_URL);
 $breadcrumb->addLink($lang_array[$thisselected], '');
 $xoopsTpl->assign('wfdownloads_breadcrumb', $breadcrumb->render());
 
-if ('rate' === $_GET['list']) {
+if ('rate' === Request::getString('list', '', 'GET')) {
     $xoopsTpl->assign('categoryPath', _MD_WFDOWNLOADS_DOWNLOAD_MOST_RATED);
 } else {
     $xoopsTpl->assign('categoryPath', _MD_WFDOWNLOADS_DOWNLOAD_MOST_POPULAR);
 }
 
-$xoopsTpl->assign('module_home', Wfdownloads\Utility::moduleHome(true));
+$xoopsTpl->assign('module_home', Utility::moduleHome(true));
 
 require_once __DIR__ . '/footer.php';

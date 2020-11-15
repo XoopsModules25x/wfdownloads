@@ -43,7 +43,7 @@ class Review extends \XoopsObject
     public function __construct($id = null)
     {
         /** @var \XoopsModules\Wfdownloads\Helper $this ->helper */
-        $this->helper = \XoopsModules\Wfdownloads\Helper::getInstance();
+        $this->helper = Helper::getInstance();
         $this->db     = \XoopsDatabaseFactory::getDatabaseConnection();
         $this->initVar('review_id', \XOBJ_DTYPE_INT);
         $this->initVar('lid', \XOBJ_DTYPE_INT);

@@ -20,8 +20,13 @@
  */
 
 use Xmf\Request;
-use XoopsModules\Wfdownloads;
-use XoopsModules\Wfdownloads\Common;
+use XoopsModules\Wfdownloads\{
+    Common,
+    Helper,
+    Utility
+};
+/** @var Helper $helper */
+/** @var Utility $utility */
 
 $currentFile = basename(__FILE__);
 require_once __DIR__ . '/header.php';
@@ -46,7 +51,7 @@ if (false === $downloadObj->getVar('published') || $downloadObj->getVar('publish
 }
 
 // Check permissions
-if (false === $helper->getConfig('enable_ratings') && !Wfdownloads\Utility::userIsAdmin()) {
+if (false === $helper->getConfig('enable_ratings') && !Utility::userIsAdmin()) {
     redirect_header('index.php', 3, _NOPERM);
 }
 // Breadcrumb
@@ -68,7 +73,7 @@ switch ($op) {
         $ratinguserUid = is_object($GLOBALS['xoopsUser']) ? (int)$GLOBALS['xoopsUser']->getVar('uid') : 0;
         $ratinguserIp  = getenv('REMOTE_ADDR');
 
-        if (\Xmf\Request::hasVar('submit', 'POST')) {
+        if (Request::hasVar('submit', 'POST')) {
             $rating = Request::getString('rating', '--', 'POST');
 
             // Check if Rating is Null
@@ -81,8 +86,8 @@ switch ($op) {
                     redirect_header(WFDOWNLOADS_URL . "/singlefile.php?cid={$cid}&amp;lid={$lid}", 4, _MD_WFDOWNLOADS_CANTVOTEOWN);
                 }
                 // Check if REG user is trying to vote twice.
-                $criteria = new \CriteriaCompo(new \Criteria('lid', $lid));
-                $criteria->add(new \Criteria('ratinguser', $ratinguserUid));
+                $criteria = new CriteriaCompo(new Criteria('lid', $lid));
+                $criteria->add(new Criteria('ratinguser', $ratinguserUid));
                 $ratingsCount = $helper->getHandler('Rating')->getCount($criteria);
                 if ($ratingsCount > 0) {
                     redirect_header("singlefile.php?cid={$cid}&amp;lid={$lid}", 4, _MD_WFDOWNLOADS_VOTEONCE);
@@ -91,10 +96,10 @@ switch ($op) {
                 // Check if ANONYMOUS user is trying to vote more than once per day (only 1 anonymous from an IP in a single day).
                 $anonymousWaitDays = 1;
                 $yesterday         = (time() - (86400 * $anonymousWaitDays));
-                $criteria          = new \CriteriaCompo(new \Criteria('lid', $lid));
-                $criteria->add(new \Criteria('ratinguser', 0));
-                $criteria->add(new \Criteria('ratinghostname', $ratinguserIp));
-                $criteria->add(new \Criteria('ratingtimestamp', $yesterday, '>'));
+                $criteria          = new CriteriaCompo(new Criteria('lid', $lid));
+                $criteria->add(new Criteria('ratinguser', 0));
+                $criteria->add(new Criteria('ratinghostname', $ratinguserIp));
+                $criteria->add(new Criteria('ratingtimestamp', $yesterday, '>'));
                 $anonymousVotesCount = $helper->getHandler('Rating')->getCount($criteria);
                 if ($anonymousVotesCount > 0) {
                     redirect_header("singlefile.php?cid={$cid}&amp;lid={$lid}", 4, _MD_WFDOWNLOADS_VOTEONCE);
@@ -109,7 +114,7 @@ switch ($op) {
             $ratingObj->setVar('ratingtimestamp', time());
             if ($helper->getHandler('Rating')->insert($ratingObj)) {
                 // All is well. Calculate Score & Add to Summary (for quick retrieval & sorting) to DB.
-                Wfdownloads\Utility::updateRating($lid);
+                Utility::updateRating($lid);
                 $thankyouMessage = _MD_WFDOWNLOADS_VOTEAPPRE . '<br>' . sprintf(_MD_WFDOWNLOADS_THANKYOU, $GLOBALS['xoopsConfig']['sitename']);
                 redirect_header("singlefile.php?cid={$cid}&amp;lid={$lid}", 4, $thankyouMessage);
             } else {
@@ -132,8 +137,8 @@ switch ($op) {
 
             // Generate form
             require_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
-            $sform         = new \XoopsThemeForm(_MD_WFDOWNLOADS_RATETHISFILE, 'voteform', xoops_getenv('SCRIPT_NAME'), 'post', true);
-            $rating_select = new \XoopsFormSelect(_MD_WFDOWNLOADS_REV_RATING, 'rating', '10');
+            $sform         = new XoopsThemeForm(_MD_WFDOWNLOADS_RATETHISFILE, 'voteform', xoops_getenv('SCRIPT_NAME'), 'post', true);
+            $rating_select = new XoopsFormSelect(_MD_WFDOWNLOADS_REV_RATING, 'rating', '10');
             //$rating_select->setDescription(_MD_WFDOWNLOADS_REV_RATING_DESC);
             $rating_select->addOptionArray(
                 [
@@ -150,13 +155,13 @@ switch ($op) {
                 ]
             );
             $sform->addElement($rating_select);
-            $sform->addElement(new \XoopsFormHidden('lid', $lid));
-            $sform->addElement(new \XoopsFormHidden('cid', $cid));
-            $sform->addElement(new \XoopsFormHidden('uid', $reviewerUid));
-            $buttonTray   = new \XoopsFormElementTray('', '');
-            $submitButton = new \XoopsFormButton('', 'submit', _MD_WFDOWNLOADS_RATEIT, 'submit');
+            $sform->addElement(new XoopsFormHidden('lid', $lid));
+            $sform->addElement(new XoopsFormHidden('cid', $cid));
+            $sform->addElement(new XoopsFormHidden('uid', $reviewerUid));
+            $buttonTray   = new XoopsFormElementTray('', '');
+            $submitButton = new XoopsFormButton('', 'submit', _MD_WFDOWNLOADS_RATEIT, 'submit');
             $buttonTray->addElement($submitButton);
-            $cancelButton = new \XoopsFormButton('', '', _CANCEL, 'button');
+            $cancelButton = new XoopsFormButton('', '', _CANCEL, 'button');
             $cancelButton->setExtra('onclick="history.go(-1)"');
             $buttonTray->addElement($cancelButton);
             $sform->addElement($buttonTray);
@@ -178,7 +183,7 @@ switch ($op) {
                     'lid'         => $lid,
                     'cid'         => $cid,
                     'title'       => $downloadObj->getVar('title'),
-                    'imageheader' => Wfdownloads\Utility::headerImage(),
+                    'imageheader' => Utility::headerImage(),
                 ]
             ); // this definition is not removed for backward compatibility issues
             require_once __DIR__ . '/footer.php';

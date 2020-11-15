@@ -20,15 +20,17 @@
  */
 
 use Xmf\Language;
-use XoopsModules\Wfdownloads;
-use XoopsModules\Wfdownloads\Common\Configurator;
-use XoopsModules\Wfdownloads\Helper;
-use XoopsModules\Wfdownloads\Utility;
+use XoopsModules\Wfdownloads\{
+    Common\Configurator,
+    Helper,
+    Utility
+};
+/** @var Helper $helper */
+/** @var Utility $utility */
 
 defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
 require_once __DIR__ . '/common.php';
 //@require_once WFDOWNLOADS_ROOT_PATH . '/language/' . $GLOBALS['xoopsConfig']['language'] . '/admin.php';
-/** @var \XoopsModules\Wfdownloads\Helper $helper */
 $helper = Helper::getInstance();
 xoops_loadLanguage('admin', $GLOBALS['xoopsModule']->dirname());
 
@@ -41,7 +43,7 @@ define('BLANK_FILE_PATH', XOOPS_ROOT_PATH . '/uploads/blank.png');
  *
  * @return bool true if ready to install, false if not
  */
-function xoops_module_pre_install_wfdownloads(\XoopsModule $module)
+function xoops_module_pre_install_wfdownloads(XoopsModule $module)
 {
     /** @var \XoopsModules\Wfdownloads\Utility $utility */
     $utility = new Utility();
@@ -68,7 +70,7 @@ function xoops_module_pre_install_wfdownloads(\XoopsModule $module)
  *
  * @return bool true if installation successful, false if not
  */
-function xoops_module_install_wfdownloads(\XoopsModule $module)
+function xoops_module_install_wfdownloads(XoopsModule $module)
 {
     global $xoopsModule;
     require_once dirname(dirname(dirname(__DIR__))) . '/mainfile.php';

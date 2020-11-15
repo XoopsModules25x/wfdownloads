@@ -18,7 +18,7 @@
 /**
  * Class WfdownloadsCorePreload
  */
-class WfdownloadsCorePreload extends \XoopsPreloadItem
+class WfdownloadsCorePreload extends XoopsPreloadItem
 {
     // to add PSR-4 autoloader
     /**

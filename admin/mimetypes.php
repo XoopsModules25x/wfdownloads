@@ -21,13 +21,16 @@
 
 use Xmf\Module\Admin;
 use Xmf\Request;
-use XoopsModules\Wfdownloads;
-use XoopsModules\Wfdownloads\Helper;
+use XoopsModules\Wfdownloads\{
+    Helper,
+    Utility
+};
+/** @var Helper $helper */
+/** @var Utility $utility */
 
 $currentFile = basename(__FILE__);
 require_once __DIR__ . '/admin_header.php';
 
-/** @var \XoopsModules\Wfdownloads\Helper $helper */
 $helper = Helper::getInstance();
 
 $op = Request::getString('op', 'mimetypes.list');
@@ -45,7 +48,7 @@ switch ($op) {
     */
     case 'mimetype.edit':
     case 'mimetype.add':
-        Wfdownloads\Utility::getCpHeader();
+        Utility::getCpHeader();
         $adminObject = Admin::getInstance();
         $adminObject->displayNavigation($currentFile);
 
@@ -60,7 +63,7 @@ switch ($op) {
         echo "</fieldset>\n";
 
         /** @var Wfdownloads\Mimetype $mimetypeObj */
-        if (\Xmf\Request::hasVar('mime_id', 'REQUEST')) {
+        if (Request::hasVar('mime_id', 'REQUEST')) {
             $mimetypeObj = $helper->getHandler('Mimetype')->get($_REQUEST['mime_id']);
         } else {
             $mimetypeObj = $helper->getHandler('Mimetype')->create();
@@ -68,12 +71,12 @@ switch ($op) {
         $form = $mimetypeObj->getForm();
         $form->display();
 
-        $extform = new \XoopsThemeForm(_AM_WFDOWNLOADS_MIME_FINDMIMETYPE, 'op', $_SERVER['REQUEST_URI']);
+        $extform = new XoopsThemeForm(_AM_WFDOWNLOADS_MIME_FINDMIMETYPE, 'op', $_SERVER['REQUEST_URI']);
 
-        $fileext_text = new \XoopsFormText(_AM_WFDOWNLOADS_MIME_EXTFIND, 'fileext', 5, 60, $mimetypeObj->getVar('mime_ext'));
+        $fileext_text = new XoopsFormText(_AM_WFDOWNLOADS_MIME_EXTFIND, 'fileext', 5, 60, $mimetypeObj->getVar('mime_ext'));
         $fileext_text->setDescription(_AM_WFDOWNLOADS_MIME_EXTFIND_DESC);
         $extform->addElement($fileext_text);
-        $button_open = new \XoopsFormButton('', '', _AM_WFDOWNLOADS_MIME_FINDIT, 'button');
+        $button_open = new XoopsFormButton('', '', _AM_WFDOWNLOADS_MIME_FINDIT, 'button');
         $button_open->setExtra('onclick="document.getElementById(\'filext_iframe\').src = \'http://filext.com/detaillist.php?extdetail=\' + this.form.elements.fileext.value"');
         $extform->addElement($button_open);
         $extform->addElement($buttonTray);
@@ -92,8 +95,8 @@ switch ($op) {
         $mimetypeObj->setVar('mime_ext', $_POST['mime_ext']);
         $mimetypeObj->setVar('mime_name', $_POST['mime_name']);
         $mimetypeObj->setVar('mime_types', $_POST['mime_type']);
-        $mimetypeObj->setVar('mime_admin', \Xmf\Request::getInt('mime_admin', 0, 'POST'));
-        $mimetypeObj->setVar('mime_user', \Xmf\Request::getInt('mime_user', 0, 'POST'));
+        $mimetypeObj->setVar('mime_admin', Request::getInt('mime_admin', 0, 'POST'));
+        $mimetypeObj->setVar('mime_user', Request::getInt('mime_user', 0, 'POST'));
         if (!$helper->getHandler('Mimetype')->insert($mimetypeObj)) {
             $error = 'Could not update mimetype information';
             trigger_error($error, E_USER_ERROR);
@@ -107,14 +110,14 @@ switch ($op) {
             redirect_header($currentFile, 4, _AM_WFDOWNLOADS_ERROR_MIMETYPENOTFOUND);
         }
 
-        if (\Xmf\Request::hasVar('admin', 'REQUEST') && true === $_REQUEST['admin']) {
+        if (Request::hasVar('admin', 'REQUEST') && true === $_REQUEST['admin']) {
             if (true === $mimetypeObj->getVar('mime_admin')) {
                 $mimetypeObj->setVar('mime_admin', false);
             } else {
                 $mimetypeObj->setVar('mime_admin', true);
             }
         }
-        if (\Xmf\Request::hasVar('user', 'REQUEST') && true === $_REQUEST['user']) {
+        if (Request::hasVar('user', 'REQUEST') && true === $_REQUEST['user']) {
             if (true === $mimetypeObj->getVar('mime_user')) {
                 $mimetypeObj->setVar('mime_user', false);
             } else {
@@ -124,25 +127,25 @@ switch ($op) {
         if (!$helper->getHandler('Mimetype')->insert($mimetypeObj, true)) {
             trigger_error($error, E_USER_ERROR);
         }
-        redirect_header("{$currentFile}?start=" . \Xmf\Request::getInt('start', 0, 'GET') . '', 0, _AM_WFDOWNLOADS_MIME_MODIFIED);
+        redirect_header("{$currentFile}?start=" . Request::getInt('start', 0, 'GET') . '', 0, _AM_WFDOWNLOADS_MIME_MODIFIED);
         break;
     case 'mimetypes.update':
         $mime_admin = Request::getBool('admin', false);
         $mime_user  = Request::getBool('user', false);
-        $type_all   = \Xmf\Request::getInt('type_all', 0, 'GET');
+        $type_all   = Request::getInt('type_all', 0, 'GET');
 
         $field = 'mime_user';
         if (true === $mime_admin) {
             $field = 'mime_admin';
         }
-        $criteria = new \CriteriaCompo();
+        $criteria = new CriteriaCompo();
         $criteria->setStart($start);
         $criteria->setLimit(20);
         if (!$helper->getHandler('Mimetype')->updateAll($field, $type_all, $criteria, true)) {
             $error = 'Could not update mimetype information';
             trigger_error($error, E_USER_ERROR);
         }
-        redirect_header("{$currentFile}?start=" . \Xmf\Request::getInt('start', 0, 'GET') . '', 1, _AM_WFDOWNLOADS_MIME_MODIFIED);
+        redirect_header("{$currentFile}?start=" . Request::getInt('start', 0, 'GET') . '', 1, _AM_WFDOWNLOADS_MIME_MODIFIED);
         break;
     case 'mimetype.delete':
         $mime_id = Request::getInt('mime_id', 0);
@@ -161,7 +164,7 @@ switch ($op) {
                 exit();
             }
         } else {
-            Wfdownloads\Utility::getCpHeader();
+            Utility::getCpHeader();
             xoops_confirm(['op' => 'mimetype.delete', 'mime_id' => $mime_id, 'ok' => true], $currentFile, _AM_WFDOWNLOADS_MIME_DELETETHIS . '<br><br>' . $mimetypeObj->getVar('mime_name'), _AM_WFDOWNLOADS_MIME_DELETE);
             xoops_cp_footer();
         }
@@ -171,14 +174,14 @@ switch ($op) {
         $start = Request::getInt('start', 0);
 
         // Get mimetypes (20 per page)
-        $criteria = new \CriteriaCompo();
+        $criteria = new CriteriaCompo();
         $criteria->setSort('mime_name');
         $criteria->setStart($start);
         $criteria->setLimit(20);
         $mimetypeObjs    = $helper->getHandler('Mimetype')->getObjects($criteria);
         $mimetypes_count = $helper->getHandler('Mimetype')->getCount();
 
-        Wfdownloads\Utility::getCpHeader();
+        Utility::getCpHeader();
         $adminObject = Admin::getInstance();
         $adminObject->displayNavigation($currentFile);
 
@@ -199,13 +202,13 @@ switch ($op) {
             }
             //Include page navigation
             require_once XOOPS_ROOT_PATH . '/class/pagenav.php';
-            $pagenav = new \XoopsPageNav($mimetypes_count, 20, $start, 'start');
+            $pagenav = new XoopsPageNav($mimetypes_count, 20, $start, 'start');
             $GLOBALS['xoopsTpl']->assign('mimetypes_pagenav', $pagenav->renderNav());
         }
 
         // Get allowed mimetypes/estensione
-        $allowAdminMimetypes = $helper->getHandler('Mimetype')->getList(new \Criteria('mime_admin', true));
-        $allowUserMimetypes  = $helper->getHandler('Mimetype')->getList(new \Criteria('mime_user', true));
+        $allowAdminMimetypes = $helper->getHandler('Mimetype')->getList(new Criteria('mime_admin', true));
+        $allowUserMimetypes  = $helper->getHandler('Mimetype')->getList(new Criteria('mime_user', true));
         $GLOBALS['xoopsTpl']->assign('allowAdminMimetypes', $allowAdminMimetypes);
         $GLOBALS['xoopsTpl']->assign('allowUserMimetypes', $allowUserMimetypes);
 

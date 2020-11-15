@@ -20,7 +20,12 @@
  */
 
 use XoopsModules\Wfdownloads;
-use XoopsModules\Wfdownloads\Helper;
+use XoopsModules\Wfdownloads\{
+    Helper,
+    Utility
+};
+/** @var Helper $helper */
+/** @var Utility $utility */
 
 defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
 require_once __DIR__ . '/common.php';
@@ -48,9 +53,9 @@ function wfdownloads_search($queryArray, $andor, $limit, $offset, $userId = 0, $
     $grouppermHandler         = xoops_getHandler('groupperm');
     $allowedDownCategoriesIds = $grouppermHandler->getItemIds('WFDownCatPerm', $userGroups, $helper->getModule()->mid());
     $downloads_lids           = $downloads_intersect = [];
-    $criteria                 = new \CriteriaCompo(new \Criteria('cid', '(' . implode(',', $allowedDownCategoriesIds) . ')', 'IN'));
+    $criteria                 = new CriteriaCompo(new Criteria('cid', '(' . implode(',', $allowedDownCategoriesIds) . ')', 'IN'));
     if (0 != $userId) {
-        $criteria->add(new \Criteria('submitter', (int)$userId));
+        $criteria->add(new Criteria('submitter', (int)$userId));
     }
 
     // changed and added - start - April 23, 2006 - jwe
@@ -107,7 +112,7 @@ function wfdownloads_search($queryArray, $andor, $limit, $offset, $userId = 0, $
         of the results is returned.  If OR is in effect, then all results are returned.
         */
         // Determine what the custom forms are that need searching, if any
-        if (Wfdownloads\Utility::checkModule('formulize')) {
+        if (Utility::checkModule('formulize')) {
             $fids = [];
             foreach ($allowedDownCategoriesIds as $cid) {
                 $categoryObj = $helper->getHandler('Category')->get($cid);
@@ -118,10 +123,10 @@ function wfdownloads_search($queryArray, $andor, $limit, $offset, $userId = 0, $
 
             // Set criteria for the captions that the user can see if necessary
             if ($fids && is_array($fids)) {
-                $formulizeElementCriteria = new \CriteriaCompo();
-                $formulizeElementCriteria->add(new \Criteria('ele_display', 1), 'OR');
+                $formulizeElementCriteria = new CriteriaCompo();
+                $formulizeElementCriteria->add(new Criteria('ele_display', 1), 'OR');
                 foreach ($userGroups as $group) {
-                    $formulizeElementCriteria->add(new \Criteria('ele_display', '%,' . $group . ',%', 'LIKE'), 'OR');
+                    $formulizeElementCriteria->add(new Criteria('ele_display', '%,' . $group . ',%', 'LIKE'), 'OR');
                 }
                 $formulizeElementCriteria->setSort('ele_order');
                 $formulizeElementCriteria->setOrder('ASC');
@@ -135,18 +140,18 @@ function wfdownloads_search($queryArray, $andor, $limit, $offset, $userId = 0, $
             $queryCriteria = clone $criteria;
 
             // Setup criteria for searching the title and description fields of Wfdownloads for the current term
-            $allSubCriterias = new \CriteriaCompo();
+            $allSubCriterias = new CriteriaCompo();
             $thisSearchTerm  = count($queryArray) > 0 ? $queryArray[$i] : '';
-            $subCriteria     = new \CriteriaCompo();
-            $subCriteria->add(new \Criteria('title', '%' . $thisSearchTerm . '%', 'LIKE'), 'OR'); // search in title field
-            $subCriteria->add(new \Criteria('description', '%' . $thisSearchTerm . '%', 'LIKE'), 'OR'); // search in description fiels
+            $subCriteria     = new CriteriaCompo();
+            $subCriteria->add(new Criteria('title', '%' . $thisSearchTerm . '%', 'LIKE'), 'OR'); // search in title field
+            $subCriteria->add(new Criteria('description', '%' . $thisSearchTerm . '%', 'LIKE'), 'OR'); // search in description fiels
             $allSubCriterias->add($subCriteria, $andor);
             unset($subCriteria);
 
             $saved_ids = [];
 
             // Find all IDs of entries in all custom forms which match the current term
-            if (Wfdownloads\Utility::checkModule('formulize')) {
+            if (Utility::checkModule('formulize')) {
                 foreach ($fids as $fid) {
                     if (null === $formulizeElementsHandler) {
                         $formulizeElementsHandler = $helper->getHandler('Elements', 'formulize');
@@ -184,7 +189,7 @@ function wfdownloads_search($queryArray, $andor, $limit, $offset, $userId = 0, $
             // Formulize module support - jpc - end
             // Make a criteria object that includes the custom form ids that were found, if any
             if (count($saved_ids) > 0 && is_array($saved_ids)) {
-                $subs_plus_custom = new \CriteriaCompo(new \Criteria('formulize_idreq', '(' . implode(',', $saved_ids) . ')', 'IN'));
+                $subs_plus_custom = new CriteriaCompo(new Criteria('formulize_idreq', '(' . implode(',', $saved_ids) . ')', 'IN'));
                 $subs_plus_custom->add($allSubCriterias, 'OR');
                 $queryCriteria->add($subs_plus_custom);
                 unset($allSubCriterias, $subs_plus_custom, $saved_ids);
@@ -254,7 +259,7 @@ function wfdownloads_search($queryArray, $andor, $limit, $offset, $userId = 0, $
 
     /*
         // Swish-e support EXPERIMENTAL
-        if (($helper->getConfig('enable_swishe') === true) && Wfdownloads\Utility::checkSwishe() === true) {
+        if (($helper->getConfig('enable_swishe') === true) && Utility::checkSwishe() === true) {
     // IN PROGRESS
             $swisheCriteria = new \CriteriaCompo(new \Criteria('cid', '(' . implode(',', $allowedDownCategoriesIds) . ')', 'IN'));
             if ($userId != 0) {
@@ -268,7 +273,7 @@ function wfdownloads_search($queryArray, $andor, $limit, $offset, $userId = 0, $
                 $swisheQueryWords = '';
             }
             if (strlen($swisheQueryWords) > 0) {
-                $swisheSearchResults = Wfdownloads\Utility::searchSwishe($swisheQueryWords);
+                $swisheSearchResults = Utility::searchSwishe($swisheQueryWords);
                 foreach ($swisheSearchResults as $swisheSearchResult) {
                     $tempSwisheCriteria = clone($swisheCriteria);
                     $tempSwisheCriteria->add(new \Criteria('filename', $swisheSearchResult['file_path']));

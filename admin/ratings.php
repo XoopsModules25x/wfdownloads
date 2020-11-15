@@ -21,7 +21,12 @@
 
 use Xmf\Module\Admin;
 use Xmf\Request;
-use XoopsModules\Wfdownloads;
+use XoopsModules\Wfdownloads\{
+    Helper,
+    Utility
+};
+/** @var Helper $helper */
+/** @var Utility $utility */
 
 $currentFile = basename(__FILE__);
 require_once __DIR__ . '/admin_header.php';
@@ -31,8 +36,8 @@ switch ($op) {
     case 'vote.delete':
         $rid = Request::getInt('rid', 0);
         $lid = Request::getInt('lid', 0);
-        $helper->getHandler('Rating')->deleteAll(new \Criteria('ratingid', $rid), true);
-        Wfdownloads\Utility::updateRating($lid);
+        $helper->getHandler('Rating')->deleteAll(new Criteria('ratingid', $rid), true);
+        Utility::updateRating($lid);
         redirect_header($currentFile, 1, _AM_WFDOWNLOADS_VOTEDELETED);
         break;
     case 'votes.list':
@@ -41,7 +46,7 @@ switch ($op) {
         $useravgrating = '0';
         $uservotes     = '0';
 
-        $criteria      = new \CriteriaCompo();
+        $criteria      = new CriteriaCompo();
         $votes         = $helper->getHandler('Rating')->getCount($criteria);
         $ratings_count = $helper->getHandler('Rating')->getCount($criteria);
         $criteria->setSort('ratingtimestamp');
@@ -53,7 +58,7 @@ switch ($op) {
         $useravgrating = $helper->getHandler('Rating')->getUserAverage();
         $useravgrating = number_format($useravgrating['avg'], 2);
 
-        Wfdownloads\Utility::getCpHeader();
+        Utility::getCpHeader();
         $adminObject = Admin::getInstance();
         $adminObject->displayNavigation($currentFile);
 
@@ -64,11 +69,11 @@ switch ($op) {
             foreach ($ratingObjs as $ratingObj) {
                 $lids[] = $ratingObj->getVar('lid');
             }
-            $downloads = $helper->getHandler('Download')->getObjects(new \Criteria('lid', '(' . implode(',', array_unique($lids)) . ')', 'IN'), true);
+            $downloads = $helper->getHandler('Download')->getObjects(new Criteria('lid', '(' . implode(',', array_unique($lids)) . ')', 'IN'), true);
             foreach ($ratingObjs as $ratingObj) {
                 $ratingArray                    = $ratingObj->toArray();
                 $ratingArray['formatted_date']  = formatTimestamp($ratingObj->getVar('ratingtimestamp'), 'l');
-                $ratingArray['submitter_uname'] = \XoopsUser::getUnameFromId($ratingObj->getVar('ratinguser'));
+                $ratingArray['submitter_uname'] = XoopsUser::getUnameFromId($ratingObj->getVar('ratinguser'));
                 $ratingArray['submitter_uid']   = $ratingObj->getVar('ratinguser');
                 $ratingArray['download_title']  = $downloads[$ratingObj->getVar('lid')]->getVar('title');
                 $GLOBALS['xoopsTpl']->append('ratings', $ratingArray);
@@ -76,7 +81,7 @@ switch ($op) {
         }
         //Include page navigation
         require_once XOOPS_ROOT_PATH . '/class/pagenav.php';
-        $ratings_pagenav = new \XoopsPageNav($ratings_count, $helper->getConfig('admin_perpage'), $start, 'start');
+        $ratings_pagenav = new XoopsPageNav($ratings_count, $helper->getConfig('admin_perpage'), $start, 'start');
         $GLOBALS['xoopsTpl']->assign('ratings_pagenav', $ratings_pagenav->renderNav());
 
         $xoopsTpl->assign('use_mirrors', $helper->getConfig('enable_mirrors'));

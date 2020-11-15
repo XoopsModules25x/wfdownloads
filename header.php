@@ -37,7 +37,7 @@ $moduleDirName = basename(__DIR__);
 
 $helper = Helper::getInstance();
 
-$myts = \MyTextSanitizer::getInstance();
+$myts = MyTextSanitizer::getInstance();
 
 //Handlers
 //$XXXHandler = xoops_getModuleHandler('XXX', $moduleDirName);
@@ -45,7 +45,7 @@ $myts = \MyTextSanitizer::getInstance();
 // Load language files
 $helper->loadLanguage('main');
 
-if (!isset($GLOBALS['xoopsTpl']) || !($GLOBALS['xoopsTpl'] instanceof \XoopsTpl)) {
+if (!isset($GLOBALS['xoopsTpl']) || !($GLOBALS['xoopsTpl'] instanceof XoopsTpl)) {
     require_once $GLOBALS['xoops']->path('class/template.php');
     $xoopsTpl = new XoopsTpl();
 }

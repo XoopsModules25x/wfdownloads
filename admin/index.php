@@ -19,7 +19,11 @@
  * @author          Xoops Development Team
  */
 
-use XoopsModules\Wfdownloads\{Common, Common\Configurator, Helper, Utility};
+use XoopsModules\Wfdownloads\{
+    Common\Configurator,
+    Common\DirectoryChecker,
+    Helper,
+    Utility};
 use Xmf\Module\Admin;
 
 /** @var Helper $helper */
@@ -43,14 +47,14 @@ $moduleDirName      = basename(dirname(__DIR__));
 $moduleDirNameUpper = mb_strtoupper($moduleDirName);
 
 //--------------------------
-$categories_count           = Wfdownloads\Utility::categoriesCount();
+$categories_count           = Utility::categoriesCount();
 $votes_count                = $helper->getHandler('Rating')->getCount();
 $brokenDownloads_count      = $helper->getHandler('Report')->getCount();
 $modificationRequests_count = $helper->getHandler('Modification')->getCount();
 $newReviews_count           = $helper->getHandler('Review')->getCount();
 $newMirrors_count           = $helper->getHandler('Mirror')->getCount();
-$newDownloads_count         = $helper->getHandler('Download')->getCount(new \Criteria('published', 0));
-$downloads_count            = $helper->getHandler('Download')->getCount(new \Criteria('published', 0, '>'));
+$newDownloads_count         = $helper->getHandler('Download')->getCount(new Criteria('published', 0));
+$downloads_count            = $helper->getHandler('Download')->getCount(new Criteria('published', 0, '>'));
 
 $adminObject->addInfoBox(_AM_WFDOWNLOADS_MINDEX_DOWNSUMMARY);
 // Categories
@@ -110,11 +114,11 @@ if (false === $helper->getConfig('enable_mirrors')) {
     $adminObject->addInfoBoxLine(sprintf('<infolabel>' . _AM_WFDOWNLOADS_SMIRRORS . '</infolabel>', $newMirrors_count, 'green'));
 }
 // module max file size
-$adminObject->addInfoBoxLine(sprintf('<infolabel>' . _AM_WFDOWNLOADS_DOWN_MODULE_MAXFILESIZE . '</infolabel>', Wfdownloads\Utility::bytesToSize1024($helper->getConfig('maxfilesize')), 'green'));
+$adminObject->addInfoBoxLine(sprintf('<infolabel>' . _AM_WFDOWNLOADS_DOWN_MODULE_MAXFILESIZE . '</infolabel>', Utility::bytesToSize1024($helper->getConfig('maxfilesize')), 'green'));
 // upload file size limit
 // get max file size (setup and php.ini)
 $phpiniMaxFileSize = min((int)ini_get('upload_max_filesize'), (int)ini_get('post_max_size'), (int)ini_get('memory_limit')) * 1024 * 1024; // bytes
-$maxFileSize       = Wfdownloads\Utility::bytesToSize1024(min($helper->getConfig('maxfilesize'), $phpiniMaxFileSize));
+$maxFileSize       = Utility::bytesToSize1024(min($helper->getConfig('maxfilesize'), $phpiniMaxFileSize));
 $adminObject->addInfoBoxLine(sprintf('<infolabel>' . _AM_WFDOWNLOADS_UPLOAD_MAXFILESIZE . '</infolabel>', $maxFileSize, 'green'));
 
 //------ check directories ---------------
@@ -123,7 +127,7 @@ $adminObject->addConfigBoxLine('');
 $redirectFile = $_SERVER['SCRIPT_NAME'];
 
 //check Formulize presence
-if (!Wfdownloads\Utility::checkModule('formulize')) {
+if (!Utility::checkModule('formulize')) {
     $adminObject->addConfigBoxLine(_AM_WFDOWNLOADS_FORMULIZE_NOT_AVILABLE);
 } else {
     $adminObject->addConfigBoxLine(_AM_WFDOWNLOADS_FORMULIZE_AVAILABLE);
@@ -134,25 +138,25 @@ $adminObject->addConfigBoxLine('');
 //$path = $helper->getConfig('uploaddir') . '/';
 $path = $helper->getConfig('uploaddir');
 //$path0 = $helper->getModule()->getInfo('uploaddir');
-$adminObject->addConfigBoxLine(Common\DirectoryChecker::getDirectoryStatus($path, 0777, $redirectFile));
+$adminObject->addConfigBoxLine(DirectoryChecker::getDirectoryStatus($path, 0777, $redirectFile));
 
 $path = $helper->getConfig('batchdir') . '/';
-$adminObject->addConfigBoxLine(Common\DirectoryChecker::getDirectoryStatus($path, 0777, $redirectFile));
+$adminObject->addConfigBoxLine(DirectoryChecker::getDirectoryStatus($path, 0777, $redirectFile));
 
 $path = XOOPS_ROOT_PATH . '/' . $helper->getConfig('mainimagedir') . '/';
-$adminObject->addConfigBoxLine(Common\DirectoryChecker::getDirectoryStatus($path, 0777, $redirectFile));
+$adminObject->addConfigBoxLine(DirectoryChecker::getDirectoryStatus($path, 0777, $redirectFile));
 //$adminObject->addConfigBoxLine(FileChecker::getFileStatus($path . 'blank.png', BLANK_FILE_PATH, $redirectFile));
 
 $path = XOOPS_ROOT_PATH . '/' . $helper->getConfig('screenshots') . '/';
-$adminObject->addConfigBoxLine(Common\DirectoryChecker::getDirectoryStatus($path, 0777, $redirectFile));
+$adminObject->addConfigBoxLine(DirectoryChecker::getDirectoryStatus($path, 0777, $redirectFile));
 //$adminObject->addConfigBoxLine(FileChecker::getFileStatus($path . 'blank.png', BLANK_FILE_PATH, $redirectFile));
-$adminObject->addConfigBoxLine(Common\DirectoryChecker::getDirectoryStatus($path . 'thumbs' . '/', 0777, $redirectFile));
+$adminObject->addConfigBoxLine(DirectoryChecker::getDirectoryStatus($path . 'thumbs' . '/', 0777, $redirectFile));
 //$adminObject->addConfigBoxLine(FileChecker::getFileStatus($path . 'thumbs' . '/' . 'blank.png', BLANK_FILE_PATH, $redirectFile));
 
 $path = XOOPS_ROOT_PATH . '/' . $helper->getConfig('catimage') . '/';
-$adminObject->addConfigBoxLine(Common\DirectoryChecker::getDirectoryStatus($path, 0777, $redirectFile));
+$adminObject->addConfigBoxLine(DirectoryChecker::getDirectoryStatus($path, 0777, $redirectFile));
 //$adminObject->addConfigBoxLine(FileChecker::getFileStatus($path . 'blank.png', BLANK_FILE_PATH, $redirectFile));
-$adminObject->addConfigBoxLine(Common\DirectoryChecker::getDirectoryStatus($path . 'thumbs' . '/', 0777, $redirectFile));
+$adminObject->addConfigBoxLine(DirectoryChecker::getDirectoryStatus($path . 'thumbs' . '/', 0777, $redirectFile));
 //$adminObject->addConfigBoxLine(FileChecker::getFileStatus($path . 'thumbs' . '/' . 'blank.png', BLANK_FILE_PATH, $redirectFile));
 
 //---------------------------
@@ -162,7 +166,7 @@ $adminObject->addConfigBoxLine('');
 $configurator = new Configurator();
 
 /** @var \XoopsModules\Wfdownloads\Utility $utility */
-$utility = new \XoopsModules\Wfdownloads\Utility();
+$utility = new Utility();
 
 foreach (array_keys($configurator->uploadFolders) as $i) {
     //    $utility::createFolder($configurator->uploadFolders[$i]);

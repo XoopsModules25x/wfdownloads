@@ -22,8 +22,6 @@ namespace XoopsModules\Wfdownloads;
  * @author          Xoops Development Team
  */
 
-use XoopsModules\Wfdownloads;
-
 require_once \dirname(__DIR__) . '/include/common.php';
 
 /**
@@ -43,7 +41,7 @@ class Category extends \XoopsObject
     public function __construct()
     {
         /** @var \XoopsModules\Wfdownloads\Helper $this ->helper */
-        $this->helper = \XoopsModules\Wfdownloads\Helper::getInstance();
+        $this->helper = Helper::getInstance();
         $this->db     = \XoopsDatabaseFactory::getDatabaseConnection();
         $this->initVar('cid', \XOBJ_DTYPE_INT);
         $this->initVar('pid', \XOBJ_DTYPE_INT, 0);
@@ -98,11 +96,11 @@ class Category extends \XoopsObject
         // category: title
         $form->addElement(new \XoopsFormText(\_AM_WFDOWNLOADS_FCATEGORY_TITLE, 'title', 50, 255, $this->getVar('title', 'e')), true);
         // category: pid
-        if (Wfdownloads\Utility::categoriesCount() > 0) {
+        if (Utility::categoriesCount() > 0) {
             $categoryObjs     = $this->helper->getHandler('Category')->getObjects();
             $categoryObjsTree = new Wfdownloads\ObjectTree($categoryObjs, 'cid', 'pid');
 
-            if (Wfdownloads\Utility::checkVerXoops($GLOBALS['xoopsModule'], '2.5.9')) {
+            if (Utility::checkVerXoops($GLOBALS['xoopsModule'], '2.5.9')) {
                 $catSelect = $categoryObjsTree->makeSelectElement('pid', 'title', '-', $this->getVar('pid'), true, 0, '', \_AM_WFDOWNLOADS_FCATEGORY_SUBCATEGORY);
                 $form->addElement($catSelect);
             } else {
@@ -163,7 +161,7 @@ class Category extends \XoopsObject
         $form->addElement($options_tray);
         // Formulize module support (2006/05/04) jpc - start
         // category: formulize_fid
-        if (Wfdownloads\Utility::checkModule('formulize')) {
+        if (Utility::checkModule('formulize')) {
             if (\is_file(XOOPS_ROOT_PATH . '/modules/formulize/include/functions.php')) {
                 require_once XOOPS_ROOT_PATH . '/modules/formulize/include/functions.php';
                 $fids           = allowedForms(); // is a Formulize function

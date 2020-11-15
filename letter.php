@@ -10,17 +10,21 @@
 //TODO needs to be adjusted for Wfdonwloads
 
 use Xmf\Request;
-use XoopsModules\Wfdownloads\Helper;
+use XoopsModules\Wfdownloads\{
+    Helper,
+    Utility
+};
+/** @var Helper $helper */
+/** @var Utility $utility */
 
 require __DIR__ . '/header.php';
 $GLOBALS['xoopsOption']['template_main'] = 'lx_letter.tpl';
 require_once XOOPS_ROOT_PATH . '/header.php';
 require_once XOOPS_ROOT_PATH . '/modules/wfdownloads/include/common.inc.php';
-/** @var \XoopsModules\Wfdownloads\Helper $helper */
 $helper = Helper::getInstance();
 
 global $xoTheme, $xoopsUser;
-$myts = \MyTextSanitizer::getInstance();
+$myts = MyTextSanitizer::getInstance();
 
 $init = Request::getString('init', 0, 'GET');
 $xoopsTpl->assign('firstletter', $init);
@@ -123,7 +127,7 @@ if (!$init) {
 
         $entriesarray['single'][] = $eachentry;
     }
-    $pagenav                = new \XoopsPageNav($totalentries, $helper->getConfig('indexperpage'), $start, 'start');
+    $pagenav                = new XoopsPageNav($totalentries, $helper->getConfig('indexperpage'), $start, 'start');
     $entriesarray['navbar'] = '<div style="text-align:right;">' . $pagenav->renderNav(6) . '</div>';
 
     $xoopsTpl->assign('entriesarray', $entriesarray);
@@ -196,7 +200,7 @@ if (!$init) {
 
         $entriesarray2['single'][] = $eachentry;
     }
-    $pagenav                 = new \XoopsPageNav($totalentries, $helper->getConfig('indexperpage'), $start, 'init=' . $eachentry['init'] . '&start');
+    $pagenav                 = new XoopsPageNav($totalentries, $helper->getConfig('indexperpage'), $start, 'init=' . $eachentry['init'] . '&start');
     $entriesarray2['navbar'] = '<div style="text-align:right;">' . $pagenav->renderNav(6) . '</div>';
 
     $xoopsTpl->assign('entriesarray2', $entriesarray2);

@@ -35,7 +35,7 @@ $GLOBALS['xoopsOption']['template_main'] = 'system_' . $feed_type . '.tpl';
 error_reporting(0);
 
 require_once XOOPS_ROOT_PATH . '/class/template.php';
-$xoopsTpl = new \XoopsTpl();
+$xoopsTpl = new XoopsTpl();
 
 // Find case
 $case        = 'all';
@@ -70,7 +70,7 @@ if (!$xoopsTpl->is_cached('db:' . $xoopsOption['template_main'], $cache_prefix))
     // Get content
     $limit = 30;
 
-    $criteria = new \CriteriaCompo(new \Criteria('offline', false));
+    $criteria = new CriteriaCompo(new Criteria('offline', false));
     $criteria->setSort('published');
     $criteria->setOrder('DESC');
     $criteria->setLimit($limit);
@@ -83,7 +83,7 @@ if (!$xoopsTpl->is_cached('db:' . $xoopsOption['template_main'], $cache_prefix))
             $desc        = $GLOBALS['xoopsConfig']['slogan'];
             $channel_url = XOOPS_URL . '/modules/' . $helper->getModule()->getVat('dirname') . '/rss.php';
 
-            $criteria->add(new \Criteria('cid', '(' . implode(',', $allowedDownCategoriesIds) . ')', 'IN'));
+            $criteria->add(new Criteria('cid', '(' . implode(',', $allowedDownCategoriesIds) . ')', 'IN'));
             $downloadObjs = $helper->getHandler('Download')->getObjects($criteria);
             $id           = 0;
             break;
@@ -93,7 +93,7 @@ if (!$xoopsTpl->is_cached('db:' . $xoopsOption['template_main'], $cache_prefix))
             $desc        = $GLOBALS['xoopsConfig']['slogan'] . ' - ' . htmlspecialchars($categoryObj->getVar('title'), ENT_QUOTES);
             $channel_url = XOOPS_URL . '/modules/' . $helper->getModule()->getVat('dirname') . '/rss.php?cid=' . (int)$categoryObj->getVar('cid');
 
-            $criteria->add(new \Criteria('cid', (int)$categoryObj->getVar('cid')));
+            $criteria->add(new Criteria('cid', (int)$categoryObj->getVar('cid')));
             $downloadObjs = $helper->getHandler('Download')->getObjects($criteria);
             $id           = $categoryObj->getVar('categoryid');
             break;
@@ -120,7 +120,7 @@ if (!$xoopsTpl->is_cached('db:' . $xoopsOption['template_main'], $cache_prefix))
             $uids[] = $downloadObj->getVar('submitter');
         }
         if (count($uids) > 0) {
-            $users = $memberHandler->getUserList(new \Criteria('uid', '(' . implode(',', array_unique($uids)) . ')', 'IN'));
+            $users = $memberHandler->getUserList(new Criteria('uid', '(' . implode(',', array_unique($uids)) . ')', 'IN'));
         }
 
         // Assign items to template

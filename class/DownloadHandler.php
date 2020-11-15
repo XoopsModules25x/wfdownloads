@@ -22,8 +22,6 @@ namespace XoopsModules\Wfdownloads;
  * @author          Xoops Development Team
  */
 
-use XoopsModules\Wfdownloads;
-
 require_once \dirname(__DIR__) . '/include/common.php';
 
 /**
@@ -43,7 +41,7 @@ class DownloadHandler extends \XoopsPersistableObjectHandler
     {
         parent::__construct($db, 'wfdownloads_downloads', Download::class, 'lid', 'title');
         /** @var \XoopsModules\Wfdownloads\Helper $this ->helper */
-        $this->helper = \XoopsModules\Wfdownloads\Helper::getInstance();
+        $this->helper = Helper::getInstance();
     }
 
     /**
@@ -178,7 +176,7 @@ class DownloadHandler extends \XoopsPersistableObjectHandler
             \xoops_comment_delete((int)$this->helper->getModule()->mid(), (int)$download->getVar('lid'));
 
             // Formulize module support (2006/05/04) jpc - start
-            if (Wfdownloads\Utility::checkModule('formulize')) {
+            if (Utility::checkModule('formulize')) {
                 if (\is_file(XOOPS_ROOT_PATH . '/modules/formulize/include/functions.php') && $download->getVar('formulize_idreq') > 0) {
                     require_once XOOPS_ROOT_PATH . '/modules/formulize/include/functions.php';
                     //deleteFormEntries(array($download->getVar('formulize_idreq')));

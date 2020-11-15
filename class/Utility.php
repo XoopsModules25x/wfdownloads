@@ -40,7 +40,7 @@ class Utility extends Common\SysUtility
     public static function displayCategory(Wfdownloads\Category $categoryObj, $level = 0)
     {
         /** @var \XoopsModules\Wfdownloads\Helper $helper */
-        $helper = \XoopsModules\Wfdownloads\Helper::getInstance();
+        $helper = Helper::getInstance();
 
         $description = $categoryObj->description();
         if (!XOOPS_USE_MULTIBYTES) {
@@ -82,7 +82,7 @@ class Utility extends Common\SysUtility
     public static function editCategory($showmenu = false, $categoryId = 0, $nbSubCats = 4, $categoryObj = null)
     {
         /** @var \XoopsModules\Wfdownloads\Helper $helper */
-        $helper = \XoopsModules\Wfdownloads\Helper::getInstance();
+        $helper = Helper::getInstance();
 
         // if there is a parameter, and the id exists, retrieve data: we're editing a category
         if (0 != $categoryId) {
@@ -247,7 +247,12 @@ class Utility extends Common\SysUtility
         // human readable format -- powers of 1024
         $unit = ['B', 'kB', 'MB', 'GB', 'TB', 'PB', 'EB'];
 
-        return @\round($bytes / (\pow(1024, $i = \floor(\log($bytes, 1024)))), $precision) . ' ' . $unit[(int)$i];
+        $i = floor(log($bytes, 1024));
+
+        return @round($bytes / (pow(1024, $i)), $precision) . ' ' . $unit[(int)$i];
+
+
+
     }
 
     /**
@@ -532,7 +537,7 @@ class Utility extends Common\SysUtility
     public static function sortCategories($pid = 0, $level = 0)
     {
         /** @var \XoopsModules\Wfdownloads\Helper $helper */
-        $helper = \XoopsModules\Wfdownloads\Helper::getInstance();
+        $helper = Helper::getInstance();
 
         $sorted   = [];
         $criteria = new \CriteriaCompo();
@@ -567,7 +572,7 @@ class Utility extends Common\SysUtility
     public static function lettersChoice()
     {
         /** @var \XoopsModules\Wfdownloads\Helper $helper */
-        $helper = \XoopsModules\Wfdownloads\Helper::getInstance();
+        $helper = Helper::getInstance();
 
         $criteria = $helper->getHandler('Download')->getActiveCriteria();
         $criteria->setGroupby('UPPER(LEFT(title,1))');
@@ -612,7 +617,7 @@ class Utility extends Common\SysUtility
     public static function userIsAdmin()
     {
         /** @var \XoopsModules\Wfdownloads\Helper $helper */
-        $helper = \XoopsModules\Wfdownloads\Helper::getInstance();
+        $helper = Helper::getInstance();
 
         static $wfdownloads_isAdmin;
         if (null !== $wfdownloads_isAdmin) {
@@ -636,7 +641,7 @@ class Utility extends Common\SysUtility
     public static function moduleHome($withLink = true)
     {
         /** @var \XoopsModules\Wfdownloads\Helper $helper */
-        $helper = \XoopsModules\Wfdownloads\Helper::getInstance();
+        $helper = Helper::getInstance();
 
         $wfdownloadsModuleName = $helper->getModule()->getVar('name');
         if (!$withLink) {
@@ -865,7 +870,7 @@ class Utility extends Common\SysUtility
     public static function savePermissions($groups, $id, $permName)
     {
         /** @var \XoopsModules\Wfdownloads\Helper $helper */
-        $helper = \XoopsModules\Wfdownloads\Helper::getInstance();
+        $helper = Helper::getInstance();
 
         $id               = (int)$id;
         $result           = true;
@@ -891,7 +896,7 @@ class Utility extends Common\SysUtility
     public static function toolbar()
     {
         /** @var \XoopsModules\Wfdownloads\Helper $helper */
-        $helper = \XoopsModules\Wfdownloads\Helper::getInstance();
+        $helper = Helper::getInstance();
 
         $isSubmissionAllowed = false;
         if (\is_object($GLOBALS['xoopsUser'])
@@ -933,7 +938,7 @@ class Utility extends Common\SysUtility
     public static function displayIcons($time, $status = \_WFDOWNLOADS_STATUS_WAITING, $counter = 0)
     {
         /** @var \XoopsModules\Wfdownloads\Helper $helper */
-        $helper = \XoopsModules\Wfdownloads\Helper::getInstance();
+        $helper = Helper::getInstance();
 
         $new     = '';
         $pop     = '';
@@ -1125,7 +1130,7 @@ class Utility extends Common\SysUtility
     public static function updateRating($lid)
     {
         /** @var \XoopsModules\Wfdownloads\Helper $helper */
-        $helper = \XoopsModules\Wfdownloads\Helper::getInstance();
+        $helper = Helper::getInstance();
 
         $ratingObjs    = $helper->getHandler('Rating')->getObjects(new \Criteria('lid', (int)$lid));
         $ratings_count = \count($ratingObjs);
@@ -1150,7 +1155,7 @@ class Utility extends Common\SysUtility
     {
         $grouppermHandler = \xoops_getHandler('groupperm');
         /** @var \XoopsModules\Wfdownloads\Helper $helper */
-        $helper                   = \XoopsModules\Wfdownloads\Helper::getInstance();
+        $helper                   = Helper::getInstance();
         $groups                   = \is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : [0 => XOOPS_GROUP_ANONYMOUS];
         $allowedDownCategoriesIds = $grouppermHandler->getItemIds('WFDownCatPerm', $groups, $helper->getModule()->mid());
 
@@ -1167,7 +1172,7 @@ class Utility extends Common\SysUtility
     public static function getTotalDownloads($cids = 0)
     {
         /** @var \XoopsModules\Wfdownloads\Helper $helper */
-        $helper = \XoopsModules\Wfdownloads\Helper::getInstance();
+        $helper = Helper::getInstance();
 
         $criteria = new \CriteriaCompo(new \Criteria('offline', false));
         $criteria->add(new \Criteria('published', 0, '>'));
@@ -1195,7 +1200,7 @@ class Utility extends Common\SysUtility
     public static function headerImage()
     {
         /** @var \XoopsModules\Wfdownloads\Helper $helper */
-        $helper = \XoopsModules\Wfdownloads\Helper::getInstance();
+        $helper = Helper::getInstance();
 
         $image  = '';
         $result = $GLOBALS['xoopsDB']->query('SELECT indeximage, indexheading FROM ' . $GLOBALS['xoopsDB']->prefix('wfdownloads_indexpage') . ' ');
@@ -1218,7 +1223,7 @@ class Utility extends Common\SysUtility
     public static function displayImage($image = '', $href = '', $imgSource = '', $altText = '')
     {
         /** @var \XoopsModules\Wfdownloads\Helper $helper */
-        $helper = \XoopsModules\Wfdownloads\Helper::getInstance();
+        $helper = Helper::getInstance();
 
         $showImage = '';
 
@@ -1261,7 +1266,7 @@ class Utility extends Common\SysUtility
     public static function createThumb($imgName, $imgPath, $imgSavePath, $width = 100, $height = 100, $quality = 100, $update = false, $aspect = 1)
     {
         /** @var \XoopsModules\Wfdownloads\Helper $helper */
-        $helper = \XoopsModules\Wfdownloads\Helper::getInstance();
+        $helper = Helper::getInstance();
 
         // Paths
         if (false === $helper->getConfig('usethumbs')) {
@@ -1478,7 +1483,7 @@ class Utility extends Common\SysUtility
     public static function allowedMimetypes($fileName, $isAdmin = true)
     {
         /** @var \XoopsModules\Wfdownloads\Helper $helper */
-        $helper = \XoopsModules\Wfdownloads\Helper::getInstance();
+        $helper = Helper::getInstance();
 
         $ext      = \ltrim(mb_strrchr($fileName, '.'), '.');
         $criteria = new \CriteriaCompo(new \Criteria('mime_ext', mb_strtolower($ext)));
@@ -1544,7 +1549,7 @@ class Utility extends Common\SysUtility
         $onlyImages = false
     ) {
         /** @var \XoopsModules\Wfdownloads\Helper $helper */
-        $helper = \XoopsModules\Wfdownloads\Helper::getInstance();
+        $helper = Helper::getInstance();
         $file   = [];
         if (empty($allowedMimetypes)) {
             $allowedMimetypes = self::allowedMimetypes($_FILES['userfile']['name'], $isAdmin);
@@ -1679,7 +1684,7 @@ class Utility extends Common\SysUtility
                 $offset = 0;
                 $length = $size;
                 //HEADERS FOR PARTIAL DOWNLOAD FACILITY BEGINS
-                if (\Xmf\Request::hasVar('HTTP_RANGE', 'SERVER')) {
+                if (Request::hasVar('HTTP_RANGE', 'SERVER')) {
                     \preg_match('/bytes=(\d+)-(\d+)?/', $_SERVER['HTTP_RANGE'], $matches);
                     $offset  = (int)$matches[1];
                     $length  = (int)$matches[2] - $offset;
@@ -1895,7 +1900,7 @@ class Utility extends Common\SysUtility
     public static function checkSwishe()
     {
         /** @var \XoopsModules\Wfdownloads\Helper $helper */
-        $helper = \XoopsModules\Wfdownloads\Helper::getInstance();
+        $helper = Helper::getInstance();
 
         // Get the location of the document repository (the index files are located in the root)
         $swisheDocPath = $helper->getConfig('uploaddir');
@@ -1920,7 +1925,7 @@ class Utility extends Common\SysUtility
     public static function swishe_config()
     {
         /** @var \XoopsModules\Wfdownloads\Helper $helper */
-        $helper = \XoopsModules\Wfdownloads\Helper::getInstance();
+        $helper = Helper::getInstance();
 
         // Get the location of the document repository (the index files are located in the root)
         $swisheDocPath = $helper->getConfig('uploaddir');
@@ -1982,7 +1987,7 @@ class Utility extends Common\SysUtility
         }
 
         /** @var \XoopsModules\Wfdownloads\Helper $helper */
-        $helper = \XoopsModules\Wfdownloads\Helper::getInstance();
+        $helper = Helper::getInstance();
 
         $ret = false;
         // IN PROGRESS

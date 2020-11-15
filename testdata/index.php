@@ -24,11 +24,16 @@
 
 use Xmf\Database\TableLoad;
 use \Xmf\Request;
-use XoopsModules\Wfdownloads\{Helper,
+use Xmf\Yaml;
+use XoopsModules\Wfdownloads\{
     Common,
+    Helper,
     Utility
 };
-use Xmf\Yaml;
+
+/** @var Helper $helper */
+/** @var Utility $utility */
+
 
 require_once dirname(__DIR__, 3) . '/include/cp_header.php';
 require dirname(__DIR__) . '/preloads/autoloader.php';
@@ -100,7 +105,7 @@ function loadSampleData()
             $utility::rcopy($src, $dest);
         }
     }
-    \redirect_header('../admin/index.php', 1, \constant('CO_' . $moduleDirNameUpper . '_' . 'SAVE_SAMPLEDATA_SUCCESS'));
+    redirect_header('../admin/index.php', 1, constant('CO_' . $moduleDirNameUpper . '_' . 'SAVE_SAMPLEDATA_SUCCESS'));
 }
 
 function saveSampleData()
@@ -124,13 +129,13 @@ function saveSampleData()
     }
 
     // save permissions
-    $criteria = new \CriteriaCompo();
-    $criteria->add(new \Criteria('gperm_modid', \Xmf\Module\Helper::getHelper($moduleDirName)->getModule()->getVar('mid')));
+    $criteria = new CriteriaCompo();
+    $criteria->add(new Criteria('gperm_modid', \Xmf\Module\Helper::getHelper($moduleDirName)->getModule()->getVar('mid')));
     $skipColumns[] = 'gperm_id';
     TableLoad::saveTableToYamlFile('group_permission', $exportFolder . 'group_permission.yml', $criteria, $skipColumns);
     unset($criteria);
 
-    \redirect_header('../admin/index.php', 1, \constant('CO_' . $moduleDirNameUpper . '_' . 'SAVE_SAMPLEDATA_SUCCESS'));
+    redirect_header('../admin/index.php', 1, constant('CO_' . $moduleDirNameUpper . '_' . 'SAVE_SAMPLEDATA_SUCCESS'));
 }
 
 function exportSchema()
@@ -144,7 +149,7 @@ function exportSchema()
         //        $migrate->saveCurrentSchema();
         //
         //        redirect_header('../admin/index.php', 1, constant('CO_' . $moduleDirNameUpper . '_' . 'EXPORT_SCHEMA_SUCCESS'));
-    } catch (\Throwable $e) {
+    } catch (Throwable $e) {
         exit(constant('CO_' . $moduleDirNameUpper . '_' . 'EXPORT_SCHEMA_ERROR'));
     }
 }
@@ -164,7 +169,7 @@ function exportSchema()
 function loadTableFromArrayWithReplace($table, $data, $search, $replace)
 {
     /** @var \XoopsMySQLDatabase $db */
-    $db = \XoopsDatabaseFactory::getDatabaseConnection();
+    $db = XoopsDatabaseFactory::getDatabaseConnection();
 
     $prefixedTable = $db->prefix($table);
     $count         = 0;

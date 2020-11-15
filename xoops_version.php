@@ -257,7 +257,7 @@ $modversion['templates'] = [
 // ------------------- Preferences -------------------
 
 xoops_load('XoopsEditorHandler');
-$editorHandler          = \XoopsEditorHandler::getInstance();
+$editorHandler          = XoopsEditorHandler::getInstance();
 $editorList             = array_flip($editorHandler->getList());
 $modversion['config'][] = [
     'name'        => 'editor_options',

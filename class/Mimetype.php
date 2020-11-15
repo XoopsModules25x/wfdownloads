@@ -55,7 +55,7 @@ class Mimetype extends \XoopsObject
     public function __construct($id = null)
     {
         /** @var \XoopsModules\Wfdownloads\Helper $this ->helper */
-        $this->helper = \XoopsModules\Wfdownloads\Helper::getInstance();
+        $this->helper = Helper::getInstance();
         $this->db     = \XoopsDatabaseFactory::getDatabaseConnection();
         $this->initVar('mime_id', \XOBJ_DTYPE_INT);
         $this->initVar('mime_ext', \XOBJ_DTYPE_TXTBOX, '');

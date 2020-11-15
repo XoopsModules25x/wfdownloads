@@ -31,7 +31,7 @@
                 <div title="<{$smarty.const._MD_WFDOWNLOADS_CSUMMARY}>">
                     <{$category.summary}>
                 </div>
-                <{if $category.subcategories}>
+                <{if $category.subcategories|default:''}>
                     <div>
                         <{foreach item=subcategory from=$category.subcategories}>
                             <div>
@@ -66,7 +66,7 @@
     <{/if}>
 <{/if}>
 
-<{if $full_rssfeed_URL != ''}>
+<{if $full_rssfeed_URL|default:'' != ''}>
     <a href='<{$full_rssfeed_URL}>' title='<{$smarty.const._MD_WFDOWNLOADS_LEGENDTEXTRSS}>'>
         <img src='assets/images/icon/rss.gif' alt='<{$smarty.const._MD_WFDOWNLOADS_LEGENDTEXTRSS}>' title='<{$smarty.const._MD_WFDOWNLOADS_LEGENDTEXTRSS}>'>
     </a>

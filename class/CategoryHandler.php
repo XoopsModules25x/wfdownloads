@@ -45,7 +45,7 @@ class CategoryHandler extends \XoopsPersistableObjectHandler
     {
         parent::__construct($db, 'wfdownloads_cat', Category::class, 'cid', 'title');
         /** @var \XoopsModules\Wfdownloads\Helper $this ->helper */
-        $this->helper = \XoopsModules\Wfdownloads\Helper::getInstance();
+        $this->helper = Helper::getInstance();
     }
 
     /**

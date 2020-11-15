@@ -20,8 +20,13 @@
  */
 
 use Xmf\Request;
-use XoopsModules\Wfdownloads;
-use XoopsModules\Wfdownloads\Common;
+use XoopsModules\Wfdownloads\{
+    Common,
+    Helper,
+    Utility
+};
+/** @var Helper $helper */
+/** @var Utility $utility */
 
 $currentFile = basename(__FILE__);
 require_once __DIR__ . '/header.php';
@@ -79,7 +84,7 @@ $xoopsTpl->assign('wfdownloads_url', WFDOWNLOADS_URL . '/');
 if (('' != $categoryObj->getVar('imgurl'))
     && is_file(XOOPS_ROOT_PATH . '/' . $helper->getConfig('catimage') . '/' . $categoryObj->getVar('imgurl'))) {
     if ($helper->getConfig('usethumbs') && function_exists('gd_info')) {
-        $imgurl = Wfdownloads\Utility::createThumb(
+        $imgurl = Utility::createThumb(
             $categoryObj->getVar('imgurl'),
             $helper->getConfig('catimage'),
             'thumbs',
@@ -108,7 +113,7 @@ $xoopsTpl->assign('topcategory_cid', $topCategoryObj->getVar('cid'));
 
 // Formulize module support (2006/03/06, 2006/03/08) jpc - start
 $formulize_idreq = $downloadObj->getVar('formulize_idreq');
-if (Wfdownloads\Utility::checkModule('formulize') && $formulize_idreq) {
+if (Utility::checkModule('formulize') && $formulize_idreq) {
     $xoopsTpl->assign('custom_form', true);
     require_once XOOPS_ROOT_PATH . '/modules/formulize/include/extract.php';
     // get the form id and id_req of the user's entry
@@ -187,7 +192,7 @@ if (!is_object($GLOBALS['xoopsUser']) && true === $use_mirrors
 } elseif (is_object($GLOBALS['xoopsUser']) && true === $use_mirrors
           && (_WFDOWNLOADS_SUBMISSIONS_MIRROR == $helper->getConfig('submissions')
               || _WFDOWNLOADS_SUBMISSIONS_BOTH == $helper->getConfig('submissions')
-              || Wfdownloads\Utility::userIsAdmin())) {
+              || Utility::userIsAdmin())) {
     $add_mirror = true;
 }
 
@@ -219,8 +224,8 @@ $breadcrumb->addLink($downloadInfo['title'], '');
 $xoopsTpl->assign('wfdownloads_breadcrumb', $breadcrumb->render());
 
 // Show other author downloads
-$downloadByUserCriteria = new \CriteriaCompo(new \Criteria('submitter', $downloadObj->getVar('submitter')));
-$downloadByUserCriteria->add(new \Criteria('lid', $lid, '!='));
+$downloadByUserCriteria = new CriteriaCompo(new Criteria('submitter', $downloadObj->getVar('submitter')));
+$downloadByUserCriteria->add(new Criteria('lid', $lid, '!='));
 $downloadByUserCriteria->setLimit(20);
 $downloadByUserCriteria->setSort('published');
 $downloadByUserCriteria->setOrder('DESC');
@@ -238,8 +243,8 @@ $cid = (int)$downloadObj->getVar('cid');
 $lid = (int)$downloadObj->getVar('lid');
 
 // User reviews
-$criteria = new \CriteriaCompo(new \Criteria('lid', $lid));
-$criteria->add(new \Criteria('submit', 1));
+$criteria = new CriteriaCompo(new Criteria('lid', $lid));
+$criteria->add(new Criteria('submit', 1));
 $reviewCount = $helper->getHandler('Review')->getCount($criteria);
 if ($reviewCount > 0) {
     $user_reviews = "op=list&amp;cid={$cid}&amp;lid={$lid}\">" . _MD_WFDOWNLOADS_USERREVIEWS;
@@ -252,8 +257,8 @@ $xoopsTpl->assign('review_amount', $reviewCount);
 
 // User mirrors
 $downloadInfo['add_mirror'] = $add_mirror;
-$criteria                   = new \CriteriaCompo(new \Criteria('lid', $lid));
-$criteria->add(new \Criteria('submit', 1));
+$criteria                   = new CriteriaCompo(new Criteria('lid', $lid));
+$criteria->add(new Criteria('submit', 1));
 $mirrorCount = $helper->getHandler('Mirror')->getCount($criteria);
 if ($mirrorCount > 0) {
     $user_mirrors = "op=list&amp;cid={$cid}&amp;lid={$lid}\">" . _MD_WFDOWNLOADS_USERMIRRORS;
@@ -280,7 +285,7 @@ $xoopsTpl->assign('download', $downloadInfo);
 require_once XOOPS_ROOT_PATH . '/include/comment_view.php';
 
 $xoopsTpl->assign('com_rule', $helper->getConfig('com_rule'));
-$xoopsTpl->assign('module_home', Wfdownloads\Utility::moduleHome(true));
+$xoopsTpl->assign('module_home', Utility::moduleHome(true));
 require_once __DIR__ . '/footer.php';
 
 ?>

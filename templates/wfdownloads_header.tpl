@@ -13,23 +13,23 @@
 <br>
 <{/if}>
 
-<{if $down.imageheader != ""}>
+<{if $down.imageheader|default:'' != ''}>
 <br>
 <div class="wfdownloads_head_downimageheader"><{$down.imageheader}></div>
 <br>
 <{/if}>
 
-<{if $imageheader != ""}>
+<{if $imageheader|default:'' != ""}>
 <br>
 <div class="wfdownloads_head_imageheader"><{$imageheader}></div>
 <br>
 <{/if}>
 
-<{if $catarray.indexheader}>
+<{if $catarray.indexheader|default:''}>
 <div class="wfdownloads_head_catindexheader" align="<{$catarray.indexheaderalign}>"><p><{$catarray.indexheader}></p></div>
 <br>
 <{/if}>
-<{if $catarray.letters}>
+<{if $catarray.letters|default:''}>
 <div class="wfdownloads_head_catletters" align="center"><{$catarray.letters}></div>
 <br>
 <{/if}>

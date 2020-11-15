@@ -43,6 +43,6 @@ class ReviewHandler extends \XoopsPersistableObjectHandler
     {
         parent::__construct($db, 'wfdownloads_reviews', Review::class, 'review_id', 'title');
         /** @var \XoopsModules\Wfdownloads\Helper $this ->helper */
-        $this->helper = \XoopsModules\Wfdownloads\Helper::getInstance();
+        $this->helper = Helper::getInstance();
     }
 }

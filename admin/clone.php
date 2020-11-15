@@ -20,7 +20,6 @@
  */
 
 use XoopsModules\Wfdownloads\{
-
     Helper,
     Utility
 };
@@ -73,23 +72,23 @@ if ('submit' === @$_POST['op']) {
         $message .= _AM_WFDOWNLOADS_CLONE_FAIL;
     }
 
-    Wfdownloads\Utility::getCpHeader();
+    Utility::getCpHeader();
     $adminObject = Admin::getInstance();
     $adminObject->displayNavigation($currentFile);
     echo $message;
     require_once __DIR__ . '/admin_footer.php';
     exit();
 }
-Wfdownloads\Utility::getCpHeader();
+Utility::getCpHeader();
 $adminObject = Admin::getInstance();
 $adminObject->displayNavigation($currentFile);
 xoops_load('XoopsFormLoader');
-$form              = new \XoopsThemeForm(sprintf(_AM_WFDOWNLOADS_CLONE_TITLE, $helper->getModule()->getVar('name', 'E')), 'clone', $currentFile, 'post', true);
-$cloneDirname_text = new \XoopsFormText(_AM_WFDOWNLOADS_CLONE_NAME, 'clonedirname', 18, 18, '');
+$form              = new XoopsThemeForm(sprintf(_AM_WFDOWNLOADS_CLONE_TITLE, $helper->getModule()->getVar('name', 'E')), 'clone', $currentFile, 'post', true);
+$cloneDirname_text = new XoopsFormText(_AM_WFDOWNLOADS_CLONE_NAME, 'clonedirname', 18, 18, '');
 $cloneDirname_text->setDescription(_AM_WFDOWNLOADS_CLONE_NAME_DSC);
 $form->addElement($cloneDirname_text, true);
-$form->addElement(new \XoopsFormHidden('op', 'submit'));
-$form->addElement(new \XoopsFormButton('', '', _SUBMIT, 'submit'));
+$form->addElement(new XoopsFormHidden('op', 'submit'));
+$form->addElement(new XoopsFormButton('', '', _SUBMIT, 'submit'));
 $form->display();
 require_once __DIR__ . '/admin_footer.php';
 exit();
@@ -108,7 +107,7 @@ function wfdownloads_cloneFileDir($path)
     if (is_dir($path)) {
         // create new dir
         if (!mkdir($newPath) && !is_dir($newPath)) {
-            throw new \RuntimeException('The directory ' . $newPath . ' could not be created.');
+            throw new RuntimeException('The directory ' . $newPath . ' could not be created.');
         }
 
         // check all files in dir, and process it

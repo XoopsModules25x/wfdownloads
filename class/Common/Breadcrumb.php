@@ -28,9 +28,13 @@ namespace XoopsModules\Wfdownloads\Common;
  * echo $breadcrumb->render();
  */
 
-use XoopsModules\Wfdownloads;
-use XoopsModules\Wfdownloads\Common;
-use XoopsModules\Wfdownloads\Helper;
+use XoopsModules\Wfdownloads\{
+    Common,
+    Helper,
+    Utility
+};
+/** @var Helper $helper */
+/** @var Utility $utility */
 
 require_once \dirname(\dirname(__DIR__)) . '/include/common.php';
 
@@ -45,7 +49,6 @@ class Breadcrumb
 
     public function __construct()
     {
-        /** @var \XoopsModules\Wfdownloads\Helper $this ->helper */
         $this->helper  = Helper::getInstance();
         $this->dirname = \basename(\dirname(\dirname(__DIR__)));
     }
@@ -77,7 +80,7 @@ class Breadcrumb
         }
         require_once $GLOBALS['xoops']->path('/class/template.php');
         $breadcrumbTpl = new \XoopsTpl();
-        $breadcrumbTpl->assign('breadcrumb', $this->_bread);
+        $breadcrumbTpl->assign('breadcrumb', $this->bread);
         // IN PROGRESS
         // IN PROGRESS
         // IN PROGRESS

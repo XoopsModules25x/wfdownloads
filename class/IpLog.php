@@ -42,7 +42,7 @@ class IpLog extends \XoopsObject
     public function __construct($id = null)
     {
         /** @var \XoopsModules\Wfdownloads\Helper $this ->helper */
-        $this->helper = \XoopsModules\Wfdownloads\Helper::getInstance();
+        $this->helper = Helper::getInstance();
         $this->db     = \XoopsDatabaseFactory::getDatabaseConnection();
         $this->initVar('ip_logid', \XOBJ_DTYPE_INT);
         $this->initVar('ip_address', \XOBJ_DTYPE_TXTBOX);

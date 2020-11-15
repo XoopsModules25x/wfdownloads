@@ -19,8 +19,18 @@
  * @author          Xoops Development Team
  */
 
-use XoopsModules\Wfdownloads;
-use XoopsModules\Wfdownloads\Common;
+use XoopsModules\Wfdownloads\{
+    Common\LetterChoice,
+    Category,
+    Common,
+    Helper,
+    Utility,
+    ObjectTree,
+    DownloadHandler,
+};
+/** @var Helper $helper */
+/** @var Utility $utility */
+/** @var Category $categoryObj_a */
 
 //$currentFile = pathinfo(__FILE__, PATHINFO_BASENAME);
 //$currentFile = basename(__FILE__);
@@ -83,20 +93,20 @@ $xoopsTpl->assign('wfdownloads_url', WFDOWNLOADS_URL . '/');
 $breadcrumb = new Common\Breadcrumb();
 $breadcrumb->addLink($helper->getModule()->getVar('name'), WFDOWNLOADS_URL);
 
-$xoopsTpl->assign('module_home', Wfdownloads\Utility::moduleHome(false)); // this definition is not removed for backward compatibility issues
+$xoopsTpl->assign('module_home', Utility::moduleHome(false)); // this definition is not removed for backward compatibility issues
 $xoopsTpl->assign('wfdownloads_breadcrumb', $breadcrumb->render());
 
-$categoryCriteria = new \CriteriaCompo();
+$categoryCriteria = new CriteriaCompo();
 $categoryCriteria->setSort('weight ASC, title');
 $categoryObjs = $helper->getHandler('Category')->getObjects($categoryCriteria);
 unset($categoryCriteria);
 
-$categoryObjsTree = new Wfdownloads\ObjectTree($categoryObjs, 'cid', 'pid');
+$categoryObjsTree = new ObjectTree($categoryObjs, 'cid', 'pid');
 
 // Generate content header
 $sql                          = 'SELECT * FROM ' . $GLOBALS['xoopsDB']->prefix('wfdownloads_indexpage') . ' ';
 $head_arr                     = $GLOBALS['xoopsDB']->fetchArray($GLOBALS['xoopsDB']->query($sql));
-$catarray['imageheader']      = Wfdownloads\Utility::headerImage();
+$catarray['imageheader']      = Utility::headerImage();
 $catarray['indexheaderalign'] = $head_arr['indexheaderalign'];
 $catarray['indexfooteralign'] = $head_arr['indexfooteralign'];
 $html                         = $head_arr['nohtml'] ? 1 : 0;
@@ -109,17 +119,17 @@ $catarray['indexfooter']      = &$myts->displayTarea($head_arr['indexfooter'], $
 
 $showAlphabet = $helper->getConfig('showAlphabet');
 if ($showAlphabet) {
-    //$catarray['letters']          = Wfdownloads\Utility::lettersChoice();
+    //$catarray['letters']          = Utility::lettersChoice();
 
     // Letter Choice Start ---------------------------------------
 
     $helper->loadLanguage('common');
     $xoopsTpl->assign('letterChoiceTitle', constant('CO_' . $moduleDirNameUpper . '_' . 'BROWSETOTOPIC'));
     /** @var \XoopsDatabase $db */
-    $db             = \XoopsDatabaseFactory::getDatabaseConnection();
-    $objHandler     = new Wfdownloads\DownloadHandler($db);
-    $choicebyletter = new Wfdownloads\Common\LetterChoice($objHandler, null, null, range('a', 'z'), 'letter', 'viewcat.php');
-    //$choicebyletter = new Wfdownloads\Common\LetterChoice($objHandler, null, null, range('a', 'z'), 'init', XOOPSTUBE_URL . '/letter.php');
+    $db             = XoopsDatabaseFactory::getDatabaseConnection();
+    $objHandler     = new DownloadHandler($db);
+    $choicebyletter = new LetterChoice($objHandler, null, null, range('a', 'z'), 'letter', 'viewcat.php');
+    //$choicebyletter = new LetterChoice($objHandler, null, null, range('a', 'z'), 'init', XOOPSTUBE_URL . '/letter.php');
     //render the LetterChoice partial and story as part of the Category array
     //$catarray['letters']  = $choicebyletter->render($alphaCount, $howmanyother);
 
@@ -129,14 +139,14 @@ if ($showAlphabet) {
     $xoopsTpl->assign('catarray', $catarray);
     // Letter Choice End ------------------------------------
 }
-$catarray['toolbar'] = Wfdownloads\Utility::toolbar();
+$catarray['toolbar'] = Utility::toolbar();
 $xoopsTpl->assign('catarray', $catarray);
 
 // Begin Main page download info
 $chcount = 0;
 $countin = 0;
 
-$listings = Wfdownloads\Utility::getTotalDownloads($allowedDownCategoriesIds);
+$listings = Utility::getTotalDownloads($allowedDownCategoriesIds);
 
 // Get total amount of categories
 $total_cat = count($allowedDownCategoriesIds);
@@ -146,14 +156,13 @@ $count            = 0;
 
 // Comparison functions for uasort()
 /**
- * @param Wfdownloads\Category $categoryObj_a
- * @param Wfdownloads\Category $categoryObj_b
+ * @param Category $categoryObj_a
+ * @param Category $categoryObj_b
  *
  * @return int
  */
-function categoriesCompareCid(Wfdownloads\Category $categoryObj_a, Wfdownloads\Category $categoryObj_b)
+function categoriesCompareCid(Category $categoryObj_a, Category $categoryObj_b)
 {
-    /** @var Wfdownloads\Category $categoryObj_a */
     if ($categoryObj_a->getVar('cid') == $categoryObj_b->getVar('cid')) {
         return 0;
     }
@@ -162,12 +171,12 @@ function categoriesCompareCid(Wfdownloads\Category $categoryObj_a, Wfdownloads\C
 }
 
 /**
- * @param Wfdownloads\Category $categoryObj_a
- * @param Wfdownloads\Category $categoryObj_b
+ * @param Category $categoryObj_a
+ * @param Category $categoryObj_b
  *
  * @return int
  */
-function categoriesCompareTitle(Wfdownloads\Category $categoryObj_a, Wfdownloads\Category $categoryObj_b)
+function categoriesCompareTitle(Category $categoryObj_a, Category $categoryObj_b)
 {
     if ($categoryObj_a->getVar('title') == $categoryObj_b->getVar('title')) {
         return 0;
@@ -177,12 +186,12 @@ function categoriesCompareTitle(Wfdownloads\Category $categoryObj_a, Wfdownloads
 }
 
 /**
- * @param Wfdownloads\Category $categoryObj_a
- * @param Wfdownloads\Category $categoryObj_b
+ * @param Category $categoryObj_a
+ * @param Category $categoryObj_b
  *
  * @return int
  */
-function categoriesCompareWeight(Wfdownloads\Category $categoryObj_a, Wfdownloads\Category $categoryObj_b)
+function categoriesCompareWeight(Category $categoryObj_a, Category $categoryObj_b)
 {
     if ($categoryObj_a->getVar('weight') == $categoryObj_b->getVar('weight')) {
         return 0;
@@ -223,10 +232,10 @@ foreach (array_keys($mainCategoryObjs) as $i) {
                 }
             }
         }
-        $isNewImage = Wfdownloads\Utility::isNewImage($publishdate);
+        $isNewImage = Utility::isNewImage($publishdate);
         if (('' !== $mainCategoryObjs[$i]->getVar('imgurl')) && is_file(XOOPS_ROOT_PATH . '/' . $helper->getConfig('catimage') . '/' . $mainCategoryObjs[$i]->getVar('imgurl'))) {
             if ($helper->getConfig('usethumbs') && function_exists('gd_info')) {
-                $imageURL = Wfdownloads\Utility::createThumb(
+                $imageURL = Utility::createThumb(
                     $mainCategoryObjs[$i]->getVar('imgurl'),
                     $helper->getConfig('catimage'),
                     'thumbs',

@@ -20,8 +20,16 @@
  */
 
 use Xmf\Request;
-use XoopsModules\Wfdownloads;
-use XoopsModules\Wfdownloads\Common;
+use XoopsModules\Wfdownloads\{
+    Common,
+    Common\LetterChoice,
+    Helper,
+    Utility,
+    DownloadHandler,
+    ObjectTree
+};
+/** @var Helper $helper */
+/** @var Utility $utility */
 
 $currentFile = basename(__FILE__);
 require_once __DIR__ . '/header.php';
@@ -40,15 +48,15 @@ $groups = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() 
 
 /** @var \XoopsGroupPermHandler $grouppermHandler */
 $grouppermHandler        = xoops_getHandler('groupperm');
-$catArray['imageheader'] = Wfdownloads\Utility::headerImage();
-//$catArray['letters']     = Wfdownloads\Utility::lettersChoice();
+$catArray['imageheader'] = Utility::headerImage();
+//$catArray['letters']     = Utility::lettersChoice();
 /** @var \XoopsDatabase $db */
-$db                  = \XoopsDatabaseFactory::getDatabaseConnection();
-$objHandler          = new Wfdownloads\DownloadHandler($db);
-$choicebyletter      = new Wfdownloads\Common\LetterChoice($objHandler, null, null, range('a', 'z'), 'letter');
+$db                  = XoopsDatabaseFactory::getDatabaseConnection();
+$objHandler          = new DownloadHandler($db);
+$choicebyletter      = new LetterChoice($objHandler, null, null, range('a', 'z'), 'letter');
 $catarray['letters'] = $choicebyletter->render();
 
-$catArray['toolbar'] = Wfdownloads\Utility::toolbar();
+$catArray['toolbar'] = Utility::toolbar();
 $xoopsTpl->assign('catarray', $catArray);
 
 // Breadcrumb
@@ -59,24 +67,24 @@ $breadcrumb->addLink($helper->getModule()->getVar('name'), WFDOWNLOADS_URL);
 $allowedCategories = $grouppermHandler->getItemIds('WFDownCatPerm', $groups, $helper->getModule()->mid());
 // ... in the last week
 $oneWeekAgo       = strtotime('-1 week'); //$oneWeekAgo = time() - 3600*24*7; //@TODO: Change to strtotime (TODAY-1week);
-$criteria         = new \Criteria('published', $oneWeekAgo, '>=');
+$criteria         = new Criteria('published', $oneWeekAgo, '>=');
 $allWeekDownloads = $helper->getHandler('Download')->getActiveCount($criteria);
 // ... in the last month
 $oneMonthAgo       = strtotime('-1 month'); //$one_month_ago = time() - 3600*24*7; //@TODO: Change to strtotime (TODAY-1month);
-$criteria          = new \Criteria('published', $oneMonthAgo, '>=');
+$criteria          = new Criteria('published', $oneMonthAgo, '>=');
 $allMonthDownloads = $helper->getHandler('Download')->getActiveCount($criteria);
 $xoopsTpl->assign('allweekdownloads', $allWeekDownloads);
 $xoopsTpl->assign('allmonthdownloads', $allMonthDownloads);
 
 // Get latest downloads
-$criteria = new \CriteriaCompo(new \Criteria('offline', 0));
+$criteria = new CriteriaCompo(new Criteria('offline', 0));
 if (Request::hasVar('newdownloadshowdays', 'GET')) {
     $days       = Request::getInt('newdownloadshowdays', 0, 'GET');
     $days_limit = [7, 14, 30];
     if (in_array($days, $days_limit)) {
         $xoopsTpl->assign('newdownloadshowdays', $days);
         $downloadshowdays = time() - (3600 * 24 * $days);
-        $criteria->add(new \Criteria('published', $downloadshowdays, '>='), 'AND');
+        $criteria->add(new Criteria('published', $downloadshowdays, '>='), 'AND');
     }
 }
 $criteria->setSort('published');
@@ -114,5 +122,5 @@ if (isset($days)) {
 // Breadcrumb
 $xoopsTpl->assign('wfdownloads_breadcrumb', $breadcrumb->render());
 
-$xoopsTpl->assign('module_home', Wfdownloads\Utility::moduleHome(true));
+$xoopsTpl->assign('module_home', Utility::moduleHome(true));
 require_once __DIR__ . '/footer.php';

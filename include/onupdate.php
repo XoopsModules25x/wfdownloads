@@ -20,9 +20,14 @@
  */
 
 use XoopsModules\Wfdownloads;
-use XoopsModules\Wfdownloads\Helper;
+use XoopsModules\Wfdownloads\{
+    Helper,
+    Utility
+};
+/** @var Helper $helper */
+/** @var Utility $utility */
 
-if ((!defined('XOOPS_ROOT_PATH')) || !($GLOBALS['xoopsUser'] instanceof \XoopsUser)
+if ((!defined('XOOPS_ROOT_PATH')) || !($GLOBALS['xoopsUser'] instanceof XoopsUser)
     || !$GLOBALS['xoopsUser']->isAdmin()) {
     exit('Restricted access' . PHP_EOL);
 }
@@ -45,7 +50,7 @@ function tableExists($tablename)
  *
  * @return bool true if ready to install, false if not
  */
-function xoops_module_pre_update_wfdownloads(\XoopsModule $module)
+function xoops_module_pre_update_wfdownloads(XoopsModule $module)
 {
     /** @var \XoopsModules\Wfdownloads\Helper $helper */
     /** @var Wfdownloads\Utility $utility */
@@ -72,7 +77,7 @@ function xoops_module_pre_update_wfdownloads(\XoopsModule $module)
  * @param \XoopsModule $module {@link XoopsModule}
  * @param null         $previousVersion
  */
-function xoops_module_update_wfdownloads(\XoopsModule $module, $previousVersion = null)
+function xoops_module_update_wfdownloads(XoopsModule $module, $previousVersion = null)
 {
     $moduleDirName      = basename(dirname(__DIR__));
     $moduleDirNameUpper = mb_strtoupper($moduleDirName);
@@ -91,7 +96,7 @@ function xoops_module_update_wfdownloads(\XoopsModule $module, $previousVersion 
                 if (is_dir($templateFolder)) {
                     $templateList = array_diff(scandir($templateFolder, SCANDIR_SORT_NONE), ['..', '.']);
                     foreach ($templateList as $k => $v) {
-                        $fileInfo = new \SplFileInfo($templateFolder . $v);
+                        $fileInfo = new SplFileInfo($templateFolder . $v);
                         if ('html' === $fileInfo->getExtension() && 'index.html' !== $fileInfo->getFilename()) {
                             if (is_file($templateFolder . $v)) {
                                 unlink($templateFolder . $v);
@@ -159,7 +164,7 @@ xoops_loadLanguage('admin', $helper->getModule()->dirname());
  *
  * @return bool
  */
-function xoops_module_update_wfdownloads2(\XoopsModule $xoopsModule, $previousVersion)
+function xoops_module_update_wfdownloads2(XoopsModule $xoopsModule, $previousVersion)
 {
     ob_start();
     invert_nohtm_dohtml_values();
@@ -176,7 +181,7 @@ function xoops_module_update_wfdownloads2(\XoopsModule $xoopsModule, $previousVe
     } else {
         echo $feedback;
     }
-    Wfdownloads\Utility::setMeta('version', '3.23'); //Set meta version to current
+    Utility::setMeta('version', '3.23'); //Set meta version to current
 
     return true;
 }
@@ -188,7 +193,7 @@ function xoops_module_update_wfdownloads2(\XoopsModule $xoopsModule, $previousVe
 /**
  * @param \XoopsModule $module
  */
-function update_tables_to_323(\XoopsModule $module)
+function update_tables_to_323(XoopsModule $module)
 {
     $dbupdater = new Wfdownloads\Dbupdater();
 
@@ -353,7 +358,7 @@ function update_tables_to_323(\XoopsModule $module)
 /**
  * @param \XoopsModule $module
  */
-function update_permissions_to_323(\XoopsModule $module)
+function update_permissions_to_323(XoopsModule $module)
 {
     /** @var \XoopsGroupPermHandler $grouppermHandler */
     $grouppermHandler = xoops_getHandler('groupperm');
@@ -387,7 +392,7 @@ function update_tables_to_322($module)
     $dbupdater = new Wfdownloads\Dbupdater();
 
     // create wfdownloads_meta table
-    if (!Wfdownloads\Utility::tableExists('wfdownloads_meta')) {
+    if (!Utility::tableExists('wfdownloads_meta')) {
         $table = new Wfdownloads\DbupdaterTable('wfdownloads_meta');
         $table->setStructure(
             "CREATE TABLE %s (
@@ -403,7 +408,7 @@ function update_tables_to_322($module)
     }
 
     // create wfdownloads_mirror table
-    if (!Wfdownloads\Utility::tableExists('wfdownloads_mirrors')) {
+    if (!Utility::tableExists('wfdownloads_mirrors')) {
         $table = new Wfdownloads\DbupdaterTable('wfdownloads_mirrors');
         $table->setStructure(
             "CREATE TABLE %s (
@@ -427,7 +432,7 @@ function update_tables_to_322($module)
     }
 
     // create wfdownloads_ip_log table
-    if (!Wfdownloads\Utility::tableExists('wfdownloads_ip_log')) {
+    if (!Utility::tableExists('wfdownloads_ip_log')) {
         $table = new Wfdownloads\DbupdaterTable('wfdownloads_ip_log');
         $table->setStructure(
             "CREATE TABLE %s (

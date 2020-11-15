@@ -52,9 +52,9 @@ function wfdownloads_top_show($options)
     $block = [];
 
     // get downloads
-    $criteria = new \CriteriaCompo();
-    $criteria->add(new \Criteria('cid', '(' . implode(',', $allowedDownCategoriesIds) . ')', 'IN'));
-    $criteria->add(new \Criteria('offline', false));
+    $criteria = new CriteriaCompo();
+    $criteria->add(new Criteria('cid', '(' . implode(',', $allowedDownCategoriesIds) . ')', 'IN'));
+    $criteria->add(new Criteria('offline', false));
     $criteria->setSort($options[0]);
     $criteria->setOrder('DESC');
     $criteria->setLimit($options[1]);

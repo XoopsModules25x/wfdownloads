@@ -20,7 +20,12 @@
  */
 
 use Xmf\Module\Admin;
-use XoopsModules\Wfdownloads;
+use XoopsModules\Wfdownloads\{
+    Helper,
+    Utility
+};
+/** @var Helper $helper */
+/** @var Utility $utility */
 
 $currentFile = basename(__FILE__);
 require_once __DIR__ . '/admin_header.php';
@@ -30,30 +35,30 @@ if ('submit' === @$_POST['op']) {
         redirect_header($currentFile, 3, implode('<br>', $GLOBALS['xoopsSecurity']->getErrors()));
     }
 
-    Wfdownloads\Utility::getCpHeader();
+    Utility::getCpHeader();
     $adminObject = Admin::getInstance();
     $adminObject->displayNavigation($currentFile);
 
     // Swish-e support EXPERIMENTAL
-    Wfdownloads\Utility::swishe_config();
+    Utility::swishe_config();
     // Swish-e support EXPERIMENTAL
 
     require_once __DIR__ . '/admin_footer.php';
     exit();
 }
-Wfdownloads\Utility::getCpHeader();
+Utility::getCpHeader();
 $adminObject = Admin::getInstance();
 $adminObject->displayNavigation($currentFile);
 
 // Swish-e support EXPERIMENTAL
-if (true === Wfdownloads\Utility::checkSwishe()) {
+if (true === Utility::checkSwishe()) {
     echo 'OK';
 } else {
     echo 'NOT OK' . '<br>';
     require_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
-    $form = new \XoopsThemeForm(_AM_WFDOWNLOADS_SWISHE_CONFIG, 'config', $currentFile, 'post', true);
-    $form->addElement(new \XoopsFormHidden('op', 'submit'));
-    $form->addElement(new \XoopsFormButton('', '', _SUBMIT, 'submit'));
+    $form = new XoopsThemeForm(_AM_WFDOWNLOADS_SWISHE_CONFIG, 'config', $currentFile, 'post', true);
+    $form->addElement(new XoopsFormHidden('op', 'submit'));
+    $form->addElement(new XoopsFormButton('', '', _SUBMIT, 'submit'));
     $form->display();
 }
 

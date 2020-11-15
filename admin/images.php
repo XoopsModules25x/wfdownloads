@@ -21,7 +21,12 @@
 
 use Xmf\Module\Admin;
 use Xmf\Request;
-use XoopsModules\Wfdownloads;
+use XoopsModules\Wfdownloads\{
+    Helper,
+    Utility
+};
+/** @var Helper $helper */
+/** @var Utility $utility */
 
 $currentFile = basename(__FILE__);
 require_once __DIR__ . '/admin_header.php';
@@ -49,7 +54,7 @@ switch ($op) {
             $maxImgHeight     = $helper->getConfig('maximgheight');
             $uploadDir        = XOOPS_ROOT_PATH . '/' . $_POST['uploadpath'];
             $screenShot       = mb_strtolower($_FILES['uploadfile']['name']);
-            Wfdownloads\Utility::uploading($screenShot, XOOPS_ROOT_PATH . '/' . $_POST['uploadpath'], $allowedMimetypes, $currentFile, 1, false, true);
+            Utility::uploading($screenShot, XOOPS_ROOT_PATH . '/' . $_POST['uploadpath'], $allowedMimetypes, $currentFile, 1, false, true);
 
             $uploader = new Wfdownloads\MediaImgUploader($uploadDir . '/', $allowedMimetypes, $maxFileSize, $maxImgWidth, $maxImgHeight);
 
@@ -76,7 +81,7 @@ switch ($op) {
         if (empty($_POST['downfile'])) {
             redirect_header($currentFile, 1, _AM_WFDOWNLOADS_DOWN_NOFILEERROR);
         }
-        Wfdownloads\Utility::getCpHeader();
+        Utility::getCpHeader();
         xoops_confirm(['op' => 'image.delete', 'uploadpath' => $_POST['uploadpath'], 'downfile' => $_POST['downfile'], 'ok' => true], $currentFile, _AM_WFDOWNLOADS_DOWN_DELETEFILE . '<br><br>' . $_POST['downfile'], _AM_WFDOWNLOADS_BDELETE);
         require_once __DIR__ . '/admin_footer.php';
 
@@ -86,7 +91,7 @@ switch ($op) {
         $displayImage = '';
         $rootPath     = Request::getInt('rootpath', 0);
 
-        Wfdownloads\Utility::getCpHeader();
+        Utility::getCpHeader();
         $adminObject = Admin::getInstance();
         $adminObject->displayNavigation($currentFile);
 
@@ -109,10 +114,10 @@ switch ($op) {
         $pathList = isset($listArray[$rootPath]) ? $nameArray[$rootPath] : '';
         $nameList = isset($listArray[$rootPath]) ? $nameArray[$rootPath] : '';
 
-        $iform = new \XoopsThemeForm(_AM_WFDOWNLOADS_DOWN_FUPLOADIMAGETO . $pathList, 'op', xoops_getenv('SCRIPT_NAME'), 'post', true);
+        $iform = new XoopsThemeForm(_AM_WFDOWNLOADS_DOWN_FUPLOADIMAGETO . $pathList, 'op', xoops_getenv('SCRIPT_NAME'), 'post', true);
         $iform->setExtra('enctype="multipart/form-data"');
 
-        $iform->addElement(new \XoopsFormHidden('dir', $rootPath));
+        $iform->addElement(new XoopsFormHidden('dir', $rootPath));
         ob_start();
 
         echo "<select size='1' name='workd' onchange='location.href=\"{$currentFile}?rootpath=\"+this.options[this.selectedIndex].value'>";
@@ -122,43 +127,43 @@ switch ($op) {
             echo "<option value='" . htmlspecialchars($namearray, ENT_QUOTES) . "' {$opt_selected}>{$workd}</option>";
         }
         echo '</select>';
-        $iform->addElement(new \XoopsFormLabel(_AM_WFDOWNLOADS_DOWN_FOLDERSELECTION, ob_get_contents()));
+        $iform->addElement(new XoopsFormLabel(_AM_WFDOWNLOADS_DOWN_FOLDERSELECTION, ob_get_contents()));
         ob_end_clean();
 
         if ($rootPath > 0) {
-            $iform->addElement(new \XoopsFormLabel(_AM_WFDOWNLOADS_DOWN_FUPLOADPATH, XOOPS_ROOT_PATH . '/' . $dirArray[$rootPath]));
-            $iform->addElement(new \XoopsFormLabel(_AM_WFDOWNLOADS_DOWN_FUPLOADURL, XOOPS_URL . '/' . $dirArray[$rootPath]));
+            $iform->addElement(new XoopsFormLabel(_AM_WFDOWNLOADS_DOWN_FUPLOADPATH, XOOPS_ROOT_PATH . '/' . $dirArray[$rootPath]));
+            $iform->addElement(new XoopsFormLabel(_AM_WFDOWNLOADS_DOWN_FUPLOADURL, XOOPS_URL . '/' . $dirArray[$rootPath]));
 
             $graph_array       = Wfdownloads\WfsLists::getListTypeAsArray(XOOPS_ROOT_PATH . '/' . $dirArray[$rootPath], $type = 'images');
-            $indeximage_select = new \XoopsFormSelect('', 'downfile', '');
+            $indeximage_select = new XoopsFormSelect('', 'downfile', '');
             $indeximage_select->addOptionArray($graph_array);
             $indeximage_select->setExtra("onchange='showImgSelected(\"image\", \"downfile\", \"" . $dirArray[$rootPath] . '", "", "' . XOOPS_URL . "\")'");
-            $indeximage_tray = new \XoopsFormElementTray(_AM_WFDOWNLOADS_DOWN_FSHOWSELECTEDIMAGE, '&nbsp;');
+            $indeximage_tray = new XoopsFormElementTray(_AM_WFDOWNLOADS_DOWN_FSHOWSELECTEDIMAGE, '&nbsp;');
             $indeximage_tray->addElement($indeximage_select);
-            if (\Xmf\Request::hasVar('downfile', 'REQUEST')) {
-                $indeximage_tray->addElement(new \XoopsFormLabel('', "<br><br><img src='" . XOOPS_URL . '/' . $dirArray[$rootPath] . '/' . $_REQUEST['downfile'] . "' name='image' id='image' alt='' title='image'>"));
+            if (Request::hasVar('downfile', 'REQUEST')) {
+                $indeximage_tray->addElement(new XoopsFormLabel('', "<br><br><img src='" . XOOPS_URL . '/' . $dirArray[$rootPath] . '/' . $_REQUEST['downfile'] . "' name='image' id='image' alt='' title='image'>"));
             } else {
-                $indeximage_tray->addElement(new \XoopsFormLabel('', "<br><br><img src='" . XOOPS_URL . "/uploads/wfdownloads/blank.png' name='image' id='image' alt='' title='image'>"));
+                $indeximage_tray->addElement(new XoopsFormLabel('', "<br><br><img src='" . XOOPS_URL . "/uploads/wfdownloads/blank.png' name='image' id='image' alt='' title='image'>"));
             }
             $iform->addElement($indeximage_tray);
 
-            $iform->addElement(new \XoopsFormFile(_AM_WFDOWNLOADS_DOWN_FUPLOADIMAGE, 'uploadfile', 0));
-            $iform->addElement(new \XoopsFormHidden('uploadpath', $dirArray[$rootPath]));
-            $iform->addElement(new \XoopsFormHidden('rootnumber', $rootPath));
+            $iform->addElement(new XoopsFormFile(_AM_WFDOWNLOADS_DOWN_FUPLOADIMAGE, 'uploadfile', 0));
+            $iform->addElement(new XoopsFormHidden('uploadpath', $dirArray[$rootPath]));
+            $iform->addElement(new XoopsFormHidden('rootnumber', $rootPath));
 
-            $dup_tray = new \XoopsFormElementTray('', '');
-            $dup_tray->addElement(new \XoopsFormHidden('op', 'upload'));
-            $butt_dup = new \XoopsFormButton('', '', _AM_WFDOWNLOADS_BUPLOAD, 'submit');
+            $dup_tray = new XoopsFormElementTray('', '');
+            $dup_tray->addElement(new XoopsFormHidden('op', 'upload'));
+            $butt_dup = new XoopsFormButton('', '', _AM_WFDOWNLOADS_BUPLOAD, 'submit');
             $butt_dup->setExtra('onclick="this.form.elements.op.value=\'image.upload\'"');
             $dup_tray->addElement($butt_dup);
 
-            $butt_dupct = new \XoopsFormButton('', '', _AM_WFDOWNLOADS_BDELETEIMAGE, 'submit');
+            $butt_dupct = new XoopsFormButton('', '', _AM_WFDOWNLOADS_BDELETEIMAGE, 'submit');
             $butt_dupct->setExtra('onclick="this.form.elements.op.value=\'image.delete\'"');
             $dup_tray->addElement($butt_dupct);
             $iform->addElement($dup_tray);
         }
         $iform->display();
-        //        echo Wfdownloads\Utility::serverStats();
+        //        echo Utility::serverStats();
         echo $utility::getServerStats();
         require_once __DIR__ . '/admin_footer.php';
 }

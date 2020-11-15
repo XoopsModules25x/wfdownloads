@@ -31,7 +31,7 @@ $moduleDirNameUpper = mb_strtoupper($moduleDirName); //$capsDirName
 /** @var \XoopsDatabase $db */
 /** @var \XoopsModules\Wfdownloads\Helper $helper */
 /** @var \XoopsModules\Wfdownloads\Utility $utility */
-$db      = \XoopsDatabaseFactory::getDatabaseConnection();
+$db      = XoopsDatabaseFactory::getDatabaseConnection();
 $helper  = Helper::getInstance();
 $utility = new Utility();
 //$configurator = new Wfdownloads\Common\Configurator();
@@ -84,11 +84,11 @@ $icons = [
 $debug = false;
 
 // MyTextSanitizer object
-$myts = \MyTextSanitizer::getInstance();
+$myts = MyTextSanitizer::getInstance();
 
-if (!isset($GLOBALS['xoopsTpl']) || !($GLOBALS['xoopsTpl'] instanceof \XoopsTpl)) {
+if (!isset($GLOBALS['xoopsTpl']) || !($GLOBALS['xoopsTpl'] instanceof XoopsTpl)) {
     require_once $GLOBALS['xoops']->path('class/template.php');
-    $GLOBALS['xoopsTpl'] = new \XoopsTpl();
+    $GLOBALS['xoopsTpl'] = new XoopsTpl();
 }
 
 $GLOBALS['xoopsTpl']->assign('mod_url', XOOPS_URL . '/modules/' . $moduleDirName);

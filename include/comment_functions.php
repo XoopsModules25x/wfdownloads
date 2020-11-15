@@ -35,7 +35,7 @@ function wfdownloads_com_update($downloadId, $commentCount)
 {
     /** @var \XoopsModules\Wfdownloads\Helper $helper */
     $helper = Helper::getInstance();
-    $helper->getHandler('Download')->updateAll('comments', (int)$commentCount, new \Criteria('lid', (int)$downloadId));
+    $helper->getHandler('Download')->updateAll('comments', (int)$commentCount, new Criteria('lid', (int)$downloadId));
 }
 
 /**
