@@ -24,7 +24,8 @@ use Xmf\Request;
 use XoopsModules\Wfdownloads\{
     Helper,
     Utility,
-    ObjectTree
+    ObjectTree,
+    MulticolumnsThemeForm
 };
 /** @var Helper $helper */
 /** @var Utility $utility */
@@ -98,7 +99,7 @@ switch ($op) {
         echo '<div><b>' . _AM_WFDOWNLOADS_MOD_MODPOSTER . "</b> $submittername</div>";
         echo '<div><b>' . _AM_WFDOWNLOADS_MOD_MODIFYSUBMITTER . "</b> $modifyname</div>";
 
-        $mcform = new Wfdownloads\MulticolumnsThemeForm('', 'modificationform', $currentFile);
+        $mcform = new MulticolumnsThemeForm('', 'modificationform', $currentFile);
 
         // Get download keys
         $downloadVars = $downloadObj->getVars();

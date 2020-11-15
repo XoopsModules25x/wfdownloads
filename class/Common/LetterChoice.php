@@ -27,8 +27,10 @@ namespace XoopsModules\Wfdownloads\Common;
  * echo $choicebyletter->render();
  */
 
-use XoopsModules\Wfdownloads;
-use XoopsModules\Wfdownloads\Helper;
+use XoopsModules\Xoopstube\{
+    Helper
+};
+/** @var Helper $helper */
 
 // require_once  dirname(dirname(__DIR__)) . '/include/common.php';
 
@@ -87,7 +89,6 @@ class LetterChoice
         $extra_arg = '',
         $caseSensitive = false
     ) {
-        /** @var \XoopsModules\Wfdownloads\Helper $this ->helper */
         $this->helper     = Helper::getInstance();
         $this->objHandler = $objHandler;
         $this->criteria   = $criteria ?? new \CriteriaCompo();
@@ -95,7 +96,6 @@ class LetterChoice
         //        $this->alphabet   = (count($alphabet) > 0) ? $alphabet : range('a', 'z'); // is there a way to get locale alphabet?
         //        $this->alphabet       = getLocalAlphabet();
         $this->alphabet = require_once dirname(__DIR__, 2) . '/language/' . $GLOBALS['xoopsConfig']['language'] . '/alphabet.php';
-        //        $this->helper->loadLanguage('alphabet');
         $this->arg_name = $arg_name;
         $this->url      = $url ?? $_SERVER['SCRIPT_NAME'];
         if ('' !== $extra_arg && ('&amp;' !== mb_substr($extra_arg, -5) || '&' !== mb_substr($extra_arg, -1))) {
@@ -139,7 +139,7 @@ class LetterChoice
         $alphabetArray[$letter] = $letter_array;
 
         foreach ($this->alphabet as $letter) {
-            $letter_array = [];
+//            $letter_array = [];
             if (!$this->caseSensitive) {
                 if (isset($countsByLetters[mb_strtoupper($letter)])) {
                     $letter_array['letter'] = $letter;
@@ -150,8 +150,7 @@ class LetterChoice
                     $letter_array['count']  = 0;
                     $letter_array['url']    = '';
                 }
-            } else {
-                if (isset($countsByLetters[$letter])) {
+            } elseif (isset($countsByLetters[$letter])) {
                     $letter_array['letter'] = $letter;
                     $letter_array['count']  = $countsByLetters[$letter];
                     $letter_array['url']    = $this->url . '?' . $this->arg_name . '=' . $letter . $this->extra;
@@ -160,7 +159,6 @@ class LetterChoice
                     $letter_array['count']  = 0;
                     $letter_array['url']    = '';
                 }
-            }
             $alphabetArray[$letter] = $letter_array;
             unset($letter_array);
         }
@@ -171,7 +169,7 @@ class LetterChoice
         $alphabetArray[$letter] = $letter_array;
 
         // render output
-        if (!isset($GLOBALS['xoTheme']) || !\is_object($GLOBALS['xoTheme'])) {
+        if (!isset($GLOBALS['xoTheme']) || !is_object($GLOBALS['xoTheme'])) {
             require_once $GLOBALS['xoops']->path('/class/theme.php');
             $GLOBALS['xoTheme'] = new \xos_opal_Theme();
         }

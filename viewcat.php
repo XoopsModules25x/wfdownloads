@@ -22,6 +22,8 @@
 use Xmf\Request;
 use XoopsModules\Wfdownloads\{
     Common,
+    Common\LetterChoice,
+    DownloadHandler,
     Helper,
     Utility,
     ObjectTree
@@ -134,8 +136,8 @@ if ($showAlphabet) {
     $catArray['imageheader'] = Utility::headerImage();
     //$catArray['letters']     = Utility::lettersChoice();
     $db                  = XoopsDatabaseFactory::getDatabaseConnection();
-    $objHandler          = new Wfdownloads\DownloadHandler($db);
-    $choicebyletter      = new Wfdownloads\Common\LetterChoice($objHandler, null, null, range('a', 'z'), 'letter');
+    $objHandler          = new DownloadHandler($db);
+    $choicebyletter      = new LetterChoice($objHandler, null, null, range('a', 'z'), 'letter');
     $catarray['letters'] = $choicebyletter->render();
     $xoopsTpl->assign('catarray', $catarray);
 

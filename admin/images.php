@@ -24,7 +24,8 @@ use Xmf\Request;
 use XoopsModules\Wfdownloads\{
     Helper,
     Utility,
-    WfsLists
+    WfsLists,
+    MediaImgUploader
 };
 /** @var Helper $helper */
 /** @var Utility $utility */
@@ -57,7 +58,7 @@ switch ($op) {
             $screenShot       = mb_strtolower($_FILES['uploadfile']['name']);
             Utility::uploading($screenShot, XOOPS_ROOT_PATH . '/' . $_POST['uploadpath'], $allowedMimetypes, $currentFile, 1, false, true);
 
-            $uploader = new Wfdownloads\MediaImgUploader($uploadDir . '/', $allowedMimetypes, $maxFileSize, $maxImgWidth, $maxImgHeight);
+            $uploader = new MediaImgUploader($uploadDir . '/', $allowedMimetypes, $maxFileSize, $maxImgWidth, $maxImgHeight);
 
             redirect_header($currentFile, 2, _AM_WFDOWNLOADS_DOWN_IMAGEUPLOAD);
         } else {

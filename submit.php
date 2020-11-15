@@ -23,7 +23,8 @@ use Xmf\Request;
 use XoopsModules\Wfdownloads\{
     Common,
     Helper,
-    Utility
+    Utility,
+    MediaImgUploader
 };
 /** @var Helper $helper */
 /** @var Utility $utility */
@@ -242,7 +243,7 @@ switch ($op) {
         $screenshot1 = '';
         if (isset($_FILES['screenshot']['name']) && !empty($_FILES['screenshot']['name'])) {
             $screenshot1 = mb_strtolower($_FILES['screenshot']['name']);
-            $uploader    = new Wfdownloads\MediaImgUploader($uploadDirectory, $allowedMimetypes, $helper->getConfig('maxfilesize'), $helper->getConfig('maximgwidth'), $helper->getConfig('maximgheight'));
+            $uploader    = new MediaImgUploader($uploadDirectory, $allowedMimetypes, $helper->getConfig('maxfilesize'), $helper->getConfig('maximgwidth'), $helper->getConfig('maximgheight'));
             if (!$uploader->fetchMedia($_POST['xoops_upload_file'][1]) && !$uploader->upload()) {
                 if (false === @unlink($uploadDirectory . $screenshot1)) {
                     throw new RuntimeException('The file ' . $uploadDirectory . $screenshot1 . ' could not be uploaded.');
@@ -256,7 +257,7 @@ switch ($op) {
         if ($helper->getConfig('max_screenshot') >= 2) {
             if (isset($_FILES['screenshot2']['name']) && !empty($_FILES['screenshot2']['name'])) {
                 $screenshot2 = mb_strtolower($_FILES['screenshot2']['name']);
-                $uploader    = new Wfdownloads\MediaImgUploader($uploadDirectory, $allowedMimetypes, $helper->getConfig('maxfilesize'), $helper->getConfig('maximgwidth'), $helper->getConfig('maximgheight'));
+                $uploader    = new MediaImgUploader($uploadDirectory, $allowedMimetypes, $helper->getConfig('maxfilesize'), $helper->getConfig('maximgwidth'), $helper->getConfig('maximgheight'));
                 if (!$uploader->fetchMedia($_POST['xoops_upload_file'][2]) && !$uploader->upload()) {
                     @unlink($uploadDirectory . $screenshot2);
                     redirect_header($currentFile, 1, $uploader->getErrors());
@@ -269,7 +270,7 @@ switch ($op) {
         if ($helper->getConfig('max_screenshot') >= 3) {
             if (isset($_FILES['screenshot3']['name']) && !empty($_FILES['screenshot3']['name'])) {
                 $screenshot3 = mb_strtolower($_FILES['screenshot3']['name']);
-                $uploader    = new Wfdownloads\MediaImgUploader($uploadDirectory, $allowedMimetypes, $helper->getConfig('maxfilesize'), $helper->getConfig('maximgwidth'), $helper->getConfig('maximgheight'));
+                $uploader    = new MediaImgUploader($uploadDirectory, $allowedMimetypes, $helper->getConfig('maxfilesize'), $helper->getConfig('maximgwidth'), $helper->getConfig('maximgheight'));
                 if (!$uploader->fetchMedia($_POST['xoops_upload_file'][3]) && !$uploader->upload()) {
                     @unlink($uploadDirectory . $screenshot3);
                     redirect_header($currentFile, 1, $uploader->getErrors());
@@ -282,7 +283,7 @@ switch ($op) {
         if ($helper->getConfig('max_screenshot') >= 4) {
             if (isset($_FILES['screenshot4']['name']) && !empty($_FILES['screenshot4']['name'])) {
                 $screenshot4 = mb_strtolower($_FILES['screenshot4']['name']);
-                $uploader    = new Wfdownloads\MediaImgUploader($uploadDirectory, $allowedMimetypes, $helper->getConfig('maxfilesize'), $helper->getConfig('maximgwidth'), $helper->getConfig('maximgheight'));
+                $uploader    = new MediaImgUploader($uploadDirectory, $allowedMimetypes, $helper->getConfig('maxfilesize'), $helper->getConfig('maximgwidth'), $helper->getConfig('maximgheight'));
                 if (!$uploader->fetchMedia($_POST['xoops_upload_file'][4]) && !$uploader->upload()) {
                     @unlink($uploadDirectory . $screenshot4);
                     redirect_header($currentFile, 1, $uploader->getErrors());
