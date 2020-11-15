@@ -506,7 +506,7 @@ class Utility extends Common\SysUtility
      *
      * @param string $dirname
      *
-     * @return boolean, integer   false if module not installed or not active, module version if installed
+     * @return bool, integer   false if module not installed or not active, module version if installed
      *
      * @access  public
      * @author  luciorota
