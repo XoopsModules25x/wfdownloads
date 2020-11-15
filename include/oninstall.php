@@ -45,7 +45,6 @@ define('BLANK_FILE_PATH', XOOPS_ROOT_PATH . '/uploads/blank.png');
  */
 function xoops_module_pre_install_wfdownloads(XoopsModule $module)
 {
-    /** @var \XoopsModules\Wfdownloads\Utility $utility */
     $utility = new Utility();
 
     //check for minimum XOOPS version
@@ -83,7 +82,6 @@ function xoops_module_install_wfdownloads(XoopsModule $module)
 
     //    $configurator = require __DIR__   . '/config.php';
     $configurator = new  Configurator();
-    /** @var \XoopsModules\Wfdownloads\Utility $utility */
     $utility = new Utility();
 
     // default Permission Settings

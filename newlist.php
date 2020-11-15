@@ -50,7 +50,6 @@ $groups = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() 
 $grouppermHandler        = xoops_getHandler('groupperm');
 $catArray['imageheader'] = Utility::headerImage();
 //$catArray['letters']     = Utility::lettersChoice();
-/** @var \XoopsDatabase $db */
 $db                  = XoopsDatabaseFactory::getDatabaseConnection();
 $objHandler          = new DownloadHandler($db);
 $choicebyletter      = new LetterChoice($objHandler, null, null, range('a', 'z'), 'letter');

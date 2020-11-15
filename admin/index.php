@@ -162,10 +162,8 @@ $adminObject->addConfigBoxLine(DirectoryChecker::getDirectoryStatus($path . 'thu
 //---------------------------
 $adminObject->addConfigBoxLine('');
 
-/** @var \XoopsModules\Wfdownloads\Common\Configurator $configurator */
 $configurator = new Configurator();
 
-/** @var \XoopsModules\Wfdownloads\Utility $utility */
 $utility = new Utility();
 
 foreach (array_keys($configurator->uploadFolders) as $i) {

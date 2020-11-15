@@ -63,7 +63,6 @@ $sortDB       = $list_array[$thisselected];
 
 $catarray['imageheader'] = Utility::headerImage();
 //$catarray['letters']     = Utility::lettersChoice();
-/** @var \XoopsDatabase $db */
 $db         = XoopsDatabaseFactory::getDatabaseConnection();
 $objHandler = new DownloadHandler($db);
 /** @var \XoopsGroupPermHandler $grouppermHandler */

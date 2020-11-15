@@ -133,7 +133,6 @@ if ($showAlphabet) {
 
     $catArray['imageheader'] = Utility::headerImage();
     //$catArray['letters']     = Utility::lettersChoice();
-    /** @var \XoopsDatabase $db */
     $db                  = XoopsDatabaseFactory::getDatabaseConnection();
     $objHandler          = new Wfdownloads\DownloadHandler($db);
     $choicebyletter      = new Wfdownloads\Common\LetterChoice($objHandler, null, null, range('a', 'z'), 'letter');

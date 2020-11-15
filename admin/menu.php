@@ -24,8 +24,6 @@ use XoopsModules\Wfdownloads\{
 };
 use Xmf\Module\Admin;
 
-/** @var Helper $helper */
-
 $helper = Helper::getInstance();
 $helper->loadLanguage('common');
 $helper->loadLanguage('feedback');

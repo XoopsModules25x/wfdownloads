@@ -56,10 +56,8 @@ echo <<<EOF
 </form>
 EOF;
 
-/** @var Wfdownloads\Common\Configurator $configurator */
 $configurator = new Wfdownloads\Common\Configurator();
 
-/** @var \XoopsModules\Wfdownloads\Common\Migrate $migrator */
 $migrator = new Migrate($configurator);
 
 $op        = Request::getCmd('op', 'show');

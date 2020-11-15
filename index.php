@@ -125,7 +125,6 @@ if ($showAlphabet) {
 
     $helper->loadLanguage('common');
     $xoopsTpl->assign('letterChoiceTitle', constant('CO_' . $moduleDirNameUpper . '_' . 'BROWSETOTOPIC'));
-    /** @var \XoopsDatabase $db */
     $db             = XoopsDatabaseFactory::getDatabaseConnection();
     $objHandler     = new DownloadHandler($db);
     $choicebyletter = new LetterChoice($objHandler, null, null, range('a', 'z'), 'letter', 'viewcat.php');
