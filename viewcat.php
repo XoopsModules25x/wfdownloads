@@ -85,7 +85,7 @@ $allowedDownCategoriesIds = $grouppermHandler->getItemIds('WFDownCatPerm', $grou
 $allowedUpCategoriesIds   = $grouppermHandler->getItemIds('WFUpCatPerm', $groups, $helper->getModule()->mid());
 
 //$GLOBALS['xoopsOption']['template_main'] = "{$helper->getModule()->dirname()}_viewcat.tpl";
-$GLOBALS['xoopsOption']['template_main'] = (string)$helper->getDirname() . '_display_' . $helper->getConfig('idxcat_items_display_type') . '.tpl';
+$GLOBALS['xoopsOption']['template_main'] = $helper->getDirname() . '_display_' . $helper->getConfig('idxcat_items_display_type') . '.tpl';
 require_once XOOPS_ROOT_PATH . '/header.php';
 
 $xoTheme->addScript(XOOPS_URL . '/browse.php?Frameworks/jquery/jquery.js');

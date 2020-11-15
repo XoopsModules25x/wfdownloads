@@ -182,7 +182,7 @@ if ($helper->getConfig('showDowndisclaimer') && false === $agreed) {
         header('Pragma: public');
         header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
         header('Cache-Control: private', false);
-        header('Content-Length: ' . (string)$fileFilesize);
+        header('Content-Length: ' . $fileFilesize);
         header('Content-Transfer-Encoding: binary');
         header("Content-Type: {$fileMimetype}");
         header("Content-Disposition: attachment; filename={$headerFilename}");
