@@ -36,7 +36,7 @@ use XoopsModules\Wfdownloads\{
 /** @var Helper $helper */
 /** @var Utility $utility */
 
-require_once \dirname(\dirname(__DIR__)) . '/include/common.php';
+require_once dirname(__DIR__, 2) . '/include/common.php';
 
 /**
  * Class Breadcrumb
@@ -50,7 +50,7 @@ class Breadcrumb
     public function __construct()
     {
         $this->helper  = Helper::getInstance();
-        $this->dirname = \basename(\dirname(\dirname(__DIR__)));
+        $this->dirname = \basename(dirname(__DIR__, 2));
     }
 
     /**

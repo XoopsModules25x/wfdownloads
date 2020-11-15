@@ -28,7 +28,7 @@ use XoopsModules\Wfdownloads\{
 /** @var Utility $utility */
 
 
-require_once dirname(dirname(__DIR__)) . '/mainfile.php';
+require_once dirname(__DIR__, 2) . '/mainfile.php';
 require_once __DIR__ . '/include/common.php';
 
 //require_once XOOPS_ROOT_PATH . '/header.php';

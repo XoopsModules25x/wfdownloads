@@ -384,7 +384,7 @@ define('_MI_WFDOWNLOADS_SWISHE_SEARCHLIMIT', '[Swish-e] Swish-e max results');
 define('_MI_WFDOWNLOADS_SWISHE_SEARCHLIMITDSC', "While searching, this specifies the maximum number of results to return. '0' is to return all results.");
 
 //Help
-define('_MI_WFDOWNLOADS_DIRNAME', basename(dirname(dirname(__DIR__))));
+define('_MI_WFDOWNLOADS_DIRNAME', basename(dirname(__DIR__, 2)));
 define('_MI_WFDOWNLOADS_HELP_HEADER', __DIR__ . '/help/helpheader.tpl');
 define('_MI_WFDOWNLOADS_BACK_2_ADMIN', 'Back to Administration of ');
 define('_MI_WFDOWNLOADS_OVERVIEW', 'Overview');

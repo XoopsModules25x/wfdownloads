@@ -30,7 +30,7 @@ use Xmf\Module\Admin;
 /** @var Utility $utility */
 
 $moduleDirName = basename(dirname(__DIR__));
-require_once dirname(dirname(dirname(__DIR__))) . '/mainfile.php';
+require_once dirname(__DIR__, 3) . '/mainfile.php';
 require_once $GLOBALS['xoops']->path('www/include/cp_functions.php');
 require_once $GLOBALS['xoops']->path('www/include/cp_header.php');
 require_once $GLOBALS['xoops']->path('www/class/xoopsformloader.php');

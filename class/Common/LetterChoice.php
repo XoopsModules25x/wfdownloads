@@ -94,7 +94,7 @@ class LetterChoice
         $this->field_name = null === $field_name ? $this->objHandler->identifierName : $field_name;
         //        $this->alphabet   = (count($alphabet) > 0) ? $alphabet : range('a', 'z'); // is there a way to get locale alphabet?
         //        $this->alphabet       = getLocalAlphabet();
-        $this->alphabet = require_once \dirname(\dirname(__DIR__)) . '/language/' . $GLOBALS['xoopsConfig']['language'] . '/alphabet.php';
+        $this->alphabet = require_once dirname(__DIR__, 2) . '/language/' . $GLOBALS['xoopsConfig']['language'] . '/alphabet.php';
         //        $this->helper->loadLanguage('alphabet');
         $this->arg_name = $arg_name;
         $this->url      = null === $url ? $_SERVER['SCRIPT_NAME'] : $url;
@@ -113,7 +113,7 @@ class LetterChoice
      */
     public function render($alphaCount = null, $howmanyother = null)
     {
-        $moduleDirName      = \basename(\dirname(\dirname(__DIR__)));
+        $moduleDirName      = \basename(dirname(__DIR__, 2));
         $moduleDirNameUpper = mb_strtoupper($moduleDirName);
         \xoops_loadLanguage('common', $moduleDirName);
         \xoops_loadLanguage('alphabet', $moduleDirName);

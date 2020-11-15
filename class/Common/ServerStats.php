@@ -28,7 +28,7 @@ trait ServerStats
     {
         //mb    /** @var \XoopsModules\Wfdownloads\Helper $helper */
         //mb    $helper = \XoopsModules\Wfdownloads\Helper::getInstance();
-        $moduleDirName      = \basename(\dirname(\dirname(__DIR__)));
+        $moduleDirName      = \basename(dirname(__DIR__, 2));
         $moduleDirNameUpper = mb_strtoupper($moduleDirName);
         \xoops_loadLanguage('common', $moduleDirName);
         $html  = '';
