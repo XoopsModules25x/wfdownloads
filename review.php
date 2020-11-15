@@ -23,7 +23,8 @@ use Xmf\Request;
 use XoopsModules\Wfdownloads\{
     Common,
     Helper,
-    Utility
+    Utility,
+    ObjectTree
 };
 /** @var Helper $helper */
 /** @var Utility $utility */
@@ -62,7 +63,7 @@ if (!$grouppermHandler->checkRight('WFDownCatPerm', $cid, $userGroups, $helper->
 
 // Breadcrumb
 require_once XOOPS_ROOT_PATH . '/class/tree.php';
-$categoryObjsTree = new Wfdownloads\ObjectTree($helper->getHandler('Category')->getObjects(), 'cid', 'pid');
+$categoryObjsTree = new ObjectTree($helper->getHandler('Category')->getObjects(), 'cid', 'pid');
 $breadcrumb       = new Common\Breadcrumb();
 $breadcrumb->addLink($helper->getModule()->getVar('name'), WFDOWNLOADS_URL);
 foreach (array_reverse($categoryObjsTree->getAllParent($cid)) as $parentCategory) {

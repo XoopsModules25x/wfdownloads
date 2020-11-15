@@ -22,8 +22,6 @@ namespace XoopsModules\Wfdownloads;
  * @author          Xoops Development Team
  */
 
-use XoopsModules\Wfdownloads;
-
 require_once \dirname(__DIR__) . '/include/common.php';
 
 /**
@@ -42,7 +40,6 @@ class RatingHandler extends \XoopsPersistableObjectHandler
     public function __construct(\XoopsDatabase $db = null)
     {
         parent::__construct($db, 'wfdownloads_votedata', Rating::class, 'ratingid');
-        /** @var \XoopsModules\Wfdownloads\Helper $this ->helper */
         $this->helper = Helper::getInstance();
     }
 

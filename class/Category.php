@@ -98,7 +98,7 @@ class Category extends \XoopsObject
         // category: pid
         if (Utility::categoriesCount() > 0) {
             $categoryObjs     = $this->helper->getHandler('Category')->getObjects();
-            $categoryObjsTree = new Wfdownloads\ObjectTree($categoryObjs, 'cid', 'pid');
+            $categoryObjsTree = new ObjectTree($categoryObjs, 'cid', 'pid');
 
             if (Utility::checkVerXoops($GLOBALS['xoopsModule'], '2.5.9')) {
                 $catSelect = $categoryObjsTree->makeSelectElement('pid', 'title', '-', $this->getVar('pid'), true, 0, '', \_AM_WFDOWNLOADS_FCATEGORY_SUBCATEGORY);
@@ -124,7 +124,7 @@ class Category extends \XoopsObject
         $imgurl_tray = new \XoopsFormElementTray(\_AM_WFDOWNLOADS_FCATEGORY_CIMAGE, '<br>');
         $imgurl_tray->addElement(new \XoopsFormLabel(_AM_WFDOWNLOADS_DOWN_FUPLOADPATH, XOOPS_ROOT_PATH . '/' . $this->helper->getConfig('catimage')));
         $imgurl_tray->addElement(new \XoopsFormLabel(_AM_WFDOWNLOADS_DOWN_FUPLOADURL, XOOPS_URL . '/' . $this->helper->getConfig('catimage')));
-        $graph_array   = Wfdownloads\WfsLists::getListTypeAsArray(XOOPS_ROOT_PATH . '/' . $this->helper->getConfig('catimage'), 'images');
+        $graph_array   = WfsLists::getListTypeAsArray(XOOPS_ROOT_PATH . '/' . $this->helper->getConfig('catimage'), 'images');
         $imgurl_select = new \XoopsFormSelect('', 'imgurl', $this->getVar('imgurl'));
         $imgurl_select->addOptionArray($graph_array);
         $imgurl_select->setExtra("onchange='showImgSelected(\"image\", \"imgurl\", \"" . $this->helper->getConfig('catimage') . '", "", "' . XOOPS_URL . "\")'");

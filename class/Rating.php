@@ -22,8 +22,6 @@ namespace XoopsModules\Wfdownloads;
  * @author          Xoops Development Team
  */
 
-use XoopsModules\Wfdownloads;
-
 require_once \dirname(__DIR__) . '/include/common.php';
 
 /**
@@ -42,7 +40,6 @@ class Rating extends \XoopsObject
      */
     public function __construct($id = null)
     {
-        /** @var \XoopsModules\Wfdownloads\Helper $this ->helper */
         $this->helper = Helper::getInstance();
         $this->db     = \XoopsDatabaseFactory::getDatabaseConnection();
         $this->initVar('ratingid', \XOBJ_DTYPE_INT);

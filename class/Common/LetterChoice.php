@@ -54,16 +54,16 @@ class LetterChoice
     private $url;
     private $extra;
     private $caseSensitive;
-    /**
-     * *#@-
-     * @param mixed      $objHandler
-     * @param null|mixed $criteria
-     * @param null|mixed $field_name
-     * @param mixed      $arg_name
-     * @param null|mixed $url
-     * @param mixed      $extra_arg
-     * @param mixed      $caseSensitive
-     */
+//    /**
+//     * *#@-
+//     * @param mixed      $objHandler
+//     * @param null|mixed $criteria
+//     * @param null|mixed $field_name
+//     * @param mixed      $arg_name
+//     * @param null|mixed $url
+//     * @param mixed      $extra_arg
+//     * @param mixed      $caseSensitive
+//     */
 
     /**
      * Constructor

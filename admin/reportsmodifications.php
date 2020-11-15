@@ -23,7 +23,8 @@ use Xmf\Module\Admin;
 use Xmf\Request;
 use XoopsModules\Wfdownloads\{
     Helper,
-    Utility
+    Utility,
+    ObjectTree
 };
 /** @var Helper $helper */
 /** @var Utility $utility */
@@ -85,7 +86,7 @@ switch ($op) {
         $submitteremail = $orig_user->getVar('email');
 
         $categoryObjs     = $helper->getHandler('Category')->getObjects();
-        $categoryObjsTree = new Wfdownloads\ObjectTree($categoryObjs, 'cid', 'pid');
+        $categoryObjsTree = new ObjectTree($categoryObjs, 'cid', 'pid');
 
         Utility::getCpHeader();
 

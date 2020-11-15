@@ -7,7 +7,7 @@
 
 
 
-<{if $catarray.imageheader != ""}>
+<{if $catarray.imageheader|default:'' != ""}>
 <br>
 <div class="wfdownloads_head_catimageheader"><{$catarray.imageheader}></div>
 <br>
@@ -33,7 +33,7 @@
 <div class="wfdownloads_head_catletters" align="center"><{$catarray.letters}></div>
 <br>
 <{/if}>
-<{if $catarray.toolbar}>
+<{if $catarray.toolbar|default:null}>
 <div class="wfdownloads_head_cattoolbar" align="center"><{$catarray.toolbar}></div>
 <br>
 <{/if}>

@@ -131,7 +131,7 @@ class CategoryHandler extends \XoopsPersistableObjectHandler
     {
         $categoryObjs = $this->getObjects();
         require_once XOOPS_ROOT_PATH . '/class/tree.php';
-        $categoryObjsTree = new Wfdownloads\ObjectTree($categoryObjs, $this->keyName, 'pid');
+        $categoryObjsTree = new ObjectTree($categoryObjs, $this->keyName, 'pid');
 
         return $categoryObjsTree->getAllChild($category->getVar($this->keyName));
     }
@@ -146,7 +146,7 @@ class CategoryHandler extends \XoopsPersistableObjectHandler
         }
 
         require_once XOOPS_ROOT_PATH . '/class/tree.php';
-        $categoryObjsTree = new Wfdownloads\ObjectTree($this->allCategories, $this->keyName, 'pid');
+        $categoryObjsTree = new ObjectTree($this->allCategories, $this->keyName, 'pid');
 
         $allsubcats_linked_totop = [];
         foreach ($this->allCategories as $cid => $category) {

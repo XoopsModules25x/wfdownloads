@@ -237,13 +237,17 @@ class Utility extends Common\SysUtility
     }
 
     /**
-     * @param     $bytes
+     * @param int    $bytes
      * @param int $precision
      *
      * @return string
      */
     public static function bytesToSize1024($bytes, $precision = 2)
     {
+        if (0 === $bytes) {
+            return 0;
+        }
+
         // human readable format -- powers of 1024
         $unit = ['B', 'kB', 'MB', 'GB', 'TB', 'PB', 'EB'];
 

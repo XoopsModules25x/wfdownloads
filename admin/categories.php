@@ -23,7 +23,8 @@ use Xmf\Module\Admin;
 use Xmf\Request;
 use XoopsModules\Wfdownloads\{
     Helper,
-    Utility
+    Utility,
+    ObjectTree
 };
 /** @var Helper $helper */
 /** @var Utility $utility */
@@ -61,7 +62,7 @@ switch ($op) {
             $sform = new XoopsThemeForm(_AM_WFDOWNLOADS_CCATEGORY_MOVE, 'move', xoops_getenv('SCRIPT_NAME'), 'post', true);
 
             $categoryObjs     = $helper->getHandler('Category')->getObjects();
-            $categoryObjsTree = new Wfdownloads\ObjectTree($categoryObjs, 'cid', 'pid');
+            $categoryObjsTree = new ObjectTree($categoryObjs, 'cid', 'pid');
 
             if (Utility::checkVerXoops($GLOBALS['xoopsModule'], '2.5.9')) {
                 $catSelect = $categoryObjsTree->makeSelectElement('target', 'title', '--', $this->getVar('target'), true, 0, '', _AM_WFDOWNLOADS_BMODIFY);
@@ -191,7 +192,7 @@ switch ($op) {
         $cid              = Request::getInt('cid', 0);
         $ok               = Request::getBool('ok', false, 'POST');
         $categoryObjs     = $helper->getHandler('Category')->getObjects();
-        $categoryObjsTree = new Wfdownloads\ObjectTree($categoryObjs, 'cid', 'pid');
+        $categoryObjsTree = new ObjectTree($categoryObjs, 'cid', 'pid');
         if (true === $ok) {
             // get all subcategories under the specified category
             $childCategoryObjs = $categoryObjsTree->getAllChild($cid);

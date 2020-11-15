@@ -23,7 +23,8 @@ use Xmf\Request;
 use XoopsModules\Wfdownloads\{
     Common,
     Helper,
-    Utility
+    Utility,
+    ObjectTree
 };
 
 /** @var Helper $helper */
@@ -153,7 +154,7 @@ $criteria = new CriteriaCompo();
 $criteria->setSort('weight ASC, title');
 $categoryObjs = $helper->getHandler('Category')->getObjects($criteria, true);
 require_once XOOPS_ROOT_PATH . '/class/tree.php';
-$categoryObjsTree = new Wfdownloads\ObjectTree($categoryObjs, 'cid', 'pid');
+$categoryObjsTree = new ObjectTree($categoryObjs, 'cid', 'pid');
 
 // Breadcrumb
 $breadcrumb = new Common\Breadcrumb();

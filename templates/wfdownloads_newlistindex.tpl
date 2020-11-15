@@ -14,7 +14,7 @@
     &nbsp;|&nbsp;
     <a href="<{$xoops_url}>/modules/wfdownloads/newlist.php?newdownloadshowdays=30"><{$smarty.const._MD_WFDOWNLOADS_30DAYS}></a>
     <div class="wfdownloads_newlist_totallast">
-        <{$smarty.const._MD_WFDOWNLOADS_DTOTALFORLAST}> <{$newdownloadshowdays}> <{$smarty.const._MD_WFDOWNLOADS_DAYS}>
+        <{$smarty.const._MD_WFDOWNLOADS_DTOTALFORLAST}> <{$newdownloadshowdays|default:null}> <{$smarty.const._MD_WFDOWNLOADS_DAYS}>
     </div>
 </div>
 <br>

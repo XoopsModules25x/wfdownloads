@@ -2,8 +2,8 @@
     /** add JQuery */
     global $xoTheme;
     $xoTheme->addScript("browse.php?Frameworks/jquery/jquery.js");
-    $xoTheme->addScript("" . $xoops_url . "/modules/wfdownloads/assets/js/mediaelement/build/mediaelement-and-player.min.js");
-    $xoTheme->addStylesheet("" . $xoops_url . "/modules/wfdownloads/assets/js/mediaelement/build/mediaelementplayer.min.css");
+    $xoTheme->addScript("" . XOOPS_URL . "/modules/wfdownloads/assets/js/mediaelement/build/mediaelement-and-player.min.js");
+    $xoTheme->addStylesheet("" . XOOPS_URL . "/modules/wfdownloads/assets/js/mediaelement/build/mediaelementplayer.min.css");
     $this->assign('xoops_module_header', $xoTheme->renderMetas(null, true));
 <{/php}>
 
@@ -15,7 +15,7 @@
 <div>
     <h3>
         <{$download.title}>&nbsp;<{$download.icons}>
-        <{if ($download.isadmin === true) }>
+        <{if ($download.isadmin|default:false === true) }>
             <a href="admin/downloads.php?op=download.edit&amp;lid=<{$download.id}>">
                 <img src="<{xoModuleIcons16 edit.png}>"
                      title="<{$smarty.const._EDIT}>"
@@ -194,7 +194,7 @@
                 <{$download.mirror}>
             <{/if}>
         </div>
-        <{if $download.forumid > 0}>
+        <{if $download.forumid|default:0 > 0}>
             <a href="<{$xoops_url}>/modules/newbb/viewforum.php?forum=<{$download.forumid}>">
                 <img src="assets/images/icon/forum.gif" alt="<{$smarty.const._MD_WFDOWNLOADS_INFORUM}>" title="<{$smarty.const._MD_WFDOWNLOADS_INFORUM}>">
                 &nbsp;
@@ -288,19 +288,19 @@
         <a href="mirror.php?cid=<{$download.cid}>&amp;lid=<{$download.id}>"><{$smarty.const._MD_WFDOWNLOADS_ADDMIRROR}></a>
         &nbsp;|&nbsp;
     <{/if}>
-        <{if $download.use_reviews == 1}>
+        <{if $download.use_reviews|default:0 == 1}>
             <a href="review.php?cid=<{$download.cid}>&amp;lid=<{$download.id}>"><{$smarty.const._MD_WFDOWNLOADS_REVIEWTHISFILE}></a>
             &nbsp;|&nbsp;
         <{/if}>
-        <{if $download.use_ratings == 1}>
+        <{if $download.use_ratings|default:0 == 1}>
             <a href="ratefile.php?cid=<{$download.cid}>&amp;lid=<{$download.id}>"><{$smarty.const._MD_WFDOWNLOADS_RATETHISFILE}></a>
             &nbsp;|&nbsp;
         <{/if}>
-        <{if $download.useradminlink === true}>
+        <{if $download.useradminlink|default:false === true}>
             <a href="submit.php?cid=<{$download.cid}>&amp;lid=<{$download.id}>"><{$smarty.const._MD_WFDOWNLOADS_MODIFY}></a>
             &nbsp;|&nbsp;
         <{/if}>
-        <{if $download.use_brokenreports == 1}>
+        <{if $download.use_brokenreports|default:0 == 1}>
             <a href="brokenfile.php?cid=<{$download.cid}>&amp;lid=<{$download.id}>"><{$smarty.const._MD_WFDOWNLOADS_REPORTBROKEN}></a>
             &nbsp;|&nbsp;
         <{/if}>
@@ -316,7 +316,7 @@
 <br>
 
 
-<{if $download.use_reviews == 1}>
+<{if $download.use_reviews|default:0 == 1}>
     <div style="font-weight: bold;"><{$smarty.const._MD_WFDOWNLOADS_USERREVIEWSTITLE}></div>
     <div style="padding: 3px; margin:3px;">
         <{if ($review_amount > 0)}>
@@ -358,7 +358,7 @@
 
 <br>
 
-<div><{$lang_copyright}></div>
+<div><{$lang_copyright|default:''}></div>
 <br>
 
 <{include file='db:wfdownloads_footer.tpl'}>
