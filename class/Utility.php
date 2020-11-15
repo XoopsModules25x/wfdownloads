@@ -248,9 +248,9 @@ class Utility extends Common\SysUtility
         // human readable format -- powers of 1024
         $unit = ['B', 'kB', 'MB', 'GB', 'TB', 'PB', 'EB'];
 
-        $i = floor(log($bytes, 1024));
+        $i = \floor(\log($bytes, 1024));
 
-        return @round($bytes / (pow(1024, $i)), $precision) . ' ' . $unit[(int)$i];
+        return @\round($bytes / (\pow(1024, $i)), $precision) . ' ' . $unit[(int)$i];
 
 
 
