@@ -47,7 +47,7 @@ class DownloadHandler extends \XoopsPersistableObjectHandler
     /**
      * Get maximum published date from a criteria
      *
-     * @param \CriteriaElement $criteria
+     * @param \CriteriaElement|null $criteria
      *
      * @return mixed
      */
@@ -110,7 +110,7 @@ class DownloadHandler extends \XoopsPersistableObjectHandler
     /**
      * Get array of active downloads with optional additional criteria
      *
-     * @param \CriteriaCompo $crit Additional criteria
+     * @param \CriteriaCompo|null $crit Additional criteria
      *
      * @return array
      */
@@ -130,7 +130,7 @@ class DownloadHandler extends \XoopsPersistableObjectHandler
     /**
      * Get count of active downloads
      *
-     * @param \CriteriaElement $crit Additional criteria
+     * @param \CriteriaElement|null $crit Additional criteria
      *
      * @return int /int
      */
