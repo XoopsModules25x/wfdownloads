@@ -823,7 +823,9 @@ class Utility extends Common\SysUtility
             if (SEO_ENABLED === 'rewrite') {
                 // generate SEO url using htaccess
                 return XOOPS_URL . "/wfdownloads.${op}.${id}/" . self::getSeoTitle($title);
-            } elseif (SEO_ENABLED === 'path-info') {
+            }
+
+            if (SEO_ENABLED === 'path-info') {
                 // generate SEO url using path-info
                 return XOOPS_URL . "/modules/wfdownloads/seo.php/${op}.${id}/" . self::getSeoTitle($title);
             }
