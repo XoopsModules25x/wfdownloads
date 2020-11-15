@@ -81,7 +81,7 @@ class Mimetype extends \XoopsObject
     {
         require_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
 
-        if (false === $action) {
+        if (!$action) {
             $action = $_SERVER['REQUEST_URI'];
         }
         $title = $this->isNew() ? \_AM_WFDOWNLOADS_MIME_CREATEF : \_AM_WFDOWNLOADS_MIME_MODIFYF;

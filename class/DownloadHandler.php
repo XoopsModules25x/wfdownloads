@@ -70,7 +70,7 @@ class DownloadHandler extends \XoopsPersistableObjectHandler
         if (!$result) {
             return 0;
         }
-        if (false === $groupby) {
+        if (!$groupby) {
             [$count] = $this->db->fetchRow($result);
 
             return $count;

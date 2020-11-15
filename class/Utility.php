@@ -361,7 +361,7 @@ class Utility extends Common\SysUtility
             if (false !== ($fileHandler = @\fopen($dir . '/index.html', 'wb'))) {
                 \fwrite($fileHandler, '<script>history.go(-1);</script>');
             }
-            if (false === @\fclose($fileHandler)) {
+            if (!@\fclose($fileHandler)) {
                 throw new \RuntimeException('The file ' . $fileHandler . ' could not be created.');
             }
         }
@@ -478,7 +478,7 @@ class Utility extends Common\SysUtility
         if (!\file_exists($dir)) {
             return true;
         }
-        if (true === $if_not_empty) {
+        if ($if_not_empty) {
             if (!\is_dir($dir)) {
                 return \unlink($dir);
             }
@@ -1476,7 +1476,7 @@ class Utility extends Common\SysUtility
 
         $ext      = \ltrim(mb_strrchr($fileName, '.'), '.');
         $criteria = new \CriteriaCompo(new \Criteria('mime_ext', mb_strtolower($ext)));
-        if (true === $isAdmin) {
+        if ($isAdmin) {
             $criteria->add(new \Criteria('mime_admin', true));
         } else {
             $criteria->add(new \Criteria('mime_user', true));
@@ -1610,7 +1610,7 @@ class Utility extends Common\SysUtility
         $buffer       = '';
         $bytesCounter = 0;
 
-        if (true === $isBinary) {
+        if ($isBinary) {
             $handler = \fopen($filePath, 'rb');
         } else {
             $handler = \fopen($filePath, 'rb');
@@ -1664,7 +1664,7 @@ class Utility extends Common\SysUtility
             $default_contentType = 'application/octet-stream';
             // to find and use specific content type, check out this IANA page : http://www.iana.org/assignments/media-types/media-types.xhtml
             $contentType = $default_contentType;
-            if (false !== ($fileMimetype = !'')) {
+            if ($fileMimetype = !'') {
                 $contentType = $fileMimetype;
             }
             if (\is_file($filePath)) {

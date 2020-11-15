@@ -84,7 +84,7 @@ class Category extends \XoopsObject
     {
         $grouppermHandler = \xoops_getHandler('groupperm');
 
-        if (false === $action) {
+        if (!$action) {
             $action = $_SERVER['REQUEST_URI'];
         }
         $title = $this->isNew() ? \_AM_WFDOWNLOADS_CCATEGORY_CREATENEW : \_AM_WFDOWNLOADS_CCATEGORY_MODIFY;
