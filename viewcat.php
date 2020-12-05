@@ -166,7 +166,7 @@ foreach (array_reverse($categoryObjsTree->getAllParent($cid)) as $parentCategory
 if ('' != $categoryObj->getVar('title')) {
     $breadcrumb->addLink($categoryObj->getVar('title'), '');
 }
-if (isset($list)) {
+if (!empty($list)) {
     $breadcrumb->addLink($list, '');
 }
 $xoopsTpl->assign('wfdownloads_breadcrumb', $breadcrumb->render());
@@ -291,7 +291,7 @@ $xoopsTpl->assign('show_category_title', false);
 if (Request::hasVar('selectdate', 'GET')) {
     $criteria->add(new Criteria('', 'TO_DAYS(FROM_UNIXTIME(' . Request::getInt('selectdate', 0, 'GET') . '))', '=', '', 'TO_DAYS(FROM_UNIXTIME(published))'));
     $xoopsTpl->assign('show_categort_title', true);
-} elseif (isset($list)) {
+} elseif (!empty($list)) {
     $criteria->setSort("{$orderby}, title");
     $criteria->add(new Criteria('title', $myts->addSlashes($list) . '%', 'LIKE'));
     $xoopsTpl->assign('categoryPath', sprintf(_MD_WFDOWNLOADS_DOWNLOADS_LIST, htmlspecialchars($list, ENT_QUOTES | ENT_HTML5)));
