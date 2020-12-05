@@ -57,6 +57,8 @@ if (false === $helper->getConfig('enable_reviews') && !Utility::userIsAdmin()) {
     redirect_header('index.php', 3, _NOPERM);
 }
 $userGroups = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : [0 => XOOPS_GROUP_ANONYMOUS];
+/** @var \XoopsGroupPermHandler $grouppermHandler */
+$grouppermHandler         = xoops_getHandler('groupperm');
 if (!$grouppermHandler->checkRight('WFDownCatPerm', $cid, $userGroups, $helper->getModule()->mid())) {
     redirect_header('index.php', 3, _NOPERM);
 }
@@ -152,7 +154,7 @@ switch ($op) {
             $reviewObj->setVar('rated', Request::getInt('rated', 0, 'POST'));
             $reviewObj->setVar('date', time());
             $reviewObj->setVar('uid', $reviewerUid);
-            $submit = (Utility::userIsAdmin() ?: $helper->getConfig('rev_approve') ? true : false);
+            $submit = (Utility::userIsAdmin() ?: ($helper->getConfig('rev_approve') ? true : false));
             $reviewObj->setVar('submit', $submit);
 
             if (!$helper->getHandler('Review')->insert($reviewObj)) {

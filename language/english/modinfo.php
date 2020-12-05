@@ -450,3 +450,6 @@ define('_MI_WFDOWNLOADS_ALPHABET_SHOW', 'Show the Alphabet?');
 define('_MI_WFDOWNLOADS_ALPHABET_SHOW_DESC', 'If Yes, it will show the downloads grouped alphabetically');
 
 define('_MI_WFDOWNLOADS_ADMENU_MIGRATE', 'Migrate');
+
+define('_MI_WFDOWNLOADS_NEW_ITEMS', 'Show new items indicators');
+define('_MI_WFDOWNLOADS_NEW_ITEMS_DESC', 'If yes, it will show new items today, last 3 days, this week, and older than one week');

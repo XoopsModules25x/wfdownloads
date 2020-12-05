@@ -27,7 +27,7 @@ namespace XoopsModules\Wfdownloads\Common;
  * echo $choicebyletter->render();
  */
 
-use XoopsModules\Xoopstube\{
+use XoopsModules\Wfdownloads\{
     Helper
 };
 /** @var Helper $helper */

@@ -723,3 +723,6 @@ define('_AM_WFDOWNLOADS_ERROR_COLUMN', 'Could not create column in database : %s
 define('_AM_WFDOWNLOADS_ERROR_BAD_XOOPS', 'This module requires XOOPS %s+ (%s installed)');
 define('_AM_WFDOWNLOADS_ERROR_BAD_PHP', 'This module requires PHP version %s+ (%s installed)');
 define('_AM_WFDOWNLOADS_ERROR_TAG_REMOVAL', 'Could not remove tags from Tag Module');
+
+define('AM_WFDOWNLOADS_CLONED_OK', 'Record cloned successfully');
+define('AM_WFDOWNLOADS_CLONED_FAILED', 'Cloning of the record has failed');

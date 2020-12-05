@@ -20,7 +20,6 @@
  */
 
 use XoopsModules\Wfdownloads\{
-
     Helper,
     Utility
 };
@@ -37,13 +36,14 @@ $moduleDirName = basename(__DIR__);
 
 $helper = Helper::getInstance();
 
-$myts = MyTextSanitizer::getInstance();
+$myts = \MyTextSanitizer::getInstance();
 
 //Handlers
 //$XXXHandler = xoops_getModuleHandler('XXX', $moduleDirName);
 
 // Load language files
 $helper->loadLanguage('main');
+$helper->loadLanguage('common');
 
 if (!isset($GLOBALS['xoopsTpl']) || !($GLOBALS['xoopsTpl'] instanceof XoopsTpl)) {
     require_once $GLOBALS['xoops']->path('class/template.php');

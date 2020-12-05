@@ -19,10 +19,15 @@
  * @author          Xoops Development Team
  */
 
+use Xmf\Module\Admin;
 use XoopsModules\Wfdownloads\{
     Helper
 };
-use Xmf\Module\Admin;
+/** @var Admin $adminObject */
+/** @var Helper $helper */
+
+$moduleDirName = basename(dirname(__DIR__));
+$moduleDirNameUpper = mb_strtoupper($moduleDirName);
 
 $helper = Helper::getInstance();
 $helper->loadLanguage('common');

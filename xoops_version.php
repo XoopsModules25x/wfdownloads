@@ -29,7 +29,8 @@ require_once __DIR__ . '/preloads/autoloader.php';
 
 $helper = Helper::getInstance();
 
-$moduleDirName = basename(__DIR__);
+$moduleDirName      = basename(__DIR__);
+$moduleDirNameUpper = mb_strtoupper($moduleDirName);
 
 defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
 
@@ -915,7 +916,7 @@ $modversion['config'][] = [
     'description' => '_MI_WFDOWNLOADS_PLATFORMDSC',
     'formtype'    => 'textarea',
     'valuetype'   => 'array',
-    'default'     => 'None|Windows|Unix|Mac|XOOPS 2.5.5|XOOPS 2.5.6|XOOPS 2.5.7|XOOPS 2.5.8|XOOPS 2.5.9|XOOPS 2.6.0|Other',
+    'default'     => 'None|Windows|Unix|Mac|XOOPS 2.5.5|XOOPS 2.5.6|XOOPS 2.5.7|XOOPS 2.5.8|XOOPS 2.5.9|XOOPS 2.5.10|XOOPS 2.5.11|XOOPS 2.6.0|Other',
 ];
 
 $license   = [];
@@ -1020,8 +1021,20 @@ $modversion['config'][] = array(
  */
 $modversion['config'][] = [
     'name'        => 'displaySampleButton',
-    'title'       => '_MI_WFDOWNLOADS_SHOW_SAMPLE_BUTTON',
-    'description' => '_MI_WFDOWNLOADS_SHOW_SAMPLE_BUTTON_DESC',
+    'title'       => 'CO_' . $moduleDirNameUpper . '_' . 'SHOW_SAMPLE_BUTTON',
+    'description' => 'CO_' . $moduleDirNameUpper . '_' . 'SHOW_SAMPLE_BUTTON_DESC',
+    'formtype'    => 'yesno',
+    'valuetype'   => 'int',
+    'default'     => 1,
+];
+
+/**
+ * Show Developer Tools?
+ */
+$modversion['config'][] = [
+    'name'        => 'displayDeveloperTools',
+    'title'       => 'CO_' . $moduleDirNameUpper . '_' . 'SHOW_DEV_TOOLS',
+    'description' => 'CO_' . $moduleDirNameUpper . '_' . 'SHOW_DEV_TOOLS_DESC',
     'formtype'    => 'yesno',
     'valuetype'   => 'int',
     'default'     => 0,
