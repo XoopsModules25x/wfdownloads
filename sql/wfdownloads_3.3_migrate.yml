@@ -12,7 +12,7 @@ wfdownloads_broken:
             attributes: ' int(11)  NOT NULL  DEFAULT ''0'' '
         -
             name: ip
-            attributes: ' varchar(20)  NOT NULL '
+            attributes: ' varchar(20)  NOT NULL  DEFAULT '''' '
         -
             name: date
             attributes: ' varchar(11)  NOT NULL  DEFAULT ''0'' '
@@ -46,10 +46,10 @@ wfdownloads_cat:
             attributes: ' int(5) unsigned  NOT NULL  DEFAULT ''0'' '
         -
             name: title
-            attributes: ' varchar(255)  NOT NULL '
+            attributes: ' varchar(255)  NOT NULL  DEFAULT '''' '
         -
             name: imgurl
-            attributes: ' varchar(255)  NOT NULL '
+            attributes: ' varchar(255)  NOT NULL  DEFAULT '''' '
         -
             name: description
             attributes: ' text  NOT NULL '
@@ -104,46 +104,46 @@ wfdownloads_downloads:
             attributes: ' int(5) unsigned  NOT NULL  DEFAULT ''0'' '
         -
             name: title
-            attributes: ' varchar(255)  NOT NULL '
+            attributes: ' varchar(255)  NOT NULL  DEFAULT '''' '
         -
             name: url
-            attributes: ' varchar(255)  NOT NULL '
+            attributes: ' varchar(255)  NOT NULL  DEFAULT '''' '
         -
             name: filename
-            attributes: ' varchar(150)  NOT NULL '
+            attributes: ' varchar(150)  NOT NULL  DEFAULT '''' '
         -
             name: filetype
-            attributes: ' varchar(100)  NOT NULL '
+            attributes: ' varchar(100)  NOT NULL  DEFAULT '''' '
         -
             name: homepage
-            attributes: ' varchar(100)  NOT NULL '
+            attributes: ' varchar(100)  NOT NULL  DEFAULT '''' '
         -
             name: version
-            attributes: ' varchar(20)  NOT NULL '
+            attributes: ' varchar(20)  NOT NULL  DEFAULT '''' '
         -
             name: size
             attributes: ' int(8)  NOT NULL  DEFAULT ''0'' '
         -
             name: platform
-            attributes: ' varchar(50)  NOT NULL '
+            attributes: ' varchar(50)  NOT NULL  DEFAULT '''' '
         -
             name: screenshot
-            attributes: ' varchar(255)  NOT NULL '
+            attributes: ' varchar(255)  NOT NULL  DEFAULT '''' '
         -
             name: screenshot2
-            attributes: ' varchar(255)  NOT NULL '
+            attributes: ' varchar(255)  NOT NULL  DEFAULT '''' '
         -
             name: screenshot3
-            attributes: ' varchar(255)  NOT NULL '
+            attributes: ' varchar(255)  NOT NULL  DEFAULT '''' '
         -
             name: screenshot4
-            attributes: ' varchar(255)  NOT NULL '
+            attributes: ' varchar(255)  NOT NULL  DEFAULT '''' '
         -
             name: submitter
             attributes: ' int(11)  NOT NULL  DEFAULT ''0'' '
         -
             name: publisher
-            attributes: ' varchar(255)  NOT NULL '
+            attributes: ' varchar(255)  NOT NULL  DEFAULT '''' '
         -
             name: status
             attributes: ' tinyint(2)  NOT NULL  DEFAULT ''0'' '
@@ -164,16 +164,16 @@ wfdownloads_downloads:
             attributes: ' int(11) unsigned  NOT NULL  DEFAULT ''0'' '
         -
             name: license
-            attributes: ' varchar(255)  NOT NULL '
+            attributes: ' varchar(255)  NOT NULL  DEFAULT '''' '
         -
             name: mirror
-            attributes: ' varchar(255)  NOT NULL '
+            attributes: ' varchar(255)  NOT NULL  DEFAULT '''' '
         -
             name: price
             attributes: ' varchar(10)  NOT NULL  DEFAULT ''Free'' '
         -
             name: paypalemail
-            attributes: ' varchar(255)  NOT NULL '
+            attributes: ' varchar(255)  NOT NULL  DEFAULT '''' '
         -
             name: features
             attributes: ' text  NOT NULL '
@@ -182,7 +182,7 @@ wfdownloads_downloads:
             attributes: ' text  NOT NULL '
         -
             name: homepagetitle
-            attributes: ' varchar(255)  NOT NULL '
+            attributes: ' varchar(255)  NOT NULL  DEFAULT '''' '
         -
             name: forumid
             attributes: ' int(11)  NOT NULL  DEFAULT ''0'' '
@@ -267,40 +267,40 @@ wfdownloads_mod:
             attributes: ' int(5) unsigned  NOT NULL  DEFAULT ''0'' '
         -
             name: title
-            attributes: ' varchar(255)  NOT NULL '
+            attributes: ' varchar(255)  NOT NULL  DEFAULT '''' '
         -
             name: url
-            attributes: ' varchar(255)  NOT NULL '
+            attributes: ' varchar(255)  NOT NULL  DEFAULT '''' '
         -
             name: filename
-            attributes: ' varchar(150)  NOT NULL '
+            attributes: ' varchar(150)  NOT NULL  DEFAULT '''' '
         -
             name: filetype
-            attributes: ' varchar(100)  NOT NULL '
+            attributes: ' varchar(100)  NOT NULL  DEFAULT '''' '
         -
             name: homepage
-            attributes: ' varchar(255)  NOT NULL '
+            attributes: ' varchar(255)  NOT NULL  DEFAULT '''' '
         -
             name: version
-            attributes: ' varchar(20)  NOT NULL '
+            attributes: ' varchar(20)  NOT NULL  DEFAULT '''' '
         -
             name: size
             attributes: ' int(8)  NOT NULL  DEFAULT ''0'' '
         -
             name: platform
-            attributes: ' varchar(50)  NOT NULL '
+            attributes: ' varchar(50)  NOT NULL  DEFAULT '''' '
         -
             name: screenshot
-            attributes: ' varchar(255)  NOT NULL '
+            attributes: ' varchar(255)  NOT NULL  DEFAULT '''' '
         -
             name: screenshot2
-            attributes: ' varchar(255)  NOT NULL '
+            attributes: ' varchar(255)  NOT NULL  DEFAULT '''' '
         -
             name: screenshot3
-            attributes: ' varchar(255)  NOT NULL '
+            attributes: ' varchar(255)  NOT NULL  DEFAULT '''' '
         -
             name: screenshot4
-            attributes: ' varchar(255)  NOT NULL '
+            attributes: ' varchar(255)  NOT NULL  DEFAULT '''' '
         -
             name: submitter
             attributes: ' int(11)  NOT NULL  DEFAULT ''0'' '
@@ -327,16 +327,16 @@ wfdownloads_mod:
             attributes: ' int(11) unsigned  NOT NULL  DEFAULT ''0'' '
         -
             name: license
-            attributes: ' varchar(255)  NOT NULL '
+            attributes: ' varchar(255)  NOT NULL  DEFAULT '''' '
         -
             name: mirror
-            attributes: ' varchar(255)  NOT NULL '
+            attributes: ' varchar(255)  NOT NULL  DEFAULT '''' '
         -
             name: price
             attributes: ' varchar(10)  NOT NULL  DEFAULT ''Free'' '
         -
             name: paypalemail
-            attributes: ' varchar(255)  NOT NULL '
+            attributes: ' varchar(255)  NOT NULL  DEFAULT '''' '
         -
             name: features
             attributes: ' text  NOT NULL '
@@ -345,7 +345,7 @@ wfdownloads_mod:
             attributes: ' text  NOT NULL '
         -
             name: homepagetitle
-            attributes: ' varchar(255)  NOT NULL '
+            attributes: ' varchar(255)  NOT NULL  DEFAULT '''' '
         -
             name: forumid
             attributes: ' int(11)  NOT NULL  DEFAULT ''0'' '
@@ -421,7 +421,7 @@ wfdownloads_votedata:
             attributes: ' tinyint(3) unsigned  NOT NULL  DEFAULT ''0'' '
         -
             name: ratinghostname
-            attributes: ' varchar(60)  NOT NULL '
+            attributes: ' varchar(60)  NOT NULL  DEFAULT '''' '
         -
             name: ratingtimestamp
             attributes: ' int(10)  NOT NULL  DEFAULT ''0'' '
@@ -446,7 +446,7 @@ wfdownloads_indexpage:
             attributes: ' varchar(255)  NOT NULL  DEFAULT ''blank.png'' '
         -
             name: indexheading
-            attributes: ' varchar(255)  NOT NULL  DEFAULT ''WF-Sections'' '
+            attributes: ' varchar(255)  NOT NULL  DEFAULT ''Wfdownloads'' '
         -
             name: indexheader
             attributes: ' text  NOT NULL '
@@ -526,13 +526,13 @@ wfdownloads_mimetypes:
             attributes: ' int(11)  NOT NULL auto_increment'
         -
             name: mime_ext
-            attributes: ' varchar(60)  NOT NULL '
+            attributes: ' varchar(60)  NOT NULL  DEFAULT '''' '
         -
             name: mime_types
             attributes: ' text  NOT NULL '
         -
             name: mime_name
-            attributes: ' varchar(255)  NOT NULL '
+            attributes: ' varchar(255)  NOT NULL  DEFAULT '''' '
         -
             name: mime_admin
             attributes: ' int(1)  NOT NULL  DEFAULT ''1'' '
@@ -548,10 +548,10 @@ wfdownloads_meta:
     columns:
         -
             name: metakey
-            attributes: ' varchar(50)  NOT NULL '
+            attributes: ' varchar(50)  NOT NULL  DEFAULT '''' '
         -
             name: metavalue
-            attributes: ' varchar(255)  NOT NULL '
+            attributes: ' varchar(255)  NOT NULL  DEFAULT '''' '
     keys:
         PRIMARY:
             columns: metakey
@@ -567,19 +567,19 @@ wfdownloads_mirrors:
             attributes: ' int(11)  NOT NULL  DEFAULT ''0'' '
         -
             name: title
-            attributes: ' varchar(255)  NOT NULL '
+            attributes: ' varchar(255)  NOT NULL  DEFAULT '''' '
         -
             name: homeurl
-            attributes: ' varchar(100)  NOT NULL '
+            attributes: ' varchar(100)  NOT NULL  DEFAULT '''' '
         -
             name: location
-            attributes: ' varchar(255)  NOT NULL '
+            attributes: ' varchar(255)  NOT NULL  DEFAULT '''' '
         -
             name: continent
-            attributes: ' varchar(255)  NOT NULL '
+            attributes: ' varchar(255)  NOT NULL  DEFAULT '''' '
         -
             name: downurl
-            attributes: ' varchar(255)  NOT NULL '
+            attributes: ' varchar(255)  NOT NULL  DEFAULT '''' '
         -
             name: submit
             attributes: ' int(11)  NOT NULL  DEFAULT ''0'' '
