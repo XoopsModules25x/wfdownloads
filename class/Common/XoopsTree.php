@@ -72,14 +72,11 @@ class XoopsTree
             $sql .= " ORDER BY $order";
         }
         $result = $this->db->query($sql);
-        $count  = $this->db->getRowsNum($result);
-        if (0 == $count) {
-            return $arr;
+        if ($result) {
+            while (false !== ($myrow = $this->db->fetchArray($result))) {
+                $arr[] = $myrow;
+            }
         }
-        while (false !== ($myrow = $this->db->fetchArray($result))) {
-            $arr[] = $myrow;
-        }
-
         return $arr;
     }
 
@@ -181,7 +178,7 @@ class XoopsTree
         }
         [$parentid, $name] = $this->db->fetchRow($result);
         $myts = \MyTextSanitizer::getInstance();
-        $name = $myts->htmlSpecialChars($name);
+        $name = htmlspecialchars($name);
         $path = '/' . $name . $path . '';
         if (0 == $parentid) {
             return $path;
@@ -232,7 +229,7 @@ class XoopsTree
             $arr = $this->getChildTreeArray($catid, $order);
             foreach ($arr as $option) {
                 $option['prefix'] = \str_replace('.', '--', $option['prefix']);
-                $catpath          = $option['prefix'] . '&nbsp;' . $myts->htmlSpecialChars($option[$title]);
+                $catpath          = $option['prefix'] . '&nbsp;' . htmlspecialchars($option[$title]);
                 if ($option[$this->id] == $preset_id) {
                     $sel = ' selected';
                 }
@@ -264,7 +261,7 @@ class XoopsTree
         }
         [$parentid, $name] = $this->db->fetchRow($result);
         $myts = \MyTextSanitizer::getInstance();
-        $name = $myts->htmlSpecialChars($name);
+        $name = htmlspecialchars($name);
         $path = "<a href='" . $funcURL . '&amp;' . $this->id . '=' . $sel_id . "'>" . $name . '</a>' . $path . '';
         if (0 == $parentid) {
             return $path;

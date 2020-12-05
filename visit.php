@@ -143,7 +143,7 @@ if ($helper->getConfig('showDowndisclaimer') && false === $agreed) {
         $xoopsTpl->assign('wfdownloads_url', WFDOWNLOADS_URL . '/');
 
         echo "<div align='center'>" . Utility::headerImage() . '</div>';
-        $url = $myts->htmlSpecialChars(preg_replace('/javascript:/si', 'javascript:', $downloadObj->getVar('url')), ENT_QUOTES);
+        $url = htmlspecialchars(preg_replace('/javascript:/si', 'javascript:', $downloadObj->getVar('url')), ENT_QUOTES);
         echo "<h4>\n";
         echo "<img src='" . WFDOWNLOADS_URL . "/assets/images/icon/downloads.gif' align='middle' alt='' title='" . _MD_WFDOWNLOADS_DOWNINPROGRESS . "'> " . _MD_WFDOWNLOADS_DOWNINPROGRESS . "\n";
         echo "</h4>\n";
