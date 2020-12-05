@@ -220,7 +220,7 @@
                                  title="<{$smarty.const._MD_WFDOWNLOADS_SCREENSHOTCLICK}>" style="border: 1px solid black;"></a>
                     </div>
                     <div>
-                        <a href="<{$screenshot.thumb_url}>" rel="external"><{$lang_screenshot_click}></a>
+                        <a href="<{$screenshot.thumb_url}>" rel="external"><{$lang_screenshot_click|default:''}></a>
                     </div>
                 </div>
             <{/if}>
