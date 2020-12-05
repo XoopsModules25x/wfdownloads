@@ -23,7 +23,7 @@ namespace XoopsModules\Wfdownloads;
 /**
  * interface Constants
  */
-interface Constants
+class Constants
 {
     /**#@+
      * Constant definition

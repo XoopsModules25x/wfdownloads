@@ -46,8 +46,8 @@ if (null === $categoryObj) {
 
 // Download not published, expired or taken offline - redirect
 if (0 == $downloadObj->getVar('published') || $downloadObj->getVar('published') > time()
-    || true === $downloadObj->getVar('offline')
-    || (true === $downloadObj->getVar('expired')
+    || 1 === $downloadObj->getVar('offline')
+    || (1 === $downloadObj->getVar('expired')
         && $downloadObj->getVar('expired') < time())
     || _WFDOWNLOADS_STATUS_WAITING == $downloadObj->getVar('status')) {
     redirect_header('index.php', 3, _MD_WFDOWNLOADS_NODOWNLOAD);
@@ -131,6 +131,7 @@ switch ($op) {
         } else {
             $GLOBALS['xoopsOption']['template_main'] = "{$helper->getModule()->dirname()}_brokenfile.tpl";
             require_once XOOPS_ROOT_PATH . '/header.php';
+            $catarray = [];
 
             // Begin Main page Heading etc
             $catarray['imageheader'] = Utility::headerImage();
@@ -191,10 +192,11 @@ switch ($op) {
             } else {
                 // file info
                 $down['title']     = trim($downloadObj->getVar('title'));
-                $down['homepage']  = $myts->makeClickable(formatURL(trim($downloadObj->getVar('homepage'))));
-                $time              = (false !== $downloadObj->getVar('updated')) ? $downloadObj->getVar('updated') : $downloadObj->getVar('published');
+                $temp = formatURL(trim($downloadObj->getVar('homepage')));
+                $down['homepage']  = $myts->makeClickable($temp);
+                $time              = (0 !== $downloadObj->getVar('updated')) ? $downloadObj->getVar('updated') : $downloadObj->getVar('published');
                 $down['updated']   = formatTimestamp($time, $helper->getConfig('dateformat'));
-                $is_updated        = (false !== $downloadObj->getVar('updated')) ? _MD_WFDOWNLOADS_UPDATEDON : _MD_WFDOWNLOADS_SUBMITDATE;
+                $is_updated        = (0 !== $downloadObj->getVar('updated')) ? _MD_WFDOWNLOADS_UPDATEDON : _MD_WFDOWNLOADS_SUBMITDATE;
                 $down['publisher'] = XoopsUserUtility::getUnameFromId((int)$downloadObj->getVar('submitter'));
 
                 $xoopsTpl->assign('brokenreportexists', false);

@@ -23,11 +23,13 @@ use Xmf\IPAddress;
 use Xmf\Module\Admin;
 use Xmf\Request;
 use XoopsModules\Wfdownloads\{
+    Download,
     Helper,
     Utility
 };
 /** @var Helper $helper */
 /** @var Utility $utility */
+/** @var Download $downloadObj */
 
 $currentFile = basename(__FILE__);
 require_once __DIR__ . '/admin_header.php';
@@ -96,7 +98,6 @@ switch ($op) {
                 $title22 = preg_replace('/{category}/', $categoryObj->getVar('title'), _AM_WFDOWNLOADS_FFS_EDITDOWNLOADTITLE);
             } else {
                 // create download
-                /** @var Wfdownloads\Download $downloadObj */
                 $downloadObj = $helper->getHandler('Download')->create();
                 $cid         = Request::getInt('cid', 0, 'POST');
                 $categoryObj = $helper->getHandler('Category')->get($cid);

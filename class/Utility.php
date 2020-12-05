@@ -154,7 +154,7 @@ class Utility extends Common\SysUtility
             publisherOpenCollapsableBar('bottomtable', 'bottomtableicon', \_AM_PUBLISHER_CAT_ITEMS, \_AM_PUBLISHER_CAT_ITEMS_DSC);
             $startitem = Request::getInt('startitem');
             // Get the total number of published ITEMS
-            $totalitems = $helper->getHandler('Item')->getItemsCount($selCat, [Wfdownloads\Constants::PUBLISHER_STATUS_PUBLISHED]);
+            $totalitems = $helper->getHandler('Item')->getItemsCount($selCat, [Constants::PUBLISHER_STATUS_PUBLISHED]);
             // creating the items objects that are published
             $itemsObj         = $helper->getHandler('Item')->getAllPublished($helper->getConfig('idxcat_perpage'), $startitem, $selCat);
             $allcats          = $helper->getHandler('Category')->getObjects(null, true);

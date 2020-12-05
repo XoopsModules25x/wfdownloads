@@ -22,11 +22,13 @@
 use Xmf\Module\Admin;
 use Xmf\Request;
 use XoopsModules\Wfdownloads\{
+    DownloadHandler,
     Helper,
     Utility
 };
 /** @var Helper $helper */
 /** @var Utility $utility */
+/** @var DownloadHandler $downloadsHandler */
 
 $currentFile = basename(__FILE__);
 require_once __DIR__ . '/admin_header.php';
@@ -258,7 +260,6 @@ function import_wfd_to_wfdownloads()
         $wfdModuleConfig = $configHandler->getConfigsByCat(0, $wfdModule->mid());
     }
     $categoriesHandler = $helper->getHandler('Category');
-    /** @var Wfdownloads\DownloadHandler $downloadsHandler */
     $downloadsHandler = $helper->getHandler('Download');
 
     echo "<br><span style='font-weight: bold;'>Copying Files</span><br>";

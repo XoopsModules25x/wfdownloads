@@ -23,10 +23,12 @@ use Xmf\Module\Admin;
 use Xmf\Request;
 use XoopsModules\Wfdownloads\{
     Helper,
+    Mimetype,
     Utility
 };
 /** @var Helper $helper */
 /** @var Utility $utility */
+/** @var Mimetype $mimetypeObj */
 
 $currentFile = basename(__FILE__);
 require_once __DIR__ . '/admin_header.php';
@@ -62,7 +64,6 @@ switch ($op) {
         echo '<div>' . _AM_WFDOWNLOADS_MIME_INFOTEXT . "</div>\n";
         echo "</fieldset>\n";
 
-        /** @var Wfdownloads\Mimetype $mimetypeObj */
         if (Request::hasVar('mime_id', 'REQUEST')) {
             $mimetypeObj = $helper->getHandler('Mimetype')->get($_REQUEST['mime_id']);
         } else {

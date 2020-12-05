@@ -73,7 +73,7 @@ function xoops_module_install_wfdownloads(XoopsModule $module)
 {
     global $xoopsModule;
     require_once dirname(__DIR__, 3) . '/mainfile.php';
-    require_once __DIR__ . '/config.php';
+    require_once __DIR__ . '/common.php';
 
     //    $moduleDirName = $xoopsModule->getVar('dirname');
     $moduleDirName = basename(dirname(__DIR__));
