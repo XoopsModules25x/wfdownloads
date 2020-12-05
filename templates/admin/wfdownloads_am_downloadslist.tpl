@@ -95,6 +95,9 @@
                         <a href='?op=download.delete&amp;lid=<{$download.lid}>' title="<{$smarty.const._DELETE}>"><img src="<{xoModuleIcons16 delete.png}>"
                                                                                                                        title="<{$smarty.const._DELETE}>"
                                                                                                                        alt="<{$smarty.const._DELETE}>"></a>
+                        <a href='?op=download.clone&amp;lid=<{$download.lid}>' title="<{$smarty.const._CLONE}>"><img src="<{xoModuleIcons16 editcopy.png}>"
+                                                                                                                       title="<{$smarty.const._CLONE}>"
+                                                                                                                       alt="<{$smarty.const._CLONE}>"></a>
                     </td>
                 </tr>
             <{/foreach}>
@@ -193,6 +196,9 @@
                         <a href='?op=download.delete&amp;lid=<{$download.lid}>' title="<{$smarty.const._DELETE}>"><img src="<{xoModuleIcons16 delete.png}>"
                                                                                                                        title="<{$smarty.const._DELETE}>"
                                                                                                                        alt="<{$smarty.const._DELETE}>"></a>
+                        <a href='?op=download.clone&amp;lid=<{$download.lid}>' title="<{$smarty.const._CLONE}>"><img src="<{xoModuleIcons16 editcopy.png}>"
+                                                                                                                     title="<{$smarty.const._CLONE}>"
+                                                                                                                     alt="<{$smarty.const._CLONE}>"></a>
                     </td>
                 </tr>
             <{/foreach}>
@@ -251,6 +257,9 @@
                         <a href='?op=download.delete&amp;lid=<{$download.lid}>' title="<{$smarty.const._DELETE}>"><img src="<{xoModuleIcons16 delete.png}>"
                                                                                                                        title="<{$smarty.const._DELETE}>"
                                                                                                                        alt="<{$smarty.const._DELETE}>"></a>
+                        <a href='?op=download.clone&amp;lid=<{$download.lid}>' title="<{$smarty.const._CLONE}>"><img src="<{xoModuleIcons16 editcopy.png}>"
+                                                                                                                     title="<{$smarty.const._CLONE}>"
+                                                                                                                     alt="<{$smarty.const._CLONE}>"></a>
                     </td>
                 </tr>
             <{/foreach}>
@@ -309,6 +318,9 @@
                         <a href='?op=download.delete&amp;lid=<{$download.lid}>' title="<{$smarty.const._DELETE}>"><img src="<{xoModuleIcons16 delete.png}>"
                                                                                                                        title="<{$smarty.const._DELETE}>"
                                                                                                                        alt="<{$smarty.const._DELETE}>"></a>
+                        <a href='?op=download.clone&amp;lid=<{$download.lid}>' title="<{$smarty.const._CLONE}>"><img src="<{xoModuleIcons16 editcopy.png}>"
+                                                                                                                     title="<{$smarty.const._CLONE}>"
+                                                                                                                     alt="<{$smarty.const._CLONE}>"></a>
                     </td>
                 </tr>
             <{/foreach}>

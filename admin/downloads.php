@@ -382,8 +382,8 @@ switch ($op) {
         $downloadObj->setVar('license', Request::getString('license', '', 'POST'));
         $downloadObj->setVar('features', Request::getText('features', '', 'POST'));
         $downloadObj->setVar('requirements', Request::getText('requirements', '', 'POST'));
-        $downloadObj->setVar('limitations', $Request::getString('limitations', '', 'POST'));
-        $downloadObj->setVar('versiontypes', $Request::getString('versiontypes', '', 'POST'));
+        $downloadObj->setVar('limitations', Request::getString('limitations', '', 'POST'));
+        $downloadObj->setVar('versiontypes', Request::getString('versiontypes', '', 'POST'));
 
         $dhistory        = Request::getText('dhistory', '', 'POST');
         $dhistoryhistory = Request::getString('dhistoryaddedd', '', 'POST');
@@ -592,6 +592,16 @@ switch ($op) {
             $notificationHandler->triggerEvent('file', $lid, 'approve', $tags);
         }
         redirect_header($currentFile, 1, _AM_WFDOWNLOADS_SUB_NEWFILECREATED);
+        break;
+    case 'download.clone':
+        $id_field = Request::getString('lid', '');
+
+        if ($utility::cloneRecord('wfdownloads_downloads', 'lid', $id_field )) {
+            redirect_header('downloads.php', 3, AM_WFDOWNLOADS_CLONED_OK);
+        } else {
+            redirect_header('downloads.php', 3, AM_WFDOWNLOADS_CLONED_FAILED);
+        }
+
         break;
     case 'downloads.list':
     case 'downloads.filter':
