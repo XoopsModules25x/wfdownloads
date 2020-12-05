@@ -1,7 +1,7 @@
 <{include file='db:wfdownloads_header.tpl'}>
 
 <div>
-    <{if $category_rssfeed_URL != ''}>
+    <{if $category_rssfeed_URL|default:'' != ''}>
         <a href='<{$category_rssfeed_URL}>' title='<{$smarty.const._MD_WFDOWNLOADS_LEGENDTEXTCATRSS}>'>
             <img src='assets/images/icon/rss.gif' alt='<{$smarty.const._MD_WFDOWNLOADS_LEGENDTEXTCATRSS}>'
                  title='<{$smarty.const._MD_WFDOWNLOADS_LEGENDTEXTCATRSS}>'>
@@ -47,7 +47,7 @@
 
 
 
-<{if $subcategories}>
+<{if $subcategories|default:''}>
     <div>
         <h3><{$smarty.const._MD_WFDOWNLOADS_SUBCATEGORIESLISTING}></h3>
         <br>
@@ -81,7 +81,7 @@
 <{/if}>
 
 <div class="wfdownloads_view_catpath">
-    <{$category_path}>
+    <{$category_path|default:''}>
 </div>
 
 <br>
@@ -278,7 +278,7 @@
     </div>
 <{/if}>
 
-<{if $category_rssfeed_URL != ""}>
+<{if $category_rssfeed_URL|default:'' != ""}>
     <a href='<{$category_rssfeed_URL}>' title='<{$smarty.const._MD_WFDOWNLOADS_LEGENDTEXTCATRSS}>'>
         <img src='assets/images/icon/rss.gif' alt='<{$smarty.const._MD_WFDOWNLOADS_LEGENDTEXTCATRSS}>'
              title='<{$smarty.const._MD_WFDOWNLOADS_LEGENDTEXTCATRSS}>'>

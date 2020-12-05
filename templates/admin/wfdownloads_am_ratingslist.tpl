@@ -43,7 +43,7 @@
             <td class='even' align='center'><{$rating.rating}></td>
             <td class='even'><{$rating.formatted_date}></td>
             <td class='even' align='center'>
-                <a href='?op=vote.delete&amp;lid=<{$rating.lid}>&amp;rid=<{$rating.rid}>'><img src="<{xoModuleIcons16 delete.png}>"
+                <a href='?op=vote.delete&amp;lid=<{$rating.lid}>&amp;rid=<{$rating.rid|default:''}>'><img src="<{xoModuleIcons16 delete.png}>"
                                                                                                title="<{$smarty.const._DELETE}>"
                                                                                                alt="<{$smarty.const._DELETE}>"></a>
             </td>
