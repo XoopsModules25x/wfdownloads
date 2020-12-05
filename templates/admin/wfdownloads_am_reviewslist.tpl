@@ -52,7 +52,7 @@
                 <{if ($review_waiting.reviewer_email) == ''}>
                 <{$review_waiting.reviewer_uname}>
                 <{else}>
-                <a href='mailto:<{$report.submitter_email}>'><{$review_waiting.reviewer_uname}></a>
+                <a href='mailto:<{$report.submitter_email|default:''}>'><{$review_waiting.reviewer_uname}></a>
                 <{/if}>
             </td>
             <td><{$review_waiting.formatted_date}></td>
