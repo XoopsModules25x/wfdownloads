@@ -197,7 +197,7 @@ if (!is_object($GLOBALS['xoopsUser']) && true === $use_mirrors
     $add_mirror = true;
 }
 
-// Get download informations
+// Get download information
 $downloadInfo = $downloadObj->getDownloadInfo();
 $xoopsTpl->assign('categoryPath', $downloadInfo['path'] . ' > ' . $downloadInfo['title']); // this definition is not removed for backward compatibility issues
 $xoopsTpl->assign('lang_dltimes', sprintf(_MD_WFDOWNLOADS_DLTIMES, $downloadInfo['hits']));
@@ -205,6 +205,7 @@ $xoopsTpl->assign('lang_subdate', $downloadInfo['is_updated']);
 $xoopsTpl->assign('file_url', $downloadInfo['file_url']); // this definition is not removed for backward compatibility issues
 $xoopsTpl->append('file', $downloadInfo);
 $xoopsTpl->assign('show_screenshot', false);
+
 if (1 == $helper->getConfig('screenshot')) {
     $xoopsTpl->assign('shots_dir', $helper->getConfig('screenshots'));
     $xoopsTpl->assign('shotwidth', $helper->getConfig('shotwidth'));
