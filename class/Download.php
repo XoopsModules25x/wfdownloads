@@ -250,7 +250,7 @@ class Download extends \XoopsObject
         $download['screenshots'] = [];
         foreach ($screenshots as $key => $screenshot) {
             if (\file_exists(XOOPS_ROOT_PATH . '/' . $this->helper->getConfig('screenshots') . '/' . \xoops_trim($screenshot))) {
-                if ('' != $screenshot && true === $this->helper->getConfig('usethumbs')) {
+                if ('' != $screenshot && 1 === $this->helper->getConfig('usethumbs')) {
                     $screenshot_thumb = Utility::createThumb(
                         $screenshot,
                         $this->helper->getConfig('screenshots'),

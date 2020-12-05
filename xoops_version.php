@@ -35,8 +35,8 @@ $moduleDirNameUpper = mb_strtoupper($moduleDirName);
 defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
 
 $modversion['version']       = 3.30;
-$modversion['module_status'] = 'Beta 2';
-$modversion['releasedate']   = '2018-06-08';
+$modversion['module_status'] = 'Beta 3';
+$modversion['releasedate']   = '2020-12-05';
 $modversion['name']          = _MI_WFDOWNLOADS_NAME;
 $modversion['description']   = _MI_WFDOWNLOADS_DESC;
 $modversion['author']        = 'XOOPS Development Team';
