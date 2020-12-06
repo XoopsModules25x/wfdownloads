@@ -1,16 +1,6 @@
 -
     gperm_groupid: '3'
-    gperm_itemid: '1'
-    gperm_modid: '24'
-    gperm_name: WFDownCatPerm
--
-    gperm_groupid: '2'
-    gperm_itemid: '1'
-    gperm_modid: '24'
-    gperm_name: WFDownCatPerm
--
-    gperm_groupid: '1'
-    gperm_itemid: '1'
+    gperm_itemid: '4'
     gperm_modid: '24'
     gperm_name: WFDownCatPerm
 -
@@ -19,23 +9,8 @@
     gperm_modid: '24'
     gperm_name: WFDownCatPerm
 -
-    gperm_groupid: '2'
-    gperm_itemid: '2'
-    gperm_modid: '24'
-    gperm_name: WFDownCatPerm
--
-    gperm_groupid: '1'
-    gperm_itemid: '2'
-    gperm_modid: '24'
-    gperm_name: WFDownCatPerm
--
-    gperm_groupid: '1'
-    gperm_itemid: '3'
-    gperm_modid: '24'
-    gperm_name: WFDownCatPerm
--
-    gperm_groupid: '2'
-    gperm_itemid: '3'
+    gperm_groupid: '3'
+    gperm_itemid: '1'
     gperm_modid: '24'
     gperm_name: WFDownCatPerm
 -
@@ -44,20 +19,50 @@
     gperm_modid: '24'
     gperm_name: WFDownCatPerm
 -
-    gperm_groupid: '1'
-    gperm_itemid: '4'
-    gperm_modid: '24'
-    gperm_name: WFDownCatPerm
--
     gperm_groupid: '2'
     gperm_itemid: '4'
     gperm_modid: '24'
     gperm_name: WFDownCatPerm
 -
-    gperm_groupid: '3'
+    gperm_groupid: '2'
+    gperm_itemid: '2'
+    gperm_modid: '24'
+    gperm_name: WFDownCatPerm
+-
+    gperm_groupid: '2'
+    gperm_itemid: '1'
+    gperm_modid: '24'
+    gperm_name: WFDownCatPerm
+-
+    gperm_groupid: '2'
+    gperm_itemid: '3'
+    gperm_modid: '24'
+    gperm_name: WFDownCatPerm
+-
+    gperm_groupid: '1'
     gperm_itemid: '4'
     gperm_modid: '24'
     gperm_name: WFDownCatPerm
+-
+    gperm_groupid: '1'
+    gperm_itemid: '2'
+    gperm_modid: '24'
+    gperm_name: WFDownCatPerm
+-
+    gperm_groupid: '1'
+    gperm_itemid: '1'
+    gperm_modid: '24'
+    gperm_name: WFDownCatPerm
+-
+    gperm_groupid: '1'
+    gperm_itemid: '3'
+    gperm_modid: '24'
+    gperm_name: WFDownCatPerm
+-
+    gperm_groupid: '2'
+    gperm_itemid: '3'
+    gperm_modid: '24'
+    gperm_name: WFUpCatPerm
 -
     gperm_groupid: '2'
     gperm_itemid: '1'
@@ -65,17 +70,17 @@
     gperm_name: WFUpCatPerm
 -
     gperm_groupid: '1'
-    gperm_itemid: '1'
-    gperm_modid: '24'
-    gperm_name: WFUpCatPerm
--
-    gperm_groupid: '2'
-    gperm_itemid: '2'
+    gperm_itemid: '4'
     gperm_modid: '24'
     gperm_name: WFUpCatPerm
 -
     gperm_groupid: '1'
     gperm_itemid: '2'
+    gperm_modid: '24'
+    gperm_name: WFUpCatPerm
+-
+    gperm_groupid: '1'
+    gperm_itemid: '1'
     gperm_modid: '24'
     gperm_name: WFUpCatPerm
 -
@@ -85,16 +90,11 @@
     gperm_name: WFUpCatPerm
 -
     gperm_groupid: '2'
-    gperm_itemid: '3'
-    gperm_modid: '24'
-    gperm_name: WFUpCatPerm
--
-    gperm_groupid: '1'
     gperm_itemid: '4'
     gperm_modid: '24'
     gperm_name: WFUpCatPerm
 -
     gperm_groupid: '2'
-    gperm_itemid: '4'
+    gperm_itemid: '2'
     gperm_modid: '24'
     gperm_name: WFUpCatPerm
