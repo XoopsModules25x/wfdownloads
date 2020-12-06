@@ -31,6 +31,7 @@ require_once dirname(__DIR__, 2) . '/mainfile.php';
 require_once __DIR__ . '/include/common.php';
 
 //require_once XOOPS_ROOT_PATH . '/header.php';
+xoops_load('XoopsUserUtility');
 
 $moduleDirName = basename(__DIR__);
 $moduleDirNameUpper = mb_strtoupper($moduleDirName);
