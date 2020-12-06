@@ -81,7 +81,7 @@ switch ($op) {
             // Allowed mimetypes list
             echo "<fieldset><legend style='font-weight: bold; color: #900;'>" . _AM_WFDOWNLOADS_FILE_ALLOWEDAMIME . "</legend>\n";
             echo "<div style='padding: 8px;'>\n";
-            $criteria       = new Criteria('mime_admin', true);
+            $criteria       = new Criteria('mime_admin', 'true');
             $mimetypes      = $helper->getHandler('Mimetype')->getList($criteria);
             $allowMimetypes = implode(' | ', $mimetypes);
             echo $allowMimetypes;
@@ -307,7 +307,7 @@ switch ($op) {
             $downloadObj->setVar('filename', $filename);
             $downloadObj->setVar('filetype', $filetype);
         } else {
-            $down  = Utility::uploading($_FILES, $helper->getConfig('uploaddir'), '', $currentFile, 0, false, true);
+            $down  = Utility::uploading($_FILES, $helper->getConfig('uploaddir'), [], $currentFile, 0, false, true);
             $url   = ('http://' !== $_POST['url']) ? $_POST['url'] : '';
             $size  = $down['size'];
             $title = $_FILES['userfile']['name'];
@@ -515,7 +515,7 @@ switch ($op) {
         if (!$downloadObj = $helper->getHandler('Download')->get($lid)) {
             redirect_header($currentFile, 4, _AM_WFDOWNLOADS_ERROR_DOWNLOADNOTFOUND);
         }
-        $title = $downloadObj->getVar('title');
+        $title = (string)$downloadObj->getVar('title');
         if (true === $ok) {
             if (!$GLOBALS['xoopsSecurity']->check()) {
                 redirect_header($currentFile, 3, implode(',', $GLOBALS['xoopsSecurity']->getErrors()));

@@ -22,8 +22,6 @@ namespace XoopsModules\Wfdownloads;
  * @author          Xoops Development Team
  */
 
-use XoopsModules\Wfdownloads;
-
 require_once \dirname(__DIR__) . '/include/common.php';
 
 /**
@@ -44,7 +42,7 @@ class CategoryHandler extends \XoopsPersistableObjectHandler
     public function __construct(\XoopsDatabase $db = null)
     {
         parent::__construct($db, 'wfdownloads_cat', Category::class, 'cid', 'title');
-        /** @var \XoopsModules\Wfdownloads\Helper $this ->helper */
+        /** @var Helper $this ->helper */
         $this->helper = Helper::getInstance();
     }
 
@@ -57,7 +55,7 @@ class CategoryHandler extends \XoopsPersistableObjectHandler
      */
     public function getNicePath($cid, $root_filename = 'index.php', $item_filename = 'viewcat.php?op=')
     {
-        $mytree     = new Wfdownloads\XoopsTree($this->table, $this->keyName, 'pid');
+        $mytree     = new XoopsTree($this->table, $this->keyName, 'pid');
         $pathString = $mytree->getNicePathFromId($cid, $this->identifierName, $item_filename);
 
         /**

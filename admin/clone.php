@@ -168,19 +168,22 @@ function wfdownloads_createLogo($dirname)
     // Create image
     $imageModule = imagecreatefrompng($imageBase);
     // Erase old text
-    $greyColor = imagecolorallocate($imageModule, 237, 237, 237);
-    imagefilledrectangle($imageModule, 5, 35, 85, 46, $greyColor);
-    // Write text
-    $textColor       = imagecolorallocate($imageModule, 0, 0, 0);
-    $space_to_border = (80 - mb_strlen($dirname) * 6.5) / 2;
-    imagefttext($imageModule, 8.5, 0, $space_to_border, 45, $textColor, $font, ucfirst($dirname), []);
-    // Set transparency color
-    $whiteColor = imagecolorallocatealpha($imageModule, 255, 255, 255, 127);
-    imagefill($imageModule, 0, 0, $whiteColor);
-    imagecolortransparent($imageModule, $whiteColor);
-    // Save new image
-    imagepng($imageModule, XOOPS_ROOT_PATH . "/modules/{$dirname}/assets/images/module_logo.png");
-    imagedestroy($imageModule);
+    if ($imageModule) {
+        $greyColor = imagecolorallocate($imageModule, 237, 237, 237);
+
+        imagefilledrectangle($imageModule, 5, 35, 85, 46, $greyColor);
+        // Write text
+        $textColor       = imagecolorallocate($imageModule, 0, 0, 0);
+        $space_to_border = (80 - mb_strlen($dirname) * 6.5) / 2;
+        imagefttext($imageModule, 8.5, 0, $space_to_border, 45, $textColor, $font, ucfirst($dirname), []);
+        // Set transparency color
+        $whiteColor = imagecolorallocatealpha($imageModule, 255, 255, 255, 127);
+        imagefill($imageModule, 0, 0, $whiteColor);
+        imagecolortransparent($imageModule, $whiteColor);
+        // Save new image
+        imagepng($imageModule, XOOPS_ROOT_PATH . "/modules/{$dirname}/assets/images/module_logo.png");
+        imagedestroy($imageModule);
+    }
 
     return true;
 }

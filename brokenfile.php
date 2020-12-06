@@ -58,8 +58,9 @@ if (false === $helper->getConfig('enable_brokenreports') && !Utility::userIsAdmi
 }
 
 // Breadcrumb
-require_once XOOPS_ROOT_PATH . '/class/tree.php';
-$categoryObjsTree = new ObjectTree($helper->getHandler('Category')->getObjects(), 'cid', 'pid');
+//require_once XOOPS_ROOT_PATH . '/class/tree.php';
+$categoryObjArray = $helper->getHandler('Category')->getObjects();
+$categoryObjsTree = new ObjectTree($categoryObjArray, 'cid', 'pid');
 $breadcrumb       = new Common\Breadcrumb();
 $breadcrumb->addLink($helper->getModule()->getVar('name'), WFDOWNLOADS_URL);
 foreach (array_reverse($categoryObjsTree->getAllParent($cid)) as $parentCategory) {

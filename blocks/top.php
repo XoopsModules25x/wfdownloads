@@ -41,6 +41,9 @@ require_once dirname(__DIR__) . '/include/common.php';
  */
 function wfdownloads_top_show($options)
 {
+    if (!class_exists(Helper::class)) {
+        return false;
+    }
     $helper = Helper::getInstance();
 
     $groups = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : [0 => XOOPS_GROUP_ANONYMOUS];
@@ -53,7 +56,7 @@ function wfdownloads_top_show($options)
     // get downloads
     $criteria = new CriteriaCompo();
     $criteria->add(new Criteria('cid', '(' . implode(',', $allowedDownCategoriesIds) . ')', 'IN'));
-    $criteria->add(new Criteria('offline', false));
+    $criteria->add(new Criteria('offline', 'false'));
     $criteria->setSort($options[0]);
     $criteria->setOrder('DESC');
     $criteria->setLimit($options[1]);

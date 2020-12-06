@@ -69,6 +69,7 @@ switch ($op) {
         } else {
             $mimetypeObj = $helper->getHandler('Mimetype')->create();
         }
+       /** @var  XoopsThemeForm $form */
         $form = $mimetypeObj->getForm();
         $form->display();
 
@@ -208,8 +209,8 @@ switch ($op) {
         }
 
         // Get allowed mimetypes/estensione
-        $allowAdminMimetypes = $helper->getHandler('Mimetype')->getList(new Criteria('mime_admin', true));
-        $allowUserMimetypes  = $helper->getHandler('Mimetype')->getList(new Criteria('mime_user', true));
+        $allowAdminMimetypes = $helper->getHandler('Mimetype')->getList(new Criteria('mime_admin', 'true'));
+        $allowUserMimetypes  = $helper->getHandler('Mimetype')->getList(new Criteria('mime_user', 'true'));
         $GLOBALS['xoopsTpl']->assign('allowAdminMimetypes', $allowAdminMimetypes);
         $GLOBALS['xoopsTpl']->assign('allowUserMimetypes', $allowUserMimetypes);
 

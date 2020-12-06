@@ -73,7 +73,7 @@ switch ($op) {
 
             $create_tray = new XoopsFormElementTray('', '');
             $create_tray->addElement(new XoopsFormHidden('source', $cid));
-            $create_tray->addElement(new XoopsFormHidden('ok', true));
+            $create_tray->addElement(new XoopsFormHidden('ok', 'true'));
             $create_tray->addElement(new XoopsFormHidden('op', 'category.move'));
             $butt_save = new XoopsFormButton('', '', _AM_WFDOWNLOADS_BMOVE, 'submit');
             $butt_save->setExtra('onclick="this.form.elements.op.value=\'category.move\'"');
@@ -249,6 +249,7 @@ switch ($op) {
         } else {
             $categoryObj = $helper->getHandler('Category')->create();
         }
+        /** @var  XoopsThemeForm $form */
         $form = $categoryObj->getForm();
         $form->display();
 
@@ -288,7 +289,7 @@ switch ($op) {
                 $categoryObj = $helper->getHandler('Category')->get($cid);
                 $categoryObj->setVar('weight', $new_weight);
                 if (!$helper->getHandler('Category')->insert($categoryObj)) {
-                    redirect_header($currentFile, 3, $categoryObj->getErrors());
+                    redirect_header($currentFile, 3, implode(',', $categoryObj->getErrors()));
                 }
                 unset($categoryObj);
             }
