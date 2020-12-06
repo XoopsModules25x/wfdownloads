@@ -37,6 +37,11 @@ $moduleDirNameUpper = mb_strtoupper($moduleDirName);
 
 $helper = Helper::getInstance();
 
+/** @var \XoopsMemberHandler $memberHandler */
+$memberHandler = xoops_getHandler('member');
+/** @var \XoopsNotificationHandler $notificationHandler */
+$notificationHandler = xoops_getHandler('notification');
+
 $myts = \MyTextSanitizer::getInstance();
 
 //Handlers

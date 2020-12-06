@@ -142,7 +142,7 @@
                 </tr>
             <{/foreach}>
         </table>
-        <{$newdownloads_pagenav}>
+        <{$newdownloads_pagenav|default:false}>
     <{/if}>
 </fieldset>
 
