@@ -14,7 +14,7 @@
  */
 
 use Xmf\Module\Admin;
-use XoopsModules\xxxxx\{
+use XoopsModules\Wfdownloads\{
     Helper
 };
 
