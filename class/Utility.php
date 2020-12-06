@@ -1481,15 +1481,13 @@ class Utility extends Common\SysUtility
         } else {
             $criteria->add(new \Criteria('mime_user', true));
         }
+        $ret = [];
         if (false !== ($mimetypeObjs = $helper->getHandler('Mimetype')->getObjects($criteria))) {
             $mimetypeObj = $mimetypeObjs[0];
             if (null !== $mimetypeObj) {
                 $ret = \explode(' ', $mimetypeObj->getVar('mime_types'));
             }
-        } else {
-            $ret = [];
         }
-
         return $ret;
     }
 
