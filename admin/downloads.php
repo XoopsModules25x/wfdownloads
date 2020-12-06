@@ -23,6 +23,7 @@ use Xmf\IPAddress;
 use Xmf\Module\Admin;
 use Xmf\Request;
 use XoopsModules\Wfdownloads\{
+    Common\Configurator,
     Download,
     Helper,
     Utility
@@ -30,6 +31,7 @@ use XoopsModules\Wfdownloads\{
 /** @var Helper $helper */
 /** @var Utility $utility */
 /** @var Download $downloadObj */
+/** @var Configurator $configurator */
 
 $currentFile = basename(__FILE__);
 require_once __DIR__ . '/admin_header.php';
@@ -39,6 +41,8 @@ xoops_load('XoopsUserUtility');
 $notificationHandler = xoops_getHandler('notification');
 
 $helper = Helper::getInstance();
+$configurator = new Configurator();
+$icons = $configurator->icons;
 
 /** @var \XoopsMemberHandler $memberHandler */
 $memberHandler = xoops_getHandler('member');
@@ -219,7 +223,7 @@ switch ($op) {
                         <td class='even'>$userVotes</th>\n
                         <td class='even'>$formatted_date</th>\n
                         <td class='even'>\n
-                        <a href='{$currentFile}?op=vote.delete&amp;lid={$lid}&amp;rid=" . $regUserRatingObj->getVar('ratingid') . "'>" . $imagearray['deleteimg'] . "</a>\n
+                        <a href='{$currentFile}?op=vote.delete&amp;lid={$lid}&amp;rid=" . $regUserRatingObj->getVar('ratingid') . "'>" . $icons['delete'] . "</a>\n
                         </th></tr>\n
                         ";
                 }
