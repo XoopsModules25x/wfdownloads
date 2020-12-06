@@ -736,7 +736,7 @@ switch ($op) {
                     $newDownload_array                   = $newDownloadObj->toArray();
                     $newDownload_array['rating']         = number_format($newDownload_array['rating'], 2);
                     $newDownload_array['title_html']     = htmlspecialchars($newDownload_array['title']);
-                    $newDownload_array['category_title'] = $categories[$newDownload_array['cid']]['title'];
+                    $newDownload_array['category_title'] = $categoryObjs[$newDownload_array['cid']]['title'];
                     /*
                                         $url                                  = urldecode(htmlspecialchars($newDownload_array['url']));
                                         $homepage                             = htmlspecialchars($newDownload_array['homepage']);
