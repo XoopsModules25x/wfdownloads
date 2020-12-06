@@ -693,7 +693,7 @@ switch ($op) {
             if ($publishedDownloadCount > 0) {
                 foreach ($publishedDownloadObjs as $publishedDownloadObj) {
                     $publishedDownload_array                        = $publishedDownloadObj->toArray();
-                    $publishedDownload_array['title_html']          = htmlspecialchars(trim($publishedDownload_array['title']));
+                    $publishedDownload_array['title_html']          = htmlspecialchars(trim($publishedDownload_array['title']), ENT_QUOTES | ENT_HTML5);
                     $publishedDownload_array['category_title']      = $categoryObjs[$publishedDownload_array['cid']]['title'];
                     $publishedDownload_array['submitter_uname']     = XoopsUserUtility::getUnameFromId($publishedDownload_array['submitter']);
                     $publishedDownload_array['published_formatted'] = formatTimestamp($publishedDownload_array['published'], 'l');
@@ -735,7 +735,7 @@ switch ($op) {
                 foreach ($newDownloadObjs as $newDownloadObj) {
                     $newDownload_array                   = $newDownloadObj->toArray();
                     $newDownload_array['rating']         = number_format($newDownload_array['rating'], 2);
-                    $newDownload_array['title_html']     = htmlspecialchars($newDownload_array['title']);
+                    $newDownload_array['title_html']     = htmlspecialchars($newDownload_array['title'], ENT_QUOTES | ENT_HTML5);
                     $newDownload_array['category_title'] = $categoryObjs[$newDownload_array['cid']]['title'];
                     /*
                                         $url                                  = urldecode(htmlspecialchars($newDownload_array['url']));
@@ -766,7 +766,7 @@ switch ($op) {
             if ($autopublishedDownloadCount > 0) {
                 foreach ($autopublishedDownloadObjs as $autopublishedDownloadObj) {
                     $autopublishedDownload_array                        = $autopublishedDownloadObj->toArray();
-                    $autopublishedDownload_array['title_html']          = htmlspecialchars(trim($autopublishedDownload_array['title']));
+                    $autopublishedDownload_array['title_html']          = htmlspecialchars(trim($autopublishedDownload_array['title']), ENT_QUOTES | ENT_HTML5);
                     $autopublishedDownload_array['category_title']      = $categories[$autopublishedDownload_array['cid']]['title'];
                     $autopublishedDownload_array['submitter_uname']     = XoopsUserUtility::getUnameFromId($autopublishedDownload_array['submitter']);
                     $autopublishedDownload_array['published_formatted'] = formatTimestamp($autopublishedDownload_array['published'], 'l');
@@ -790,7 +790,7 @@ switch ($op) {
             if ($expiredDownloadCount > 0) {
                 foreach ($expiredDownloadObjs as $expiredDownloadObj) {
                     $expiredDownload_array                        = $expiredDownloadObj->toArray();
-                    $expiredDownload_array['title_html']          = htmlspecialchars(trim($expiredDownload_array['title']));
+                    $expiredDownload_array['title_html']          = htmlspecialchars(trim($expiredDownload_array['title']), ENT_QUOTES | ENT_HTML5);
                     $expiredDownload_array['category_title']      = $categories[$expiredDownload_array['cid']]['title'];
                     $expiredDownload_array['submitter_uname']     = XoopsUserUtility::getUnameFromId($expiredDownload_array['submitter']);
                     $expiredDownload_array['published_formatted'] = formatTimestamp($expiredDownload_array['published'], 'l');
@@ -812,7 +812,7 @@ switch ($op) {
             if ($offlineDownloadCount > 0) {
                 foreach ($offlineDownloadObjs as $offlineDownloadObj) {
                     $offlineDownload_array                        = $offlineDownloadObj->toArray();
-                    $offlineDownload_array['title_html']          = htmlspecialchars(trim($offlineDownload_array['title']));
+                    $offlineDownload_array['title_html']          = htmlspecialchars(trim($offlineDownload_array['title']), ENT_QUOTES | ENT_HTML5);
                     $offlineDownload_array['category_title']      = $categories[$offlineDownload_array['cid']]['title'];
                     $offlineDownload_array['submitter_uname']     = XoopsUserUtility::getUnameFromId($offlineDownload_array['submitter']);
                     $offlineDownload_array['published_formatted'] = formatTimestamp($offlineDownload_array['published'], 'l');
