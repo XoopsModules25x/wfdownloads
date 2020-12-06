@@ -20,7 +20,6 @@
  */
 
 use Xmf\Request;
-use XoopsModules\Wfdownloads;
 use XoopsModules\Wfdownloads\{
     Common,
     Helper,
@@ -197,7 +196,7 @@ switch ($op) {
                 $time              = (0 !== $downloadObj->getVar('updated')) ? $downloadObj->getVar('updated') : $downloadObj->getVar('published');
                 $down['updated']   = formatTimestamp($time, $helper->getConfig('dateformat'));
                 $is_updated        = (0 !== $downloadObj->getVar('updated')) ? _MD_WFDOWNLOADS_UPDATEDON : _MD_WFDOWNLOADS_SUBMITDATE;
-                $down['publisher'] = XoopsUserUtility::getUnameFromId((int)$downloadObj->getVar('submitter'));
+                $down['publisher'] = \XoopsUserUtility::getUnameFromId((int)$downloadObj->getVar('submitter'));
 
                 $xoopsTpl->assign('brokenreportexists', false);
                 $xoopsTpl->assign('file_id', $lid);

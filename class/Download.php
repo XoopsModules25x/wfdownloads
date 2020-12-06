@@ -161,13 +161,13 @@ class Download extends \XoopsObject
         $download['add_mirror']  = $add_mirror;
         $download['use_mirrors'] = $use_mirrors;
 
-        $download['use_reviews'] = $this->helper->getConfig('enable_reviews');
-
-        $download['use_ratings']    = $this->helper->getConfig('enable_ratings');
-        $download['rateimg']        = 'rate' . \round(\number_format($this->getVar('rating'), 0) / 2) . '.gif'; // this definition is not removed for backward compatibility issues
-        $download['average_rating'] = $this->getVar('rating'); // new
-        $download['votes']          = (1 == $this->getVar('votes')) ? \_MD_WFDOWNLOADS_ONEVOTE : \sprintf(\_MD_WFDOWNLOADS_NUMVOTES, $this->getVar('votes'));
-        $download['hits']           = $this->getVar('hits');
+        $download['use_reviews']       = $this->helper->getConfig('enable_reviews');
+        $download['use_ratings']       = $this->helper->getConfig('enable_ratings');
+        $download['use_brokenreports'] = $this->helper->getConfig('enable_brokenreports');
+        $download['rateimg']           = 'rate' . \round(\number_format($this->getVar('rating'), 0) / 2) . '.gif'; // this definition is not removed for backward compatibility issues
+        $download['average_rating']    = $this->getVar('rating'); // new
+        $download['votes']             = (1 == $this->getVar('votes')) ? \_MD_WFDOWNLOADS_ONEVOTE : \sprintf(\_MD_WFDOWNLOADS_NUMVOTES, $this->getVar('votes'));
+        $download['hits']              = $this->getVar('hits');
 
         $download['path'] = $this->helper->getHandler('Category')->getNicePath($download['cid']);
 

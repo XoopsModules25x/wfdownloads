@@ -271,14 +271,14 @@ $xoopsTpl->assign('lang_user_mirrors', $GLOBALS['xoopsConfig']['sitename'] . ' '
 $xoopsTpl->assign('lang_UserMirrors', sprintf($user_mirrors, $downloadObj->getVar('title')));
 $xoopsTpl->assign('mirror_amount', $mirrorCount);
 
-$xoopsTpl->assign('use_ratings', $helper->getConfig('enable_mirrors'));
+$xoopsTpl->assign('use_mirrors', $helper->getConfig('enable_mirrors'));
 $xoopsTpl->assign('use_ratings', $helper->getConfig('enable_ratings'));
 $xoopsTpl->assign('use_reviews', $helper->getConfig('enable_reviews'));
 $xoopsTpl->assign('use_brokenreports', $helper->getConfig('enable_brokenreports'));
 $xoopsTpl->assign('use_rss', $helper->getConfig('enablerss'));
 
 // Copyright
-if (true === $helper->getConfig('copyright')) {
+if (1 === $helper->getConfig('copyright')) {
     $xoopsTpl->assign('lang_copyright', $downloadObj->getVar('title') . ' &copy; ' . _MD_WFDOWNLOADS_COPYRIGHT . ' ' . formatTimestamp(time(), 'Y'));
 }
 $xoopsTpl->assign('down', $downloadInfo); // this definition is not removed for backward compatibility issues

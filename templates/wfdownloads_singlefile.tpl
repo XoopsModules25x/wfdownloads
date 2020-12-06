@@ -284,7 +284,7 @@
 
 <div>
     <span style="font-size: small;">
-    <{if $download.use_mirrors == 1 && $download.add_mirror == 1}>
+    <{if $download.use_mirrors|default:0 == 1 && $download.add_mirror == 1}>
         <a href="mirror.php?cid=<{$download.cid}>&amp;lid=<{$download.id}>"><{$smarty.const._MD_WFDOWNLOADS_ADDMIRROR}></a>
         &nbsp;|&nbsp;
     <{/if}>
@@ -296,7 +296,7 @@
             <a href="ratefile.php?cid=<{$download.cid}>&amp;lid=<{$download.id}>"><{$smarty.const._MD_WFDOWNLOADS_RATETHISFILE}></a>
             &nbsp;|&nbsp;
         <{/if}>
-        <{if $download.useradminlink|default:false === true}>
+        <{if $download.useradminlink|default:0 == 1}>
             <a href="submit.php?cid=<{$download.cid}>&amp;lid=<{$download.id}>"><{$smarty.const._MD_WFDOWNLOADS_MODIFY}></a>
             &nbsp;|&nbsp;
         <{/if}>
@@ -345,7 +345,7 @@
 <div>
     <span style="font-weight: bold;"><{$smarty.const._MD_WFDOWNLOADS_OTHERBYUID}> <{$download.submitter}></span>
     <ul>
-        <{foreach item=download_by_user from=$downloads_by_user}>
+        <{foreach item=download_by_user from=$downloads_by_user|default:null}>
             <li>
                 <a href="<{$xoops_url}>/modules/wfdownloads/singlefile.php?cid=<{$download_by_user.cid}>&amp;lid=<{$download_by_user.lid}>">
                     <{$download_by_user.title}>

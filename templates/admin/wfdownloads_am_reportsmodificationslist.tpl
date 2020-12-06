@@ -1,4 +1,4 @@
-<{if $use_brokenreports === false}>
+<{if $use_brokenreports == 0}>
     <div class="errorMsg"><{$smarty.const._AM_WFDOWNLOADS_BROKENREPORT_DISABLED}></div>
 <{/if}>
 <fieldset>

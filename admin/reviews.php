@@ -30,7 +30,6 @@ use XoopsModules\Wfdownloads\{
 
 $currentFile = basename(__FILE__);
 require_once __DIR__ . '/admin_header.php';
-xoops_load('XoopsUserUtility');
 
 /** @var \XoopsMemberHandler $memberHandler */
 $memberHandler = xoops_getHandler('member');
