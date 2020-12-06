@@ -7,7 +7,7 @@
                  title='<{$smarty.const._MD_WFDOWNLOADS_LEGENDTEXTCATRSS}>'>
         </a>
     <{/if}>
-    <{if $category_title != ""}>
+    <{if $category_title|default:'' != ''}>
         <h1>
             <{$category_title}>
             <{if $isAdmin === true}>
@@ -23,11 +23,11 @@
             <{/if}>
         </h1>
     <{/if}>
-    <{if $category_image_URL}>
+    <{if $category_image_URL|default:''}>
         <img src="<{$category_image_URL}>" alt="<{$category_title}>" title="<{$category_title}>">
         <br>
     <{/if}>
-    <{$category_description}>
+    <{$category_description|default:''}>
 </div>
 
 <br>
@@ -86,7 +86,7 @@
 
 <br>
 
-<{if $downloads}>
+<{if $downloads|default:''}>
     <div>
         <h3><{$smarty.const._MD_WFDOWNLOADS_DOWNLOADSLISTING}></h3>
         <{if $show_links === true}>
