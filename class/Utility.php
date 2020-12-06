@@ -1483,7 +1483,9 @@ class Utility extends Common\SysUtility
         }
         if (false !== ($mimetypeObjs = $helper->getHandler('Mimetype')->getObjects($criteria))) {
             $mimetypeObj = $mimetypeObjs[0];
-            $ret         = \explode(' ', $mimetypeObj->getVar('mime_types'));
+            if (null !== $mimetypeObj) {
+                $ret = \explode(' ', $mimetypeObj->getVar('mime_types'));
+            }
         } else {
             $ret = [];
         }
