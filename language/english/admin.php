@@ -591,7 +591,7 @@ define('_AM_WFDOWNLOADS_IMPORT_TDMDOWNLOADS', 'Import data from TDMDownloads');
 define('_AM_WFDOWNLOADS_IMPORT_TDMDOWNLOADS_NOTFOUND', 'Module TDMDownloads not found on this site');
 define('_AM_WFDOWNLOADS_FCATEGORY_GROUPPROMPT_UP', 'Category upload permissions');
 define('_AM_WFDOWNLOADS_PERM_CSELECTPERMISSIONS_UP', 'Select categories that each group is allowed to upload');
-define('_AM_WFDOWNLOADS_FCATEGORY_GROUPPROMPT_DESC', 'SELECT GROUPS allowed TO download FROM this category');
+define('_AM_WFDOWNLOADS_FCATEGORY_GROUPPROMPT_DESC', 'Select groups allowed to download from this category');
 define('_AM_WFDOWNLOADS_FCATEGORY_GROUPPROMPT_UP_DESC', 'Select groups allowed to upload to this category');
 // admin/ratings.php
 define('_AM_WFDOWNLOADS_VOTE_VOTES', 'Votes');
