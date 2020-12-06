@@ -102,7 +102,7 @@ $xoopsTpl->assign('category_id', $cid); // this definition is not removed for ba
 $xoopsTpl->assign('category_cid', $cid);
 
 // Retreiving the top parent category
-if (!isset($list) && !isset($_GET['selectdate'])) {
+if (empty($list) && !isset($_GET['selectdate'])) {
     $categoriesTopParentByCid = $helper->getHandler('Category')->getAllSubcatsTopParentCid();
     $topCategoryObj           = $helper->getHandler('Category')->get(@$categoriesTopParentByCid[$cid]);
 
@@ -339,7 +339,7 @@ if ($downloads_count > 0) {
     require_once XOOPS_ROOT_PATH . '/class/pagenav.php';
     if (Request::hasVar('selectdate', 'GET')) {
         $pagenav = new XoopsPageNav($downloads_count, $helper->getConfig('perpage'), $start, 'start', 'list=' . urlencode($_GET['selectdate']));
-    } elseif (isset($list)) {
+    } elseif (!empty($list)) {
         $pagenav = new XoopsPageNav($downloads_count, $helper->getConfig('perpage'), $start, 'start', 'list=' . urlencode($list));
     } else {
         $pagenav = new XoopsPageNav($downloads_count, $helper->getConfig('perpage'), $start, 'start', 'cid=' . $cid);
@@ -354,7 +354,7 @@ $xoopsTpl->assign('use_ratings', $helper->getConfig('enable_ratings'));
 $xoopsTpl->assign('use_reviews', $helper->getConfig('enable_reviews'));
 $xoopsTpl->assign('use_rss', $helper->getConfig('enablerss'));
 
-if (true === $helper->getConfig('enablerss') && $downloads_count > 0) {
+if ((true == $helper->getConfig('enablerss')) && $downloads_count > 0) {
     $rsslink_URL = WFDOWNLOADS_URL . "/rss.php?cid={$cid}";
     $xoopsTpl->assign('category_rssfeed_URL', $rsslink_URL);
     $rsslink = "<a href='"
