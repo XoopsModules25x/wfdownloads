@@ -179,8 +179,7 @@ INSERT INTO wfdownloads_mimetypes VALUES (5, 'dll', 'application/octet-stream', 
 INSERT INTO wfdownloads_mimetypes VALUES (6, 'hqx', 'application/binhex application/mac-binhex application/mac-binhex40', 'Macintosh BinHex 4 Compressed Archive', 1, 0);
 INSERT INTO wfdownloads_mimetypes VALUES (7, 'cpt', 'application/mac-compactpro application/compact_pro', 'Compact Pro Archive', 0, 0);
 INSERT INTO wfdownloads_mimetypes VALUES (8, 'lha', 'application/lha application/x-lha application/octet-stream application/x-compress application/x-compressed application/maclha', 'Compressed Archive File', 1, 0);
-INSERT INTO wfdownloads_mimetypes VALUES
-  (9, 'lzh', 'application/lzh application/x-lzh application/x-lha application/x-compress application/x-compressed application/x-lzh-archive zz-application/zz-winassoc-lzh application/maclha application/octet-stream', 'Compressed Archive File', 1, 0);
+INSERT INTO wfdownloads_mimetypes VALUES (9, 'lzh', 'application/lzh application/x-lzh application/x-lha application/x-compress application/x-compressed application/x-lzh-archive zz-application/zz-winassoc-lzh application/maclha application/octet-stream', 'Compressed Archive File', 1, 0);
 INSERT INTO wfdownloads_mimetypes VALUES (10, 'sh', 'application/x-shar', 'UNIX shar Archive File', 1, 0);
 INSERT INTO wfdownloads_mimetypes VALUES (11, 'shar', 'application/x-shar', 'UNIX shar Archive File', 1, 0);
 INSERT INTO wfdownloads_mimetypes VALUES (12, 'tar', 'application/tar application/x-tar applicaton/x-gtar multipart/x-tar application/x-compress application/x-compressed', 'Tape Archive File', 1, 0);
@@ -304,6 +303,19 @@ INSERT INTO wfdownloads_mimetypes VALUES (125, 'flv', 'video/x-flv', 'Flash Vide
 INSERT INTO wfdownloads_mimetypes VALUES (126, 'm3u8', 'application/x-mpegURL', 'iPhone Index', 0, 0);
 INSERT INTO wfdownloads_mimetypes VALUES (127, 'ts', 'video/MP2T', 'iPhone Segment', 0, 0);
 INSERT INTO wfdownloads_mimetypes VALUES (128, '3gp', 'video/3gpp', '3GP Mobile', 0, 0);
+# Office 2007
+INSERT INTO wfdownloads_mimetypes VALUES (129, 'docm', 'application/vnd.ms-word.document.macroEnabled.12', 'Office 2007 MS Word', 0, 0);
+INSERT INTO wfdownloads_mimetypes VALUES (130, 'docx', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'Office 2007 MS Word', 1, 0);
+INSERT INTO wfdownloads_mimetypes VALUES (131, 'dotm', 'application/vnd.ms-word.template.macroEnabled.12', 'Office 2007 MS Word', 0, 0);
+INSERT INTO wfdownloads_mimetypes VALUES (132, 'dotx', 'application/vnd.openxmlformats-officedocument.wordprocessingml.template', 'Office 2007 MS Word', 0, 0);
+INSERT INTO wfdownloads_mimetypes VALUES (133, 'ppsm', 'application/vnd.ms-powerpoint.slideshow.macroEnabled.12', 'Office 2007 MS Powerpoint', 0, 0);
+INSERT INTO wfdownloads_mimetypes VALUES (134, 'ppsx', 'application/vnd.openxmlformats-officedocument.presentationml.slideshow', 'Office 2007 MS Powerpoint', 0, 0);
+INSERT INTO wfdownloads_mimetypes VALUES (135, 'pptm', 'application/vnd.ms-powerpoint.presentation.macroEnabled.12', 'Office 2007 MS Powerpoint', 0, 0);
+INSERT INTO wfdownloads_mimetypes VALUES (136, 'pptx', 'application/vnd.openxmlformats-officedocument.presentationml.presentation', 'Office 2007 MS Powerpoint', 1, 0);
+INSERT INTO wfdownloads_mimetypes VALUES (137, 'xlsb', 'application/vnd.ms-excel.sheet.binary.macroEnabled.12', 'Office 2007 MS Excel', 0, 0);
+INSERT INTO wfdownloads_mimetypes VALUES (138, 'xlsm', 'application/vnd.ms-excel.sheet.macroEnabled.12', 'Office 2007 MS Excel', 0, 0);
+INSERT INTO wfdownloads_mimetypes VALUES (139, 'xlsx', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', 'Office 2007 MS Excel', 1, 0);
+INSERT INTO wfdownloads_mimetypes VALUES (140, 'xps', 'application/vnd.ms-xpsdocument', 'Office 2007 MS Excel', 0, 0);
 
 # --------------------------------------------------------
 
