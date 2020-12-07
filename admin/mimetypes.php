@@ -74,6 +74,7 @@ switch ($op) {
         $form->display();
 
         $extform = new XoopsThemeForm(_AM_WFDOWNLOADS_MIME_FINDMIMETYPE, 'op', $_SERVER['REQUEST_URI']);
+        $buttonTray = new \XoopsFormElementTray('', '');
 
         $fileext_text = new XoopsFormText(_AM_WFDOWNLOADS_MIME_EXTFIND, 'fileext', 5, 60, $mimetypeObj->getVar('mime_ext'));
         $fileext_text->setDescription(_AM_WFDOWNLOADS_MIME_EXTFIND_DESC);
