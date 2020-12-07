@@ -75,7 +75,7 @@ switch ($op) {
                 $ratingArray['formatted_date']  = formatTimestamp($ratingObj->getVar('ratingtimestamp'), 'l');
                 $ratingArray['submitter_uname'] = XoopsUser::getUnameFromId($ratingObj->getVar('ratinguser'));
                 $ratingArray['submitter_uid']   = $ratingObj->getVar('ratinguser');
-                $ratingArray['download_title']  = $downloads[$ratingObj->getVar('lid')]->getVar('title');
+                $ratingArray['download_title']  = isset($downloads[$ratingObj->getVar('lid')])?$downloads[$ratingObj->getVar('lid')]->getVar('title'):'ERROR! Download does not exist';
                 $GLOBALS['xoopsTpl']->append('ratings', $ratingArray);
             }
         }
