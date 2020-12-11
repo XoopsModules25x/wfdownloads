@@ -152,7 +152,7 @@ class MulticolumnsThemeForm extends \XoopsForm
      */
     public function addForm($form)
     {
-        foreach ($form->getElements() as $element) {
+        foreach ($form->getElements() as  $key => $element) {
             $this->addElement($element, $element->isRequired(), $key, $this->_columns);
         }
     }

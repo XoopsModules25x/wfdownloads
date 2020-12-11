@@ -5,7 +5,7 @@
 - fixed missing $categories (mamba)
 - fixed brokenreports link (mamba)
 - added Blocksadmin (mamba)
-
+- removed duplicated config.php (goffy)
 
 <h5>3.30 Beta 3 [2020-12-05]</h5>  Dev: XOOPS 2.5.11, PHP 7.4.13, PHP 8.0
 <hr>

@@ -370,6 +370,8 @@ switch ($op) {
         $GLOBALS['xoopsTpl']->assign('reports_count', $reports_count);
 
         if ($reports_count > 0) {
+            $lids = [];
+            $uids = [];
             foreach ($reportObjs as $reportObj) {
                 $lids[] = $reportObj->getVar('lid');
                 $uids[] = $reportObj->getVar('sender');
