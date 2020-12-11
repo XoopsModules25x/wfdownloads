@@ -1,0 +1,68 @@
+-
+    cid: '1'
+    pid: '3'
+    title: News/Blogs
+    imgurl: information.png
+    description: 'Modules for News/Blogs'
+    total: '0'
+    summary: 'Modules for News/Blogs'
+    spotlighttop: '0'
+    spotlighthis: '0'
+    dohtml: '0'
+    dosmiley: '1'
+    doxcode: '1'
+    doimage: '1'
+    dobr: '1'
+    weight: '0'
+    formulize_fid: '0'
+-
+    cid: '2'
+    pid: '3'
+    title: 'Photo Galleries'
+    imgurl: galleries.png
+    description: 'Modules for Photo Galleries'
+    total: '0'
+    summary: 'Photo Galleries'
+    spotlighttop: '0'
+    spotlighthis: '0'
+    dohtml: '0'
+    dosmiley: '1'
+    doxcode: '1'
+    doimage: '1'
+    dobr: '1'
+    weight: '0'
+    formulize_fid: '0'
+-
+    cid: '3'
+    pid: '0'
+    title: Modules
+    imgurl: ''
+    description: Modules
+    total: '0'
+    summary: Modules
+    spotlighttop: '0'
+    spotlighthis: '0'
+    dohtml: '0'
+    dosmiley: '1'
+    doxcode: '1'
+    doimage: '1'
+    dobr: '1'
+    weight: '0'
+    formulize_fid: '0'
+-
+    cid: '4'
+    pid: '0'
+    title: Themes
+    imgurl: ''
+    description: Themes
+    total: '0'
+    summary: Themes
+    spotlighttop: '0'
+    spotlighthis: '0'
+    dohtml: '0'
+    dosmiley: '1'
+    doxcode: '1'
+    doimage: '1'
+    dobr: '1'
+    weight: '0'
+    formulize_fid: '0'

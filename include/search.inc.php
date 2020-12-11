@@ -8,17 +8,27 @@
  but WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
+
 /**
  * Wfdownloads module
  *
- * @copyright       The XOOPS Project http://sourceforge.net/projects/xoops/
- * @license         GNU GPL 2 or later (http://www.gnu.org/licenses/gpl-2.0.html)
+ * @copyright       XOOPS Project (https://xoops.org)
+ * @license         GNU GPL 2 or later (https://www.gnu.org/licenses/gpl-2.0.html)
  * @package         wfdownload
  * @since           3.23
  * @author          Xoops Development Team
  */
-defined('XOOPS_ROOT_PATH') || die('XOOPS root path not defined');
-include_once dirname(__DIR__) . '/include/common.php';
+
+use XoopsModules\Wfdownloads;
+use XoopsModules\Wfdownloads\{
+    Helper,
+    Utility
+};
+/** @var Helper $helper */
+/** @var Utility $utility */
+
+defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
+require_once __DIR__ . '/common.php';
 /**
  * @param        $queryArray
  * @param        $andor
@@ -32,17 +42,18 @@ include_once dirname(__DIR__) . '/include/common.php';
  *
  * @return array
  */
-function wfdownloads_search($queryArray, $andor, $limit, $offset, $userId = 0, $categories = array(), $sortBy = 0, $searchIn = '', $extra = '')
+function wfdownloads_search($queryArray, $andor, $limit, $offset, $userId = 0, $categories = [], $sortBy = 0, $searchIn = '', $extra = '')
 {
-    $wfdownloads = WfdownloadsWfdownloads::getInstance();
+    $helper = Helper::getInstance();
 
-    $userGroups = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : array(0 => XOOPS_GROUP_ANONYMOUS);
+    $userGroups = is_object($GLOBALS['xoopsUser']) ? $GLOBALS['xoopsUser']->getGroups() : [0 => XOOPS_GROUP_ANONYMOUS];
 
-    $gpermHandler             = xoops_getHandler('groupperm');
-    $allowedDownCategoriesIds = $gpermHandler->getItemIds('WFDownCatPerm', $userGroups, $wfdownloads->getModule()->mid());
-
-    $criteria = new CriteriaCompo(new Criteria('cid', '(' . implode(',', $allowedDownCategoriesIds) . ')', 'IN'));
-    if ($userId != 0) {
+    /** @var \XoopsGroupPermHandler $grouppermHandler */
+    $grouppermHandler         = xoops_getHandler('groupperm');
+    $allowedDownCategoriesIds = $grouppermHandler->getItemIds('WFDownCatPerm', $userGroups, $helper->getModule()->mid());
+    $downloads_lids           = $downloads_intersect = [];
+    $criteria                 = new CriteriaCompo(new Criteria('cid', '(' . implode(',', $allowedDownCategoriesIds) . ')', 'IN'));
+    if (0 != $userId) {
         $criteria->add(new Criteria('submitter', (int)$userId));
     }
 
@@ -54,25 +65,25 @@ function wfdownloads_search($queryArray, $andor, $limit, $offset, $userId = 0, $
     // because count() returns 1 even if a supplied variable
     // is not an array, we must check if $querryarray is really an array
     $queryArray_count = 0;
-    if ((is_array($queryArray) && $queryArray_count = count($queryArray)) || $userId != 0) {
+    if ((is_array($queryArray) && $queryArray_count = count($queryArray)) || 0 != $userId) {
         // $userId != 0 added August 13 2007 -- ACCOUNTS FOR CASES WHERE THERE ARE NO QUERY TERMS BUT A USER ID IS PASSED -- FREEFORM SOLUTIONS
-        if ($queryArray_count == 0) {
+        if (0 == $queryArray_count) {
             $queryArray_count = 1; // AUGUST 13 2007 -- MAKE COUNT EQUAL 1 SINCE WE HAVE TO DO AT LEAST ONE SEARCH (BASED ON USER ID) EVEN IF THERE ARE NO QUERY TERMS -- FREEFORM SOLUTIONS
-            $queryArray       = array();
+            $queryArray       = [];
         }
 
         // Formulize module support - jpc - start
         /*
                 // queryarray[0] now handled inside loop -- perhaps this "0 out of loop, 1 and up inside loop" approach was an unsuccessful attempt to fix the "unset" bug.  Interesting that subcrit was unset prior to the FOR loop.
-                $subCriteria = new CriteriaCompo(new Criteria("title", "%".$queryArray[0]."%", 'LIKE'), 'OR');
-                $subCriteria->add(new Criteria("description", "%".$queryArray[0]."%", 'LIKE'), 'OR');
+                $subCriteria = new \CriteriaCompo(new \Criteria("title", "%".$queryArray[0]."%", 'LIKE'), 'OR');
+                $subCriteria->add(new \Criteria("description", "%".$queryArray[0]."%", 'LIKE'), 'OR');
                 $criteria->add($subCriteria);
                 unset($subCriteria);
 
-                $allSubCriterias = new CriteriaCompo(); // added to fix bug related to nesting of ( )
+                $allSubCriterias = new \CriteriaCompo(); // added to fix bug related to nesting of ( )
                 for ($i = 0;$i < $queryArray_count;++$i) { // 1 changed to 0 so everything happens in one loop now
-                    $subCriteria = new CriteriaCompo(new Criteria("title", "%".$queryArray[$i]."%", 'LIKE'), 'OR');
-                    $subCriteria->add(new Criteria("description", "%".$queryArray[$i]."%", 'LIKE'), 'OR');
+                    $subCriteria = new \CriteriaCompo(new \Criteria("title", "%".$queryArray[$i]."%", 'LIKE'), 'OR');
+                    $subCriteria->add(new \Criteria("description", "%".$queryArray[$i]."%", 'LIKE'), 'OR');
                     $allSubCriterias->add($subCriteria, $andor); // $criteria changed to $allSubCriterias to fix bug
                     unset($subCriteria); // added to fix bug
                 }
@@ -100,17 +111,17 @@ function wfdownloads_search($queryArray, $andor, $limit, $offset, $userId = 0, $
         of the results is returned.  If OR is in effect, then all results are returned.
         */
         // Determine what the custom forms are that need searching, if any
-        if (WfdownloadsUtilities::checkModule('formulize')) {
-            $fids = array();
+        if (Utility::checkModule('formulize')) {
+            $fids = [];
             foreach ($allowedDownCategoriesIds as $cid) {
-                $categoryObj = $wfdownloads->getHandler('category')->get($cid);
-                if (isset($categoryObj) && $fid = $categoryObj->getVar('formulize_fid')) {
+                $categoryObj = $helper->getHandler('Category')->get($cid);
+                if (null !== $categoryObj && $fid = $categoryObj->getVar('formulize_fid')) {
                     $fids[] = $fid;
                 }
             }
 
             // Set criteria for the captions that the user can see if necessary
-            if (is_array($fids) && count($fids) > 0) {
+            if ($fids && is_array($fids)) {
                 $formulizeElementCriteria = new CriteriaCompo();
                 $formulizeElementCriteria->add(new Criteria('ele_display', 1), 'OR');
                 foreach ($userGroups as $group) {
@@ -121,11 +132,11 @@ function wfdownloads_search($queryArray, $andor, $limit, $offset, $userId = 0, $
             }
         }
 
-        $downloadObjs = array();
+        $downloadObjs = [];
         // Loop through all query terms
-        for ($i = 0; $i < $queryArray_count; ++$i) {
+        foreach ($queryArray as $i => $iValue) {
             // Make a copy of the $criteria for use with this term only
-            $queryCriteria = clone$criteria;
+            $queryCriteria = clone $criteria;
 
             // Setup criteria for searching the title and description fields of Wfdownloads for the current term
             $allSubCriterias = new CriteriaCompo();
@@ -136,15 +147,15 @@ function wfdownloads_search($queryArray, $andor, $limit, $offset, $userId = 0, $
             $allSubCriterias->add($subCriteria, $andor);
             unset($subCriteria);
 
-            $saved_ids = array();
+            $saved_ids = [];
 
             // Find all IDs of entries in all custom forms which match the current term
-            if (WfdownloadsUtilities::checkModule('formulize')) {
+            if (Utility::checkModule('formulize')) {
                 foreach ($fids as $fid) {
-                    if (!isset($formulizeElementsHandler)) {
-                        $formulizeElementsHandler = xoops_getModuleHandler('elements', 'formulize');
+                    if (null === $formulizeElementsHandler) {
+                        $formulizeElementsHandler = $helper->getHandler('Elements', 'formulize');
                     }
-                    include_once XOOPS_ROOT_PATH . '/modules/formulize/include/extract.php';
+                    require_once XOOPS_ROOT_PATH . '/modules/formulize/include/extract.php';
                     // Setup the filter string based on the elements in the form and the current query term
                     $formulizeElements = $formulizeElementsHandler->getObjects2($formulizeElementCriteria, $fid);
                     $filter_string     = '';
@@ -152,10 +163,10 @@ function wfdownloads_search($queryArray, $andor, $limit, $offset, $userId = 0, $
                     $start             = 1;
                     foreach ($formulizeElements as $formulizeElement) {
                         if ($start) {
-                            $filter_string = $formulizeElement->getVar('ele_id') . '/**/' . $queryArray[$i];
+                            $filter_string = $formulizeElement->getVar('ele_id') . '/**/' . $iValue;
                             $start         = 0;
                         } else {
-                            $filter_string .= '][' . $formulizeElement->getVar('ele_id') . '/**/' . $queryArray[$i];
+                            $filter_string .= '][' . $formulizeElement->getVar('ele_id') . '/**/' . $iValue;
                         }
                     }
                     unset($formulizeElements);
@@ -163,7 +174,7 @@ function wfdownloads_search($queryArray, $andor, $limit, $offset, $userId = 0, $
                     // Query for the ids of the records in the form that match the queryarray
                     $data           = getData('', $fid, $filter_string, 'OR'); // is a 'formulize' function
                     $formHandle     = getFormHandleFromEntry($data[0], 'uid'); // is a 'formulize' function
-                    $temp_saved_ids = array();
+                    $temp_saved_ids = [];
                     foreach ($data as $entry) {
                         // Gather all IDs for this $fid
                         $found_ids      = internalRecordIds($entry, $formHandle); // is a 'formulize' function
@@ -187,22 +198,21 @@ function wfdownloads_search($queryArray, $andor, $limit, $offset, $userId = 0, $
             }
 
             // Check to see if this term matches any files
-            $tempDownloadObjs = $wfdownloads->getHandler('download')->getActiveDownloads($queryCriteria);
+            $tempDownloadObjs = $helper->getHandler('Download')->getActiveDownloads($queryCriteria);
             unset($queryCriteria);
 
             // Make an array of the downloads based on the lid, and a separate list of all the lids found (the separate list is used in the case of an AND operator to derive an intersection of the hits across all search terms -- and it is used to determine the start and limit points of the main results array for an OR query)
-            $downloads_lids = array();
             foreach ($tempDownloadObjs as $tempDownloadObj) {
                 $downloadObjs[(int)$tempDownloadObj->getVar('lid')] = $tempDownloadObj;
                 $downloads_lids[]                                   = (int)$tempDownloadObj->getVar('lid');
             }
 
             // Do an intersection of the found lids if the operator is AND
-            if ($andor === 'AND') {
-                if (!isset($downloads_lids)) {
+            if ('AND' === $andor) {
+                if (null === $downloads_lids) {
                     $downloads_lids[] = '';
                 }
-                if (!isset($downloads_intersect)) {
+                if (null === $downloads_intersect) {
                     $downloads_intersect = $downloads_lids;
                 } // first time through initialize the array with all the found files
                 $downloads_intersect = array_intersect($downloads_intersect, $downloads_lids);
@@ -213,7 +223,7 @@ function wfdownloads_search($queryArray, $andor, $limit, $offset, $userId = 0, $
     } // end of if there are query terms
 
     // If an AND operator was used, cull the $downloadObjs array based on the intersection found
-    if ($andor === 'AND') {
+    if ('AND' === $andor) {
         foreach ($downloadObjs as $lid => $downloadObj) {
             if (!in_array($lid, $downloads_intersect)) {
                 unset($downloadObjs[$lid]);
@@ -224,32 +234,35 @@ function wfdownloads_search($queryArray, $andor, $limit, $offset, $userId = 0, $
         $limitOffsetIndex = $downloads_lids;
     }
 
-    $ret        = array();
+    $ret        = [];
     $i          = 0;
-    $storedLids = array();
+    $storedLids = [];
 
     // foreach (array_keys($downloadObjs) as $i)
-    for ($x = $offset; $i < $limit && $x < count($limitOffsetIndex); ++$x) {
-        $lid = $limitOffsetIndex[$x];
-        $obj = $downloadObjs[$lid];
-        if (is_object($obj) && !isset($storedLids[$lid])) {
-            $storedLids[$lid] = true;
-            $ret[$i]['image'] = 'assets/images/size2.gif';
-            $ret[$i]['link']  = "singlefile.php?cid={$obj->getVar('cid')}&amp;lid={$lid}";
-            $ret[$i]['title'] = $obj->getVar('title');
-            $ret[$i]['time']  = $obj->getVar('published');
-            $ret[$i]['uid']   = $obj->getVar('submitter');
-            ++$i;
+    if (is_array($limitOffsetIndex)) {
+        $counter = count($limitOffsetIndex);
+        for ($x = $offset; $i < $limit && $x < $counter; ++$x) {
+            $lid = $limitOffsetIndex[$x];
+            $obj = $downloadObjs[$lid];
+            if (is_object($obj) && !isset($storedLids[$lid])) {
+                $storedLids[$lid] = true;
+                $ret[$i]['image'] = 'assets/images/size2.gif';
+                $ret[$i]['link']  = "singlefile.php?cid={$obj->getVar('cid')}&amp;lid={$lid}";
+                $ret[$i]['title'] = $obj->getVar('title');
+                $ret[$i]['time']  = $obj->getVar('published');
+                $ret[$i]['uid']   = $obj->getVar('submitter');
+                ++$i;
+            }
         }
     }
 
     /*
         // Swish-e support EXPERIMENTAL
-        if (($wfdownloads->getConfig('enable_swishe') == true) && WfdownloadsUtilities::swishe_check() == true) {
+        if (($helper->getConfig('enable_swishe') === true) && Utility::checkSwishe() === true) {
     // IN PROGRESS
-            $swisheCriteria = new CriteriaCompo(new Criteria('cid', '(' . implode(',', $allowedDownCategoriesIds) . ')', 'IN'));
+            $swisheCriteria = new \CriteriaCompo(new \Criteria('cid', '(' . implode(',', $allowedDownCategoriesIds) . ')', 'IN'));
             if ($userId != 0) {
-                $swisheCriteria->add(new Criteria('submitter', (int) $userId));
+                $swisheCriteria->add(new \Criteria('submitter', (int) $userId));
             }
             if ($andor = 'AND') {
                 $swisheQueryWords = implode (' AND ', $queryArray);
@@ -259,11 +272,11 @@ function wfdownloads_search($queryArray, $andor, $limit, $offset, $userId = 0, $
                 $swisheQueryWords = '';
             }
             if (strlen($swisheQueryWords) > 0) {
-                $swisheSearchResults = WfdownloadsUtilities::swishe_search($swisheQueryWords);
+                $swisheSearchResults = Utility::searchSwishe($swisheQueryWords);
                 foreach ($swisheSearchResults as $swisheSearchResult) {
                     $tempSwisheCriteria = clone($swisheCriteria);
-                    $tempSwisheCriteria->add(new Criteria('filename', $swisheSearchResult['file_path']));
-                    $tempDownloadObjs = $wfdownloads->getHandler('download')->getActiveDownloads($tempSwisheCriteria);
+                    $tempSwisheCriteria->add(new \Criteria('filename', $swisheSearchResult['file_path']));
+                    $tempDownloadObjs = $helper->getHandler('Download')->getActiveDownloads($tempSwisheCriteria);
                     $tempDownloadObj = $tempDownloadObjs[0];
                     if (is_object($tempDownloadObj)) {
                         $tempRet['image'] = "assets/images/size2.gif";

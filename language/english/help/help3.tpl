@@ -1,0 +1,43 @@
+<div id="help-template" class="outer">
+    <{include file=$smarty.const._MI_WFDOWNLOADS_HELP_HEADER}>
+    <h4 class="odd">Import</h4>
+
+    <p class="even">
+        Instructions for importing from myDownloads, pd-downloads and wmpdownloads to Wfdownloads. <br> <br>
+        We STRONGLY recommends you take a full backup before INSTALLING or UPDATING any module.<br> <br>
+    </p>
+
+    <h4 class="odd">Import from Xoops MyDownloads into Wfdownloads</h4>
+
+    <p class="even">
+        <span style="font-weight: bold;">Note:</span> When you do the import the update script will copy the data from the mydownloads, pd-downloads or wmpdownloads tables into the
+        database of Wfdownloads. After this is done you will still be able to use each module as before. It is possible to have all 3 modules running
+        at the same time.
+
+    <p><span class="auto-style1"><br><span style="font-weight: bold;">Upload the module to your website</span></span><br>
+        <br>Upload the 'wfdownloads' folder to {xoops-rootdirectory}/modules folder<br>
+        <br><span class="auto-style1" style="font-weight: bold;">Change and verify folder permissions</span><br>
+        <br>CHMOD the following folders to 777: <br><br>wfdownloads/assets/images<br>wfdownloads/images/category<br>
+        wfdownloads/assets/assets/images/category/thumbs<br>wfdownloads/assets/images/screenshots<br>wfdownloads/assets/images/screenshots/thumbs
+        Also make sure that the {xoops-rootdirectory}/uploads folder is set to 777.<br>
+        <br><span class="auto-style1" style="font-weight: bold;">Install the module</span><br><br>
+        Login as webmaster and enter Xoops Administration page. Select System --&gt; modules
+        and install wfdownloads<br><br><span class="auto-style1" style="font-weight: bold;">Start the Import</span><br>
+        <br>Go into the Wfdownloads admin area. At the top you will find a link Import data.
+        Click on this one and you can choose to import your mydownloads data. Once you did
+        so go into the permissions tab to set the permissions for the imported categories.
+        Until you changed the category permissions you will not be able to see the imported
+        categories/files. <br><br><span class="auto-style1" style="font-weight: bold;">Configure the module</span><br>
+        <br>Most important steps now will be to setup the group permissions for the module
+        and its blocks via System --&gt; groups and than within wfdownloads administration
+        Mimetype management to decide which files are allowed to be uploaded by users and
+        administrators.<br><br><span style="font-weight: bold;"><span class="auto-style1">Optional: Remove myDownloads</span><br class="auto-style1">
+            <br></span>If you want to use only Wfdownloads you can now disable and uninstall
+        the MyDownloads module. <br><br><span style="font-weight: bold;"><span class="auto-style1">Optional: Remove
+PD-Downloads</span><br class="auto-style1"><br></span>If you want to use only
+        Wfdownloads you can now disable and uninstall the PD-Downloads module. <br><br>
+        <span style="font-weight: bold;"><span class="auto-style1">Optional: Remove wmpdownloads</span><br class="auto-style1">
+            <br></span>If you want to use only Wfdownloads you can now disable and uninstall
+        the wmpdownloads module.</p>
+
+</div>

@@ -1,0 +1,18 @@
+-
+    review_id: '1'
+    lid: '2'
+    title: 'Great Gallery'
+    review: 'The extGallery is a great gallery module'
+    submit: '0'
+    date: '1607157325'
+    uid: '2'
+    rated: '10'
+-
+    review_id: '2'
+    lid: '8'
+    title: 'Great Module Publisher'
+    review: 'This is a [b][color=FF211E]fantastic [/color][/b]module'
+    submit: '1'
+    date: '1607236957'
+    uid: '0'
+    rated: '10'

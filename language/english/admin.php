@@ -8,11 +8,12 @@
  but WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
+
 /**
  * Wfdownloads module
  *
- * @copyright       The XOOPS Project http://sourceforge.net/projects/xoops/
- * @license         GNU GPL 2 or later (http://www.gnu.org/licenses/gpl-2.0.html)
+ * @copyright       XOOPS Project (https://xoops.org)
+ * @license         GNU GPL 2 or later (https://www.gnu.org/licenses/gpl-2.0.html)
  * @package         wfdownload
  * @since           3.23
  * @author          Xoops Development Team
@@ -112,8 +113,10 @@ define('_AM_WFDOWNLOADS_IPAGE_CCENTER', 'Align center');
 define('_AM_WFDOWNLOADS_IPAGE_CRIGHT', 'Align right');
 //  Permissions defines
 define('_AM_WFDOWNLOADS_PERM_MANAGEMENT', 'Permissions management');
-define('_AM_WFDOWNLOADS_PERM_PERMSNOTE',
-       "Please be aware that even if you've set correct viewing permissions here, a group might not see the articles or blocks if you don't also grant that group permissions to access the module. To do that, go to <span style='font-weight: bold;'>System admin > Groups</span>, choose the appropriate group and click the checkboxes to grant its members the access.");
+define(
+    '_AM_WFDOWNLOADS_PERM_PERMSNOTE',
+    "Please be aware that even if you've set correct viewing permissions here, a group might not see the articles or blocks if you don't also grant that group permissions to access the module. To do that, go to <span style='font-weight: bold;'>System admin > Groups</span>, choose the appropriate group and click the checkboxes to grant its members the access."
+);
 define('_AM_WFDOWNLOADS_PERM_CPERMISSIONS', 'Category permissions');
 define('_AM_WFDOWNLOADS_PERM_CSELECTPERMISSIONS', 'Select categories that each group is allowed to view');
 define('_AM_WFDOWNLOADS_PERM_CNOCATEGORY', 'Cannot set permissions: No categories have been created yet!');
@@ -132,9 +135,9 @@ define('_AM_WFDOWNLOADS_DOWN_IMAGEINFO', 'Server status');
 define('_AM_WFDOWNLOADS_DOWN_NOTSET', 'Upload path not set');
 define('_AM_WFDOWNLOADS_DOWN_SERVERPATH', 'Server path to XOOPS root: ');
 define('_AM_WFDOWNLOADS_DOWN_UPLOADPATH', 'Current upload path: ');
-define('_AM_WFDOWNLOADS_DOWN_UPLOADPATHDSC', 'Note. Upload path *MUST* contain the full server path of your upload folder.');
-define('_AM_WFDOWNLOADS_DOWN_SPHPINI', "<span style='font-weight: bold;'>Information taken from PHP ini file:</span>");
+
 define('_AM_WFDOWNLOADS_DOWN_METAVERSION', "<span style='font-weight: bold;'>Downloads meta version:</span> ");
+define('_AM_WFDOWNLOADS_DOWN_SPHPINI', "<span style='font-weight: bold;'>Information taken from PHP ini file:</span>");
 define('_AM_WFDOWNLOADS_DOWN_SAFEMODESTATUS', 'Safe mode status: ');
 define('_AM_WFDOWNLOADS_DOWN_REGISTERGLOBALS', 'Register globals: ');
 define('_AM_WFDOWNLOADS_DOWN_SERVERUPLOADSTATUS', 'Server uploads status: ');
@@ -159,6 +162,8 @@ define('_AM_WFDOWNLOADS_DOWN_FUPLOADURL', 'Upload URL:');
 define('_AM_WFDOWNLOADS_DOWN_FOLDERSELECTION', 'Select upload destination');
 define('_AM_WFDOWNLOADS_DOWN_FSHOWSELECTEDIMAGE', 'Display selected image');
 define('_AM_WFDOWNLOADS_DOWN_FUPLOADIMAGE', 'Upload new image to selected destination');
+
+define('_AM_WFDOWNLOADS_DOWN_UPLOADPATHDSC', 'Note. Upload path *MUST* contain the full server path of your upload folder.');
 // Main Index defines
 define('_AM_WFDOWNLOADS_MINDEX_DOWNSUMMARY', 'Module admin summary');
 define('_AM_WFDOWNLOADS_MINDEX_PUBLISHEDDOWN', 'Published downloads');
@@ -203,10 +208,13 @@ define('_AM_WFDOWNLOADS_MIME_USERFINFO', "<span style='font-weight: bold;'>MIME 
 define('_AM_WFDOWNLOADS_MIME_NOMIMEINFO', 'No MIME types selected');
 define('_AM_WFDOWNLOADS_MIME_FINDMIMETYPE', 'Find MIME type information');
 define('_AM_WFDOWNLOADS_MIME_EXTFIND', 'Search file extension');
-define('_AM_WFDOWNLOADS_MIME_INFOTEXT', '<ul><li>New MIME types can be created, edited or deleted easily via this form</li>
+define(
+    '_AM_WFDOWNLOADS_MIME_INFOTEXT',
+    '<ul><li>New MIME types can be created, edited or deleted easily via this form</li>
     <li>Looking for a new MIME type via an external website.</li>
     <li>View displayed MIME types for Admin and user uploads.</li>
-    <li>Change MIME type upload status.</li></ul>');
+    <li>Change MIME type upload status.</li></ul>'
+);
 // Mime type Buttons
 define('_AM_WFDOWNLOADS_MIME_CREATE', 'Create');
 define('_AM_WFDOWNLOADS_MIME_CLEAR', 'Reset');
@@ -562,8 +570,10 @@ define('_AM_WFDOWNLOADS_FORMULIZE_NOT_AVILABLE', 'Formulize Module not present o
 define('_AM_WFDOWNLOADS_PERM_NOTE', 'Note');
 // admin/import.php
 define('_AM_WFDOWNLOADS_IMPORT_INFORMATION', 'Import page information');
-define('_AM_WFDOWNLOADS_IMPORT_INFORMATION_TEXT',
-       "To import categories and downloads from other modules click on buttons bellow.<br><br><span style='font-weight: bold;'>WARNINGS</span><br><ul><li>Import procedure will not overwrite existing categories/downloads.</li><li>Import procedure will not copy files, <span style='font-weight: bold;'>DO NOT remove orginal module/categories/downloads!</span></li><li>Import procedure will not copy permissions, <span style='font-weight: bold;'>remember to set permissions</span>.</li></ul>");
+define(
+    '_AM_WFDOWNLOADS_IMPORT_INFORMATION_TEXT',
+    "To import categories and downloads from other modules click on buttons bellow.<br><br><span style='font-weight: bold;'>WARNINGS</span><br><ul><li>Import procedure will not overwrite existing categories/downloads.</li><li>Import procedure will not copy files, <span style='font-weight: bold;'>DO NOT remove orginal module/categories/downloads!</span></li><li>Import procedure will not copy permissions, <span style='font-weight: bold;'>remember to set permissions</span>.</li></ul>"
+);
 
 define('_AM_WFDOWNLOADS_IMPORT_BUTTON_IMPORT', 'Import');
 define('_AM_WFDOWNLOADS_IMPORT_IMPORTINGDATA', "<span style='font-weight: bold;'>Importing Data</span>");
@@ -697,7 +707,7 @@ define('_AM_WFDOWNLOADS_ERROR_MIRRORNOTFOUND', 'Mirror not found');
 define('_AM_WFDOWNLOADS_VOTEDELETED', 'Vote deleted');
 define('_AM_WFDOWNLOADS_ERROR_REVIEWNOTFOUND', 'Review not found');
 define('_AM_WFDOWNLOADS_SWISHE_CONFIG', 'Configuration');
-define('_AM_WFDOWNLOADS_DB_MSG_DROP_TABLE_ERR', 'Drop table Error');
+define('_AM_WFDOWNLOADS_DB_MSG_DROP_TABLE_ERR', 'DROP TABLE Error');
 define('_AM_WFDOWNLOADS_DB_MSG_DROP_TABLE', 'Drop table');
 define('_AM_WFDOWNLOADS_DB_MSG_DROPFIELD_ERR', 'Drop field Error');
 define('_AM_WFDOWNLOADS_DB_MSG_DROPFIELD', 'Drop field');
@@ -705,3 +715,14 @@ define('_AM_WFDOWNLOADS_DB_MSG_RENAME_TABLE_ERR', 'Rename Table Error');
 define('_AM_WFDOWNLOADS_DB_MSG_RENAME_TABLE', 'Rename Table');
 define('_AM_WFDOWNLOADS_FILE_EXPIREWARNING', 'Expire warning');
 define('_AM_WFDOWNLOADS_MOD_NOTFOUND', 'Module not found');
+
+define('_AM_WFDOWNLOADS_UPGRADEFAILED0', "Update failed - couldn't rename field '%s'");
+define('_AM_WFDOWNLOADS_UPGRADEFAILED1', "Update failed - couldn't add new fields");
+define('_AM_WFDOWNLOADS_UPGRADEFAILED2', "Update failed - couldn't rename table '%s'");
+define('_AM_WFDOWNLOADS_ERROR_COLUMN', 'Could not create column in database : %s');
+define('_AM_WFDOWNLOADS_ERROR_BAD_XOOPS', 'This module requires XOOPS %s+ (%s installed)');
+define('_AM_WFDOWNLOADS_ERROR_BAD_PHP', 'This module requires PHP version %s+ (%s installed)');
+define('_AM_WFDOWNLOADS_ERROR_TAG_REMOVAL', 'Could not remove tags from Tag Module');
+
+define('AM_WFDOWNLOADS_CLONED_OK', 'Record cloned successfully');
+define('AM_WFDOWNLOADS_CLONED_FAILED', 'Cloning of the record has failed');

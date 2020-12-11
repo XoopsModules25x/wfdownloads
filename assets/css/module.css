@@ -10,8 +10,8 @@
 /**
  * Wfdownloads module
  *
- * @copyright       The XOOPS Project http://sourceforge.net/projects/xoops/
- * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
+ * @copyright       XOOPS Project (https://xoops.org)
+ * @license         GNU GPL 2 (https://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
  * @package         wfdownload
  * @since           3.23
  * @author          WF-Sections, Xoops Development Team, luciorota
@@ -549,4 +549,10 @@ tr.wfdownloads_mirrors_end {
     left: 0;
     background-color: #BEC8D1;
     border: 2px solid #000000;
+}
+
+
+.wfdownloads_head_catletters {
+    text-align: center;
+    font-size: 80%;
 }

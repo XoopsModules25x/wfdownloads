@@ -1,4 +1,4 @@
-<{if $use_mirrors == false}>
+<{if $use_mirrors === false}>
 <div class="errorMsg"><{$smarty.const._AM_WFDOWNLOADS_MIRROR_DISABLED}></div>
 <{/if}>
 <fieldset>
@@ -11,13 +11,13 @@
 
     <p>
         <img src="<{xoModuleIcons16 1.png}>" title="<{$smarty.const._AM_WFDOWNLOADS_AMIRRORS_APPROVE_ALT}>"
-             alt="<{$smarty.const._AM_WFDOWNLOADS_AMIRRORS_APPROVE_ALT}>"/> <{$smarty.const._AM_WFDOWNLOADS_AMIRRORS_APPROVE_DESC}>
+             alt="<{$smarty.const._AM_WFDOWNLOADS_AMIRRORS_APPROVE_ALT}>"> <{$smarty.const._AM_WFDOWNLOADS_AMIRRORS_APPROVE_DESC}>
         <br>
         <img src="<{xoModuleIcons16 edit.png}>" title="<{$smarty.const._AM_WFDOWNLOADS_AMIRRORS_EDIT_ALT}>"
-             alt="<{$smarty.const._AM_WFDOWNLOADS_AMIRRORS_EDIT_ALT}>"/> <{$smarty.const._AM_WFDOWNLOADS_AMIRRORS_EDIT_DESC}>
+             alt="<{$smarty.const._AM_WFDOWNLOADS_AMIRRORS_EDIT_ALT}>"> <{$smarty.const._AM_WFDOWNLOADS_AMIRRORS_EDIT_DESC}>
         <br>
         <img src="<{xoModuleIcons16 delete.png}>" title="<{$smarty.const._AM_WFDOWNLOADS_AMIRRORS_DELETE_ALT}>"
-             alt="<{$smarty.const._AM_WFDOWNLOADS_AMIRRORS_DELETE_ALT}>"/> <{$smarty.const._AM_WFDOWNLOADS_AMIRRORS_DELETE_DESC}>
+             alt="<{$smarty.const._AM_WFDOWNLOADS_AMIRRORS_DELETE_ALT}>"> <{$smarty.const._AM_WFDOWNLOADS_AMIRRORS_DELETE_DESC}>
     </p>
 </fieldset>
 
@@ -40,7 +40,7 @@
         <tr class="<{cycle values='even, odd'}>">
             <td class='head'><{$mirror_waiting.mirror_id}></td>
             <td class='even'>
-                <a href='download.php?op=download.edit&amp;lid=<{$mirror_waiting.lid}>'><{$mirror_waiting.download_title}></a>
+                <a href='Download.php?op=download.edit&amp;lid=<{$mirror_waiting.lid}>'><{$mirror_waiting.download_title}></a>
             </td>
             <td class='even'><{$mirror_waiting.submitter_uname}></td>
             <td class='even'><{$mirror_waiting.formatted_date}></td>
@@ -49,19 +49,19 @@
                     <img
                         src="<{xoModuleIcons16 1.png}>"
                         title="<{$smarty.const._AM_WFDOWNLOADS_BAPPROVE}>"
-                        alt="<{$smarty.const._AM_WFDOWNLOADS_BAPPROVE}>"/>
+                        alt="<{$smarty.const._AM_WFDOWNLOADS_BAPPROVE}>">
                 </a>
                 <a href='?op=mirror.edit&amp;mirror_id=<{$mirror_waiting.mirror_id}>'>
                     <img
                         src="<{xoModuleIcons16 edit.png}>"
                         title="<{$smarty.const._EDIT}>"
-                        alt="<{$smarty.const._EDIT}>"/>
+                        alt="<{$smarty.const._EDIT}>">
                 </a>
                 <a href='?op=mirror.delete&amp;mirror_id=<{$mirror_waiting.mirror_id}>'>
                     <img
                         src="<{xoModuleIcons16 delete.png}>"
                         title="<{$smarty.const._DELETE}>"
-                        alt="<{$smarty.const._DELETE}>"/>
+                        alt="<{$smarty.const._DELETE}>">
                 </a>
             </td>
         </tr>
@@ -90,17 +90,17 @@
         <tr class="<{cycle values='even, odd'}>">
             <td class='head'><{$mirror_published.mirror_id}></td>
             <td class='even'>
-                <a href='download.php?op=download.edit&amp;lid=<{$mirror_published.lid}>'><{$mirror_published.download_title}></a>
+                <a href='Download.php?op=download.edit&amp;lid=<{$mirror_published.lid}>'><{$mirror_published.download_title}></a>
             </td>
             <td class='even'><{$mirror_published.submitter_uname}></td>
             <td class='even'><{$mirror_published.formatted_date}></td>
             <td class='even' align='center'>
                 <a href='?op=mirror.edit&amp;mirror_id=<{$mirror_published.mirror_id}>'><img src="<{xoModuleIcons16 edit.png}>"
                                                                                              title="<{$smarty.const._EDIT}>"
-                                                                                             alt="<{$smarty.const._EDIT}>"/></a>
+                                                                                             alt="<{$smarty.const._EDIT}>"></a>
                 <a href='?op=mirror.delete&amp;mirror_id=<{$mirror_published.mirror_id}>'><img src="<{xoModuleIcons16 delete.png}>"
                                                                                                title="<{$smarty.const._DELETE}>"
-                                                                                               alt="<{$smarty.const._DELETE}>"/></a>
+                                                                                               alt="<{$smarty.const._DELETE}>"></a>
             </td>
         </tr>
         <{/foreach}>

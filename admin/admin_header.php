@@ -8,32 +8,60 @@
  but WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
+
 /**
  * Wfdownloads module
  *
- * @copyright       The XOOPS Project http://sourceforge.net/projects/xoops/
- * @license         GNU GPL 2 or later (http://www.gnu.org/licenses/gpl-2.0.html)
+ * @copyright       XOOPS Project (https://xoops.org)
+ * @license         GNU GPL 2 or later (https://www.gnu.org/licenses/gpl-2.0.html)
  * @package         wfdownload
  * @since           3.23
  * @author          Xoops Development Team
  */
-include_once dirname(dirname(dirname(__DIR__))) . '/mainfile.php';
-include_once dirname(__DIR__) . '/include/common.php';
 
-// Include xoops admin header
-include_once XOOPS_ROOT_PATH . '/include/cp_header.php';
+use XoopsModules\Wfdownloads\{
 
-$pathIcon16      = XOOPS_URL . '/' . $wfdownloads->getModule()->getInfo('icons16');
-$pathIcon32      = XOOPS_URL . '/' . $wfdownloads->getModule()->getInfo('icons32');
-$pathModuleAdmin = XOOPS_ROOT_PATH . '/' . $wfdownloads->getModule()->getInfo('dirmoduleadmin');
-require_once $pathModuleAdmin . '/moduleadmin/moduleadmin.php';
+    Helper,
+    Utility
+};
+use Xmf\Module\Admin;
+
+/** @var Helper $helper */
+/** @var Utility $utility */
+
+$moduleDirName = basename(dirname(__DIR__));
+require_once dirname(__DIR__, 3) . '/mainfile.php';
+require_once $GLOBALS['xoops']->path('www/include/cp_functions.php');
+require_once $GLOBALS['xoops']->path('www/include/cp_header.php');
+require_once $GLOBALS['xoops']->path('www/class/xoopsformloader.php');
+xoops_load('XoopsUserUtility');
+
+// require_once  dirname(__DIR__) . '/class/Utility.php';
+require_once dirname(__DIR__) . '/include/common.php';
+
+$helper = Helper::getInstance();
+
+/** @var Admin $adminObject */
+$adminObject = Admin::getInstance();
+
+$pathIcon16    = Xmf\Module\Admin::iconUrl('', 16);
+$pathIcon32    = Xmf\Module\Admin::iconUrl('', 32);
+$pathModIcon32 = $helper->getModule()->getInfo('modicons32');
+
+$myts = \MyTextSanitizer::getInstance();
+
+if (!isset($GLOBALS['xoopsTpl']) || !($GLOBALS['xoopsTpl'] instanceof \XoopsTpl)) {
+    require_once $GLOBALS['xoops']->path('class/template.php');
+    $GLOBALS['xoopsTpl'] = new \XoopsTpl();
+}
+
+//Module specific elements
+//require_once $GLOBALS['xoops']->path("modules/{$moduleDirName}/include/functions.php");
+//require_once $GLOBALS['xoops']->path("modules/{$moduleDirName}/config/config.php");
 
 // Load language files
-xoops_loadLanguage('admin', $wfdownloads->getModule()->dirname());
-xoops_loadLanguage('modinfo', $wfdownloads->getModule()->dirname());
-xoops_loadLanguage('main', $wfdownloads->getModule()->dirname());
+$helper->loadLanguage('admin');
+$helper->loadLanguage('modinfo');
+$helper->loadLanguage('main');
 
-if (!isset($xoopsTpl) || !is_object($xoopsTpl)) {
-    include_once XOOPS_ROOT_PATH . '/class/template.php';
-    $xoopsTpl = new XoopsTpl();
-}
+//xoops_cp_header();

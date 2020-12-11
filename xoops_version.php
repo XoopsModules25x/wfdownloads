@@ -8,82 +8,81 @@
  but WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
+
 /**
  * Wfdownloads module
  *
- * @copyright       The XOOPS Project http://sourceforge.net/projects/xoops/
- * @license         GNU GPL 2 or later (http://www.gnu.org/licenses/gpl-2.0.html)
+ * @copyright       XOOPS Project (https://xoops.org)
+ * @license         GNU GPL 2 or later (https://www.gnu.org/licenses/gpl-2.0.html)
  * @package         wfdownload
  * @since           3.23
  * @author          Xoops Development Team
  */
 
-defined('XOOPS_ROOT_PATH') || die('XOOPS root path not defined');
+use XoopsModules\Wfdownloads\{Helper
+};
+use Xmf\Request;
 
-$modversion['name']        = _MI_WFDOWNLOADS_NAME;
-$modversion['version']     = 3.23;
-$modversion['description'] = _MI_WFDOWNLOADS_DESC;
-$modversion['author']      = 'XOOPS Development Team';
-$modversion['credits']     = 'This module was originally based on Mydownloads, and refactored by Catzwolf and the WF-Projects team. Then it became a project of The SmartFactory who continued the excellent work started by the WF-Projects team.';
-$modversion['help']        = 'page=help';
-$modversion['license']     = 'GNU GPL 2.0 or later';
-$modversion['license_url'] = 'http://www.gnu.org/licenses/gpl-2.0.html';
-$modversion['official']    = false;
-$modversion['dirname']     = basename(__DIR__);
+/** @var Helper $helper */
 
-include_once XOOPS_ROOT_PATH . '/modules/' . $modversion['dirname'] . '/include/constants.php';
+require_once __DIR__ . '/preloads/autoloader.php';
+
+$helper = Helper::getInstance();
+
+$moduleDirName      = basename(__DIR__);
+$moduleDirNameUpper = mb_strtoupper($moduleDirName);
+
+defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
+
+$modversion['version']       = 3.30;
+$modversion['module_status'] = 'Beta 4';
+$modversion['releasedate']   = '2020-12-06';
+$modversion['name']          = _MI_WFDOWNLOADS_NAME;
+$modversion['description']   = _MI_WFDOWNLOADS_DESC;
+$modversion['author']        = 'XOOPS Development Team';
+$modversion['credits']       = 'This module was originally based on Mydownloads, and refactored by Catzwolf and the WF-Projects team. Then it became a project of The SmartFactory who continued the excellent work started by the WF-Projects team.';
+$modversion['help']          = 'page=help';
+$modversion['license']       = 'GNU GPL 2.0 or later';
+$modversion['license_url']   = 'https://www.gnu.org/licenses/gpl-2.0.html';
+$modversion['official']      = false;
+$modversion['dirname']       = basename(__DIR__);
+
+require_once XOOPS_ROOT_PATH . '/modules/' . $modversion['dirname'] . '/include/constants.php';
 
 // Path and name of the module’s logo
-$modversion['image'] = 'assets/images/module_logo.png';
+$modversion['image'] = 'assets/images/logoModule.png';
 
 // Install, update, unistall
-$modversion['onInstall']   = 'include/oninstall.php';
-$modversion['onUpdate']    = 'include/onupdate.php';
+$modversion['onInstall'] = 'include/oninstall.php';
+//$modversion['onUpdate']    = 'include/onupdate.php';
 $modversion['onUninstall'] = 'include/onuninstall.php';
 
-$modversion['date']         = '2014-11-22';
-$modversion['release_date'] = '2016/05/22';
-$modversion['status']       = 'RC5';
-$modversion['teammembers']  = 'Bender, David, FrankBlack, Xpider, M0nty, Mithrandir, Marcan, felix[fx2024], Sudhaker, Jegelstaff';
-
-// About
-$modversion['module_status']       = 'RC5';
-$modversion['releasedate']         = '2016-05-22';
-$modversion['module_website_url']  = 'http://www.xoops.org/';
+$modversion['date']                = '2014-11-22';
+$modversion['release_date']        = '2016/05/22';
+$modversion['status']              = 'RC5';
+$modversion['teammembers']         = 'Bender, David, FrankBlack, Xpider, M0nty, Mithrandir, Marcan, felix[fx2024], Sudhaker, Jegelstaff';
+$modversion['module_website_url']  = 'https://xoops.org/';
 $modversion['module_website_name'] = 'XOOPS';
-$modversion['min_php']             = '5.5';
-$modversion['min_xoops']           = '2.5.8';
-$modversion['min_admin']           = '1.1';
-$modversion['min_db']              = array(
-    'mysql'  => '5.0.7',
-    'mysqli' => '5.0.7'
-);
-$modversion['dirmoduleadmin']      = 'Frameworks/moduleclasses';
-$modversion['icons16']             = 'Frameworks/moduleclasses/icons/16';
-$modversion['icons32']             = 'Frameworks/moduleclasses/icons/32';
+$modversion['min_php']             = '7.2';
+$modversion['min_xoops']           = '2.5.10';
+$modversion['min_admin']           = '1.2';
+$modversion['min_db']              = ['mysql' => '5.5'];
+$modversion['modicons16']          = 'assets/images/icons/16';
+$modversion['modicons32']          = 'assets/images/icons/32';
 
-// Help files
-$i                                     = 0;
-$modversion['helpsection'][$i]['name'] = _MI_WFDOWNLOADS_HELP_OVERVIEW;
-$modversion['helpsection'][$i]['link'] = 'page=help';
-++$i;
-$modversion['helpsection'][$i]['name'] = _MI_WFDOWNLOADS_HELP_INSTALL;
-$modversion['helpsection'][$i]['link'] = 'page=install';
-++$i;
-$modversion['helpsection'][$i]['name'] = _MI_WFDOWNLOADS_HELP_TIPSTRICKS;
-$modversion['helpsection'][$i]['link'] = 'page=tips_tricks';
-++$i;
-$modversion['helpsection'][$i]['name'] = _MI_WFDOWNLOADS_HELP_IMPORT;
-$modversion['helpsection'][$i]['link'] = 'page=help3';
-++$i;
-$modversion['helpsection'][$i]['name'] = _MI_WFDOWNLOADS_HELP_UPDATE1;
-$modversion['helpsection'][$i]['link'] = 'page=help4';
-++$i;
-$modversion['helpsection'][$i]['name'] = _MI_WFDOWNLOADS_HELP_UPDATE2;
-$modversion['helpsection'][$i]['link'] = 'page=help5';
-++$i;
-$modversion['helpsection'][$i]['name'] = _MI_WFDOWNLOADS_HELP_UPDATE3;
-$modversion['helpsection'][$i]['link'] = 'page=help6';
+// ------------------- Help files ------------------- //
+$modversion['helpsection'] = [
+    ['name' => _MI_WFDOWNLOADS_HELP_OVERVIEW, 'link' => 'page=help'],
+    ['name' => _MI_WFDOWNLOADS_HELP_DISCLAIMER, 'link' => 'page=disclaimer'],
+    ['name' => _MI_WFDOWNLOADS_HELP_LICENSE, 'link' => 'page=license'],
+    ['name' => _MI_WFDOWNLOADS_HELP_SUPPORT, 'link' => 'page=support'],
+    ['name' => _MI_WFDOWNLOADS_HELP_INSTALL, 'link' => 'page=install'],
+    ['name' => _MI_WFDOWNLOADS_HELP_TIPSTRICKS, 'link' => 'page=tips_tricks'],
+    ['name' => _MI_WFDOWNLOADS_HELP_IMPORT, 'link' => 'page=help3'],
+    ['name' => _MI_WFDOWNLOADS_HELP_UPDATE1, 'link' => 'page=help4'],
+    ['name' => _MI_WFDOWNLOADS_HELP_UPDATE2, 'link' => 'page=help5'],
+    ['name' => _MI_WFDOWNLOADS_HELP_UPDATE3, 'link' => 'page=help6'],
+];
 
 /*
 * added by Liquid. Based on code by Marcan
@@ -114,7 +113,7 @@ $modversion['system_menu'] = true;
 $modversion['sqlfile']['mysql'] = 'sql/mysql.sql';
 // Tables created by sql file (without prefix!)
 
-$modversion['tables'] = array(
+$modversion['tables'] = [
     $modversion['dirname'] . '_broken',
     $modversion['dirname'] . '_cat',
     $modversion['dirname'] . '_downloads',
@@ -125,8 +124,8 @@ $modversion['tables'] = array(
     $modversion['dirname'] . '_mimetypes',
     $modversion['dirname'] . '_meta',
     $modversion['dirname'] . '_mirrors',
-    $modversion['dirname'] . '_ip_log'
-);
+    $modversion['dirname'] . '_ip_log',
+];
 
 // Search
 $modversion['hasSearch']      = true;
@@ -137,19 +136,22 @@ $modversion['search']['func'] = $modversion['dirname'] . '_search';
 $modversion['hasMain']     = true;
 $modversion['system_menu'] = true;
 
-global $xoopsModule, $xoopsModuleConfig;
+global $xoopsModule;
 // check if submission is allowed
 $isSubmissionAllowed = false;
 if (is_object($xoopsModule) && $xoopsModule->dirname() == $modversion['dirname'] && $xoopsModule->isactive()) {
-    if (is_object($GLOBALS['xoopsUser']) && ($xoopsModuleConfig['submissions'] == _WFDOWNLOADS_SUBMISSIONS_DOWNLOAD || $xoopsModuleConfig['submissions'] == _WFDOWNLOADS_SUBMISSIONS_BOTH)) {
+    if (is_object($GLOBALS['xoopsUser'])
+        && (_WFDOWNLOADS_SUBMISSIONS_DOWNLOAD == $helper->getConfig('submissions')
+            || _WFDOWNLOADS_SUBMISSIONS_BOTH == $helper->getConfig('submissions'))) {
         // if user is a registered user
         $groups = $GLOBALS['xoopsUser']->getGroups();
-        if (count(array_intersect($xoopsModuleConfig['submitarts'], $groups)) > 0) {
+        if (count(array_intersect($helper->getConfig('submitarts'), $groups)) > 0) {
             $isSubmissionAllowed = true;
         }
     } else {
         // if user is anonymous
-        if ($xoopsModuleConfig['anonpost'] == _WFDOWNLOADS_ANONPOST_DOWNLOAD || $xoopsModuleConfig['anonpost'] == _WFDOWNLOADS_ANONPOST_BOTH) {
+        if (_WFDOWNLOADS_ANONPOST_DOWNLOAD == $helper->getConfig('anonpost')
+            || _WFDOWNLOADS_ANONPOST_BOTH == $helper->getConfig('anonpost')) {
             $isSubmissionAllowed = true;
         }
     }
@@ -158,19 +160,19 @@ $i = 0;
 if ($isSubmissionAllowed) {
     ++$i;
     $modversion['sub'][$i]['name'] = _MI_WFDOWNLOADS_SMNAME1;
-    $category_suffix               = (!empty($_GET['cid'])) ? '?cid=' . (int)$_GET['cid'] : ''; //Added by Lankford on 2008/2/20
+    $category_suffix               = Request::hasVar('cid', 'GET') ? '?cid=' . Request::getInt('cid', 0, 'GET') : ''; //Added by Lankford on 2008/2/20
     $modversion['sub'][$i]['url']  = "submit.php{$category_suffix}";
 }
 
 // ------------------- Menu -------------------
-$modversion['sub'][] = array(
+$modversion['sub'][] = [
     'name' => _MI_WFDOWNLOADS_SMNAME2,
-    'url'  => 'topten.php?list=hit'
-);
-$modversion['sub'][] = array(
+    'url'  => 'topten.php?list=hit',
+];
+$modversion['sub'][] = [
     'name' => _MI_WFDOWNLOADS_SMNAME3,
-    'url'  => 'topten.php?list=rate'
-);
+    'url'  => 'topten.php?list=rate',
+];
 
 // Blocks
 $i                                       = 0;
@@ -202,702 +204,668 @@ $modversion['blocks'][$i]['template']    = $modversion['dirname'] . '_mb_top_by_
 $modversion['hasComments']             = true;
 $modversion['comments']['itemName']    = 'lid';
 $modversion['comments']['pageName']    = 'singlefile.php';
-$modversion['comments']['extraParams'] = array('cid');
+$modversion['comments']['extraParams'] = ['cid'];
 // Comment callback functions
 $modversion['comments']['callbackFile']        = 'include/comment_functions.php';
 $modversion['comments']['callback']['approve'] = $modversion['dirname'] . '_com_approve';
 $modversion['comments']['callback']['update']  = $modversion['dirname'] . '_com_update';
 
 // Templates
-$modversion['templates'][] = array(
-    'file'        => $modversion['dirname'] . '_header.tpl',
-    'description' => 'Header info'
-);
-$modversion['templates'][] = array(
-    'file'        => $modversion['dirname'] . '_footer.tpl',
-    'description' => 'Footer info'
-);
-$modversion['templates'][] = array(
-    'file'        => $modversion['dirname'] . '_brokenfile.tpl',
-    'description' => ''
-);
-$modversion['templates'][] = array(
-    'file'        => $modversion['dirname'] . '_download.tpl',
-    'description' => ''
-);
-$modversion['templates'][] = array(
-    'file'        => $modversion['dirname'] . '_index.tpl',
-    'description' => ''
-);
-$modversion['templates'][] = array(
-    'file'        => $modversion['dirname'] . '_ratefile.tpl',
-    'description' => ''
-);
-$modversion['templates'][] = array(
-    'file'        => $modversion['dirname'] . '_singlefile.tpl',
-    'description' => ''
-);
-$modversion['templates'][] = array(
-    'file'        => $modversion['dirname'] . '_topten.tpl',
-    'description' => ''
-);
-$modversion['templates'][] = array(
-    'file'        => $modversion['dirname'] . '_viewcat.tpl',
-    'description' => ''
-);
-$modversion['templates'][] = array(
-    'file'        => $modversion['dirname'] . '_newlistindex.tpl',
-    'description' => ''
-);
-$modversion['templates'][] = array(
-    'file'        => $modversion['dirname'] . '_reviews.tpl',
-    'description' => ''
-);
-$modversion['templates'][] = array(
-    'file'        => $modversion['dirname'] . '_mirrors.tpl',
-    'description' => ''
-);
-$modversion['templates'][] = array(
-    'file'        => $modversion['dirname'] . '_disclaimer.tpl',
-    'description' => ''
-);
+$modversion['templates'] = [
+    ['file' => $moduleDirName . '_' . 'header.tpl', 'description' => 'Header info'],
+    ['file' => $moduleDirName . '_' . 'footer.tpl', 'description' => 'Footer info'],
+    ['file' => $moduleDirName . '_' . 'brokenfile.tpl', 'description' => ''],
+    ['file' => $moduleDirName . '_' . 'download.tpl', 'description' => ''],
+    ['file' => $moduleDirName . '_' . 'index.tpl', 'description' => ''],
+    ['file' => $moduleDirName . '_' . 'ratefile.tpl', 'description' => ''],
+    ['file' => $moduleDirName . '_' . 'singlefile.tpl', 'description' => ''],
+    ['file' => $moduleDirName . '_' . 'topten.tpl', 'description' => ''],
+    ['file' => $moduleDirName . '_' . 'viewcat.tpl', 'description' => ''],
+    ['file' => $moduleDirName . '_' . 'newlistindex.tpl', 'description' => ''],
+    ['file' => $moduleDirName . '_' . 'reviews.tpl', 'description' => ''],
+    ['file' => $moduleDirName . '_' . 'mirrors.tpl', 'description' => ''],
+    ['file' => $moduleDirName . '_' . 'disclaimer.tpl', 'description' => ''],
 
-// Admin templates
+    //display templates
+    ['file' => $moduleDirName . '_' . 'categories_table.tpl', 'description' => '_MI_WFDOWNLOADS_CATEGORIES_TABLE_DSC'],
 
-$modversion['templates'][] = array(
-    'file'        => $modversion['dirname'] . '_submit.tpl',
-    'description' => ''
-);
-$modversion['templates'][] = array(
-    'file'        => $modversion['dirname'] . '_am_categorieslist.tpl',
-    'type'        => 'admin',
-    'description' => ''
-);
+    ['file' => $moduleDirName . '_' . 'display_catview.tpl', 'description' => '_MI_WFDOWNLOADS_DISPLAY_CATVIEW_DSC'],
+    ['file' => $moduleDirName . '_' . 'display_list.tpl', 'description' => '_MI_WFDOWNLOADS_DISPLAY_LIST_DSC'],
+    ['file' => $moduleDirName . '_' . 'display_summary.tpl', 'description' => '_MI_WFDOWNLOADS_DISPLAY_SUMMARY_DSC'],
+    ['file' => $moduleDirName . '_' . 'display_full.tpl', 'description' => '_MI_WFDOWNLOADS_DISPLAY_FULL_DSC'],
+    ['file' => $moduleDirName . '_' . 'display_wfsection.tpl', 'description' => '_MI_WFDOWNLOADS_DISPLAY_WFSECTION_DSC'],
+    ['file' => $moduleDirName . '_' . 'display_legacy.tpl', 'description' => '_MI_WFDOWNLOADS_DISPLAY_LEGACY_DSC'],
 
-$modversion['templates'][] = array(
-    'file'        => $modversion['dirname'] . '_am_downloadslist.tpl',
-    'type'        => 'admin',
-    'description' => ''
-);
+    // Admin templates
+    ['file' => $moduleDirName . '_' . 'submit.tpl', 'description' => ''],
+    ['file' => $moduleDirName . '_' . 'am_categorieslist.tpl', 'type' => 'admin', 'description' => ''],
+    ['file' => $moduleDirName . '_' . 'am_downloadslist.tpl', 'type' => 'admin', 'description' => ''],
+    ['file' => $moduleDirName . '_' . 'am_ip_logslist.tpl', 'type' => 'admin', 'description' => ''],
+    ['file' => $moduleDirName . '_' . 'am_reportsmodificationslist.tpl', 'type' => 'admin', 'description' => ''],
+    ['file' => $moduleDirName . '_' . 'am_ratingslist.tpl', 'type' => 'admin', 'description' => ''],
+    ['file' => $moduleDirName . '_' . 'am_reviewslist.tpl', 'type' => 'admin', 'description' => ''],
+    ['file' => $moduleDirName . '_' . 'am_mirrorslist.tpl', 'type' => 'admin', 'description' => ''],
+    ['file' => $moduleDirName . '_' . 'am_mimetypeslist.tpl', 'type' => 'admin', 'description' => ''],
+    ['file' => $moduleDirName . '_' . 'am_permissions.tpl', 'type' => 'admin', 'description' => ''],
+    // Common templates
+    ['file' => $moduleDirName . '_' . 'co_breadcrumb.tpl', 'description' => ''],
+    ['file' => $moduleDirName . '_' . 'co_letterschoice.tpl', 'description' => ''],
+    ['file' => $moduleDirName . '_' . 'letterschoice.tpl', 'description' => ''],
 
-$modversion['templates'][] = array(
-    'file'        => $modversion['dirname'] . '_am_ip_logslist.tpl',
-    'type'        => 'admin',
-    'description' => ''
-);
-
-$modversion['templates'][] = array(
-    'file'        => $modversion['dirname'] . '_am_reportsmodificationslist.tpl',
-    'type'        => 'admin',
-    'description' => ''
-);
-
-$modversion['templates'][] = array(
-    'file'        => $modversion['dirname'] . '_am_ratingslist.tpl',
-    'type'        => 'admin',
-    'description' => ''
-);
-
-$modversion['templates'][] = array(
-    'file'        => $modversion['dirname'] . '_am_reviewslist.tpl',
-    'type'        => 'admin',
-    'description' => ''
-);
-
-$modversion['templates'][] = array(
-    'file'        => $modversion['dirname'] . '_am_mirrorslist.tpl',
-    'type'        => 'admin',
-    'description' => ''
-);
-
-$modversion['templates'][] = array(
-    'file'        => $modversion['dirname'] . '_am_mimetypeslist.tpl',
-    'type'        => 'admin',
-    'description' => ''
-);
-
-$modversion['templates'][] = array(
-    'file'        => $modversion['dirname'] . '_am_permissions.tpl',
-    'type'        => 'admin',
-    'description' => ''
-);
-
-// Common templates
-$modversion['templates'][] = array(
-    'file'        => $modversion['dirname'] . '_co_breadcrumb.tpl',
-    'description' => ''
-);
-
-$modversion['templates'][] = array(
-    'file'        => $modversion['dirname'] . '_co_letterschoice.tpl',
-    'description' => ''
-);
-
+    ['file' => $moduleDirName . '_' . 'header0.tpl', 'description' => 'Header info'],
+    ['file' => $moduleDirName . '_' . 'download0.tpl', 'description' => ''],
+];
 // ------------------- Preferences -------------------
 
 xoops_load('XoopsEditorHandler');
-$editorHandler         = XoopsEditorHandler::getInstance();
+$editorHandler          = XoopsEditorHandler::getInstance();
 $editorList             = array_flip($editorHandler->getList());
-$modversion['config'][] = array(
+$modversion['config'][] = [
     'name'        => 'editor_options',
     'title'       => '_MI_WFDOWNLOADS_EDITOR',
     'description' => '_MI_WFDOWNLOADS_EDITORCHOICE',
     'formtype'    => 'select',
     'valuetype'   => 'text',
     'options'     => $editorList,
-    'default'     => 'dhtmltextarea'
-);
+    'default'     => 'dhtmltextarea',
+];
 
-$modversion['config'][] = array(
+$modversion['config'][] = [
     'name'        => 'displayicons',
     'title'       => '_MI_WFDOWNLOADS_ICONDISPLAY',
     'description' => '_MI_WFDOWNLOADS_DISPLAYICONDSC',
     'formtype'    => 'select',
     'valuetype'   => 'int',
-    'options'     => array(
+    'options'     => [
         '_MI_WFDOWNLOADS_DISPLAYICON1' => _WFDOWNLOADS_DISPLAYICONS_ICON,
         '_MI_WFDOWNLOADS_DISPLAYICON2' => _WFDOWNLOADS_DISPLAYICONS_TEXT,
-        '_MI_WFDOWNLOADS_DISPLAYICON3' => _WFDOWNLOADS_DISPLAYICONS_NO
-    ),
-    'default'     => _WFDOWNLOADS_DISPLAYICONS_ICON
-);
+        '_MI_WFDOWNLOADS_DISPLAYICON3' => _WFDOWNLOADS_DISPLAYICONS_NO,
+    ],
+    'default'     => _WFDOWNLOADS_DISPLAYICONS_ICON,
+];
 
-$modversion['config'][] = array(
+$modversion['config'][] = [
     'name'        => 'popular',
     'title'       => '_MI_WFDOWNLOADS_POPULAR',
     'description' => '_MI_WFDOWNLOADS_POPULARDSC',
     'formtype'    => 'select',
     'valuetype'   => 'int',
-    'options'     => array('5' => 5, '10' => 10, '50' => 50, '100' => 100, '200' => 200, '500' => 500, '1000' => 1000),
-    'default'     => 100
-);
+    'options'     => ['5' => 5, '10' => 10, '50' => 50, '100' => 100, '200' => 200, '500' => 500, '1000' => 1000],
+    'default'     => 100,
+];
 
-$modversion['config'][] = array(
+$modversion['config'][] = [
     'name'        => 'daysnew',
     'title'       => '_MI_WFDOWNLOADS_DAYSNEW',
     'description' => '_MI_WFDOWNLOADS_DAYSNEWDSC',
     'formtype'    => 'textbox',
     'valuetype'   => 'int',
-    'default'     => 10
-);
+    'default'     => 10,
+];
 
-$modversion['config'][] = array(
+$modversion['config'][] = [
     'name'        => 'daysupdated',
     'title'       => '_MI_WFDOWNLOADS_DAYSUPDATED',
     'description' => '_MI_WFDOWNLOADS_DAYSUPDATEDDSC',
     'formtype'    => 'textbox',
     'valuetype'   => 'int',
-    'default'     => 10
-);
+    'default'     => 10,
+];
 
-$modversion['config'][] = array(
+$modversion['config'][] = [
     'name'        => 'perpage',
     'title'       => '_MI_WFDOWNLOADS_PERPAGE',
     'description' => '_MI_WFDOWNLOADS_PERPAGEDSC',
     'formtype'    => 'select',
     'valuetype'   => 'int',
-    'options'     => array('5' => 5, '10' => 10, '15' => 15, '20' => 20, '25' => 25, '30' => 30, '50' => 50),
-    'default'     => 10
-);
+    'options'     => ['5' => 5, '10' => 10, '15' => 15, '20' => 20, '25' => 25, '30' => 30, '50' => 50],
+    'default'     => 10,
+];
 
-$modversion['config'][] = array(
+$modversion['config'][] = [
     'name'        => 'admin_perpage',
     'title'       => '_MI_WFDOWNLOADS_ADMINPAGE',
     'description' => '_MI_WFDOWNLOADS_ADMINPAGEDESC',
     'formtype'    => 'select',
     'valuetype'   => 'int',
-    'options'     => array('5' => 5, '10' => 10, '15' => 15, '20' => 20, '25' => 25, '30' => 30, '50' => 50),
-    'default'     => 10
-);
+    'options'     => ['5' => 5, '10' => 10, '15' => 15, '20' => 20, '25' => 25, '30' => 30, '50' => 50],
+    'default'     => 10,
+];
 
-$modversion['config'][] = array(
+$modversion['config'][] = [
     'name'        => 'dateformat',
     'title'       => '_MI_WFDOWNLOADS_DATEFORMAT',
     'description' => '_MI_WFDOWNLOADS_DATEFORMATDSC',
     'formtype'    => 'textbox',
     'valuetype'   => 'text',
-    'default'     => _DATESTRING
-); //'D, d-M-Y');
+    'default'     => _DATESTRING,
+]; //'D, d-M-Y');
+
+// Category View Display (Publisher)
+$modversion['config'][] = [
+    'name'        => 'displaycategory_configs',
+    'title'       => '_MI_WFDOWNLOADS_DISPLAY_CONFIGS',
+    'description' => '_MI_WFDOWNLOADS_DISPLAY_CONFIGS',
+    'formtype'    => 'line_break',
+    'valuetype'   => 'textbox',
+    'default'     => 'odd',
+];
+
+$modversion['config'][] = [
+    'name'        => 'idxcat_items_display_type',
+    'title'       => '_MI_WFDOWNLOADS_DISTYPE',
+    'description' => '_MI_WFDOWNLOADS_DISTYPE_DSC',
+    'formtype'    => 'select',
+    'valuetype'   => 'text',
+    'options'     => [
+        _MI_WFDOWNLOADS_DISPLAYTYPE_CATVIEW   => 'catview',
+        _MI_WFDOWNLOADS_DISPLAYTYPE_SUMMARY   => 'summary',
+        _MI_WFDOWNLOADS_DISPLAYTYPE_FULL      => 'full',
+        _MI_WFDOWNLOADS_DISPLAYTYPE_LIST      => 'list',
+        _MI_WFDOWNLOADS_DISPLAYTYPE_WFSECTION => 'wfsection',
+        _MI_WFDOWNLOADS_DISPLAYTYPE_LEGACY    => 'legacy',
+    ],
+    'default'     => 'catview',
+    'category'    => 'indexcat',
+];
+
+$modversion['config'][] = [
+    'name'        => 'showAlphabet',
+    'title'       => '_MI_WFDOWNLOADS_ALPHABET_SHOW',
+    'description' => '_MI_WFDOWNLOADS_ALPHABET_SHOW_DESC',
+    'formtype'    => 'yesno',
+    'valuetype'   => 'int',
+    'default'     => false,
+];
+
+$modversion['config'][] = [
+    'name'        => 'showNewArrivals',
+    'title'       => '_MI_WFDOWNLOADS_NEW_ITEMS',
+    'description' => '_MI_WFDOWNLOADS_NEW_ITEMS_DESC',
+    'formtype'    => 'yesno',
+    'valuetype'   => 'int',
+    'default'     => false,
+];
 
 // Upload configs
-$modversion['config'][] = array(
+$modversion['config'][] = [
     'name'        => 'upload_configs',
     'title'       => '_MI_WFDOWNLOADS_UPLOAD_CONFIGS',
     'description' => '_MI_WFDOWNLOADS_UPLOAD_CONFIGS',
     'formtype'    => 'line_break',
     'valuetype'   => 'textbox',
-    'default'     => 'head'
-);
+    'default'     => 'odd',
+];
 
-$modversion['config'][] = array(
+$modversion['config'][] = [
     'name'        => 'submissions',
     'title'       => '_MI_WFDOWNLOADS_ALLOWSUBMISS',
     'description' => '_MI_WFDOWNLOADS_ALLOWSUBMISSDSC',
     'formtype'    => 'select',
     'valuetype'   => 'int',
-    'options'     => array(
+    'options'     => [
         '_MI_WFDOWNLOADS_ALLOWSUBMISS1' => _WFDOWNLOADS_SUBMISSIONS_NONE,
         '_MI_WFDOWNLOADS_ALLOWSUBMISS2' => _WFDOWNLOADS_SUBMISSIONS_DOWNLOAD,
         '_MI_WFDOWNLOADS_ALLOWSUBMISS3' => _WFDOWNLOADS_SUBMISSIONS_MIRROR,
-        '_MI_WFDOWNLOADS_ALLOWSUBMISS4' => _WFDOWNLOADS_SUBMISSIONS_BOTH
-    ),
-    'default'     => _WFDOWNLOADS_SUBMISSIONS_NONE
-);
+        '_MI_WFDOWNLOADS_ALLOWSUBMISS4' => _WFDOWNLOADS_SUBMISSIONS_BOTH,
+    ],
+    'default'     => _WFDOWNLOADS_SUBMISSIONS_NONE,
+];
 
-$modversion['config'][] = array(
+$modversion['config'][] = [
     'name'        => 'anonpost',
     'title'       => '_MI_WFDOWNLOADS_ANONPOST',
     'description' => '_MI_WFDOWNLOADS_ANONPOSTDSC',
     'formtype'    => 'select',
     'valuetype'   => 'int',
-    'options'     => array(
+    'options'     => [
         '_MI_WFDOWNLOADS_ANONPOST1' => _WFDOWNLOADS_ANONPOST_NONE,
         '_MI_WFDOWNLOADS_ANONPOST2' => _WFDOWNLOADS_ANONPOST_DOWNLOAD,
         '_MI_WFDOWNLOADS_ANONPOST3' => _WFDOWNLOADS_ANONPOST_MIRROR,
-        '_MI_WFDOWNLOADS_ANONPOST4' => _WFDOWNLOADS_ANONPOST_BOTH
-    ),
-    'default'     => _WFDOWNLOADS_ANONPOST_NONE
-);
+        '_MI_WFDOWNLOADS_ANONPOST4' => _WFDOWNLOADS_ANONPOST_BOTH,
+    ],
+    'default'     => _WFDOWNLOADS_ANONPOST_NONE,
+];
 
-$modversion['config'][] = array(
+$modversion['config'][] = [
     'name'        => 'autoapprove',
     'title'       => '_MI_WFDOWNLOADS_AUTOAPPROVE',
     'description' => '_MI_WFDOWNLOADS_AUTOAPPROVEDSC',
     'formtype'    => 'select',
     'valuetype'   => 'int',
-    'options'     => array(
+    'options'     => [
         '_MI_WFDOWNLOADS_AUTOAPPROVE1' => _WFDOWNLOADS_AUTOAPPROVE_NONE,
         '_MI_WFDOWNLOADS_AUTOAPPROVE2' => _WFDOWNLOADS_AUTOAPPROVE_DOWNLOAD,
         '_MI_WFDOWNLOADS_AUTOAPPROVE3' => _WFDOWNLOADS_AUTOAPPROVE_MIRROR,
-        '_MI_WFDOWNLOADS_AUTOAPPROVE4' => _WFDOWNLOADS_AUTOAPPROVE_BOTH
-    ),
-    'default'     => _WFDOWNLOADS_AUTOAPPROVE_NONE
-);
+        '_MI_WFDOWNLOADS_AUTOAPPROVE4' => _WFDOWNLOADS_AUTOAPPROVE_BOTH,
+    ],
+    'default'     => _WFDOWNLOADS_AUTOAPPROVE_NONE,
+];
 
-$modversion['config'][] = array(
+$modversion['config'][] = [
     'name'        => 'submitarts',
     'title'       => '_MI_WFDOWNLOADS_SUBMITART',
     'description' => '_MI_WFDOWNLOADS_SUBMITARTDSC',
     'formtype'    => 'group_multi',
     'valuetype'   => 'array',
-    'default'     => '1'
-);
+    'default'     => '1',
+];
 
-$modversion['config'][] = array(
+$modversion['config'][] = [
     'name'        => 'useruploads',
     'title'       => '_MI_WFDOWNLOADS_ALLOWUPLOADS',
     'description' => '_MI_WFDOWNLOADS_ALLOWUPLOADSDSC',
     'formtype'    => 'yesno',
     'valuetype'   => 'int',
-    'default'     => false
-);
+    'default'     => false,
+];
 
-$modversion['config'][] = array(
+$modversion['config'][] = [
     'name'        => 'useruploadsgroup',
     'title'       => '_MI_WFDOWNLOADS_ALLOWUPLOADSGROUP',
     'description' => '_MI_WFDOWNLOADS_ALLOWUPLOADSGROUPDSC',
     'formtype'    => 'group_multi',
     'valuetype'   => 'array',
-    'default'     => '1'
-);
+    'default'     => '1',
+];
 
-$modversion['config'][] = array(
+$modversion['config'][] = [
     'name'        => 'upload_minposts',
     'title'       => '_MI_WFDOWNLOADS_UPLOADMINPOSTS',
     'description' => '_MI_WFDOWNLOADS_UPLOADMINPOSTSDSC',
     'formtype'    => 'textbox',
     'valuetype'   => 'int',
-    'default'     => 0
-);
+    'default'     => 0,
+];
 
-$modversion['config'][] = array(
+$modversion['config'][] = [
     'name'        => 'showdisclaimer',
     'title'       => '_MI_WFDOWNLOADS_SHOWDISCLAIMER',
     'description' => '_MI_WFDOWNLOADS_SHOWDISCLAIMERDSC',
     'formtype'    => 'yesno',
     'valuetype'   => 'int',
-    'default'     => false
-);
+    'default'     => false,
+];
 
-$modversion['config'][] = array(
+$modversion['config'][] = [
     'name'        => 'disclaimer',
     'title'       => '_MI_WFDOWNLOADS_DISCLAIMER',
     'description' => '_MI_WFDOWNLOADS_DISCLAIMERDSC',
     'formtype'    => 'textarea',
     'valuetype'   => 'text',
-    'default'     => _MI_WFDOWNLOADS_DISCLAIMER_DEFAULT
-);
+    'default'     => _MI_WFDOWNLOADS_DISCLAIMER_DEFAULT,
+];
 
 // Download configs
-$modversion['config'][] = array(
+$modversion['config'][] = [
     'name'        => 'download_configs',
     'title'       => '_MI_WFDOWNLOADS_DOWNLOAD_CONFIGS',
     'description' => '_MI_WFDOWNLOADS_UPLOAD_CONFIGS',
     'formtype'    => 'line_break',
     'valuetype'   => 'textbox',
-    'default'     => 'head'
-);
+    'default'     => 'odd',
+];
 
-$modversion['config'][] = array(
+$modversion['config'][] = [
     'name'        => 'download_minposts',
     'title'       => '_MI_WFDOWNLOADS_DOWNLOADMINPOSTS',
     'description' => '_MI_WFDOWNLOADS_DOWNLOADMINPOSTSDSC',
     'formtype'    => 'textbox',
     'valuetype'   => 'int',
-    'default'     => 0
-);
+    'default'     => 0,
+];
 
-$modversion['config'][] = array(
+$modversion['config'][] = [
     'name'        => 'showDowndisclaimer',
     'title'       => '_MI_WFDOWNLOADS_SHOWDOWNDISCL',
     'description' => '_MI_WFDOWNLOADS_SHOWDOWNDISCLDSC',
     'formtype'    => 'yesno',
     'valuetype'   => 'int',
-    'default'     => false
-);
+    'default'     => false,
+];
 
-$modversion['config'][] = array(
+$modversion['config'][] = [
     'name'        => 'downdisclaimer',
     'title'       => '_MI_WFDOWNLOADS_DOWNDISCLAIMER',
     'description' => '_MI_WFDOWNLOADS_DOWNDISCLAIMERDSC',
     'formtype'    => 'textarea',
     'valuetype'   => 'text',
-    'default'     => _MI_WFDOWNLOADS_DOWNDISCLAIMER_DEFAULT
-);
+    'default'     => _MI_WFDOWNLOADS_DOWNDISCLAIMER_DEFAULT,
+];
 
 // Images/screenshots/thumbs configs
-$modversion['config'][] = array(
+$modversion['config'][] = [
     'name'        => 'images_configs',
     'title'       => '_MI_WFDOWNLOADS_IMAGES_CONFIGS',
     'description' => '_MI_WFDOWNLOADS_IMAGES_CONFIGSDSC',
     'formtype'    => 'line_break',
     'valuetype'   => 'textbox',
-    'default'     => 'head'
-);
+    'default'     => 'odd',
+];
 
-$modversion['config'][] = array(
+$modversion['config'][] = [
     'name'        => 'screenshot',
     'title'       => '_MI_WFDOWNLOADS_USESHOTS',
     'description' => '_MI_WFDOWNLOADS_USESHOTSDSC',
     'formtype'    => 'yesno',
     'valuetype'   => 'int',
-    'default'     => true
-);
+    'default'     => true,
+];
 
-$modversion['config'][] = array(
+$modversion['config'][] = [
     'name'        => 'screenshots',
     'title'       => '_MI_WFDOWNLOADS_SCREENSHOTS',
     'description' => '_MI_WFDOWNLOADS_SCREENSHOTSDSC',
     'formtype'    => 'textbox',
     'valuetype'   => 'text',
-    'default'     => 'uploads/' . $modversion['dirname'] . '/images/screenshots'
-);
+    'default'     => 'uploads/' . $modversion['dirname'] . '/images/screenshots',
+];
 
-$modversion['config'][] = array(
+$modversion['config'][] = [
     'name'        => 'max_screenshot',
     'title'       => '_MI_WFDOWNLOADS_MAXSHOTS',
     'description' => '_MI_WFDOWNLOADS_MAXSHOTSDSC',
     'formtype'    => 'select',
     'valuetype'   => 'int',
-    'options'     => array('1' => 1, '2' => 2, '3' => 3, '4' => 4),
-    'default'     => 4
-);
+    'options'     => ['1' => 1, '2' => 2, '3' => 3, '4' => 4],
+    'default'     => 4,
+];
 
-$modversion['config'][] = array(
+$modversion['config'][] = [
     'name'        => 'catimage',
     'title'       => '_MI_WFDOWNLOADS_CATEGORYIMG',
     'description' => '_MI_WFDOWNLOADS_CATEGORYIMGDSC',
     'formtype'    => 'textbox',
     'valuetype'   => 'text',
-    'default'     => 'uploads/' . $modversion['dirname'] . '/images/category'
-);
+    'default'     => 'uploads/' . $modversion['dirname'] . '/images/category',
+];
 
-$modversion['config'][] = array(
+$modversion['config'][] = [
     'name'        => 'cat_imgwidth',
     'title'       => '_MI_WFDOWNLOADS_CAT_IMGWIDTH',
     'description' => '_MI_WFDOWNLOADS_CAT_IMGWIDTHDSC',
     'formtype'    => 'textbox',
     'valuetype'   => 'int',
-    'default'     => 64
-); // =1024/16
+    'default'     => 64,
+]; // =1024/16
 
-$modversion['config'][] = array(
+$modversion['config'][] = [
     'name'        => 'cat_imgheight',
     'title'       => '_MI_WFDOWNLOADS_CAT_IMGHEIGHT',
     'description' => '_MI_WFDOWNLOADS_CAT_IMGHEIGHTDSC',
     'formtype'    => 'textbox',
     'valuetype'   => 'int',
-    'default'     => 48
-); // =768/16
+    'default'     => 48,
+]; // =768/16
 
-$modversion['config'][] = array(
+$modversion['config'][] = [
     'name'        => 'mainimagedir',
     'title'       => '_MI_WFDOWNLOADS_MAINIMGDIR',
     'description' => '_MI_WFDOWNLOADS_MAINIMGDIRDSC',
     'formtype'    => 'textbox',
     'valuetype'   => 'text',
-    'default'     => 'uploads/' . $modversion['dirname'] . '/images'
-);
+    'default'     => 'uploads/' . $modversion['dirname'] . '/images',
+];
 
-$modversion['config'][] = array(
+$modversion['config'][] = [
     'name'        => 'usethumbs',
     'title'       => '_MI_WFDOWNLOADS_USETHUMBS',
     'description' => '_MI_WFDOWNLOADS_USETHUMBSDSC',
     'formtype'    => 'yesno',
     'valuetype'   => 'int',
-    'default'     => true
-);
+    'default'     => true,
+];
 
-$modversion['config'][] = array(
+$modversion['config'][] = [
     'name'        => 'shotwidth',
     'title'       => '_MI_WFDOWNLOADS_SHOTWIDTH',
     'description' => '_MI_WFDOWNLOADS_SHOTWIDTHDSC',
     'formtype'    => 'textbox',
     'valuetype'   => 'int',
-    'default'     => 64
-); // =1024/16
+    'default'     => 64,
+]; // =1024/16
 
-$modversion['config'][] = array(
+$modversion['config'][] = [
     'name'        => 'shotheight',
     'title'       => '_MI_WFDOWNLOADS_SHOTHEIGHT',
     'description' => '_MI_WFDOWNLOADS_SHOTHEIGHTDSC',
     'formtype'    => 'textbox',
     'valuetype'   => 'int',
-    'default'     => 48
-); // =768/16
+    'default'     => 48,
+]; // =768/16
 
-$modversion['config'][] = array(
+$modversion['config'][] = [
     'name'        => 'keepaspect',
     'title'       => '_MI_WFDOWNLOADS_KEEPASPECT',
     'description' => '_MI_WFDOWNLOADS_KEEPASPECTDSC',
     'formtype'    => 'yesno',
     'valuetype'   => 'int',
-    'default'     => true
-);
+    'default'     => true,
+];
 
-$modversion['config'][] = array(
+$modversion['config'][] = [
     'name'        => 'imagequality',
     'title'       => '_MI_WFDOWNLOADS_QUALITY',
     'description' => '_MI_WFDOWNLOADS_QUALITYDSC',
     'formtype'    => 'textbox',
     'valuetype'   => 'int',
-    'default'     => 100
-);
+    'default'     => 100,
+];
 
-$modversion['config'][] = array(
+$modversion['config'][] = [
     'name'        => 'updatethumbs',
     'title'       => '_MI_WFDOWNLOADS_IMGUPDATE',
     'description' => '_MI_WFDOWNLOADS_IMGUPDATEDSC',
     'formtype'    => 'yesno',
     'valuetype'   => 'int',
-    'default'     => true
-);
+    'default'     => true,
+];
 
 // Files configs
-$modversion['config'][] = array(
+$modversion['config'][] = [
     'name'        => 'filesuploads_configs',
     'title'       => '_MI_WFDOWNLOADS_FILESUPLOADS_CONFIGS',
     'description' => '_MI_WFDOWNLOADS_FILESUPLOADS_CONFIGSDSC',
     'formtype'    => 'line_break',
     'valuetype'   => 'textbox',
-    'default'     => 'head'
-);
+    'default'     => 'odd',
+];
 
-$modversion['config'][] = array(
+$modversion['config'][] = [
     'name'        => 'maxfilesize',
     'title'       => '_MI_WFDOWNLOADS_MAXFILESIZE',
     'description' => '_MI_WFDOWNLOADS_MAXFILESIZEDSC',
     'formtype'    => 'textbox',
     'valuetype'   => 'int',
-    'default'     => 2097152
-); // 2MB
+    'default'     => 2097152,
+]; // 2MB
 
-$modversion['config'][] = array(
+$modversion['config'][] = [
     'name'        => 'uploaddir',
     'title'       => '_MI_WFDOWNLOADS_UPLOADDIR',
     'description' => '_MI_WFDOWNLOADS_UPLOADDIRDSC',
     'formtype'    => 'textbox',
     'valuetype'   => 'text',
-    'default'     => XOOPS_ROOT_PATH . '/uploads/' . $modversion['dirname']
-);
+    'default'     => XOOPS_ROOT_PATH . '/uploads/' . $modversion['dirname'],
+];
 
-$modversion['config'][] = array(
+$modversion['config'][] = [
     'name'        => 'maximgwidth',
     'title'       => '_MI_WFDOWNLOADS_IMGWIDTH',
     'description' => '_MI_WFDOWNLOADS_IMGWIDTHDSC',
     'formtype'    => 'textbox',
     'valuetype'   => 'int',
-    'default'     => 1024
-);
+    'default'     => 1024,
+];
 
-$modversion['config'][] = array(
+$modversion['config'][] = [
     'name'        => 'maximgheight',
     'title'       => '_MI_WFDOWNLOADS_IMGHEIGHT',
     'description' => '_MI_WFDOWNLOADS_IMGHEIGHTDSC',
     'formtype'    => 'textbox',
     'valuetype'   => 'int',
-    'default'     => 768
-);
+    'default'     => 768,
+];
 
-$modversion['config'][] = array(
+$modversion['config'][] = [
     'name'        => 'batchdir',
     'title'       => '_MI_WFDOWNLOADS_BATCHDIR',
     'description' => '_MI_WFDOWNLOADS_BATCHDIRDSC',
     'formtype'    => 'textbox',
     'valuetype'   => 'text',
-    'default'     => XOOPS_ROOT_PATH . '/uploads/' . $modversion['dirname'] . '/batch'
-);
+    'default'     => XOOPS_ROOT_PATH . '/uploads/' . $modversion['dirname'] . '/batch',
+];
 
 // extra systems configs
-$modversion['config'][] = array(
+$modversion['config'][] = [
     'name'        => 'extrasystems_configs',
     'title'       => '_MI_WFDOWNLOADS_SCREENSHOTS_ESTRASYSTEMS',
     'description' => '_MI_WFDOWNLOADS_SCREENSHOTS_ESTRASYSTEMSDSC',
     'formtype'    => 'line_break',
     'valuetype'   => 'textbox',
-    'default'     => 'head'
-);
+    'default'     => 'odd',
+];
 
-$modversion['config'][] = array(
+$modversion['config'][] = [
     'name'        => 'enable_reviews',
     'title'       => '_MI_WFDOWNLOADS_REVIEW_ENABLE',
     'description' => '_MI_WFDOWNLOADS_REVIEW_ENABLEDSC',
     'formtype'    => 'yesno',
     'valuetype'   => 'int',
-    'default'     => true
-);
+    'default'     => true,
+];
 
-$modversion['config'][] = array(
+$modversion['config'][] = [
     'name'        => 'rev_anonpost',
     'title'       => '_MI_WFDOWNLOADS_REVIEWANONPOST',
     'description' => '_MI_WFDOWNLOADS_REVIEWANONPOSTDSC',
     'formtype'    => 'yesno',
     'valuetype'   => 'int',
-    'default'     => false
-);
+    'default'     => false,
+];
 
-$modversion['config'][] = array(
+$modversion['config'][] = [
     'name'        => 'rev_approve',
     'title'       => '_MI_WFDOWNLOADS_REVIEWAPPROVE',
     'description' => '_MI_WFDOWNLOADS_REVIEWAPPROVEDSC',
     'formtype'    => 'yesno',
     'valuetype'   => 'int',
-    'default'     => false
-);
+    'default'     => false,
+];
 
-$modversion['config'][] = array(
+$modversion['config'][] = [
     'name'        => 'enable_ratings',
     'title'       => '_MI_WFDOWNLOADS_RATING_ENABLE',
     'description' => '_MI_WFDOWNLOADS_RATING_ENABLEDSC',
     'formtype'    => 'yesno',
     'valuetype'   => 'int',
-    'default'     => true
-);
+    'default'     => true,
+];
 
-$modversion['config'][] = array(
+$modversion['config'][] = [
     'name'        => 'enable_brokenreports',
     'title'       => '_MI_WFDOWNLOADS_BROKENREPORT_ENABLE',
     'description' => '_MI_WFDOWNLOADS_BROKENREPORT_ENABLEDSC',
     'formtype'    => 'yesno',
     'valuetype'   => 'int',
-    'default'     => true
-);
+    'default'     => true,
+];
 
-$modversion['config'][] = array(
+$modversion['config'][] = [
     'name'        => 'enablerss',
     'title'       => '_MI_WFDOWNLOADS_ENABLERSS',
     'description' => '_MI_WFDOWNLOADS_ENABLERSSDSC',
     'formtype'    => 'yesno',
     'valuetype'   => 'int',
-    'default'     => false
-);
+    'default'     => false,
+];
 
-$modversion['config'][] = array(
+$modversion['config'][] = [
     'name'        => 'enable_mirrors',
     'title'       => '_MI_WFDOWNLOADS_MIRROR_ENABLE',
     'description' => '_MI_WFDOWNLOADS_MIRROR_ENABLEDSC',
     'formtype'    => 'yesno',
     'valuetype'   => 'int',
-    'default'     => true
-);
+    'default'     => true,
+];
 
-$modversion['config'][] = array(
+$modversion['config'][] = [
     'name'        => 'enable_onlinechk',
     'title'       => '_MI_WFDOWNLOADS_MIRROR_ENABLEONCHK',
     'description' => '_MI_WFDOWNLOADS_MIRROR_ENABLEONCHKDSC',
     'formtype'    => 'yesno',
     'valuetype'   => 'int',
-    'default'     => true
-);
+    'default'     => true,
+];
 
-$modversion['config'][] = array(
+$modversion['config'][] = [
     'name'        => 'copyright',
     'title'       => '_MI_WFDOWNLOADS_COPYRIGHT',
     'description' => '_MI_WFDOWNLOADS_COPYRIGHTDSC',
     'formtype'    => 'yesno',
     'valuetype'   => 'int',
-    'default'     => true
-);
+    'default'     => true,
+];
 
 // Various configs
-$modversion['config'][] = array(
+$modversion['config'][] = [
     'name'        => 'various_configs',
     'title'       => '_MI_WFDOWNLOADS_VARIOUS_CONFIGS',
     'description' => '_MI_WFDOWNLOADS_VARIOUS_CONFIGSDSC',
     'formtype'    => 'line_break',
     'valuetype'   => 'textbox',
-    'default'     => 'head'
-);
+    'default'     => 'odd',
+];
 
-$modversion['config'][] = array(
+$modversion['config'][] = [
     'name'        => 'check_host',
     'title'       => '_MI_WFDOWNLOADS_CHECKHOST',
     'description' => '_MI_WFDOWNLOADS_CHECKHOSTDSC',
     'formtype'    => 'yesno',
     'valuetype'   => 'int',
-    'default'     => false
-);
+    'default'     => false,
+];
 
-$modversion['config'][] = array(
+$modversion['config'][] = [
     'name'        => 'referers',
     'title'       => '_MI_WFDOWNLOADS_REFERERS',
     'description' => '_MI_WFDOWNLOADS_REFERERSDSC',
     'formtype'    => 'textarea',
-    'valuetype'   => 'array'
-);
+    'valuetype'   => 'array',
+];
 
-$modversion['config'][] = array(
+$modversion['config'][] = [
     'name'        => 'subcats',
     'title'       => '_MI_WFDOWNLOADS_SUBCATS',
     'description' => '_MI_WFDOWNLOADS_SUBCATSDSC',
     'formtype'    => 'yesno',
     'valuetype'   => 'int',
-    'default'     => false
-);
+    'default'     => false,
+];
 
-$modversion['config'][] = array(
+$modversion['config'][] = [
     'name'        => 'subcatssortby',
     'title'       => '_MI_WFDOWNLOADS_SUBCATSSORTBY',
     'description' => '_MI_WFDOWNLOADS_SUBCATSSORTBYDSC',
     'formtype'    => 'select',
     'valuetype'   => 'text',
-    'options'     => array(
+    'options'     => [
         '_MI_WFDOWNLOADS_SUBCATSSORTBYCID'    => 'cid',
         '_MI_WFDOWNLOADS_SUBCATSSORTBYTITLE'  => 'title',
-        '_MI_WFDOWNLOADS_SUBCATSSORTBYWEIGHT' => 'weight'
-    ),
-    'default'     => 'weight'
-);
+        '_MI_WFDOWNLOADS_SUBCATSSORTBYWEIGHT' => 'weight',
+    ],
+    'default'     => 'weight',
+];
 
 $qa                     = ' (A)';
 $qd                     = ' (D)';
-$modversion['config'][] = array(
+$modversion['config'][] = [
     'name'        => 'filexorder',
     'title'       => '_MI_WFDOWNLOADS_ARTICLESSORT',
     'description' => '_MI_WFDOWNLOADS_ARTICLESSORTDSC',
     'formtype'    => 'select',
     'valuetype'   => 'text',
-    'options'     => array(
+    'options'     => [
         _MI_WFDOWNLOADS_TITLE . $qa      => 'title ASC',
         _MI_WFDOWNLOADS_TITLE . $qd      => 'title DESC',
         _MI_WFDOWNLOADS_SUBMITTED2 . $qa => 'published ASC',
@@ -905,53 +873,53 @@ $modversion['config'][] = array(
         _MI_WFDOWNLOADS_RATING . $qa     => 'rating ASC',
         _MI_WFDOWNLOADS_RATING . $qd     => 'rating DESC',
         _MI_WFDOWNLOADS_POPULARITY . $qa => 'hits ASC',
-        _MI_WFDOWNLOADS_POPULARITY . $qd => 'hits DESC'
-    ),
-    'default'     => 'title ASC'
-);
+        _MI_WFDOWNLOADS_POPULARITY . $qd => 'hits DESC',
+    ],
+    'default'     => 'title ASC',
+];
 
-$modversion['config'][] = array(
+$modversion['config'][] = [
     'name'        => 'autosummary',
     'title'       => '_MI_WFDOWNLOADS_AUTOSUMMARY',
     'description' => '_MI_WFDOWNLOADS_AUTOSUMMARYDESC',
     'formtype'    => 'select',
     'valuetype'   => 'int',
-    'options'     => array(
+    'options'     => [
         '_MI_WFDOWNLOADS_AUTOSUMMARY1' => _WFDOWNLOADS_AUTOSUMMARY_NO,
         '_MI_WFDOWNLOADS_AUTOSUMMARY2' => _WFDOWNLOADS_AUTOSUMMARY_IFBLANK,
-        '_MI_WFDOWNLOADS_AUTOSUMMARY3' => _WFDOWNLOADS_AUTOSUMMARY_YES
-    ),
-    'default'     => _WFDOWNLOADS_AUTOSUMMARY_NO
-);
+        '_MI_WFDOWNLOADS_AUTOSUMMARY3' => _WFDOWNLOADS_AUTOSUMMARY_YES,
+    ],
+    'default'     => _WFDOWNLOADS_AUTOSUMMARY_NO,
+];
 
-$modversion['config'][] = array(
+$modversion['config'][] = [
     'name'        => 'autosumlength',
     'title'       => '_MI_WFDOWNLOADS_AUTOSUMMARYLENGTH',
     'description' => '_MI_WFDOWNLOADS_AUTOSUMMARYLENGTHDESC',
     'formtype'    => 'textbox',
     'valuetype'   => 'int',
-    'default'     => 200
-);
+    'default'     => 200,
+];
 
-$modversion['config'][] = array(
+$modversion['config'][] = [
     'name'        => 'autosumplaintext',
     'title'       => '_MI_WFDOWNLOADS_AUTOSUMMARYPLAINTEXT',
     'description' => '_MI_WFDOWNLOADS_AUTOSUMMARYPLAINTEXTDESC',
     'formtype'    => 'yesno',
     'valuetype'   => 'int',
-    'default'     => true
-);
+    'default'     => true,
+];
 
-$modversion['config'][] = array(
+$modversion['config'][] = [
     'name'        => 'platform',
     'title'       => '_MI_WFDOWNLOADS_PLATFORM',
     'description' => '_MI_WFDOWNLOADS_PLATFORMDSC',
     'formtype'    => 'textarea',
     'valuetype'   => 'array',
-    'default'     => 'None|Windows|Unix|Mac|XOOPS 2.5.5|XOOPS 2.5.6|XOOPS 2.5.7|XOOPS 2.5.8|XOOPS 2.6.0|Other'
-);
+    'default'     => 'None|Windows|Unix|Mac|XOOPS 2.5.5|XOOPS 2.5.6|XOOPS 2.5.7|XOOPS 2.5.8|XOOPS 2.5.9|XOOPS 2.5.10|XOOPS 2.5.11|XOOPS 2.6.0|Other',
+];
 
-$license   = array();
+$license   = [];
 $license[] = 'None';
 $license[] = 'Apache License (v. 1.1) ';
 $license[] = 'Apple Public Source License (v. 2.0)';
@@ -980,32 +948,32 @@ $license[] = 'Wide Open License (WOL)';
 $license[] = 'X.Net License';
 $license[] = 'X Window System License';
 
-$modversion['config'][] = array(
+$modversion['config'][] = [
     'name'        => 'license',
     'title'       => '_MI_WFDOWNLOADS_LICENSE',
     'description' => '_MI_WFDOWNLOADS_LICENSEDSC',
     'formtype'    => 'textarea',
     'valuetype'   => 'array',
-    'default'     => $license
-);
+    'default'     => $license,
+];
 
-$modversion['config'][] = array(
+$modversion['config'][] = [
     'name'        => 'limitations',
     'title'       => '_MI_WFDOWNLOADS_LIMITS',
     'description' => '_MI_WFDOWNLOADS_LIMITSDSC',
     'formtype'    => 'textarea',
     'valuetype'   => 'array',
-    'default'     => 'None|Trial|14 day limitation|None Save'
-);
+    'default'     => 'None|Trial|14 day limitation|None Save',
+];
 
-$modversion['config'][] = array(
+$modversion['config'][] = [
     'name'        => 'versiontypes',
     'title'       => '_MI_WFDOWNLOADS_VERSIONTYPES',
     'description' => '_MI_WFDOWNLOADS_VERSIONTYPESDSC',
     'formtype'    => 'textarea',
     'valuetype'   => 'array',
-    'default'     => 'None|Alpha|Beta|RC|Final'
-);
+    'default'     => 'None|Alpha|Beta|RC|Final',
+];
 
 /*
 // Swish-e support EXPERIMENTAL
@@ -1016,7 +984,7 @@ $modversion['config'][] = array(
     'description' => '_MI_WFDOWNLOADS_SWISHE_CONFIGSDSC',
     'formtype'    => 'line_break',
     'valuetype'   => 'textbox',
-    'default'     => 'head'
+    'default'     => 'odd'
 );
 
 $modversion['config'][] = array(
@@ -1048,6 +1016,30 @@ $modversion['config'][] = array(
 // Swish-e support EXPERIMENTAL
 */
 
+/**
+ * Make Sample button visible?
+ */
+$modversion['config'][] = [
+    'name'        => 'displaySampleButton',
+    'title'       => 'CO_' . $moduleDirNameUpper . '_' . 'SHOW_SAMPLE_BUTTON',
+    'description' => 'CO_' . $moduleDirNameUpper . '_' . 'SHOW_SAMPLE_BUTTON_DESC',
+    'formtype'    => 'yesno',
+    'valuetype'   => 'int',
+    'default'     => 1,
+];
+
+/**
+ * Show Developer Tools?
+ */
+$modversion['config'][] = [
+    'name'        => 'displayDeveloperTools',
+    'title'       => 'CO_' . $moduleDirNameUpper . '_' . 'SHOW_DEV_TOOLS',
+    'description' => 'CO_' . $moduleDirNameUpper . '_' . 'SHOW_DEV_TOOLS_DESC',
+    'formtype'    => 'yesno',
+    'valuetype'   => 'int',
+    'default'     => 0,
+];
+
 // ------------------- Notifications -------------------
 $modversion['hasNotification']             = true;
 $modversion['notification']['lookup_file'] = 'include/notification.inc.php';
@@ -1058,12 +1050,12 @@ $modversion['notification']['category'][$i]['name']           = 'global';
 $modversion['notification']['category'][$i]['title']          = _MI_WFDOWNLOADS_GLOBAL_NOTIFY;
 $modversion['notification']['category'][$i]['description']    = _MI_WFDOWNLOADS_GLOBAL_NOTIFYDSC;
 $modversion['notification']['category'][$i]['item_name']      = '';
-$modversion['notification']['category'][$i]['subscribe_from'] = array('index.php', 'viewcat.php', 'singlefile.php');
+$modversion['notification']['category'][$i]['subscribe_from'] = ['index.php', 'viewcat.php', 'singlefile.php'];
 ++$i;
 $modversion['notification']['category'][$i]['name']           = 'category';
 $modversion['notification']['category'][$i]['title']          = _MI_WFDOWNLOADS_CATEGORY_NOTIFY;
 $modversion['notification']['category'][$i]['description']    = _MI_WFDOWNLOADS_CATEGORY_NOTIFYDSC;
-$modversion['notification']['category'][$i]['subscribe_from'] = array('viewcat.php', 'singlefile.php');
+$modversion['notification']['category'][$i]['subscribe_from'] = ['viewcat.php', 'singlefile.php'];
 $modversion['notification']['category'][$i]['item_name']      = 'cid';
 $modversion['notification']['category'][$i]['allow_bookmark'] = true;
 ++$i;

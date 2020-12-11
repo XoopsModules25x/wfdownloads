@@ -1,4 +1,4 @@
-<{if $com_rule <> 0}>
+<{if $com_rule|default:0 != 0}>
     <a name="comments"></a>
     <div class="wfdownloads_foot_commentnav">
         <{$commentsnav}>
@@ -24,7 +24,7 @@
     <{foreach item='footerMenuItem' from=$wfdownloadModuleInfoSub}>
         <a href='<{$smarty.const.WFDOWNLOADS_URL}>/<{$footerMenuItem.url}>'><{$footerMenuItem.name}></a>
     <{/foreach}>
-    <{if $isAdmin == true}>
+    <{if $isAdmin === true}>
         <br>
         <a href="<{$smarty.const.WFDOWNLOADS_URL}>/admin/index.php"><{$smarty.const._MD_WFDOWNLOADS_ADMIN_PAGE}></a>
     <{/if}>

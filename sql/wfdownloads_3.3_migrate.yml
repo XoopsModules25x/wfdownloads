@@ -1,0 +1,620 @@
+wfdownloads_broken:
+    options: 'ENGINE=MyISAM DEFAULT CHARSET=utf8'
+    columns:
+        -
+            name: reportid
+            attributes: ' int(5)  NOT NULL auto_increment'
+        -
+            name: lid
+            attributes: ' int(11)  NOT NULL  DEFAULT ''0'' '
+        -
+            name: sender
+            attributes: ' int(11)  NOT NULL  DEFAULT ''0'' '
+        -
+            name: ip
+            attributes: ' varchar(20)  NOT NULL  DEFAULT '''' '
+        -
+            name: date
+            attributes: ' varchar(11)  NOT NULL  DEFAULT ''0'' '
+        -
+            name: confirmed
+            attributes: ' tinyint(1)  NOT NULL  DEFAULT ''0'' '
+        -
+            name: acknowledged
+            attributes: ' tinyint(1)  NOT NULL  DEFAULT ''0'' '
+    keys:
+        ip:
+            columns: ip
+            unique: false
+        lid:
+            columns: lid
+            unique: false
+        PRIMARY:
+            columns: reportid
+            unique: true
+        sender:
+            columns: sender
+            unique: false
+wfdownloads_cat:
+    options: 'ENGINE=MyISAM DEFAULT CHARSET=utf8'
+    columns:
+        -
+            name: cid
+            attributes: ' int(5) unsigned  NOT NULL auto_increment'
+        -
+            name: pid
+            attributes: ' int(5) unsigned  NOT NULL  DEFAULT ''0'' '
+        -
+            name: title
+            attributes: ' varchar(255)  NOT NULL  DEFAULT '''' '
+        -
+            name: imgurl
+            attributes: ' varchar(255)  NOT NULL  DEFAULT '''' '
+        -
+            name: description
+            attributes: ' text  NOT NULL '
+        -
+            name: total
+            attributes: ' int(11)  NOT NULL  DEFAULT ''0'' '
+        -
+            name: summary
+            attributes: ' text  NOT NULL '
+        -
+            name: spotlighttop
+            attributes: ' int(11)  NOT NULL  DEFAULT ''0'' '
+        -
+            name: spotlighthis
+            attributes: ' int(11)  NOT NULL  DEFAULT ''0'' '
+        -
+            name: dohtml
+            attributes: ' tinyint(1)  NOT NULL  DEFAULT ''0'' '
+        -
+            name: dosmiley
+            attributes: ' tinyint(1)  NOT NULL  DEFAULT ''1'' '
+        -
+            name: doxcode
+            attributes: ' tinyint(1)  NOT NULL  DEFAULT ''1'' '
+        -
+            name: doimage
+            attributes: ' tinyint(1)  NOT NULL  DEFAULT ''1'' '
+        -
+            name: dobr
+            attributes: ' tinyint(1)  NOT NULL  DEFAULT ''1'' '
+        -
+            name: weight
+            attributes: ' int(11)  NOT NULL  DEFAULT ''0'' '
+        -
+            name: formulize_fid
+            attributes: ' int(5)  NOT NULL  DEFAULT ''0'' '
+    keys:
+        pid:
+            columns: pid
+            unique: false
+        PRIMARY:
+            columns: cid
+            unique: true
+wfdownloads_downloads:
+    options: 'ENGINE=MyISAM DEFAULT CHARSET=utf8'
+    columns:
+        -
+            name: lid
+            attributes: ' int(11) unsigned  NOT NULL auto_increment'
+        -
+            name: cid
+            attributes: ' int(5) unsigned  NOT NULL  DEFAULT ''0'' '
+        -
+            name: title
+            attributes: ' varchar(255)  NOT NULL  DEFAULT '''' '
+        -
+            name: url
+            attributes: ' varchar(255)  NOT NULL  DEFAULT '''' '
+        -
+            name: filename
+            attributes: ' varchar(150)  NOT NULL  DEFAULT '''' '
+        -
+            name: filetype
+            attributes: ' varchar(100)  NOT NULL  DEFAULT '''' '
+        -
+            name: homepage
+            attributes: ' varchar(100)  NOT NULL  DEFAULT '''' '
+        -
+            name: version
+            attributes: ' varchar(20)  NOT NULL  DEFAULT '''' '
+        -
+            name: size
+            attributes: ' int(8)  NOT NULL  DEFAULT ''0'' '
+        -
+            name: platform
+            attributes: ' varchar(50)  NOT NULL  DEFAULT '''' '
+        -
+            name: screenshot
+            attributes: ' varchar(255)  NOT NULL  DEFAULT '''' '
+        -
+            name: screenshot2
+            attributes: ' varchar(255)  NOT NULL  DEFAULT '''' '
+        -
+            name: screenshot3
+            attributes: ' varchar(255)  NOT NULL  DEFAULT '''' '
+        -
+            name: screenshot4
+            attributes: ' varchar(255)  NOT NULL  DEFAULT '''' '
+        -
+            name: submitter
+            attributes: ' int(11)  NOT NULL  DEFAULT ''0'' '
+        -
+            name: publisher
+            attributes: ' varchar(255)  NOT NULL  DEFAULT '''' '
+        -
+            name: status
+            attributes: ' tinyint(2)  NOT NULL  DEFAULT ''0'' '
+        -
+            name: date
+            attributes: ' int(10)  NOT NULL  DEFAULT ''0'' '
+        -
+            name: hits
+            attributes: ' int(11) unsigned  NOT NULL  DEFAULT ''0'' '
+        -
+            name: rating
+            attributes: ' double(6,4)  NOT NULL  DEFAULT ''0.0000'' '
+        -
+            name: votes
+            attributes: ' int(11) unsigned  NOT NULL  DEFAULT ''0'' '
+        -
+            name: comments
+            attributes: ' int(11) unsigned  NOT NULL  DEFAULT ''0'' '
+        -
+            name: license
+            attributes: ' varchar(255)  NOT NULL  DEFAULT '''' '
+        -
+            name: mirror
+            attributes: ' varchar(255)  NOT NULL  DEFAULT '''' '
+        -
+            name: price
+            attributes: ' varchar(10)  NOT NULL  DEFAULT ''Free'' '
+        -
+            name: paypalemail
+            attributes: ' varchar(255)  NOT NULL  DEFAULT '''' '
+        -
+            name: features
+            attributes: ' text  NOT NULL '
+        -
+            name: requirements
+            attributes: ' text  NOT NULL '
+        -
+            name: homepagetitle
+            attributes: ' varchar(255)  NOT NULL  DEFAULT '''' '
+        -
+            name: forumid
+            attributes: ' int(11)  NOT NULL  DEFAULT ''0'' '
+        -
+            name: limitations
+            attributes: ' varchar(255)  NOT NULL  DEFAULT ''30 day trial'' '
+        -
+            name: versiontypes
+            attributes: ' varchar(255)  NOT NULL  DEFAULT ''None'' '
+        -
+            name: dhistory
+            attributes: ' text  NOT NULL '
+        -
+            name: published
+            attributes: ' int(11)  NOT NULL  DEFAULT ''1089662528'' '
+        -
+            name: expired
+            attributes: ' int(10)  NOT NULL  DEFAULT ''0'' '
+        -
+            name: updated
+            attributes: ' int(11)  NOT NULL  DEFAULT ''0'' '
+        -
+            name: offline
+            attributes: ' tinyint(1)  NOT NULL  DEFAULT ''0'' '
+        -
+            name: summary
+            attributes: ' text  NOT NULL '
+        -
+            name: description
+            attributes: ' text  NOT NULL '
+        -
+            name: ipaddress
+            attributes: ' varchar(120)  NOT NULL  DEFAULT ''0'' '
+        -
+            name: notifypub
+            attributes: ' int(1)  NOT NULL  DEFAULT ''0'' '
+        -
+            name: formulize_idreq
+            attributes: ' int(5)  NOT NULL  DEFAULT ''0'' '
+        -
+            name: screenshots
+            attributes: ' text  NOT NULL '
+        -
+            name: dohtml
+            attributes: ' tinyint(1)  NOT NULL  DEFAULT ''0'' '
+        -
+            name: dosmiley
+            attributes: ' tinyint(1)  NOT NULL  DEFAULT ''1'' '
+        -
+            name: doxcode
+            attributes: ' tinyint(1)  NOT NULL  DEFAULT ''1'' '
+        -
+            name: doimage
+            attributes: ' tinyint(1)  NOT NULL  DEFAULT ''1'' '
+        -
+            name: dobr
+            attributes: ' tinyint(1)  NOT NULL  DEFAULT ''1'' '
+    keys:
+        cid:
+            columns: cid
+            unique: false
+        PRIMARY:
+            columns: lid
+            unique: true
+        status:
+            columns: status
+            unique: false
+        title:
+            columns: 'title (40)'
+            unique: false
+wfdownloads_mod:
+    options: 'ENGINE=MyISAM DEFAULT CHARSET=utf8'
+    columns:
+        -
+            name: requestid
+            attributes: ' int(11)  NOT NULL auto_increment'
+        -
+            name: lid
+            attributes: ' int(11) unsigned  NOT NULL  DEFAULT ''0'' '
+        -
+            name: cid
+            attributes: ' int(5) unsigned  NOT NULL  DEFAULT ''0'' '
+        -
+            name: title
+            attributes: ' varchar(255)  NOT NULL  DEFAULT '''' '
+        -
+            name: url
+            attributes: ' varchar(255)  NOT NULL  DEFAULT '''' '
+        -
+            name: filename
+            attributes: ' varchar(150)  NOT NULL  DEFAULT '''' '
+        -
+            name: filetype
+            attributes: ' varchar(100)  NOT NULL  DEFAULT '''' '
+        -
+            name: homepage
+            attributes: ' varchar(255)  NOT NULL  DEFAULT '''' '
+        -
+            name: version
+            attributes: ' varchar(20)  NOT NULL  DEFAULT '''' '
+        -
+            name: size
+            attributes: ' int(8)  NOT NULL  DEFAULT ''0'' '
+        -
+            name: platform
+            attributes: ' varchar(50)  NOT NULL  DEFAULT '''' '
+        -
+            name: screenshot
+            attributes: ' varchar(255)  NOT NULL  DEFAULT '''' '
+        -
+            name: screenshot2
+            attributes: ' varchar(255)  NOT NULL  DEFAULT '''' '
+        -
+            name: screenshot3
+            attributes: ' varchar(255)  NOT NULL  DEFAULT '''' '
+        -
+            name: screenshot4
+            attributes: ' varchar(255)  NOT NULL  DEFAULT '''' '
+        -
+            name: submitter
+            attributes: ' int(11)  NOT NULL  DEFAULT ''0'' '
+        -
+            name: publisher
+            attributes: ' text  NOT NULL '
+        -
+            name: status
+            attributes: ' tinyint(2)  NOT NULL  DEFAULT ''0'' '
+        -
+            name: date
+            attributes: ' int(10)  NOT NULL  DEFAULT ''0'' '
+        -
+            name: hits
+            attributes: ' int(11) unsigned  NOT NULL  DEFAULT ''0'' '
+        -
+            name: rating
+            attributes: ' double(6,4)  NOT NULL  DEFAULT ''0.0000'' '
+        -
+            name: votes
+            attributes: ' int(11) unsigned  NOT NULL  DEFAULT ''0'' '
+        -
+            name: comments
+            attributes: ' int(11) unsigned  NOT NULL  DEFAULT ''0'' '
+        -
+            name: license
+            attributes: ' varchar(255)  NOT NULL  DEFAULT '''' '
+        -
+            name: mirror
+            attributes: ' varchar(255)  NOT NULL  DEFAULT '''' '
+        -
+            name: price
+            attributes: ' varchar(10)  NOT NULL  DEFAULT ''Free'' '
+        -
+            name: paypalemail
+            attributes: ' varchar(255)  NOT NULL  DEFAULT '''' '
+        -
+            name: features
+            attributes: ' text  NOT NULL '
+        -
+            name: requirements
+            attributes: ' text  NOT NULL '
+        -
+            name: homepagetitle
+            attributes: ' varchar(255)  NOT NULL  DEFAULT '''' '
+        -
+            name: forumid
+            attributes: ' int(11)  NOT NULL  DEFAULT ''0'' '
+        -
+            name: limitations
+            attributes: ' varchar(255)  NOT NULL  DEFAULT ''30 day trial'' '
+        -
+            name: versiontypes
+            attributes: ' varchar(255)  NOT NULL  DEFAULT ''None'' '
+        -
+            name: dhistory
+            attributes: ' text  NOT NULL '
+        -
+            name: published
+            attributes: ' int(10)  NOT NULL  DEFAULT ''0'' '
+        -
+            name: expired
+            attributes: ' int(10)  NOT NULL  DEFAULT ''0'' '
+        -
+            name: updated
+            attributes: ' int(11)  NOT NULL  DEFAULT ''0'' '
+        -
+            name: offline
+            attributes: ' tinyint(1)  NOT NULL  DEFAULT ''0'' '
+        -
+            name: summary
+            attributes: ' text  NOT NULL '
+        -
+            name: description
+            attributes: ' text  NOT NULL '
+        -
+            name: modifysubmitter
+            attributes: ' int(11)  NOT NULL  DEFAULT ''0'' '
+        -
+            name: requestdate
+            attributes: ' int(11)  NOT NULL  DEFAULT ''0'' '
+        -
+            name: screenshots
+            attributes: ' text  NOT NULL '
+        -
+            name: dohtml
+            attributes: ' tinyint(1)  NOT NULL  DEFAULT ''0'' '
+        -
+            name: dosmiley
+            attributes: ' tinyint(1)  NOT NULL  DEFAULT ''1'' '
+        -
+            name: doxcode
+            attributes: ' tinyint(1)  NOT NULL  DEFAULT ''1'' '
+        -
+            name: doimage
+            attributes: ' tinyint(1)  NOT NULL  DEFAULT ''1'' '
+        -
+            name: dobr
+            attributes: ' tinyint(1)  NOT NULL  DEFAULT ''1'' '
+    keys:
+        PRIMARY:
+            columns: requestid
+            unique: true
+wfdownloads_votedata:
+    options: 'ENGINE=MyISAM DEFAULT CHARSET=utf8'
+    columns:
+        -
+            name: ratingid
+            attributes: ' int(11) unsigned  NOT NULL auto_increment'
+        -
+            name: lid
+            attributes: ' int(11) unsigned  NOT NULL  DEFAULT ''0'' '
+        -
+            name: ratinguser
+            attributes: ' int(11)  NOT NULL  DEFAULT ''0'' '
+        -
+            name: rating
+            attributes: ' tinyint(3) unsigned  NOT NULL  DEFAULT ''0'' '
+        -
+            name: ratinghostname
+            attributes: ' varchar(60)  NOT NULL  DEFAULT '''' '
+        -
+            name: ratingtimestamp
+            attributes: ' int(10)  NOT NULL  DEFAULT ''0'' '
+    keys:
+        lid:
+            columns: lid
+            unique: false
+        PRIMARY:
+            columns: ratingid
+            unique: true
+        ratinghostname:
+            columns: ratinghostname
+            unique: false
+        ratinguser:
+            columns: ratinguser
+            unique: false
+wfdownloads_indexpage:
+    options: 'ENGINE=MyISAM DEFAULT CHARSET=utf8'
+    columns:
+        -
+            name: indeximage
+            attributes: ' varchar(255)  NOT NULL  DEFAULT ''blank.png'' '
+        -
+            name: indexheading
+            attributes: ' varchar(255)  NOT NULL  DEFAULT ''Wfdownloads'' '
+        -
+            name: indexheader
+            attributes: ' text  NOT NULL '
+        -
+            name: indexfooter
+            attributes: ' text  NOT NULL '
+        -
+            name: nohtml
+            attributes: ' tinyint(8)  NOT NULL  DEFAULT ''1'' '
+        -
+            name: nosmiley
+            attributes: ' tinyint(8)  NOT NULL  DEFAULT ''1'' '
+        -
+            name: noxcodes
+            attributes: ' tinyint(8)  NOT NULL  DEFAULT ''1'' '
+        -
+            name: noimages
+            attributes: ' tinyint(8)  NOT NULL  DEFAULT ''1'' '
+        -
+            name: nobreak
+            attributes: ' tinyint(4)  NOT NULL  DEFAULT ''1'' '
+        -
+            name: indexheaderalign
+            attributes: ' varchar(25)  NOT NULL  DEFAULT ''left'' '
+        -
+            name: indexfooteralign
+            attributes: ' varchar(25)  NOT NULL  DEFAULT ''center'' '
+    keys:
+        indexfooter:
+            columns: indexfooter
+            unique: false
+        indexheader:
+            columns: indexheader
+            unique: false
+        indexheading:
+            columns: indexheading
+            unique: false
+wfdownloads_reviews:
+    options: 'ENGINE=MyISAM DEFAULT CHARSET=utf8'
+    columns:
+        -
+            name: review_id
+            attributes: ' int(11) unsigned  NOT NULL auto_increment'
+        -
+            name: lid
+            attributes: ' int(11)  NOT NULL  DEFAULT ''0'' '
+        -
+            name: title
+            attributes: ' varchar(255) '
+        -
+            name: review
+            attributes: ' text '
+        -
+            name: submit
+            attributes: ' int(11)  NOT NULL  DEFAULT ''0'' '
+        -
+            name: date
+            attributes: ' int(11)  NOT NULL  DEFAULT ''0'' '
+        -
+            name: uid
+            attributes: ' int(10)  NOT NULL  DEFAULT ''0'' '
+        -
+            name: rated
+            attributes: ' int(11)  NOT NULL  DEFAULT ''0'' '
+    keys:
+        categoryid:
+            columns: lid
+            unique: false
+        PRIMARY:
+            columns: review_id
+            unique: true
+wfdownloads_mimetypes:
+    options: 'ENGINE=MyISAM DEFAULT CHARSET=utf8'
+    columns:
+        -
+            name: mime_id
+            attributes: ' int(11)  NOT NULL auto_increment'
+        -
+            name: mime_ext
+            attributes: ' varchar(60)  NOT NULL  DEFAULT '''' '
+        -
+            name: mime_types
+            attributes: ' text  NOT NULL '
+        -
+            name: mime_name
+            attributes: ' varchar(255)  NOT NULL  DEFAULT '''' '
+        -
+            name: mime_admin
+            attributes: ' int(1)  NOT NULL  DEFAULT ''1'' '
+        -
+            name: mime_user
+            attributes: ' int(1)  NOT NULL  DEFAULT ''0'' '
+    keys:
+        mime_id:
+            columns: mime_id
+            unique: false
+wfdownloads_meta:
+    options: 'ENGINE=MyISAM DEFAULT CHARSET=utf8'
+    columns:
+        -
+            name: metakey
+            attributes: ' varchar(50)  NOT NULL  DEFAULT '''' '
+        -
+            name: metavalue
+            attributes: ' varchar(255)  NOT NULL  DEFAULT '''' '
+    keys:
+        PRIMARY:
+            columns: metakey
+            unique: true
+wfdownloads_mirrors:
+    options: 'ENGINE=MyISAM DEFAULT CHARSET=utf8'
+    columns:
+        -
+            name: mirror_id
+            attributes: ' int(11) unsigned  NOT NULL auto_increment'
+        -
+            name: lid
+            attributes: ' int(11)  NOT NULL  DEFAULT ''0'' '
+        -
+            name: title
+            attributes: ' varchar(255)  NOT NULL  DEFAULT '''' '
+        -
+            name: homeurl
+            attributes: ' varchar(100)  NOT NULL  DEFAULT '''' '
+        -
+            name: location
+            attributes: ' varchar(255)  NOT NULL  DEFAULT '''' '
+        -
+            name: continent
+            attributes: ' varchar(255)  NOT NULL  DEFAULT '''' '
+        -
+            name: downurl
+            attributes: ' varchar(255)  NOT NULL  DEFAULT '''' '
+        -
+            name: submit
+            attributes: ' int(11)  NOT NULL  DEFAULT ''0'' '
+        -
+            name: date
+            attributes: ' int(11)  NOT NULL  DEFAULT ''0'' '
+        -
+            name: uid
+            attributes: ' int(10)  NOT NULL  DEFAULT ''0'' '
+    keys:
+        categoryid:
+            columns: lid
+            unique: false
+        PRIMARY:
+            columns: mirror_id
+            unique: true
+wfdownloads_ip_log:
+    options: 'ENGINE=MyISAM DEFAULT CHARSET=utf8'
+    columns:
+        -
+            name: ip_logid
+            attributes: ' int(11)  NOT NULL auto_increment'
+        -
+            name: lid
+            attributes: ' int(11)  NOT NULL  DEFAULT ''0'' '
+        -
+            name: uid
+            attributes: ' int(11)  NOT NULL  DEFAULT ''0'' '
+        -
+            name: date
+            attributes: ' int(11)  NOT NULL  DEFAULT ''0'' '
+        -
+            name: ip_address
+            attributes: ' varchar(45)  NOT NULL  DEFAULT '''' '
+    keys:
+        PRIMARY:
+            columns: ip_logid
+            unique: true

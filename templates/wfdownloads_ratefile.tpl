@@ -9,10 +9,10 @@
 
 <div>
     <ul>
-         <li><{$smarty.const._MD_WFDOWNLOADS_VOTEONCE}></li>
-         <li><{$smarty.const._MD_WFDOWNLOADS_RATINGSCALE}></li>
-         <li><{$smarty.const._MD_WFDOWNLOADS_BEOBJECTIVE}></li>
-         <li><{$smarty.const._MD_WFDOWNLOADS_DONOTVOTE}></li>
+        <li><{$smarty.const._MD_WFDOWNLOADS_VOTEONCE}></li>
+        <li><{$smarty.const._MD_WFDOWNLOADS_RATINGSCALE}></li>
+        <li><{$smarty.const._MD_WFDOWNLOADS_BEOBJECTIVE}></li>
+        <li><{$smarty.const._MD_WFDOWNLOADS_DONOTVOTE}></li>
     </ul>
 </div>
 <div>

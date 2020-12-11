@@ -8,40 +8,43 @@
  but WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
+
 /**
  * Wfdownloads module
  *
- * @copyright       The XOOPS Project http://sourceforge.net/projects/xoops/
- * @license         GNU GPL 2 or later (http://www.gnu.org/licenses/gpl-2.0.html)
+ * @copyright       XOOPS Project (https://xoops.org)
+ * @license         GNU GPL 2 or later (https://www.gnu.org/licenses/gpl-2.0.html)
  * @package         wfdownload
  * @since           3.23
  * @author          Xoops Development Team
  *
  * @param $category
  * @param $item_id
- *
  * @return null
  */
 function wfdownloads_notify_iteminfo($category, $item_id)
 {
     global $xoopsModule, $xoopsModuleConfig;
 
-    if (empty($xoopsModule) || $xoopsModule->dirname() !== 'wfdownloads') {
-        $moduleHandler  = xoops_getHandler('module');
-        $module         = $moduleHandler->getByDirname('wfdownloads');
+    if (empty($xoopsModule) || 'wfdownloads' !== $xoopsModule->dirname()) {
+        /** @var \XoopsModuleHandler $moduleHandler */
+        $moduleHandler = xoops_getHandler('module');
+        /** @var \XoopsModule $module */
+        $module = $moduleHandler->getByDirname('wfdownloads');
+        /** @var \XoopsConfigHandler $configHandler */
         $configHandler = xoops_getHandler('config');
-        $config         = $configHandler->getConfigsByCat(0, (int)$module->mid());
+        $config        = $configHandler->getConfigsByCat(0, (int)$module->mid());
     } else {
         $module = $xoopsModule;
         $config = $xoopsModuleConfig;
     }
-    if ($category === 'global') {
+    if ('global' === $category) {
         $item['name'] = '';
         $item['url']  = '';
 
         return $item;
     }
-    if ($category === 'category') {
+    if ('category' === $category) {
         // Assume we have a valid category id
         $sql          = 'SELECT title FROM ' . $GLOBALS['xoopsDB']->prefix('wfdownloads_cat') . " WHERE cid = '" . (int)$item_id . "'";
         $result       = $GLOBALS['xoopsDB']->query($sql); // TODO: error check
@@ -51,7 +54,7 @@ function wfdownloads_notify_iteminfo($category, $item_id)
 
         return $item;
     }
-    if ($category === 'file') {
+    if ('file' === $category) {
         // Assume we have a valid file id
         $sql          = 'SELECT cid,title FROM ' . $GLOBALS['xoopsDB']->prefix('wfdownloads_downloads') . " WHERE lid = '" . (int)$item_id . "'";
         $result       = $GLOBALS['xoopsDB']->query($sql); // TODO: error check

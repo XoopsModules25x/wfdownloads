@@ -8,22 +8,23 @@
  but WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
+
 /**
  * Wfdownloads module
  *
- * @copyright       The XOOPS Project http://sourceforge.net/projects/xoops/
- * @license         GNU GPL 2 or later (http://www.gnu.org/licenses/gpl-2.0.html)
+ * @copyright       XOOPS Project (https://xoops.org)
+ * @license         GNU GPL 2 or later (https://www.gnu.org/licenses/gpl-2.0.html)
  * @package         wfdownload
  * @since           3.23
  * @author          Xoops Development Team
  */
-defined('XOOPS_ROOT_PATH') || die('XOOPS root path not defined');
-include_once __DIR__ . '/common.php';
-//@include_once WFDOWNLOADS_ROOT_PATH . '/language/' . $GLOBALS['xoopsConfig']['language'] . '/admin.php';
-xoops_loadLanguage('admin', $wfdownloads->getModule()->dirname());
+defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
+require_once __DIR__ . '/common.php';
+//@require_once WFDOWNLOADS_ROOT_PATH . '/language/' . $GLOBALS['xoopsConfig']['language'] . '/admin.php';
+xoops_loadLanguage('admin', $helper->getModule()->dirname());
 
 /**
- * @param XoopsModule $xoopsModule
+ * @param \XoopsModule $xoopsModule
  *
  * @return bool
  */
@@ -34,7 +35,7 @@ function xoops_module_pre_uninstall_wfdownloads(XoopsModule $xoopsModule)
 }
 
 /**
- * @param XoopsModule $xoopsModule
+ * @param \XoopsModule $xoopsModule
  */
 function xoops_module_uninstall_wfdownloads(XoopsModule $xoopsModule)
 {

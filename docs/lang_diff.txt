@@ -15,7 +15,7 @@ x renamed
 
 x _MD_WFDOWNLOADS__MD_WFDOWNLOADS_FILENOTOPEN
 
-FILE: \wfdownloads\language\english\main.php
+FILE: \Wfdownloads\language\english\main.php
 
 renamed:
 
@@ -40,7 +40,7 @@ Wfdownloads Language Changes
 =================================================================
 v. 3.2.0 RC2      23/04/2007
 =================================================================
-FILE: \wfdownloads\language\english\main.php
+FILE: \Wfdownloads\language\english\main.php
 
 Added:
 
@@ -48,7 +48,7 @@ define("_MD_WFDOWNLOADS_FILENOTEXIST", "ERROR: File Does Not Exist or File Not F
 define("_MD_WFDOWNLOADS__MD_WFDOWNLOADS_FILENOTOPEN", "ERROR: Unable To Open File!");
 define("_MD_WFDOWNLOADS_VERSIONTYPES", "Release Status:");
 
-FILE: \wfdownloads\language\english\admin.php
+FILE: \Wfdownloads\language\english\admin.php
 
 Added:
 define("_AM_WFDOWNLOADS_MOD_VERSIONTYPES", "Release Status: ");
@@ -57,7 +57,7 @@ define("_AM_WFDOWNLOADS_FILE_VERSIONTYPES", "Release Status: ");
 =================================================================
 v. 3.2.0 RC1      23/04/2007
 =================================================================
-FILE: \wfdownloads\language\english\modinfo.php
+FILE: \Wfdownloads\language\english\modinfo.php
 
 Added:
 define('_MI_WFDOWNLOADS_MAXSHOTS', 'Select Max Number of screenshots:');
@@ -95,7 +95,7 @@ To: define("_MI_WFDOWNLOADS_USETHUMBSDSC", "Supported file types: JPG, GIF, PNG.
 Wfdownloads will use thumb nails for images (category & screenshots). Set to 'No' to use orginal image if the server does not support this option.
 ");
 
-FILE: \wfdownloads\language\english\main.php
+FILE: \Wfdownloads\language\english\main.php
 
 Added:
 define("_MD_WFDOWNLOADS_FFS_SUBMITCATEGORYHEAD", "Which Category of file do you want to submit?");
@@ -119,7 +119,7 @@ Changed:
 define("_MD_WFDOWNLOADS_SCREENSHOT", "Screenshot:");
 To: define("_MD_WFDOWNLOADS_SCREENSHOT", "Screenshot 1:");
 
-FILE: \wfdownloads\language\english\admin.php
+FILE: \Wfdownloads\language\english\admin.php
 
 Added:
 define("_AM_WFDOWNLOADS_FFS_SUBMITBROKEN", "Submit");
@@ -142,7 +142,7 @@ define("_AM_WFDOWNLOADS_DOWN_METAVERSION", "<b>Wfdownloads Meta Version:<b> ");
 =================================================================
 v. 3.1.0 FINAL      25/05/2006
 =================================================================
-FILE: \wfdownloads\language\english\admin.php
+FILE: \Wfdownloads\language\english\admin.php
 
 Added:
 define("_AM_WFDOWNLOADS_MOD_FILENAME", "Local Filename: ");
@@ -170,7 +170,7 @@ To: define("_AM_WFDOWNLOADS_MOD_URL", "Remote Url: ");
 define("_AM_WFDOWNLOADS_DBERROR", "Database Access Error: Please report this error to the WFSection Website");
 To: define("_AM_WFDOWNLOADS_DBERROR", "Database Access Error: Please report this error to the SmartFactory Website");
 
-FILE: \wfdownloads\language\english\main.php
+FILE: \Wfdownloads\language\english\main.php
 
 Added:
 define("_MD_WFDOWNLOADS_NOTALLOWEDTOMOD","You are not allowed to modify this download");
@@ -178,7 +178,7 @@ define("_MD_WFDOWNLOADS_NOTALLOWEDTOMOD","You are not allowed to modify this dow
 =================================================================
 v. 3.1.0 RC2      01/05/2006
 =================================================================
-FILE: \wfdownloads\language\english\admin.php
+FILE: \Wfdownloads\language\english\admin.php
 
 Added:
 define("_AM_WFDOWNLOADS_CCATEGORY_CHILDASPARENT", "You cannot set a child category as the category's parent");
@@ -191,7 +191,7 @@ To: define("_AM_WFDOWNLOADS_FILE_FILENAME", "Local Filename:<br><br><span style=
 =================================================================
 v. 3.1.0 RC1      08/04/2006
 =================================================================
-FILE: \wfdownloads\language\english\admin.php
+FILE: \Wfdownloads\language\english\admin.php
 
 Added:
 define("_AM_WFDOWNLOADS_SMIRRORS", "Mirrors: ");
@@ -252,7 +252,7 @@ To: define("_AM_WFDOWNLOADS_FILE_DLURL", "Remote URL: ");
 define("_AM_WFDOWNLOADS_DB_CHECKTABLES", "Check tables");
 To: define("_AM_WFDOWNLOADS_DB_IMPORT", "Import");
 
-FILE: \wfdownloads\language\english\main.php
+FILE: \Wfdownloads\language\english\main.php
 
 Added:
 define("_MD_WFDOWNLOADS_UPLOADMINPOSTS", "You need to increase you Post Count<br>Before you can Upload Files");
@@ -308,7 +308,7 @@ To: define("_MD_WFDOWNLOADS_DLURL", "Remote URL: ");
 define("_MD_WFDOWNLOADS_FILESIZEC", "File Size (bytes): ");
 To: define("_MD_WFDOWNLOADS_FILESIZEC", "File Size: ");
 
-FILE: \wfdownloads\language\english\modinfo.php
+FILE: \Wfdownloads\language\english\modinfo.php
 
 Added:
 define("_MI_WFDOWNLOADS_REVIEWANONPOST","Anonymous User Reviews:");

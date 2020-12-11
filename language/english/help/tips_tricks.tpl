@@ -1,0 +1,71 @@
+<div id="help-template" class="outer">
+    <{include file=$smarty.const._MI_WFDOWNLOADS_HELP_HEADER}>
+
+    <h4>Custom fields</h4>
+    <div class="even">
+        <span style="font-weight: bold;">Will module support custom fields?</span>
+    </div>
+    <div class="odd">
+        <p>Yes, but only when is installed <a href="http://www.freeform.ca/en/formulize">Formulize module</a> (checked
+            compatibility with Formulize 3.12 and Formulize 4.06)</p>
+        <p>How to:</p>
+        <ol>
+            <li>install Formulize and create a custom form with appropriate permissions;</li>
+            <li>create/edit a category and select custom form from <span style="font-weight: bold;">Use a custom form for this category?</span>
+                select
+            </li>
+            <li>create/edit download (in this case you will get a form with 2 steps)</li>
+        </ol>
+        <p><span style="font-weight: bold;">Note: in this case standard user can not edit downloads.</span></p>
+    </div>
+    <br>
+
+    <h4>Upload files</h4>
+    <div class="even">
+        <span style="font-weight: bold;">How set maximum upload file size limit?</span>
+    </div>
+    <div class="odd">
+        <p>Maximum upload file size limit is the mimimum value between:</p>
+        <ul>
+            <li>Max upload size permitted: <span style="font-weight: bold;">upload_max_filesize</span> directive in
+                php.ini
+            </li>
+            <li>Max post size permitted: <span style="font-weight: bold;">post_max_size</span> directive in php.ini</li>
+            <li>Memory limit: <span style="font-weight: bold;">memory_limit directive</span> in php.ini</li>
+            <li>Module preferences: <span style="font-weight: bold;">[upload files] Max file size (bytes)</span></li>
+        </ul>
+        <div class="even">
+            <span style="font-weight: bold;">How can I upload files bigger than maximum upload file size limit?</span>
+        </div>
+        <div class="odd">
+            <p>If you wish to upload a bigger file you should:</p>
+            <ol>
+                <li>use an ftp client to upload file on <span style="font-weight: bold;">Module preferences > [upload files] Batch directory</span>
+                    directory
+                </li>
+                <li>just uploaded files are listed in <span style="font-weight: bold;">Administration > WF-Downloads > Downloads panel > Batch files</span>
+                    table
+                </li>
+                <li>possible actions are:
+                    <ul>
+                        <li><span style="font-weight: bold;">add</span>: to add file to downloads and edit propierties
+                            (this action will remove file from batch directory)
+                        </li>
+                        <li><span style="font-weight: bold;">delete</span>: to delete file from batch directory</li>
+                    </ul>
+                </li>
+            </ol>
+        </div>
+    </div>
+    <br>
+
+    <h4>Download files</h4>
+    <div class="even">
+        <span style='font-weight: bold;'>Are there some limits in download file size?</span>
+    </div>
+    <div class="odd">
+        <p>No, to avoid errors by exceeding the memory_limit setting this module splits big files and serves them chunk
+            by chunk.</p>
+    </div>
+
+</div>

@@ -1,0 +1,21 @@
+-
+    ratingid: '1'
+    lid: '1'
+    ratinguser: '2'
+    rating: '10'
+    ratinghostname: '::1'
+    ratingtimestamp: '1607157380'
+-
+    ratingid: '2'
+    lid: '7'
+    ratinguser: '2'
+    rating: '7'
+    ratinghostname: '::1'
+    ratingtimestamp: '1607236604'
+-
+    ratingid: '3'
+    lid: '8'
+    ratinguser: '0'
+    rating: '9'
+    ratinghostname: '::1'
+    ratingtimestamp: '1607236879'

@@ -1,0 +1,64 @@
+<div id="help-template" class="outer">
+    <{include file=$smarty.const._MI_WFDOWNLOADS_HELP_HEADER}>
+
+    <h4 class="odd">Updating from Version 2.x</h4>
+
+    <p>
+        If you are updating from Wfdownloads 2.x then please make sure you read and understand the following information. There were some severe
+        changes introduced in version 3. <br> <br>
+    </p>
+
+    <span style="font-weight: bold;">Change to absolute pathinfo in the upload path:</span>
+
+    <p>
+        You *MUST* make sure to edit the upload directory in module preferences to include the servers absolute path instead of a relative
+        path.<br><br>
+
+        For example:<br>
+        If your servers absolute path to the root xoops folder is /home/domain/public_html to keep the files in the normal uploads folder you would
+        now set the path in preferences to /home/domain/public_html/uploads (no trailing slash)<br><br>
+
+        If you want to have the files stored outside of the web root for security then you would change the path to /home/domain/uploads (no trailing
+        slash) for example.<br><br>
+
+        You see above, the uploads folder is now outside of public_html which prevents anyone from gaining access to those files directly. Only files
+        submitted after this upgrade will utilise the new system, existing downloads will still use the URL method and therefore the path will not be
+        hidden.
+    </p>
+
+
+    <span style="font-weight: bold;">File based permissions were removed:</span>
+
+    <p>
+        Wfdownloads no longer has any per file permissions. From now on there will be only category permissions. This means all files within an
+        existing category will be accessible by the groups defined for that category. Please make sure the permissions for all existing categories are
+        properly set after updating the module.
+        <br>
+        <br>
+    </p>
+
+    <span style="font-weight: bold;">Changes in module preferences due to feature changes:</span>
+
+    <p>
+        In Wfdownloads preferences check that the submission and autoapprove settings are correct. Due to the new features (mirror system, review
+        system reworked) those have changed a bit. Make sure you set those to fullfill your needs now.
+        <br>
+        <br>
+    </p>
+
+    <h4 class="odd">Important information related to Wfdownloads 3.2</h4>
+
+    <p class="even">
+        If users upload files with multiple periods (.) in the filename, Protector 3.x will disallow the upload for security reasons, however the
+        script does sanitize,
+        If you trust your users (and don't allow anonymous uploads), you can turn of the multiple dot protection of protector module by following the
+        below instructions. <br> <br>
+
+        1. Open wfdownloads/header.php in your editor.<br>
+        2. uncomment line 13: //define('PROTECTOR_SKIP_FILESCHECKER', true);<br>
+        3. save & close.<br><br>
+
+        Be cautious when disabling the protector fileschecker, and only use it if absolutely necessary or if you fully trust your users.<br><br>
+
+    </p>
+</div>

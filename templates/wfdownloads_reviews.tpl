@@ -23,7 +23,7 @@
     <tr>
         <td><{$review.submitter}></td>
         <td><{$review.date}></td>
-        <td><img src="<{$xoops_url}>/modules/<{$smarty.const._WFDOWNLOADS_DIRNAME}>/assets/images/icon/<{$review.rated_img}>" alt="" title="" /></td>
+        <td><img src="<{$xoops_url}>/modules/<{$smarty.const._WFDOWNLOADS_DIRNAME}>/assets/images/icon/<{$review.rated_img}>" alt="" title=""></td>
         <td>
             <span class="wfdownloads_reviews_revlisttitle">"<{$review.title}>"</span>
             <br>

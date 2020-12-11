@@ -1,0 +1,29 @@
+<div id="help-template" class="outer">
+    <{include file=$smarty.const._MI_WFDOWNLOADS_HELP_HEADER}>
+
+    <h4 class="odd">Instructions to update Wfdownloads 3.10 RC1/RC2/Final to 3.20</h4>
+
+    <p class="even">
+        If you want to import from MyDownloads please select 'Import'.<br>
+        If you want to do a fresh install of Wfdownloads please select 'Install'. <br> <br>
+        We STRONGLY recommends you take a full backup before INSTALLING or UPDATING any module.<br> <br>
+    </p>
+
+    <h4 class="odd">Update from Wfdownloads 3.10 RC1/RC2/Final to 3.20</h4>
+
+    <p class="even">
+        <span style="font-weight: bold;">Note:</span> When you do the import the update script will copy the data from the mydownloads, pd-downloads or wmpdownloads tables into the
+        database of Wfdownloads. After this is done you will still be able to use each module as before. It is possible to have all 3 modules running
+        at the same time. <br>
+
+    <ul>
+        <li><span class="auto-style2">Upload the module</span></li>
+        <br>
+
+        Just upload the module as usual overwriting the current files.<br><br>
+
+        <li><span class="auto-style2">Update the module</span></li>
+        <br>
+        Login as administrator and enter Xoops Administration page. Select <span style="font-style: italic;">System --> modules</span> and update wfdownloads<br>
+    </ul>
+</div>

@@ -19,30 +19,30 @@
         <th><{$smarty.const._MD_WFDOWNLOADS_MIRROR_HDOWNLOAD}></th>
     </tr>
     <!-- Start mirror loop -->
-<{foreach item=mirror from=$down_mirror}>
-    <tr class="wfdownloads_mirrors_elist">
-        <td><a href="<{$mirror.homeurl}>"><{$mirror.title}></a></td>
-        <td><{$mirror.location}></td>
-        <td><{$mirror.continent}></td>
-        <td>
-        <{if $mirror.isonline == 1}>
-            <img src="<{xoModuleIcons16 green.gif}>" alt="Online" title="Online" />
-            &nbsp;
-            <a href="<{$mirror.downurl}>"><{$smarty.const._MD_WFDOWNLOADS_MIRROR_HDOWNLOAD}></a>
-        <{/if}>
-        <{if $mirror.isonline == 0}>
-            <img src="<{xoModuleIcons16 red.gif}>" alt="Offline" title="Offline" />
-            &nbsp;
-            <a href="<{$mirror.downurl}>"><{$smarty.const._MD_WFDOWNLOADS_MIRROR_HDOWNLOAD}></a>
-        <{/if}>
-        <{if $mirror.isonline == 2}>
-            <img src="<{xoModuleIcons16 green_off.gif}>" alt="Disabled" title="Disabled" />
-            &nbsp;
-            <a href="<{$mirror.downurl}>"><{$smarty.const._MD_WFDOWNLOADS_MIRROR_HDOWNLOAD}></a>
-        <{/if}>
-        </td>
-    </tr>
-<{/foreach}>
+    <{foreach item=mirror from=$down_mirror}>
+        <tr class="wfdownloads_mirrors_elist">
+            <td><a href="<{$mirror.homeurl}>"><{$mirror.title}></a></td>
+            <td><{$mirror.location}></td>
+            <td><{$mirror.continent}></td>
+            <td>
+                <{if $mirror.isonline == 1}>
+                    <img src="<{xoModuleIcons16 green.gif}>" alt="Online" title="Online">
+                    &nbsp;
+                    <a href="<{$mirror.downurl}>"><{$smarty.const._MD_WFDOWNLOADS_MIRROR_HDOWNLOAD}></a>
+                <{/if}>
+                <{if $mirror.isonline == 0}>
+                    <img src="<{xoModuleIcons16 red.gif}>" alt="Offline" title="Offline">
+                    &nbsp;
+                    <a href="<{$mirror.downurl}>"><{$smarty.const._MD_WFDOWNLOADS_MIRROR_HDOWNLOAD}></a>
+                <{/if}>
+                <{if $mirror.isonline == 2}>
+                    <img src="<{xoModuleIcons16 green_off.gif}>" alt="Disabled" title="Disabled">
+                    &nbsp;
+                    <a href="<{$mirror.downurl}>"><{$smarty.const._MD_WFDOWNLOADS_MIRROR_HDOWNLOAD}></a>
+                <{/if}>
+            </td>
+        </tr>
+    <{/foreach}>
     <!-- End mirror loop -->
     <tr>
         <td></td>
@@ -51,20 +51,20 @@
         <td>
             <span style="font-size: small;">
             <{$smarty.const._CO_WFDOWNLOADS_LEGEND}>
-            <br>
-            <img src="<{xoModuleIcons16 green.gif}>" />&nbsp;<{$smarty.const._MD_WFDOWNLOADS_MIRROR_ONLINE}>
-            <br>
-            <img src="<{xoModuleIcons16 red.gif}>" />&nbsp;<{$smarty.const._MD_WFDOWNLOADS_MIRROR_OFFLINE}>
-            <br>
-            <img src="<{xoModuleIcons16 green_off.gif}>" />&nbsp;<{$smarty.const._MD_WFDOWNLOADS_MIRROR_DISABLED}>
+                <br>
+            <img src="<{xoModuleIcons16 green.gif}>">&nbsp;<{$smarty.const._MD_WFDOWNLOADS_MIRROR_ONLINE}>
+                <br>
+            <img src="<{xoModuleIcons16 red.gif}>">&nbsp;<{$smarty.const._MD_WFDOWNLOADS_MIRROR_OFFLINE}>
+                <br>
+            <img src="<{xoModuleIcons16 green_off.gif}>">&nbsp;<{$smarty.const._MD_WFDOWNLOADS_MIRROR_DISABLED}>
             </span>
         </td>
     </tr>
 </table>
 <{if $navbar.navbar }>
-<div>
-    <span style="font-weight: bold;"><{$smarty.const._MD_WFDOWNLOADS_PAGES}></span>: <{$navbar.navbar}>
-</div>
+    <div>
+        <span style="font-weight: bold;"><{$smarty.const._MD_WFDOWNLOADS_PAGES}></span>: <{$navbar.navbar}>
+    </div>
 <{/if}>
 
 <{if $mirror.add_mirror == 1}>

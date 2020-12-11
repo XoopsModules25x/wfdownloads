@@ -1,4 +1,4 @@
-<{if $use_reviews == false}>
+<{if $use_reviews === false}>
 <div class="errorMsg"><{$smarty.const._AM_WFDOWNLOADS_REVIEW_DISABLED}></div>
 <{/if}>
 <fieldset>
@@ -13,13 +13,13 @@
 
     <p>
         <img src="<{xoModuleIcons16 1.png}>" title="<{$smarty.const._AM_WFDOWNLOADS_AREVIEWS_APPROVE_ALT}>"
-             alt="<{$smarty.const._AM_WFDOWNLOADS_AREVIEWS_APPROVE_ALT}>"/> <{$smarty.const._AM_WFDOWNLOADS_AREVIEWS_APPROVE_DESC}>
+             alt="<{$smarty.const._AM_WFDOWNLOADS_AREVIEWS_APPROVE_ALT}>"> <{$smarty.const._AM_WFDOWNLOADS_AREVIEWS_APPROVE_DESC}>
         <br>
         <img src="<{xoModuleIcons16 edit.png}>" title="<{$smarty.const._AM_WFDOWNLOADS_AREVIEWS_EDIT_ALT}>"
-             alt="<{$smarty.const._AM_WFDOWNLOADS_AREVIEWS_EDIT_ALT}>"/> <{$smarty.const._AM_WFDOWNLOADS_AREVIEWS_EDIT_DESC}>
+             alt="<{$smarty.const._AM_WFDOWNLOADS_AREVIEWS_EDIT_ALT}>"> <{$smarty.const._AM_WFDOWNLOADS_AREVIEWS_EDIT_DESC}>
         <br>
         <img src="<{xoModuleIcons16 delete.png}>" title="<{$smarty.const._AM_WFDOWNLOADS_AREVIEWS_DELETE_ALT}>"
-             alt="<{$smarty.const._AM_WFDOWNLOADS_AREVIEWS_DELETE_ALT}>"/> <{$smarty.const._AM_WFDOWNLOADS_AREVIEWS_DELETE_DESC}>
+             alt="<{$smarty.const._AM_WFDOWNLOADS_AREVIEWS_DELETE_ALT}>"> <{$smarty.const._AM_WFDOWNLOADS_AREVIEWS_DELETE_DESC}>
     </p>
 </fieldset>
 
@@ -52,20 +52,20 @@
                 <{if ($review_waiting.reviewer_email) == ''}>
                 <{$review_waiting.reviewer_uname}>
                 <{else}>
-                <a href='mailto:<{$report.submitter_email}>'><{$review_waiting.reviewer_uname}></a>
+                <a href='mailto:<{$report.submitter_email|default:''}>'><{$review_waiting.reviewer_uname}></a>
                 <{/if}>
             </td>
             <td><{$review_waiting.formatted_date}></td>
             <td align='center'>
                 <a href='?op=review.approve&amp;review_id=<{$review_waiting.review_id}>'><img src="<{xoModuleIcons16 on.png}>"
                                                                                               title="<{$smarty.const._AM_WFDOWNLOADS_AREVIEWS_APPROVE}>"
-                                                                                              alt="<{$smarty.const._AM_WFDOWNLOADS_AREVIEWS_APPROVE}>"/></a>
+                                                                                              alt="<{$smarty.const._AM_WFDOWNLOADS_AREVIEWS_APPROVE}>"></a>
                 <a href='?op=review.edit&amp;review_id=<{$review_waiting.review_id}>'><img src="<{xoModuleIcons16 edit.png}>"
                                                                                            title="<{$smarty.const._AM_WFDOWNLOADS_AREVIEWS_EDIT}>"
-                                                                                           alt="<{$smarty.const._AM_WFDOWNLOADS_AREVIEWS_EDIT}>"/></a>
+                                                                                           alt="<{$smarty.const._AM_WFDOWNLOADS_AREVIEWS_EDIT}>"></a>
                 <a href='?op=review.delete&amp;review_id=<{$review_waiting.review_id}>'><img src="<{xoModuleIcons16 delete.png}>"
                                                                                              title="<{$smarty.const._AM_WFDOWNLOADS_AREVIEWS_DELETE}>"
-                                                                                             alt="<{$smarty.const._AM_WFDOWNLOADS_AREVIEWS_DELETE}>"/></a>
+                                                                                             alt="<{$smarty.const._AM_WFDOWNLOADS_AREVIEWS_DELETE}>"></a>
             </td>
         </tr>
         <{/foreach}>
@@ -110,10 +110,10 @@
             <td align='center'>
                 <a href='?op=review.edit&amp;review_id=<{$review_published.review_id}>'><img src="<{xoModuleIcons16 edit.png}>"
                                                                                              title="<{$smarty.const._AM_WFDOWNLOADS_AREVIEWS_EDIT}>"
-                                                                                             alt="<{$smarty.const._AM_WFDOWNLOADS_AREVIEWS_EDIT}>"/></a>
+                                                                                             alt="<{$smarty.const._AM_WFDOWNLOADS_AREVIEWS_EDIT}>"></a>
                 <a href='?op=review.delete&amp;review_id=<{$review_published.review_id}>'><img src="<{xoModuleIcons16 delete.png}>"
                                                                                                title="<{$smarty.const._AM_WFDOWNLOADS_AREVIEWS_DELETE}>"
-                                                                                               alt="<{$smarty.const._AM_WFDOWNLOADS_AREVIEWS_DELETE}>"/></a>
+                                                                                               alt="<{$smarty.const._AM_WFDOWNLOADS_AREVIEWS_DELETE}>"></a>
             </td>
         </tr>
         <{/foreach}>
