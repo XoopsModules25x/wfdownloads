@@ -53,6 +53,8 @@ class DownloadHandler extends \XoopsPersistableObjectHandler
      */
     public function getMaxPublishdate(\CriteriaElement $criteria = null)
     {
+        $field = '';
+        $groupby = false;
         if (null !== $criteria && $criteria instanceof \CriteriaElement) {
             if ('' != $criteria->groupby) {
                 $groupby = true;
