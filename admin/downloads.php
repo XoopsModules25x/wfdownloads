@@ -201,6 +201,7 @@ switch ($op) {
             if (0 == $regUserRatingCount) {
                 echo "<tr><td colspan='7' class='even'><b>" . _AM_WFDOWNLOADS_VOTE_NOREGVOTES . '</b></td></tr>';
             } else {
+                $uids = [];
                 foreach ($regUserRatingObjs as $regUserRatingObj) {
                     $uids[] = $regUserRatingObj->getVar('ratinguser');
                 }

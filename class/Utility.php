@@ -1037,6 +1037,7 @@ class Utility extends Common\SysUtility
      */
     public static function convertOrderByTrans($orderby)
     {
+        $orderbyTrans = '';
         if ('title ASC' === $orderby) {
             $orderbyTrans = \_MD_WFDOWNLOADS_TITLEATOZ;
         }

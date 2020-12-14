@@ -5,6 +5,7 @@
 - fixed missing $categories (mamba)
 - fixed brokenreports link (mamba)
 - added Blocksadmin (mamba)
+- removed duplicated config.php (goffy)
 - add title of the download file to Page title - issues/33 (Aminov81/mamba)
 
 

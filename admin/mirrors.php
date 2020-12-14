@@ -124,6 +124,8 @@ switch ($op) {
         $GLOBALS['xoopsTpl']->assign('mirrors_published_count', $published_count);
 
         if ($waiting_count > 0) {
+            $lids_waiting = [];
+            $uids_waiting = [];
             foreach ($mirrors_waiting as $mirror_waiting) {
                 $lids_waiting[] = $mirror_waiting->getVar('lid');
                 $uids_waiting[] = $mirror_waiting->getVar('uid');
@@ -144,6 +146,8 @@ switch ($op) {
         }
 
         if ($published_count > 0) {
+            $lids_published = [];
+            $uids_published = [];
             foreach ($mirrors_published as $mirror_published) {
                 $lids_published[] = $mirror_published->getVar('lid');
                 $uids_published[] = $mirror_published->getVar('uid');

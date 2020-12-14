@@ -66,6 +66,7 @@ switch ($op) {
         $GLOBALS['xoopsTpl']->assign('ratings_count', $ratings_count);
         $GLOBALS['xoopsTpl']->assign('useravgrating', $useravgrating);
         if ($ratings_count > 0) {
+            $lids = [];
             foreach ($ratingObjs as $ratingObj) {
                 $lids[] = $ratingObj->getVar('lid');
             }
