@@ -320,9 +320,9 @@ if ($downloads_count > 0) {
     $xoopsTpl->assign('show_links', false);
     if ($downloads_count > 1 && 0 != $cid) {
         $xoopsTpl->assign('show_links', true);
-        $orderbyTrans = Utility::convertorderbytrans($orderby);
+        $orderbyTrans = Utility::convertOrderByTrans($orderby);
         $xoopsTpl->assign('orderby', Utility::convertorderbyout($orderby));
-        $xoopsTpl->assign('lang_cursortedby', sprintf(_MD_WFDOWNLOADS_CURSORTBY, Utility::convertorderbytrans($orderby)));
+        $xoopsTpl->assign('lang_cursortedby', sprintf(_MD_WFDOWNLOADS_CURSORTBY, Utility::convertOrderByTrans($orderby)));
         $orderby = Utility::convertorderbyout($orderby);
     }
     // Screenshots display
