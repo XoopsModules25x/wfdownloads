@@ -20,8 +20,7 @@
  */
 
 use Xmf\Request;
-use XoopsModules\Wfdownloads\{
-    Common,
+use XoopsModules\Wfdownloads\{Common,
     Common\LetterChoice,
     DownloadHandler,
     Helper,
@@ -41,7 +40,7 @@ $grouppermHandler = xoops_getHandler('groupperm');
 $cid   = Request::getInt('cid', 0);
 $start = Request::getInt('start', 0);
 //$list = Request::getString('letter', '', 'GET');
-$list = Request::getString('list', null);
+$list = Request::getString('list', '');
 //$orderby = Request::getString('orderby', null);
 $orderby = isset($_GET['orderby']) ? Utility::convertorderbyin($_GET['orderby']) : $helper->getConfig('filexorder');
 
