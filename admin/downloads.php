@@ -250,8 +250,8 @@ switch ($op) {
                 $userRatings        = $helper->getHandler('Rating')->getUserAverage($criteria);
                 $anonUserRatingObjs = $helper->getHandler('Rating')->getObjects($anonUserCriteria);
 
-                foreach (array_keys($anonUserRatingObjs) as $anonUserRatingObj) {
-                    $formatted_date = formatTimestamp($anonUserRatingObj->getVar('ratingtimestamp'), 'l');
+                foreach (array_keys($anonUserRatingObjs) as $i) {
+                    $formatted_date = formatTimestamp($anonUserRatingObjs[$i]->getVar('ratingtimestamp'), 'l');
                     $userAvgRating  = $userRatings['avg'] ?? 0;
                     $userVotes      = $userRatings['count'] ?? 0;
 
@@ -259,13 +259,13 @@ switch ($op) {
 
                     echo "
                         <tr><td class='head'>$ratingUserName</td>\n
-                        <td class='even'>" . $anonUserRatingObj->getVar('ratinghostname') . "</th>\n
-                        <td class='even'>" . $anonUserRatingObj->getVar('rating') . "</th>\n
+                        <td class='even'>" . $anonUserRatingObjs[$i]->getVar('ratinghostname') . "</th>\n
+                        <td class='even'>" . $anonUserRatingObjs[$i]->getVar('rating') . "</th>\n
                         <td class='even'>$userAvgRating</th>\n
                         <td class='even'>$userVotes</th>\n
                         <td class='even'>$formatted_date</th>\n
                         <td class='even'>\n
-                        <a href='{$currentFile}?op=vote.delete&amp;lid={$lid}&amp;rid=" . $anonUserRatingObj->getVar('ratingid') . "'>" . $imagearray['deleteimg'] . "</a>\n
+                        <a href='{$currentFile}?op=vote.delete&amp;lid={$lid}&amp;rid=" . $anonUserRatingObjs[$i]->getVar('ratingid') . "'>" . $icons['delete'] . "</a>\n
                         </th></tr>\n
                         ";
                 }
