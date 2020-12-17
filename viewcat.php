@@ -279,7 +279,11 @@ if (isset($cid) && $cid > 0 && isset($categoryObjs[$cid])) {
         $imageURL = '';
     }
 
-    $xoopsTpl->assign('xoops_pagetitle', $categoryObjs[$cid]->getVar('title') . ' | ' . $helper->getModule()->name());
+    if ($helper->getConfig('shortTitles')) {
+        $xoopsTpl->assign('xoops_pagetitle', $categoryObjs[$cid]->getVar('title'));
+    } else {
+        $xoopsTpl->assign('xoops_pagetitle', $categoryObjs[$cid]->getVar('title') . ' | ' . $helper->getModule()->name());
+    }
     $xoopsTpl->assign('category_image', $imageURL); // this definition is not removed for backward compatibility issues
     $xoopsTpl->assign('category_image_URL', $imageURL);
 }

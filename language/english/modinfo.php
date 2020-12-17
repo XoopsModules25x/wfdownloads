@@ -453,3 +453,8 @@ define('_MI_WFDOWNLOADS_ADMENU_MIGRATE', 'Migrate');
 
 define('_MI_WFDOWNLOADS_NEW_ITEMS', 'Show new items indicators');
 define('_MI_WFDOWNLOADS_NEW_ITEMS_DESC', 'If yes, it will show new items today, last 3 days, this week, and older than one week');
+
+//3.3 Beta 4
+define('_MI_WFDOWNLOADS_SHORTTITLES', 'Short titles');
+define('_MI_WFDOWNLOADS_SHORTTITLES_DESC', 'Select, if you want to see only short titles in the Page Title');
+

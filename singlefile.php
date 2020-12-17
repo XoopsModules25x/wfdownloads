@@ -83,7 +83,12 @@ $xoopsTpl->assign('wfdownloads_url', WFDOWNLOADS_URL . '/');
 
 
 //assign title of the download to Page title
-$xoopsTpl->assign('xoops_pagetitle', $downloadObj->getVar('title') . ' | ' . $helper->getModule()->name());
+if ($helper->getConfig('shortTitles')) {
+    $xoopsTpl->assign('xoops_pagetitle', $downloadObj->getVar('title'));
+} else {
+    $xoopsTpl->assign('xoops_pagetitle', $downloadObj->getVar('title') . ' | ' . $helper->getModule()->name());
+}
+
 
 // Making the category image and title available in the template
 if (('' != $categoryObj->getVar('imgurl'))
