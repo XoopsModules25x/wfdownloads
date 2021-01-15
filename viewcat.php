@@ -20,8 +20,7 @@
  */
 
 use Xmf\Request;
-use XoopsModules\Wfdownloads\{
-    Common,
+use XoopsModules\Wfdownloads\{Common,
     Common\LetterChoice,
     DownloadHandler,
     Helper,
@@ -41,7 +40,7 @@ $grouppermHandler = xoops_getHandler('groupperm');
 $cid   = Request::getInt('cid', 0);
 $start = Request::getInt('start', 0);
 //$list = Request::getString('letter', '', 'GET');
-$list = Request::getString('list', null);
+$list = Request::getString('list', '');
 //$orderby = Request::getString('orderby', null);
 $orderby = isset($_GET['orderby']) ? Utility::convertorderbyin($_GET['orderby']) : $helper->getConfig('filexorder');
 
@@ -280,7 +279,11 @@ if (isset($cid) && $cid > 0 && isset($categoryObjs[$cid])) {
         $imageURL = '';
     }
 
-    $xoopsTpl->assign('xoops_pagetitle', $categoryObjs[$cid]->getVar('title') . ' | ' . $helper->getModule()->name());
+    if ($helper->getConfig('shortTitles')) {
+        $xoopsTpl->assign('xoops_pagetitle', $categoryObjs[$cid]->getVar('title'));
+    } else {
+        $xoopsTpl->assign('xoops_pagetitle', $categoryObjs[$cid]->getVar('title') . ' | ' . $helper->getModule()->name());
+    }
     $xoopsTpl->assign('category_image', $imageURL); // this definition is not removed for backward compatibility issues
     $xoopsTpl->assign('category_image_URL', $imageURL);
 }
@@ -320,9 +323,9 @@ if ($downloads_count > 0) {
     $xoopsTpl->assign('show_links', false);
     if ($downloads_count > 1 && 0 != $cid) {
         $xoopsTpl->assign('show_links', true);
-        $orderbyTrans = Utility::convertorderbytrans($orderby);
+        $orderbyTrans = Utility::convertOrderByTrans($orderby);
         $xoopsTpl->assign('orderby', Utility::convertorderbyout($orderby));
-        $xoopsTpl->assign('lang_cursortedby', sprintf(_MD_WFDOWNLOADS_CURSORTBY, Utility::convertorderbytrans($orderby)));
+        $xoopsTpl->assign('lang_cursortedby', sprintf(_MD_WFDOWNLOADS_CURSORTBY, Utility::convertOrderByTrans($orderby)));
         $orderby = Utility::convertorderbyout($orderby);
     }
     // Screenshots display

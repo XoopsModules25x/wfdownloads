@@ -975,6 +975,15 @@ $modversion['config'][] = [
     'default'     => 'None|Alpha|Beta|RC|Final',
 ];
 
+$modversion['config'][] = [
+    'name'        => 'shortTitles',
+    'title'       => '_MI_WFDOWNLOADS_SHORTTITLES',
+    'description' => '_MI_WFDOWNLOADS_SHORTTITLES_DESC',
+    'formtype'    => 'yesno',
+    'valuetype'   => 'int',
+    'default'     => 0,
+];
+
 /*
 // Swish-e support EXPERIMENTAL
 // Swish-e configs

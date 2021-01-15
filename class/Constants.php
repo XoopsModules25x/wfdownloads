@@ -56,5 +56,6 @@ class Constants
     public const WFDOWNLOADS_STATUS_WAITING = 0;
     public const WFDOWNLOADS_STATUS_APPROVED = 1;
     public const WFDOWNLOADS_STATUS_UPDATED = 2;
+    public const WFDOWNLOADS_STATUS_PUBLISHED = 3;
     /**#@-*/
 }

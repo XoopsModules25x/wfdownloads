@@ -81,6 +81,15 @@ $xoTheme->addStylesheet(WFDOWNLOADS_URL . '/assets/css/module.css');
 
 $xoopsTpl->assign('wfdownloads_url', WFDOWNLOADS_URL . '/');
 
+
+//assign title of the download to Page title
+if ($helper->getConfig('shortTitles')) {
+    $xoopsTpl->assign('xoops_pagetitle', $downloadObj->getVar('title'));
+} else {
+    $xoopsTpl->assign('xoops_pagetitle', $downloadObj->getVar('title') . ' | ' . $helper->getModule()->name());
+}
+
+
 // Making the category image and title available in the template
 if (('' != $categoryObj->getVar('imgurl'))
     && is_file(XOOPS_ROOT_PATH . '/' . $helper->getConfig('catimage') . '/' . $categoryObj->getVar('imgurl'))) {

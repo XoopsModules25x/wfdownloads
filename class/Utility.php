@@ -1028,14 +1028,14 @@ class Utility extends Common\SysUtility
 
     //}
 
-    //if (!function_exists('convertorderbytrans')) {
+    //if (!function_exists('convertOrderByTrans')) {
 
     /**
      * @param $orderby
      *
      * @return string
      */
-    public static function convertorderbytrans($orderby)
+    public static function convertOrderByTrans($orderby)
     {
         $orderbyTrans = '';
         if ('title ASC' === $orderby) {
